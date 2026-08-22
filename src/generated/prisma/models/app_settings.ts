@@ -189,7 +189,7 @@ export type App_settingsGroupByOutputType = {
   _max: App_settingsMaxAggregateOutputType | null
 }
 
-type GetApp_settingsGroupByPayload<T extends app_settingsGroupByArgs> = Prisma.PrismaPromise<
+export type GetApp_settingsGroupByPayload<T extends app_settingsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<App_settingsGroupByOutputType, T['by']> &
       {

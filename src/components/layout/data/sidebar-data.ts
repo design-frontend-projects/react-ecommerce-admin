@@ -13,6 +13,7 @@ import {
   ChefHat,
   Command,
   CreditCard,
+  Database,
   DollarSign,
   FileSpreadsheet,
   FileText,
@@ -442,6 +443,12 @@ export function useSidebarData(): SidebarData {
       {
         title: t('sidebar.lookups'),
         items: [
+          {
+            title: 'Master Lookups',
+            url: '/lookups',
+            icon: Database,
+            roles: ADMINS,
+          },
           {
             title: t('sidebar.countries'),
             url: '/countries',

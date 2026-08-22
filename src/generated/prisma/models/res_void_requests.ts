@@ -207,7 +207,7 @@ export type Res_void_requestsGroupByOutputType = {
   _max: Res_void_requestsMaxAggregateOutputType | null
 }
 
-type GetRes_void_requestsGroupByPayload<T extends res_void_requestsGroupByArgs> = Prisma.PrismaPromise<
+export type GetRes_void_requestsGroupByPayload<T extends res_void_requestsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_void_requestsGroupByOutputType, T['by']> &
       {

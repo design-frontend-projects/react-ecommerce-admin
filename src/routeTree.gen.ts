@@ -76,6 +76,7 @@ import { Route as AuthenticatedReorderRulesIndexRouteImport } from './routes/_au
 import { Route as AuthenticatedPurchaseRequisitionsIndexRouteImport } from './routes/_authenticated/purchase-requisitions/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
+import { Route as AuthenticatedLookupsIndexRouteImport } from './routes/_authenticated/lookups/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedInventoryMovementsIndexRouteImport } from './routes/_authenticated/inventory-movements/index'
 import { Route as AuthenticatedGoodsReceiptsIndexRouteImport } from './routes/_authenticated/goods-receipts/index'
@@ -99,6 +100,8 @@ import { Route as ApiOnboardingUsersRouteImport } from './routes/api/onboarding/
 import { Route as ApiOnboardingTenantUsersRouteImport } from './routes/api/onboarding/tenant-users'
 import { Route as ApiOnboardingCompleteRouteImport } from './routes/api/onboarding/complete'
 import { Route as ApiOnboardingBranchesRouteImport } from './routes/api/onboarding/branches'
+import { Route as ApiLookupsValuesRouteImport } from './routes/api/lookups/values'
+import { Route as ApiLookupsTypesRouteImport } from './routes/api/lookups/types'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
@@ -552,6 +555,12 @@ const AuthenticatedPosIndexRoute = AuthenticatedPosIndexRouteImport.update({
   path: '/pos/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLookupsIndexRoute =
+  AuthenticatedLookupsIndexRouteImport.update({
+    id: '/lookups/',
+    path: '/lookups/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryIndexRoute =
   AuthenticatedInventoryIndexRouteImport.update({
     id: '/inventory/',
@@ -672,6 +681,16 @@ const ApiOnboardingCompleteRoute = ApiOnboardingCompleteRouteImport.update({
 const ApiOnboardingBranchesRoute = ApiOnboardingBranchesRouteImport.update({
   id: '/api/onboarding/branches',
   path: '/api/onboarding/branches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLookupsValuesRoute = ApiLookupsValuesRouteImport.update({
+  id: '/api/lookups/values',
+  path: '/api/lookups/values',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLookupsTypesRoute = ApiLookupsTypesRouteImport.update({
+  id: '/api/lookups/types',
+  path: '/api/lookups/types',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiInventoryWarehousesRoute = ApiInventoryWarehousesRouteImport.update({
@@ -1128,6 +1147,8 @@ export interface FileRoutesByFullPath {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/types': typeof ApiLookupsTypesRoute
+  '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
   '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
@@ -1151,6 +1172,7 @@ export interface FileRoutesByFullPath {
   '/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/pos/': typeof AuthenticatedPosIndexRoute
   '/products/': typeof AuthenticatedProductsIndexRoute
   '/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -1281,6 +1303,8 @@ export interface FileRoutesByTo {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/types': typeof ApiLookupsTypesRoute
+  '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
   '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
@@ -1304,6 +1328,7 @@ export interface FileRoutesByTo {
   '/goods-receipts': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
+  '/lookups': typeof AuthenticatedLookupsIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/purchase-requisitions': typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -1439,6 +1464,8 @@ export interface FileRoutesById {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/types': typeof ApiLookupsTypesRoute
+  '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
   '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
@@ -1462,6 +1489,7 @@ export interface FileRoutesById {
   '/_authenticated/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/_authenticated/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/_authenticated/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -1596,6 +1624,8 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/types'
+    | '/api/lookups/values'
     | '/api/onboarding/branches'
     | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
@@ -1619,6 +1649,7 @@ export interface FileRouteTypes {
     | '/goods-receipts/'
     | '/inventory-movements/'
     | '/inventory/'
+    | '/lookups/'
     | '/pos/'
     | '/products/'
     | '/purchase-requisitions/'
@@ -1749,6 +1780,8 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/types'
+    | '/api/lookups/values'
     | '/api/onboarding/branches'
     | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
@@ -1772,6 +1805,7 @@ export interface FileRouteTypes {
     | '/goods-receipts'
     | '/inventory-movements'
     | '/inventory'
+    | '/lookups'
     | '/pos'
     | '/products'
     | '/purchase-requisitions'
@@ -1906,6 +1940,8 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/types'
+    | '/api/lookups/values'
     | '/api/onboarding/branches'
     | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
@@ -1929,6 +1965,7 @@ export interface FileRouteTypes {
     | '/_authenticated/goods-receipts/'
     | '/_authenticated/inventory-movements/'
     | '/_authenticated/inventory/'
+    | '/_authenticated/lookups/'
     | '/_authenticated/pos/'
     | '/_authenticated/products/'
     | '/_authenticated/purchase-requisitions/'
@@ -2014,6 +2051,8 @@ export interface RootRouteChildren {
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
+  ApiLookupsTypesRoute: typeof ApiLookupsTypesRoute
+  ApiLookupsValuesRoute: typeof ApiLookupsValuesRoute
   ApiOnboardingBranchesRoute: typeof ApiOnboardingBranchesRoute
   ApiOnboardingCompleteRoute: typeof ApiOnboardingCompleteRoute
   ApiOnboardingTenantUsersRoute: typeof ApiOnboardingTenantUsersRoute
@@ -2511,6 +2550,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPosIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/lookups/': {
+      id: '/_authenticated/lookups/'
+      path: '/lookups'
+      fullPath: '/lookups/'
+      preLoaderRoute: typeof AuthenticatedLookupsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory/': {
       id: '/_authenticated/inventory/'
       path: '/inventory'
@@ -2670,6 +2716,20 @@ declare module '@tanstack/react-router' {
       path: '/api/onboarding/branches'
       fullPath: '/api/onboarding/branches'
       preLoaderRoute: typeof ApiOnboardingBranchesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lookups/values': {
+      id: '/api/lookups/values'
+      path: '/api/lookups/values'
+      fullPath: '/api/lookups/values'
+      preLoaderRoute: typeof ApiLookupsValuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lookups/types': {
+      id: '/api/lookups/types'
+      path: '/api/lookups/types'
+      fullPath: '/api/lookups/types'
+      preLoaderRoute: typeof ApiLookupsTypesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/warehouses': {
@@ -3225,6 +3285,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGoodsReceiptsIndexRoute: typeof AuthenticatedGoodsReceiptsIndexRoute
   AuthenticatedInventoryMovementsIndexRoute: typeof AuthenticatedInventoryMovementsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
+  AuthenticatedLookupsIndexRoute: typeof AuthenticatedLookupsIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedPurchaseRequisitionsIndexRoute: typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -3298,6 +3359,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInventoryMovementsIndexRoute:
     AuthenticatedInventoryMovementsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
+  AuthenticatedLookupsIndexRoute: AuthenticatedLookupsIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedPurchaseRequisitionsIndexRoute:
@@ -3563,6 +3625,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
+  ApiLookupsTypesRoute: ApiLookupsTypesRoute,
+  ApiLookupsValuesRoute: ApiLookupsValuesRoute,
   ApiOnboardingBranchesRoute: ApiOnboardingBranchesRoute,
   ApiOnboardingCompleteRoute: ApiOnboardingCompleteRoute,
   ApiOnboardingTenantUsersRoute: ApiOnboardingTenantUsersRoute,

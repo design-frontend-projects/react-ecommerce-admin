@@ -62,6 +62,7 @@ export type PromotionsMinAggregateOutputType = {
   get_discount_value: runtime.Decimal | null
   get_quantity: number | null
   promo_type: string | null
+  promo_type_id: string | null
   updated_at: Date | null
   id: string | null
   tenant_id: string | null
@@ -86,6 +87,7 @@ export type PromotionsMaxAggregateOutputType = {
   get_discount_value: runtime.Decimal | null
   get_quantity: number | null
   promo_type: string | null
+  promo_type_id: string | null
   updated_at: Date | null
   id: string | null
   tenant_id: string | null
@@ -111,6 +113,7 @@ export type PromotionsCountAggregateOutputType = {
   get_discount_value: number
   get_quantity: number
   promo_type: number
+  promo_type_id: number
   updated_at: number
   id: number
   tenant_id: number
@@ -157,6 +160,7 @@ export type PromotionsMinAggregateInputType = {
   get_discount_value?: true
   get_quantity?: true
   promo_type?: true
+  promo_type_id?: true
   updated_at?: true
   id?: true
   tenant_id?: true
@@ -181,6 +185,7 @@ export type PromotionsMaxAggregateInputType = {
   get_discount_value?: true
   get_quantity?: true
   promo_type?: true
+  promo_type_id?: true
   updated_at?: true
   id?: true
   tenant_id?: true
@@ -206,6 +211,7 @@ export type PromotionsCountAggregateInputType = {
   get_discount_value?: true
   get_quantity?: true
   promo_type?: true
+  promo_type_id?: true
   updated_at?: true
   id?: true
   tenant_id?: true
@@ -318,6 +324,7 @@ export type PromotionsGroupByOutputType = {
   get_discount_value: runtime.Decimal | null
   get_quantity: number | null
   promo_type: string
+  promo_type_id: string | null
   updated_at: Date | null
   id: string
   tenant_id: string
@@ -331,7 +338,7 @@ export type PromotionsGroupByOutputType = {
   _max: PromotionsMaxAggregateOutputType | null
 }
 
-type GetPromotionsGroupByPayload<T extends promotionsGroupByArgs> = Prisma.PrismaPromise<
+export type GetPromotionsGroupByPayload<T extends promotionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PromotionsGroupByOutputType, T['by']> &
       {
@@ -366,6 +373,7 @@ export type promotionsWhereInput = {
   get_discount_value?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   promo_type?: Prisma.StringFilter<"promotions"> | string
+  promo_type_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
   id?: Prisma.UuidFilter<"promotions"> | string
   tenant_id?: Prisma.UuidFilter<"promotions"> | string
@@ -391,6 +399,7 @@ export type promotionsOrderByWithRelationInput = {
   get_discount_value?: Prisma.SortOrderInput | Prisma.SortOrder
   get_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   promo_type?: Prisma.SortOrder
+  promo_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -420,6 +429,7 @@ export type promotionsWhereUniqueInput = Prisma.AtLeast<{
   get_discount_value?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   promo_type?: Prisma.StringFilter<"promotions"> | string
+  promo_type_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
   tenant_id?: Prisma.UuidFilter<"promotions"> | string
   discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
@@ -444,6 +454,7 @@ export type promotionsOrderByWithAggregationInput = {
   get_discount_value?: Prisma.SortOrderInput | Prisma.SortOrder
   get_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   promo_type?: Prisma.SortOrder
+  promo_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -477,6 +488,7 @@ export type promotionsScalarWhereWithAggregatesInput = {
   get_discount_value?: Prisma.DecimalNullableWithAggregatesFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.IntNullableWithAggregatesFilter<"promotions"> | number | null
   promo_type?: Prisma.StringWithAggregatesFilter<"promotions"> | string
+  promo_type_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotions"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"promotions"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"promotions"> | string
@@ -502,6 +514,7 @@ export type promotionsCreateInput = {
   get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: number | null
   promo_type?: string
+  promo_type_id?: string | null
   updated_at?: Date | string | null
   id?: string
   tenant_id: string
@@ -527,6 +540,7 @@ export type promotionsUncheckedCreateInput = {
   get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: number | null
   promo_type?: string
+  promo_type_id?: string | null
   updated_at?: Date | string | null
   id?: string
   tenant_id: string
@@ -552,6 +566,7 @@ export type promotionsUpdateInput = {
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
+  promo_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -577,6 +592,7 @@ export type promotionsUncheckedUpdateInput = {
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
+  promo_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -602,6 +618,7 @@ export type promotionsCreateManyInput = {
   get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: number | null
   promo_type?: string
+  promo_type_id?: string | null
   updated_at?: Date | string | null
   id?: string
   tenant_id: string
@@ -627,6 +644,7 @@ export type promotionsUpdateManyMutationInput = {
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
+  promo_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -652,6 +670,7 @@ export type promotionsUncheckedUpdateManyInput = {
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
+  promo_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -685,6 +704,7 @@ export type promotionsCountOrderByAggregateInput = {
   get_discount_value?: Prisma.SortOrder
   get_quantity?: Prisma.SortOrder
   promo_type?: Prisma.SortOrder
+  promo_type_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -719,6 +739,7 @@ export type promotionsMaxOrderByAggregateInput = {
   get_discount_value?: Prisma.SortOrder
   get_quantity?: Prisma.SortOrder
   promo_type?: Prisma.SortOrder
+  promo_type_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -743,6 +764,7 @@ export type promotionsMinOrderByAggregateInput = {
   get_discount_value?: Prisma.SortOrder
   get_quantity?: Prisma.SortOrder
   promo_type?: Prisma.SortOrder
+  promo_type_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
@@ -793,6 +815,7 @@ export type promotionsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   get_discount_value?: boolean
   get_quantity?: boolean
   promo_type?: boolean
+  promo_type_id?: boolean
   updated_at?: boolean
   id?: boolean
   tenant_id?: boolean
@@ -818,6 +841,7 @@ export type promotionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   get_discount_value?: boolean
   get_quantity?: boolean
   promo_type?: boolean
+  promo_type_id?: boolean
   updated_at?: boolean
   id?: boolean
   tenant_id?: boolean
@@ -843,6 +867,7 @@ export type promotionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   get_discount_value?: boolean
   get_quantity?: boolean
   promo_type?: boolean
+  promo_type_id?: boolean
   updated_at?: boolean
   id?: boolean
   tenant_id?: boolean
@@ -868,6 +893,7 @@ export type promotionsSelectScalar = {
   get_discount_value?: boolean
   get_quantity?: boolean
   promo_type?: boolean
+  promo_type_id?: boolean
   updated_at?: boolean
   id?: boolean
   tenant_id?: boolean
@@ -876,7 +902,7 @@ export type promotionsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type promotionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "name" | "description" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "activities" | "buy_quantity" | "get_discount_value" | "get_quantity" | "promo_type" | "updated_at" | "id" | "tenant_id" | "discount_type" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["promotions"]>
+export type promotionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "name" | "description" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "activities" | "buy_quantity" | "get_discount_value" | "get_quantity" | "promo_type" | "promo_type_id" | "updated_at" | "id" | "tenant_id" | "discount_type" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["promotions"]>
 
 export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "promotions"
@@ -898,6 +924,7 @@ export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     get_discount_value: runtime.Decimal | null
     get_quantity: number | null
     promo_type: string
+    promo_type_id: string | null
     updated_at: Date | null
     id: string
     tenant_id: string
@@ -1343,6 +1370,7 @@ export interface promotionsFieldRefs {
   readonly get_discount_value: Prisma.FieldRef<"promotions", 'Decimal'>
   readonly get_quantity: Prisma.FieldRef<"promotions", 'Int'>
   readonly promo_type: Prisma.FieldRef<"promotions", 'String'>
+  readonly promo_type_id: Prisma.FieldRef<"promotions", 'String'>
   readonly updated_at: Prisma.FieldRef<"promotions", 'DateTime'>
   readonly id: Prisma.FieldRef<"promotions", 'String'>
   readonly tenant_id: Prisma.FieldRef<"promotions", 'String'>

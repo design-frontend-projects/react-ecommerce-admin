@@ -30,6 +30,7 @@ export type Warehouse_locationsMinAggregateOutputType = {
   warehouse_id: string | null
   parent_id: string | null
   location_type: $Enums.location_type_enum | null
+  location_type_id: string | null
   code: string | null
   name: string | null
   path: string | null
@@ -49,6 +50,7 @@ export type Warehouse_locationsMaxAggregateOutputType = {
   warehouse_id: string | null
   parent_id: string | null
   location_type: $Enums.location_type_enum | null
+  location_type_id: string | null
   code: string | null
   name: string | null
   path: string | null
@@ -68,6 +70,7 @@ export type Warehouse_locationsCountAggregateOutputType = {
   warehouse_id: number
   parent_id: number
   location_type: number
+  location_type_id: number
   code: number
   name: number
   path: number
@@ -89,6 +92,7 @@ export type Warehouse_locationsMinAggregateInputType = {
   warehouse_id?: true
   parent_id?: true
   location_type?: true
+  location_type_id?: true
   code?: true
   name?: true
   path?: true
@@ -108,6 +112,7 @@ export type Warehouse_locationsMaxAggregateInputType = {
   warehouse_id?: true
   parent_id?: true
   location_type?: true
+  location_type_id?: true
   code?: true
   name?: true
   path?: true
@@ -127,6 +132,7 @@ export type Warehouse_locationsCountAggregateInputType = {
   warehouse_id?: true
   parent_id?: true
   location_type?: true
+  location_type_id?: true
   code?: true
   name?: true
   path?: true
@@ -219,6 +225,7 @@ export type Warehouse_locationsGroupByOutputType = {
   warehouse_id: string
   parent_id: string | null
   location_type: $Enums.location_type_enum
+  location_type_id: string | null
   code: string
   name: string | null
   path: string | null
@@ -235,7 +242,7 @@ export type Warehouse_locationsGroupByOutputType = {
   _max: Warehouse_locationsMaxAggregateOutputType | null
 }
 
-type GetWarehouse_locationsGroupByPayload<T extends warehouse_locationsGroupByArgs> = Prisma.PrismaPromise<
+export type GetWarehouse_locationsGroupByPayload<T extends warehouse_locationsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Warehouse_locationsGroupByOutputType, T['by']> &
       {
@@ -259,6 +266,7 @@ export type warehouse_locationsWhereInput = {
   warehouse_id?: Prisma.UuidFilter<"warehouse_locations"> | string
   parent_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   location_type?: Prisma.Enumlocation_type_enumFilter<"warehouse_locations"> | $Enums.location_type_enum
+  location_type_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   code?: Prisma.StringFilter<"warehouse_locations"> | string
   name?: Prisma.StringNullableFilter<"warehouse_locations"> | string | null
   path?: Prisma.StringNullableFilter<"warehouse_locations"> | string | null
@@ -279,6 +287,7 @@ export type warehouse_locationsOrderByWithRelationInput = {
   warehouse_id?: Prisma.SortOrder
   parent_id?: Prisma.SortOrderInput | Prisma.SortOrder
   location_type?: Prisma.SortOrder
+  location_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   path?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -302,6 +311,7 @@ export type warehouse_locationsWhereUniqueInput = Prisma.AtLeast<{
   warehouse_id?: Prisma.UuidFilter<"warehouse_locations"> | string
   parent_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   location_type?: Prisma.Enumlocation_type_enumFilter<"warehouse_locations"> | $Enums.location_type_enum
+  location_type_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   code?: Prisma.StringFilter<"warehouse_locations"> | string
   name?: Prisma.StringNullableFilter<"warehouse_locations"> | string | null
   path?: Prisma.StringNullableFilter<"warehouse_locations"> | string | null
@@ -322,6 +332,7 @@ export type warehouse_locationsOrderByWithAggregationInput = {
   warehouse_id?: Prisma.SortOrder
   parent_id?: Prisma.SortOrderInput | Prisma.SortOrder
   location_type?: Prisma.SortOrder
+  location_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   path?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -347,6 +358,7 @@ export type warehouse_locationsScalarWhereWithAggregatesInput = {
   warehouse_id?: Prisma.UuidWithAggregatesFilter<"warehouse_locations"> | string
   parent_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouse_locations"> | string | null
   location_type?: Prisma.Enumlocation_type_enumWithAggregatesFilter<"warehouse_locations"> | $Enums.location_type_enum
+  location_type_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouse_locations"> | string | null
   code?: Prisma.StringWithAggregatesFilter<"warehouse_locations"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"warehouse_locations"> | string | null
   path?: Prisma.StringNullableWithAggregatesFilter<"warehouse_locations"> | string | null
@@ -365,6 +377,7 @@ export type warehouse_locationsCreateInput = {
   tenant_id: string
   parent_id?: string | null
   location_type: $Enums.location_type_enum
+  location_type_id?: string | null
   code: string
   name?: string | null
   path?: string | null
@@ -385,6 +398,7 @@ export type warehouse_locationsUncheckedCreateInput = {
   warehouse_id: string
   parent_id?: string | null
   location_type: $Enums.location_type_enum
+  location_type_id?: string | null
   code: string
   name?: string | null
   path?: string | null
@@ -403,6 +417,7 @@ export type warehouse_locationsUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -423,6 +438,7 @@ export type warehouse_locationsUncheckedUpdateInput = {
   warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -442,6 +458,7 @@ export type warehouse_locationsCreateManyInput = {
   warehouse_id: string
   parent_id?: string | null
   location_type: $Enums.location_type_enum
+  location_type_id?: string | null
   code: string
   name?: string | null
   path?: string | null
@@ -460,6 +477,7 @@ export type warehouse_locationsUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -479,6 +497,7 @@ export type warehouse_locationsUncheckedUpdateManyInput = {
   warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -508,6 +527,7 @@ export type warehouse_locationsCountOrderByAggregateInput = {
   warehouse_id?: Prisma.SortOrder
   parent_id?: Prisma.SortOrder
   location_type?: Prisma.SortOrder
+  location_type_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   path?: Prisma.SortOrder
@@ -527,6 +547,7 @@ export type warehouse_locationsMaxOrderByAggregateInput = {
   warehouse_id?: Prisma.SortOrder
   parent_id?: Prisma.SortOrder
   location_type?: Prisma.SortOrder
+  location_type_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   path?: Prisma.SortOrder
@@ -546,6 +567,7 @@ export type warehouse_locationsMinOrderByAggregateInput = {
   warehouse_id?: Prisma.SortOrder
   parent_id?: Prisma.SortOrder
   location_type?: Prisma.SortOrder
+  location_type_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   path?: Prisma.SortOrder
@@ -610,6 +632,7 @@ export type warehouse_locationsCreateWithoutWarehousesInput = {
   tenant_id: string
   parent_id?: string | null
   location_type: $Enums.location_type_enum
+  location_type_id?: string | null
   code: string
   name?: string | null
   path?: string | null
@@ -628,6 +651,7 @@ export type warehouse_locationsUncheckedCreateWithoutWarehousesInput = {
   tenant_id: string
   parent_id?: string | null
   location_type: $Enums.location_type_enum
+  location_type_id?: string | null
   code: string
   name?: string | null
   path?: string | null
@@ -676,6 +700,7 @@ export type warehouse_locationsScalarWhereInput = {
   warehouse_id?: Prisma.UuidFilter<"warehouse_locations"> | string
   parent_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   location_type?: Prisma.Enumlocation_type_enumFilter<"warehouse_locations"> | $Enums.location_type_enum
+  location_type_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   code?: Prisma.StringFilter<"warehouse_locations"> | string
   name?: Prisma.StringNullableFilter<"warehouse_locations"> | string | null
   path?: Prisma.StringNullableFilter<"warehouse_locations"> | string | null
@@ -694,6 +719,7 @@ export type warehouse_locationsCreateManyWarehousesInput = {
   tenant_id: string
   parent_id?: string | null
   location_type: $Enums.location_type_enum
+  location_type_id?: string | null
   code: string
   name?: string | null
   path?: string | null
@@ -712,6 +738,7 @@ export type warehouse_locationsUpdateWithoutWarehousesInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -730,6 +757,7 @@ export type warehouse_locationsUncheckedUpdateWithoutWarehousesInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -748,6 +776,7 @@ export type warehouse_locationsUncheckedUpdateManyWithoutWarehousesInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location_type?: Prisma.Enumlocation_type_enumFieldUpdateOperationsInput | $Enums.location_type_enum
+  location_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   path?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -769,6 +798,7 @@ export type warehouse_locationsSelect<ExtArgs extends runtime.Types.Extensions.I
   warehouse_id?: boolean
   parent_id?: boolean
   location_type?: boolean
+  location_type_id?: boolean
   code?: boolean
   name?: boolean
   path?: boolean
@@ -789,6 +819,7 @@ export type warehouse_locationsSelectCreateManyAndReturn<ExtArgs extends runtime
   warehouse_id?: boolean
   parent_id?: boolean
   location_type?: boolean
+  location_type_id?: boolean
   code?: boolean
   name?: boolean
   path?: boolean
@@ -809,6 +840,7 @@ export type warehouse_locationsSelectUpdateManyAndReturn<ExtArgs extends runtime
   warehouse_id?: boolean
   parent_id?: boolean
   location_type?: boolean
+  location_type_id?: boolean
   code?: boolean
   name?: boolean
   path?: boolean
@@ -829,6 +861,7 @@ export type warehouse_locationsSelectScalar = {
   warehouse_id?: boolean
   parent_id?: boolean
   location_type?: boolean
+  location_type_id?: boolean
   code?: boolean
   name?: boolean
   path?: boolean
@@ -842,7 +875,7 @@ export type warehouse_locationsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type warehouse_locationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "parent_id" | "location_type" | "code" | "name" | "path" | "is_default" | "is_active" | "is_pickable" | "is_receivable" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["warehouse_locations"]>
+export type warehouse_locationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "parent_id" | "location_type" | "location_type_id" | "code" | "name" | "path" | "is_default" | "is_active" | "is_pickable" | "is_receivable" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["warehouse_locations"]>
 export type warehouse_locationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }
@@ -864,6 +897,7 @@ export type $warehouse_locationsPayload<ExtArgs extends runtime.Types.Extensions
     warehouse_id: string
     parent_id: string | null
     location_type: $Enums.location_type_enum
+    location_type_id: string | null
     code: string
     name: string | null
     path: string | null
@@ -1304,6 +1338,7 @@ export interface warehouse_locationsFieldRefs {
   readonly warehouse_id: Prisma.FieldRef<"warehouse_locations", 'String'>
   readonly parent_id: Prisma.FieldRef<"warehouse_locations", 'String'>
   readonly location_type: Prisma.FieldRef<"warehouse_locations", 'location_type_enum'>
+  readonly location_type_id: Prisma.FieldRef<"warehouse_locations", 'String'>
   readonly code: Prisma.FieldRef<"warehouse_locations", 'String'>
   readonly name: Prisma.FieldRef<"warehouse_locations", 'String'>
   readonly path: Prisma.FieldRef<"warehouse_locations", 'String'>

@@ -27,8 +27,8 @@ export type AggregateInventory_movements = {
 }
 
 export type Inventory_movementsAvgAggregateOutputType = {
-  qty_in: runtime.Decimal | null
-  qty_out: runtime.Decimal | null
+  movement_no: number | null
+  quantity_delta: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   total_cost: runtime.Decimal | null
   qty_after: runtime.Decimal | null
@@ -36,8 +36,8 @@ export type Inventory_movementsAvgAggregateOutputType = {
 }
 
 export type Inventory_movementsSumAggregateOutputType = {
-  qty_in: runtime.Decimal | null
-  qty_out: runtime.Decimal | null
+  movement_no: bigint | null
+  quantity_delta: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   total_cost: runtime.Decimal | null
   qty_after: runtime.Decimal | null
@@ -46,21 +46,26 @@ export type Inventory_movementsSumAggregateOutputType = {
 
 export type Inventory_movementsMinAggregateOutputType = {
   id: string | null
+  movement_no: bigint | null
   branch_id: string | null
   store_id: string | null
+  warehouse_id: string | null
+  location_id: string | null
+  warehouse_location_id: string | null
   product_variant_id: string | null
   movement_type: $Enums.movement_type_enum | null
-  reference_type: string | null
-  reference_id: string | null
-  qty_in: runtime.Decimal | null
-  qty_out: runtime.Decimal | null
+  status: $Enums.movement_status_enum | null
+  condition: $Enums.stock_condition_enum | null
+  quantity_delta: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   total_cost: runtime.Decimal | null
+  reference_type: string | null
+  reference_id: string | null
+  occurred_at: Date | null
   movement_date: Date | null
-  remarks: string | null
-  created_by: string | null
-  created_at: Date | null
   batch_id: string | null
+  serial_id: string | null
+  reversed_movement_id: string | null
   dest_store_id: string | null
   dest_warehouse_location_id: string | null
   idempotency_key: string | null
@@ -70,8 +75,10 @@ export type Inventory_movementsMinAggregateOutputType = {
   reason_code: string | null
   source_document_id: string | null
   source_document_type: string | null
-  warehouse_id: string | null
-  warehouse_location_id: string | null
+  remarks: string | null
+  notes: string | null
+  created_by: string | null
+  created_at: Date | null
   tenant_id: string | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
@@ -79,21 +86,26 @@ export type Inventory_movementsMinAggregateOutputType = {
 
 export type Inventory_movementsMaxAggregateOutputType = {
   id: string | null
+  movement_no: bigint | null
   branch_id: string | null
   store_id: string | null
+  warehouse_id: string | null
+  location_id: string | null
+  warehouse_location_id: string | null
   product_variant_id: string | null
   movement_type: $Enums.movement_type_enum | null
-  reference_type: string | null
-  reference_id: string | null
-  qty_in: runtime.Decimal | null
-  qty_out: runtime.Decimal | null
+  status: $Enums.movement_status_enum | null
+  condition: $Enums.stock_condition_enum | null
+  quantity_delta: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   total_cost: runtime.Decimal | null
+  reference_type: string | null
+  reference_id: string | null
+  occurred_at: Date | null
   movement_date: Date | null
-  remarks: string | null
-  created_by: string | null
-  created_at: Date | null
   batch_id: string | null
+  serial_id: string | null
+  reversed_movement_id: string | null
   dest_store_id: string | null
   dest_warehouse_location_id: string | null
   idempotency_key: string | null
@@ -103,8 +115,10 @@ export type Inventory_movementsMaxAggregateOutputType = {
   reason_code: string | null
   source_document_id: string | null
   source_document_type: string | null
-  warehouse_id: string | null
-  warehouse_location_id: string | null
+  remarks: string | null
+  notes: string | null
+  created_by: string | null
+  created_at: Date | null
   tenant_id: string | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
@@ -112,21 +126,26 @@ export type Inventory_movementsMaxAggregateOutputType = {
 
 export type Inventory_movementsCountAggregateOutputType = {
   id: number
+  movement_no: number
   branch_id: number
   store_id: number
+  warehouse_id: number
+  location_id: number
+  warehouse_location_id: number
   product_variant_id: number
   movement_type: number
-  reference_type: number
-  reference_id: number
-  qty_in: number
-  qty_out: number
+  status: number
+  condition: number
+  quantity_delta: number
   unit_cost: number
   total_cost: number
+  reference_type: number
+  reference_id: number
+  occurred_at: number
   movement_date: number
-  remarks: number
-  created_by: number
-  created_at: number
   batch_id: number
+  serial_id: number
+  reversed_movement_id: number
   dest_store_id: number
   dest_warehouse_location_id: number
   idempotency_key: number
@@ -136,8 +155,10 @@ export type Inventory_movementsCountAggregateOutputType = {
   reason_code: number
   source_document_id: number
   source_document_type: number
-  warehouse_id: number
-  warehouse_location_id: number
+  remarks: number
+  notes: number
+  created_by: number
+  created_at: number
   tenant_id: number
   created_by_user_id: number
   updated_by_user_id: number
@@ -146,8 +167,8 @@ export type Inventory_movementsCountAggregateOutputType = {
 
 
 export type Inventory_movementsAvgAggregateInputType = {
-  qty_in?: true
-  qty_out?: true
+  movement_no?: true
+  quantity_delta?: true
   unit_cost?: true
   total_cost?: true
   qty_after?: true
@@ -155,8 +176,8 @@ export type Inventory_movementsAvgAggregateInputType = {
 }
 
 export type Inventory_movementsSumAggregateInputType = {
-  qty_in?: true
-  qty_out?: true
+  movement_no?: true
+  quantity_delta?: true
   unit_cost?: true
   total_cost?: true
   qty_after?: true
@@ -165,21 +186,26 @@ export type Inventory_movementsSumAggregateInputType = {
 
 export type Inventory_movementsMinAggregateInputType = {
   id?: true
+  movement_no?: true
   branch_id?: true
   store_id?: true
+  warehouse_id?: true
+  location_id?: true
+  warehouse_location_id?: true
   product_variant_id?: true
   movement_type?: true
-  reference_type?: true
-  reference_id?: true
-  qty_in?: true
-  qty_out?: true
+  status?: true
+  condition?: true
+  quantity_delta?: true
   unit_cost?: true
   total_cost?: true
+  reference_type?: true
+  reference_id?: true
+  occurred_at?: true
   movement_date?: true
-  remarks?: true
-  created_by?: true
-  created_at?: true
   batch_id?: true
+  serial_id?: true
+  reversed_movement_id?: true
   dest_store_id?: true
   dest_warehouse_location_id?: true
   idempotency_key?: true
@@ -189,8 +215,10 @@ export type Inventory_movementsMinAggregateInputType = {
   reason_code?: true
   source_document_id?: true
   source_document_type?: true
-  warehouse_id?: true
-  warehouse_location_id?: true
+  remarks?: true
+  notes?: true
+  created_by?: true
+  created_at?: true
   tenant_id?: true
   created_by_user_id?: true
   updated_by_user_id?: true
@@ -198,21 +226,26 @@ export type Inventory_movementsMinAggregateInputType = {
 
 export type Inventory_movementsMaxAggregateInputType = {
   id?: true
+  movement_no?: true
   branch_id?: true
   store_id?: true
+  warehouse_id?: true
+  location_id?: true
+  warehouse_location_id?: true
   product_variant_id?: true
   movement_type?: true
-  reference_type?: true
-  reference_id?: true
-  qty_in?: true
-  qty_out?: true
+  status?: true
+  condition?: true
+  quantity_delta?: true
   unit_cost?: true
   total_cost?: true
+  reference_type?: true
+  reference_id?: true
+  occurred_at?: true
   movement_date?: true
-  remarks?: true
-  created_by?: true
-  created_at?: true
   batch_id?: true
+  serial_id?: true
+  reversed_movement_id?: true
   dest_store_id?: true
   dest_warehouse_location_id?: true
   idempotency_key?: true
@@ -222,8 +255,10 @@ export type Inventory_movementsMaxAggregateInputType = {
   reason_code?: true
   source_document_id?: true
   source_document_type?: true
-  warehouse_id?: true
-  warehouse_location_id?: true
+  remarks?: true
+  notes?: true
+  created_by?: true
+  created_at?: true
   tenant_id?: true
   created_by_user_id?: true
   updated_by_user_id?: true
@@ -231,21 +266,26 @@ export type Inventory_movementsMaxAggregateInputType = {
 
 export type Inventory_movementsCountAggregateInputType = {
   id?: true
+  movement_no?: true
   branch_id?: true
   store_id?: true
+  warehouse_id?: true
+  location_id?: true
+  warehouse_location_id?: true
   product_variant_id?: true
   movement_type?: true
-  reference_type?: true
-  reference_id?: true
-  qty_in?: true
-  qty_out?: true
+  status?: true
+  condition?: true
+  quantity_delta?: true
   unit_cost?: true
   total_cost?: true
+  reference_type?: true
+  reference_id?: true
+  occurred_at?: true
   movement_date?: true
-  remarks?: true
-  created_by?: true
-  created_at?: true
   batch_id?: true
+  serial_id?: true
+  reversed_movement_id?: true
   dest_store_id?: true
   dest_warehouse_location_id?: true
   idempotency_key?: true
@@ -255,8 +295,10 @@ export type Inventory_movementsCountAggregateInputType = {
   reason_code?: true
   source_document_id?: true
   source_document_type?: true
-  warehouse_id?: true
-  warehouse_location_id?: true
+  remarks?: true
+  notes?: true
+  created_by?: true
+  created_at?: true
   tenant_id?: true
   created_by_user_id?: true
   updated_by_user_id?: true
@@ -351,21 +393,26 @@ export type inventory_movementsGroupByArgs<ExtArgs extends runtime.Types.Extensi
 
 export type Inventory_movementsGroupByOutputType = {
   id: string
-  branch_id: string
+  movement_no: bigint | null
+  branch_id: string | null
   store_id: string | null
+  warehouse_id: string | null
+  location_id: string | null
+  warehouse_location_id: string | null
   product_variant_id: string
   movement_type: $Enums.movement_type_enum
-  reference_type: string | null
-  reference_id: string | null
-  qty_in: runtime.Decimal
-  qty_out: runtime.Decimal
+  status: $Enums.movement_status_enum
+  condition: $Enums.stock_condition_enum
+  quantity_delta: runtime.Decimal
   unit_cost: runtime.Decimal
   total_cost: runtime.Decimal
+  reference_type: string | null
+  reference_id: string | null
+  occurred_at: Date
   movement_date: Date
-  remarks: string | null
-  created_by: string | null
-  created_at: Date
   batch_id: string | null
+  serial_id: string | null
+  reversed_movement_id: string | null
   dest_store_id: string | null
   dest_warehouse_location_id: string | null
   idempotency_key: string | null
@@ -375,8 +422,10 @@ export type Inventory_movementsGroupByOutputType = {
   reason_code: string | null
   source_document_id: string | null
   source_document_type: string | null
-  warehouse_id: string | null
-  warehouse_location_id: string | null
+  remarks: string | null
+  notes: string | null
+  created_by: string | null
+  created_at: Date
   tenant_id: string
   created_by_user_id: string | null
   updated_by_user_id: string | null
@@ -387,7 +436,7 @@ export type Inventory_movementsGroupByOutputType = {
   _max: Inventory_movementsMaxAggregateOutputType | null
 }
 
-type GetInventory_movementsGroupByPayload<T extends inventory_movementsGroupByArgs> = Prisma.PrismaPromise<
+export type GetInventory_movementsGroupByPayload<T extends inventory_movementsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Inventory_movementsGroupByOutputType, T['by']> &
       {
@@ -407,21 +456,26 @@ export type inventory_movementsWhereInput = {
   OR?: Prisma.inventory_movementsWhereInput[]
   NOT?: Prisma.inventory_movementsWhereInput | Prisma.inventory_movementsWhereInput[]
   id?: Prisma.UuidFilter<"inventory_movements"> | string
-  branch_id?: Prisma.UuidFilter<"inventory_movements"> | string
+  movement_no?: Prisma.BigIntNullableFilter<"inventory_movements"> | bigint | number | null
+  branch_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   product_variant_id?: Prisma.UuidFilter<"inventory_movements"> | string
   movement_type?: Prisma.Enummovement_type_enumFilter<"inventory_movements"> | $Enums.movement_type_enum
-  reference_type?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  reference_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
-  qty_in?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumFilter<"inventory_movements"> | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumFilter<"inventory_movements"> | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  reference_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  occurred_at?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
   movement_date?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
-  remarks?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  created_by?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  created_at?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  reversed_movement_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   dest_store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   dest_warehouse_location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   idempotency_key?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
@@ -431,8 +485,10 @@ export type inventory_movementsWhereInput = {
   reason_code?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
   source_document_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   source_document_type?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  warehouse_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
-  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  remarks?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  notes?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  created_by?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  created_at?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
   tenant_id?: Prisma.UuidFilter<"inventory_movements"> | string
   created_by_user_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
@@ -440,21 +496,26 @@ export type inventory_movementsWhereInput = {
 
 export type inventory_movementsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  branch_id?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
-  reference_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  reference_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
+  reference_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  reference_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  occurred_at?: Prisma.SortOrder
   movement_date?: Prisma.SortOrder
-  remarks?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  reversed_movement_id?: Prisma.SortOrderInput | Prisma.SortOrder
   dest_store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   dest_warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   idempotency_key?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -464,8 +525,10 @@ export type inventory_movementsOrderByWithRelationInput = {
   reason_code?: Prisma.SortOrderInput | Prisma.SortOrder
   source_document_id?: Prisma.SortOrderInput | Prisma.SortOrder
   source_document_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  remarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -476,21 +539,26 @@ export type inventory_movementsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.inventory_movementsWhereInput | Prisma.inventory_movementsWhereInput[]
   OR?: Prisma.inventory_movementsWhereInput[]
   NOT?: Prisma.inventory_movementsWhereInput | Prisma.inventory_movementsWhereInput[]
-  branch_id?: Prisma.UuidFilter<"inventory_movements"> | string
+  movement_no?: Prisma.BigIntNullableFilter<"inventory_movements"> | bigint | number | null
+  branch_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   product_variant_id?: Prisma.UuidFilter<"inventory_movements"> | string
   movement_type?: Prisma.Enummovement_type_enumFilter<"inventory_movements"> | $Enums.movement_type_enum
-  reference_type?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  reference_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
-  qty_in?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumFilter<"inventory_movements"> | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumFilter<"inventory_movements"> | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  reference_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  occurred_at?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
   movement_date?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
-  remarks?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  created_by?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  created_at?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  reversed_movement_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   dest_store_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   dest_warehouse_location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   idempotency_key?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
@@ -500,8 +568,10 @@ export type inventory_movementsWhereUniqueInput = Prisma.AtLeast<{
   reason_code?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
   source_document_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   source_document_type?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
-  warehouse_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
-  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
+  remarks?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  notes?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  created_by?: Prisma.StringNullableFilter<"inventory_movements"> | string | null
+  created_at?: Prisma.DateTimeFilter<"inventory_movements"> | Date | string
   tenant_id?: Prisma.UuidFilter<"inventory_movements"> | string
   created_by_user_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"inventory_movements"> | string | null
@@ -509,21 +579,26 @@ export type inventory_movementsWhereUniqueInput = Prisma.AtLeast<{
 
 export type inventory_movementsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  branch_id?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
-  reference_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  reference_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
+  reference_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  reference_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  occurred_at?: Prisma.SortOrder
   movement_date?: Prisma.SortOrder
-  remarks?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  reversed_movement_id?: Prisma.SortOrderInput | Prisma.SortOrder
   dest_store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   dest_warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   idempotency_key?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -533,8 +608,10 @@ export type inventory_movementsOrderByWithAggregationInput = {
   reason_code?: Prisma.SortOrderInput | Prisma.SortOrder
   source_document_id?: Prisma.SortOrderInput | Prisma.SortOrder
   source_document_type?: Prisma.SortOrderInput | Prisma.SortOrder
-  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  remarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -550,21 +627,26 @@ export type inventory_movementsScalarWhereWithAggregatesInput = {
   OR?: Prisma.inventory_movementsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.inventory_movementsScalarWhereWithAggregatesInput | Prisma.inventory_movementsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
-  branch_id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
+  movement_no?: Prisma.BigIntNullableWithAggregatesFilter<"inventory_movements"> | bigint | number | null
+  branch_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  location_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
   movement_type?: Prisma.Enummovement_type_enumWithAggregatesFilter<"inventory_movements"> | $Enums.movement_type_enum
-  reference_type?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
-  reference_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
-  qty_in?: Prisma.DecimalWithAggregatesFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalWithAggregatesFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumWithAggregatesFilter<"inventory_movements"> | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumWithAggregatesFilter<"inventory_movements"> | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalWithAggregatesFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalWithAggregatesFilter<"inventory_movements"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  reference_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  occurred_at?: Prisma.DateTimeWithAggregatesFilter<"inventory_movements"> | Date | string
   movement_date?: Prisma.DateTimeWithAggregatesFilter<"inventory_movements"> | Date | string
-  remarks?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
-  created_by?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"inventory_movements"> | Date | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  serial_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  reversed_movement_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   dest_store_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   dest_warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   idempotency_key?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
@@ -574,8 +656,10 @@ export type inventory_movementsScalarWhereWithAggregatesInput = {
   reason_code?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
   source_document_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   source_document_type?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
-  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
-  warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  remarks?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  notes?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  created_by?: Prisma.StringNullableWithAggregatesFilter<"inventory_movements"> | string | null
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"inventory_movements"> | Date | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"inventory_movements"> | string
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory_movements"> | string | null
@@ -583,21 +667,26 @@ export type inventory_movementsScalarWhereWithAggregatesInput = {
 
 export type inventory_movementsCreateInput = {
   id?: string
-  branch_id: string
+  movement_no?: bigint | number | null
+  branch_id?: string | null
   store_id?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  warehouse_location_id?: string | null
   product_variant_id: string
   movement_type: $Enums.movement_type_enum
-  reference_type?: string | null
-  reference_id?: string | null
-  qty_in?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.movement_status_enum
+  condition?: $Enums.stock_condition_enum
+  quantity_delta: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: string | null
+  reference_id?: string | null
+  occurred_at?: Date | string
   movement_date?: Date | string
-  remarks?: string | null
-  created_by?: string | null
-  created_at?: Date | string
   batch_id?: string | null
+  serial_id?: string | null
+  reversed_movement_id?: string | null
   dest_store_id?: string | null
   dest_warehouse_location_id?: string | null
   idempotency_key?: string | null
@@ -607,8 +696,10 @@ export type inventory_movementsCreateInput = {
   reason_code?: string | null
   source_document_id?: string | null
   source_document_type?: string | null
-  warehouse_id?: string | null
-  warehouse_location_id?: string | null
+  remarks?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
@@ -616,21 +707,26 @@ export type inventory_movementsCreateInput = {
 
 export type inventory_movementsUncheckedCreateInput = {
   id?: string
-  branch_id: string
+  movement_no?: bigint | number | null
+  branch_id?: string | null
   store_id?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  warehouse_location_id?: string | null
   product_variant_id: string
   movement_type: $Enums.movement_type_enum
-  reference_type?: string | null
-  reference_id?: string | null
-  qty_in?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.movement_status_enum
+  condition?: $Enums.stock_condition_enum
+  quantity_delta: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: string | null
+  reference_id?: string | null
+  occurred_at?: Date | string
   movement_date?: Date | string
-  remarks?: string | null
-  created_by?: string | null
-  created_at?: Date | string
   batch_id?: string | null
+  serial_id?: string | null
+  reversed_movement_id?: string | null
   dest_store_id?: string | null
   dest_warehouse_location_id?: string | null
   idempotency_key?: string | null
@@ -640,8 +736,10 @@ export type inventory_movementsUncheckedCreateInput = {
   reason_code?: string | null
   source_document_id?: string | null
   source_document_type?: string | null
-  warehouse_id?: string | null
-  warehouse_location_id?: string | null
+  remarks?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
@@ -649,21 +747,26 @@ export type inventory_movementsUncheckedCreateInput = {
 
 export type inventory_movementsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
-  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumFieldUpdateOperationsInput | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occurred_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reversed_movement_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -673,8 +776,10 @@ export type inventory_movementsUpdateInput = {
   reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -682,21 +787,26 @@ export type inventory_movementsUpdateInput = {
 
 export type inventory_movementsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
-  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumFieldUpdateOperationsInput | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occurred_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reversed_movement_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -706,8 +816,10 @@ export type inventory_movementsUncheckedUpdateInput = {
   reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -715,21 +827,26 @@ export type inventory_movementsUncheckedUpdateInput = {
 
 export type inventory_movementsCreateManyInput = {
   id?: string
-  branch_id: string
+  movement_no?: bigint | number | null
+  branch_id?: string | null
   store_id?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  warehouse_location_id?: string | null
   product_variant_id: string
   movement_type: $Enums.movement_type_enum
-  reference_type?: string | null
-  reference_id?: string | null
-  qty_in?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.movement_status_enum
+  condition?: $Enums.stock_condition_enum
+  quantity_delta: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: string | null
+  reference_id?: string | null
+  occurred_at?: Date | string
   movement_date?: Date | string
-  remarks?: string | null
-  created_by?: string | null
-  created_at?: Date | string
   batch_id?: string | null
+  serial_id?: string | null
+  reversed_movement_id?: string | null
   dest_store_id?: string | null
   dest_warehouse_location_id?: string | null
   idempotency_key?: string | null
@@ -739,8 +856,10 @@ export type inventory_movementsCreateManyInput = {
   reason_code?: string | null
   source_document_id?: string | null
   source_document_type?: string | null
-  warehouse_id?: string | null
-  warehouse_location_id?: string | null
+  remarks?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
@@ -748,21 +867,26 @@ export type inventory_movementsCreateManyInput = {
 
 export type inventory_movementsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
-  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumFieldUpdateOperationsInput | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occurred_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reversed_movement_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -772,8 +896,10 @@ export type inventory_movementsUpdateManyMutationInput = {
   reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -781,21 +907,26 @@ export type inventory_movementsUpdateManyMutationInput = {
 
 export type inventory_movementsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  movement_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   movement_type?: Prisma.Enummovement_type_enumFieldUpdateOperationsInput | $Enums.movement_type_enum
-  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qty_in?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  qty_out?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enummovement_status_enumFieldUpdateOperationsInput | $Enums.movement_status_enum
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  quantity_delta?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  occurred_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movement_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reversed_movement_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dest_warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -805,8 +936,10 @@ export type inventory_movementsUncheckedUpdateManyInput = {
   reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   source_document_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -814,21 +947,26 @@ export type inventory_movementsUncheckedUpdateManyInput = {
 
 export type inventory_movementsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
-  reference_type?: Prisma.SortOrder
-  reference_id?: Prisma.SortOrder
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
+  reference_type?: Prisma.SortOrder
+  reference_id?: Prisma.SortOrder
+  occurred_at?: Prisma.SortOrder
   movement_date?: Prisma.SortOrder
-  remarks?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
+  reversed_movement_id?: Prisma.SortOrder
   dest_store_id?: Prisma.SortOrder
   dest_warehouse_location_id?: Prisma.SortOrder
   idempotency_key?: Prisma.SortOrder
@@ -838,16 +976,18 @@ export type inventory_movementsCountOrderByAggregateInput = {
   reason_code?: Prisma.SortOrder
   source_document_id?: Prisma.SortOrder
   source_document_type?: Prisma.SortOrder
-  warehouse_id?: Prisma.SortOrder
-  warehouse_location_id?: Prisma.SortOrder
+  remarks?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  created_by?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
 
 export type inventory_movementsAvgOrderByAggregateInput = {
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
@@ -856,21 +996,26 @@ export type inventory_movementsAvgOrderByAggregateInput = {
 
 export type inventory_movementsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
-  reference_type?: Prisma.SortOrder
-  reference_id?: Prisma.SortOrder
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
+  reference_type?: Prisma.SortOrder
+  reference_id?: Prisma.SortOrder
+  occurred_at?: Prisma.SortOrder
   movement_date?: Prisma.SortOrder
-  remarks?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
+  reversed_movement_id?: Prisma.SortOrder
   dest_store_id?: Prisma.SortOrder
   dest_warehouse_location_id?: Prisma.SortOrder
   idempotency_key?: Prisma.SortOrder
@@ -880,8 +1025,10 @@ export type inventory_movementsMaxOrderByAggregateInput = {
   reason_code?: Prisma.SortOrder
   source_document_id?: Prisma.SortOrder
   source_document_type?: Prisma.SortOrder
-  warehouse_id?: Prisma.SortOrder
-  warehouse_location_id?: Prisma.SortOrder
+  remarks?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  created_by?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
@@ -889,21 +1036,26 @@ export type inventory_movementsMaxOrderByAggregateInput = {
 
 export type inventory_movementsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   movement_type?: Prisma.SortOrder
-  reference_type?: Prisma.SortOrder
-  reference_id?: Prisma.SortOrder
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
+  reference_type?: Prisma.SortOrder
+  reference_id?: Prisma.SortOrder
+  occurred_at?: Prisma.SortOrder
   movement_date?: Prisma.SortOrder
-  remarks?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
+  reversed_movement_id?: Prisma.SortOrder
   dest_store_id?: Prisma.SortOrder
   dest_warehouse_location_id?: Prisma.SortOrder
   idempotency_key?: Prisma.SortOrder
@@ -913,45 +1065,68 @@ export type inventory_movementsMinOrderByAggregateInput = {
   reason_code?: Prisma.SortOrder
   source_document_id?: Prisma.SortOrder
   source_document_type?: Prisma.SortOrder
-  warehouse_id?: Prisma.SortOrder
-  warehouse_location_id?: Prisma.SortOrder
+  remarks?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  created_by?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
 
 export type inventory_movementsSumOrderByAggregateInput = {
-  qty_in?: Prisma.SortOrder
-  qty_out?: Prisma.SortOrder
+  movement_no?: Prisma.SortOrder
+  quantity_delta?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   total_cost?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
   qty_before?: Prisma.SortOrder
 }
 
+export type NullableBigIntFieldUpdateOperationsInput = {
+  set?: bigint | number | null
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
+}
+
 export type Enummovement_type_enumFieldUpdateOperationsInput = {
   set?: $Enums.movement_type_enum
+}
+
+export type Enummovement_status_enumFieldUpdateOperationsInput = {
+  set?: $Enums.movement_status_enum
+}
+
+export type Enumstock_condition_enumFieldUpdateOperationsInput = {
+  set?: $Enums.stock_condition_enum
 }
 
 
 
 export type inventory_movementsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  movement_no?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
+  warehouse_location_id?: boolean
   product_variant_id?: boolean
   movement_type?: boolean
-  reference_type?: boolean
-  reference_id?: boolean
-  qty_in?: boolean
-  qty_out?: boolean
+  status?: boolean
+  condition?: boolean
+  quantity_delta?: boolean
   unit_cost?: boolean
   total_cost?: boolean
+  reference_type?: boolean
+  reference_id?: boolean
+  occurred_at?: boolean
   movement_date?: boolean
-  remarks?: boolean
-  created_by?: boolean
-  created_at?: boolean
   batch_id?: boolean
+  serial_id?: boolean
+  reversed_movement_id?: boolean
   dest_store_id?: boolean
   dest_warehouse_location_id?: boolean
   idempotency_key?: boolean
@@ -961,8 +1136,10 @@ export type inventory_movementsSelect<ExtArgs extends runtime.Types.Extensions.I
   reason_code?: boolean
   source_document_id?: boolean
   source_document_type?: boolean
-  warehouse_id?: boolean
-  warehouse_location_id?: boolean
+  remarks?: boolean
+  notes?: boolean
+  created_by?: boolean
+  created_at?: boolean
   tenant_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
@@ -970,21 +1147,26 @@ export type inventory_movementsSelect<ExtArgs extends runtime.Types.Extensions.I
 
 export type inventory_movementsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  movement_no?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
+  warehouse_location_id?: boolean
   product_variant_id?: boolean
   movement_type?: boolean
-  reference_type?: boolean
-  reference_id?: boolean
-  qty_in?: boolean
-  qty_out?: boolean
+  status?: boolean
+  condition?: boolean
+  quantity_delta?: boolean
   unit_cost?: boolean
   total_cost?: boolean
+  reference_type?: boolean
+  reference_id?: boolean
+  occurred_at?: boolean
   movement_date?: boolean
-  remarks?: boolean
-  created_by?: boolean
-  created_at?: boolean
   batch_id?: boolean
+  serial_id?: boolean
+  reversed_movement_id?: boolean
   dest_store_id?: boolean
   dest_warehouse_location_id?: boolean
   idempotency_key?: boolean
@@ -994,8 +1176,10 @@ export type inventory_movementsSelectCreateManyAndReturn<ExtArgs extends runtime
   reason_code?: boolean
   source_document_id?: boolean
   source_document_type?: boolean
-  warehouse_id?: boolean
-  warehouse_location_id?: boolean
+  remarks?: boolean
+  notes?: boolean
+  created_by?: boolean
+  created_at?: boolean
   tenant_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
@@ -1003,21 +1187,26 @@ export type inventory_movementsSelectCreateManyAndReturn<ExtArgs extends runtime
 
 export type inventory_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  movement_no?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
+  warehouse_location_id?: boolean
   product_variant_id?: boolean
   movement_type?: boolean
-  reference_type?: boolean
-  reference_id?: boolean
-  qty_in?: boolean
-  qty_out?: boolean
+  status?: boolean
+  condition?: boolean
+  quantity_delta?: boolean
   unit_cost?: boolean
   total_cost?: boolean
+  reference_type?: boolean
+  reference_id?: boolean
+  occurred_at?: boolean
   movement_date?: boolean
-  remarks?: boolean
-  created_by?: boolean
-  created_at?: boolean
   batch_id?: boolean
+  serial_id?: boolean
+  reversed_movement_id?: boolean
   dest_store_id?: boolean
   dest_warehouse_location_id?: boolean
   idempotency_key?: boolean
@@ -1027,8 +1216,10 @@ export type inventory_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime
   reason_code?: boolean
   source_document_id?: boolean
   source_document_type?: boolean
-  warehouse_id?: boolean
-  warehouse_location_id?: boolean
+  remarks?: boolean
+  notes?: boolean
+  created_by?: boolean
+  created_at?: boolean
   tenant_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
@@ -1036,21 +1227,26 @@ export type inventory_movementsSelectUpdateManyAndReturn<ExtArgs extends runtime
 
 export type inventory_movementsSelectScalar = {
   id?: boolean
+  movement_no?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
+  warehouse_location_id?: boolean
   product_variant_id?: boolean
   movement_type?: boolean
-  reference_type?: boolean
-  reference_id?: boolean
-  qty_in?: boolean
-  qty_out?: boolean
+  status?: boolean
+  condition?: boolean
+  quantity_delta?: boolean
   unit_cost?: boolean
   total_cost?: boolean
+  reference_type?: boolean
+  reference_id?: boolean
+  occurred_at?: boolean
   movement_date?: boolean
-  remarks?: boolean
-  created_by?: boolean
-  created_at?: boolean
   batch_id?: boolean
+  serial_id?: boolean
+  reversed_movement_id?: boolean
   dest_store_id?: boolean
   dest_warehouse_location_id?: boolean
   idempotency_key?: boolean
@@ -1060,35 +1256,42 @@ export type inventory_movementsSelectScalar = {
   reason_code?: boolean
   source_document_id?: boolean
   source_document_type?: boolean
-  warehouse_id?: boolean
-  warehouse_location_id?: boolean
+  remarks?: boolean
+  notes?: boolean
+  created_by?: boolean
+  created_at?: boolean
   tenant_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type inventory_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branch_id" | "store_id" | "product_variant_id" | "movement_type" | "reference_type" | "reference_id" | "qty_in" | "qty_out" | "unit_cost" | "total_cost" | "movement_date" | "remarks" | "created_by" | "created_at" | "batch_id" | "dest_store_id" | "dest_warehouse_location_id" | "idempotency_key" | "movement_group_id" | "qty_after" | "qty_before" | "reason_code" | "source_document_id" | "source_document_type" | "warehouse_id" | "warehouse_location_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory_movements"]>
+export type inventory_movementsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "movement_no" | "branch_id" | "store_id" | "warehouse_id" | "location_id" | "warehouse_location_id" | "product_variant_id" | "movement_type" | "status" | "condition" | "quantity_delta" | "unit_cost" | "total_cost" | "reference_type" | "reference_id" | "occurred_at" | "movement_date" | "batch_id" | "serial_id" | "reversed_movement_id" | "dest_store_id" | "dest_warehouse_location_id" | "idempotency_key" | "movement_group_id" | "qty_after" | "qty_before" | "reason_code" | "source_document_id" | "source_document_type" | "remarks" | "notes" | "created_by" | "created_at" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory_movements"]>
 
 export type $inventory_movementsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "inventory_movements"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    branch_id: string
+    movement_no: bigint | null
+    branch_id: string | null
     store_id: string | null
+    warehouse_id: string | null
+    location_id: string | null
+    warehouse_location_id: string | null
     product_variant_id: string
     movement_type: $Enums.movement_type_enum
-    reference_type: string | null
-    reference_id: string | null
-    qty_in: runtime.Decimal
-    qty_out: runtime.Decimal
+    status: $Enums.movement_status_enum
+    condition: $Enums.stock_condition_enum
+    quantity_delta: runtime.Decimal
     unit_cost: runtime.Decimal
     total_cost: runtime.Decimal
+    reference_type: string | null
+    reference_id: string | null
+    occurred_at: Date
     movement_date: Date
-    remarks: string | null
-    created_by: string | null
-    created_at: Date
     batch_id: string | null
+    serial_id: string | null
+    reversed_movement_id: string | null
     dest_store_id: string | null
     dest_warehouse_location_id: string | null
     idempotency_key: string | null
@@ -1098,8 +1301,10 @@ export type $inventory_movementsPayload<ExtArgs extends runtime.Types.Extensions
     reason_code: string | null
     source_document_id: string | null
     source_document_type: string | null
-    warehouse_id: string | null
-    warehouse_location_id: string | null
+    remarks: string | null
+    notes: string | null
+    created_by: string | null
+    created_at: Date
     tenant_id: string
     created_by_user_id: string | null
     updated_by_user_id: string | null
@@ -1527,21 +1732,26 @@ export interface Prisma__inventory_movementsClient<T, Null = never, ExtArgs exte
  */
 export interface inventory_movementsFieldRefs {
   readonly id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly movement_no: Prisma.FieldRef<"inventory_movements", 'BigInt'>
   readonly branch_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly store_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly location_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly warehouse_location_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly movement_type: Prisma.FieldRef<"inventory_movements", 'movement_type_enum'>
-  readonly reference_type: Prisma.FieldRef<"inventory_movements", 'String'>
-  readonly reference_id: Prisma.FieldRef<"inventory_movements", 'String'>
-  readonly qty_in: Prisma.FieldRef<"inventory_movements", 'Decimal'>
-  readonly qty_out: Prisma.FieldRef<"inventory_movements", 'Decimal'>
+  readonly status: Prisma.FieldRef<"inventory_movements", 'movement_status_enum'>
+  readonly condition: Prisma.FieldRef<"inventory_movements", 'stock_condition_enum'>
+  readonly quantity_delta: Prisma.FieldRef<"inventory_movements", 'Decimal'>
   readonly unit_cost: Prisma.FieldRef<"inventory_movements", 'Decimal'>
   readonly total_cost: Prisma.FieldRef<"inventory_movements", 'Decimal'>
+  readonly reference_type: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly reference_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly occurred_at: Prisma.FieldRef<"inventory_movements", 'DateTime'>
   readonly movement_date: Prisma.FieldRef<"inventory_movements", 'DateTime'>
-  readonly remarks: Prisma.FieldRef<"inventory_movements", 'String'>
-  readonly created_by: Prisma.FieldRef<"inventory_movements", 'String'>
-  readonly created_at: Prisma.FieldRef<"inventory_movements", 'DateTime'>
   readonly batch_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly serial_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly reversed_movement_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly dest_store_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly dest_warehouse_location_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly idempotency_key: Prisma.FieldRef<"inventory_movements", 'String'>
@@ -1551,8 +1761,10 @@ export interface inventory_movementsFieldRefs {
   readonly reason_code: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly source_document_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly source_document_type: Prisma.FieldRef<"inventory_movements", 'String'>
-  readonly warehouse_id: Prisma.FieldRef<"inventory_movements", 'String'>
-  readonly warehouse_location_id: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly remarks: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly notes: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly created_by: Prisma.FieldRef<"inventory_movements", 'String'>
+  readonly created_at: Prisma.FieldRef<"inventory_movements", 'DateTime'>
   readonly tenant_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly created_by_user_id: Prisma.FieldRef<"inventory_movements", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"inventory_movements", 'String'>

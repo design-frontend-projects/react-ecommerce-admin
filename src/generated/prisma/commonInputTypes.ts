@@ -408,11 +408,28 @@ export type Enumprice_list_typesNullableWithAggregatesFilter<$PrismaModel = neve
   _max?: Prisma.NestedEnumprice_list_typesNullableFilter<$PrismaModel>
 }
 
+export type Enumtracking_mode_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.tracking_mode_enum | Prisma.Enumtracking_mode_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumtracking_mode_enumFilter<$PrismaModel> | $Enums.tracking_mode_enum
+}
+
 export type Enumproduct_type_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.product_type_enum | Prisma.Enumproduct_type_enumFieldRefInput<$PrismaModel>
   in?: $Enums.product_type_enum[] | Prisma.ListEnumproduct_type_enumFieldRefInput<$PrismaModel>
   notIn?: $Enums.product_type_enum[] | Prisma.ListEnumproduct_type_enumFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumproduct_type_enumFilter<$PrismaModel> | $Enums.product_type_enum
+}
+
+export type Enumtracking_mode_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.tracking_mode_enum | Prisma.Enumtracking_mode_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumtracking_mode_enumWithAggregatesFilter<$PrismaModel> | $Enums.tracking_mode_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumtracking_mode_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumtracking_mode_enumFilter<$PrismaModel>
 }
 
 export type Enumproduct_type_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -782,11 +799,52 @@ export type Enumtransaction_type_enumWithAggregatesFilter<$PrismaModel = never> 
   _max?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel>
 }
 
+export type BigIntNullableFilter<$PrismaModel = never> = {
+  equals?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel> | null
+  in?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  notIn?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  lt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  lte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+}
+
 export type Enummovement_type_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.movement_type_enum | Prisma.Enummovement_type_enumFieldRefInput<$PrismaModel>
   in?: $Enums.movement_type_enum[] | Prisma.ListEnummovement_type_enumFieldRefInput<$PrismaModel>
   notIn?: $Enums.movement_type_enum[] | Prisma.ListEnummovement_type_enumFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnummovement_type_enumFilter<$PrismaModel> | $Enums.movement_type_enum
+}
+
+export type Enummovement_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.movement_status_enum | Prisma.Enummovement_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnummovement_status_enumFilter<$PrismaModel> | $Enums.movement_status_enum
+}
+
+export type Enumstock_condition_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel> | $Enums.stock_condition_enum
+}
+
+export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel> | null
+  in?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  notIn?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  lt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  lte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatNullableFilter<$PrismaModel>
+  _sum?: Prisma.NestedBigIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedBigIntNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedBigIntNullableFilter<$PrismaModel>
 }
 
 export type Enummovement_type_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -797,6 +855,26 @@ export type Enummovement_type_enumWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnummovement_type_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnummovement_type_enumFilter<$PrismaModel>
+}
+
+export type Enummovement_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.movement_status_enum | Prisma.Enummovement_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnummovement_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.movement_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnummovement_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnummovement_status_enumFilter<$PrismaModel>
+}
+
+export type Enumstock_condition_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_condition_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_condition_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel>
 }
 
 export type Enumtransfer_status_enumFilter<$PrismaModel = never> = {
@@ -830,6 +908,13 @@ export type Enumadjustment_type_enumFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumadjustment_type_enumFilter<$PrismaModel> | $Enums.adjustment_type_enum
 }
 
+export type Enumadjustment_reason_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.adjustment_reason_enum | Prisma.Enumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel> | $Enums.adjustment_reason_enum | null
+}
+
 export type Enumadjustment_status_enumWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.adjustment_status_enum | Prisma.Enumadjustment_status_enumFieldRefInput<$PrismaModel>
   in?: $Enums.adjustment_status_enum[] | Prisma.ListEnumadjustment_status_enumFieldRefInput<$PrismaModel>
@@ -848,13 +933,6 @@ export type Enumadjustment_type_enumWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumadjustment_type_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumadjustment_type_enumFilter<$PrismaModel>
-}
-
-export type Enumadjustment_reason_enumNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.adjustment_reason_enum | Prisma.Enumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
-  in?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel> | $Enums.adjustment_reason_enum | null
 }
 
 export type Enumadjustment_reason_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -916,6 +994,23 @@ export type Enumsales_order_status_enumWithAggregatesFilter<$PrismaModel = never
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
+}
+
+export type Enumcustomer_return_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.customer_return_status_enum | Prisma.Enumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumcustomer_return_status_enumFilter<$PrismaModel> | $Enums.customer_return_status_enum
+}
+
+export type Enumcustomer_return_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.customer_return_status_enum | Prisma.Enumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumcustomer_return_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.customer_return_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumcustomer_return_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumcustomer_return_status_enumFilter<$PrismaModel>
 }
 
 export type Enumstock_reservation_status_enumFilter<$PrismaModel = never> = {
@@ -1396,11 +1491,28 @@ export type NestedEnumprice_list_typesNullableWithAggregatesFilter<$PrismaModel 
   _max?: Prisma.NestedEnumprice_list_typesNullableFilter<$PrismaModel>
 }
 
+export type NestedEnumtracking_mode_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.tracking_mode_enum | Prisma.Enumtracking_mode_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumtracking_mode_enumFilter<$PrismaModel> | $Enums.tracking_mode_enum
+}
+
 export type NestedEnumproduct_type_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.product_type_enum | Prisma.Enumproduct_type_enumFieldRefInput<$PrismaModel>
   in?: $Enums.product_type_enum[] | Prisma.ListEnumproduct_type_enumFieldRefInput<$PrismaModel>
   notIn?: $Enums.product_type_enum[] | Prisma.ListEnumproduct_type_enumFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumproduct_type_enumFilter<$PrismaModel> | $Enums.product_type_enum
+}
+
+export type NestedEnumtracking_mode_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.tracking_mode_enum | Prisma.Enumtracking_mode_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumtracking_mode_enumWithAggregatesFilter<$PrismaModel> | $Enums.tracking_mode_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumtracking_mode_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumtracking_mode_enumFilter<$PrismaModel>
 }
 
 export type NestedEnumproduct_type_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -1743,11 +1855,52 @@ export type NestedEnumtransaction_type_enumWithAggregatesFilter<$PrismaModel = n
   _max?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel>
 }
 
+export type NestedBigIntNullableFilter<$PrismaModel = never> = {
+  equals?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel> | null
+  in?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  notIn?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  lt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  lte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+}
+
 export type NestedEnummovement_type_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.movement_type_enum | Prisma.Enummovement_type_enumFieldRefInput<$PrismaModel>
   in?: $Enums.movement_type_enum[] | Prisma.ListEnummovement_type_enumFieldRefInput<$PrismaModel>
   notIn?: $Enums.movement_type_enum[] | Prisma.ListEnummovement_type_enumFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnummovement_type_enumFilter<$PrismaModel> | $Enums.movement_type_enum
+}
+
+export type NestedEnummovement_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.movement_status_enum | Prisma.Enummovement_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnummovement_status_enumFilter<$PrismaModel> | $Enums.movement_status_enum
+}
+
+export type NestedEnumstock_condition_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel> | $Enums.stock_condition_enum
+}
+
+export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel> | null
+  in?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  notIn?: bigint[] | number[] | Prisma.ListBigIntFieldRefInput<$PrismaModel> | null
+  lt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  lte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gt?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  gte?: bigint | number | Prisma.BigIntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatNullableFilter<$PrismaModel>
+  _sum?: Prisma.NestedBigIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedBigIntNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedBigIntNullableFilter<$PrismaModel>
 }
 
 export type NestedEnummovement_type_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -1758,6 +1911,26 @@ export type NestedEnummovement_type_enumWithAggregatesFilter<$PrismaModel = neve
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnummovement_type_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnummovement_type_enumFilter<$PrismaModel>
+}
+
+export type NestedEnummovement_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.movement_status_enum | Prisma.Enummovement_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.movement_status_enum[] | Prisma.ListEnummovement_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnummovement_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.movement_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnummovement_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnummovement_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_condition_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_condition_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_condition_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel>
 }
 
 export type NestedEnumtransfer_status_enumFilter<$PrismaModel = never> = {
@@ -1791,6 +1964,13 @@ export type NestedEnumadjustment_type_enumFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumadjustment_type_enumFilter<$PrismaModel> | $Enums.adjustment_type_enum
 }
 
+export type NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.adjustment_reason_enum | Prisma.Enumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel> | $Enums.adjustment_reason_enum | null
+}
+
 export type NestedEnumadjustment_status_enumWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.adjustment_status_enum | Prisma.Enumadjustment_status_enumFieldRefInput<$PrismaModel>
   in?: $Enums.adjustment_status_enum[] | Prisma.ListEnumadjustment_status_enumFieldRefInput<$PrismaModel>
@@ -1809,13 +1989,6 @@ export type NestedEnumadjustment_type_enumWithAggregatesFilter<$PrismaModel = ne
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumadjustment_type_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumadjustment_type_enumFilter<$PrismaModel>
-}
-
-export type NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.adjustment_reason_enum | Prisma.Enumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
-  in?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.adjustment_reason_enum[] | Prisma.ListEnumadjustment_reason_enumFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel> | $Enums.adjustment_reason_enum | null
 }
 
 export type NestedEnumadjustment_reason_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -1877,6 +2050,23 @@ export type NestedEnumsales_order_status_enumWithAggregatesFilter<$PrismaModel =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumcustomer_return_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.customer_return_status_enum | Prisma.Enumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumcustomer_return_status_enumFilter<$PrismaModel> | $Enums.customer_return_status_enum
+}
+
+export type NestedEnumcustomer_return_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.customer_return_status_enum | Prisma.Enumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.customer_return_status_enum[] | Prisma.ListEnumcustomer_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumcustomer_return_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.customer_return_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumcustomer_return_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumcustomer_return_status_enumFilter<$PrismaModel>
 }
 
 export type NestedEnumstock_reservation_status_enumFilter<$PrismaModel = never> = {

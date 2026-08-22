@@ -76,7 +76,8 @@ export const movement_type_enum = {
   found: 'found',
   cycle_count_in: 'cycle_count_in',
   cycle_count_out: 'cycle_count_out',
-  reservation_conversion: 'reservation_conversion'
+  reservation_conversion: 'reservation_conversion',
+  consumption: 'consumption'
 } as const
 
 export type movement_type_enum = (typeof movement_type_enum)[keyof typeof movement_type_enum]
@@ -277,8 +278,11 @@ export type transaction_type_enum = (typeof transaction_type_enum)[keyof typeof 
 
 export const transfer_status_enum = {
   draft: 'draft',
+  approved: 'approved',
+  picked: 'picked',
   in_transit: 'in_transit',
   received: 'received',
+  completed: 'completed',
   cancelled: 'cancelled'
 } as const
 
@@ -310,6 +314,10 @@ export const adjustment_reason_enum = {
   theft: 'theft',
   data_entry_error: 'data_entry_error',
   stocktake_discrepancy: 'stocktake_discrepancy',
+  count_correction: 'count_correction',
+  loss: 'loss',
+  found: 'found',
+  system_correction: 'system_correction',
   other: 'other'
 } as const
 
@@ -505,3 +513,43 @@ export const notification_target_type = {
 } as const
 
 export type notification_target_type = (typeof notification_target_type)[keyof typeof notification_target_type]
+
+
+export const tracking_mode_enum = {
+  none: 'none',
+  batch: 'batch',
+  serial: 'serial',
+  batch_and_serial: 'batch_and_serial'
+} as const
+
+export type tracking_mode_enum = (typeof tracking_mode_enum)[keyof typeof tracking_mode_enum]
+
+
+export const stock_condition_enum = {
+  good: 'good',
+  damaged: 'damaged',
+  quarantine: 'quarantine',
+  expired: 'expired',
+  blocked: 'blocked'
+} as const
+
+export type stock_condition_enum = (typeof stock_condition_enum)[keyof typeof stock_condition_enum]
+
+
+export const movement_status_enum = {
+  posted: 'posted',
+  reversed: 'reversed'
+} as const
+
+export type movement_status_enum = (typeof movement_status_enum)[keyof typeof movement_status_enum]
+
+
+export const customer_return_status_enum = {
+  draft: 'draft',
+  approved: 'approved',
+  received: 'received',
+  completed: 'completed',
+  cancelled: 'cancelled'
+} as const
+
+export type customer_return_status_enum = (typeof customer_return_status_enum)[keyof typeof customer_return_status_enum]

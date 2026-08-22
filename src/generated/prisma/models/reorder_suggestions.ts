@@ -43,6 +43,7 @@ export type Reorder_suggestionsMinAggregateOutputType = {
   tenant_id: string | null
   reorder_rule_id: string | null
   product_variant_id: string | null
+  warehouse_id: string | null
   store_id: string | null
   qty_available_at_run: runtime.Decimal | null
   qty_on_order_at_run: runtime.Decimal | null
@@ -62,6 +63,7 @@ export type Reorder_suggestionsMaxAggregateOutputType = {
   tenant_id: string | null
   reorder_rule_id: string | null
   product_variant_id: string | null
+  warehouse_id: string | null
   store_id: string | null
   qty_available_at_run: runtime.Decimal | null
   qty_on_order_at_run: runtime.Decimal | null
@@ -81,6 +83,7 @@ export type Reorder_suggestionsCountAggregateOutputType = {
   tenant_id: number
   reorder_rule_id: number
   product_variant_id: number
+  warehouse_id: number
   store_id: number
   qty_available_at_run: number
   qty_on_order_at_run: number
@@ -114,6 +117,7 @@ export type Reorder_suggestionsMinAggregateInputType = {
   tenant_id?: true
   reorder_rule_id?: true
   product_variant_id?: true
+  warehouse_id?: true
   store_id?: true
   qty_available_at_run?: true
   qty_on_order_at_run?: true
@@ -133,6 +137,7 @@ export type Reorder_suggestionsMaxAggregateInputType = {
   tenant_id?: true
   reorder_rule_id?: true
   product_variant_id?: true
+  warehouse_id?: true
   store_id?: true
   qty_available_at_run?: true
   qty_on_order_at_run?: true
@@ -152,6 +157,7 @@ export type Reorder_suggestionsCountAggregateInputType = {
   tenant_id?: true
   reorder_rule_id?: true
   product_variant_id?: true
+  warehouse_id?: true
   store_id?: true
   qty_available_at_run?: true
   qty_on_order_at_run?: true
@@ -258,7 +264,8 @@ export type Reorder_suggestionsGroupByOutputType = {
   tenant_id: string
   reorder_rule_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id: string | null
+  store_id: string | null
   qty_available_at_run: runtime.Decimal
   qty_on_order_at_run: runtime.Decimal
   suggested_qty: runtime.Decimal
@@ -277,7 +284,7 @@ export type Reorder_suggestionsGroupByOutputType = {
   _max: Reorder_suggestionsMaxAggregateOutputType | null
 }
 
-type GetReorder_suggestionsGroupByPayload<T extends reorder_suggestionsGroupByArgs> = Prisma.PrismaPromise<
+export type GetReorder_suggestionsGroupByPayload<T extends reorder_suggestionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Reorder_suggestionsGroupByOutputType, T['by']> &
       {
@@ -300,7 +307,8 @@ export type reorder_suggestionsWhereInput = {
   tenant_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
   reorder_rule_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
   product_variant_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
-  store_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
+  warehouse_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   qty_available_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -319,7 +327,8 @@ export type reorder_suggestionsOrderByWithRelationInput = {
   tenant_id?: Prisma.SortOrder
   reorder_rule_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
   suggested_qty?: Prisma.SortOrder
@@ -341,7 +350,8 @@ export type reorder_suggestionsWhereUniqueInput = Prisma.AtLeast<{
   tenant_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
   reorder_rule_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
   product_variant_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
-  store_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
+  warehouse_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   qty_available_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -360,7 +370,8 @@ export type reorder_suggestionsOrderByWithAggregationInput = {
   tenant_id?: Prisma.SortOrder
   reorder_rule_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
   suggested_qty?: Prisma.SortOrder
@@ -387,7 +398,8 @@ export type reorder_suggestionsScalarWhereWithAggregatesInput = {
   tenant_id?: Prisma.UuidWithAggregatesFilter<"reorder_suggestions"> | string
   reorder_rule_id?: Prisma.UuidWithAggregatesFilter<"reorder_suggestions"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"reorder_suggestions"> | string
-  store_id?: Prisma.UuidWithAggregatesFilter<"reorder_suggestions"> | string
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_suggestions"> | string | null
+  store_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_suggestions"> | string | null
   qty_available_at_run?: Prisma.DecimalWithAggregatesFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalWithAggregatesFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalWithAggregatesFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -406,7 +418,8 @@ export type reorder_suggestionsCreateInput = {
   tenant_id: string
   reorder_rule_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -425,7 +438,8 @@ export type reorder_suggestionsUncheckedCreateInput = {
   tenant_id: string
   reorder_rule_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -444,7 +458,8 @@ export type reorder_suggestionsUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -463,7 +478,8 @@ export type reorder_suggestionsUncheckedUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -482,7 +498,8 @@ export type reorder_suggestionsCreateManyInput = {
   tenant_id: string
   reorder_rule_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -501,7 +518,8 @@ export type reorder_suggestionsUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -520,7 +538,8 @@ export type reorder_suggestionsUncheckedUpdateManyInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -539,6 +558,7 @@ export type reorder_suggestionsCountOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   reorder_rule_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
@@ -564,6 +584,7 @@ export type reorder_suggestionsMaxOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   reorder_rule_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
@@ -583,6 +604,7 @@ export type reorder_suggestionsMinOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   reorder_rule_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   qty_available_at_run?: Prisma.SortOrder
   qty_on_order_at_run?: Prisma.SortOrder
@@ -614,6 +636,7 @@ export type reorder_suggestionsSelect<ExtArgs extends runtime.Types.Extensions.I
   tenant_id?: boolean
   reorder_rule_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   qty_available_at_run?: boolean
   qty_on_order_at_run?: boolean
@@ -633,6 +656,7 @@ export type reorder_suggestionsSelectCreateManyAndReturn<ExtArgs extends runtime
   tenant_id?: boolean
   reorder_rule_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   qty_available_at_run?: boolean
   qty_on_order_at_run?: boolean
@@ -652,6 +676,7 @@ export type reorder_suggestionsSelectUpdateManyAndReturn<ExtArgs extends runtime
   tenant_id?: boolean
   reorder_rule_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   qty_available_at_run?: boolean
   qty_on_order_at_run?: boolean
@@ -671,6 +696,7 @@ export type reorder_suggestionsSelectScalar = {
   tenant_id?: boolean
   reorder_rule_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   qty_available_at_run?: boolean
   qty_on_order_at_run?: boolean
@@ -685,7 +711,7 @@ export type reorder_suggestionsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type reorder_suggestionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "reorder_rule_id" | "product_variant_id" | "store_id" | "qty_available_at_run" | "qty_on_order_at_run" | "suggested_qty" | "preferred_supplier_id" | "status" | "converted_requisition_id" | "run_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["reorder_suggestions"]>
+export type reorder_suggestionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "reorder_rule_id" | "product_variant_id" | "warehouse_id" | "store_id" | "qty_available_at_run" | "qty_on_order_at_run" | "suggested_qty" | "preferred_supplier_id" | "status" | "converted_requisition_id" | "run_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["reorder_suggestions"]>
 
 export type $reorder_suggestionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "reorder_suggestions"
@@ -695,7 +721,8 @@ export type $reorder_suggestionsPayload<ExtArgs extends runtime.Types.Extensions
     tenant_id: string
     reorder_rule_id: string
     product_variant_id: string
-    store_id: string
+    warehouse_id: string | null
+    store_id: string | null
     qty_available_at_run: runtime.Decimal
     qty_on_order_at_run: runtime.Decimal
     suggested_qty: runtime.Decimal
@@ -1134,6 +1161,7 @@ export interface reorder_suggestionsFieldRefs {
   readonly tenant_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
   readonly reorder_rule_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
   readonly store_id: Prisma.FieldRef<"reorder_suggestions", 'String'>
   readonly qty_available_at_run: Prisma.FieldRef<"reorder_suggestions", 'Decimal'>
   readonly qty_on_order_at_run: Prisma.FieldRef<"reorder_suggestions", 'Decimal'>

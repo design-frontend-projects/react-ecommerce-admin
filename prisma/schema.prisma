@@ -38,6 +38,7 @@ model addresses {
   id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String    @db.Uuid
   address_type       String?   @default("billing") @db.VarChar(30)
+  address_type_id    String?   @db.Uuid
   line1              String?   @db.VarChar(255)
   line2              String?   @db.VarChar(255)
   city               String?   @db.VarChar(100)
@@ -160,6 +161,8 @@ model customer_groups {
 model customers {
   first_name         String           @db.VarChar(100)
   last_name          String           @db.VarChar(100)
+  code               String?          @db.VarChar(30)
+  customer_type_id   String?          @db.Uuid
   email              String?          @db.VarChar(200)
   phone              String?          @db.VarChar(50)
   address_line1      String?          @db.VarChar(200)
@@ -230,6 +233,7 @@ model price_list {
   is_active          Boolean?          @default(true)
   description        String?
   type               price_list_types?
+  price_list_type_id String?           @db.Uuid
   store_id           String?           @db.Uuid
   id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String            @db.Uuid
@@ -258,6 +262,7 @@ model product_variants {
   tenant_id            String                 @db.Uuid
   sku                  String                 @db.VarChar(100)
   barcode              String?                @db.VarChar(100)
+  name                 String?                @db.VarChar(200)
   price                Decimal                @db.Decimal(10, 2)
   cost_price           Decimal?               @db.Decimal(10, 2)
   stock_quantity       Int?                   @default(0)
@@ -297,9 +302,15 @@ model products {
   is_marketplace         Boolean?               @default(false)
   base_uom_id            String?                @db.Uuid
   brand_id               String?                @db.Uuid
+  tracking_mode          tracking_mode_enum     @default(none)
+  is_stock_item          Boolean?               @default(true)
+  reorderable            Boolean?               @default(true)
+  tax_code               String?
+  tax_classification_id  String?                @db.Uuid
   is_batch_tracked       Boolean                @default(false)
   is_serial_tracked      Boolean                @default(false)
   product_type           product_type_enum      @default(simple)
+  product_type_id        String?                @db.Uuid
   deleted_at             DateTime?              @db.Timestamptz(6)
   id                     String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id              String                 @db.Uuid
@@ -384,6 +395,7 @@ model promotions {
   get_discount_value Decimal?            @default(100) @db.Decimal(10, 2)
   get_quantity       Int?
   promo_type         String              @default("order_discount") @db.VarChar(30)
+  promo_type_id      String?             @db.Uuid
   updated_at         DateTime?           @default(now()) @db.Timestamptz(6)
   id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String              @db.Uuid
@@ -457,10 +469,14 @@ model purchase_invoices {
 }
 
 model purchase_order_items {
+  line_no            Int               @default(1)
   quantity_ordered   Int
   unit_cost          Decimal           @db.Decimal(10, 2)
+  tax_amount         Decimal?          @default(0) @db.Decimal(18, 4)
+  discount_amount    Decimal?          @default(0) @db.Decimal(18, 4)
   subtotal           Decimal?          @db.Decimal
   received_quantity  Decimal?          @db.Decimal
+  cancelled_qty      Decimal?          @default(0) @db.Decimal(18, 4)
   product_variant_id String?           @db.Uuid
   id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String            @db.Uuid
@@ -476,6 +492,11 @@ model purchase_order_items {
 model purchase_orders {
   order_date             DateTime?                 @default(now()) @db.Timestamptz(6)
   expected_delivery_date DateTime?                 @db.Date
+  currency               String?                   @default("USD") @db.Char(3)
+  subtotal               Decimal?                  @default(0) @db.Decimal(18, 4)
+  tax_total              Decimal?                  @default(0) @db.Decimal(18, 4)
+  discount_total         Decimal?                  @default(0) @db.Decimal(18, 4)
+  grand_total            Decimal?                  @default(0) @db.Decimal(18, 4)
   total_amount           Decimal?                  @db.Decimal(12, 2)
   status                 String?                   @default("pending") @db.VarChar(20)
   notes                  String?
@@ -507,6 +528,8 @@ model purchase_return_items {
   purchase_return_id       String  @db.Uuid
   purchase_invoice_item_id String? @db.Uuid
   product_variant_id       String  @db.Uuid
+  location_id              String? @db.Uuid
+  serial_id                String? @db.Uuid
   quantity                 Decimal @db.Decimal(18, 4)
   unit_cost                Decimal @default(0) @db.Decimal(18, 4)
   tax_amount               Decimal @default(0) @db.Decimal(18, 4)
@@ -523,6 +546,7 @@ model purchase_returns {
   purchase_invoice_id String?            @db.Uuid
   branch_id           String             @db.Uuid
   store_id            String?            @db.Uuid
+  warehouse_id        String?            @db.Uuid
   return_no           String             @db.VarChar(100)
   return_date         DateTime           @default(now()) @db.Timestamptz(6)
   status              return_status_enum @default(draft)
@@ -907,6 +931,7 @@ model sales_invoices {
   created_at         DateTime            @default(now()) @db.Timestamptz(6)
   updated_at         DateTime            @default(now()) @db.Timestamptz(6)
   channel            String?             @default("counter") @db.VarChar(20)
+  channel_id         String?             @db.Uuid
   tenant_id          String              @db.Uuid
   customer_id        String?             @db.Uuid
   price_list_id      String?             @db.Uuid
@@ -942,6 +967,7 @@ model sales_returns {
   tax_amount         Decimal            @default(0) @db.Decimal(18, 4)
   total_amount       Decimal            @default(0) @db.Decimal(18, 4)
   reason             String?
+  return_reason_id   String?            @db.Uuid
   notes              String?
   created_by         String?
   created_at         DateTime           @default(now()) @db.Timestamptz(6)
@@ -1007,6 +1033,7 @@ model stores {
   updated_at         DateTime?    @default(now()) @db.Timestamptz(6)
   city_id            String?      @db.Uuid
   country_id         String?      @db.Uuid
+  store_type_id      String?      @db.Uuid
   name               String?
   store_id           String       @id @db.Uuid
   status             Boolean?     @default(true)
@@ -1030,23 +1057,28 @@ model subscriptions {
 }
 
 model suppliers {
-  name               String            @db.VarChar(200)
-  contact_person     String?           @db.VarChar(100)
-  email              String?           @db.VarChar(200)
-  phone              String?           @db.VarChar(50)
-  address            String?
-  website            String?           @db.VarChar(200)
-  notes              String?
-  created_at         DateTime?         @default(now()) @db.Timestamptz(6)
-  city_id            String?           @db.Uuid
-  is_preferred       Boolean?          @default(false)
-  is_system          Boolean?          @default(false)
-  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id          String            @db.Uuid
-  created_by_user_id String?           @db.Uuid
-  updated_by_user_id String?           @db.Uuid
-  purchase_orders    purchase_orders[]
-  cities             cities?           @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  name                 String            @db.VarChar(200)
+  code                 String?           @db.VarChar(30)
+  supplier_category_id String?           @db.Uuid
+  contact_person       String?           @db.VarChar(100)
+  email                String?           @db.VarChar(200)
+  phone                String?           @db.VarChar(50)
+  tax_number           String?
+  payment_terms_days   Int               @default(0)
+  address              String?
+  website              String?           @db.VarChar(200)
+  notes                String?
+  is_active            Boolean?          @default(true)
+  created_at           DateTime?         @default(now()) @db.Timestamptz(6)
+  city_id              String?           @db.Uuid
+  is_preferred         Boolean?          @default(false)
+  is_system            Boolean?          @default(false)
+  id                   String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id            String            @db.Uuid
+  created_by_user_id   String?           @db.Uuid
+  updated_by_user_id   String?           @db.Uuid
+  purchase_orders      purchase_orders[]
+  cities               cities?           @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model tax_rates {
@@ -1338,112 +1370,140 @@ model rbac_audit {
 }
 
 model inventory_movements {
-  id                         String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  branch_id                  String             @db.Uuid
-  store_id                   String?            @db.Uuid
-  product_variant_id         String             @db.Uuid
+  id                         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  movement_no                BigInt?
+  branch_id                  String?              @db.Uuid
+  store_id                   String?              @db.Uuid
+  warehouse_id               String?              @db.Uuid
+  location_id                String?              @db.Uuid
+  warehouse_location_id      String?              @db.Uuid
+  product_variant_id         String               @db.Uuid
   movement_type              movement_type_enum
-  reference_type             String?            @db.VarChar(100)
-  reference_id               String?            @db.Uuid
-  qty_in                     Decimal            @default(0) @db.Decimal(18, 4)
-  qty_out                    Decimal            @default(0) @db.Decimal(18, 4)
-  unit_cost                  Decimal            @default(0) @db.Decimal(18, 4)
-  total_cost                 Decimal            @default(0) @db.Decimal(18, 4)
-  movement_date              DateTime           @default(now()) @db.Timestamptz(6)
-  remarks                    String?
-  created_by                 String?
-  created_at                 DateTime           @default(now()) @db.Timestamptz(6)
-  batch_id                   String?            @db.Uuid
-  dest_store_id              String?            @db.Uuid
-  dest_warehouse_location_id String?            @db.Uuid
+  status                     movement_status_enum @default(posted)
+  condition                  stock_condition_enum @default(good)
+  quantity_delta             Decimal              @db.Decimal(18, 4)
+  unit_cost                  Decimal              @default(0) @db.Decimal(18, 4)
+  total_cost                 Decimal              @default(0) @db.Decimal(18, 4)
+  reference_type             String?              @db.VarChar(100)
+  reference_id               String?              @db.Uuid
+  occurred_at                DateTime             @default(now()) @db.Timestamptz(6)
+  movement_date              DateTime             @default(now()) @db.Timestamptz(6)
+  batch_id                   String?              @db.Uuid
+  serial_id                  String?              @db.Uuid
+  reversed_movement_id       String?              @db.Uuid
+  dest_store_id              String?              @db.Uuid
+  dest_warehouse_location_id String?              @db.Uuid
   idempotency_key            String?
-  movement_group_id          String?            @db.Uuid
-  qty_after                  Decimal?           @db.Decimal(18, 4)
-  qty_before                 Decimal?           @db.Decimal(18, 4)
-  reason_code                String?            @db.VarChar(40)
-  source_document_id         String?            @db.Uuid
-  source_document_type       String?            @db.VarChar(40)
-  warehouse_id               String?            @db.Uuid
-  warehouse_location_id      String?            @db.Uuid
-  tenant_id                  String             @db.Uuid
-  created_by_user_id         String?            @db.Uuid
-  updated_by_user_id         String?            @db.Uuid
+  movement_group_id          String?              @db.Uuid
+  qty_after                  Decimal?             @db.Decimal(18, 4)
+  qty_before                 Decimal?             @db.Decimal(18, 4)
+  reason_code                String?              @db.VarChar(40)
+  source_document_id         String?              @db.Uuid
+  source_document_type       String?              @db.VarChar(40)
+  remarks                    String?
+  notes                      String?
+  created_by                 String?
+  created_at                 DateTime             @default(now()) @db.Timestamptz(6)
+  tenant_id                  String               @db.Uuid
+  created_by_user_id         String?              @db.Uuid
+  updated_by_user_id         String?              @db.Uuid
 }
 
 model stock_balances {
-  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id          String    @db.Uuid
-  store_id           String    @db.Uuid
-  product_variant_id String    @db.Uuid
-  qty_on_hand        Decimal   @default(0) @db.Decimal(18, 4)
-  qty_reserved       Decimal   @default(0) @db.Decimal(18, 4)
-  qty_available      Decimal?  @db.Decimal(18, 4)
-  avg_cost           Decimal   @default(0) @db.Decimal(18, 4)
-  last_movement_at   DateTime? @db.Timestamptz(6)
-  created_at         DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at         DateTime  @default(now()) @db.Timestamptz(6)
-  created_by_user_id String?   @db.Uuid
-  updated_by_user_id String?   @db.Uuid
-}
-
-model stock_transfers {
   id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String               @db.Uuid
-  from_store_id      String               @db.Uuid
-  to_store_id        String               @db.Uuid
-  from_branch_id     String?              @db.Uuid
-  to_branch_id       String?              @db.Uuid
-  status             transfer_status_enum @default(draft)
-  reference_no       String?              @db.VarChar(50)
-  notes              String?
-  created_by         String?
-  shipped_by         String?
-  received_by        String?
-  shipped_at         DateTime?            @db.Timestamptz(6)
-  received_at        DateTime?            @db.Timestamptz(6)
+  warehouse_id       String?              @db.Uuid
+  location_id        String?              @db.Uuid
+  store_id           String?              @db.Uuid
+  product_variant_id String               @db.Uuid
+  condition          stock_condition_enum @default(good)
+  batch_id           String?              @db.Uuid
+  serial_id          String?              @db.Uuid
+  qty_on_hand        Decimal              @default(0) @db.Decimal(18, 4)
+  qty_reserved       Decimal              @default(0) @db.Decimal(18, 4)
+  qty_available      Decimal?             @db.Decimal(18, 4)
+  avg_cost           Decimal              @default(0) @db.Decimal(18, 4)
+  last_movement_at   DateTime?            @db.Timestamptz(6)
   created_at         DateTime             @default(now()) @db.Timestamptz(6)
   updated_at         DateTime             @default(now()) @db.Timestamptz(6)
   created_by_user_id String?              @db.Uuid
   updated_by_user_id String?              @db.Uuid
 }
 
+model stock_transfers {
+  id                       String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                String               @db.Uuid
+  transfer_no              BigInt?
+  source_warehouse_id      String?              @db.Uuid
+  destination_warehouse_id String?              @db.Uuid
+  from_store_id            String?              @db.Uuid
+  to_store_id              String?              @db.Uuid
+  from_branch_id           String?              @db.Uuid
+  to_branch_id             String?              @db.Uuid
+  status                   transfer_status_enum @default(draft)
+  reference_no             String?              @db.VarChar(50)
+  notes                    String?
+  created_by               String?
+  shipped_by               String?
+  received_by              String?
+  approved_by              String?
+  approved_at              DateTime?            @db.Timestamptz(6)
+  shipped_at               DateTime?            @db.Timestamptz(6)
+  received_at              DateTime?            @db.Timestamptz(6)
+  created_at               DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime             @default(now()) @db.Timestamptz(6)
+  created_by_user_id       String?              @db.Uuid
+  updated_by_user_id       String?              @db.Uuid
+}
+
 model stock_transfer_items {
-  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  stock_transfer_id  String   @db.Uuid
-  product_variant_id String   @db.Uuid
-  qty                Decimal  @db.Decimal(18, 4)
-  unit_cost          Decimal  @default(0) @db.Decimal(18, 4)
-  created_at         DateTime @default(now()) @db.Timestamptz(6)
-  batch_id           String?  @db.Uuid
-  created_by_user_id String?  @db.Uuid
-  updated_by_user_id String?  @db.Uuid
+  id                      String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id               String?              @db.Uuid
+  stock_transfer_id       String               @db.Uuid
+  product_variant_id      String               @db.Uuid
+  source_location_id      String?              @db.Uuid
+  destination_location_id String?              @db.Uuid
+  qty                     Decimal              @db.Decimal(18, 4)
+  received_qty            Decimal              @default(0) @db.Decimal(18, 4)
+  unit_cost               Decimal              @default(0) @db.Decimal(18, 4)
+  condition               stock_condition_enum @default(good)
+  batch_id                String?              @db.Uuid
+  serial_id               String?              @db.Uuid
+  created_at              DateTime             @default(now()) @db.Timestamptz(6)
+  created_by_user_id      String?              @db.Uuid
+  updated_by_user_id      String?              @db.Uuid
 }
 
 model stock_adjustments {
-  id                 String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id          String                 @db.Uuid
-  store_id           String                 @db.Uuid
-  status             adjustment_status_enum @default(draft)
+  id                 String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                  @db.Uuid
+  store_id           String?                 @db.Uuid
+  warehouse_id       String?                 @db.Uuid
+  status             adjustment_status_enum  @default(draft)
   type               adjustment_type_enum
+  reason             adjustment_reason_enum?
+  reason_id          String?                 @db.Uuid
   notes              String?
   created_by         String?
   approved_by        String?
-  approved_at        DateTime?              @db.Timestamptz(6)
-  created_at         DateTime               @default(now()) @db.Timestamptz(6)
-  updated_at         DateTime               @default(now()) @db.Timestamptz(6)
-  created_by_user_id String?                @db.Uuid
-  updated_by_user_id String?                @db.Uuid
+  approved_at        DateTime?               @db.Timestamptz(6)
+  created_at         DateTime                @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                 @db.Uuid
+  updated_by_user_id String?                 @db.Uuid
 }
 
 model stock_adjustment_items {
   id                  String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   stock_adjustment_id String                  @db.Uuid
   product_variant_id  String                  @db.Uuid
+  location_id         String?                 @db.Uuid
   qty_before          Decimal                 @db.Decimal(18, 4)
   qty_after           Decimal                 @db.Decimal(18, 4)
   qty_adjusted        Decimal                 @db.Decimal(18, 4)
   unit_cost           Decimal                 @default(0) @db.Decimal(18, 4)
   reason              adjustment_reason_enum?
+  reason_id           String?                 @db.Uuid
   created_at          DateTime                @default(now()) @db.Timestamptz(6)
   batch_id            String?                 @db.Uuid
   created_by_user_id  String?                 @db.Uuid
@@ -1454,7 +1514,7 @@ model stock_counts {
   id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id             String                  @db.Uuid
   count_number          String                  @default(dbgenerated("('SC-'::text || lpad((nextval('stock_counts_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
-  store_id              String                  @db.Uuid
+  store_id              String?                 @db.Uuid
   warehouse_id          String?                 @db.Uuid
   warehouse_location_id String?                 @db.Uuid
   category_id           Int?
@@ -1465,6 +1525,8 @@ model stock_counts {
   reviewed_by           String?
   posted_by             String?
   posted_at             DateTime?               @db.Timestamptz(6)
+  approved_by_user_id   String?                 @db.Uuid
+  approved_at           DateTime?               @db.Timestamptz(6)
   posted_adjustment_id  String?                 @db.Uuid
   notes                 String?
   created_by            String?
@@ -1476,10 +1538,12 @@ model stock_counts {
 
 model stock_count_items {
   id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String?   @db.Uuid
   stock_count_id        String    @db.Uuid
   product_variant_id    String    @db.Uuid
   warehouse_location_id String?   @db.Uuid
   batch_id              String?   @db.Uuid
+  serial_id             String?   @db.Uuid
   qty_snapshot          Decimal   @default(0) @db.Decimal(18, 4)
   qty_counted           Decimal?  @db.Decimal(18, 4)
   variance              Decimal?  @db.Decimal(18, 4)
@@ -1531,8 +1595,9 @@ model sales_orders {
   order_number     String                  @default(dbgenerated("('SO-'::text || lpad((nextval('sales_orders_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
   customer_id      String?                 @db.Uuid
   branch_id        String?                 @db.Uuid
-  store_id         String                  @db.Uuid
+  store_id         String?                 @db.Uuid
   warehouse_id     String?                 @db.Uuid
+  currency         String?                 @default("USD") @db.Char(3)
   status           sales_order_status_enum @default(draft)
   order_date       DateTime                @default(now()) @db.Timestamptz(6)
   expected_date    DateTime?               @db.Date
@@ -1553,12 +1618,14 @@ model sales_orders {
 
 model sales_order_items {
   id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String?   @db.Uuid
   sales_order_id     String    @db.Uuid
   product_variant_id String    @db.Uuid
   line_no            Int       @default(1)
   qty_ordered        Decimal   @db.Decimal(18, 4)
   qty_reserved       Decimal   @default(0) @db.Decimal(18, 4)
   qty_fulfilled      Decimal   @default(0) @db.Decimal(18, 4)
+  cancelled_qty      Decimal   @default(0) @db.Decimal(18, 4)
   uom_id             String?   @db.Uuid
   unit_price         Decimal   @default(0) @db.Decimal(18, 4)
   discount_amount    Decimal   @default(0) @db.Decimal(18, 4)
@@ -1570,10 +1637,88 @@ model sales_order_items {
   updated_by_user_id String?   @db.Uuid
 }
 
+model sales_shipments {
+  id                 String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                  @db.Uuid
+  sales_order_id     String?                 @db.Uuid
+  warehouse_id       String                  @db.Uuid
+  shipment_no        String                  @db.VarChar(30)
+  status             sales_order_status_enum @default(draft)
+  shipped_at         DateTime?               @db.Timestamptz(6)
+  created_by         String?
+  created_at         DateTime                @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                 @db.Uuid
+  updated_by_user_id String?                 @db.Uuid
+  items              sales_shipment_items[]
+}
+
+model sales_shipment_items {
+  id                  String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id           String          @db.Uuid
+  shipment_id         String          @db.Uuid
+  sales_order_item_id String?         @db.Uuid
+  product_variant_id  String          @db.Uuid
+  location_id         String?         @db.Uuid
+  batch_id            String?         @db.Uuid
+  serial_id           String?         @db.Uuid
+  shipped_qty         Decimal         @db.Decimal(18, 4)
+  unit_cost           Decimal?        @db.Decimal(18, 4)
+  created_at          DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime        @default(now()) @db.Timestamptz(6)
+  created_by_user_id  String?         @db.Uuid
+  updated_by_user_id  String?         @db.Uuid
+  sales_shipment      sales_shipments @relation(fields: [shipment_id], references: [id], onDelete: Cascade)
+}
+
+model customer_returns {
+  id                 String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                      @db.Uuid
+  return_no          String                      @db.VarChar(30)
+  customer_id        String?                     @db.Uuid
+  warehouse_id       String                      @db.Uuid
+  store_id           String?                     @db.Uuid
+  branch_id          String?                     @db.Uuid
+  sales_invoice_id   String?                     @db.Uuid
+  status             customer_return_status_enum @default(draft)
+  returned_at        DateTime                    @default(now()) @db.Timestamptz(6)
+  reason             String?
+  return_reason_id   String?                     @db.Uuid
+  notes              String?
+  created_by         String?
+  created_at         DateTime                    @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                    @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                     @db.Uuid
+  updated_by_user_id String?                     @db.Uuid
+  items              customer_return_items[]
+}
+
+model customer_return_items {
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String           @db.Uuid
+  customer_return_id String           @db.Uuid
+  product_variant_id String           @db.Uuid
+  location_id        String?          @db.Uuid
+  batch_id           String?          @db.Uuid
+  serial_id          String?          @db.Uuid
+  quantity           Decimal          @db.Decimal(18, 4)
+  good_qty           Decimal          @default(0) @db.Decimal(18, 4)
+  damaged_qty        Decimal          @default(0) @db.Decimal(18, 4)
+  unit_cost          Decimal          @default(0) @db.Decimal(18, 4)
+  reason             String?
+  created_at         DateTime         @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?          @db.Uuid
+  updated_by_user_id String?          @db.Uuid
+  customer_return    customer_returns @relation(fields: [customer_return_id], references: [id], onDelete: Cascade)
+}
+
 model stock_reservations {
   id                    String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id             String                         @db.Uuid
-  store_id              String                         @db.Uuid
+  reservation_no        String?                        @db.VarChar(30)
+  warehouse_id          String?                        @db.Uuid
+  location_id           String?                        @db.Uuid
+  store_id              String?                        @db.Uuid
   product_variant_id    String                         @db.Uuid
   batch_id              String?                        @db.Uuid
   warehouse_location_id String?                        @db.Uuid
@@ -1597,7 +1742,8 @@ model reorder_rules {
   id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id             String    @db.Uuid
   product_variant_id    String    @db.Uuid
-  store_id              String    @db.Uuid
+  warehouse_id          String?   @db.Uuid
+  store_id              String?   @db.Uuid
   min_qty               Decimal?  @db.Decimal(18, 4)
   max_qty               Decimal?  @db.Decimal(18, 4)
   safety_stock          Decimal   @default(0) @db.Decimal(18, 4)
@@ -1618,7 +1764,8 @@ model reorder_suggestions {
   tenant_id                String                          @db.Uuid
   reorder_rule_id          String                          @db.Uuid
   product_variant_id       String                          @db.Uuid
-  store_id                 String                          @db.Uuid
+  warehouse_id             String?                         @db.Uuid
+  store_id                 String?                         @db.Uuid
   qty_available_at_run     Decimal                         @default(0) @db.Decimal(18, 4)
   qty_on_order_at_run      Decimal                         @default(0) @db.Decimal(18, 4)
   suggested_qty            Decimal                         @db.Decimal(18, 4)
@@ -1652,10 +1799,12 @@ model warehouses {
   tenant_id           String                @db.Uuid
   branch_id           String?               @db.Uuid
   store_id            String?               @db.Uuid
+  warehouse_type_id   String?               @db.Uuid
   code                String                @db.VarChar(30)
   name                String                @db.VarChar(120)
   is_default          Boolean               @default(false)
   is_active           Boolean               @default(true)
+  allow_negative_stock Boolean              @default(false)
   address             String?
   notes               String?
   created_at          DateTime              @default(now()) @db.Timestamptz(6)
@@ -1673,6 +1822,7 @@ model warehouse_locations {
   warehouse_id       String             @db.Uuid
   parent_id          String?            @db.Uuid
   location_type      location_type_enum
+  location_type_id   String?            @db.Uuid
   code               String             @db.VarChar(50)
   name               String?            @db.VarChar(120)
   path               String?
@@ -1688,20 +1838,22 @@ model warehouse_locations {
 }
 
 model stock_by_location {
-  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id             String    @db.Uuid
-  store_id              String    @db.Uuid
-  warehouse_id          String    @db.Uuid
-  warehouse_location_id String    @db.Uuid
-  product_variant_id    String    @db.Uuid
-  batch_id              String?   @db.Uuid
-  qty_on_hand           Decimal   @default(0) @db.Decimal(18, 4)
-  qty_reserved          Decimal   @default(0) @db.Decimal(18, 4)
-  last_movement_at      DateTime? @db.Timestamptz(6)
-  created_at            DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
-  created_by_user_id    String?   @db.Uuid
-  updated_by_user_id    String?   @db.Uuid
+  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String               @db.Uuid
+  store_id              String?              @db.Uuid
+  warehouse_id          String               @db.Uuid
+  warehouse_location_id String               @db.Uuid
+  product_variant_id    String               @db.Uuid
+  batch_id              String?              @db.Uuid
+  serial_id             String?              @db.Uuid
+  condition             stock_condition_enum @default(good)
+  qty_on_hand           Decimal              @default(0) @db.Decimal(18, 4)
+  qty_reserved          Decimal              @default(0) @db.Decimal(18, 4)
+  last_movement_at      DateTime?            @db.Timestamptz(6)
+  created_at            DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime             @default(now()) @db.Timestamptz(6)
+  created_by_user_id    String?              @db.Uuid
+  updated_by_user_id    String?              @db.Uuid
 }
 
 model brands {
@@ -1725,6 +1877,7 @@ model uoms {
   code               String     @db.VarChar(20)
   name               String     @db.VarChar(80)
   uom_category       String     @default("count") @db.VarChar(30)
+  uom_category_id    String?    @db.Uuid
   is_base            Boolean    @default(false)
   is_active          Boolean    @default(true)
   created_at         DateTime   @default(now()) @db.Timestamptz(6)
@@ -1830,7 +1983,7 @@ model goods_receipts {
   id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id         String              @db.Uuid
   receipt_number    String              @default(dbgenerated("('GR-'::text || lpad((nextval('goods_receipts_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
-  store_id          String              @db.Uuid
+  store_id          String?             @db.Uuid
   warehouse_id      String?             @db.Uuid
   status            receipt_status_enum @default(draft)
   received_date     DateTime            @default(now()) @db.Timestamptz(6)
@@ -1847,21 +2000,64 @@ model goods_receipts {
 }
 
 model goods_receipt_items {
-  id                     String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  goods_receipt_id       String    @db.Uuid
-  product_variant_id     String    @db.Uuid
-  qty_received           Decimal   @db.Decimal(18, 4)
-  uom_id                 String?   @db.Uuid
-  unit_cost              Decimal   @default(0) @db.Decimal(18, 4)
-  warehouse_location_id  String?   @db.Uuid
-  batch_id               String?   @db.Uuid
-  batch_number           String?   @db.VarChar(60)
-  expiry_date            DateTime? @db.Date
+  id                     String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  goods_receipt_id       String               @db.Uuid
+  product_variant_id     String               @db.Uuid
+  qty_received           Decimal              @db.Decimal(18, 4)
+  accepted_qty           Decimal?             @default(0) @db.Decimal(18, 4)
+  rejected_qty           Decimal?             @default(0) @db.Decimal(18, 4)
+  rejection_reason       String?
+  condition              stock_condition_enum @default(good)
+  uom_id                 String?              @db.Uuid
+  unit_cost              Decimal              @default(0) @db.Decimal(18, 4)
+  warehouse_location_id  String?              @db.Uuid
+  batch_id               String?              @db.Uuid
+  batch_number           String?              @db.VarChar(60)
+  serial_id              String?              @db.Uuid
+  expiry_date            DateTime?            @db.Date
   serial_numbers         Json?
-  created_at             DateTime  @default(now()) @db.Timestamptz(6)
-  purchase_order_item_id String?   @db.Uuid
-  created_by_user_id     String?   @db.Uuid
-  updated_by_user_id     String?   @db.Uuid
+  created_at             DateTime             @default(now()) @db.Timestamptz(6)
+  purchase_order_item_id String?              @db.Uuid
+  created_by_user_id     String?              @db.Uuid
+  updated_by_user_id     String?              @db.Uuid
+}
+
+model lookup_types {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code          String          @unique @db.VarChar(50)
+  name          String          @db.VarChar(120)
+  description   String?
+  is_system     Boolean         @default(false)
+  is_active     Boolean         @default(true)
+  sort_order    Int             @default(0)
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime        @default(now()) @db.Timestamptz(6)
+  lookup_values lookup_values[]
+}
+
+model lookup_values {
+  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lookup_type_id     String        @db.Uuid
+  tenant_id          String?       @db.Uuid
+  code               String        @db.VarChar(50)
+  name               String        @db.VarChar(150)
+  name_ar            String?       @db.VarChar(150)
+  description        String?
+  color              String?       @db.VarChar(7)
+  icon               String?       @db.VarChar(50)
+  metadata           Json?         @default("{}")
+  is_default         Boolean       @default(false)
+  is_system          Boolean       @default(false)
+  is_active          Boolean       @default(true)
+  sort_order         Int           @default(0)
+  created_at         DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime      @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?       @db.Uuid
+  updated_by_user_id String?       @db.Uuid
+  lookup_type        lookup_types  @relation(fields: [lookup_type_id], references: [id], onDelete: Cascade)
+
+  @@unique([lookup_type_id, tenant_id, code], map: "uq_lookup_values_type_tenant_code")
+  @@index([lookup_type_id, tenant_id, is_active], map: "idx_lookup_values_type_tenant_active")
 }
 
 enum cash_movement_reason_enum {
@@ -1920,6 +2116,7 @@ enum movement_type_enum {
   cycle_count_in
   cycle_count_out
   reservation_conversion
+  consumption
 }
 
 enum order_item_status {
@@ -2063,8 +2260,11 @@ enum transaction_type_enum {
 
 enum transfer_status_enum {
   draft
+  approved
+  picked
   in_transit
   received
+  completed
   cancelled
 }
 
@@ -2087,6 +2287,10 @@ enum adjustment_reason_enum {
   theft
   data_entry_error
   stocktake_discrepancy
+  count_correction
+  loss
+  found
+  system_correction
   other
 }
 
@@ -2228,4 +2432,32 @@ enum notification_target_type {
   ALL
   ROLE
   USER
+}
+
+enum tracking_mode_enum {
+  none
+  batch
+  serial
+  batch_and_serial
+}
+
+enum stock_condition_enum {
+  good
+  damaged
+  quarantine
+  expired
+  blocked
+}
+
+enum movement_status_enum {
+  posted
+  reversed
+}
+
+enum customer_return_status_enum {
+  draft
+  approved
+  received
+  completed
+  cancelled
 }

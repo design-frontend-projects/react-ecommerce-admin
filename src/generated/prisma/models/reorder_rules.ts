@@ -50,6 +50,7 @@ export type Reorder_rulesMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   product_variant_id: string | null
+  warehouse_id: string | null
   store_id: string | null
   min_qty: runtime.Decimal | null
   max_qty: runtime.Decimal | null
@@ -70,6 +71,7 @@ export type Reorder_rulesMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   product_variant_id: string | null
+  warehouse_id: string | null
   store_id: string | null
   min_qty: runtime.Decimal | null
   max_qty: runtime.Decimal | null
@@ -90,6 +92,7 @@ export type Reorder_rulesCountAggregateOutputType = {
   id: number
   tenant_id: number
   product_variant_id: number
+  warehouse_id: number
   store_id: number
   min_qty: number
   max_qty: number
@@ -132,6 +135,7 @@ export type Reorder_rulesMinAggregateInputType = {
   id?: true
   tenant_id?: true
   product_variant_id?: true
+  warehouse_id?: true
   store_id?: true
   min_qty?: true
   max_qty?: true
@@ -152,6 +156,7 @@ export type Reorder_rulesMaxAggregateInputType = {
   id?: true
   tenant_id?: true
   product_variant_id?: true
+  warehouse_id?: true
   store_id?: true
   min_qty?: true
   max_qty?: true
@@ -172,6 +177,7 @@ export type Reorder_rulesCountAggregateInputType = {
   id?: true
   tenant_id?: true
   product_variant_id?: true
+  warehouse_id?: true
   store_id?: true
   min_qty?: true
   max_qty?: true
@@ -279,7 +285,8 @@ export type Reorder_rulesGroupByOutputType = {
   id: string
   tenant_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id: string | null
+  store_id: string | null
   min_qty: runtime.Decimal | null
   max_qty: runtime.Decimal | null
   safety_stock: runtime.Decimal
@@ -300,7 +307,7 @@ export type Reorder_rulesGroupByOutputType = {
   _max: Reorder_rulesMaxAggregateOutputType | null
 }
 
-type GetReorder_rulesGroupByPayload<T extends reorder_rulesGroupByArgs> = Prisma.PrismaPromise<
+export type GetReorder_rulesGroupByPayload<T extends reorder_rulesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Reorder_rulesGroupByOutputType, T['by']> &
       {
@@ -322,7 +329,8 @@ export type reorder_rulesWhereInput = {
   id?: Prisma.UuidFilter<"reorder_rules"> | string
   tenant_id?: Prisma.UuidFilter<"reorder_rules"> | string
   product_variant_id?: Prisma.UuidFilter<"reorder_rules"> | string
-  store_id?: Prisma.UuidFilter<"reorder_rules"> | string
+  warehouse_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
   min_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -342,7 +350,8 @@ export type reorder_rulesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   min_qty?: Prisma.SortOrderInput | Prisma.SortOrder
   max_qty?: Prisma.SortOrderInput | Prisma.SortOrder
   safety_stock?: Prisma.SortOrder
@@ -365,7 +374,8 @@ export type reorder_rulesWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.reorder_rulesWhereInput | Prisma.reorder_rulesWhereInput[]
   tenant_id?: Prisma.UuidFilter<"reorder_rules"> | string
   product_variant_id?: Prisma.UuidFilter<"reorder_rules"> | string
-  store_id?: Prisma.UuidFilter<"reorder_rules"> | string
+  warehouse_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"reorder_rules"> | string | null
   min_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.DecimalNullableFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -385,7 +395,8 @@ export type reorder_rulesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   min_qty?: Prisma.SortOrderInput | Prisma.SortOrder
   max_qty?: Prisma.SortOrderInput | Prisma.SortOrder
   safety_stock?: Prisma.SortOrder
@@ -413,7 +424,8 @@ export type reorder_rulesScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"reorder_rules"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"reorder_rules"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"reorder_rules"> | string
-  store_id?: Prisma.UuidWithAggregatesFilter<"reorder_rules"> | string
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_rules"> | string | null
+  store_id?: Prisma.UuidNullableWithAggregatesFilter<"reorder_rules"> | string | null
   min_qty?: Prisma.DecimalNullableWithAggregatesFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.DecimalNullableWithAggregatesFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalWithAggregatesFilter<"reorder_rules"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -433,7 +445,8 @@ export type reorder_rulesCreateInput = {
   id?: string
   tenant_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
   min_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -453,7 +466,8 @@ export type reorder_rulesUncheckedCreateInput = {
   id?: string
   tenant_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
   min_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -473,7 +487,8 @@ export type reorder_rulesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   min_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -493,7 +508,8 @@ export type reorder_rulesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   min_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -513,7 +529,8 @@ export type reorder_rulesCreateManyInput = {
   id?: string
   tenant_id: string
   product_variant_id: string
-  store_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
   min_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -533,7 +550,8 @@ export type reorder_rulesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   min_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -553,7 +571,8 @@ export type reorder_rulesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   min_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   max_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   safety_stock?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -573,6 +592,7 @@ export type reorder_rulesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   min_qty?: Prisma.SortOrder
   max_qty?: Prisma.SortOrder
@@ -603,6 +623,7 @@ export type reorder_rulesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   min_qty?: Prisma.SortOrder
   max_qty?: Prisma.SortOrder
@@ -623,6 +644,7 @@ export type reorder_rulesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   min_qty?: Prisma.SortOrder
   max_qty?: Prisma.SortOrder
@@ -655,6 +677,7 @@ export type reorder_rulesSelect<ExtArgs extends runtime.Types.Extensions.Interna
   id?: boolean
   tenant_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   min_qty?: boolean
   max_qty?: boolean
@@ -675,6 +698,7 @@ export type reorder_rulesSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   id?: boolean
   tenant_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   min_qty?: boolean
   max_qty?: boolean
@@ -695,6 +719,7 @@ export type reorder_rulesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   id?: boolean
   tenant_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   min_qty?: boolean
   max_qty?: boolean
@@ -715,6 +740,7 @@ export type reorder_rulesSelectScalar = {
   id?: boolean
   tenant_id?: boolean
   product_variant_id?: boolean
+  warehouse_id?: boolean
   store_id?: boolean
   min_qty?: boolean
   max_qty?: boolean
@@ -731,7 +757,7 @@ export type reorder_rulesSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type reorder_rulesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "store_id" | "min_qty" | "max_qty" | "safety_stock" | "reorder_point" | "reorder_qty" | "eoq" | "lead_time_days" | "preferred_supplier_id" | "is_active" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["reorder_rules"]>
+export type reorder_rulesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "warehouse_id" | "store_id" | "min_qty" | "max_qty" | "safety_stock" | "reorder_point" | "reorder_qty" | "eoq" | "lead_time_days" | "preferred_supplier_id" | "is_active" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["reorder_rules"]>
 
 export type $reorder_rulesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "reorder_rules"
@@ -740,7 +766,8 @@ export type $reorder_rulesPayload<ExtArgs extends runtime.Types.Extensions.Inter
     id: string
     tenant_id: string
     product_variant_id: string
-    store_id: string
+    warehouse_id: string | null
+    store_id: string | null
     min_qty: runtime.Decimal | null
     max_qty: runtime.Decimal | null
     safety_stock: runtime.Decimal
@@ -1180,6 +1207,7 @@ export interface reorder_rulesFieldRefs {
   readonly id: Prisma.FieldRef<"reorder_rules", 'String'>
   readonly tenant_id: Prisma.FieldRef<"reorder_rules", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"reorder_rules", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"reorder_rules", 'String'>
   readonly store_id: Prisma.FieldRef<"reorder_rules", 'String'>
   readonly min_qty: Prisma.FieldRef<"reorder_rules", 'Decimal'>
   readonly max_qty: Prisma.FieldRef<"reorder_rules", 'Decimal'>

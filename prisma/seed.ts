@@ -90,6 +90,12 @@ async function main() {
   }
 
   console.log(`\nSuccessfully updated ${updatedCount} tenant_subscriptions records.`);
+
+  // 4. Seed system lookup catalogs and default values
+  console.log('\nStart seeding lookup master catalogs...');
+  const { seedLookups } = await import('../src/server/seed/lookups-seed');
+  await seedLookups();
+
   console.log('Seeding finished successfully.');
 }
 

@@ -49,6 +49,8 @@ export type Stock_countsMinAggregateOutputType = {
   reviewed_by: string | null
   posted_by: string | null
   posted_at: Date | null
+  approved_by_user_id: string | null
+  approved_at: Date | null
   posted_adjustment_id: string | null
   notes: string | null
   created_by: string | null
@@ -73,6 +75,8 @@ export type Stock_countsMaxAggregateOutputType = {
   reviewed_by: string | null
   posted_by: string | null
   posted_at: Date | null
+  approved_by_user_id: string | null
+  approved_at: Date | null
   posted_adjustment_id: string | null
   notes: string | null
   created_by: string | null
@@ -97,6 +101,8 @@ export type Stock_countsCountAggregateOutputType = {
   reviewed_by: number
   posted_by: number
   posted_at: number
+  approved_by_user_id: number
+  approved_at: number
   posted_adjustment_id: number
   notes: number
   created_by: number
@@ -131,6 +137,8 @@ export type Stock_countsMinAggregateInputType = {
   reviewed_by?: true
   posted_by?: true
   posted_at?: true
+  approved_by_user_id?: true
+  approved_at?: true
   posted_adjustment_id?: true
   notes?: true
   created_by?: true
@@ -155,6 +163,8 @@ export type Stock_countsMaxAggregateInputType = {
   reviewed_by?: true
   posted_by?: true
   posted_at?: true
+  approved_by_user_id?: true
+  approved_at?: true
   posted_adjustment_id?: true
   notes?: true
   created_by?: true
@@ -179,6 +189,8 @@ export type Stock_countsCountAggregateInputType = {
   reviewed_by?: true
   posted_by?: true
   posted_at?: true
+  approved_by_user_id?: true
+  approved_at?: true
   posted_adjustment_id?: true
   notes?: true
   created_by?: true
@@ -279,7 +291,7 @@ export type Stock_countsGroupByOutputType = {
   id: string
   tenant_id: string
   count_number: string
-  store_id: string
+  store_id: string | null
   warehouse_id: string | null
   warehouse_location_id: string | null
   category_id: number | null
@@ -290,6 +302,8 @@ export type Stock_countsGroupByOutputType = {
   reviewed_by: string | null
   posted_by: string | null
   posted_at: Date | null
+  approved_by_user_id: string | null
+  approved_at: Date | null
   posted_adjustment_id: string | null
   notes: string | null
   created_by: string | null
@@ -304,7 +318,7 @@ export type Stock_countsGroupByOutputType = {
   _max: Stock_countsMaxAggregateOutputType | null
 }
 
-type GetStock_countsGroupByPayload<T extends stock_countsGroupByArgs> = Prisma.PrismaPromise<
+export type GetStock_countsGroupByPayload<T extends stock_countsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_countsGroupByOutputType, T['by']> &
       {
@@ -326,7 +340,7 @@ export type stock_countsWhereInput = {
   id?: Prisma.UuidFilter<"stock_counts"> | string
   tenant_id?: Prisma.UuidFilter<"stock_counts"> | string
   count_number?: Prisma.StringFilter<"stock_counts"> | string
-  store_id?: Prisma.UuidFilter<"stock_counts"> | string
+  store_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   category_id?: Prisma.IntNullableFilter<"stock_counts"> | number | null
@@ -337,6 +351,8 @@ export type stock_countsWhereInput = {
   reviewed_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
   posted_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
   posted_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
   posted_adjustment_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   notes?: Prisma.StringNullableFilter<"stock_counts"> | string | null
   created_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
@@ -350,7 +366,7 @@ export type stock_countsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   count_number?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   category_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -361,6 +377,8 @@ export type stock_countsOrderByWithRelationInput = {
   reviewed_by?: Prisma.SortOrderInput | Prisma.SortOrder
   posted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   posted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   posted_adjustment_id?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -377,7 +395,7 @@ export type stock_countsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.stock_countsWhereInput | Prisma.stock_countsWhereInput[]
   tenant_id?: Prisma.UuidFilter<"stock_counts"> | string
   count_number?: Prisma.StringFilter<"stock_counts"> | string
-  store_id?: Prisma.UuidFilter<"stock_counts"> | string
+  store_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   category_id?: Prisma.IntNullableFilter<"stock_counts"> | number | null
@@ -388,6 +406,8 @@ export type stock_countsWhereUniqueInput = Prisma.AtLeast<{
   reviewed_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
   posted_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
   posted_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
   posted_adjustment_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   notes?: Prisma.StringNullableFilter<"stock_counts"> | string | null
   created_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
@@ -401,7 +421,7 @@ export type stock_countsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   count_number?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   category_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -412,6 +432,8 @@ export type stock_countsOrderByWithAggregationInput = {
   reviewed_by?: Prisma.SortOrderInput | Prisma.SortOrder
   posted_by?: Prisma.SortOrderInput | Prisma.SortOrder
   posted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   posted_adjustment_id?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -433,7 +455,7 @@ export type stock_countsScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"stock_counts"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"stock_counts"> | string
   count_number?: Prisma.StringWithAggregatesFilter<"stock_counts"> | string
-  store_id?: Prisma.UuidWithAggregatesFilter<"stock_counts"> | string
+  store_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   category_id?: Prisma.IntNullableWithAggregatesFilter<"stock_counts"> | number | null
@@ -444,6 +466,8 @@ export type stock_countsScalarWhereWithAggregatesInput = {
   reviewed_by?: Prisma.StringNullableWithAggregatesFilter<"stock_counts"> | string | null
   posted_by?: Prisma.StringNullableWithAggregatesFilter<"stock_counts"> | string | null
   posted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_counts"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
+  approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_counts"> | Date | string | null
   posted_adjustment_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"stock_counts"> | string | null
   created_by?: Prisma.StringNullableWithAggregatesFilter<"stock_counts"> | string | null
@@ -457,7 +481,7 @@ export type stock_countsCreateInput = {
   id?: string
   tenant_id: string
   count_number?: string
-  store_id: string
+  store_id?: string | null
   warehouse_id?: string | null
   warehouse_location_id?: string | null
   category_id?: number | null
@@ -468,6 +492,8 @@ export type stock_countsCreateInput = {
   reviewed_by?: string | null
   posted_by?: string | null
   posted_at?: Date | string | null
+  approved_by_user_id?: string | null
+  approved_at?: Date | string | null
   posted_adjustment_id?: string | null
   notes?: string | null
   created_by?: string | null
@@ -481,7 +507,7 @@ export type stock_countsUncheckedCreateInput = {
   id?: string
   tenant_id: string
   count_number?: string
-  store_id: string
+  store_id?: string | null
   warehouse_id?: string | null
   warehouse_location_id?: string | null
   category_id?: number | null
@@ -492,6 +518,8 @@ export type stock_countsUncheckedCreateInput = {
   reviewed_by?: string | null
   posted_by?: string | null
   posted_at?: Date | string | null
+  approved_by_user_id?: string | null
+  approved_at?: Date | string | null
   posted_adjustment_id?: string | null
   notes?: string | null
   created_by?: string | null
@@ -505,7 +533,7 @@ export type stock_countsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -516,6 +544,8 @@ export type stock_countsUpdateInput = {
   reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -529,7 +559,7 @@ export type stock_countsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -540,6 +570,8 @@ export type stock_countsUncheckedUpdateInput = {
   reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -553,7 +585,7 @@ export type stock_countsCreateManyInput = {
   id?: string
   tenant_id: string
   count_number?: string
-  store_id: string
+  store_id?: string | null
   warehouse_id?: string | null
   warehouse_location_id?: string | null
   category_id?: number | null
@@ -564,6 +596,8 @@ export type stock_countsCreateManyInput = {
   reviewed_by?: string | null
   posted_by?: string | null
   posted_at?: Date | string | null
+  approved_by_user_id?: string | null
+  approved_at?: Date | string | null
   posted_adjustment_id?: string | null
   notes?: string | null
   created_by?: string | null
@@ -577,7 +611,7 @@ export type stock_countsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -588,6 +622,8 @@ export type stock_countsUpdateManyMutationInput = {
   reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -601,7 +637,7 @@ export type stock_countsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -612,6 +648,8 @@ export type stock_countsUncheckedUpdateManyInput = {
   reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -636,6 +674,8 @@ export type stock_countsCountOrderByAggregateInput = {
   reviewed_by?: Prisma.SortOrder
   posted_by?: Prisma.SortOrder
   posted_at?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
   posted_adjustment_id?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
@@ -664,6 +704,8 @@ export type stock_countsMaxOrderByAggregateInput = {
   reviewed_by?: Prisma.SortOrder
   posted_by?: Prisma.SortOrder
   posted_at?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
   posted_adjustment_id?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
@@ -688,6 +730,8 @@ export type stock_countsMinOrderByAggregateInput = {
   reviewed_by?: Prisma.SortOrder
   posted_by?: Prisma.SortOrder
   posted_at?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
   posted_adjustment_id?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
@@ -722,6 +766,8 @@ export type stock_countsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   reviewed_by?: boolean
   posted_by?: boolean
   posted_at?: boolean
+  approved_by_user_id?: boolean
+  approved_at?: boolean
   posted_adjustment_id?: boolean
   notes?: boolean
   created_by?: boolean
@@ -746,6 +792,8 @@ export type stock_countsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   reviewed_by?: boolean
   posted_by?: boolean
   posted_at?: boolean
+  approved_by_user_id?: boolean
+  approved_at?: boolean
   posted_adjustment_id?: boolean
   notes?: boolean
   created_by?: boolean
@@ -770,6 +818,8 @@ export type stock_countsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   reviewed_by?: boolean
   posted_by?: boolean
   posted_at?: boolean
+  approved_by_user_id?: boolean
+  approved_at?: boolean
   posted_adjustment_id?: boolean
   notes?: boolean
   created_by?: boolean
@@ -794,6 +844,8 @@ export type stock_countsSelectScalar = {
   reviewed_by?: boolean
   posted_by?: boolean
   posted_at?: boolean
+  approved_by_user_id?: boolean
+  approved_at?: boolean
   posted_adjustment_id?: boolean
   notes?: boolean
   created_by?: boolean
@@ -803,7 +855,7 @@ export type stock_countsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type stock_countsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "count_number" | "store_id" | "warehouse_id" | "warehouse_location_id" | "category_id" | "status" | "is_blind" | "snapshot_at" | "counted_by" | "reviewed_by" | "posted_by" | "posted_at" | "posted_adjustment_id" | "notes" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_counts"]>
+export type stock_countsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "count_number" | "store_id" | "warehouse_id" | "warehouse_location_id" | "category_id" | "status" | "is_blind" | "snapshot_at" | "counted_by" | "reviewed_by" | "posted_by" | "posted_at" | "approved_by_user_id" | "approved_at" | "posted_adjustment_id" | "notes" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_counts"]>
 
 export type $stock_countsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_counts"
@@ -812,7 +864,7 @@ export type $stock_countsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     tenant_id: string
     count_number: string
-    store_id: string
+    store_id: string | null
     warehouse_id: string | null
     warehouse_location_id: string | null
     category_id: number | null
@@ -823,6 +875,8 @@ export type $stock_countsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     reviewed_by: string | null
     posted_by: string | null
     posted_at: Date | null
+    approved_by_user_id: string | null
+    approved_at: Date | null
     posted_adjustment_id: string | null
     notes: string | null
     created_by: string | null
@@ -1267,6 +1321,8 @@ export interface stock_countsFieldRefs {
   readonly reviewed_by: Prisma.FieldRef<"stock_counts", 'String'>
   readonly posted_by: Prisma.FieldRef<"stock_counts", 'String'>
   readonly posted_at: Prisma.FieldRef<"stock_counts", 'DateTime'>
+  readonly approved_by_user_id: Prisma.FieldRef<"stock_counts", 'String'>
+  readonly approved_at: Prisma.FieldRef<"stock_counts", 'DateTime'>
   readonly posted_adjustment_id: Prisma.FieldRef<"stock_counts", 'String'>
   readonly notes: Prisma.FieldRef<"stock_counts", 'String'>
   readonly created_by: Prisma.FieldRef<"stock_counts", 'String'>

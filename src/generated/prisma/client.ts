@@ -477,6 +477,26 @@ export type sales_orders = Prisma.sales_ordersModel
  */
 export type sales_order_items = Prisma.sales_order_itemsModel
 /**
+ * Model sales_shipments
+ * 
+ */
+export type sales_shipments = Prisma.sales_shipmentsModel
+/**
+ * Model sales_shipment_items
+ * 
+ */
+export type sales_shipment_items = Prisma.sales_shipment_itemsModel
+/**
+ * Model customer_returns
+ * 
+ */
+export type customer_returns = Prisma.customer_returnsModel
+/**
+ * Model customer_return_items
+ * 
+ */
+export type customer_return_items = Prisma.customer_return_itemsModel
+/**
  * Model stock_reservations
  * 
  */
@@ -561,3 +581,13 @@ export type goods_receipts = Prisma.goods_receiptsModel
  * 
  */
 export type goods_receipt_items = Prisma.goods_receipt_itemsModel
+/**
+ * Model lookup_types
+ * 
+ */
+export type lookup_types = Prisma.lookup_typesModel
+/**
+ * Model lookup_values
+ * 
+ */
+export type lookup_values = Prisma.lookup_valuesModel

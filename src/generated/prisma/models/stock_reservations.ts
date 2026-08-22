@@ -39,6 +39,9 @@ export type Stock_reservationsSumAggregateOutputType = {
 export type Stock_reservationsMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
+  reservation_no: string | null
+  warehouse_id: string | null
+  location_id: string | null
   store_id: string | null
   product_variant_id: string | null
   batch_id: string | null
@@ -62,6 +65,9 @@ export type Stock_reservationsMinAggregateOutputType = {
 export type Stock_reservationsMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
+  reservation_no: string | null
+  warehouse_id: string | null
+  location_id: string | null
   store_id: string | null
   product_variant_id: string | null
   batch_id: string | null
@@ -85,6 +91,9 @@ export type Stock_reservationsMaxAggregateOutputType = {
 export type Stock_reservationsCountAggregateOutputType = {
   id: number
   tenant_id: number
+  reservation_no: number
+  warehouse_id: number
+  location_id: number
   store_id: number
   product_variant_id: number
   batch_id: number
@@ -120,6 +129,9 @@ export type Stock_reservationsSumAggregateInputType = {
 export type Stock_reservationsMinAggregateInputType = {
   id?: true
   tenant_id?: true
+  reservation_no?: true
+  warehouse_id?: true
+  location_id?: true
   store_id?: true
   product_variant_id?: true
   batch_id?: true
@@ -143,6 +155,9 @@ export type Stock_reservationsMinAggregateInputType = {
 export type Stock_reservationsMaxAggregateInputType = {
   id?: true
   tenant_id?: true
+  reservation_no?: true
+  warehouse_id?: true
+  location_id?: true
   store_id?: true
   product_variant_id?: true
   batch_id?: true
@@ -166,6 +181,9 @@ export type Stock_reservationsMaxAggregateInputType = {
 export type Stock_reservationsCountAggregateInputType = {
   id?: true
   tenant_id?: true
+  reservation_no?: true
+  warehouse_id?: true
+  location_id?: true
   store_id?: true
   product_variant_id?: true
   batch_id?: true
@@ -276,7 +294,10 @@ export type stock_reservationsGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type Stock_reservationsGroupByOutputType = {
   id: string
   tenant_id: string
-  store_id: string
+  reservation_no: string | null
+  warehouse_id: string | null
+  location_id: string | null
+  store_id: string | null
   product_variant_id: string
   batch_id: string | null
   warehouse_location_id: string | null
@@ -301,7 +322,7 @@ export type Stock_reservationsGroupByOutputType = {
   _max: Stock_reservationsMaxAggregateOutputType | null
 }
 
-type GetStock_reservationsGroupByPayload<T extends stock_reservationsGroupByArgs> = Prisma.PrismaPromise<
+export type GetStock_reservationsGroupByPayload<T extends stock_reservationsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_reservationsGroupByOutputType, T['by']> &
       {
@@ -322,7 +343,10 @@ export type stock_reservationsWhereInput = {
   NOT?: Prisma.stock_reservationsWhereInput | Prisma.stock_reservationsWhereInput[]
   id?: Prisma.UuidFilter<"stock_reservations"> | string
   tenant_id?: Prisma.UuidFilter<"stock_reservations"> | string
-  store_id?: Prisma.UuidFilter<"stock_reservations"> | string
+  reservation_no?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   product_variant_id?: Prisma.UuidFilter<"stock_reservations"> | string
   batch_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
@@ -345,7 +369,10 @@ export type stock_reservationsWhereInput = {
 export type stock_reservationsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  reservation_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -371,7 +398,10 @@ export type stock_reservationsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.stock_reservationsWhereInput[]
   NOT?: Prisma.stock_reservationsWhereInput | Prisma.stock_reservationsWhereInput[]
   tenant_id?: Prisma.UuidFilter<"stock_reservations"> | string
-  store_id?: Prisma.UuidFilter<"stock_reservations"> | string
+  reservation_no?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   product_variant_id?: Prisma.UuidFilter<"stock_reservations"> | string
   batch_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
@@ -394,7 +424,10 @@ export type stock_reservationsWhereUniqueInput = Prisma.AtLeast<{
 export type stock_reservationsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
+  reservation_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -425,7 +458,10 @@ export type stock_reservationsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.stock_reservationsScalarWhereWithAggregatesInput | Prisma.stock_reservationsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"stock_reservations"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"stock_reservations"> | string
-  store_id?: Prisma.UuidWithAggregatesFilter<"stock_reservations"> | string
+  reservation_no?: Prisma.StringNullableWithAggregatesFilter<"stock_reservations"> | string | null
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
+  location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
+  store_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"stock_reservations"> | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
@@ -448,7 +484,10 @@ export type stock_reservationsScalarWhereWithAggregatesInput = {
 export type stock_reservationsCreateInput = {
   id?: string
   tenant_id: string
-  store_id: string
+  reservation_no?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
   product_variant_id: string
   batch_id?: string | null
   warehouse_location_id?: string | null
@@ -471,7 +510,10 @@ export type stock_reservationsCreateInput = {
 export type stock_reservationsUncheckedCreateInput = {
   id?: string
   tenant_id: string
-  store_id: string
+  reservation_no?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
   product_variant_id: string
   batch_id?: string | null
   warehouse_location_id?: string | null
@@ -494,7 +536,10 @@ export type stock_reservationsUncheckedCreateInput = {
 export type stock_reservationsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -517,7 +562,10 @@ export type stock_reservationsUpdateInput = {
 export type stock_reservationsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -540,7 +588,10 @@ export type stock_reservationsUncheckedUpdateInput = {
 export type stock_reservationsCreateManyInput = {
   id?: string
   tenant_id: string
-  store_id: string
+  reservation_no?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
   product_variant_id: string
   batch_id?: string | null
   warehouse_location_id?: string | null
@@ -563,7 +614,10 @@ export type stock_reservationsCreateManyInput = {
 export type stock_reservationsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -586,7 +640,10 @@ export type stock_reservationsUpdateManyMutationInput = {
 export type stock_reservationsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -609,6 +666,9 @@ export type stock_reservationsUncheckedUpdateManyInput = {
 export type stock_reservationsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  reservation_no?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
@@ -637,6 +697,9 @@ export type stock_reservationsAvgOrderByAggregateInput = {
 export type stock_reservationsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  reservation_no?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
@@ -660,6 +723,9 @@ export type stock_reservationsMaxOrderByAggregateInput = {
 export type stock_reservationsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  reservation_no?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
@@ -694,6 +760,9 @@ export type Enumstock_reservation_status_enumFieldUpdateOperationsInput = {
 export type stock_reservationsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
+  reservation_no?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
   store_id?: boolean
   product_variant_id?: boolean
   batch_id?: boolean
@@ -717,6 +786,9 @@ export type stock_reservationsSelect<ExtArgs extends runtime.Types.Extensions.In
 export type stock_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
+  reservation_no?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
   store_id?: boolean
   product_variant_id?: boolean
   batch_id?: boolean
@@ -740,6 +812,9 @@ export type stock_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.
 export type stock_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
+  reservation_no?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
   store_id?: boolean
   product_variant_id?: boolean
   batch_id?: boolean
@@ -763,6 +838,9 @@ export type stock_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.
 export type stock_reservationsSelectScalar = {
   id?: boolean
   tenant_id?: boolean
+  reservation_no?: boolean
+  warehouse_id?: boolean
+  location_id?: boolean
   store_id?: boolean
   product_variant_id?: boolean
   batch_id?: boolean
@@ -783,7 +861,7 @@ export type stock_reservationsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type stock_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "product_variant_id" | "batch_id" | "warehouse_location_id" | "qty" | "qty_consumed" | "status" | "reference_type" | "reference_id" | "reference_item_id" | "expires_at" | "released_at" | "consumed_at" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_reservations"]>
+export type stock_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "reservation_no" | "warehouse_id" | "location_id" | "store_id" | "product_variant_id" | "batch_id" | "warehouse_location_id" | "qty" | "qty_consumed" | "status" | "reference_type" | "reference_id" | "reference_item_id" | "expires_at" | "released_at" | "consumed_at" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_reservations"]>
 
 export type $stock_reservationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_reservations"
@@ -791,7 +869,10 @@ export type $stock_reservationsPayload<ExtArgs extends runtime.Types.Extensions.
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
-    store_id: string
+    reservation_no: string | null
+    warehouse_id: string | null
+    location_id: string | null
+    store_id: string | null
     product_variant_id: string
     batch_id: string | null
     warehouse_location_id: string | null
@@ -1234,6 +1315,9 @@ export interface Prisma__stock_reservationsClient<T, Null = never, ExtArgs exten
 export interface stock_reservationsFieldRefs {
   readonly id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly tenant_id: Prisma.FieldRef<"stock_reservations", 'String'>
+  readonly reservation_no: Prisma.FieldRef<"stock_reservations", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"stock_reservations", 'String'>
+  readonly location_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly store_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly batch_id: Prisma.FieldRef<"stock_reservations", 'String'>

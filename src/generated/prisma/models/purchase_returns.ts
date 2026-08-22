@@ -43,6 +43,7 @@ export type Purchase_returnsMinAggregateOutputType = {
   purchase_invoice_id: string | null
   branch_id: string | null
   store_id: string | null
+  warehouse_id: string | null
   return_no: string | null
   return_date: Date | null
   status: $Enums.return_status_enum | null
@@ -65,6 +66,7 @@ export type Purchase_returnsMaxAggregateOutputType = {
   purchase_invoice_id: string | null
   branch_id: string | null
   store_id: string | null
+  warehouse_id: string | null
   return_no: string | null
   return_date: Date | null
   status: $Enums.return_status_enum | null
@@ -87,6 +89,7 @@ export type Purchase_returnsCountAggregateOutputType = {
   purchase_invoice_id: number
   branch_id: number
   store_id: number
+  warehouse_id: number
   return_no: number
   return_date: number
   status: number
@@ -123,6 +126,7 @@ export type Purchase_returnsMinAggregateInputType = {
   purchase_invoice_id?: true
   branch_id?: true
   store_id?: true
+  warehouse_id?: true
   return_no?: true
   return_date?: true
   status?: true
@@ -145,6 +149,7 @@ export type Purchase_returnsMaxAggregateInputType = {
   purchase_invoice_id?: true
   branch_id?: true
   store_id?: true
+  warehouse_id?: true
   return_no?: true
   return_date?: true
   status?: true
@@ -167,6 +172,7 @@ export type Purchase_returnsCountAggregateInputType = {
   purchase_invoice_id?: true
   branch_id?: true
   store_id?: true
+  warehouse_id?: true
   return_no?: true
   return_date?: true
   status?: true
@@ -276,6 +282,7 @@ export type Purchase_returnsGroupByOutputType = {
   purchase_invoice_id: string | null
   branch_id: string
   store_id: string | null
+  warehouse_id: string | null
   return_no: string
   return_date: Date
   status: $Enums.return_status_enum
@@ -298,7 +305,7 @@ export type Purchase_returnsGroupByOutputType = {
   _max: Purchase_returnsMaxAggregateOutputType | null
 }
 
-type GetPurchase_returnsGroupByPayload<T extends purchase_returnsGroupByArgs> = Prisma.PrismaPromise<
+export type GetPurchase_returnsGroupByPayload<T extends purchase_returnsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Purchase_returnsGroupByOutputType, T['by']> &
       {
@@ -321,6 +328,7 @@ export type purchase_returnsWhereInput = {
   purchase_invoice_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
   branch_id?: Prisma.UuidFilter<"purchase_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
   return_no?: Prisma.StringFilter<"purchase_returns"> | string
   return_date?: Prisma.DateTimeFilter<"purchase_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumFilter<"purchase_returns"> | $Enums.return_status_enum
@@ -343,6 +351,7 @@ export type purchase_returnsOrderByWithRelationInput = {
   purchase_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   return_no?: Prisma.SortOrder
   return_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -368,6 +377,7 @@ export type purchase_returnsWhereUniqueInput = Prisma.AtLeast<{
   purchase_invoice_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
   branch_id?: Prisma.UuidFilter<"purchase_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
   return_no?: Prisma.StringFilter<"purchase_returns"> | string
   return_date?: Prisma.DateTimeFilter<"purchase_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumFilter<"purchase_returns"> | $Enums.return_status_enum
@@ -390,6 +400,7 @@ export type purchase_returnsOrderByWithAggregationInput = {
   purchase_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   return_no?: Prisma.SortOrder
   return_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -420,6 +431,7 @@ export type purchase_returnsScalarWhereWithAggregatesInput = {
   purchase_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
   branch_id?: Prisma.UuidWithAggregatesFilter<"purchase_returns"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
   return_no?: Prisma.StringWithAggregatesFilter<"purchase_returns"> | string
   return_date?: Prisma.DateTimeWithAggregatesFilter<"purchase_returns"> | Date | string
   status?: Prisma.Enumreturn_status_enumWithAggregatesFilter<"purchase_returns"> | $Enums.return_status_enum
@@ -442,6 +454,7 @@ export type purchase_returnsCreateInput = {
   purchase_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
+  warehouse_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -464,6 +477,7 @@ export type purchase_returnsUncheckedCreateInput = {
   purchase_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
+  warehouse_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -486,6 +500,7 @@ export type purchase_returnsUpdateInput = {
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -508,6 +523,7 @@ export type purchase_returnsUncheckedUpdateInput = {
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -530,6 +546,7 @@ export type purchase_returnsCreateManyInput = {
   purchase_invoice_id?: string | null
   branch_id: string
   store_id?: string | null
+  warehouse_id?: string | null
   return_no: string
   return_date?: Date | string
   status?: $Enums.return_status_enum
@@ -552,6 +569,7 @@ export type purchase_returnsUpdateManyMutationInput = {
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -574,6 +592,7 @@ export type purchase_returnsUncheckedUpdateManyInput = {
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   return_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.Enumreturn_status_enumFieldUpdateOperationsInput | $Enums.return_status_enum
@@ -596,6 +615,7 @@ export type purchase_returnsCountOrderByAggregateInput = {
   purchase_invoice_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   return_no?: Prisma.SortOrder
   return_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -624,6 +644,7 @@ export type purchase_returnsMaxOrderByAggregateInput = {
   purchase_invoice_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   return_no?: Prisma.SortOrder
   return_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -646,6 +667,7 @@ export type purchase_returnsMinOrderByAggregateInput = {
   purchase_invoice_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
   return_no?: Prisma.SortOrder
   return_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -680,6 +702,7 @@ export type purchase_returnsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   purchase_invoice_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
   return_no?: boolean
   return_date?: boolean
   status?: boolean
@@ -702,6 +725,7 @@ export type purchase_returnsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   purchase_invoice_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
   return_no?: boolean
   return_date?: boolean
   status?: boolean
@@ -724,6 +748,7 @@ export type purchase_returnsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   purchase_invoice_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
   return_no?: boolean
   return_date?: boolean
   status?: boolean
@@ -746,6 +771,7 @@ export type purchase_returnsSelectScalar = {
   purchase_invoice_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
   return_no?: boolean
   return_date?: boolean
   status?: boolean
@@ -763,7 +789,7 @@ export type purchase_returnsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type purchase_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchase_invoice_id" | "branch_id" | "store_id" | "return_no" | "return_date" | "status" | "subtotal" | "tax_amount" | "total_amount" | "reason" | "notes" | "created_by" | "created_at" | "updated_at" | "supplier_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_returns"]>
+export type purchase_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchase_invoice_id" | "branch_id" | "store_id" | "warehouse_id" | "return_no" | "return_date" | "status" | "subtotal" | "tax_amount" | "total_amount" | "reason" | "notes" | "created_by" | "created_at" | "updated_at" | "supplier_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_returns"]>
 
 export type $purchase_returnsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "purchase_returns"
@@ -773,6 +799,7 @@ export type $purchase_returnsPayload<ExtArgs extends runtime.Types.Extensions.In
     purchase_invoice_id: string | null
     branch_id: string
     store_id: string | null
+    warehouse_id: string | null
     return_no: string
     return_date: Date
     status: $Enums.return_status_enum
@@ -1215,6 +1242,7 @@ export interface purchase_returnsFieldRefs {
   readonly purchase_invoice_id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly branch_id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly store_id: Prisma.FieldRef<"purchase_returns", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly return_no: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly return_date: Prisma.FieldRef<"purchase_returns", 'DateTime'>
   readonly status: Prisma.FieldRef<"purchase_returns", 'return_status_enum'>

@@ -271,7 +271,7 @@ export type Shipping_ratesGroupByOutputType = {
   _max: Shipping_ratesMaxAggregateOutputType | null
 }
 
-type GetShipping_ratesGroupByPayload<T extends shipping_ratesGroupByArgs> = Prisma.PrismaPromise<
+export type GetShipping_ratesGroupByPayload<T extends shipping_ratesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Shipping_ratesGroupByOutputType, T['by']> &
       {
