@@ -5,8 +5,6 @@ import {
   Plus,
   Search,
   Sparkles,
-  ToggleLeft,
-  ToggleRight,
   Trash2,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'

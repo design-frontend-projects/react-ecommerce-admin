@@ -102,6 +102,7 @@ import { Route as ApiOnboardingCompleteRouteImport } from './routes/api/onboardi
 import { Route as ApiOnboardingBranchesRouteImport } from './routes/api/onboarding/branches'
 import { Route as ApiLookupsValuesRouteImport } from './routes/api/lookups/values'
 import { Route as ApiLookupsTypesRouteImport } from './routes/api/lookups/types'
+import { Route as ApiLookupsTreeRouteImport } from './routes/api/lookups/tree'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
@@ -693,6 +694,11 @@ const ApiLookupsTypesRoute = ApiLookupsTypesRouteImport.update({
   path: '/api/lookups/types',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiLookupsTreeRoute = ApiLookupsTreeRouteImport.update({
+  id: '/api/lookups/tree',
+  path: '/api/lookups/tree',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInventoryWarehousesRoute = ApiInventoryWarehousesRouteImport.update({
   id: '/api/inventory/warehouses',
   path: '/api/inventory/warehouses',
@@ -1147,6 +1153,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/tree': typeof ApiLookupsTreeRoute
   '/api/lookups/types': typeof ApiLookupsTypesRoute
   '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
@@ -1303,6 +1310,7 @@ export interface FileRoutesByTo {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/tree': typeof ApiLookupsTreeRoute
   '/api/lookups/types': typeof ApiLookupsTypesRoute
   '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
@@ -1464,6 +1472,7 @@ export interface FileRoutesById {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/tree': typeof ApiLookupsTreeRoute
   '/api/lookups/types': typeof ApiLookupsTypesRoute
   '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
@@ -1624,6 +1633,7 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/tree'
     | '/api/lookups/types'
     | '/api/lookups/values'
     | '/api/onboarding/branches'
@@ -1780,6 +1790,7 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/tree'
     | '/api/lookups/types'
     | '/api/lookups/values'
     | '/api/onboarding/branches'
@@ -1940,6 +1951,7 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/tree'
     | '/api/lookups/types'
     | '/api/lookups/values'
     | '/api/onboarding/branches'
@@ -2051,6 +2063,7 @@ export interface RootRouteChildren {
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
+  ApiLookupsTreeRoute: typeof ApiLookupsTreeRoute
   ApiLookupsTypesRoute: typeof ApiLookupsTypesRoute
   ApiLookupsValuesRoute: typeof ApiLookupsValuesRoute
   ApiOnboardingBranchesRoute: typeof ApiOnboardingBranchesRoute
@@ -2730,6 +2743,13 @@ declare module '@tanstack/react-router' {
       path: '/api/lookups/types'
       fullPath: '/api/lookups/types'
       preLoaderRoute: typeof ApiLookupsTypesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lookups/tree': {
+      id: '/api/lookups/tree'
+      path: '/api/lookups/tree'
+      fullPath: '/api/lookups/tree'
+      preLoaderRoute: typeof ApiLookupsTreeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/warehouses': {
@@ -3625,6 +3645,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
+  ApiLookupsTreeRoute: ApiLookupsTreeRoute,
   ApiLookupsTypesRoute: ApiLookupsTypesRoute,
   ApiLookupsValuesRoute: ApiLookupsValuesRoute,
   ApiOnboardingBranchesRoute: ApiOnboardingBranchesRoute,
