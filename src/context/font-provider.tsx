@@ -44,7 +44,7 @@ export function FontProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <FontContext value={{ font, setFont, resetFont }}>{children}</FontContext>
+    <FontContext.Provider value={{ font, setFont, resetFont }}>{children}</FontContext.Provider>
   )
 }
 

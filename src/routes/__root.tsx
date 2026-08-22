@@ -15,6 +15,7 @@ import { Loader2 } from 'lucide-react'
 import { DirectionProvider } from '@/context/direction-provider'
 import { FontProvider } from '@/context/font-provider'
 import { ThemeProvider } from '@/context/theme-provider'
+import { SearchProvider } from '@/context/search-provider'
 import { useSubscription } from '@/hooks/useSubscription'
 import { Toaster } from '@/components/ui/sonner'
 
@@ -93,7 +94,9 @@ const RootComponent = () => {
         <ThemeProvider>
           <FontProvider>
             <DirectionProvider>
-              <InnerRootComponent />
+              <SearchProvider>
+                <InnerRootComponent />
+              </SearchProvider>
             </DirectionProvider>
           </FontProvider>
         </ThemeProvider>

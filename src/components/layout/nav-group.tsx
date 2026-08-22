@@ -56,7 +56,7 @@ export function NavGroup({ title, items }: NavGroupProps) {
             return (
               <SidebarMenuCollapsedDropdown
                 key={key}
-                item={item as any}
+                item={item as NavCollapsible}
                 href={pathname}
               />
             )
@@ -65,7 +65,7 @@ export function NavGroup({ title, items }: NavGroupProps) {
           return (
             <SidebarMenuCollapsible
               key={key}
-              item={item as any}
+              item={item as NavCollapsible}
               href={pathname}
             />
           )
@@ -271,13 +271,30 @@ function SidebarMenuCollapsedDropdown({
   )
 }
 
-function checkIsActive(href: string, item: NavItem, mainNav = false) {
-  return (
-    href === item.url ||
-    href.split('?')[0] === item.url ||
-    ('items' in item && !!item.items?.some((i) => i.url === href)) ||
-    (mainNav &&
-      href.split('/')[1] !== '' &&
-      href.split('/')[1] === item?.url?.split('/')[1])
-  )
+function checkIsActive(
+  href: string,
+  item: NavItem | { url: string; title?: string },
+  mainNav = false
+): boolean {
+  const cleanHref = href.split('?')[0]
+  if ('url' in item && item.url) {
+    if (href === item.url || cleanHref === item.url) return true
+    if (item.url !== '/' && href.startsWith(item.url + '/')) return true
+  }
+
+  if ('items' in item && item.items) {
+    return item.items.some((i) => checkIsActive(href, i))
+  }
+
+  if (
+    mainNav &&
+    'url' in item &&
+    item.url &&
+    href.split('/')[1] !== '' &&
+    href.split('/')[1] === item.url.split('/')[1]
+  ) {
+    return true
+  }
+
+  return false
 }

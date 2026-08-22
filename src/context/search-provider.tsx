@@ -27,10 +27,10 @@ export function SearchProvider({ children }: SearchProviderProps) {
   }, [])
 
   return (
-    <SearchContext value={{ open, setOpen }}>
+    <SearchContext.Provider value={{ open, setOpen }}>
       {children}
       <CommandMenu />
-    </SearchContext>
+    </SearchContext.Provider>
   )
 }
 
@@ -39,7 +39,10 @@ export const useSearch = () => {
   const searchContext = useContext(SearchContext)
 
   if (!searchContext) {
-    throw new Error('useSearch has to be used within SearchProvider')
+    return {
+      open: false,
+      setOpen: () => {},
+    }
   }
 
   return searchContext
