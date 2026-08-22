@@ -4,10 +4,10 @@ import {
   lookupValueListResponseSchema,
   lookupTreeResponseSchema,
   type LookupTypeItem,
-  type LookupValueItem,
   type LookupValueFormValues,
   type LookupTypeFormValues,
   type LookupTreeResponseData,
+  type LookupValuesResponseData,
 } from './schema'
 
 const TYPES_BASE = '/api/lookups/types'
@@ -32,16 +32,7 @@ export async function fetchLookupValues(
   getToken: TokenGetter,
   typeCode: string,
   includeInactive = true
-): Promise<{
-  lookupType: {
-    id: string
-    code: string
-    name: string
-    description?: string | null
-    is_system: boolean
-  }
-  values: LookupValueItem[]
-}> {
+): Promise<LookupValuesResponseData> {
   const url = `${VALUES_BASE}?type=${encodeURIComponent(typeCode)}&includeInactive=${includeInactive}`
   const payload = await authorizedRequest(getToken, url)
   return lookupValueListResponseSchema.parse(payload).data

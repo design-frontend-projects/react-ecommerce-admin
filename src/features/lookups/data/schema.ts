@@ -164,6 +164,8 @@ export const lookupValueListResponseSchema = z.object({
   }),
 })
 
+export type LookupValuesResponseData = z.infer<typeof lookupValueListResponseSchema>['data']
+
 export const lookupValueFormSchema = z.object({
   code: z
     .string()
@@ -176,9 +178,9 @@ export const lookupValueFormSchema = z.object({
   color: z.string().max(20).optional().nullable(),
   icon: z.string().max(50).optional().nullable(),
   parentId: z.string().optional().nullable(),
-  isDefault: z.boolean().default(false),
-  isActive: z.boolean().default(true),
-  sortOrder: z.number().int().default(0),
+  isDefault: z.boolean(),
+  isActive: z.boolean(),
+  sortOrder: z.number().int(),
   metadataJson: z.string().optional().nullable(),
 })
 
@@ -192,7 +194,7 @@ export const lookupTypeFormSchema = z.object({
     .regex(/^[a-zA-Z0-9_-]+$/, 'Code can only contain letters, numbers, hyphens, and underscores.'),
   name: z.string().min(1, 'Catalog name is required.').max(150, 'Name max 150 characters.'),
   description: z.string().max(500, 'Description max 500 characters.').optional().nullable(),
-  sortOrder: z.number().int().default(0),
+  sortOrder: z.number().int(),
 })
 
 export type LookupTypeFormValues = z.infer<typeof lookupTypeFormSchema>

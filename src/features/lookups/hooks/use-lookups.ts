@@ -13,15 +13,21 @@ import {
   toggleLookupValue,
   updateLookupValue,
 } from '../data/actions'
-import type { LookupTypeFormValues, LookupValueFormValues } from '../data/schema'
+import type {
+  LookupTypeFormValues,
+  LookupValueFormValues,
+  LookupTypeItem,
+  LookupTreeResponseData,
+  LookupValuesResponseData,
+} from '../data/schema'
 
 export const lookupTypesKey = ['lookups', 'types'] as const
 export const lookupTreeKey = ['lookups', 'tree'] as const
-export const lookupValuesKey = (typeCode: string, includeInactive = true) =>
+export const lookupValuesKey = (typeCode?: string | null, includeInactive = true) =>
   ['lookups', 'values', typeCode, includeInactive] as const
 
 export function useLookupTypes() {
-  return useAuthQuery({
+  return useAuthQuery<LookupTypeItem[]>({
     queryKey: lookupTypesKey,
     queryFn: (getToken) => fetchLookupTypes(getToken),
     rbac: { permission: 'inventory.stock.view' },
@@ -29,7 +35,7 @@ export function useLookupTypes() {
 }
 
 export function useLookupTree() {
-  return useAuthQuery({
+  return useAuthQuery<LookupTreeResponseData>({
     queryKey: lookupTreeKey,
     queryFn: (getToken) => fetchLookupTree(getToken),
     rbac: { permission: 'inventory.stock.view' },
@@ -37,16 +43,14 @@ export function useLookupTree() {
 }
 
 export function useLookupValues(typeCode?: string | null, includeInactive = true) {
-  return useAuthQuery({
-    queryKey: typeCode
-      ? lookupValuesKey(typeCode, includeInactive)
-      : ['lookups', 'values', 'none', includeInactive],
-    queryFn: (getToken) => {
+  return useAuthQuery<LookupValuesResponseData>({
+    queryKey: lookupValuesKey(typeCode, includeInactive),
+    queryFn: async (getToken): Promise<LookupValuesResponseData> => {
       if (!typeCode) {
-        return Promise.resolve({
+        return {
           lookupType: { id: '', code: '', name: '', is_system: false },
           values: [],
-        })
+        }
       }
       return fetchLookupValues(getToken, typeCode, includeInactive)
     },
