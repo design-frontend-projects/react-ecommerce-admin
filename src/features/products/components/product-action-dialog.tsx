@@ -1,13 +1,25 @@
-import { useState } from 'react'
-import { z } from 'zod'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useState, useEffect } from 'react'
+import { useForm, useFieldArray, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery } from '@tanstack/react-query'
-import { Scan as LucideScan, Plus, Trash2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { format } from 'date-fns'
+import {
+  Scan as LucideScan,
+  Plus,
+  Trash2,
+  Calendar as CalendarIcon,
+  Layers,
+  Package,
+  DollarSign,
+  Truck,
+  Sliders,
+  FolderTree,
+} from 'lucide-react'
 import { toast } from 'sonner'
-import { supabase } from '@/lib/supabase'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Dialog,
   DialogContent,
@@ -19,12 +31,18 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -34,9 +52,22 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
-import { variantRowSchema } from '../data/product-wizard-schema'
-import { type Product } from '../data/schema'
+import { LookupSelect } from '@/features/lookups/components/lookup-select'
+import {
+  useBrandOptions,
+  useCategoryOptions,
+  useSupplierOptions,
+  useUomOptions,
+} from '../hooks/use-product-options'
+import {
+  productActionFormSchema,
+  type ProductActionFormData,
+  type Product,
+  type ProductType,
+  type TrackingMode,
+} from '../data/schema'
 import {
   useCreateProductWithVariants,
   useUpdateProductWithVariants,
@@ -44,14 +75,16 @@ import {
 import { BarcodeDisplay } from './barcode-display'
 
 interface Props {
-  currentRow?: Product
+  currentRow?: Product | null
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
 export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
-  const isEdit = !!currentRow
+  const { t } = useTranslation()
+  const isEdit = Boolean(currentRow)
   const [isScannerOpen, setIsScannerOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('basic')
 
   const { mutateAsync: createProduct, isPending: isCreating } =
     useCreateProductWithVariants()
@@ -59,195 +92,215 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     useUpdateProductWithVariants()
   const isPending = isCreating || isUpdating
 
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('category_id, name')
-        .order('name')
-      if (error) throw error
-      return data
+  // Options queries
+  const { data: categories = [] } = useCategoryOptions()
+  const { data: brands = [] } = useBrandOptions()
+  const { data: uoms = [] } = useUomOptions()
+  const { data: suppliers = [] } = useSupplierOptions()
+
+  const getInitialVariants = (product?: Product | null) => {
+    if (!product || !product.product_variants || product.product_variants.length === 0) {
+      return []
+    }
+    return product.product_variants.map((v) => {
+      let dimLabel = ''
+      if (typeof v.dimensions === 'string') {
+        dimLabel = v.dimensions
+      } else if (v.dimensions && typeof v.dimensions === 'object' && 'label' in (v.dimensions as Record<string, unknown>)) {
+        dimLabel = String((v.dimensions as Record<string, unknown>).label || '')
+      }
+
+      return {
+        id: v.id,
+        sku: v.sku,
+        barcode: v.barcode || '',
+        name: v.name || '',
+        price: Number(v.price) || 0,
+        cost_price: v.cost_price ? Number(v.cost_price) : 0,
+        stock_quantity: v.stock_quantity || 0,
+        min_stock: v.min_stock || 0,
+        weight: v.weight ? Number(v.weight) : null,
+        dimensions: dimLabel,
+        is_active: v.is_active ?? true,
+        uom_id: v.uom_id || null,
+        attributes_label: dimLabel || v.name || '',
+      }
+    })
+  }
+
+  const form = useForm<ProductActionFormData>({
+    resolver: zodResolver(productActionFormSchema) as Resolver<ProductActionFormData>,
+    defaultValues: {
+      name: '',
+      description: '',
+      sku: '',
+      barcode: '',
+      category_id: null,
+      brand_id: null,
+      base_uom_id: null,
+      supplier_id: null,
+      product_type: 'simple',
+      product_type_id: null,
+      tracking_mode: 'none',
+      base_price: 0,
+      cost_price: 0,
+      tax_code: '',
+      tax_classification_id: null,
+      reorder_level: 0,
+      weight: null,
+      dimensions: '',
+      is_active: true,
+      is_stock_item: true,
+      reorderable: true,
+      is_batch_tracked: false,
+      is_serial_tracked: false,
+      has_variants: false,
+      has_expiration: false,
+      expiration_date: null,
+      is_marketplace: false,
+      variants: [],
     },
   })
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'Name is required').max(255),
-    description: z.string().optional().nullable(),
-    sku: z.string().min(1, 'SKU is required').max(100),
-    barcode: z.string().optional().nullable(),
-    category_id: z.coerce.number().optional().nullable(),
-    weight: z.coerce.number().optional().nullable(),
-    dimensions: z.string().optional().nullable(),
-    is_active: z.boolean().default(true),
-    base_price: z.coerce.number().min(0, 'Price must be 0 or greater'),
-    cost_price: z.coerce.number().min(0, 'Cost must be 0 or greater'),
-    variants: z.array(variantRowSchema).optional(),
-  })
-
-  const getInitialPrice = () => {
-    if (!currentRow) return 0
-    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-      return Number(currentRow.product_variants[0].price) || 0
-    }
-    return 0
-  }
-
-  const getInitialCost = () => {
-    if (!currentRow) return 0
-    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-      return Number(currentRow.product_variants[0].cost_price) || 0
-    }
-    return 0
-  }
-
-  const getInitialBarcode = () => {
-    if (!currentRow) return ''
-    if (currentRow.barcode) return currentRow.barcode
-    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-      return currentRow.product_variants[0].barcode || ''
-    }
-    return ''
-  }
-
-  const getInitialWeight = () => {
-    if (!currentRow) return null
-    if (currentRow.weight) return Number(currentRow.weight)
-    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-      return currentRow.product_variants[0].weight
-        ? Number(currentRow.product_variants[0].weight)
-        : null
-    }
-    return null
-  }
-
-  const getInitialDimensions = () => {
-    if (!currentRow) return ''
-    if (currentRow.dimensions) return currentRow.dimensions
-    if (currentRow.product_variants && currentRow.product_variants.length > 0) {
-      const dims = currentRow.product_variants[0].dimensions
-      if (typeof dims === 'string') return dims
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (dims && typeof dims === 'object' && 'label' in (dims as any))
-        return (dims as any).label as string
-    }
-    return ''
-  }
-
-  const getInitialVariants = () => {
-    if (
-      !currentRow ||
-      !currentRow.product_variants ||
-      currentRow.product_variants.length === 0
-    ) {
-      return []
-    }
-    return currentRow.product_variants.map((v) => ({
-      id: v.id,
-      sku: v.sku,
-      barcode: v.barcode || '',
-      price: Number(v.price) || 0,
-      cost_price: Number(v.cost_price) || 0,
-      stock_quantity: v.stock_quantity || 0,
-      min_stock: v.min_stock || 0,
-      weight: v.weight ? Number(v.weight) : null,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dimensions: v.dimensions
-        ? typeof v.dimensions === 'string'
-          ? v.dimensions
-          : (v.dimensions as any).label || ''
-        : '',
-      is_active: v.is_active ?? true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      attributes_label:
-        v.dimensions &&
-        typeof v.dimensions === 'object' &&
-        'label' in (v.dimensions as any)
-          ? (v.dimensions as any).label
-          : '',
-    }))
-  }
-
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: isEdit
-      ? {
-          ...currentRow,
-          base_price: getInitialPrice(),
-          cost_price: getInitialCost(),
-          barcode: getInitialBarcode(),
-          weight: getInitialWeight(),
-          dimensions: getInitialDimensions(),
-          variants: getInitialVariants(),
-        }
-      : {
+  // Reset form when currentRow or open changes
+  useEffect(() => {
+    if (open) {
+      if (currentRow) {
+        const firstVariant = currentRow.product_variants?.[0]
+        form.reset({
+          name: currentRow.name || '',
+          description: currentRow.description || '',
+          sku: currentRow.sku || '',
+          barcode: currentRow.barcode || '',
+          category_id: currentRow.category_id || null,
+          brand_id: currentRow.brand_id || null,
+          base_uom_id: currentRow.base_uom_id || null,
+          supplier_id: currentRow.supplier_id || null,
+          product_type: (currentRow.product_type as ProductType) || 'simple',
+          product_type_id: currentRow.product_type_id || null,
+          tracking_mode: (currentRow.tracking_mode as TrackingMode) || 'none',
+          base_price: currentRow.base_price ? Number(currentRow.base_price) : (firstVariant ? Number(firstVariant.price) : 0),
+          cost_price: firstVariant?.cost_price ? Number(firstVariant.cost_price) : 0,
+          tax_code: currentRow.tax_code || '',
+          tax_classification_id: currentRow.tax_classification_id || null,
+          reorder_level: currentRow.reorder_level ? Number(currentRow.reorder_level) : 0,
+          weight: currentRow.weight ? Number(currentRow.weight) : null,
+          dimensions: currentRow.dimensions || '',
+          is_active: currentRow.is_active ?? true,
+          is_stock_item: currentRow.is_stock_item ?? true,
+          reorderable: currentRow.reorderable ?? true,
+          is_batch_tracked: currentRow.is_batch_tracked ?? false,
+          is_serial_tracked: currentRow.is_serial_tracked ?? false,
+          has_variants: currentRow.has_variants ?? (currentRow.product_variants && currentRow.product_variants.length > 1),
+          has_expiration: currentRow.has_expiration ?? false,
+          expiration_date: currentRow.expiration_date ? new Date(currentRow.expiration_date) : null,
+          is_marketplace: currentRow.is_marketplace ?? false,
+          variants: getInitialVariants(currentRow),
+        })
+      } else {
+        form.reset({
           name: '',
           description: '',
-          base_price: 0,
-          cost_price: 0,
           sku: '',
           barcode: '',
           category_id: null,
+          brand_id: null,
+          base_uom_id: null,
+          supplier_id: null,
+          product_type: 'simple',
+          product_type_id: null,
+          tracking_mode: 'none',
+          base_price: 0,
+          cost_price: 0,
+          tax_code: '',
+          tax_classification_id: null,
+          reorder_level: 0,
           weight: null,
           dimensions: '',
           is_active: true,
+          is_stock_item: true,
+          reorderable: true,
+          is_batch_tracked: false,
+          is_serial_tracked: false,
+          has_variants: false,
+          has_expiration: false,
+          expiration_date: null,
+          is_marketplace: false,
           variants: [],
-        },
-  })
+        })
+      }
+      setActiveTab('basic')
+    }
+  }, [open, currentRow, form])
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'variants',
   })
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      const { base_price, cost_price, variants, ...productData } = values
+  const hasVariants = form.watch('has_variants')
+  const hasExpiration = form.watch('has_expiration')
+  const productType = form.watch('product_type')
 
+  const onSubmit = async (values: ProductActionFormData) => {
+    try {
+      const { variants, ...baseData } = values
+
+      const targetId = currentRow?.id || (currentRow?.product_id ? String(currentRow.product_id) : null)
+
+      const expirationIso = baseData.expiration_date
+        ? typeof baseData.expiration_date === 'string'
+          ? baseData.expiration_date
+          : baseData.expiration_date.toISOString()
+        : null
+
+      const cleanedBase: Partial<Product> = {
+        ...baseData,
+        expiration_date: expirationIso,
+        has_variants: Boolean(hasVariants || productType === 'variant' || (variants && variants.length > 1)),
+      }
+
+      // Default single variant fallback if no variants array
       const defaultVariant = {
         sku: values.sku,
-        barcode: values.barcode,
-        price: base_price,
-        cost_price: cost_price,
+        barcode: values.barcode || null,
+        name: values.name,
+        price: values.base_price || 0,
+        cost_price: values.cost_price || null,
         is_active: values.is_active,
         weight: values.weight,
         dimensions: values.dimensions,
         stock_quantity: 0,
-        min_stock: 0,
+        min_stock: values.reorder_level || 0,
+        uom_id: values.base_uom_id,
         attributes_label: 'Default',
       }
 
-      // Keep only variants UI fields if there are multiple, otherwise fall back to base fields for the single variant.
-      // If editing and we already have a loaded variant array, use it. But if it's empty, use default variant.
       const finalVariants =
         variants && variants.length > 0 ? variants : [defaultVariant]
 
-      if (isEdit && currentRow) {
+      if (isEdit && targetId) {
         await updateProduct({
-          id: currentRow.product_id!,
-          base: productData,
+          id: targetId,
+          base: cleanedBase,
           variants: finalVariants,
         })
+        toast.success(t('products.toast.updated'))
       } else {
         await createProduct({
-          base: {
-            ...productData,
-            has_variants: finalVariants.length > 1,
-          } as any,
+          base: cleanedBase,
           variants: finalVariants,
         })
+        toast.success(t('products.toast.created'))
       }
 
-      toast.success(
-        isEdit ? 'Product updated successfully' : 'Product created successfully'
-      )
       onOpenChange(false)
       form.reset()
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
-        toast.error('Something went wrong')
+        toast.error(t('products.toast.error'))
       }
     }
   }
@@ -260,541 +313,1053 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         if (!v) form.reset()
       }}
     >
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-4xl'>
-        <DialogHeader>
-          <DialogTitle>
-            {isEdit ? 'Edit Product' : 'Add New Product'}
+      <DialogContent className='flex max-h-[92vh] max-w-4xl flex-col p-0'>
+        <DialogHeader className='border-b px-6 py-4'>
+          <DialogTitle className='text-xl font-bold'>
+            {isEdit ? t('products.editProduct') : t('products.createProduct')}
           </DialogTitle>
           <DialogDescription>
-            {isEdit
-              ? 'Update product details below.'
-              : 'Fill in the details to create a new product.'}
+            {t('products.description')}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form
-            id='product-form'
+            id='product-main-form'
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-4'
+            className='flex flex-1 flex-col overflow-hidden'
           >
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Product Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder='e.g. Wireless Mouse' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className='flex flex-1 flex-col overflow-hidden'
+            >
+              <div className='border-b bg-muted/30 px-6'>
+                <TabsList className='h-11 w-full justify-start gap-2 bg-transparent p-0'>
+                  <TabsTrigger
+                    value='basic'
+                    className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
+                  >
+                    <Package className='h-4 w-4' />
+                    {t('products.formTabs.basic')}
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='organization'
+                    className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
+                  >
+                    <FolderTree className='h-4 w-4' />
+                    {t('products.formTabs.organization')}
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='inventory'
+                    className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
+                  >
+                    <Sliders className='h-4 w-4' />
+                    {t('products.formTabs.inventory')}
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='pricing'
+                    className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
+                  >
+                    <DollarSign className='h-4 w-4' />
+                    {t('products.formTabs.pricing')}
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value='logistics'
+                    className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
+                  >
+                    <Truck className='h-4 w-4' />
+                    {t('products.formTabs.logistics')}
+                  </TabsTrigger>
+                  {(hasVariants || productType === 'variant') && (
+                    <TabsTrigger
+                      value='variants'
+                      className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
+                    >
+                      <Layers className='h-4 w-4' />
+                      {t('products.formTabs.variants')} ({fields.length})
+                    </TabsTrigger>
+                  )}
+                </TabsList>
+              </div>
 
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                control={form.control}
-                name='sku'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Base SKU</FormLabel>
-                    <FormControl>
-                      <Input placeholder='SKU-123' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='barcode'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Base Barcode</FormLabel>
-                    <div className='flex gap-2'>
-                      <FormControl>
-                        <Input
-                          placeholder='Optional'
-                          {...field}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
+              <div className='flex-1 overflow-y-auto px-6 py-4'>
+                {/* ── TAB 1: BASIC INFORMATION ──────────────────────── */}
+                <TabsContent value='basic' className='m-0 space-y-4'>
+                  <FormField
+                    control={form.control}
+                    name='name'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('products.form.name')} *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t('products.form.namePlaceholder')}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    <FormField
+                      control={form.control}
+                      name='sku'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.sku')} *</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={t('products.form.skuPlaceholder')}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='barcode'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.barcode')}</FormLabel>
+                          <div className='flex gap-2'>
+                            <FormControl>
+                              <Input
+                                placeholder={t('products.form.barcodePlaceholder')}
+                                {...field}
+                                value={field.value || ''}
+                              />
+                            </FormControl>
+                            <Button
+                              type='button'
+                              variant='outline'
+                              size='icon'
+                              title='Scan Barcode'
+                              onClick={() => setIsScannerOpen(true)}
+                            >
+                              <LucideScan className='h-4 w-4' />
+                            </Button>
+                          </div>
+
+                          <QRCodeScanner
+                            open={isScannerOpen}
+                            onOpenChange={setIsScannerOpen}
+                            onScan={(data: string) => {
+                              field.onChange(data)
+                              setIsScannerOpen(false)
+                            }}
+                          />
+                          {field.value && (
+                            <div className='mt-2'>
+                              <BarcodeDisplay
+                                value={field.value}
+                                type={
+                                  field.value.length > 20 ? 'qrcode' : 'barcode'
+                                }
+                              />
+                            </div>
+                          )}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name='description'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('products.form.description')}</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder={t('products.form.descriptionPlaceholder')}
+                            className='resize-y min-h-[100px]'
+                            {...field}
+                            value={field.value || ''}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2'>
+                    <FormField
+                      control={form.control}
+                      name='is_active'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.status')}</FormLabel>
+                            <FormDescription>
+                              {field.value ? t('products.form.active') : t('products.form.inactive')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='is_marketplace'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.isMarketplace')}</FormLabel>
+                            <FormDescription>
+                              {t('products.form.isMarketplaceDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </TabsContent>
+
+                {/* ── TAB 2: CLASSIFICATION & ORGANIZATION ──────────── */}
+                <TabsContent value='organization' className='m-0 space-y-4'>
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    {/* Category Select */}
+                    <FormField
+                      control={form.control}
+                      name='category_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.category')}</FormLabel>
+                          <Select
+                            onValueChange={(val) => field.onChange(val || null)}
+                            value={field.value || ''}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('products.form.selectCategory')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {categories.map((cat) => (
+                                <SelectItem key={cat.id} value={cat.id}>
+                                  {cat.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Brand Select */}
+                    <FormField
+                      control={form.control}
+                      name='brand_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.brand')}</FormLabel>
+                          <Select
+                            onValueChange={(val) => field.onChange(val || null)}
+                            value={field.value || ''}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('products.form.selectBrand')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {brands.map((b) => (
+                                <SelectItem key={b.id} value={b.id}>
+                                  {b.name} {b.code ? `(${b.code})` : ''}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Base UOM Select */}
+                    <FormField
+                      control={form.control}
+                      name='base_uom_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.unit')}</FormLabel>
+                          <Select
+                            onValueChange={(val) => field.onChange(val || null)}
+                            value={field.value || ''}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('products.form.selectUnit')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {uoms.map((u) => (
+                                <SelectItem key={u.id} value={u.id}>
+                                  {u.name} ({u.code})
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Supplier Select */}
+                    <FormField
+                      control={form.control}
+                      name='supplier_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.supplier')}</FormLabel>
+                          <Select
+                            onValueChange={(val) => field.onChange(val || null)}
+                            value={field.value || ''}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('products.form.selectSupplier')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {suppliers.map((s) => (
+                                <SelectItem key={s.id} value={s.id}>
+                                  {s.name} {s.code ? `(${s.code})` : ''}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2'>
+                    {/* Product Type Enum */}
+                    <FormField
+                      control={form.control}
+                      name='product_type'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.productType')}</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value || 'simple'}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('products.form.selectProductType')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value='simple'>
+                                {t('products.enums.productType.simple')}
+                              </SelectItem>
+                              <SelectItem value='variant'>
+                                {t('products.enums.productType.variant')}
+                              </SelectItem>
+                              <SelectItem value='bundle'>
+                                {t('products.enums.productType.bundle')}
+                              </SelectItem>
+                              <SelectItem value='service'>
+                                {t('products.enums.productType.service')}
+                              </SelectItem>
+                              <SelectItem value='composite'>
+                                {t('products.enums.productType.composite')}
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Lookup Select for Product Type Classification */}
+                    <FormField
+                      control={form.control}
+                      name='product_type_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.productTypeClassification')}</FormLabel>
+                          <FormControl>
+                            <LookupSelect
+                              lookupType='product_type'
+                              value={field.value}
+                              onChange={(val) => field.onChange(val)}
+                              placeholder={t('products.form.selectProductType')}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </TabsContent>
+
+                {/* ── TAB 3: INVENTORY & TRACKING ────────────────────── */}
+                <TabsContent value='inventory' className='m-0 space-y-4'>
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    {/* Tracking Mode Enum */}
+                    <FormField
+                      control={form.control}
+                      name='tracking_mode'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.trackingMode')}</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value || 'none'}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={t('products.form.selectTrackingMode')} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value='none'>
+                                {t('products.enums.trackingMode.none')}
+                              </SelectItem>
+                              <SelectItem value='batch'>
+                                {t('products.enums.trackingMode.batch')}
+                              </SelectItem>
+                              <SelectItem value='serial'>
+                                {t('products.enums.trackingMode.serial')}
+                              </SelectItem>
+                              <SelectItem value='batch_and_serial'>
+                                {t('products.enums.trackingMode.batch_and_serial')}
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Reorder Level */}
+                    <FormField
+                      control={form.control}
+                      name='reorder_level'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.reorderLevel')}</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='number'
+                              min='0'
+                              placeholder={t('products.form.reorderLevelPlaceholder')}
+                              value={(field.value as number) ?? ''}
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber || 0)
+                              }
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 pt-2'>
+                    <FormField
+                      control={form.control}
+                      name='is_stock_item'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.isStockItem')}</FormLabel>
+                            <FormDescription className='text-xs'>
+                              {t('products.form.isStockItemDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='reorderable'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.reorderable')}</FormLabel>
+                            <FormDescription className='text-xs'>
+                              {t('products.form.reorderableDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='is_batch_tracked'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.isBatchTracked')}</FormLabel>
+                            <FormDescription className='text-xs'>
+                              {t('products.form.isBatchTrackedDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='is_serial_tracked'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.isSerialTracked')}</FormLabel>
+                            <FormDescription className='text-xs'>
+                              {t('products.form.isSerialTrackedDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='has_variants'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.hasVariants')}</FormLabel>
+                            <FormDescription className='text-xs'>
+                              {t('products.form.hasVariantsDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='has_expiration'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>{t('products.form.hasExpiration')}</FormLabel>
+                            <FormDescription className='text-xs'>
+                              {t('products.form.hasExpirationDesc')}
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {hasExpiration && (
+                    <FormField
+                      control={form.control}
+                      name='expiration_date'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-col pt-2'>
+                          <FormLabel>{t('products.form.expirationDate')}</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant='outline'
+                                  className={cn(
+                                    'w-full pl-3 text-left font-normal',
+                                    !field.value && 'text-muted-foreground'
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(new Date(field.value), 'PPP')
+                                  ) : (
+                                    <span>{t('products.form.pickExpirationDate')}</span>
+                                  )}
+                                  <CalendarIcon className='ms-auto h-4 w-4 opacity-50' />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className='w-auto p-0' align='start'>
+                              <Calendar
+                                mode='single'
+                                selected={field.value ? new Date(field.value) : undefined}
+                                onSelect={field.onChange}
+                                disabled={(date) =>
+                                  date < new Date(new Date().setHours(0, 0, 0, 0))
+                                }
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </TabsContent>
+
+                {/* ── TAB 4: PRICING & TAX ────────────────────────────── */}
+                <TabsContent value='pricing' className='m-0 space-y-4'>
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    <FormField
+                      control={form.control}
+                      name='base_price'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.price')} *</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='number'
+                              step='0.01'
+                              min='0'
+                              placeholder='0.00'
+                              value={(field.value as number) ?? ''}
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber || 0)
+                              }
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='cost_price'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.costPrice')}</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='number'
+                              step='0.01'
+                              min='0'
+                              placeholder='0.00'
+                              value={(field.value as number) ?? ''}
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber || 0)
+                              }
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='tax_code'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.taxCode')}</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={t('products.form.taxCodePlaceholder')}
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='tax_classification_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.taxClassification')}</FormLabel>
+                          <FormControl>
+                            <LookupSelect
+                              lookupType='tax_classification'
+                              value={field.value}
+                              onChange={(val) => field.onChange(val)}
+                              placeholder={t('products.form.selectTaxClassification')}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </TabsContent>
+
+                {/* ── TAB 5: LOGISTICS & PHYSICAL ATTRIBUTES ──────────── */}
+                <TabsContent value='logistics' className='m-0 space-y-4'>
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    <FormField
+                      control={form.control}
+                      name='weight'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.weight')}</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='number'
+                              step='0.01'
+                              min='0'
+                              placeholder='0.00'
+                              value={(field.value as number) ?? ''}
+                              onChange={(e) =>
+                                field.onChange(
+                                  isNaN(e.target.valueAsNumber)
+                                    ? null
+                                    : e.target.valueAsNumber
+                                )
+                              }
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='dimensions'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.dimensions')}</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={t('products.form.dimensionsPlaceholder')}
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </TabsContent>
+
+                {/* ── TAB 6: VARIANTS ─────────────────────────────────── */}
+                {(hasVariants || productType === 'variant') && (
+                  <TabsContent value='variants' className='m-0 space-y-4'>
+                    <div className='flex items-center justify-between border-b pb-2'>
+                      <div>
+                        <h3 className='text-base font-semibold'>
+                          {t('products.form.variantTitle')}
+                        </h3>
+                        <p className='text-xs text-muted-foreground'>
+                          {t('products.form.hasVariantsDesc')}
+                        </p>
+                      </div>
                       <Button
                         type='button'
                         variant='outline'
-                        size='icon'
-                        title='Scan Barcode'
-                        onClick={() => setIsScannerOpen(true)}
+                        size='sm'
+                        onClick={() =>
+                          append({
+                            sku: form.getValues('sku')
+                              ? `${form.getValues('sku')}-V${fields.length + 1}`
+                              : '',
+                            barcode: '',
+                            name: `Variant ${fields.length + 1}`,
+                            price: form.getValues('base_price') || 0,
+                            cost_price: form.getValues('cost_price') || 0,
+                            stock_quantity: 0,
+                            min_stock: form.getValues('reorder_level') || 0,
+                            weight: form.getValues('weight') || null,
+                            dimensions: form.getValues('dimensions') || '',
+                            is_active: true,
+                            uom_id: form.getValues('base_uom_id') || null,
+                            attributes_label: `Variant ${fields.length + 1}`,
+                          })
+                        }
                       >
-                        <LucideScan className='h-4 w-4' />
+                        <Plus className='me-1.5 h-4 w-4' />
+                        {t('products.form.addVariant')}
                       </Button>
                     </div>
 
-                    <QRCodeScanner
-                      open={isScannerOpen}
-                      onOpenChange={setIsScannerOpen}
-                      onScan={(data: string) => {
-                        field.onChange(data)
-                        setIsScannerOpen(false)
-                      }}
-                    />
-                    {field.value && (
-                      <div className='mt-2'>
-                        <BarcodeDisplay
-                          value={field.value}
-                          type={field.value.length > 20 ? 'qrcode' : 'barcode'}
-                        />
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                    <div className='space-y-4 pr-1'>
+                      {fields.map((field, index) => (
+                        <Card key={field.id} className='relative shadow-xs'>
+                          <CardContent className='flex flex-col gap-3 pt-4'>
+                            {fields.length > 1 && (
+                              <Button
+                                type='button'
+                                variant='ghost'
+                                size='icon'
+                                className='absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-destructive'
+                                onClick={() => remove(index)}
+                              >
+                                <Trash2 className='h-4 w-4' />
+                              </Button>
+                            )}
 
-            <FormField
-              control={form.control}
-              name='description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Product details...'
-                      {...field}
-                      value={field.value || ''}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                            {/* Variant Row 1 */}
+                            <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.attributes_label`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantLabel')}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        placeholder={t('products.form.variantLabelPlaceholder')}
+                                        {...vField}
+                                        value={vField.value || ''}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
 
-            <FormField
-              control={form.control}
-              name='category_id'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select
-                    onValueChange={(v) => field.onChange(v ? Number(v) : null)}
-                    value={field.value?.toString() || ''}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder='Select a category' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories?.map((category) => (
-                        <SelectItem
-                          key={category.category_id}
-                          value={category.category_id.toString()}
-                        >
-                          {category.name}
-                        </SelectItem>
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.sku`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantSku')} *
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input placeholder='SKU' {...vField} />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.barcode`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantBarcode')}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        placeholder='Barcode'
+                                        {...vField}
+                                        value={vField.value || ''}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.is_active`}
+                                render={({ field: vField }) => (
+                                  <FormItem className='flex h-[36px] flex-row items-center justify-between rounded-lg border px-3 sm:mt-[22px]'>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.active')}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Switch
+                                        checked={vField.value}
+                                        onCheckedChange={vField.onChange}
+                                      />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+
+                            {/* Variant Row 2 */}
+                            <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.price`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantPrice')} *
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type='number'
+                                        step='0.01'
+                                        min='0'
+                                        value={(vField.value as number) ?? ''}
+                                        onChange={(e) =>
+                                          vField.onChange(
+                                            e.target.valueAsNumber || 0
+                                          )
+                                        }
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.cost_price`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantCost')}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type='number'
+                                        step='0.01'
+                                        min='0'
+                                        value={(vField.value as number) ?? ''}
+                                        onChange={(e) =>
+                                          vField.onChange(
+                                            e.target.valueAsNumber || 0
+                                          )
+                                        }
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.stock_quantity`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantInitialStock')}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type='number'
+                                        min='0'
+                                        value={(vField.value as number) ?? ''}
+                                        onChange={(e) =>
+                                          vField.onChange(
+                                            e.target.valueAsNumber || 0
+                                          )
+                                        }
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                control={form.control}
+                                name={`variants.${index}.min_stock`}
+                                render={({ field: vField }) => (
+                                  <FormItem>
+                                    <FormLabel className='text-xs'>
+                                      {t('products.form.variantMinStock')}
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        type='number'
+                                        min='0'
+                                        value={(vField.value as number) ?? ''}
+                                        onChange={(e) =>
+                                          vField.onChange(
+                                            e.target.valueAsNumber || 0
+                                          )
+                                        }
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          </CardContent>
+                        </Card>
                       ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                control={form.control}
-                name='base_price'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Base Price ($)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        step='0.01'
-                        onChange={(e) =>
-                          field.onChange(e.target.valueAsNumber || 0)
-                        }
-                        onBlur={field.onBlur}
-                        value={(field.value as number) ?? ''}
-                        name={field.name}
-                        ref={field.ref}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='cost_price'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cost Price ($)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        step='0.01'
-                        onChange={(e) =>
-                          field.onChange(e.target.valueAsNumber || 0)
-                        }
-                        onBlur={field.onBlur}
-                        value={(field.value as number) ?? ''}
-                        name={field.name}
-                        ref={field.ref}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                control={form.control}
-                name='weight'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Base Weight (kg)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        step='0.1'
-                        onChange={(e) =>
-                          field.onChange(e.target.valueAsNumber || 0)
-                        }
-                        onBlur={field.onBlur}
-                        value={(field.value as number) ?? ''}
-                        name={field.name}
-                        ref={field.ref}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='dimensions'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Base Dimensions</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='e.g. 10x5x2'
-                        {...field}
-                        value={field.value || ''}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {/* VARIANTS SECTION */}
-            <div className='mt-8 space-y-4'>
-              <div className='flex items-center justify-between border-b pb-2'>
-                <h3 className='text-lg font-medium'>Product Variants</h3>
-                <Button
-                  type='button'
-                  variant='outline'
-                  size='sm'
-                  onClick={() =>
-                    append({
-                      sku: form.getValues('sku')
-                        ? `${form.getValues('sku')}-V${fields.length + 1}`
-                        : '',
-                      barcode: '',
-                      price: form.getValues('base_price') || 0,
-                      cost_price: form.getValues('cost_price') || 0,
-                      stock_quantity: 0,
-                      min_stock: 0,
-                      weight: form.getValues('weight') || 0,
-                      dimensions: form.getValues('dimensions') || '',
-                      is_active: true,
-                      attributes_label: `Variant ${fields.length + 1}`,
-                    })
-                  }
-                >
-                  <Plus className='mr-2 h-4 w-4' />
-                  Add Variant
-                </Button>
-              </div>
-
-              {form.formState.errors.variants && (
-                <div className='text-sm font-medium text-destructive'>
-                  {form.formState.errors.variants.root?.message}
-                </div>
-              )}
-
-              <div className='max-h-[40vh] space-y-4 overflow-y-auto pr-2'>
-                {fields.map((field, index) => (
-                  <Card key={field.id} className='relative'>
-                    <CardContent className='flex flex-col gap-4 pt-6'>
-                      {fields.length > 1 && (
-                        <Button
-                          type='button'
-                          variant='ghost'
-                          size='icon'
-                          className='absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive'
-                          onClick={() => {
-                            if (
-                              window.confirm(
-                                'Are you sure you want to remove this variant? This action will take effect when you save changes.'
-                              )
-                            ) {
-                              remove(index)
-                            }
-                          }}
-                        >
-                          <Trash2 className='h-4 w-4' />
-                        </Button>
+                      {fields.length === 0 && (
+                        <div className='rounded-lg border border-dashed bg-muted/20 p-8 text-center'>
+                          <p className='text-sm text-muted-foreground'>
+                            {t('products.form.noVariantsPrompt')}
+                          </p>
+                        </div>
                       )}
-
-                      {/* --- Identity Row --- */}
-                      <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.attributes_label`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Label / Size</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder='e.g. Large, Red'
-                                  {...field}
-                                  value={field.value || ''}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.sku`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>SKU *</FormLabel>
-                              <FormControl>
-                                <Input placeholder='Variant SKU' {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.barcode`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Barcode</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder='UPC/EAN'
-                                  {...field}
-                                  value={field.value || ''}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.is_active`}
-                          render={({ field }) => (
-                            <FormItem className='flex h-[40px] flex-row items-center justify-between rounded-lg border p-3 shadow-sm md:mt-[22px]'>
-                              <div className='space-y-0.5'>
-                                <FormLabel className='text-xs'>
-                                  Active
-                                </FormLabel>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* --- Finance & Stock Row --- */}
-                      <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.price`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Price *</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type='number'
-                                  step='any'
-                                  min='0'
-                                  placeholder='0.00'
-                                  {...field}
-                                  value={(field.value as number) ?? ''}
-                                  onChange={(e) =>
-                                    field.onChange(e.target.valueAsNumber || 0)
-                                  }
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.cost_price`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Cost Price</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type='number'
-                                  step='any'
-                                  min='0'
-                                  placeholder='0.00'
-                                  {...field}
-                                  value={(field.value as number) ?? ''}
-                                  onChange={(e) =>
-                                    field.onChange(e.target.valueAsNumber || 0)
-                                  }
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.stock_quantity`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Initial Stock</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type='number'
-                                  min='0'
-                                  placeholder='0'
-                                  {...field}
-                                  value={(field.value as number) ?? ''}
-                                  onChange={(e) =>
-                                    field.onChange(e.target.valueAsNumber || 0)
-                                  }
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.min_stock`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Min Stock Alert</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type='number'
-                                  min='0'
-                                  placeholder='0'
-                                  {...field}
-                                  value={(field.value as number) ?? ''}
-                                  onChange={(e) =>
-                                    field.onChange(e.target.valueAsNumber || 0)
-                                  }
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* --- Physical Row --- */}
-                      <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.weight`}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Weight (kg)</FormLabel>
-                              <FormControl>
-                                <Input
-                                  type='number'
-                                  step='any'
-                                  min='0'
-                                  placeholder='0.00'
-                                  {...field}
-                                  value={(field.value as number) ?? ''}
-                                  onChange={(e) =>
-                                    field.onChange(e.target.valueAsNumber || 0)
-                                  }
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name={`variants.${index}.dimensions`}
-                          render={({ field }) => (
-                            <FormItem className='md:col-span-2'>
-                              <FormLabel>Dimensions (L x W x H)</FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder='e.g., 10x20x5 cm'
-                                  {...field}
-                                  value={field.value || ''}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-
-                {fields.length === 0 && (
-                  <div className='rounded-lg border border-dashed bg-muted/20 p-8 text-center'>
-                    <p className='text-sm text-muted-foreground'>
-                      No variants configured. The base product details will be
-                      used.
-                    </p>
-                  </div>
+                    </div>
+                  </TabsContent>
                 )}
               </div>
-            </div>
+            </Tabs>
           </form>
         </Form>
 
-        <DialogFooter>
-          <Button variant='outline' onClick={() => onOpenChange(false)}>
-            Cancel
+        <DialogFooter className='border-t bg-muted/20 px-6 py-3'>
+          <Button
+            variant='outline'
+            type='button'
+            onClick={() => onOpenChange(false)}
+          >
+            {t('products.form.cancel')}
           </Button>
-          <Button type='submit' form='product-form' disabled={isPending}>
+          <Button type='submit' form='product-main-form' disabled={isPending}>
             {isPending
-              ? 'Saving...'
+              ? t('products.form.saving')
               : isEdit
-                ? 'Save Changes'
-                : 'Create Product'}
+                ? t('products.form.save')
+                : t('products.form.create')}
           </Button>
         </DialogFooter>
       </DialogContent>

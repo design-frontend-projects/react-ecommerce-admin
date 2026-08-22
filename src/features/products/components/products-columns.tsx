@@ -38,9 +38,16 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
       <DataTableColumnHeader column={column} title={t('products.columns.name')} />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-48 font-medium'>
-        {row.getValue('name')}
-      </LongText>
+      <div className='flex flex-col gap-0.5'>
+        <LongText className='max-w-48 font-medium'>
+          {row.getValue('name')}
+        </LongText>
+        {row.original.barcode && (
+          <span className='text-xs text-muted-foreground font-mono'>
+            {row.original.barcode}
+          </span>
+        )}
+      </div>
     ),
   },
   {
@@ -49,56 +56,97 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
       <DataTableColumnHeader column={column} title={t('products.columns.sku')} />
     ),
     cell: ({ row }) => (
-      <div className='font-mono text-xs'>{row.getValue('sku')}</div>
+      <div className='font-mono text-xs font-medium'>{row.getValue('sku')}</div>
     ),
   },
   {
     id: 'category',
+    accessorFn: (row) => row.categories?.name || '',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t('products.columns.category')} />
     ),
     cell: ({ row }) => {
-      const product = row.original
+      const categoryName = row.original.categories?.name
       return (
         <div className='text-sm text-muted-foreground'>
-          {product.categories?.name || 'N/A'}
+          {categoryName || '—'}
         </div>
+      )
+    },
+  },
+  {
+    id: 'brand',
+    accessorFn: (row) => row.brands?.name || '',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t('products.columns.brand')} />
+    ),
+    cell: ({ row }) => {
+      const brandName = row.original.brands?.name
+      return (
+        <div className='text-sm text-muted-foreground'>
+          {brandName || '—'}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: 'product_type',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t('products.columns.productType')} />
+    ),
+    cell: ({ row }) => {
+      const pType = (row.getValue('product_type') as string) || 'simple'
+      const key = `products.enums.productType.${pType}`
+      return (
+        <Badge variant='outline' className='text-xs font-normal capitalize'>
+          {t(key, pType)}
+        </Badge>
       )
     },
   },
   {
     id: 'price',
     accessorFn: (row) => {
+      if (row.base_price !== null && row.base_price !== undefined) {
+        return Number(row.base_price)
+      }
       if (!row.product_variants || row.product_variants.length === 0) return 0
-      return row.product_variants[0].price
+      return Number(row.product_variants[0].price)
     },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t('products.columns.price')} />
     ),
     cell: ({ row }) => {
       const variants = row.original.product_variants
-      if (!variants || variants.length === 0) {
-        return <div className='font-medium text-muted-foreground'>N/A</div>
-      }
-
-      const prices = variants.map((v) => Number(v.price))
-      const minPrice = Math.min(...prices)
-      const maxPrice = Math.max(...prices)
-
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       })
 
-      if (minPrice === maxPrice) {
-        return <div className='font-medium'>{formatter.format(minPrice)}</div>
+      if (variants && variants.length > 1) {
+        const prices = variants.map((v) => Number(v.price))
+        const minPrice = Math.min(...prices)
+        const maxPrice = Math.max(...prices)
+
+        if (minPrice === maxPrice) {
+          return <div className='font-medium text-sm'>{formatter.format(minPrice)}</div>
+        }
+
+        return (
+          <div className='font-medium text-sm'>
+            {formatter.format(minPrice)} - {formatter.format(maxPrice)}
+          </div>
+        )
       }
 
-      return (
-        <div className='font-medium'>
-          {formatter.format(minPrice)} - {formatter.format(maxPrice)}
-        </div>
-      )
+      const price =
+        row.original.base_price !== null && row.original.base_price !== undefined
+          ? Number(row.original.base_price)
+          : variants && variants.length === 1
+            ? Number(variants[0].price)
+            : 0
+
+      return <div className='font-medium text-sm'>{formatter.format(price)}</div>
     },
   },
   {
@@ -120,6 +168,3 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     cell: ProductRowActions,
   },
 ]
-
-export const columns = getColumns((k: string) => k)
-

@@ -65,5 +65,3 @@ export const getColumns = (t: TFunction): ColumnDef<Category>[] => [
     cell: CategoryRowActions,
   },
 ]
-
-export const columns = getColumns((k: string) => k)

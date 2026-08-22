@@ -84,6 +84,7 @@ model categories {
   tenant_id          String    @db.Uuid
   created_by_user_id String?   @db.Uuid
   updated_by_user_id String?   @db.Uuid
+  products           products[]
 }
 
 model cities {
@@ -322,6 +323,8 @@ model products {
   product_variants       product_variants[]
   base_uom               uoms?                  @relation(fields: [base_uom_id], references: [id], onUpdate: NoAction)
   brands                 brands?                @relation(fields: [brand_id], references: [id], onUpdate: NoAction)
+  categories             categories?            @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  suppliers              suppliers?             @relation(fields: [supplier_id], references: [id], onUpdate: NoAction)
   purchase_order_items   purchase_order_items[]
 }
 
@@ -1125,6 +1128,7 @@ model suppliers {
   updated_by_user_id   String?           @db.Uuid
   purchase_orders      purchase_orders[]
   cities               cities?           @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  products             products[]
 }
 
 model tax_rates {

@@ -1,6 +1,7 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { type Row } from '@tanstack/react-table'
 import { Trash2, Edit, Eye } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -21,6 +22,7 @@ interface ProductRowActionsProps<TData> {
 export function ProductRowActions<TData>({
   row,
 }: ProductRowActionsProps<TData>) {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useProductsContext()
 
   return (
@@ -31,7 +33,7 @@ export function ProductRowActions<TData>({
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <DotsHorizontalIcon className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t('products.columns.actions')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -42,7 +44,7 @@ export function ProductRowActions<TData>({
               setOpen('edit')
             }}
           >
-            Edit
+            {t('products.editProduct')}
             <DropdownMenuShortcut>
               <Edit size={16} />
             </DropdownMenuShortcut>
@@ -55,7 +57,7 @@ export function ProductRowActions<TData>({
             setOpen('view')
           }}
         >
-          View Details
+          {t('products.viewProduct')}
           <DropdownMenuShortcut>
             <Eye size={16} />
           </DropdownMenuShortcut>
@@ -69,7 +71,7 @@ export function ProductRowActions<TData>({
             }}
             className='text-red-500!'
           >
-            Delete
+            {t('products.deleteProduct')}
             <DropdownMenuShortcut>
               <Trash2 size={16} />
             </DropdownMenuShortcut>

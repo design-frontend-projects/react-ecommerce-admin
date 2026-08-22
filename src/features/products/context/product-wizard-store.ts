@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import type {
   BaseProductFormData,
   VariantRowFormData,
-} from '../data/product-wizard-schema'
+} from '../data/schema'
 
 interface ProductWizardState {
   isOpen: boolean
@@ -19,7 +19,7 @@ interface ProductWizardState {
   setVariantsEnabled: (enabled: boolean) => void
 
   // Data actions
-  setBaseProductData: (data: BaseProductFormData) => void
+  setBaseProductData: (data: Partial<BaseProductFormData>) => void
   setVariantsData: (data: VariantRowFormData[]) => void
 
   // Reset
@@ -29,7 +29,7 @@ interface ProductWizardState {
 const initialState = {
   isOpen: false,
   currentStep: 1,
-  isVariantsEnabled: true,
+  isVariantsEnabled: false,
   baseProductData: null,
   variantsData: [],
 }

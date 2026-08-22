@@ -1,6 +1,7 @@
 import { z } from 'zod'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 import { Plus, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -18,7 +19,7 @@ import { useProductWizardStore } from '../context/product-wizard-store'
 import {
   variantRowSchema,
   type VariantRowFormData,
-} from '../data/product-wizard-schema'
+} from '../data/schema'
 
 const variantsFormSchema = z.object({
   variants: z
@@ -33,11 +34,11 @@ export function ProductVariantsForm({
 }: {
   onSubmit: (data: VariantRowFormData[]) => void
 }) {
+  const { t } = useTranslation()
   const { variantsData, baseProductData } = useProductWizardStore()
 
   const form = useForm<VariantsFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(variantsFormSchema) as any,
+    resolver: zodResolver(variantsFormSchema) as Resolver<VariantsFormValues>,
     defaultValues: {
       variants:
         variantsData.length > 0
@@ -46,13 +47,15 @@ export function ProductVariantsForm({
               {
                 sku: baseProductData?.sku ? `${baseProductData.sku}-V1` : '',
                 barcode: '',
-                price: 0,
-                cost_price: 0,
+                name: 'Default',
+                price: baseProductData?.base_price || 0,
+                cost_price: baseProductData?.cost_price || 0,
                 stock_quantity: 0,
-                min_stock: 0,
-                weight: 0,
-                dimensions: '',
+                min_stock: baseProductData?.reorder_level || 0,
+                weight: baseProductData?.weight || null,
+                dimensions: baseProductData?.dimensions || '',
                 is_active: true,
+                uom_id: baseProductData?.base_uom_id || null,
                 attributes_label: 'Default',
               },
             ],
@@ -70,14 +73,20 @@ export function ProductVariantsForm({
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <form
         id='product-variants-form'
-        onSubmit={form.handleSubmit(handleFormSubmit as any)}
-        className='space-y-4 py-4'
+        onSubmit={form.handleSubmit(handleFormSubmit)}
+        className='space-y-4 py-2'
       >
         <div className='flex items-center justify-between pb-2'>
-          <h3 className='text-lg font-medium'>Product Variants</h3>
+          <div>
+            <h3 className='text-base font-semibold'>
+              {t('products.form.variantTitle')}
+            </h3>
+            <p className='text-xs text-muted-foreground'>
+              {t('products.form.hasVariantsDesc')}
+            </p>
+          </div>
           <Button
             type='button'
             variant='outline'
@@ -88,19 +97,21 @@ export function ProductVariantsForm({
                   ? `${baseProductData.sku}-V${fields.length + 1}`
                   : '',
                 barcode: '',
-                price: 0,
-                cost_price: 0,
+                name: `Variant ${fields.length + 1}`,
+                price: baseProductData?.base_price || 0,
+                cost_price: baseProductData?.cost_price || 0,
                 stock_quantity: 0,
-                min_stock: 0,
-                weight: 0,
-                dimensions: '',
+                min_stock: baseProductData?.reorder_level || 0,
+                weight: baseProductData?.weight || null,
+                dimensions: baseProductData?.dimensions || '',
                 is_active: true,
+                uom_id: baseProductData?.base_uom_id || null,
                 attributes_label: `Variant ${fields.length + 1}`,
               })
             }
           >
-            <Plus className='mr-2 h-4 w-4' />
-            Add Variant
+            <Plus className='me-1.5 h-4 w-4' />
+            {t('products.form.addVariant')}
           </Button>
         </div>
 
@@ -110,33 +121,35 @@ export function ProductVariantsForm({
           </div>
         )}
 
-        <div className='max-h-[50vh] space-y-4 overflow-y-auto pr-2'>
+        <div className='max-h-[50vh] space-y-3 overflow-y-auto pr-1'>
           {fields.map((field, index) => (
-            <Card key={field.id} className='relative'>
-              <CardContent className='flex flex-col gap-4 pt-6'>
+            <Card key={field.id} className='relative shadow-xs'>
+              <CardContent className='flex flex-col gap-3 pt-4'>
                 {fields.length > 1 && (
                   <Button
                     type='button'
                     variant='ghost'
                     size='icon'
-                    className='absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive'
+                    className='absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-destructive'
                     onClick={() => remove(index)}
                   >
                     <Trash2 className='h-4 w-4' />
                   </Button>
                 )}
 
-                {/* --- Identity Row --- */}
-                <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
+                {/* Identity Row */}
+                <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
                   <FormField
                     control={form.control}
                     name={`variants.${index}.attributes_label`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Label / Size</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantLabel')}
+                        </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='e.g. Large, Red'
+                            placeholder={t('products.form.variantLabelPlaceholder')}
                             {...field}
                             value={field.value || ''}
                           />
@@ -151,7 +164,9 @@ export function ProductVariantsForm({
                     name={`variants.${index}.sku`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>SKU *</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantSku')} *
+                        </FormLabel>
                         <FormControl>
                           <Input placeholder='Variant SKU' {...field} />
                         </FormControl>
@@ -165,10 +180,12 @@ export function ProductVariantsForm({
                     name={`variants.${index}.barcode`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Barcode</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantBarcode')}
+                        </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='UPC/EAN'
+                            placeholder='UPC / EAN'
                             {...field}
                             value={field.value || ''}
                           />
@@ -182,10 +199,10 @@ export function ProductVariantsForm({
                     control={form.control}
                     name={`variants.${index}.is_active`}
                     render={({ field }) => (
-                      <FormItem className='flex h-[40px] flex-row items-center justify-between rounded-lg border p-3 shadow-sm md:mt-[22px]'>
-                        <div className='space-y-0.5'>
-                          <FormLabel className='text-xs'>Active</FormLabel>
-                        </div>
+                      <FormItem className='flex h-[36px] flex-row items-center justify-between rounded-lg border px-3 sm:mt-[22px]'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.active')}
+                        </FormLabel>
                         <FormControl>
                           <Switch
                             checked={field.value}
@@ -197,21 +214,25 @@ export function ProductVariantsForm({
                   />
                 </div>
 
-                {/* --- Finance & Stock Row --- */}
-                <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
+                {/* Finance & Stock Row */}
+                <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
                   <FormField
                     control={form.control}
                     name={`variants.${index}.price`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Price *</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantPrice')} *
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type='number'
-                            step='any'
+                            step='0.01'
                             min='0'
-                            placeholder='0.00'
-                            {...field}
+                            value={(field.value as number) ?? ''}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber || 0)
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -224,15 +245,18 @@ export function ProductVariantsForm({
                     name={`variants.${index}.cost_price`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Cost Price</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantCost')}
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type='number'
-                            step='any'
+                            step='0.01'
                             min='0'
-                            placeholder='0.00'
-                            {...field}
-                            value={field.value ?? ''}
+                            value={(field.value as number) ?? ''}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber || 0)
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -245,13 +269,17 @@ export function ProductVariantsForm({
                     name={`variants.${index}.stock_quantity`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Initial Stock</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantInitialStock')}
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type='number'
                             min='0'
-                            placeholder='0'
-                            {...field}
+                            value={(field.value as number) ?? ''}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber || 0)
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -264,55 +292,17 @@ export function ProductVariantsForm({
                     name={`variants.${index}.min_stock`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Min Stock Alert</FormLabel>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.variantMinStock')}
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type='number'
                             min='0'
-                            placeholder='0'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* --- Physical Row --- */}
-                <div className='grid grid-cols-1 gap-4 md:grid-cols-4'>
-                  <FormField
-                    control={form.control}
-                    name={`variants.${index}.weight`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Weight (kg)</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            step='any'
-                            min='0'
-                            placeholder='0.00'
-                            {...field}
-                            value={field.value ?? ''}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`variants.${index}.dimensions`}
-                    render={({ field }) => (
-                      <FormItem className='md:col-span-2'>
-                        <FormLabel>Dimensions (L x W x H)</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder='e.g., 10x20x5 cm'
-                            {...field}
-                            value={field.value || ''}
+                            value={(field.value as number) ?? ''}
+                            onChange={(e) =>
+                              field.onChange(e.target.valueAsNumber || 0)
+                            }
                           />
                         </FormControl>
                         <FormMessage />

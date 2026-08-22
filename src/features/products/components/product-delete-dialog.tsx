@@ -1,42 +1,39 @@
 'use client'
 
 import { useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
-import { supabase } from '@/lib/supabase'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { type Product } from '../data/schema'
+import { useDeleteProduct } from '../hooks/use-products'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow: Product
+  currentRow: Product | null
 }
 
 export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
   const { t } = useTranslation()
   const [value, setValue] = useState('')
-  const queryClient = useQueryClient()
+  const { mutateAsync: deleteProduct, isPending } = useDeleteProduct()
+
+  if (!currentRow) return null
+
+  const targetId = currentRow.id || (currentRow.product_id ? String(currentRow.product_id) : null)
 
   const handleDelete = async () => {
-    if (value.trim() !== currentRow.name) return
+    if (!targetId || value.trim() !== currentRow.name) return
 
     try {
-      const { error } = await supabase
-        .from('products')
-        .update({ is_deleted: true })
-        .eq('product_id', currentRow.product_id)
-
-      if (error) throw error
-
+      await deleteProduct(targetId)
       toast.success(t('products.toast.deleted'))
-      queryClient.invalidateQueries({ queryKey: ['products'] })
       onOpenChange(false)
+      setValue('')
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -49,9 +46,12 @@ export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
   return (
     <ConfirmDialog
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={(v) => {
+        onOpenChange(v)
+        if (!v) setValue('')
+      }}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.name}
+      disabled={value.trim() !== currentRow.name || isPending}
       title={
         <span className='text-destructive'>
           <AlertTriangle
@@ -85,10 +85,9 @@ export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
           </Alert>
         </div>
       }
-      confirmText={t('common.delete')}
-      cancelBtnText={t('common.cancel')}
+      confirmText={isPending ? t('products.delete.deleting') : t('products.delete.confirm')}
+      cancelBtnText={t('products.delete.cancel')}
       destructive
     />
   )
 }
-
