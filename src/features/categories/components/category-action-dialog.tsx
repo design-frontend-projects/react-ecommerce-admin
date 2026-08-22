@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
@@ -68,19 +67,15 @@ export function CategoryActionDialog() {
     try {
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.category_id,
-          ...values,
+          id: currentRow.id,
+          input: values,
         })
-        toast.success(t('categories.toast.updated'))
       } else {
         await createMutation.mutateAsync(values)
-        toast.success(t('categories.toast.created'))
       }
       setOpen(null)
-    } catch (error: any) {
-      toast.error('Error', {
-        description: error.message || 'Something went wrong. Please try again.',
-      })
+    } catch {
+      // Handled by mutation onError toast
     }
   }
 

@@ -8,23 +8,27 @@ const navScreenSchema = z.object({
   code: z.string(),
   name: z.string(),
   route: z.string(),
-  icon: z.string().nullable(),
-  sortOrder: z.number(),
-  roleNames: z.array(z.string()),
-  permissionNames: z.array(z.string()),
+  icon: z.string().nullable().optional(),
+  sortOrder: z.number().optional().default(0),
+  roleNames: z.array(z.string()).optional().default([]),
+  permissionNames: z.array(z.string()).optional().default([]),
 })
 
 const navModuleSchema = z.object({
   code: z.string(),
   name: z.string(),
-  sortOrder: z.number(),
-  activityTypeCodes: z.array(z.string()),
-  screens: z.array(navScreenSchema),
+  sortOrder: z.number().optional().default(0),
+  activityTypeCodes: z.array(z.string()).optional().default([]),
+  screens: z.array(navScreenSchema).optional().default([]),
 })
 
 const navResponseSchema = z.object({
-  success: z.literal(true),
-  data: z.object({ modules: z.array(navModuleSchema) }),
+  success: z.boolean().optional(),
+  data: z
+    .object({
+      modules: z.array(navModuleSchema).default([]),
+    })
+    .optional(),
 })
 
 export type NavScreen = z.infer<typeof navScreenSchema>
@@ -51,8 +55,16 @@ export function useNavCatalog(enabled = true) {
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: navCatalogQueryKey,
     queryFn: async (): Promise<NavModule[]> => {
-      const payload = await authorizedRequest(getToken, '/api/rbac/me/nav')
-      return navResponseSchema.parse(payload).data.modules
+      try {
+        const payload = await authorizedRequest(getToken, '/api/rbac/me/nav')
+        const parsed = navResponseSchema.safeParse(payload)
+        if (parsed.success && parsed.data.data?.modules) {
+          return parsed.data.data.modules
+        }
+        return []
+      } catch {
+        return []
+      }
     },
     enabled: shouldFetch,
     staleTime: 60_000,

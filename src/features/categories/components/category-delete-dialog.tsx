@@ -1,4 +1,3 @@
-import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import {
   AlertDialog,
@@ -23,14 +22,10 @@ export function CategoryDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.category_id)
-        toast.success(t('categories.toast.deleted'))
+        await deleteMutation.mutateAsync(currentRow.id)
         setOpen(null)
-      } catch (error: any) {
-        toast.error('Error', {
-          description:
-            error.message || 'Something went wrong. Please try again.',
-        })
+      } catch {
+        // Error toast handled by useDeleteCategory
       }
     }
   }
@@ -49,7 +44,9 @@ export function CategoryDeleteDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={deleteMutation.isPending}>{t('common.cancel')}</AlertDialogCancel>
+          <AlertDialogCancel disabled={deleteMutation.isPending}>
+            {t('common.cancel')}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault()
@@ -58,7 +55,9 @@ export function CategoryDeleteDialog() {
             className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? t('common.loading') : t('common.delete')}
+            {deleteMutation.isPending
+              ? t('common.loading')
+              : t('common.delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

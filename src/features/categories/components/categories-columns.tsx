@@ -53,9 +53,10 @@ export const getColumns = (t: TFunction): ColumnDef<Category>[] => [
     accessorKey: 'created_at',
     header: t('categories.columns.createdAt'),
     cell: ({ row }) => {
+      const val = row.getValue('created_at')
       return (
         <div className='flex w-[100px] items-center'>
-          {new Date(row.getValue('created_at')).toLocaleDateString()}
+          {val ? new Date(val as string).toLocaleDateString() : '-'}
         </div>
       )
     },

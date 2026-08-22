@@ -29,6 +29,8 @@ interface CategoriesTableProps {
 }
 
 export function CategoriesTable({ data }: CategoriesTableProps) {
+  const { t } = useTranslation()
+  const columns = useMemo(() => getColumns(t), [t])
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])

@@ -1,105 +1,72 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
+import {
+  createCategory,
+  deleteCategory,
+  fetchCategories,
+  updateCategory,
+} from '../data/actions'
+import type { Category, CategoryInput, CategoryListItem } from '../data/schema'
 
-export interface Category {
-  category_id: number
-  name: string
-  description: string | null
-  created_at: string
-}
+export type { Category, CategoryInput, CategoryListItem }
 
-export interface CategoryInput {
-  name: string
-  description?: string
-}
+export const categoriesKey = ['inventory', 'categories'] as const
 
-export const useCategories = () => {
-  return useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('*')
-        .order('name')
-
-      if (error) throw error
-      return data as Category[]
-    },
+export function useCategories() {
+  return useAuthQuery({
+    queryKey: categoriesKey,
+    queryFn: (getToken) => fetchCategories(getToken),
+    rbac: { permission: 'products.view' },
   })
 }
 
-export const useCategory = (id: number) => {
-  return useQuery({
-    queryKey: ['categories', id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('*')
-        .eq('category_id', id)
-        .maybeSingle()
-
-      if (error) throw error
-      return data as Category
-    },
-    enabled: !!id,
-  })
-}
-
-export const useCreateCategory = () => {
+export function useCreateCategory() {
   const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (newCategory: CategoryInput) => {
-      const { data, error } = await supabase
-        .from('categories')
-        .insert(newCategory)
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
-    },
+  return useAuthMutation({
+    mutationFn: (getToken, input: CategoryInput) =>
+      createCategory(getToken, input),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      toast.success('Category created.')
+      void queryClient.invalidateQueries({ queryKey: categoriesKey })
+      void queryClient.invalidateQueries({ queryKey: ['categories', 'options'] })
     },
+    onError: (error: Error) =>
+      toast.error('Unable to create category', { description: error.message }),
   })
 }
 
-export const useUpdateCategory = () => {
+export function useUpdateCategory() {
   const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({ id, ...updates }: CategoryInput & { id: number }) => {
-      const { data, error } = await supabase
-        .from('categories')
-        .update(updates)
-        .eq('category_id', id)
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
-    },
+  return useAuthMutation({
+    mutationFn: (
+      getToken,
+      { id, input }: { id: string; input: Partial<CategoryInput> }
+    ) => updateCategory(getToken, id, input),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      toast.success('Category updated.')
+      void queryClient.invalidateQueries({ queryKey: categoriesKey })
+      void queryClient.invalidateQueries({ queryKey: ['categories', 'options'] })
     },
+    onError: (error: Error) =>
+      toast.error('Unable to update category', { description: error.message }),
   })
 }
 
-export const useDeleteCategory = () => {
+export function useDeleteCategory() {
   const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (id: number) => {
-      const { error } = await supabase
-        .from('categories')
-        .delete()
-        .eq('category_id', id)
-
-      if (error) throw error
-    },
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteCategory(getToken, id),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'] })
+      toast.success('Category deleted.')
+      void queryClient.invalidateQueries({ queryKey: categoriesKey })
+      void queryClient.invalidateQueries({ queryKey: ['categories', 'options'] })
     },
+    onError: (error: Error) =>
+      toast.error('Unable to delete category', { description: error.message }),
   })
 }
