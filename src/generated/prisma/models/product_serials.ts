@@ -54,7 +54,8 @@ export type Product_serialsMinAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Product_serialsMaxAggregateOutputType = {
@@ -77,7 +78,8 @@ export type Product_serialsMaxAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Product_serialsCountAggregateOutputType = {
@@ -100,7 +102,8 @@ export type Product_serialsCountAggregateOutputType = {
   notes: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -133,7 +136,8 @@ export type Product_serialsMinAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Product_serialsMaxAggregateInputType = {
@@ -156,7 +160,8 @@ export type Product_serialsMaxAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Product_serialsCountAggregateInputType = {
@@ -179,7 +184,8 @@ export type Product_serialsCountAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -289,7 +295,8 @@ export type Product_serialsGroupByOutputType = {
   notes: string | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Product_serialsCountAggregateOutputType | null
   _avg: Product_serialsAvgAggregateOutputType | null
   _sum: Product_serialsSumAggregateOutputType | null
@@ -297,7 +304,7 @@ export type Product_serialsGroupByOutputType = {
   _max: Product_serialsMaxAggregateOutputType | null
 }
 
-export type GetProduct_serialsGroupByPayload<T extends product_serialsGroupByArgs> = Prisma.PrismaPromise<
+type GetProduct_serialsGroupByPayload<T extends product_serialsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Product_serialsGroupByOutputType, T['by']> &
       {
@@ -335,7 +342,8 @@ export type product_serialsWhereInput = {
   notes?: Prisma.StringNullableFilter<"product_serials"> | string | null
   created_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
 }
 
 export type product_serialsOrderByWithRelationInput = {
@@ -358,7 +366,8 @@ export type product_serialsOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
@@ -384,7 +393,8 @@ export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"product_serials"> | string | null
   created_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
 }, "id">
 
 export type product_serialsOrderByWithAggregationInput = {
@@ -407,7 +417,8 @@ export type product_serialsOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.product_serialsCountOrderByAggregateInput
   _avg?: Prisma.product_serialsAvgOrderByAggregateInput
   _max?: Prisma.product_serialsMaxOrderByAggregateInput
@@ -438,7 +449,8 @@ export type product_serialsScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"product_serials"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"product_serials"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"product_serials"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_serials"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_serials"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_serials"> | string | null
 }
 
 export type product_serialsCreateInput = {
@@ -461,7 +473,8 @@ export type product_serialsCreateInput = {
   notes?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_serialsUncheckedCreateInput = {
@@ -484,7 +497,8 @@ export type product_serialsUncheckedCreateInput = {
   notes?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_serialsUpdateInput = {
@@ -507,7 +521,8 @@ export type product_serialsUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_serialsUncheckedUpdateInput = {
@@ -530,7 +545,8 @@ export type product_serialsUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_serialsCreateManyInput = {
@@ -553,7 +569,8 @@ export type product_serialsCreateManyInput = {
   notes?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_serialsUpdateManyMutationInput = {
@@ -576,7 +593,8 @@ export type product_serialsUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_serialsUncheckedUpdateManyInput = {
@@ -599,7 +617,8 @@ export type product_serialsUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_serialsCountOrderByAggregateInput = {
@@ -622,7 +641,8 @@ export type product_serialsCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_serialsAvgOrderByAggregateInput = {
@@ -649,7 +669,8 @@ export type product_serialsMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_serialsMinOrderByAggregateInput = {
@@ -672,7 +693,8 @@ export type product_serialsMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_serialsSumOrderByAggregateInput = {
@@ -705,7 +727,8 @@ export type product_serialsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_serials"]>
 
 export type product_serialsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -728,7 +751,8 @@ export type product_serialsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_serials"]>
 
 export type product_serialsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -751,7 +775,8 @@ export type product_serialsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_serials"]>
 
 export type product_serialsSelectScalar = {
@@ -774,10 +799,11 @@ export type product_serialsSelectScalar = {
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type product_serialsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_id" | "serial_number" | "status" | "store_id" | "warehouse_location_id" | "unit_cost" | "received_at" | "sold_at" | "received_reference_type" | "received_reference_id" | "last_reference_type" | "last_reference_id" | "warranty_until" | "notes" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["product_serials"]>
+export type product_serialsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_id" | "serial_number" | "status" | "store_id" | "warehouse_location_id" | "unit_cost" | "received_at" | "sold_at" | "received_reference_type" | "received_reference_id" | "last_reference_type" | "last_reference_id" | "warranty_until" | "notes" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_serials"]>
 
 export type $product_serialsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "product_serials"
@@ -802,7 +828,8 @@ export type $product_serialsPayload<ExtArgs extends runtime.Types.Extensions.Int
     notes: string | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["product_serials"]>
   composites: {}
 }
@@ -1245,7 +1272,8 @@ export interface product_serialsFieldRefs {
   readonly notes: Prisma.FieldRef<"product_serials", 'String'>
   readonly created_at: Prisma.FieldRef<"product_serials", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"product_serials", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"product_serials", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"product_serials", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"product_serials", 'String'>
 }
     
 

@@ -33,12 +33,13 @@ export type SuppliersMinAggregateOutputType = {
   website: string | null
   notes: string | null
   created_at: Date | null
-  auth_user_id: string | null
   city_id: string | null
   is_preferred: boolean | null
   is_system: boolean | null
   id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type SuppliersMaxAggregateOutputType = {
@@ -50,12 +51,13 @@ export type SuppliersMaxAggregateOutputType = {
   website: string | null
   notes: string | null
   created_at: Date | null
-  auth_user_id: string | null
   city_id: string | null
   is_preferred: boolean | null
   is_system: boolean | null
   id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type SuppliersCountAggregateOutputType = {
@@ -67,12 +69,13 @@ export type SuppliersCountAggregateOutputType = {
   website: number
   notes: number
   created_at: number
-  auth_user_id: number
   city_id: number
   is_preferred: number
   is_system: number
   id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -86,12 +89,13 @@ export type SuppliersMinAggregateInputType = {
   website?: true
   notes?: true
   created_at?: true
-  auth_user_id?: true
   city_id?: true
   is_preferred?: true
   is_system?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type SuppliersMaxAggregateInputType = {
@@ -103,12 +107,13 @@ export type SuppliersMaxAggregateInputType = {
   website?: true
   notes?: true
   created_at?: true
-  auth_user_id?: true
   city_id?: true
   is_preferred?: true
   is_system?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type SuppliersCountAggregateInputType = {
@@ -120,12 +125,13 @@ export type SuppliersCountAggregateInputType = {
   website?: true
   notes?: true
   created_at?: true
-  auth_user_id?: true
   city_id?: true
   is_preferred?: true
   is_system?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -210,18 +216,19 @@ export type SuppliersGroupByOutputType = {
   website: string | null
   notes: string | null
   created_at: Date | null
-  auth_user_id: string | null
   city_id: string | null
   is_preferred: boolean | null
   is_system: boolean | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: SuppliersCountAggregateOutputType | null
   _min: SuppliersMinAggregateOutputType | null
   _max: SuppliersMaxAggregateOutputType | null
 }
 
-export type GetSuppliersGroupByPayload<T extends suppliersGroupByArgs> = Prisma.PrismaPromise<
+type GetSuppliersGroupByPayload<T extends suppliersGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<SuppliersGroupByOutputType, T['by']> &
       {
@@ -248,12 +255,13 @@ export type suppliersWhereInput = {
   website?: Prisma.StringNullableFilter<"suppliers"> | string | null
   notes?: Prisma.StringNullableFilter<"suppliers"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"suppliers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   city_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   id?: Prisma.UuidFilter<"suppliers"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
+  tenant_id?: Prisma.UuidFilter<"suppliers"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   purchase_orders?: Prisma.Purchase_ordersListRelationFilter
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
 }
@@ -267,12 +275,13 @@ export type suppliersOrderByWithRelationInput = {
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   city_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_preferred?: Prisma.SortOrderInput | Prisma.SortOrder
   is_system?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   purchase_orders?: Prisma.purchase_ordersOrderByRelationAggregateInput
   cities?: Prisma.citiesOrderByWithRelationInput
 }
@@ -290,11 +299,12 @@ export type suppliersWhereUniqueInput = Prisma.AtLeast<{
   website?: Prisma.StringNullableFilter<"suppliers"> | string | null
   notes?: Prisma.StringNullableFilter<"suppliers"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"suppliers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   city_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
-  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
+  tenant_id?: Prisma.UuidFilter<"suppliers"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   purchase_orders?: Prisma.Purchase_ordersListRelationFilter
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
 }, "id">
@@ -308,12 +318,13 @@ export type suppliersOrderByWithAggregationInput = {
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   city_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_preferred?: Prisma.SortOrderInput | Prisma.SortOrder
   is_system?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.suppliersCountOrderByAggregateInput
   _max?: Prisma.suppliersMaxOrderByAggregateInput
   _min?: Prisma.suppliersMinOrderByAggregateInput
@@ -331,12 +342,13 @@ export type suppliersScalarWhereWithAggregatesInput = {
   website?: Prisma.StringNullableWithAggregatesFilter<"suppliers"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"suppliers"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"suppliers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
   city_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableWithAggregatesFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableWithAggregatesFilter<"suppliers"> | boolean | null
   id?: Prisma.UuidWithAggregatesFilter<"suppliers"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"suppliers"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"suppliers"> | string | null
 }
 
 export type suppliersCreateInput = {
@@ -348,11 +360,12 @@ export type suppliersCreateInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
   cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
 }
@@ -366,12 +379,13 @@ export type suppliersUncheckedCreateInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   city_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
@@ -384,11 +398,12 @@ export type suppliersUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
   cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
 }
@@ -402,12 +417,13 @@ export type suppliersUncheckedUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
@@ -420,12 +436,13 @@ export type suppliersCreateManyInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   city_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type suppliersUpdateManyMutationInput = {
@@ -437,11 +454,12 @@ export type suppliersUpdateManyMutationInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type suppliersUncheckedUpdateManyInput = {
@@ -453,12 +471,13 @@ export type suppliersUncheckedUpdateManyInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SuppliersListRelationFilter = {
@@ -485,12 +504,13 @@ export type suppliersCountOrderByAggregateInput = {
   website?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type suppliersMaxOrderByAggregateInput = {
@@ -502,12 +522,13 @@ export type suppliersMaxOrderByAggregateInput = {
   website?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type suppliersMinOrderByAggregateInput = {
@@ -519,12 +540,13 @@ export type suppliersMinOrderByAggregateInput = {
   website?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   city_id?: Prisma.SortOrder
   is_preferred?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type suppliersCreateNestedManyWithoutCitiesInput = {
@@ -592,11 +614,12 @@ export type suppliersCreateWithoutCitiesInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
 }
 
@@ -609,11 +632,12 @@ export type suppliersUncheckedCreateWithoutCitiesInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
@@ -655,12 +679,13 @@ export type suppliersScalarWhereInput = {
   website?: Prisma.StringNullableFilter<"suppliers"> | string | null
   notes?: Prisma.StringNullableFilter<"suppliers"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"suppliers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   city_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
   is_preferred?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   is_system?: Prisma.BoolNullableFilter<"suppliers"> | boolean | null
   id?: Prisma.UuidFilter<"suppliers"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
+  tenant_id?: Prisma.UuidFilter<"suppliers"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"suppliers"> | string | null
 }
 
 export type suppliersCreateWithoutPurchase_ordersInput = {
@@ -672,11 +697,12 @@ export type suppliersCreateWithoutPurchase_ordersInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
 }
 
@@ -689,12 +715,13 @@ export type suppliersUncheckedCreateWithoutPurchase_ordersInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   city_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type suppliersCreateOrConnectWithoutPurchase_ordersInput = {
@@ -722,11 +749,12 @@ export type suppliersUpdateWithoutPurchase_ordersInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
 }
 
@@ -739,12 +767,13 @@ export type suppliersUncheckedUpdateWithoutPurchase_ordersInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type suppliersCreateManyCitiesInput = {
@@ -756,11 +785,12 @@ export type suppliersCreateManyCitiesInput = {
   website?: string | null
   notes?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   is_preferred?: boolean | null
   is_system?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type suppliersUpdateWithoutCitiesInput = {
@@ -772,11 +802,12 @@ export type suppliersUpdateWithoutCitiesInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
 }
 
@@ -789,11 +820,12 @@ export type suppliersUncheckedUpdateWithoutCitiesInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
@@ -806,11 +838,12 @@ export type suppliersUncheckedUpdateManyWithoutCitiesInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -853,12 +886,13 @@ export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   website?: boolean
   notes?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   purchase_orders?: boolean | Prisma.suppliers$purchase_ordersArgs<ExtArgs>
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
   _count?: boolean | Prisma.SuppliersCountOutputTypeDefaultArgs<ExtArgs>
@@ -873,12 +907,13 @@ export type suppliersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   website?: boolean
   notes?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
 }, ExtArgs["result"]["suppliers"]>
 
@@ -891,12 +926,13 @@ export type suppliersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   website?: boolean
   notes?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
 }, ExtArgs["result"]["suppliers"]>
 
@@ -909,15 +945,16 @@ export type suppliersSelectScalar = {
   website?: boolean
   notes?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   city_id?: boolean
   is_preferred?: boolean
   is_system?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type suppliersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "contact_person" | "email" | "phone" | "address" | "website" | "notes" | "created_at" | "auth_user_id" | "city_id" | "is_preferred" | "is_system" | "id" | "tenant_id", ExtArgs["result"]["suppliers"]>
+export type suppliersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "contact_person" | "email" | "phone" | "address" | "website" | "notes" | "created_at" | "city_id" | "is_preferred" | "is_system" | "id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["suppliers"]>
 export type suppliersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   purchase_orders?: boolean | Prisma.suppliers$purchase_ordersArgs<ExtArgs>
   cities?: boolean | Prisma.suppliers$citiesArgs<ExtArgs>
@@ -945,12 +982,13 @@ export type $suppliersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     website: string | null
     notes: string | null
     created_at: Date | null
-    auth_user_id: string | null
     city_id: string | null
     is_preferred: boolean | null
     is_system: boolean | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["suppliers"]>
   composites: {}
 }
@@ -1384,12 +1422,13 @@ export interface suppliersFieldRefs {
   readonly website: Prisma.FieldRef<"suppliers", 'String'>
   readonly notes: Prisma.FieldRef<"suppliers", 'String'>
   readonly created_at: Prisma.FieldRef<"suppliers", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"suppliers", 'String'>
   readonly city_id: Prisma.FieldRef<"suppliers", 'String'>
   readonly is_preferred: Prisma.FieldRef<"suppliers", 'Boolean'>
   readonly is_system: Prisma.FieldRef<"suppliers", 'Boolean'>
   readonly id: Prisma.FieldRef<"suppliers", 'String'>
   readonly tenant_id: Prisma.FieldRef<"suppliers", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"suppliers", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"suppliers", 'String'>
 }
     
 

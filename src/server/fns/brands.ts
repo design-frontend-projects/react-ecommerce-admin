@@ -1,7 +1,7 @@
 'use server'
 
 import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface CreateBrandInput {
@@ -31,17 +31,19 @@ export async function listBrands(authUserId: string) {
 
 export async function createBrand(authUserId: string, input: CreateBrandInput) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   assertName(input.name)
 
   return prisma.brands.create({
     data: {
       tenant_id: tenantId,
-      auth_user_id: tenantId,
       name: input.name.trim(),
       code: input.code?.trim() || null,
       logo_url: input.logoUrl?.trim() || null,
       description: input.description?.trim() || null,
       is_active: input.isActive ?? true,
+      created_by_user_id: tenantUserId,
+      updated_by_user_id: tenantUserId,
     },
   })
 }
@@ -52,6 +54,7 @@ export async function updateBrand(
   input: UpdateBrandInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await prisma.brands.findFirst({
     where: { id, tenant_id: tenantId },
     select: { id: true },
@@ -74,6 +77,7 @@ export async function updateBrand(
       ? { description: input.description?.trim() || null }
       : {}),
     ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
+    updated_by_user_id: tenantUserId,
   }
   if (Object.keys(data).length === 0) {
     throw new ApiError('No changes provided.', 400)

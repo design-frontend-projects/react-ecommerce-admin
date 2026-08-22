@@ -48,8 +48,9 @@ export type Product_batchesMinAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   supplier_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Product_batchesMaxAggregateOutputType = {
@@ -66,8 +67,9 @@ export type Product_batchesMaxAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   supplier_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Product_batchesCountAggregateOutputType = {
@@ -84,8 +86,9 @@ export type Product_batchesCountAggregateOutputType = {
   notes: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   supplier_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -112,8 +115,9 @@ export type Product_batchesMinAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   supplier_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Product_batchesMaxAggregateInputType = {
@@ -130,8 +134,9 @@ export type Product_batchesMaxAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   supplier_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Product_batchesCountAggregateInputType = {
@@ -148,8 +153,9 @@ export type Product_batchesCountAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   supplier_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -253,8 +259,9 @@ export type Product_batchesGroupByOutputType = {
   notes: string | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
   supplier_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Product_batchesCountAggregateOutputType | null
   _avg: Product_batchesAvgAggregateOutputType | null
   _sum: Product_batchesSumAggregateOutputType | null
@@ -262,7 +269,7 @@ export type Product_batchesGroupByOutputType = {
   _max: Product_batchesMaxAggregateOutputType | null
 }
 
-export type GetProduct_batchesGroupByPayload<T extends product_batchesGroupByArgs> = Prisma.PrismaPromise<
+type GetProduct_batchesGroupByPayload<T extends product_batchesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Product_batchesGroupByOutputType, T['by']> &
       {
@@ -294,8 +301,9 @@ export type product_batchesWhereInput = {
   notes?: Prisma.StringNullableFilter<"product_batches"> | string | null
   created_at?: Prisma.DateTimeFilter<"product_batches"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_batches"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   supplier_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
 }
 
 export type product_batchesOrderByWithRelationInput = {
@@ -312,8 +320,9 @@ export type product_batchesOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
@@ -333,8 +342,9 @@ export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"product_batches"> | string | null
   created_at?: Prisma.DateTimeFilter<"product_batches"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_batches"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   supplier_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
 }, "id">
 
 export type product_batchesOrderByWithAggregationInput = {
@@ -351,8 +361,9 @@ export type product_batchesOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.product_batchesCountOrderByAggregateInput
   _avg?: Prisma.product_batchesAvgOrderByAggregateInput
   _max?: Prisma.product_batchesMaxOrderByAggregateInput
@@ -377,8 +388,9 @@ export type product_batchesScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"product_batches"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"product_batches"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"product_batches"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_batches"> | string | null
   supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"product_batches"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_batches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_batches"> | string | null
 }
 
 export type product_batchesCreateInput = {
@@ -395,8 +407,9 @@ export type product_batchesCreateInput = {
   notes?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_batchesUncheckedCreateInput = {
@@ -413,8 +426,9 @@ export type product_batchesUncheckedCreateInput = {
   notes?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_batchesUpdateInput = {
@@ -431,8 +445,9 @@ export type product_batchesUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_batchesUncheckedUpdateInput = {
@@ -449,8 +464,9 @@ export type product_batchesUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_batchesCreateManyInput = {
@@ -467,8 +483,9 @@ export type product_batchesCreateManyInput = {
   notes?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_batchesUpdateManyMutationInput = {
@@ -485,8 +502,9 @@ export type product_batchesUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_batchesUncheckedUpdateManyInput = {
@@ -503,8 +521,9 @@ export type product_batchesUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_batchesCountOrderByAggregateInput = {
@@ -521,8 +540,9 @@ export type product_batchesCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_batchesAvgOrderByAggregateInput = {
@@ -543,8 +563,9 @@ export type product_batchesMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_batchesMinOrderByAggregateInput = {
@@ -561,8 +582,9 @@ export type product_batchesMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_batchesSumOrderByAggregateInput = {
@@ -589,8 +611,9 @@ export type product_batchesSelect<ExtArgs extends runtime.Types.Extensions.Inter
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_batches"]>
 
 export type product_batchesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -607,8 +630,9 @@ export type product_batchesSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_batches"]>
 
 export type product_batchesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -625,8 +649,9 @@ export type product_batchesSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_batches"]>
 
 export type product_batchesSelectScalar = {
@@ -643,11 +668,12 @@ export type product_batchesSelectScalar = {
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type product_batchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_number" | "manufacture_date" | "expiry_date" | "unit_cost" | "status" | "received_reference_type" | "received_reference_id" | "notes" | "created_at" | "updated_at" | "auth_user_id" | "supplier_id", ExtArgs["result"]["product_batches"]>
+export type product_batchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_number" | "manufacture_date" | "expiry_date" | "unit_cost" | "status" | "received_reference_type" | "received_reference_id" | "notes" | "created_at" | "updated_at" | "supplier_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_batches"]>
 
 export type $product_batchesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "product_batches"
@@ -666,8 +692,9 @@ export type $product_batchesPayload<ExtArgs extends runtime.Types.Extensions.Int
     notes: string | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
     supplier_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["product_batches"]>
   composites: {}
 }
@@ -1104,8 +1131,9 @@ export interface product_batchesFieldRefs {
   readonly notes: Prisma.FieldRef<"product_batches", 'String'>
   readonly created_at: Prisma.FieldRef<"product_batches", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"product_batches", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"product_batches", 'String'>
   readonly supplier_id: Prisma.FieldRef<"product_batches", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"product_batches", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"product_batches", 'String'>
 }
     
 

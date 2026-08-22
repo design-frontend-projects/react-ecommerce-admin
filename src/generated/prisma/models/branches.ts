@@ -33,8 +33,9 @@ export type BranchesMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type BranchesMaxAggregateOutputType = {
@@ -46,8 +47,9 @@ export type BranchesMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type BranchesCountAggregateOutputType = {
@@ -59,8 +61,9 @@ export type BranchesCountAggregateOutputType = {
   is_active: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -74,8 +77,9 @@ export type BranchesMinAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type BranchesMaxAggregateInputType = {
@@ -87,8 +91,9 @@ export type BranchesMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type BranchesCountAggregateInputType = {
@@ -100,8 +105,9 @@ export type BranchesCountAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -186,14 +192,15 @@ export type BranchesGroupByOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: BranchesCountAggregateOutputType | null
   _min: BranchesMinAggregateOutputType | null
   _max: BranchesMaxAggregateOutputType | null
 }
 
-export type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
+type GetBranchesGroupByPayload<T extends branchesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BranchesGroupByOutputType, T['by']> &
       {
@@ -220,8 +227,9 @@ export type branchesWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"branches"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidFilter<"branches"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesScalarRelationFilter, Prisma.citiesWhereInput>
   stores?: Prisma.StoresListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
@@ -238,8 +246,9 @@ export type branchesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   cities?: Prisma.citiesOrderByWithRelationInput
   stores?: Prisma.storesOrderByRelationAggregateInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
@@ -259,8 +268,9 @@ export type branchesWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolNullableFilter<"branches"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidFilter<"branches"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
   cities?: Prisma.XOR<Prisma.CitiesScalarRelationFilter, Prisma.citiesWhereInput>
   stores?: Prisma.StoresListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
@@ -277,8 +287,9 @@ export type branchesOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.branchesCountOrderByAggregateInput
   _max?: Prisma.branchesMaxOrderByAggregateInput
   _min?: Prisma.branchesMinOrderByAggregateInput
@@ -296,8 +307,9 @@ export type branchesScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"branches"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"branches"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"branches"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"branches"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"branches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"branches"> | string | null
 }
 
 export type branchesCreateInput = {
@@ -308,8 +320,9 @@ export type branchesCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
@@ -326,8 +339,9 @@ export type branchesUncheckedCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
@@ -342,8 +356,9 @@ export type branchesUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
@@ -360,8 +375,9 @@ export type branchesUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
@@ -377,8 +393,9 @@ export type branchesCreateManyInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type branchesUpdateManyMutationInput = {
@@ -389,8 +406,9 @@ export type branchesUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type branchesUncheckedUpdateManyInput = {
@@ -402,8 +420,9 @@ export type branchesUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type branchesCountOrderByAggregateInput = {
@@ -415,8 +434,9 @@ export type branchesCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type branchesMaxOrderByAggregateInput = {
@@ -428,8 +448,9 @@ export type branchesMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type branchesMinOrderByAggregateInput = {
@@ -441,8 +462,9 @@ export type branchesMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type BranchesListRelationFilter = {
@@ -574,8 +596,9 @@ export type branchesCreateWithoutCitiesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
@@ -590,8 +613,9 @@ export type branchesUncheckedCreateWithoutCitiesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
@@ -636,8 +660,9 @@ export type branchesScalarWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"branches"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"branches"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  tenant_id?: Prisma.UuidFilter<"branches"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"branches"> | string | null
 }
 
 export type branchesCreateWithoutStoresInput = {
@@ -648,8 +673,9 @@ export type branchesCreateWithoutStoresInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
@@ -665,8 +691,9 @@ export type branchesUncheckedCreateWithoutStoresInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
@@ -696,8 +723,9 @@ export type branchesUpdateWithoutStoresInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
@@ -713,8 +741,9 @@ export type branchesUncheckedUpdateWithoutStoresInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -728,8 +757,9 @@ export type branchesCreateWithoutDefault_for_tenantsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
@@ -745,8 +775,9 @@ export type branchesUncheckedCreateWithoutDefault_for_tenantsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
@@ -776,8 +807,9 @@ export type branchesUpdateWithoutDefault_for_tenantsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
@@ -793,8 +825,9 @@ export type branchesUncheckedUpdateWithoutDefault_for_tenantsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -808,8 +841,9 @@ export type branchesCreateWithoutTenant_usersInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsCreateNestedManyWithoutDefault_branchInput
@@ -825,8 +859,9 @@ export type branchesUncheckedCreateWithoutTenant_usersInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutBranchesInput
@@ -856,8 +891,9 @@ export type branchesUpdateWithoutTenant_usersInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
@@ -873,8 +909,9 @@ export type branchesUncheckedUpdateWithoutTenant_usersInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutBranchesNestedInput
@@ -888,8 +925,9 @@ export type branchesCreateWithoutWarehousesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities: Prisma.citiesCreateNestedOneWithoutBranchesInput
   stores?: Prisma.storesCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutBranchesInput
@@ -905,8 +943,9 @@ export type branchesUncheckedCreateWithoutWarehousesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutBranchesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutBranchesInput
   default_for_tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutDefault_branchInput
@@ -936,8 +975,9 @@ export type branchesUpdateWithoutWarehousesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneRequiredWithoutBranchesNestedInput
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
@@ -953,8 +993,9 @@ export type branchesUncheckedUpdateWithoutWarehousesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
@@ -968,8 +1009,9 @@ export type branchesCreateManyCitiesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type branchesUpdateWithoutCitiesInput = {
@@ -980,8 +1022,9 @@ export type branchesUpdateWithoutCitiesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUpdateManyWithoutDefault_branchNestedInput
@@ -996,8 +1039,9 @@ export type branchesUncheckedUpdateWithoutCitiesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutBranchesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput
   default_for_tenants?: Prisma.tenantsUncheckedUpdateManyWithoutDefault_branchNestedInput
@@ -1012,8 +1056,9 @@ export type branchesUncheckedUpdateManyWithoutCitiesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1083,8 +1128,9 @@ export type branchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.branches$storesArgs<ExtArgs>
   tenant_users?: boolean | Prisma.branches$tenant_usersArgs<ExtArgs>
@@ -1102,8 +1148,9 @@ export type branchesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["branches"]>
 
@@ -1116,8 +1163,9 @@ export type branchesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["branches"]>
 
@@ -1130,11 +1178,12 @@ export type branchesSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type branchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "city_id" | "address" | "phone" | "is_active" | "created_at" | "updated_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["branches"]>
+export type branchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "city_id" | "address" | "phone" | "is_active" | "created_at" | "updated_at" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["branches"]>
 export type branchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.citiesDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.branches$storesArgs<ExtArgs>
@@ -1168,8 +1217,9 @@ export type $branchesPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["branches"]>
   composites: {}
 }
@@ -1606,8 +1656,9 @@ export interface branchesFieldRefs {
   readonly is_active: Prisma.FieldRef<"branches", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"branches", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"branches", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"branches", 'String'>
   readonly tenant_id: Prisma.FieldRef<"branches", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"branches", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"branches", 'String'>
 }
     
 

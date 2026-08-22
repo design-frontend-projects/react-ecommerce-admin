@@ -5,6 +5,7 @@ import {
   type SendNotificationInput,
   type CreateTemplateInput,
 } from '@/features/notifications/data/schema'
+import { resolveTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 
 /**
  * Fetch unread count and list of user notifications
@@ -19,7 +20,7 @@ export async function getUserNotifications(userId: string) {
     where: {
       OR: [{ auth_user_id: userId }, { id: userId }],
     },
-    select: { id: true, auth_user_id: true },
+    select: { id: true, auth_user_id: true, tenant_id: true, parent_tenant_id: true },
   })
 
   const targetUserIds = [userId]
@@ -34,10 +35,7 @@ export async function getUserNotifications(userId: string) {
 
   const items = await prisma.res_notifications.findMany({
     where: {
-      OR: [
-        { recipient_id: { in: targetUserIds } },
-        { auth_user_id: { in: targetUserIds } },
-      ],
+      recipient_id: { in: targetUserIds },
     },
     orderBy: {
       created_at: 'desc',
@@ -47,10 +45,7 @@ export async function getUserNotifications(userId: string) {
 
   const unreadCount = await prisma.res_notifications.count({
     where: {
-      OR: [
-        { recipient_id: { in: targetUserIds } },
-        { auth_user_id: { in: targetUserIds } },
-      ],
+      recipient_id: { in: targetUserIds },
       is_read: false,
     },
   })
@@ -58,7 +53,7 @@ export async function getUserNotifications(userId: string) {
   const formatted = items.map((item) => ({
     id: item.id,
     notification_id: item.id,
-    user_id: item.recipient_id || item.auth_user_id || userId,
+    user_id: item.recipient_id || userId,
     is_read: item.is_read ?? false,
     read_at: null,
     created_at: item.created_at ? item.created_at.toISOString() : new Date().toISOString(),
@@ -69,7 +64,7 @@ export async function getUserNotifications(userId: string) {
       severity: (item.type?.toUpperCase() === 'WARNING' || item.type?.toUpperCase() === 'ERROR' || item.type?.toUpperCase() === 'SUCCESS' ? item.type.toUpperCase() : 'INFO') as any,
       target_type: 'USER' as const,
       target_role: null,
-      sender_id: item.auth_user_id,
+      sender_id: item.created_by_user_id,
       template_id: null,
       is_active: true,
       created_at: item.created_at ? item.created_at.toISOString() : new Date().toISOString(),
@@ -122,10 +117,7 @@ export async function markAllNotificationsAsRead(userId: string) {
 
   return await prisma.res_notifications.updateMany({
     where: {
-      OR: [
-        { recipient_id: { in: targetUserIds } },
-        { auth_user_id: { in: targetUserIds } },
-      ],
+      recipient_id: { in: targetUserIds },
       is_read: false,
     },
     data: {
@@ -142,19 +134,30 @@ export async function sendNotification(
   senderId?: string
 ) {
   let targetUserIds: string[] = []
+  let tenantId = senderId ? await resolveTenantId(senderId) : null
+  const senderTenantUserId = senderId ? await resolveTenantUserId(senderId) : null
+
+  if (!tenantId) {
+    const firstTenant = await prisma.tenants.findFirst({ select: { id: true } })
+    tenantId = firstTenant?.id ?? null
+  }
 
   if (input.target_type === 'ALL') {
     const allUsers = await prisma.tenant_users.findMany({
-      where: { is_active: true },
+      where: {
+        is_active: true,
+        ...(tenantId ? { OR: [{ tenant_id: tenantId }, { parent_tenant_id: tenantId }] } : {}),
+      },
       select: { id: true, auth_user_id: true },
     })
     targetUserIds = allUsers
-      .map((u) => u.auth_user_id || u.id)
+      .map((u) => u.id || u.auth_user_id)
       .filter((id): id is string => Boolean(id))
   } else if (input.target_type === 'ROLE' && input.target_role) {
     const matchedUsers = await prisma.tenant_users.findMany({
       where: {
         is_active: true,
+        ...(tenantId ? { OR: [{ tenant_id: tenantId }, { parent_tenant_id: tenantId }] } : {}),
         OR: [
           { default_role: input.target_role },
           {
@@ -174,7 +177,7 @@ export async function sendNotification(
       select: { id: true, auth_user_id: true },
     })
     targetUserIds = matchedUsers
-      .map((u) => u.auth_user_id || u.id)
+      .map((u) => u.id || u.auth_user_id)
       .filter((id): id is string => Boolean(id))
   } else if (input.target_type === 'USER' && input.target_user_ids) {
     targetUserIds = input.target_user_ids
@@ -185,15 +188,17 @@ export async function sendNotification(
     targetUserIds = [senderId]
   }
 
-  if (targetUserIds.length > 0) {
+  if (targetUserIds.length > 0 && tenantId) {
     await prisma.res_notifications.createMany({
       data: targetUserIds.map((uId) => ({
+        tenant_id: tenantId!,
         recipient_id: uId,
         type: input.severity ? input.severity.toLowerCase() : 'info',
         title: input.title,
         message: input.content,
         is_read: false,
-        auth_user_id: senderId,
+        created_by_user_id: senderTenantUserId,
+        updated_by_user_id: senderTenantUserId,
       })),
     })
   }
@@ -230,7 +235,7 @@ export async function getSentNotificationsLog() {
         id: item.id,
         is_read: item.is_read ?? false,
         read_at: null,
-        user_id: item.recipient_id || item.auth_user_id,
+        user_id: item.recipient_id || item.created_by_user_id,
       },
     ],
   }))

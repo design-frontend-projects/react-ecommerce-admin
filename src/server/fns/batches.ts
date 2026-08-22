@@ -1,7 +1,7 @@
 'use server'
 
 import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export type BatchToggleStatus = 'active' | 'blocked'
@@ -12,19 +12,9 @@ export async function listBatches(authUserId: string) {
   const batches = (await prisma.product_batches.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      product_variants: {
-        select: {
-          id: true,
-          sku: true,
-          products: { select: { name: true } },
-        },
-      },
-      suppliers: { select: { supplier_id: true, name: true } },
-    },
   })) as Array<Record<string, unknown> & { id: string }>
 
-  const sums = (await prisma.stock_by_location.groupBy({
+  const sums = (await (prisma.stock_by_location as any).groupBy({
     by: ['batch_id'],
     where: { tenant_id: tenantId, batch_id: { not: null } },
     _sum: { qty_on_hand: true },
@@ -52,6 +42,7 @@ export async function setBatchStatus(
   status: BatchToggleStatus
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (status !== 'active' && status !== 'blocked') {
     throw new ApiError('Status must be either active or blocked.', 400)
@@ -77,12 +68,16 @@ export async function setBatchStatus(
 
   return prisma.product_batches.update({
     where: { id },
-    data: { status },
+    data: {
+      status,
+      updated_by_user_id: tenantUserId,
+    },
   })
 }
 
 export async function expireBatches(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   const result = await prisma.product_batches.updateMany({
     where: {
@@ -90,7 +85,10 @@ export async function expireBatches(authUserId: string) {
       status: 'active',
       expiry_date: { lt: new Date() },
     },
-    data: { status: 'expired' },
+    data: {
+      status: 'expired',
+      updated_by_user_id: tenantUserId,
+    },
   })
 
   return { expired: result.count }

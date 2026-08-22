@@ -32,8 +32,9 @@ export type Res_notificationsMinAggregateOutputType = {
   message: string | null
   is_read: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_notificationsMaxAggregateOutputType = {
@@ -44,8 +45,9 @@ export type Res_notificationsMaxAggregateOutputType = {
   message: string | null
   is_read: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_notificationsCountAggregateOutputType = {
@@ -57,8 +59,9 @@ export type Res_notificationsCountAggregateOutputType = {
   data: number
   is_read: number
   created_at: number
-  auth_user_id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -71,8 +74,9 @@ export type Res_notificationsMinAggregateInputType = {
   message?: true
   is_read?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_notificationsMaxAggregateInputType = {
@@ -83,8 +87,9 @@ export type Res_notificationsMaxAggregateInputType = {
   message?: true
   is_read?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_notificationsCountAggregateInputType = {
@@ -96,8 +101,9 @@ export type Res_notificationsCountAggregateInputType = {
   data?: true
   is_read?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -182,14 +188,15 @@ export type Res_notificationsGroupByOutputType = {
   data: runtime.JsonValue | null
   is_read: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Res_notificationsCountAggregateOutputType | null
   _min: Res_notificationsMinAggregateOutputType | null
   _max: Res_notificationsMaxAggregateOutputType | null
 }
 
-export type GetRes_notificationsGroupByPayload<T extends res_notificationsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_notificationsGroupByPayload<T extends res_notificationsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_notificationsGroupByOutputType, T['by']> &
       {
@@ -216,8 +223,9 @@ export type res_notificationsWhereInput = {
   data?: Prisma.JsonNullableFilter<"res_notifications">
   is_read?: Prisma.BoolNullableFilter<"res_notifications"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_notifications"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_notifications"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
 }
 
 export type res_notificationsOrderByWithRelationInput = {
@@ -229,8 +237,9 @@ export type res_notificationsOrderByWithRelationInput = {
   data?: Prisma.SortOrderInput | Prisma.SortOrder
   is_read?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_notificationsWhereUniqueInput = Prisma.AtLeast<{
@@ -245,8 +254,9 @@ export type res_notificationsWhereUniqueInput = Prisma.AtLeast<{
   data?: Prisma.JsonNullableFilter<"res_notifications">
   is_read?: Prisma.BoolNullableFilter<"res_notifications"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_notifications"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_notifications"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_notifications"> | string | null
 }, "id">
 
 export type res_notificationsOrderByWithAggregationInput = {
@@ -258,8 +268,9 @@ export type res_notificationsOrderByWithAggregationInput = {
   data?: Prisma.SortOrderInput | Prisma.SortOrder
   is_read?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_notificationsCountOrderByAggregateInput
   _max?: Prisma.res_notificationsMaxOrderByAggregateInput
   _min?: Prisma.res_notificationsMinOrderByAggregateInput
@@ -277,8 +288,9 @@ export type res_notificationsScalarWhereWithAggregatesInput = {
   data?: Prisma.JsonNullableWithAggregatesFilter<"res_notifications">
   is_read?: Prisma.BoolNullableWithAggregatesFilter<"res_notifications"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_notifications"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_notifications"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_notifications"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"res_notifications"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_notifications"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_notifications"> | string | null
 }
 
 export type res_notificationsCreateInput = {
@@ -290,8 +302,9 @@ export type res_notificationsCreateInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_notificationsUncheckedCreateInput = {
@@ -303,8 +316,9 @@ export type res_notificationsUncheckedCreateInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_notificationsUpdateInput = {
@@ -316,8 +330,9 @@ export type res_notificationsUpdateInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_notificationsUncheckedUpdateInput = {
@@ -329,8 +344,9 @@ export type res_notificationsUncheckedUpdateInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_notificationsCreateManyInput = {
@@ -342,8 +358,9 @@ export type res_notificationsCreateManyInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_notificationsUpdateManyMutationInput = {
@@ -355,8 +372,9 @@ export type res_notificationsUpdateManyMutationInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_notificationsUncheckedUpdateManyInput = {
@@ -368,8 +386,9 @@ export type res_notificationsUncheckedUpdateManyInput = {
   data?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   is_read?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_notificationsCountOrderByAggregateInput = {
@@ -381,8 +400,9 @@ export type res_notificationsCountOrderByAggregateInput = {
   data?: Prisma.SortOrder
   is_read?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_notificationsMaxOrderByAggregateInput = {
@@ -393,8 +413,9 @@ export type res_notificationsMaxOrderByAggregateInput = {
   message?: Prisma.SortOrder
   is_read?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_notificationsMinOrderByAggregateInput = {
@@ -405,8 +426,9 @@ export type res_notificationsMinOrderByAggregateInput = {
   message?: Prisma.SortOrder
   is_read?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 
@@ -420,8 +442,9 @@ export type res_notificationsSelect<ExtArgs extends runtime.Types.Extensions.Int
   data?: boolean
   is_read?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_notifications"]>
 
 export type res_notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -433,8 +456,9 @@ export type res_notificationsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   data?: boolean
   is_read?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_notifications"]>
 
 export type res_notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -446,8 +470,9 @@ export type res_notificationsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   data?: boolean
   is_read?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_notifications"]>
 
 export type res_notificationsSelectScalar = {
@@ -459,11 +484,12 @@ export type res_notificationsSelectScalar = {
   data?: boolean
   is_read?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type res_notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "recipient_id" | "type" | "title" | "message" | "data" | "is_read" | "created_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["res_notifications"]>
+export type res_notificationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "recipient_id" | "type" | "title" | "message" | "data" | "is_read" | "created_at" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["res_notifications"]>
 
 export type $res_notificationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_notifications"
@@ -477,8 +503,9 @@ export type $res_notificationsPayload<ExtArgs extends runtime.Types.Extensions.I
     data: runtime.JsonValue | null
     is_read: boolean | null
     created_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["res_notifications"]>
   composites: {}
 }
@@ -910,8 +937,9 @@ export interface res_notificationsFieldRefs {
   readonly data: Prisma.FieldRef<"res_notifications", 'Json'>
   readonly is_read: Prisma.FieldRef<"res_notifications", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"res_notifications", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"res_notifications", 'String'>
   readonly tenant_id: Prisma.FieldRef<"res_notifications", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"res_notifications", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"res_notifications", 'String'>
 }
     
 

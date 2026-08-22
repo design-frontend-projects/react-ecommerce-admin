@@ -28,21 +28,18 @@ export type Module_activity_typesMinAggregateOutputType = {
   module_id: string | null
   activity_type_id: string | null
   created_at: Date | null
-  auth_user_id: string | null
 }
 
 export type Module_activity_typesMaxAggregateOutputType = {
   module_id: string | null
   activity_type_id: string | null
   created_at: Date | null
-  auth_user_id: string | null
 }
 
 export type Module_activity_typesCountAggregateOutputType = {
   module_id: number
   activity_type_id: number
   created_at: number
-  auth_user_id: number
   _all: number
 }
 
@@ -51,21 +48,18 @@ export type Module_activity_typesMinAggregateInputType = {
   module_id?: true
   activity_type_id?: true
   created_at?: true
-  auth_user_id?: true
 }
 
 export type Module_activity_typesMaxAggregateInputType = {
   module_id?: true
   activity_type_id?: true
   created_at?: true
-  auth_user_id?: true
 }
 
 export type Module_activity_typesCountAggregateInputType = {
   module_id?: true
   activity_type_id?: true
   created_at?: true
-  auth_user_id?: true
   _all?: true
 }
 
@@ -145,13 +139,12 @@ export type Module_activity_typesGroupByOutputType = {
   module_id: string
   activity_type_id: string
   created_at: Date | null
-  auth_user_id: string | null
   _count: Module_activity_typesCountAggregateOutputType | null
   _min: Module_activity_typesMinAggregateOutputType | null
   _max: Module_activity_typesMaxAggregateOutputType | null
 }
 
-export type GetModule_activity_typesGroupByPayload<T extends module_activity_typesGroupByArgs> = Prisma.PrismaPromise<
+type GetModule_activity_typesGroupByPayload<T extends module_activity_typesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Module_activity_typesGroupByOutputType, T['by']> &
       {
@@ -173,7 +166,6 @@ export type module_activity_typesWhereInput = {
   module_id?: Prisma.UuidFilter<"module_activity_types"> | string
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
   business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
   app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
 }
@@ -182,7 +174,6 @@ export type module_activity_typesOrderByWithRelationInput = {
   module_id?: Prisma.SortOrder
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   business_activity_types?: Prisma.business_activity_typesOrderByWithRelationInput
   app_modules?: Prisma.app_modulesOrderByWithRelationInput
 }
@@ -195,7 +186,6 @@ export type module_activity_typesWhereUniqueInput = Prisma.AtLeast<{
   module_id?: Prisma.UuidFilter<"module_activity_types"> | string
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
   business_activity_types?: Prisma.XOR<Prisma.Business_activity_typesScalarRelationFilter, Prisma.business_activity_typesWhereInput>
   app_modules?: Prisma.XOR<Prisma.App_modulesScalarRelationFilter, Prisma.app_modulesWhereInput>
 }, "module_id_activity_type_id">
@@ -204,7 +194,6 @@ export type module_activity_typesOrderByWithAggregationInput = {
   module_id?: Prisma.SortOrder
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.module_activity_typesCountOrderByAggregateInput
   _max?: Prisma.module_activity_typesMaxOrderByAggregateInput
   _min?: Prisma.module_activity_typesMinOrderByAggregateInput
@@ -217,12 +206,10 @@ export type module_activity_typesScalarWhereWithAggregatesInput = {
   module_id?: Prisma.UuidWithAggregatesFilter<"module_activity_types"> | string
   activity_type_id?: Prisma.UuidWithAggregatesFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"module_activity_types"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"module_activity_types"> | string | null
 }
 
 export type module_activity_typesCreateInput = {
   created_at?: Date | string | null
-  auth_user_id?: string | null
   business_activity_types: Prisma.business_activity_typesCreateNestedOneWithoutModule_activity_typesInput
   app_modules: Prisma.app_modulesCreateNestedOneWithoutModule_activity_typesInput
 }
@@ -231,12 +218,10 @@ export type module_activity_typesUncheckedCreateInput = {
   module_id: string
   activity_type_id: string
   created_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type module_activity_typesUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   business_activity_types?: Prisma.business_activity_typesUpdateOneRequiredWithoutModule_activity_typesNestedInput
   app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput
 }
@@ -245,26 +230,22 @@ export type module_activity_typesUncheckedUpdateInput = {
   module_id?: Prisma.StringFieldUpdateOperationsInput | string
   activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type module_activity_typesCreateManyInput = {
   module_id: string
   activity_type_id: string
   created_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type module_activity_typesUpdateManyMutationInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type module_activity_typesUncheckedUpdateManyInput = {
   module_id?: Prisma.StringFieldUpdateOperationsInput | string
   activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Module_activity_typesListRelationFilter = {
@@ -286,21 +267,18 @@ export type module_activity_typesCountOrderByAggregateInput = {
   module_id?: Prisma.SortOrder
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type module_activity_typesMaxOrderByAggregateInput = {
   module_id?: Prisma.SortOrder
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type module_activity_typesMinOrderByAggregateInput = {
   module_id?: Prisma.SortOrder
   activity_type_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type module_activity_typesCreateNestedManyWithoutBusiness_activity_typesInput = {
@@ -389,14 +367,12 @@ export type module_activity_typesUncheckedUpdateManyWithoutApp_modulesNestedInpu
 
 export type module_activity_typesCreateWithoutBusiness_activity_typesInput = {
   created_at?: Date | string | null
-  auth_user_id?: string | null
   app_modules: Prisma.app_modulesCreateNestedOneWithoutModule_activity_typesInput
 }
 
 export type module_activity_typesUncheckedCreateWithoutBusiness_activity_typesInput = {
   module_id: string
   created_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type module_activity_typesCreateOrConnectWithoutBusiness_activity_typesInput = {
@@ -432,19 +408,16 @@ export type module_activity_typesScalarWhereInput = {
   module_id?: Prisma.UuidFilter<"module_activity_types"> | string
   activity_type_id?: Prisma.UuidFilter<"module_activity_types"> | string
   created_at?: Prisma.DateTimeNullableFilter<"module_activity_types"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"module_activity_types"> | string | null
 }
 
 export type module_activity_typesCreateWithoutApp_modulesInput = {
   created_at?: Date | string | null
-  auth_user_id?: string | null
   business_activity_types: Prisma.business_activity_typesCreateNestedOneWithoutModule_activity_typesInput
 }
 
 export type module_activity_typesUncheckedCreateWithoutApp_modulesInput = {
   activity_type_id: string
   created_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type module_activity_typesCreateOrConnectWithoutApp_modulesInput = {
@@ -476,49 +449,41 @@ export type module_activity_typesUpdateManyWithWhereWithoutApp_modulesInput = {
 export type module_activity_typesCreateManyBusiness_activity_typesInput = {
   module_id: string
   created_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type module_activity_typesUpdateWithoutBusiness_activity_typesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   app_modules?: Prisma.app_modulesUpdateOneRequiredWithoutModule_activity_typesNestedInput
 }
 
 export type module_activity_typesUncheckedUpdateWithoutBusiness_activity_typesInput = {
   module_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type module_activity_typesUncheckedUpdateManyWithoutBusiness_activity_typesInput = {
   module_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type module_activity_typesCreateManyApp_modulesInput = {
   activity_type_id: string
   created_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type module_activity_typesUpdateWithoutApp_modulesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   business_activity_types?: Prisma.business_activity_typesUpdateOneRequiredWithoutModule_activity_typesNestedInput
 }
 
 export type module_activity_typesUncheckedUpdateWithoutApp_modulesInput = {
   activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type module_activity_typesUncheckedUpdateManyWithoutApp_modulesInput = {
   activity_type_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -527,7 +492,6 @@ export type module_activity_typesSelect<ExtArgs extends runtime.Types.Extensions
   module_id?: boolean
   activity_type_id?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
   app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
@@ -536,7 +500,6 @@ export type module_activity_typesSelectCreateManyAndReturn<ExtArgs extends runti
   module_id?: boolean
   activity_type_id?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
   app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
@@ -545,7 +508,6 @@ export type module_activity_typesSelectUpdateManyAndReturn<ExtArgs extends runti
   module_id?: boolean
   activity_type_id?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
   app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module_activity_types"]>
@@ -554,10 +516,9 @@ export type module_activity_typesSelectScalar = {
   module_id?: boolean
   activity_type_id?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
 }
 
-export type module_activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module_id" | "activity_type_id" | "created_at" | "auth_user_id", ExtArgs["result"]["module_activity_types"]>
+export type module_activity_typesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module_id" | "activity_type_id" | "created_at", ExtArgs["result"]["module_activity_types"]>
 export type module_activity_typesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   business_activity_types?: boolean | Prisma.business_activity_typesDefaultArgs<ExtArgs>
   app_modules?: boolean | Prisma.app_modulesDefaultArgs<ExtArgs>
@@ -581,7 +542,6 @@ export type $module_activity_typesPayload<ExtArgs extends runtime.Types.Extensio
     module_id: string
     activity_type_id: string
     created_at: Date | null
-    auth_user_id: string | null
   }, ExtArgs["result"]["module_activity_types"]>
   composites: {}
 }
@@ -1010,7 +970,6 @@ export interface module_activity_typesFieldRefs {
   readonly module_id: Prisma.FieldRef<"module_activity_types", 'String'>
   readonly activity_type_id: Prisma.FieldRef<"module_activity_types", 'String'>
   readonly created_at: Prisma.FieldRef<"module_activity_types", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"module_activity_types", 'String'>
 }
     
 

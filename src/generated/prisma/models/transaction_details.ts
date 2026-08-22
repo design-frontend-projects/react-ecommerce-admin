@@ -53,8 +53,9 @@ export type Transaction_detailsMinAggregateOutputType = {
   subtotal: runtime.Decimal | null
   sales_invoice_item_id: string | null
   sales_return_item_id: string | null
-  auth_user_id: string | null
   product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Transaction_detailsMaxAggregateOutputType = {
@@ -68,8 +69,9 @@ export type Transaction_detailsMaxAggregateOutputType = {
   subtotal: runtime.Decimal | null
   sales_invoice_item_id: string | null
   sales_return_item_id: string | null
-  auth_user_id: string | null
   product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Transaction_detailsCountAggregateOutputType = {
@@ -83,8 +85,9 @@ export type Transaction_detailsCountAggregateOutputType = {
   subtotal: number
   sales_invoice_item_id: number
   sales_return_item_id: number
-  auth_user_id: number
   product_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -116,8 +119,9 @@ export type Transaction_detailsMinAggregateInputType = {
   subtotal?: true
   sales_invoice_item_id?: true
   sales_return_item_id?: true
-  auth_user_id?: true
   product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Transaction_detailsMaxAggregateInputType = {
@@ -131,8 +135,9 @@ export type Transaction_detailsMaxAggregateInputType = {
   subtotal?: true
   sales_invoice_item_id?: true
   sales_return_item_id?: true
-  auth_user_id?: true
   product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Transaction_detailsCountAggregateInputType = {
@@ -146,8 +151,9 @@ export type Transaction_detailsCountAggregateInputType = {
   subtotal?: true
   sales_invoice_item_id?: true
   sales_return_item_id?: true
-  auth_user_id?: true
   product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -248,8 +254,9 @@ export type Transaction_detailsGroupByOutputType = {
   subtotal: runtime.Decimal
   sales_invoice_item_id: string | null
   sales_return_item_id: string | null
-  auth_user_id: string | null
   product_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Transaction_detailsCountAggregateOutputType | null
   _avg: Transaction_detailsAvgAggregateOutputType | null
   _sum: Transaction_detailsSumAggregateOutputType | null
@@ -257,7 +264,7 @@ export type Transaction_detailsGroupByOutputType = {
   _max: Transaction_detailsMaxAggregateOutputType | null
 }
 
-export type GetTransaction_detailsGroupByPayload<T extends transaction_detailsGroupByArgs> = Prisma.PrismaPromise<
+type GetTransaction_detailsGroupByPayload<T extends transaction_detailsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Transaction_detailsGroupByOutputType, T['by']> &
       {
@@ -286,8 +293,9 @@ export type transaction_detailsWhereInput = {
   subtotal?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   sales_return_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   product_id?: Prisma.UuidFilter<"transaction_details"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
 }
 
 export type transaction_detailsOrderByWithRelationInput = {
@@ -301,8 +309,9 @@ export type transaction_detailsOrderByWithRelationInput = {
   subtotal?: Prisma.SortOrder
   sales_invoice_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type transaction_detailsWhereUniqueInput = Prisma.AtLeast<{
@@ -319,8 +328,9 @@ export type transaction_detailsWhereUniqueInput = Prisma.AtLeast<{
   subtotal?: Prisma.DecimalFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   sales_return_item_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
   product_id?: Prisma.UuidFilter<"transaction_details"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"transaction_details"> | string | null
 }, "id">
 
 export type transaction_detailsOrderByWithAggregationInput = {
@@ -334,8 +344,9 @@ export type transaction_detailsOrderByWithAggregationInput = {
   subtotal?: Prisma.SortOrder
   sales_invoice_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.transaction_detailsCountOrderByAggregateInput
   _avg?: Prisma.transaction_detailsAvgOrderByAggregateInput
   _max?: Prisma.transaction_detailsMaxOrderByAggregateInput
@@ -357,8 +368,9 @@ export type transaction_detailsScalarWhereWithAggregatesInput = {
   subtotal?: Prisma.DecimalWithAggregatesFilter<"transaction_details"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
   sales_return_item_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
   product_id?: Prisma.UuidWithAggregatesFilter<"transaction_details"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"transaction_details"> | string | null
 }
 
 export type transaction_detailsCreateInput = {
@@ -372,8 +384,9 @@ export type transaction_detailsCreateInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: string | null
   sales_return_item_id?: string | null
-  auth_user_id?: string | null
   product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type transaction_detailsUncheckedCreateInput = {
@@ -387,8 +400,9 @@ export type transaction_detailsUncheckedCreateInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: string | null
   sales_return_item_id?: string | null
-  auth_user_id?: string | null
   product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type transaction_detailsUpdateInput = {
@@ -402,8 +416,9 @@ export type transaction_detailsUpdateInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transaction_detailsUncheckedUpdateInput = {
@@ -417,8 +432,9 @@ export type transaction_detailsUncheckedUpdateInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transaction_detailsCreateManyInput = {
@@ -432,8 +448,9 @@ export type transaction_detailsCreateManyInput = {
   subtotal: runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: string | null
   sales_return_item_id?: string | null
-  auth_user_id?: string | null
   product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type transaction_detailsUpdateManyMutationInput = {
@@ -447,8 +464,9 @@ export type transaction_detailsUpdateManyMutationInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transaction_detailsUncheckedUpdateManyInput = {
@@ -462,8 +480,9 @@ export type transaction_detailsUncheckedUpdateManyInput = {
   subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   sales_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transaction_detailsCountOrderByAggregateInput = {
@@ -477,8 +496,9 @@ export type transaction_detailsCountOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   sales_invoice_item_id?: Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsAvgOrderByAggregateInput = {
@@ -500,8 +520,9 @@ export type transaction_detailsMaxOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   sales_invoice_item_id?: Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsMinOrderByAggregateInput = {
@@ -515,8 +536,9 @@ export type transaction_detailsMinOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   sales_invoice_item_id?: Prisma.SortOrder
   sales_return_item_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type transaction_detailsSumOrderByAggregateInput = {
@@ -540,8 +562,9 @@ export type transaction_detailsSelect<ExtArgs extends runtime.Types.Extensions.I
   subtotal?: boolean
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
-  auth_user_id?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["transaction_details"]>
 
 export type transaction_detailsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -555,8 +578,9 @@ export type transaction_detailsSelectCreateManyAndReturn<ExtArgs extends runtime
   subtotal?: boolean
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
-  auth_user_id?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["transaction_details"]>
 
 export type transaction_detailsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -570,8 +594,9 @@ export type transaction_detailsSelectUpdateManyAndReturn<ExtArgs extends runtime
   subtotal?: boolean
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
-  auth_user_id?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["transaction_details"]>
 
 export type transaction_detailsSelectScalar = {
@@ -585,11 +610,12 @@ export type transaction_detailsSelectScalar = {
   subtotal?: boolean
   sales_invoice_item_id?: boolean
   sales_return_item_id?: boolean
-  auth_user_id?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type transaction_detailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transaction_id" | "quantity" | "unit_price" | "discount_amount" | "tax_amount" | "subtotal" | "sales_invoice_item_id" | "sales_return_item_id" | "auth_user_id" | "product_id", ExtArgs["result"]["transaction_details"]>
+export type transaction_detailsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transaction_id" | "quantity" | "unit_price" | "discount_amount" | "tax_amount" | "subtotal" | "sales_invoice_item_id" | "sales_return_item_id" | "product_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["transaction_details"]>
 
 export type $transaction_detailsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "transaction_details"
@@ -605,8 +631,9 @@ export type $transaction_detailsPayload<ExtArgs extends runtime.Types.Extensions
     subtotal: runtime.Decimal
     sales_invoice_item_id: string | null
     sales_return_item_id: string | null
-    auth_user_id: string | null
     product_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["transaction_details"]>
   composites: {}
 }
@@ -1040,8 +1067,9 @@ export interface transaction_detailsFieldRefs {
   readonly subtotal: Prisma.FieldRef<"transaction_details", 'Decimal'>
   readonly sales_invoice_item_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly sales_return_item_id: Prisma.FieldRef<"transaction_details", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"transaction_details", 'String'>
   readonly product_id: Prisma.FieldRef<"transaction_details", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"transaction_details", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"transaction_details", 'String'>
 }
     
 

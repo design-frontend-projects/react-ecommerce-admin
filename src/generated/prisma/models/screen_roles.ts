@@ -144,7 +144,7 @@ export type Screen_rolesGroupByOutputType = {
   _max: Screen_rolesMaxAggregateOutputType | null
 }
 
-export type GetScreen_rolesGroupByPayload<T extends screen_rolesGroupByArgs> = Prisma.PrismaPromise<
+type GetScreen_rolesGroupByPayload<T extends screen_rolesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Screen_rolesGroupByOutputType, T['by']> &
       {

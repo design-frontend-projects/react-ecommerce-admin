@@ -2,7 +2,7 @@ import { Temporal, toPlainDate } from '@/lib/temporal_utils'
 import prisma from '@/lib/prisma'
 
 export async function scheduleTask(
-  customerId: number,
+  customerId: string | number,
   title: string,
   dueDate: Date
 ) {
@@ -12,7 +12,7 @@ export async function scheduleTask(
     throw new Error('Cannot schedule tasks in the past')
   }
 
-  return await prisma.crm_tasks.create({
+  return await (prisma as any).crm_tasks?.create({
     data: {
       customer_id: customerId,
       title,
@@ -22,19 +22,19 @@ export async function scheduleTask(
   })
 }
 
-export async function completeTask(taskId: number) {
-  return await prisma.crm_tasks.update({
+export async function completeTask(taskId: number | string) {
+  return await (prisma as any).crm_tasks?.update({
     where: { id: taskId },
     data: { status: 'completed' },
   })
 }
 
 export async function logInteraction(
-  customerId: number,
+  customerId: string | number,
   type: string,
   notes: string
 ) {
-  return await prisma.crm_interactions.create({
+  return await (prisma as any).crm_interactions?.create({
     data: {
       customer_id: customerId,
       type,

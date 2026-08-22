@@ -39,7 +39,6 @@ export type Price_listMinAggregateOutputType = {
   start_date: Date | null
   end_date: Date | null
   is_active: boolean | null
-  auth_user_id: string | null
   description: string | null
   type: $Enums.price_list_types | null
   store_id: string | null
@@ -47,6 +46,8 @@ export type Price_listMinAggregateOutputType = {
   tenant_id: string | null
   product_id: string | null
   group_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Price_listMaxAggregateOutputType = {
@@ -54,7 +55,6 @@ export type Price_listMaxAggregateOutputType = {
   start_date: Date | null
   end_date: Date | null
   is_active: boolean | null
-  auth_user_id: string | null
   description: string | null
   type: $Enums.price_list_types | null
   store_id: string | null
@@ -62,6 +62,8 @@ export type Price_listMaxAggregateOutputType = {
   tenant_id: string | null
   product_id: string | null
   group_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Price_listCountAggregateOutputType = {
@@ -69,7 +71,6 @@ export type Price_listCountAggregateOutputType = {
   start_date: number
   end_date: number
   is_active: number
-  auth_user_id: number
   description: number
   type: number
   store_id: number
@@ -77,6 +78,8 @@ export type Price_listCountAggregateOutputType = {
   tenant_id: number
   product_id: number
   group_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -94,7 +97,6 @@ export type Price_listMinAggregateInputType = {
   start_date?: true
   end_date?: true
   is_active?: true
-  auth_user_id?: true
   description?: true
   type?: true
   store_id?: true
@@ -102,6 +104,8 @@ export type Price_listMinAggregateInputType = {
   tenant_id?: true
   product_id?: true
   group_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Price_listMaxAggregateInputType = {
@@ -109,7 +113,6 @@ export type Price_listMaxAggregateInputType = {
   start_date?: true
   end_date?: true
   is_active?: true
-  auth_user_id?: true
   description?: true
   type?: true
   store_id?: true
@@ -117,6 +120,8 @@ export type Price_listMaxAggregateInputType = {
   tenant_id?: true
   product_id?: true
   group_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Price_listCountAggregateInputType = {
@@ -124,7 +129,6 @@ export type Price_listCountAggregateInputType = {
   start_date?: true
   end_date?: true
   is_active?: true
-  auth_user_id?: true
   description?: true
   type?: true
   store_id?: true
@@ -132,6 +136,8 @@ export type Price_listCountAggregateInputType = {
   tenant_id?: true
   product_id?: true
   group_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -226,14 +232,15 @@ export type Price_listGroupByOutputType = {
   start_date: Date
   end_date: Date | null
   is_active: boolean | null
-  auth_user_id: string | null
   description: string | null
   type: $Enums.price_list_types | null
   store_id: string | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
   product_id: string
   group_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Price_listCountAggregateOutputType | null
   _avg: Price_listAvgAggregateOutputType | null
   _sum: Price_listSumAggregateOutputType | null
@@ -241,7 +248,7 @@ export type Price_listGroupByOutputType = {
   _max: Price_listMaxAggregateOutputType | null
 }
 
-export type GetPrice_listGroupByPayload<T extends price_listGroupByArgs> = Prisma.PrismaPromise<
+type GetPrice_listGroupByPayload<T extends price_listGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Price_listGroupByOutputType, T['by']> &
       {
@@ -264,14 +271,15 @@ export type price_listWhereInput = {
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableFilter<"price_list"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   description?: Prisma.StringNullableFilter<"price_list"> | string | null
   type?: Prisma.Enumprice_list_typesNullableFilter<"price_list"> | $Enums.price_list_types | null
   store_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   id?: Prisma.UuidFilter<"price_list"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  tenant_id?: Prisma.UuidFilter<"price_list"> | string
   product_id?: Prisma.UuidFilter<"price_list"> | string
   group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
 }
 
 export type price_listOrderByWithRelationInput = {
@@ -279,14 +287,15 @@ export type price_listOrderByWithRelationInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type price_listWhereUniqueInput = Prisma.AtLeast<{
@@ -298,13 +307,14 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableFilter<"price_list"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   description?: Prisma.StringNullableFilter<"price_list"> | string | null
   type?: Prisma.Enumprice_list_typesNullableFilter<"price_list"> | $Enums.price_list_types | null
   store_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  tenant_id?: Prisma.UuidFilter<"price_list"> | string
   product_id?: Prisma.UuidFilter<"price_list"> | string
   group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
 }, "id">
 
 export type price_listOrderByWithAggregationInput = {
@@ -312,14 +322,15 @@ export type price_listOrderByWithAggregationInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.price_listCountOrderByAggregateInput
   _avg?: Prisma.price_listAvgOrderByAggregateInput
   _max?: Prisma.price_listMaxOrderByAggregateInput
@@ -335,14 +346,15 @@ export type price_listScalarWhereWithAggregatesInput = {
   start_date?: Prisma.DateTimeWithAggregatesFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"price_list"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"price_list"> | string | null
   type?: Prisma.Enumprice_list_typesNullableWithAggregatesFilter<"price_list"> | $Enums.price_list_types | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
   product_id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
   group_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
 }
 
 export type price_listCreateInput = {
@@ -350,14 +362,15 @@ export type price_listCreateInput = {
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
-  auth_user_id?: string | null
   description?: string | null
   type?: $Enums.price_list_types | null
   store_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   product_id: string
   group_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type price_listUncheckedCreateInput = {
@@ -365,14 +378,15 @@ export type price_listUncheckedCreateInput = {
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
-  auth_user_id?: string | null
   description?: string | null
   type?: $Enums.price_list_types | null
   store_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   product_id: string
   group_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type price_listUpdateInput = {
@@ -380,14 +394,15 @@ export type price_listUpdateInput = {
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listUncheckedUpdateInput = {
@@ -395,14 +410,15 @@ export type price_listUncheckedUpdateInput = {
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCreateManyInput = {
@@ -410,14 +426,15 @@ export type price_listCreateManyInput = {
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
-  auth_user_id?: string | null
   description?: string | null
   type?: $Enums.price_list_types | null
   store_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   product_id: string
   group_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type price_listUpdateManyMutationInput = {
@@ -425,14 +442,15 @@ export type price_listUpdateManyMutationInput = {
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listUncheckedUpdateManyInput = {
@@ -440,14 +458,15 @@ export type price_listUncheckedUpdateManyInput = {
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCountOrderByAggregateInput = {
@@ -455,7 +474,6 @@ export type price_listCountOrderByAggregateInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   description?: Prisma.SortOrder
   type?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -463,6 +481,8 @@ export type price_listCountOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_listAvgOrderByAggregateInput = {
@@ -474,7 +494,6 @@ export type price_listMaxOrderByAggregateInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   description?: Prisma.SortOrder
   type?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -482,6 +501,8 @@ export type price_listMaxOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_listMinOrderByAggregateInput = {
@@ -489,7 +510,6 @@ export type price_listMinOrderByAggregateInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   description?: Prisma.SortOrder
   type?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
@@ -497,6 +517,8 @@ export type price_listMinOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_listSumOrderByAggregateInput = {
@@ -522,7 +544,6 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   start_date?: boolean
   end_date?: boolean
   is_active?: boolean
-  auth_user_id?: boolean
   description?: boolean
   type?: boolean
   store_id?: boolean
@@ -530,6 +551,8 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,7 +560,6 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   start_date?: boolean
   end_date?: boolean
   is_active?: boolean
-  auth_user_id?: boolean
   description?: boolean
   type?: boolean
   store_id?: boolean
@@ -545,6 +567,8 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -552,7 +576,6 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   start_date?: boolean
   end_date?: boolean
   is_active?: boolean
-  auth_user_id?: boolean
   description?: boolean
   type?: boolean
   store_id?: boolean
@@ -560,6 +583,8 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectScalar = {
@@ -567,7 +592,6 @@ export type price_listSelectScalar = {
   start_date?: boolean
   end_date?: boolean
   is_active?: boolean
-  auth_user_id?: boolean
   description?: boolean
   type?: boolean
   store_id?: boolean
@@ -575,9 +599,11 @@ export type price_listSelectScalar = {
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"price" | "start_date" | "end_date" | "is_active" | "auth_user_id" | "description" | "type" | "store_id" | "id" | "tenant_id" | "product_id" | "group_id", ExtArgs["result"]["price_list"]>
+export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"price" | "start_date" | "end_date" | "is_active" | "description" | "type" | "store_id" | "id" | "tenant_id" | "product_id" | "group_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["price_list"]>
 
 export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "price_list"
@@ -587,14 +613,15 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     start_date: Date
     end_date: Date | null
     is_active: boolean | null
-    auth_user_id: string | null
     description: string | null
     type: $Enums.price_list_types | null
     store_id: string | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
     product_id: string
     group_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["price_list"]>
   composites: {}
 }
@@ -1022,7 +1049,6 @@ export interface price_listFieldRefs {
   readonly start_date: Prisma.FieldRef<"price_list", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"price_list", 'DateTime'>
   readonly is_active: Prisma.FieldRef<"price_list", 'Boolean'>
-  readonly auth_user_id: Prisma.FieldRef<"price_list", 'String'>
   readonly description: Prisma.FieldRef<"price_list", 'String'>
   readonly type: Prisma.FieldRef<"price_list", 'price_list_types'>
   readonly store_id: Prisma.FieldRef<"price_list", 'String'>
@@ -1030,6 +1056,8 @@ export interface price_listFieldRefs {
   readonly tenant_id: Prisma.FieldRef<"price_list", 'String'>
   readonly product_id: Prisma.FieldRef<"price_list", 'String'>
   readonly group_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"price_list", 'String'>
 }
     
 

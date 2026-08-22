@@ -27,7 +27,6 @@ export type AggregatePromotion_usage = {
 export type Promotion_usageMinAggregateOutputType = {
   used_at: Date | null
   order_id: string | null
-  auth_user_id: string | null
   created_at: Date | null
   customer_mobile: string | null
   res_order_id: string | null
@@ -37,12 +36,13 @@ export type Promotion_usageMinAggregateOutputType = {
   promotion_id: string | null
   customer_id: string | null
   sale_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Promotion_usageMaxAggregateOutputType = {
   used_at: Date | null
   order_id: string | null
-  auth_user_id: string | null
   created_at: Date | null
   customer_mobile: string | null
   res_order_id: string | null
@@ -52,12 +52,13 @@ export type Promotion_usageMaxAggregateOutputType = {
   promotion_id: string | null
   customer_id: string | null
   sale_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Promotion_usageCountAggregateOutputType = {
   used_at: number
   order_id: number
-  auth_user_id: number
   created_at: number
   customer_mobile: number
   res_order_id: number
@@ -67,6 +68,8 @@ export type Promotion_usageCountAggregateOutputType = {
   promotion_id: number
   customer_id: number
   sale_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -74,7 +77,6 @@ export type Promotion_usageCountAggregateOutputType = {
 export type Promotion_usageMinAggregateInputType = {
   used_at?: true
   order_id?: true
-  auth_user_id?: true
   created_at?: true
   customer_mobile?: true
   res_order_id?: true
@@ -84,12 +86,13 @@ export type Promotion_usageMinAggregateInputType = {
   promotion_id?: true
   customer_id?: true
   sale_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Promotion_usageMaxAggregateInputType = {
   used_at?: true
   order_id?: true
-  auth_user_id?: true
   created_at?: true
   customer_mobile?: true
   res_order_id?: true
@@ -99,12 +102,13 @@ export type Promotion_usageMaxAggregateInputType = {
   promotion_id?: true
   customer_id?: true
   sale_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Promotion_usageCountAggregateInputType = {
   used_at?: true
   order_id?: true
-  auth_user_id?: true
   created_at?: true
   customer_mobile?: true
   res_order_id?: true
@@ -114,6 +118,8 @@ export type Promotion_usageCountAggregateInputType = {
   promotion_id?: true
   customer_id?: true
   sale_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -192,22 +198,23 @@ export type promotion_usageGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type Promotion_usageGroupByOutputType = {
   used_at: Date | null
   order_id: string | null
-  auth_user_id: string | null
   created_at: Date | null
   customer_mobile: string | null
   res_order_id: string | null
   updated_at: Date | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
   promotion_id: string
   customer_id: string | null
   sale_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Promotion_usageCountAggregateOutputType | null
   _min: Promotion_usageMinAggregateOutputType | null
   _max: Promotion_usageMaxAggregateOutputType | null
 }
 
-export type GetPromotion_usageGroupByPayload<T extends promotion_usageGroupByArgs> = Prisma.PrismaPromise<
+type GetPromotion_usageGroupByPayload<T extends promotion_usageGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Promotion_usageGroupByOutputType, T['by']> &
       {
@@ -228,31 +235,33 @@ export type promotion_usageWhereInput = {
   NOT?: Prisma.promotion_usageWhereInput | Prisma.promotion_usageWhereInput[]
   used_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
   order_id?: Prisma.StringNullableFilter<"promotion_usage"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
   customer_mobile?: Prisma.StringNullableFilter<"promotion_usage"> | string | null
   res_order_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
   id?: Prisma.UuidFilter<"promotion_usage"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
+  tenant_id?: Prisma.UuidFilter<"promotion_usage"> | string
   promotion_id?: Prisma.UuidFilter<"promotion_usage"> | string
   customer_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
   sale_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
 }
 
 export type promotion_usageOrderByWithRelationInput = {
   used_at?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_mobile?: Prisma.SortOrderInput | Prisma.SortOrder
   res_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sale_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type promotion_usageWhereUniqueInput = Prisma.AtLeast<{
@@ -262,30 +271,32 @@ export type promotion_usageWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.promotion_usageWhereInput | Prisma.promotion_usageWhereInput[]
   used_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
   order_id?: Prisma.StringNullableFilter<"promotion_usage"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
   customer_mobile?: Prisma.StringNullableFilter<"promotion_usage"> | string | null
   res_order_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"promotion_usage"> | Date | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
+  tenant_id?: Prisma.UuidFilter<"promotion_usage"> | string
   promotion_id?: Prisma.UuidFilter<"promotion_usage"> | string
   customer_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
   sale_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"promotion_usage"> | string | null
 }, "id">
 
 export type promotion_usageOrderByWithAggregationInput = {
   used_at?: Prisma.SortOrderInput | Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_mobile?: Prisma.SortOrderInput | Prisma.SortOrder
   res_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sale_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.promotion_usageCountOrderByAggregateInput
   _max?: Prisma.promotion_usageMaxOrderByAggregateInput
   _min?: Prisma.promotion_usageMinOrderByAggregateInput
@@ -297,127 +308,134 @@ export type promotion_usageScalarWhereWithAggregatesInput = {
   NOT?: Prisma.promotion_usageScalarWhereWithAggregatesInput | Prisma.promotion_usageScalarWhereWithAggregatesInput[]
   used_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotion_usage"> | Date | string | null
   order_id?: Prisma.StringNullableWithAggregatesFilter<"promotion_usage"> | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotion_usage"> | Date | string | null
   customer_mobile?: Prisma.StringNullableWithAggregatesFilter<"promotion_usage"> | string | null
   res_order_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotion_usage"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"promotion_usage"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"promotion_usage"> | string
   promotion_id?: Prisma.UuidWithAggregatesFilter<"promotion_usage"> | string
   customer_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
   sale_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_usage"> | string | null
 }
 
 export type promotion_usageCreateInput = {
   used_at?: Date | string | null
   order_id?: string | null
-  auth_user_id?: string | null
   created_at?: Date | string | null
   customer_mobile?: string | null
   res_order_id?: string | null
   updated_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   promotion_id: string
   customer_id?: string | null
   sale_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotion_usageUncheckedCreateInput = {
   used_at?: Date | string | null
   order_id?: string | null
-  auth_user_id?: string | null
   created_at?: Date | string | null
   customer_mobile?: string | null
   res_order_id?: string | null
   updated_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   promotion_id: string
   customer_id?: string | null
   sale_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotion_usageUpdateInput = {
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_usageUncheckedUpdateInput = {
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_usageCreateManyInput = {
   used_at?: Date | string | null
   order_id?: string | null
-  auth_user_id?: string | null
   created_at?: Date | string | null
   customer_mobile?: string | null
   res_order_id?: string | null
   updated_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   promotion_id: string
   customer_id?: string | null
   sale_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotion_usageUpdateManyMutationInput = {
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_usageUncheckedUpdateManyInput = {
   used_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_usageCountOrderByAggregateInput = {
   used_at?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   customer_mobile?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrder
@@ -427,12 +445,13 @@ export type promotion_usageCountOrderByAggregateInput = {
   promotion_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   sale_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotion_usageMaxOrderByAggregateInput = {
   used_at?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   customer_mobile?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrder
@@ -442,12 +461,13 @@ export type promotion_usageMaxOrderByAggregateInput = {
   promotion_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   sale_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotion_usageMinOrderByAggregateInput = {
   used_at?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   customer_mobile?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrder
@@ -457,6 +477,8 @@ export type promotion_usageMinOrderByAggregateInput = {
   promotion_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   sale_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 
@@ -464,7 +486,6 @@ export type promotion_usageMinOrderByAggregateInput = {
 export type promotion_usageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   used_at?: boolean
   order_id?: boolean
-  auth_user_id?: boolean
   created_at?: boolean
   customer_mobile?: boolean
   res_order_id?: boolean
@@ -474,12 +495,13 @@ export type promotion_usageSelect<ExtArgs extends runtime.Types.Extensions.Inter
   promotion_id?: boolean
   customer_id?: boolean
   sale_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotion_usage"]>
 
 export type promotion_usageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   used_at?: boolean
   order_id?: boolean
-  auth_user_id?: boolean
   created_at?: boolean
   customer_mobile?: boolean
   res_order_id?: boolean
@@ -489,12 +511,13 @@ export type promotion_usageSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   promotion_id?: boolean
   customer_id?: boolean
   sale_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotion_usage"]>
 
 export type promotion_usageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   used_at?: boolean
   order_id?: boolean
-  auth_user_id?: boolean
   created_at?: boolean
   customer_mobile?: boolean
   res_order_id?: boolean
@@ -504,12 +527,13 @@ export type promotion_usageSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   promotion_id?: boolean
   customer_id?: boolean
   sale_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotion_usage"]>
 
 export type promotion_usageSelectScalar = {
   used_at?: boolean
   order_id?: boolean
-  auth_user_id?: boolean
   created_at?: boolean
   customer_mobile?: boolean
   res_order_id?: boolean
@@ -519,9 +543,11 @@ export type promotion_usageSelectScalar = {
   promotion_id?: boolean
   customer_id?: boolean
   sale_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type promotion_usageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"used_at" | "order_id" | "auth_user_id" | "created_at" | "customer_mobile" | "res_order_id" | "updated_at" | "id" | "tenant_id" | "promotion_id" | "customer_id" | "sale_id", ExtArgs["result"]["promotion_usage"]>
+export type promotion_usageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"used_at" | "order_id" | "created_at" | "customer_mobile" | "res_order_id" | "updated_at" | "id" | "tenant_id" | "promotion_id" | "customer_id" | "sale_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["promotion_usage"]>
 
 export type $promotion_usagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "promotion_usage"
@@ -529,16 +555,17 @@ export type $promotion_usagePayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     used_at: Date | null
     order_id: string | null
-    auth_user_id: string | null
     created_at: Date | null
     customer_mobile: string | null
     res_order_id: string | null
     updated_at: Date | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
     promotion_id: string
     customer_id: string | null
     sale_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["promotion_usage"]>
   composites: {}
 }
@@ -964,7 +991,6 @@ export interface Prisma__promotion_usageClient<T, Null = never, ExtArgs extends 
 export interface promotion_usageFieldRefs {
   readonly used_at: Prisma.FieldRef<"promotion_usage", 'DateTime'>
   readonly order_id: Prisma.FieldRef<"promotion_usage", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"promotion_usage", 'String'>
   readonly created_at: Prisma.FieldRef<"promotion_usage", 'DateTime'>
   readonly customer_mobile: Prisma.FieldRef<"promotion_usage", 'String'>
   readonly res_order_id: Prisma.FieldRef<"promotion_usage", 'String'>
@@ -974,6 +1000,8 @@ export interface promotion_usageFieldRefs {
   readonly promotion_id: Prisma.FieldRef<"promotion_usage", 'String'>
   readonly customer_id: Prisma.FieldRef<"promotion_usage", 'String'>
   readonly sale_id: Prisma.FieldRef<"promotion_usage", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"promotion_usage", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"promotion_usage", 'String'>
 }
     
 

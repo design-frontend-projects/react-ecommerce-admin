@@ -50,11 +50,12 @@ export type CustomersMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   deleted_at: Date | null
   id: string | null
   tenant_id: string | null
   group_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type CustomersMaxAggregateOutputType = {
@@ -73,11 +74,12 @@ export type CustomersMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   deleted_at: Date | null
   id: string | null
   tenant_id: string | null
   group_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type CustomersCountAggregateOutputType = {
@@ -96,11 +98,12 @@ export type CustomersCountAggregateOutputType = {
   is_active: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   deleted_at: number
   id: number
   tenant_id: number
   group_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -129,11 +132,12 @@ export type CustomersMinAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   deleted_at?: true
   id?: true
   tenant_id?: true
   group_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type CustomersMaxAggregateInputType = {
@@ -152,11 +156,12 @@ export type CustomersMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   deleted_at?: true
   id?: true
   tenant_id?: true
   group_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type CustomersCountAggregateInputType = {
@@ -175,11 +180,12 @@ export type CustomersCountAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   deleted_at?: true
   id?: true
   tenant_id?: true
   group_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -285,11 +291,12 @@ export type CustomersGroupByOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   deleted_at: Date | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
   group_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: CustomersCountAggregateOutputType | null
   _avg: CustomersAvgAggregateOutputType | null
   _sum: CustomersSumAggregateOutputType | null
@@ -297,7 +304,7 @@ export type CustomersGroupByOutputType = {
   _max: CustomersMaxAggregateOutputType | null
 }
 
-export type GetCustomersGroupByPayload<T extends customersGroupByArgs> = Prisma.PrismaPromise<
+type GetCustomersGroupByPayload<T extends customersGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CustomersGroupByOutputType, T['by']> &
       {
@@ -331,11 +338,12 @@ export type customersWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
   id?: Prisma.UuidFilter<"customers"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  tenant_id?: Prisma.UuidFilter<"customers"> | string
   group_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   customer_cards?: Prisma.Customer_cardsListRelationFilter
   customer_groups?: Prisma.XOR<Prisma.Customer_groupsNullableScalarRelationFilter, Prisma.customer_groupsWhereInput> | null
 }
@@ -356,11 +364,12 @@ export type customersOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_cards?: Prisma.customer_cardsOrderByRelationAggregateInput
   customer_groups?: Prisma.customer_groupsOrderByWithRelationInput
 }
@@ -385,10 +394,11 @@ export type customersWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolNullableFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  tenant_id?: Prisma.UuidFilter<"customers"> | string
   group_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   customer_cards?: Prisma.Customer_cardsListRelationFilter
   customer_groups?: Prisma.XOR<Prisma.Customer_groupsNullableScalarRelationFilter, Prisma.customer_groupsWhereInput> | null
 }, "id">
@@ -409,11 +419,12 @@ export type customersOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.customersCountOrderByAggregateInput
   _avg?: Prisma.customersAvgOrderByAggregateInput
   _max?: Prisma.customersMaxOrderByAggregateInput
@@ -440,11 +451,12 @@ export type customersScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"customers"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"customers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"customers"> | string | null
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"customers"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"customers"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"customers"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"customers"> | string
   group_id?: Prisma.UuidNullableWithAggregatesFilter<"customers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"customers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"customers"> | string | null
 }
 
 export type customersCreateInput = {
@@ -463,10 +475,11 @@ export type customersCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
 }
@@ -487,11 +500,12 @@ export type customersUncheckedCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   group_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
 }
 
@@ -511,10 +525,11 @@ export type customersUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
 }
@@ -535,11 +550,12 @@ export type customersUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
 }
 
@@ -559,11 +575,12 @@ export type customersCreateManyInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   group_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type customersUpdateManyMutationInput = {
@@ -582,10 +599,11 @@ export type customersUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type customersUncheckedUpdateManyInput = {
@@ -604,11 +622,12 @@ export type customersUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CustomersScalarRelationFilter = {
@@ -642,11 +661,12 @@ export type customersCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type customersAvgOrderByAggregateInput = {
@@ -669,11 +689,12 @@ export type customersMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type customersMinOrderByAggregateInput = {
@@ -692,11 +713,12 @@ export type customersMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type customersSumOrderByAggregateInput = {
@@ -783,10 +805,11 @@ export type customersCreateWithoutCustomer_cardsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutCustomersInput
 }
 
@@ -806,11 +829,12 @@ export type customersUncheckedCreateWithoutCustomer_cardsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   group_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type customersCreateOrConnectWithoutCustomer_cardsInput = {
@@ -845,10 +869,11 @@ export type customersUpdateWithoutCustomer_cardsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutCustomersNestedInput
 }
 
@@ -868,11 +893,12 @@ export type customersUncheckedUpdateWithoutCustomer_cardsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type customersCreateWithoutCustomer_groupsInput = {
@@ -891,10 +917,11 @@ export type customersCreateWithoutCustomer_groupsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   customer_cards?: Prisma.customer_cardsCreateNestedManyWithoutCustomersInput
 }
 
@@ -914,10 +941,11 @@ export type customersUncheckedCreateWithoutCustomer_groupsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   customer_cards?: Prisma.customer_cardsUncheckedCreateNestedManyWithoutCustomersInput
 }
 
@@ -966,11 +994,12 @@ export type customersScalarWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"customers"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"customers"> | Date | string | null
   id?: Prisma.UuidFilter<"customers"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  tenant_id?: Prisma.UuidFilter<"customers"> | string
   group_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"customers"> | string | null
 }
 
 export type customersCreateManyCustomer_groupsInput = {
@@ -989,10 +1018,11 @@ export type customersCreateManyCustomer_groupsInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type customersUpdateWithoutCustomer_groupsInput = {
@@ -1011,10 +1041,11 @@ export type customersUpdateWithoutCustomer_groupsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUpdateManyWithoutCustomersNestedInput
 }
 
@@ -1034,10 +1065,11 @@ export type customersUncheckedUpdateWithoutCustomer_groupsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_cards?: Prisma.customer_cardsUncheckedUpdateManyWithoutCustomersNestedInput
 }
 
@@ -1057,10 +1089,11 @@ export type customersUncheckedUpdateManyWithoutCustomer_groupsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1110,11 +1143,12 @@ export type customersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   deleted_at?: boolean
   id?: boolean
   tenant_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   customer_cards?: boolean | Prisma.customers$customer_cardsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomersCountOutputTypeDefaultArgs<ExtArgs>
@@ -1136,11 +1170,12 @@ export type customersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   deleted_at?: boolean
   id?: boolean
   tenant_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
 }, ExtArgs["result"]["customers"]>
 
@@ -1160,11 +1195,12 @@ export type customersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   deleted_at?: boolean
   id?: boolean
   tenant_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
 }, ExtArgs["result"]["customers"]>
 
@@ -1184,14 +1220,15 @@ export type customersSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   deleted_at?: boolean
   id?: boolean
   tenant_id?: boolean
   group_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type customersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"first_name" | "last_name" | "email" | "phone" | "address_line1" | "address_line2" | "city" | "state" | "postal_code" | "country" | "date_of_birth" | "loyalty_points" | "is_active" | "created_at" | "updated_at" | "auth_user_id" | "deleted_at" | "id" | "tenant_id" | "group_id", ExtArgs["result"]["customers"]>
+export type customersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"first_name" | "last_name" | "email" | "phone" | "address_line1" | "address_line2" | "city" | "state" | "postal_code" | "country" | "date_of_birth" | "loyalty_points" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "id" | "tenant_id" | "group_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["customers"]>
 export type customersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer_cards?: boolean | Prisma.customers$customer_cardsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.customers$customer_groupsArgs<ExtArgs>
@@ -1226,11 +1263,12 @@ export type $customersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     is_active: boolean | null
     created_at: Date | null
     updated_at: Date | null
-    auth_user_id: string | null
     deleted_at: Date | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
     group_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["customers"]>
   composites: {}
 }
@@ -1671,11 +1709,12 @@ export interface customersFieldRefs {
   readonly is_active: Prisma.FieldRef<"customers", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"customers", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"customers", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"customers", 'String'>
   readonly deleted_at: Prisma.FieldRef<"customers", 'DateTime'>
   readonly id: Prisma.FieldRef<"customers", 'String'>
   readonly tenant_id: Prisma.FieldRef<"customers", 'String'>
   readonly group_id: Prisma.FieldRef<"customers", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"customers", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"customers", 'String'>
 }
     
 

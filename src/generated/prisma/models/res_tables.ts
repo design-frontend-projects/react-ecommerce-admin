@@ -48,9 +48,10 @@ export type Res_tablesMinAggregateOutputType = {
   shape: string | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   status: $Enums.table_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_tablesMaxAggregateOutputType = {
@@ -63,9 +64,10 @@ export type Res_tablesMaxAggregateOutputType = {
   shape: string | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   status: $Enums.table_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_tablesCountAggregateOutputType = {
@@ -78,9 +80,10 @@ export type Res_tablesCountAggregateOutputType = {
   shape: number
   is_active: number
   created_at: number
-  auth_user_id: number
   tenant_id: number
   status: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -107,9 +110,10 @@ export type Res_tablesMinAggregateInputType = {
   shape?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_tablesMaxAggregateInputType = {
@@ -122,9 +126,10 @@ export type Res_tablesMaxAggregateInputType = {
   shape?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_tablesCountAggregateInputType = {
@@ -137,9 +142,10 @@ export type Res_tablesCountAggregateInputType = {
   shape?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -239,9 +245,10 @@ export type Res_tablesGroupByOutputType = {
   shape: string | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
   status: $Enums.table_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Res_tablesCountAggregateOutputType | null
   _avg: Res_tablesAvgAggregateOutputType | null
   _sum: Res_tablesSumAggregateOutputType | null
@@ -249,7 +256,7 @@ export type Res_tablesGroupByOutputType = {
   _max: Res_tablesMaxAggregateOutputType | null
 }
 
-export type GetRes_tablesGroupByPayload<T extends res_tablesGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_tablesGroupByPayload<T extends res_tablesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_tablesGroupByOutputType, T['by']> &
       {
@@ -277,9 +284,10 @@ export type res_tablesWhereInput = {
   shape?: Prisma.StringNullableFilter<"res_tables"> | string | null
   is_active?: Prisma.BoolNullableFilter<"res_tables"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_tables"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_tables"> | string
   status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   res_orders?: Prisma.Res_ordersListRelationFilter
 }
 
@@ -293,9 +301,10 @@ export type res_tablesOrderByWithRelationInput = {
   shape?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   res_orders?: Prisma.res_ordersOrderByRelationAggregateInput
 }
 
@@ -312,9 +321,10 @@ export type res_tablesWhereUniqueInput = Prisma.AtLeast<{
   shape?: Prisma.StringNullableFilter<"res_tables"> | string | null
   is_active?: Prisma.BoolNullableFilter<"res_tables"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_tables"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_tables"> | string
   status?: Prisma.Enumtable_statusNullableFilter<"res_tables"> | $Enums.table_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_tables"> | string | null
   res_orders?: Prisma.Res_ordersListRelationFilter
 }, "id">
 
@@ -328,9 +338,10 @@ export type res_tablesOrderByWithAggregationInput = {
   shape?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_tablesCountOrderByAggregateInput
   _avg?: Prisma.res_tablesAvgOrderByAggregateInput
   _max?: Prisma.res_tablesMaxOrderByAggregateInput
@@ -351,9 +362,10 @@ export type res_tablesScalarWhereWithAggregatesInput = {
   shape?: Prisma.StringNullableWithAggregatesFilter<"res_tables"> | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"res_tables"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_tables"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_tables"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_tables"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"res_tables"> | string
   status?: Prisma.Enumtable_statusNullableWithAggregatesFilter<"res_tables"> | $Enums.table_status | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_tables"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_tables"> | string | null
 }
 
 export type res_tablesCreateInput = {
@@ -366,9 +378,10 @@ export type res_tablesCreateInput = {
   shape?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.table_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   res_orders?: Prisma.res_ordersCreateNestedManyWithoutRes_tablesInput
 }
 
@@ -382,9 +395,10 @@ export type res_tablesUncheckedCreateInput = {
   shape?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.table_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   res_orders?: Prisma.res_ordersUncheckedCreateNestedManyWithoutRes_tablesInput
 }
 
@@ -398,9 +412,10 @@ export type res_tablesUpdateInput = {
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_orders?: Prisma.res_ordersUpdateManyWithoutRes_tablesNestedInput
 }
 
@@ -414,9 +429,10 @@ export type res_tablesUncheckedUpdateInput = {
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_orders?: Prisma.res_ordersUncheckedUpdateManyWithoutRes_tablesNestedInput
 }
 
@@ -430,9 +446,10 @@ export type res_tablesCreateManyInput = {
   shape?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.table_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_tablesUpdateManyMutationInput = {
@@ -445,9 +462,10 @@ export type res_tablesUpdateManyMutationInput = {
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_tablesUncheckedUpdateManyInput = {
@@ -460,9 +478,10 @@ export type res_tablesUncheckedUpdateManyInput = {
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Res_tablesNullableScalarRelationFilter = {
@@ -480,9 +499,10 @@ export type res_tablesCountOrderByAggregateInput = {
   shape?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_tablesAvgOrderByAggregateInput = {
@@ -501,9 +521,10 @@ export type res_tablesMaxOrderByAggregateInput = {
   shape?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_tablesMinOrderByAggregateInput = {
@@ -516,9 +537,10 @@ export type res_tablesMinOrderByAggregateInput = {
   shape?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_tablesSumOrderByAggregateInput = {
@@ -557,9 +579,10 @@ export type res_tablesCreateWithoutRes_ordersInput = {
   shape?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.table_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_tablesUncheckedCreateWithoutRes_ordersInput = {
@@ -572,9 +595,10 @@ export type res_tablesUncheckedCreateWithoutRes_ordersInput = {
   shape?: string | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.table_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_tablesCreateOrConnectWithoutRes_ordersInput = {
@@ -603,9 +627,10 @@ export type res_tablesUpdateWithoutRes_ordersInput = {
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_tablesUncheckedUpdateWithoutRes_ordersInput = {
@@ -618,9 +643,10 @@ export type res_tablesUncheckedUpdateWithoutRes_ordersInput = {
   shape?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumtable_statusFieldUpdateOperationsInput | $Enums.table_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -664,9 +690,10 @@ export type res_tablesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   shape?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   res_orders?: boolean | Prisma.res_tables$res_ordersArgs<ExtArgs>
   _count?: boolean | Prisma.Res_tablesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["res_tables"]>
@@ -681,9 +708,10 @@ export type res_tablesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   shape?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_tables"]>
 
 export type res_tablesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -696,9 +724,10 @@ export type res_tablesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   shape?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_tables"]>
 
 export type res_tablesSelectScalar = {
@@ -711,12 +740,13 @@ export type res_tablesSelectScalar = {
   shape?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type res_tablesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "floor_id" | "table_number" | "seats" | "position_x" | "position_y" | "shape" | "is_active" | "created_at" | "auth_user_id" | "tenant_id" | "status", ExtArgs["result"]["res_tables"]>
+export type res_tablesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "floor_id" | "table_number" | "seats" | "position_x" | "position_y" | "shape" | "is_active" | "created_at" | "tenant_id" | "status" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["res_tables"]>
 export type res_tablesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_orders?: boolean | Prisma.res_tables$res_ordersArgs<ExtArgs>
   _count?: boolean | Prisma.Res_tablesCountOutputTypeDefaultArgs<ExtArgs>
@@ -739,9 +769,10 @@ export type $res_tablesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     shape: string | null
     is_active: boolean | null
     created_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
     status: $Enums.table_status | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["res_tables"]>
   composites: {}
 }
@@ -1175,9 +1206,10 @@ export interface res_tablesFieldRefs {
   readonly shape: Prisma.FieldRef<"res_tables", 'String'>
   readonly is_active: Prisma.FieldRef<"res_tables", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"res_tables", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"res_tables", 'String'>
   readonly tenant_id: Prisma.FieldRef<"res_tables", 'String'>
   readonly status: Prisma.FieldRef<"res_tables", 'table_status'>
+  readonly created_by_user_id: Prisma.FieldRef<"res_tables", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"res_tables", 'String'>
 }
     
 

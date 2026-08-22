@@ -186,7 +186,7 @@ export function RolesTab() {
                               {t('respos.role.permissions.all')}
                             </Badge>
                           ) : (
-                            role.permissions.slice(0, 4).map((perm) => (
+                            role.permissions.slice(0, 4).map((perm: string) => (
                               <Badge key={perm} variant='outline'>
                                 {perm}
                               </Badge>

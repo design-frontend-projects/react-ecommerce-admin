@@ -36,7 +36,8 @@ export type Stock_adjustmentsMinAggregateOutputType = {
   approved_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_adjustmentsMaxAggregateOutputType = {
@@ -51,7 +52,8 @@ export type Stock_adjustmentsMaxAggregateOutputType = {
   approved_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_adjustmentsCountAggregateOutputType = {
@@ -66,7 +68,8 @@ export type Stock_adjustmentsCountAggregateOutputType = {
   approved_at: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -83,7 +86,8 @@ export type Stock_adjustmentsMinAggregateInputType = {
   approved_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_adjustmentsMaxAggregateInputType = {
@@ -98,7 +102,8 @@ export type Stock_adjustmentsMaxAggregateInputType = {
   approved_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_adjustmentsCountAggregateInputType = {
@@ -113,7 +118,8 @@ export type Stock_adjustmentsCountAggregateInputType = {
   approved_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -201,13 +207,14 @@ export type Stock_adjustmentsGroupByOutputType = {
   approved_at: Date | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Stock_adjustmentsCountAggregateOutputType | null
   _min: Stock_adjustmentsMinAggregateOutputType | null
   _max: Stock_adjustmentsMaxAggregateOutputType | null
 }
 
-export type GetStock_adjustmentsGroupByPayload<T extends stock_adjustmentsGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_adjustmentsGroupByPayload<T extends stock_adjustmentsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_adjustmentsGroupByOutputType, T['by']> &
       {
@@ -237,7 +244,8 @@ export type stock_adjustmentsWhereInput = {
   approved_at?: Prisma.DateTimeNullableFilter<"stock_adjustments"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
 }
 
 export type stock_adjustmentsOrderByWithRelationInput = {
@@ -252,7 +260,8 @@ export type stock_adjustmentsOrderByWithRelationInput = {
   approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type stock_adjustmentsWhereUniqueInput = Prisma.AtLeast<{
@@ -270,7 +279,8 @@ export type stock_adjustmentsWhereUniqueInput = Prisma.AtLeast<{
   approved_at?: Prisma.DateTimeNullableFilter<"stock_adjustments"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
 }, "id">
 
 export type stock_adjustmentsOrderByWithAggregationInput = {
@@ -285,7 +295,8 @@ export type stock_adjustmentsOrderByWithAggregationInput = {
   approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_adjustmentsCountOrderByAggregateInput
   _max?: Prisma.stock_adjustmentsMaxOrderByAggregateInput
   _min?: Prisma.stock_adjustmentsMinOrderByAggregateInput
@@ -306,7 +317,8 @@ export type stock_adjustmentsScalarWhereWithAggregatesInput = {
   approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_adjustments"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_adjustments"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"stock_adjustments"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustments"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustments"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustments"> | string | null
 }
 
 export type stock_adjustmentsCreateInput = {
@@ -321,7 +333,8 @@ export type stock_adjustmentsCreateInput = {
   approved_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_adjustmentsUncheckedCreateInput = {
@@ -336,7 +349,8 @@ export type stock_adjustmentsUncheckedCreateInput = {
   approved_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_adjustmentsUpdateInput = {
@@ -351,7 +365,8 @@ export type stock_adjustmentsUpdateInput = {
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustmentsUncheckedUpdateInput = {
@@ -366,7 +381,8 @@ export type stock_adjustmentsUncheckedUpdateInput = {
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustmentsCreateManyInput = {
@@ -381,7 +397,8 @@ export type stock_adjustmentsCreateManyInput = {
   approved_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_adjustmentsUpdateManyMutationInput = {
@@ -396,7 +413,8 @@ export type stock_adjustmentsUpdateManyMutationInput = {
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustmentsUncheckedUpdateManyInput = {
@@ -411,7 +429,8 @@ export type stock_adjustmentsUncheckedUpdateManyInput = {
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustmentsCountOrderByAggregateInput = {
@@ -426,7 +445,8 @@ export type stock_adjustmentsCountOrderByAggregateInput = {
   approved_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_adjustmentsMaxOrderByAggregateInput = {
@@ -441,7 +461,8 @@ export type stock_adjustmentsMaxOrderByAggregateInput = {
   approved_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_adjustmentsMinOrderByAggregateInput = {
@@ -456,7 +477,8 @@ export type stock_adjustmentsMinOrderByAggregateInput = {
   approved_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type Enumadjustment_status_enumFieldUpdateOperationsInput = {
@@ -481,7 +503,8 @@ export type stock_adjustmentsSelect<ExtArgs extends runtime.Types.Extensions.Int
   approved_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_adjustments"]>
 
 export type stock_adjustmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -496,7 +519,8 @@ export type stock_adjustmentsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   approved_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_adjustments"]>
 
 export type stock_adjustmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -511,7 +535,8 @@ export type stock_adjustmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   approved_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_adjustments"]>
 
 export type stock_adjustmentsSelectScalar = {
@@ -526,10 +551,11 @@ export type stock_adjustmentsSelectScalar = {
   approved_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type stock_adjustmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "status" | "type" | "notes" | "created_by" | "approved_by" | "approved_at" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["stock_adjustments"]>
+export type stock_adjustmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "status" | "type" | "notes" | "created_by" | "approved_by" | "approved_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_adjustments"]>
 
 export type $stock_adjustmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_adjustments"
@@ -546,7 +572,8 @@ export type $stock_adjustmentsPayload<ExtArgs extends runtime.Types.Extensions.I
     approved_at: Date | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stock_adjustments"]>
   composites: {}
 }
@@ -981,7 +1008,8 @@ export interface stock_adjustmentsFieldRefs {
   readonly approved_at: Prisma.FieldRef<"stock_adjustments", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"stock_adjustments", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"stock_adjustments", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"stock_adjustments", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stock_adjustments", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stock_adjustments", 'String'>
 }
     
 

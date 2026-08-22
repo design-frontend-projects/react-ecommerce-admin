@@ -81,16 +81,17 @@ export const inviteUser = createServerFn({ method: 'POST' })
 
       await updateUserRoles(existingUser.id, roleIds, inviterAuthUserId)
 
+      const isPending = existingUser.auth_user_id?.startsWith('pending_') ?? false
       return {
         success: true,
-        invitationId: existingUser.auth_user_id.startsWith('pending_')
-          ? existingUser.auth_user_id.replace('pending_', '')
+        invitationId: isPending
+          ? existingUser.auth_user_id!.replace('pending_', '')
           : null,
         tenantUserId: existingUser.id,
-        mode: existingUser.auth_user_id.startsWith('pending_')
+        mode: isPending
           ? 'pending-existing'
           : 'updated',
-        message: existingUser.auth_user_id.startsWith('pending_')
+        message: isPending
           ? 'Pending invitation already exists. The assigned role has been updated.'
           : 'Existing user role has been updated for this tenant.',
       }

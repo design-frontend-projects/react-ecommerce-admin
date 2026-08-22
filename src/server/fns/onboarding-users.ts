@@ -187,7 +187,7 @@ export async function createOnboardingUsers(
     let tenantUserId: string
     try {
       const tenantUser = await prisma.$transaction(
-        async (tx: typeof prisma) => {
+        async (tx: any) => {
           // Create tenant_users record
           const created = await tx.tenant_users.create({
             data: {
@@ -200,8 +200,8 @@ export async function createOnboardingUsers(
               is_active: true,
               default_role: primaryRole,
               is_restuarant_user: true,
-              modules,
-              primary_module: modules[0] ?? null,
+              modules: modules as any,
+              primary_module: (modules[0] ?? null) as any,
               parent_tenant_id: parentTenantId,
               tenant_id: tenantId,
               onboarding_complete: true, // Staff users don't need to onboard

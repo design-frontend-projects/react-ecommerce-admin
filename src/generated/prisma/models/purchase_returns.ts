@@ -41,7 +41,6 @@ export type Purchase_returnsSumAggregateOutputType = {
 export type Purchase_returnsMinAggregateOutputType = {
   id: string | null
   purchase_invoice_id: string | null
-  auth_user_id: string | null
   branch_id: string | null
   store_id: string | null
   return_no: string | null
@@ -56,12 +55,14 @@ export type Purchase_returnsMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   supplier_id: string | null
+  tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Purchase_returnsMaxAggregateOutputType = {
   id: string | null
   purchase_invoice_id: string | null
-  auth_user_id: string | null
   branch_id: string | null
   store_id: string | null
   return_no: string | null
@@ -76,12 +77,14 @@ export type Purchase_returnsMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   supplier_id: string | null
+  tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Purchase_returnsCountAggregateOutputType = {
   id: number
   purchase_invoice_id: number
-  auth_user_id: number
   branch_id: number
   store_id: number
   return_no: number
@@ -96,6 +99,9 @@ export type Purchase_returnsCountAggregateOutputType = {
   created_at: number
   updated_at: number
   supplier_id: number
+  tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -115,7 +121,6 @@ export type Purchase_returnsSumAggregateInputType = {
 export type Purchase_returnsMinAggregateInputType = {
   id?: true
   purchase_invoice_id?: true
-  auth_user_id?: true
   branch_id?: true
   store_id?: true
   return_no?: true
@@ -130,12 +135,14 @@ export type Purchase_returnsMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   supplier_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Purchase_returnsMaxAggregateInputType = {
   id?: true
   purchase_invoice_id?: true
-  auth_user_id?: true
   branch_id?: true
   store_id?: true
   return_no?: true
@@ -150,12 +157,14 @@ export type Purchase_returnsMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   supplier_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Purchase_returnsCountAggregateInputType = {
   id?: true
   purchase_invoice_id?: true
-  auth_user_id?: true
   branch_id?: true
   store_id?: true
   return_no?: true
@@ -170,6 +179,9 @@ export type Purchase_returnsCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   supplier_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -262,7 +274,6 @@ export type purchase_returnsGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type Purchase_returnsGroupByOutputType = {
   id: string
   purchase_invoice_id: string | null
-  auth_user_id: string
   branch_id: string
   store_id: string | null
   return_no: string
@@ -277,6 +288,9 @@ export type Purchase_returnsGroupByOutputType = {
   created_at: Date
   updated_at: Date
   supplier_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Purchase_returnsCountAggregateOutputType | null
   _avg: Purchase_returnsAvgAggregateOutputType | null
   _sum: Purchase_returnsSumAggregateOutputType | null
@@ -284,7 +298,7 @@ export type Purchase_returnsGroupByOutputType = {
   _max: Purchase_returnsMaxAggregateOutputType | null
 }
 
-export type GetPurchase_returnsGroupByPayload<T extends purchase_returnsGroupByArgs> = Prisma.PrismaPromise<
+type GetPurchase_returnsGroupByPayload<T extends purchase_returnsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Purchase_returnsGroupByOutputType, T['by']> &
       {
@@ -305,7 +319,6 @@ export type purchase_returnsWhereInput = {
   NOT?: Prisma.purchase_returnsWhereInput | Prisma.purchase_returnsWhereInput[]
   id?: Prisma.UuidFilter<"purchase_returns"> | string
   purchase_invoice_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
-  auth_user_id?: Prisma.UuidFilter<"purchase_returns"> | string
   branch_id?: Prisma.UuidFilter<"purchase_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
   return_no?: Prisma.StringFilter<"purchase_returns"> | string
@@ -320,12 +333,14 @@ export type purchase_returnsWhereInput = {
   created_at?: Prisma.DateTimeFilter<"purchase_returns"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"purchase_returns"> | Date | string
   supplier_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
+  tenant_id?: Prisma.UuidFilter<"purchase_returns"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
 }
 
 export type purchase_returnsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   purchase_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   return_no?: Prisma.SortOrder
@@ -340,6 +355,9 @@ export type purchase_returnsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type purchase_returnsWhereUniqueInput = Prisma.AtLeast<{
@@ -348,7 +366,6 @@ export type purchase_returnsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.purchase_returnsWhereInput[]
   NOT?: Prisma.purchase_returnsWhereInput | Prisma.purchase_returnsWhereInput[]
   purchase_invoice_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
-  auth_user_id?: Prisma.UuidFilter<"purchase_returns"> | string
   branch_id?: Prisma.UuidFilter<"purchase_returns"> | string
   store_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
   return_no?: Prisma.StringFilter<"purchase_returns"> | string
@@ -363,12 +380,14 @@ export type purchase_returnsWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"purchase_returns"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"purchase_returns"> | Date | string
   supplier_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
+  tenant_id?: Prisma.UuidFilter<"purchase_returns"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_returns"> | string | null
 }, "id">
 
 export type purchase_returnsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   purchase_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   return_no?: Prisma.SortOrder
@@ -383,6 +402,9 @@ export type purchase_returnsOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.purchase_returnsCountOrderByAggregateInput
   _avg?: Prisma.purchase_returnsAvgOrderByAggregateInput
   _max?: Prisma.purchase_returnsMaxOrderByAggregateInput
@@ -396,7 +418,6 @@ export type purchase_returnsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.purchase_returnsScalarWhereWithAggregatesInput | Prisma.purchase_returnsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"purchase_returns"> | string
   purchase_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
-  auth_user_id?: Prisma.UuidWithAggregatesFilter<"purchase_returns"> | string
   branch_id?: Prisma.UuidWithAggregatesFilter<"purchase_returns"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
   return_no?: Prisma.StringWithAggregatesFilter<"purchase_returns"> | string
@@ -411,12 +432,14 @@ export type purchase_returnsScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"purchase_returns"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"purchase_returns"> | Date | string
   supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"purchase_returns"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_returns"> | string | null
 }
 
 export type purchase_returnsCreateInput = {
   id?: string
   purchase_invoice_id?: string | null
-  auth_user_id?: string
   branch_id: string
   store_id?: string | null
   return_no: string
@@ -431,12 +454,14 @@ export type purchase_returnsCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   supplier_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type purchase_returnsUncheckedCreateInput = {
   id?: string
   purchase_invoice_id?: string | null
-  auth_user_id?: string
   branch_id: string
   store_id?: string | null
   return_no: string
@@ -451,12 +476,14 @@ export type purchase_returnsUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   supplier_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type purchase_returnsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -471,12 +498,14 @@ export type purchase_returnsUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type purchase_returnsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -491,12 +520,14 @@ export type purchase_returnsUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type purchase_returnsCreateManyInput = {
   id?: string
   purchase_invoice_id?: string | null
-  auth_user_id?: string
   branch_id: string
   store_id?: string | null
   return_no: string
@@ -511,12 +542,14 @@ export type purchase_returnsCreateManyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   supplier_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type purchase_returnsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -531,12 +564,14 @@ export type purchase_returnsUpdateManyMutationInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type purchase_returnsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -551,12 +586,14 @@ export type purchase_returnsUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type purchase_returnsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   purchase_invoice_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   return_no?: Prisma.SortOrder
@@ -571,6 +608,9 @@ export type purchase_returnsCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type purchase_returnsAvgOrderByAggregateInput = {
@@ -582,7 +622,6 @@ export type purchase_returnsAvgOrderByAggregateInput = {
 export type purchase_returnsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   purchase_invoice_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   return_no?: Prisma.SortOrder
@@ -597,12 +636,14 @@ export type purchase_returnsMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type purchase_returnsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   purchase_invoice_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   return_no?: Prisma.SortOrder
@@ -617,6 +658,9 @@ export type purchase_returnsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type purchase_returnsSumOrderByAggregateInput = {
@@ -634,7 +678,6 @@ export type Enumreturn_status_enumFieldUpdateOperationsInput = {
 export type purchase_returnsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   purchase_invoice_id?: boolean
-  auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   return_no?: boolean
@@ -649,12 +692,14 @@ export type purchase_returnsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   created_at?: boolean
   updated_at?: boolean
   supplier_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["purchase_returns"]>
 
 export type purchase_returnsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   purchase_invoice_id?: boolean
-  auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   return_no?: boolean
@@ -669,12 +714,14 @@ export type purchase_returnsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   created_at?: boolean
   updated_at?: boolean
   supplier_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["purchase_returns"]>
 
 export type purchase_returnsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   purchase_invoice_id?: boolean
-  auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   return_no?: boolean
@@ -689,12 +736,14 @@ export type purchase_returnsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   created_at?: boolean
   updated_at?: boolean
   supplier_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["purchase_returns"]>
 
 export type purchase_returnsSelectScalar = {
   id?: boolean
   purchase_invoice_id?: boolean
-  auth_user_id?: boolean
   branch_id?: boolean
   store_id?: boolean
   return_no?: boolean
@@ -709,9 +758,12 @@ export type purchase_returnsSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   supplier_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type purchase_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchase_invoice_id" | "auth_user_id" | "branch_id" | "store_id" | "return_no" | "return_date" | "status" | "subtotal" | "tax_amount" | "total_amount" | "reason" | "notes" | "created_by" | "created_at" | "updated_at" | "supplier_id", ExtArgs["result"]["purchase_returns"]>
+export type purchase_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchase_invoice_id" | "branch_id" | "store_id" | "return_no" | "return_date" | "status" | "subtotal" | "tax_amount" | "total_amount" | "reason" | "notes" | "created_by" | "created_at" | "updated_at" | "supplier_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_returns"]>
 
 export type $purchase_returnsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "purchase_returns"
@@ -719,7 +771,6 @@ export type $purchase_returnsPayload<ExtArgs extends runtime.Types.Extensions.In
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     purchase_invoice_id: string | null
-    auth_user_id: string
     branch_id: string
     store_id: string | null
     return_no: string
@@ -734,6 +785,9 @@ export type $purchase_returnsPayload<ExtArgs extends runtime.Types.Extensions.In
     created_at: Date
     updated_at: Date
     supplier_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["purchase_returns"]>
   composites: {}
 }
@@ -1159,7 +1213,6 @@ export interface Prisma__purchase_returnsClient<T, Null = never, ExtArgs extends
 export interface purchase_returnsFieldRefs {
   readonly id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly purchase_invoice_id: Prisma.FieldRef<"purchase_returns", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly branch_id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly store_id: Prisma.FieldRef<"purchase_returns", 'String'>
   readonly return_no: Prisma.FieldRef<"purchase_returns", 'String'>
@@ -1174,6 +1227,9 @@ export interface purchase_returnsFieldRefs {
   readonly created_at: Prisma.FieldRef<"purchase_returns", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"purchase_returns", 'DateTime'>
   readonly supplier_id: Prisma.FieldRef<"purchase_returns", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"purchase_returns", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"purchase_returns", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"purchase_returns", 'String'>
 }
     
 

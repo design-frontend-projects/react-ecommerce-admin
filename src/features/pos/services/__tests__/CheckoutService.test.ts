@@ -20,6 +20,7 @@ vi.mock('@/server/supabase', () => ({
 
 vi.mock('@/server/utils/tenant', () => ({
   requireTenantId: vi.fn().mockResolvedValue('tenant-uuid'),
+  resolveTenantUserId: vi.fn().mockResolvedValue('user-uuid'),
 }))
 
 describe('CheckoutService', () => {

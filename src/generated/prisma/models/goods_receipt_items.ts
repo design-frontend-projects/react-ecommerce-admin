@@ -49,6 +49,8 @@ export type Goods_receipt_itemsMinAggregateOutputType = {
   expiry_date: Date | null
   created_at: Date | null
   purchase_order_item_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Goods_receipt_itemsMaxAggregateOutputType = {
@@ -64,6 +66,8 @@ export type Goods_receipt_itemsMaxAggregateOutputType = {
   expiry_date: Date | null
   created_at: Date | null
   purchase_order_item_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Goods_receipt_itemsCountAggregateOutputType = {
@@ -80,6 +84,8 @@ export type Goods_receipt_itemsCountAggregateOutputType = {
   serial_numbers: number
   created_at: number
   purchase_order_item_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -107,6 +113,8 @@ export type Goods_receipt_itemsMinAggregateInputType = {
   expiry_date?: true
   created_at?: true
   purchase_order_item_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Goods_receipt_itemsMaxAggregateInputType = {
@@ -122,6 +130,8 @@ export type Goods_receipt_itemsMaxAggregateInputType = {
   expiry_date?: true
   created_at?: true
   purchase_order_item_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Goods_receipt_itemsCountAggregateInputType = {
@@ -138,6 +148,8 @@ export type Goods_receipt_itemsCountAggregateInputType = {
   serial_numbers?: true
   created_at?: true
   purchase_order_item_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -241,6 +253,8 @@ export type Goods_receipt_itemsGroupByOutputType = {
   serial_numbers: runtime.JsonValue | null
   created_at: Date
   purchase_order_item_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Goods_receipt_itemsCountAggregateOutputType | null
   _avg: Goods_receipt_itemsAvgAggregateOutputType | null
   _sum: Goods_receipt_itemsSumAggregateOutputType | null
@@ -248,7 +262,7 @@ export type Goods_receipt_itemsGroupByOutputType = {
   _max: Goods_receipt_itemsMaxAggregateOutputType | null
 }
 
-export type GetGoods_receipt_itemsGroupByPayload<T extends goods_receipt_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetGoods_receipt_itemsGroupByPayload<T extends goods_receipt_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Goods_receipt_itemsGroupByOutputType, T['by']> &
       {
@@ -280,6 +294,8 @@ export type goods_receipt_itemsWhereInput = {
   serial_numbers?: Prisma.JsonNullableFilter<"goods_receipt_items">
   created_at?: Prisma.DateTimeFilter<"goods_receipt_items"> | Date | string
   purchase_order_item_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
 }
 
 export type goods_receipt_itemsOrderByWithRelationInput = {
@@ -296,6 +312,8 @@ export type goods_receipt_itemsOrderByWithRelationInput = {
   serial_numbers?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type goods_receipt_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -315,6 +333,8 @@ export type goods_receipt_itemsWhereUniqueInput = Prisma.AtLeast<{
   serial_numbers?: Prisma.JsonNullableFilter<"goods_receipt_items">
   created_at?: Prisma.DateTimeFilter<"goods_receipt_items"> | Date | string
   purchase_order_item_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
 }, "id">
 
 export type goods_receipt_itemsOrderByWithAggregationInput = {
@@ -331,6 +351,8 @@ export type goods_receipt_itemsOrderByWithAggregationInput = {
   serial_numbers?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.goods_receipt_itemsCountOrderByAggregateInput
   _avg?: Prisma.goods_receipt_itemsAvgOrderByAggregateInput
   _max?: Prisma.goods_receipt_itemsMaxOrderByAggregateInput
@@ -355,6 +377,8 @@ export type goods_receipt_itemsScalarWhereWithAggregatesInput = {
   serial_numbers?: Prisma.JsonNullableWithAggregatesFilter<"goods_receipt_items">
   created_at?: Prisma.DateTimeWithAggregatesFilter<"goods_receipt_items"> | Date | string
   purchase_order_item_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
 }
 
 export type goods_receipt_itemsCreateInput = {
@@ -371,6 +395,8 @@ export type goods_receipt_itemsCreateInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
   purchase_order_item_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type goods_receipt_itemsUncheckedCreateInput = {
@@ -387,6 +413,8 @@ export type goods_receipt_itemsUncheckedCreateInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
   purchase_order_item_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type goods_receipt_itemsUpdateInput = {
@@ -403,6 +431,8 @@ export type goods_receipt_itemsUpdateInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receipt_itemsUncheckedUpdateInput = {
@@ -419,6 +449,8 @@ export type goods_receipt_itemsUncheckedUpdateInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receipt_itemsCreateManyInput = {
@@ -435,6 +467,8 @@ export type goods_receipt_itemsCreateManyInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
   purchase_order_item_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type goods_receipt_itemsUpdateManyMutationInput = {
@@ -451,6 +485,8 @@ export type goods_receipt_itemsUpdateManyMutationInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receipt_itemsUncheckedUpdateManyInput = {
@@ -467,6 +503,8 @@ export type goods_receipt_itemsUncheckedUpdateManyInput = {
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   purchase_order_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receipt_itemsCountOrderByAggregateInput = {
@@ -483,6 +521,8 @@ export type goods_receipt_itemsCountOrderByAggregateInput = {
   serial_numbers?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type goods_receipt_itemsAvgOrderByAggregateInput = {
@@ -503,6 +543,8 @@ export type goods_receipt_itemsMaxOrderByAggregateInput = {
   expiry_date?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type goods_receipt_itemsMinOrderByAggregateInput = {
@@ -518,6 +560,8 @@ export type goods_receipt_itemsMinOrderByAggregateInput = {
   expiry_date?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type goods_receipt_itemsSumOrderByAggregateInput = {
@@ -541,6 +585,8 @@ export type goods_receipt_itemsSelect<ExtArgs extends runtime.Types.Extensions.I
   serial_numbers?: boolean
   created_at?: boolean
   purchase_order_item_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["goods_receipt_items"]>
 
 export type goods_receipt_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -557,6 +603,8 @@ export type goods_receipt_itemsSelectCreateManyAndReturn<ExtArgs extends runtime
   serial_numbers?: boolean
   created_at?: boolean
   purchase_order_item_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["goods_receipt_items"]>
 
 export type goods_receipt_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -573,6 +621,8 @@ export type goods_receipt_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime
   serial_numbers?: boolean
   created_at?: boolean
   purchase_order_item_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["goods_receipt_items"]>
 
 export type goods_receipt_itemsSelectScalar = {
@@ -589,9 +639,11 @@ export type goods_receipt_itemsSelectScalar = {
   serial_numbers?: boolean
   created_at?: boolean
   purchase_order_item_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type goods_receipt_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "goods_receipt_id" | "product_variant_id" | "qty_received" | "uom_id" | "unit_cost" | "warehouse_location_id" | "batch_id" | "batch_number" | "expiry_date" | "serial_numbers" | "created_at" | "purchase_order_item_id", ExtArgs["result"]["goods_receipt_items"]>
+export type goods_receipt_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "goods_receipt_id" | "product_variant_id" | "qty_received" | "uom_id" | "unit_cost" | "warehouse_location_id" | "batch_id" | "batch_number" | "expiry_date" | "serial_numbers" | "created_at" | "purchase_order_item_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["goods_receipt_items"]>
 
 export type $goods_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "goods_receipt_items"
@@ -610,6 +662,8 @@ export type $goods_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions
     serial_numbers: runtime.JsonValue | null
     created_at: Date
     purchase_order_item_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["goods_receipt_items"]>
   composites: {}
 }
@@ -1046,6 +1100,8 @@ export interface goods_receipt_itemsFieldRefs {
   readonly serial_numbers: Prisma.FieldRef<"goods_receipt_items", 'Json'>
   readonly created_at: Prisma.FieldRef<"goods_receipt_items", 'DateTime'>
   readonly purchase_order_item_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
 }
     
 

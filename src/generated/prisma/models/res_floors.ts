@@ -41,8 +41,9 @@ export type Res_floorsMinAggregateOutputType = {
   sort_order: number | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_floorsMaxAggregateOutputType = {
@@ -52,8 +53,9 @@ export type Res_floorsMaxAggregateOutputType = {
   sort_order: number | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_floorsCountAggregateOutputType = {
@@ -63,8 +65,9 @@ export type Res_floorsCountAggregateOutputType = {
   sort_order: number
   is_active: number
   created_at: number
-  auth_user_id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -84,8 +87,9 @@ export type Res_floorsMinAggregateInputType = {
   sort_order?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_floorsMaxAggregateInputType = {
@@ -95,8 +99,9 @@ export type Res_floorsMaxAggregateInputType = {
   sort_order?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_floorsCountAggregateInputType = {
@@ -106,8 +111,9 @@ export type Res_floorsCountAggregateInputType = {
   sort_order?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -204,8 +210,9 @@ export type Res_floorsGroupByOutputType = {
   sort_order: number | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Res_floorsCountAggregateOutputType | null
   _avg: Res_floorsAvgAggregateOutputType | null
   _sum: Res_floorsSumAggregateOutputType | null
@@ -213,7 +220,7 @@ export type Res_floorsGroupByOutputType = {
   _max: Res_floorsMaxAggregateOutputType | null
 }
 
-export type GetRes_floorsGroupByPayload<T extends res_floorsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_floorsGroupByPayload<T extends res_floorsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_floorsGroupByOutputType, T['by']> &
       {
@@ -238,8 +245,9 @@ export type res_floorsWhereInput = {
   sort_order?: Prisma.IntNullableFilter<"res_floors"> | number | null
   is_active?: Prisma.BoolNullableFilter<"res_floors"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_floors"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_floors"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
 }
 
 export type res_floorsOrderByWithRelationInput = {
@@ -249,8 +257,9 @@ export type res_floorsOrderByWithRelationInput = {
   sort_order?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_floorsWhereUniqueInput = Prisma.AtLeast<{
@@ -263,8 +272,9 @@ export type res_floorsWhereUniqueInput = Prisma.AtLeast<{
   sort_order?: Prisma.IntNullableFilter<"res_floors"> | number | null
   is_active?: Prisma.BoolNullableFilter<"res_floors"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"res_floors"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_floors"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_floors"> | string | null
 }, "id">
 
 export type res_floorsOrderByWithAggregationInput = {
@@ -274,8 +284,9 @@ export type res_floorsOrderByWithAggregationInput = {
   sort_order?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_floorsCountOrderByAggregateInput
   _avg?: Prisma.res_floorsAvgOrderByAggregateInput
   _max?: Prisma.res_floorsMaxOrderByAggregateInput
@@ -293,8 +304,9 @@ export type res_floorsScalarWhereWithAggregatesInput = {
   sort_order?: Prisma.IntNullableWithAggregatesFilter<"res_floors"> | number | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"res_floors"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_floors"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"res_floors"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_floors"> | string | null
 }
 
 export type res_floorsCreateInput = {
@@ -304,8 +316,9 @@ export type res_floorsCreateInput = {
   sort_order?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_floorsUncheckedCreateInput = {
@@ -315,8 +328,9 @@ export type res_floorsUncheckedCreateInput = {
   sort_order?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_floorsUpdateInput = {
@@ -326,8 +340,9 @@ export type res_floorsUpdateInput = {
   sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsUncheckedUpdateInput = {
@@ -337,8 +352,9 @@ export type res_floorsUncheckedUpdateInput = {
   sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsCreateManyInput = {
@@ -348,8 +364,9 @@ export type res_floorsCreateManyInput = {
   sort_order?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_floorsUpdateManyMutationInput = {
@@ -359,8 +376,9 @@ export type res_floorsUpdateManyMutationInput = {
   sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsUncheckedUpdateManyInput = {
@@ -370,8 +388,9 @@ export type res_floorsUncheckedUpdateManyInput = {
   sort_order?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_floorsCountOrderByAggregateInput = {
@@ -381,8 +400,9 @@ export type res_floorsCountOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_floorsAvgOrderByAggregateInput = {
@@ -396,8 +416,9 @@ export type res_floorsMaxOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_floorsMinOrderByAggregateInput = {
@@ -407,8 +428,9 @@ export type res_floorsMinOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_floorsSumOrderByAggregateInput = {
@@ -424,8 +446,9 @@ export type res_floorsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_floors"]>
 
 export type res_floorsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -435,8 +458,9 @@ export type res_floorsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_floors"]>
 
 export type res_floorsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -446,8 +470,9 @@ export type res_floorsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_floors"]>
 
 export type res_floorsSelectScalar = {
@@ -457,11 +482,12 @@ export type res_floorsSelectScalar = {
   sort_order?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type res_floorsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "sort_order" | "is_active" | "created_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["res_floors"]>
+export type res_floorsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "sort_order" | "is_active" | "created_at" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["res_floors"]>
 
 export type $res_floorsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_floors"
@@ -473,8 +499,9 @@ export type $res_floorsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     sort_order: number | null
     is_active: boolean | null
     created_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["res_floors"]>
   composites: {}
 }
@@ -904,8 +931,9 @@ export interface res_floorsFieldRefs {
   readonly sort_order: Prisma.FieldRef<"res_floors", 'Int'>
   readonly is_active: Prisma.FieldRef<"res_floors", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"res_floors", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"res_floors", 'String'>
   readonly tenant_id: Prisma.FieldRef<"res_floors", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"res_floors", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"res_floors", 'String'>
 }
     
 

@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import {
   resolveAdjustmentItem,
@@ -67,10 +67,6 @@ export async function listAdjustments(authUserId: string) {
   return prisma.stock_adjustments.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      _count: { select: { stock_adjustment_items: true } },
-    },
   })
 }
 
@@ -78,17 +74,17 @@ export async function getAdjustment(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const adjustment = await prisma.stock_adjustments.findFirst({
     where: { id, tenant_id: tenantId },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      stock_adjustment_items: {
-        include: { product_variants: { select: { id: true, sku: true } } },
-      },
-    },
   })
   if (!adjustment) {
     throw new ApiError('Adjustment not found.', 404)
   }
-  return adjustment
+  const items = await prisma.stock_adjustment_items.findMany({
+    where: { stock_adjustment_id: id },
+  })
+  return {
+    ...adjustment,
+    stock_adjustment_items: items,
+  }
 }
 
 export async function createAdjustment(
@@ -96,6 +92,7 @@ export async function createAdjustment(
   input: CreateAdjustmentInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.storeId) {
     throw new ApiError('A store is required.', 400)
@@ -116,32 +113,50 @@ export async function createAdjustment(
     )
   )
 
-  return prisma.stock_adjustments.create({
-    data: {
-      tenant_id: tenantId,
-      auth_user_id: tenantId,
-      store_id: input.storeId,
-      type: input.type,
-      notes: input.notes ?? null,
-      created_by: authUserId,
-      status: 'draft',
-      stock_adjustment_items: {
-        create: resolved.map((item) => ({
+  return prisma.$transaction(async (tx: any) => {
+    const created = await tx.stock_adjustments.create({
+      data: {
+        tenant_id: tenantId,
+        store_id: input.storeId,
+        type: input.type,
+        notes: input.notes ?? null,
+        created_by: authUserId,
+        status: 'draft',
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
+      },
+    })
+
+    if (resolved.length > 0) {
+      await tx.stock_adjustment_items.createMany({
+        data: resolved.map((item) => ({
+          stock_adjustment_id: created.id,
           product_variant_id: item.product_variant_id,
           qty_before: item.qty_before,
           qty_after: item.qty_after,
           qty_adjusted: item.qty_adjusted,
           unit_cost: item.unit_cost,
           reason: item.reason,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
         })),
-      },
-    },
-    include: { stock_adjustment_items: true },
+      })
+    }
+
+    const items = await tx.stock_adjustment_items.findMany({
+      where: { stock_adjustment_id: created.id },
+    })
+
+    return {
+      ...created,
+      stock_adjustment_items: items,
+    }
   })
 }
 
 export async function cancelAdjustment(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = (await prisma.stock_adjustments.findFirst({
     where: { id, tenant_id: tenantId },
     select: { status: true },
@@ -154,7 +169,10 @@ export async function cancelAdjustment(authUserId: string, id: string) {
   }
   return prisma.stock_adjustments.update({
     where: { id },
-    data: { status: 'cancelled' },
+    data: {
+      status: 'cancelled',
+      updated_by_user_id: tenantUserId,
+    },
   })
 }
 

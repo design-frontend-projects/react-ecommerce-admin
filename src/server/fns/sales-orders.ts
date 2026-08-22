@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface OrderItemInput {
@@ -15,7 +15,7 @@ export interface OrderItemInput {
 
 export interface CreateOrderInput {
   storeId: string
-  customerId?: number | null
+  customerId?: string | null
   expectedDate?: string | null
   notes?: string | null
   items: OrderItemInput[]
@@ -53,13 +53,6 @@ export async function listOrders(authUserId: string) {
   return prisma.sales_orders.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      customers: {
-        select: { customer_id: true, first_name: true, last_name: true },
-      },
-      _count: { select: { sales_order_items: true } },
-    },
   })
 }
 
@@ -67,32 +60,22 @@ export async function getOrder(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const order = await prisma.sales_orders.findFirst({
     where: { id, tenant_id: tenantId },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      customers: {
-        select: { customer_id: true, first_name: true, last_name: true },
-      },
-      sales_order_items: {
-        include: {
-          product_variants: {
-            select: {
-              id: true,
-              sku: true,
-              products: { select: { name: true } },
-            },
-          },
-        },
-      },
-    },
   })
   if (!order) {
     throw new ApiError('Sales order not found.', 404)
   }
-  return order
+  const items = await prisma.sales_order_items.findMany({
+    where: { sales_order_id: id },
+  })
+  return {
+    ...order,
+    sales_order_items: items,
+  }
 }
 
 export async function createOrder(authUserId: string, input: CreateOrderInput) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.storeId) {
     throw new ApiError('A store is required.', 400)
@@ -122,23 +105,44 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
   )
   const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
 
-  return prisma.sales_orders.create({
-    data: {
-      tenant_id: tenantId,
-      auth_user_id: tenantId,
-      store_id: input.storeId,
-      customer_id: input.customerId ?? null,
-      expected_date: input.expectedDate ? new Date(input.expectedDate) : null,
-      notes: input.notes ?? null,
-      created_by: authUserId,
-      status: 'draft',
-      subtotal,
-      discount_amount: discountAmount,
-      tax_amount: taxAmount,
-      total_amount: subtotal - discountAmount + taxAmount,
-      sales_order_items: { create: lines },
-    },
-    include: { sales_order_items: true },
+  return prisma.$transaction(async (tx: any) => {
+    const order = await tx.sales_orders.create({
+      data: {
+        tenant_id: tenantId,
+        store_id: input.storeId,
+        customer_id: input.customerId ?? null,
+        expected_date: input.expectedDate ? new Date(input.expectedDate) : null,
+        notes: input.notes ?? null,
+        created_by: authUserId,
+        status: 'draft',
+        subtotal,
+        discount_amount: discountAmount,
+        tax_amount: taxAmount,
+        total_amount: subtotal - discountAmount + taxAmount,
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
+      },
+    })
+
+    if (lines.length > 0) {
+      await tx.sales_order_items.createMany({
+        data: lines.map((l) => ({
+          sales_order_id: order.id,
+          ...l,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
+        })),
+      })
+    }
+
+    const items = await tx.sales_order_items.findMany({
+      where: { sales_order_id: order.id },
+    })
+
+    return {
+      ...order,
+      sales_order_items: items,
+    }
   })
 }
 

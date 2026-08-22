@@ -37,7 +37,6 @@ export type StoresSumAggregateOutputType = {
 }
 
 export type StoresMinAggregateOutputType = {
-  auth_user_id: string | null
   phone: string | null
   email: string | null
   address: string | null
@@ -52,10 +51,11 @@ export type StoresMinAggregateOutputType = {
   status: boolean | null
   branch_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type StoresMaxAggregateOutputType = {
-  auth_user_id: string | null
   phone: string | null
   email: string | null
   address: string | null
@@ -70,10 +70,11 @@ export type StoresMaxAggregateOutputType = {
   status: boolean | null
   branch_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type StoresCountAggregateOutputType = {
-  auth_user_id: number
   phone: number
   email: number
   address: number
@@ -88,6 +89,8 @@ export type StoresCountAggregateOutputType = {
   status: number
   branch_id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -103,7 +106,6 @@ export type StoresSumAggregateInputType = {
 }
 
 export type StoresMinAggregateInputType = {
-  auth_user_id?: true
   phone?: true
   email?: true
   address?: true
@@ -118,10 +120,11 @@ export type StoresMinAggregateInputType = {
   status?: true
   branch_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type StoresMaxAggregateInputType = {
-  auth_user_id?: true
   phone?: true
   email?: true
   address?: true
@@ -136,10 +139,11 @@ export type StoresMaxAggregateInputType = {
   status?: true
   branch_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type StoresCountAggregateInputType = {
-  auth_user_id?: true
   phone?: true
   email?: true
   address?: true
@@ -154,6 +158,8 @@ export type StoresCountAggregateInputType = {
   status?: true
   branch_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -244,7 +250,6 @@ export type storesGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type StoresGroupByOutputType = {
-  auth_user_id: string | null
   phone: string | null
   email: string | null
   address: string | null
@@ -258,7 +263,9 @@ export type StoresGroupByOutputType = {
   store_id: string
   status: boolean | null
   branch_id: string | null
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: StoresCountAggregateOutputType | null
   _avg: StoresAvgAggregateOutputType | null
   _sum: StoresSumAggregateOutputType | null
@@ -266,7 +273,7 @@ export type StoresGroupByOutputType = {
   _max: StoresMaxAggregateOutputType | null
 }
 
-export type GetStoresGroupByPayload<T extends storesGroupByArgs> = Prisma.PrismaPromise<
+type GetStoresGroupByPayload<T extends storesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<StoresGroupByOutputType, T['by']> &
       {
@@ -285,7 +292,6 @@ export type storesWhereInput = {
   AND?: Prisma.storesWhereInput | Prisma.storesWhereInput[]
   OR?: Prisma.storesWhereInput[]
   NOT?: Prisma.storesWhereInput | Prisma.storesWhereInput[]
-  auth_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   phone?: Prisma.StringNullableFilter<"stores"> | string | null
   email?: Prisma.StringNullableFilter<"stores"> | string | null
   address?: Prisma.StringNullableFilter<"stores"> | string | null
@@ -299,7 +305,9 @@ export type storesWhereInput = {
   store_id?: Prisma.UuidFilter<"stores"> | string
   status?: Prisma.BoolNullableFilter<"stores"> | boolean | null
   branch_id?: Prisma.UuidNullableFilter<"stores"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  tenant_id?: Prisma.UuidFilter<"stores"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
@@ -307,7 +315,6 @@ export type storesWhereInput = {
 }
 
 export type storesOrderByWithRelationInput = {
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -321,7 +328,9 @@ export type storesOrderByWithRelationInput = {
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   branches?: Prisma.branchesOrderByWithRelationInput
   cities?: Prisma.citiesOrderByWithRelationInput
   countries?: Prisma.countriesOrderByWithRelationInput
@@ -333,7 +342,6 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.storesWhereInput | Prisma.storesWhereInput[]
   OR?: Prisma.storesWhereInput[]
   NOT?: Prisma.storesWhereInput | Prisma.storesWhereInput[]
-  auth_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   phone?: Prisma.StringNullableFilter<"stores"> | string | null
   email?: Prisma.StringNullableFilter<"stores"> | string | null
   address?: Prisma.StringNullableFilter<"stores"> | string | null
@@ -346,7 +354,9 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringNullableFilter<"stores"> | string | null
   status?: Prisma.BoolNullableFilter<"stores"> | boolean | null
   branch_id?: Prisma.UuidNullableFilter<"stores"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  tenant_id?: Prisma.UuidFilter<"stores"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
@@ -354,7 +364,6 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
 }, "store_id">
 
 export type storesOrderByWithAggregationInput = {
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -368,7 +377,9 @@ export type storesOrderByWithAggregationInput = {
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.storesCountOrderByAggregateInput
   _avg?: Prisma.storesAvgOrderByAggregateInput
   _max?: Prisma.storesMaxOrderByAggregateInput
@@ -380,7 +391,6 @@ export type storesScalarWhereWithAggregatesInput = {
   AND?: Prisma.storesScalarWhereWithAggregatesInput | Prisma.storesScalarWhereWithAggregatesInput[]
   OR?: Prisma.storesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.storesScalarWhereWithAggregatesInput | Prisma.storesScalarWhereWithAggregatesInput[]
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"stores"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"stores"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"stores"> | string | null
@@ -394,11 +404,12 @@ export type storesScalarWhereWithAggregatesInput = {
   store_id?: Prisma.UuidWithAggregatesFilter<"stores"> | string
   status?: Prisma.BoolNullableWithAggregatesFilter<"stores"> | boolean | null
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"stores"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
 }
 
 export type storesCreateInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -409,7 +420,9 @@ export type storesCreateInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
@@ -417,7 +430,6 @@ export type storesCreateInput = {
 }
 
 export type storesUncheckedCreateInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -431,12 +443,13 @@ export type storesUncheckedCreateInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
 export type storesUpdateInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -447,7 +460,9 @@ export type storesUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
@@ -455,7 +470,6 @@ export type storesUpdateInput = {
 }
 
 export type storesUncheckedUpdateInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -469,12 +483,13 @@ export type storesUncheckedUpdateInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesCreateManyInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -488,11 +503,12 @@ export type storesCreateManyInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type storesUpdateManyMutationInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -503,11 +519,12 @@ export type storesUpdateManyMutationInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type storesUncheckedUpdateManyInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -521,7 +538,9 @@ export type storesUncheckedUpdateManyInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StoresListRelationFilter = {
@@ -535,7 +554,6 @@ export type storesOrderByRelationAggregateInput = {
 }
 
 export type storesCountOrderByAggregateInput = {
-  auth_user_id?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -550,6 +568,8 @@ export type storesCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type storesAvgOrderByAggregateInput = {
@@ -558,7 +578,6 @@ export type storesAvgOrderByAggregateInput = {
 }
 
 export type storesMaxOrderByAggregateInput = {
-  auth_user_id?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -573,10 +592,11 @@ export type storesMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type storesMinOrderByAggregateInput = {
-  auth_user_id?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -591,6 +611,8 @@ export type storesMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type storesSumOrderByAggregateInput = {
@@ -746,7 +768,6 @@ export type storesUpdateOneWithoutWarehousesNestedInput = {
 }
 
 export type storesCreateWithoutBranchesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -757,14 +778,15 @@ export type storesCreateWithoutBranchesInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutBranchesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -777,7 +799,9 @@ export type storesUncheckedCreateWithoutBranchesInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
@@ -811,7 +835,6 @@ export type storesScalarWhereInput = {
   AND?: Prisma.storesScalarWhereInput | Prisma.storesScalarWhereInput[]
   OR?: Prisma.storesScalarWhereInput[]
   NOT?: Prisma.storesScalarWhereInput | Prisma.storesScalarWhereInput[]
-  auth_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   phone?: Prisma.StringNullableFilter<"stores"> | string | null
   email?: Prisma.StringNullableFilter<"stores"> | string | null
   address?: Prisma.StringNullableFilter<"stores"> | string | null
@@ -825,11 +848,12 @@ export type storesScalarWhereInput = {
   store_id?: Prisma.UuidFilter<"stores"> | string
   status?: Prisma.BoolNullableFilter<"stores"> | boolean | null
   branch_id?: Prisma.UuidNullableFilter<"stores"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  tenant_id?: Prisma.UuidFilter<"stores"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stores"> | string | null
 }
 
 export type storesCreateWithoutCitiesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -840,14 +864,15 @@ export type storesCreateWithoutCitiesInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutCitiesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -860,7 +885,9 @@ export type storesUncheckedCreateWithoutCitiesInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
@@ -891,7 +918,6 @@ export type storesUpdateManyWithWhereWithoutCitiesInput = {
 }
 
 export type storesCreateWithoutCountriesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -902,14 +928,15 @@ export type storesCreateWithoutCountriesInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutCountriesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -922,7 +949,9 @@ export type storesUncheckedCreateWithoutCountriesInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutStoresInput
 }
 
@@ -953,7 +982,6 @@ export type storesUpdateManyWithWhereWithoutCountriesInput = {
 }
 
 export type storesCreateWithoutWarehousesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -964,14 +992,15 @@ export type storesCreateWithoutWarehousesInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
   cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
   countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
 }
 
 export type storesUncheckedCreateWithoutWarehousesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -985,7 +1014,9 @@ export type storesUncheckedCreateWithoutWarehousesInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type storesCreateOrConnectWithoutWarehousesInput = {
@@ -1005,7 +1036,6 @@ export type storesUpdateToOneWithWhereWithoutWarehousesInput = {
 }
 
 export type storesUpdateWithoutWarehousesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1016,14 +1046,15 @@ export type storesUpdateWithoutWarehousesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutWarehousesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1037,11 +1068,12 @@ export type storesUncheckedUpdateWithoutWarehousesInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type storesCreateManyBranchesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -1054,11 +1086,12 @@ export type storesCreateManyBranchesInput = {
   name?: string | null
   store_id: string
   status?: boolean | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type storesUpdateWithoutBranchesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1069,14 +1102,15 @@ export type storesUpdateWithoutBranchesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutBranchesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1089,12 +1123,13 @@ export type storesUncheckedUpdateWithoutBranchesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutBranchesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1107,11 +1142,12 @@ export type storesUncheckedUpdateManyWithoutBranchesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type storesCreateManyCitiesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -1124,11 +1160,12 @@ export type storesCreateManyCitiesInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type storesUpdateWithoutCitiesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1139,14 +1176,15 @@ export type storesUpdateWithoutCitiesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutCitiesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1159,12 +1197,13 @@ export type storesUncheckedUpdateWithoutCitiesInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutCitiesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1177,11 +1216,12 @@ export type storesUncheckedUpdateManyWithoutCitiesInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type storesCreateManyCountriesInput = {
-  auth_user_id?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -1194,11 +1234,12 @@ export type storesCreateManyCountriesInput = {
   store_id: string
   status?: boolean | null
   branch_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type storesUpdateWithoutCountriesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1209,14 +1250,15 @@ export type storesUpdateWithoutCountriesInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
   cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateWithoutCountriesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1229,12 +1271,13 @@ export type storesUncheckedUpdateWithoutCountriesInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutStoresNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutCountriesInput = {
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1247,7 +1290,9 @@ export type storesUncheckedUpdateManyWithoutCountriesInput = {
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1282,7 +1327,6 @@ export type StoresCountOutputTypeCountWarehousesArgs<ExtArgs extends runtime.Typ
 
 
 export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  auth_user_id?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -1297,6 +1341,8 @@ export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   branch_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
   countries?: boolean | Prisma.stores$countriesArgs<ExtArgs>
@@ -1305,7 +1351,6 @@ export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 }, ExtArgs["result"]["stores"]>
 
 export type storesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  auth_user_id?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -1320,13 +1365,14 @@ export type storesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   branch_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
   countries?: boolean | Prisma.stores$countriesArgs<ExtArgs>
 }, ExtArgs["result"]["stores"]>
 
 export type storesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  auth_user_id?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -1341,13 +1387,14 @@ export type storesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   branch_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
   countries?: boolean | Prisma.stores$countriesArgs<ExtArgs>
 }, ExtArgs["result"]["stores"]>
 
 export type storesSelectScalar = {
-  auth_user_id?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -1362,9 +1409,11 @@ export type storesSelectScalar = {
   status?: boolean
   branch_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type storesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"auth_user_id" | "phone" | "email" | "address" | "latitude" | "longitude" | "created_at" | "updated_at" | "city_id" | "country_id" | "name" | "store_id" | "status" | "branch_id" | "tenant_id", ExtArgs["result"]["stores"]>
+export type storesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"phone" | "email" | "address" | "latitude" | "longitude" | "created_at" | "updated_at" | "city_id" | "country_id" | "name" | "store_id" | "status" | "branch_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stores"]>
 export type storesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
@@ -1392,7 +1441,6 @@ export type $storesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     warehouses: Prisma.$warehousesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    auth_user_id: string | null
     phone: string | null
     email: string | null
     address: string | null
@@ -1406,7 +1454,9 @@ export type $storesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     store_id: string
     status: boolean | null
     branch_id: string | null
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stores"]>
   composites: {}
 }
@@ -1490,8 +1540,8 @@ export interface storesDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * // Get first 10 Stores
    * const stores = await prisma.stores.findMany({ take: 10 })
    * 
-   * // Only select the `auth_user_id`
-   * const storesWithAuth_user_idOnly = await prisma.stores.findMany({ select: { auth_user_id: true } })
+   * // Only select the `phone`
+   * const storesWithPhoneOnly = await prisma.stores.findMany({ select: { phone: true } })
    * 
    */
   findMany<T extends storesFindManyArgs>(args?: Prisma.SelectSubset<T, storesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1535,9 +1585,9 @@ export interface storesDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Create many Stores and only return the `auth_user_id`
-   * const storesWithAuth_user_idOnly = await prisma.stores.createManyAndReturn({
-   *   select: { auth_user_id: true },
+   * // Create many Stores and only return the `phone`
+   * const storesWithPhoneOnly = await prisma.stores.createManyAndReturn({
+   *   select: { phone: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -1626,9 +1676,9 @@ export interface storesDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Update zero or more Stores and only return the `auth_user_id`
-   * const storesWithAuth_user_idOnly = await prisma.stores.updateManyAndReturn({
-   *   select: { auth_user_id: true },
+   * // Update zero or more Stores and only return the `phone`
+   * const storesWithPhoneOnly = await prisma.stores.updateManyAndReturn({
+   *   select: { phone: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1834,7 +1884,6 @@ export interface Prisma__storesClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the stores model
  */
 export interface storesFieldRefs {
-  readonly auth_user_id: Prisma.FieldRef<"stores", 'String'>
   readonly phone: Prisma.FieldRef<"stores", 'String'>
   readonly email: Prisma.FieldRef<"stores", 'String'>
   readonly address: Prisma.FieldRef<"stores", 'String'>
@@ -1849,6 +1898,8 @@ export interface storesFieldRefs {
   readonly status: Prisma.FieldRef<"stores", 'Boolean'>
   readonly branch_id: Prisma.FieldRef<"stores", 'String'>
   readonly tenant_id: Prisma.FieldRef<"stores", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stores", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stores", 'String'>
 }
     
 

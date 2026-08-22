@@ -52,10 +52,11 @@ export type Shipping_ratesMinAggregateOutputType = {
   max_order_amount: runtime.Decimal | null
   cost: runtime.Decimal | null
   is_free: boolean | null
-  auth_user_id: string | null
   id: string | null
   tenant_id: string | null
   method_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Shipping_ratesMaxAggregateOutputType = {
@@ -68,10 +69,11 @@ export type Shipping_ratesMaxAggregateOutputType = {
   max_order_amount: runtime.Decimal | null
   cost: runtime.Decimal | null
   is_free: boolean | null
-  auth_user_id: string | null
   id: string | null
   tenant_id: string | null
   method_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Shipping_ratesCountAggregateOutputType = {
@@ -84,10 +86,11 @@ export type Shipping_ratesCountAggregateOutputType = {
   max_order_amount: number
   cost: number
   is_free: number
-  auth_user_id: number
   id: number
   tenant_id: number
   method_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -118,10 +121,11 @@ export type Shipping_ratesMinAggregateInputType = {
   max_order_amount?: true
   cost?: true
   is_free?: true
-  auth_user_id?: true
   id?: true
   tenant_id?: true
   method_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Shipping_ratesMaxAggregateInputType = {
@@ -134,10 +138,11 @@ export type Shipping_ratesMaxAggregateInputType = {
   max_order_amount?: true
   cost?: true
   is_free?: true
-  auth_user_id?: true
   id?: true
   tenant_id?: true
   method_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Shipping_ratesCountAggregateInputType = {
@@ -150,10 +155,11 @@ export type Shipping_ratesCountAggregateInputType = {
   max_order_amount?: true
   cost?: true
   is_free?: true
-  auth_user_id?: true
   id?: true
   tenant_id?: true
   method_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -253,10 +259,11 @@ export type Shipping_ratesGroupByOutputType = {
   max_order_amount: runtime.Decimal | null
   cost: runtime.Decimal
   is_free: boolean | null
-  auth_user_id: string | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
   method_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Shipping_ratesCountAggregateOutputType | null
   _avg: Shipping_ratesAvgAggregateOutputType | null
   _sum: Shipping_ratesSumAggregateOutputType | null
@@ -264,7 +271,7 @@ export type Shipping_ratesGroupByOutputType = {
   _max: Shipping_ratesMaxAggregateOutputType | null
 }
 
-export type GetShipping_ratesGroupByPayload<T extends shipping_ratesGroupByArgs> = Prisma.PrismaPromise<
+type GetShipping_ratesGroupByPayload<T extends shipping_ratesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Shipping_ratesGroupByOutputType, T['by']> &
       {
@@ -292,10 +299,11 @@ export type shipping_ratesWhereInput = {
   max_order_amount?: Prisma.DecimalNullableFilter<"shipping_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalFilter<"shipping_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.BoolNullableFilter<"shipping_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
   id?: Prisma.UuidFilter<"shipping_rates"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  tenant_id?: Prisma.UuidFilter<"shipping_rates"> | string
   method_id?: Prisma.UuidFilter<"shipping_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
 }
 
 export type shipping_ratesOrderByWithRelationInput = {
@@ -308,10 +316,11 @@ export type shipping_ratesOrderByWithRelationInput = {
   max_order_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   cost?: Prisma.SortOrder
   is_free?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type shipping_ratesWhereUniqueInput = Prisma.AtLeast<{
@@ -328,9 +337,10 @@ export type shipping_ratesWhereUniqueInput = Prisma.AtLeast<{
   max_order_amount?: Prisma.DecimalNullableFilter<"shipping_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalFilter<"shipping_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.BoolNullableFilter<"shipping_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  tenant_id?: Prisma.UuidFilter<"shipping_rates"> | string
   method_id?: Prisma.UuidFilter<"shipping_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"shipping_rates"> | string | null
 }, "id">
 
 export type shipping_ratesOrderByWithAggregationInput = {
@@ -343,10 +353,11 @@ export type shipping_ratesOrderByWithAggregationInput = {
   max_order_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   cost?: Prisma.SortOrder
   is_free?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipping_ratesCountOrderByAggregateInput
   _avg?: Prisma.shipping_ratesAvgOrderByAggregateInput
   _max?: Prisma.shipping_ratesMaxOrderByAggregateInput
@@ -367,10 +378,11 @@ export type shipping_ratesScalarWhereWithAggregatesInput = {
   max_order_amount?: Prisma.DecimalNullableWithAggregatesFilter<"shipping_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalWithAggregatesFilter<"shipping_rates"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.BoolNullableWithAggregatesFilter<"shipping_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_rates"> | string | null
   id?: Prisma.UuidWithAggregatesFilter<"shipping_rates"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_rates"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"shipping_rates"> | string
   method_id?: Prisma.UuidWithAggregatesFilter<"shipping_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_rates"> | string | null
 }
 
 export type shipping_ratesCreateInput = {
@@ -383,10 +395,11 @@ export type shipping_ratesCreateInput = {
   max_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost: runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   method_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type shipping_ratesUncheckedCreateInput = {
@@ -399,10 +412,11 @@ export type shipping_ratesUncheckedCreateInput = {
   max_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost: runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   method_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type shipping_ratesUpdateInput = {
@@ -415,10 +429,11 @@ export type shipping_ratesUpdateInput = {
   max_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   method_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_ratesUncheckedUpdateInput = {
@@ -431,10 +446,11 @@ export type shipping_ratesUncheckedUpdateInput = {
   max_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   method_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_ratesCreateManyInput = {
@@ -447,10 +463,11 @@ export type shipping_ratesCreateManyInput = {
   max_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost: runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   method_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type shipping_ratesUpdateManyMutationInput = {
@@ -463,10 +480,11 @@ export type shipping_ratesUpdateManyMutationInput = {
   max_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   method_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_ratesUncheckedUpdateManyInput = {
@@ -479,10 +497,11 @@ export type shipping_ratesUncheckedUpdateManyInput = {
   max_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   is_free?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   method_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_ratesCountOrderByAggregateInput = {
@@ -495,10 +514,11 @@ export type shipping_ratesCountOrderByAggregateInput = {
   max_order_amount?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   is_free?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type shipping_ratesAvgOrderByAggregateInput = {
@@ -519,10 +539,11 @@ export type shipping_ratesMaxOrderByAggregateInput = {
   max_order_amount?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   is_free?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type shipping_ratesMinOrderByAggregateInput = {
@@ -535,10 +556,11 @@ export type shipping_ratesMinOrderByAggregateInput = {
   max_order_amount?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   is_free?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   method_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type shipping_ratesSumOrderByAggregateInput = {
@@ -561,10 +583,11 @@ export type shipping_ratesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   max_order_amount?: boolean
   cost?: boolean
   is_free?: boolean
-  auth_user_id?: boolean
   id?: boolean
   tenant_id?: boolean
   method_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipping_rates"]>
 
 export type shipping_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -577,10 +600,11 @@ export type shipping_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   max_order_amount?: boolean
   cost?: boolean
   is_free?: boolean
-  auth_user_id?: boolean
   id?: boolean
   tenant_id?: boolean
   method_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipping_rates"]>
 
 export type shipping_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -593,10 +617,11 @@ export type shipping_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   max_order_amount?: boolean
   cost?: boolean
   is_free?: boolean
-  auth_user_id?: boolean
   id?: boolean
   tenant_id?: boolean
   method_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipping_rates"]>
 
 export type shipping_ratesSelectScalar = {
@@ -609,13 +634,14 @@ export type shipping_ratesSelectScalar = {
   max_order_amount?: boolean
   cost?: boolean
   is_free?: boolean
-  auth_user_id?: boolean
   id?: boolean
   tenant_id?: boolean
   method_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type shipping_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"destination_country" | "destination_state" | "destination_postal_code" | "min_weight" | "max_weight" | "min_order_amount" | "max_order_amount" | "cost" | "is_free" | "auth_user_id" | "id" | "tenant_id" | "method_id", ExtArgs["result"]["shipping_rates"]>
+export type shipping_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"destination_country" | "destination_state" | "destination_postal_code" | "min_weight" | "max_weight" | "min_order_amount" | "max_order_amount" | "cost" | "is_free" | "id" | "tenant_id" | "method_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["shipping_rates"]>
 
 export type $shipping_ratesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "shipping_rates"
@@ -630,10 +656,11 @@ export type $shipping_ratesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     max_order_amount: runtime.Decimal | null
     cost: runtime.Decimal
     is_free: boolean | null
-    auth_user_id: string | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
     method_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["shipping_rates"]>
   composites: {}
 }
@@ -1066,10 +1093,11 @@ export interface shipping_ratesFieldRefs {
   readonly max_order_amount: Prisma.FieldRef<"shipping_rates", 'Decimal'>
   readonly cost: Prisma.FieldRef<"shipping_rates", 'Decimal'>
   readonly is_free: Prisma.FieldRef<"shipping_rates", 'Boolean'>
-  readonly auth_user_id: Prisma.FieldRef<"shipping_rates", 'String'>
   readonly id: Prisma.FieldRef<"shipping_rates", 'String'>
   readonly tenant_id: Prisma.FieldRef<"shipping_rates", 'String'>
   readonly method_id: Prisma.FieldRef<"shipping_rates", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"shipping_rates", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"shipping_rates", 'String'>
 }
     
 

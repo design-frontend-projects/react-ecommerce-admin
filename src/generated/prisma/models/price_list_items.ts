@@ -46,9 +46,10 @@ export type Price_list_itemsMinAggregateOutputType = {
   max_discount_percent: runtime.Decimal | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   price_list_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Price_list_itemsMaxAggregateOutputType = {
@@ -59,9 +60,10 @@ export type Price_list_itemsMaxAggregateOutputType = {
   max_discount_percent: runtime.Decimal | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   price_list_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Price_list_itemsCountAggregateOutputType = {
@@ -72,9 +74,10 @@ export type Price_list_itemsCountAggregateOutputType = {
   max_discount_percent: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   tenant_id: number
   price_list_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -99,9 +102,10 @@ export type Price_list_itemsMinAggregateInputType = {
   max_discount_percent?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
   price_list_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Price_list_itemsMaxAggregateInputType = {
@@ -112,9 +116,10 @@ export type Price_list_itemsMaxAggregateInputType = {
   max_discount_percent?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
   price_list_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Price_list_itemsCountAggregateInputType = {
@@ -125,9 +130,10 @@ export type Price_list_itemsCountAggregateInputType = {
   max_discount_percent?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
   price_list_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -225,9 +231,10 @@ export type Price_list_itemsGroupByOutputType = {
   max_discount_percent: runtime.Decimal
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
   price_list_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Price_list_itemsCountAggregateOutputType | null
   _avg: Price_list_itemsAvgAggregateOutputType | null
   _sum: Price_list_itemsSumAggregateOutputType | null
@@ -235,7 +242,7 @@ export type Price_list_itemsGroupByOutputType = {
   _max: Price_list_itemsMaxAggregateOutputType | null
 }
 
-export type GetPrice_list_itemsGroupByPayload<T extends price_list_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetPrice_list_itemsGroupByPayload<T extends price_list_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Price_list_itemsGroupByOutputType, T['by']> &
       {
@@ -261,9 +268,10 @@ export type price_list_itemsWhereInput = {
   max_discount_percent?: Prisma.DecimalFilter<"price_list_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"price_list_items"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"price_list_items"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"price_list_items"> | string
   price_list_id?: Prisma.UuidFilter<"price_list_items"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
 }
 
 export type price_list_itemsOrderByWithRelationInput = {
@@ -274,9 +282,10 @@ export type price_list_itemsOrderByWithRelationInput = {
   max_discount_percent?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type price_list_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -290,9 +299,10 @@ export type price_list_itemsWhereUniqueInput = Prisma.AtLeast<{
   max_discount_percent?: Prisma.DecimalFilter<"price_list_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"price_list_items"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"price_list_items"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"price_list_items"> | string
   price_list_id?: Prisma.UuidFilter<"price_list_items"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"price_list_items"> | string | null
 }, "id">
 
 export type price_list_itemsOrderByWithAggregationInput = {
@@ -303,9 +313,10 @@ export type price_list_itemsOrderByWithAggregationInput = {
   max_discount_percent?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.price_list_itemsCountOrderByAggregateInput
   _avg?: Prisma.price_list_itemsAvgOrderByAggregateInput
   _max?: Prisma.price_list_itemsMaxOrderByAggregateInput
@@ -324,9 +335,10 @@ export type price_list_itemsScalarWhereWithAggregatesInput = {
   max_discount_percent?: Prisma.DecimalWithAggregatesFilter<"price_list_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"price_list_items"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"price_list_items"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list_items"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list_items"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"price_list_items"> | string
   price_list_id?: Prisma.UuidWithAggregatesFilter<"price_list_items"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list_items"> | string | null
 }
 
 export type price_list_itemsCreateInput = {
@@ -337,9 +349,10 @@ export type price_list_itemsCreateInput = {
   max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   price_list_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type price_list_itemsUncheckedCreateInput = {
@@ -350,9 +363,10 @@ export type price_list_itemsUncheckedCreateInput = {
   max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   price_list_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type price_list_itemsUpdateInput = {
@@ -363,9 +377,10 @@ export type price_list_itemsUpdateInput = {
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   price_list_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_list_itemsUncheckedUpdateInput = {
@@ -376,9 +391,10 @@ export type price_list_itemsUncheckedUpdateInput = {
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   price_list_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_list_itemsCreateManyInput = {
@@ -389,9 +405,10 @@ export type price_list_itemsCreateManyInput = {
   max_discount_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   price_list_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type price_list_itemsUpdateManyMutationInput = {
@@ -402,9 +419,10 @@ export type price_list_itemsUpdateManyMutationInput = {
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   price_list_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_list_itemsUncheckedUpdateManyInput = {
@@ -415,9 +433,10 @@ export type price_list_itemsUncheckedUpdateManyInput = {
   max_discount_percent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   price_list_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_list_itemsCountOrderByAggregateInput = {
@@ -428,9 +447,10 @@ export type price_list_itemsCountOrderByAggregateInput = {
   max_discount_percent?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_list_itemsAvgOrderByAggregateInput = {
@@ -447,9 +467,10 @@ export type price_list_itemsMaxOrderByAggregateInput = {
   max_discount_percent?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_list_itemsMinOrderByAggregateInput = {
@@ -460,9 +481,10 @@ export type price_list_itemsMinOrderByAggregateInput = {
   max_discount_percent?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_list_itemsSumOrderByAggregateInput = {
@@ -481,9 +503,10 @@ export type price_list_itemsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   max_discount_percent?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   price_list_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["price_list_items"]>
 
 export type price_list_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -494,9 +517,10 @@ export type price_list_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   max_discount_percent?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   price_list_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["price_list_items"]>
 
 export type price_list_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -507,9 +531,10 @@ export type price_list_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   max_discount_percent?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   price_list_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["price_list_items"]>
 
 export type price_list_itemsSelectScalar = {
@@ -520,12 +545,13 @@ export type price_list_itemsSelectScalar = {
   max_discount_percent?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   price_list_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type price_list_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "product_variant_id" | "price" | "min_price" | "max_discount_percent" | "created_at" | "updated_at" | "auth_user_id" | "tenant_id" | "price_list_id", ExtArgs["result"]["price_list_items"]>
+export type price_list_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "product_variant_id" | "price" | "min_price" | "max_discount_percent" | "created_at" | "updated_at" | "tenant_id" | "price_list_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["price_list_items"]>
 
 export type $price_list_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "price_list_items"
@@ -538,9 +564,10 @@ export type $price_list_itemsPayload<ExtArgs extends runtime.Types.Extensions.In
     max_discount_percent: runtime.Decimal
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
     price_list_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["price_list_items"]>
   composites: {}
 }
@@ -971,9 +998,10 @@ export interface price_list_itemsFieldRefs {
   readonly max_discount_percent: Prisma.FieldRef<"price_list_items", 'Decimal'>
   readonly created_at: Prisma.FieldRef<"price_list_items", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"price_list_items", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"price_list_items", 'String'>
   readonly tenant_id: Prisma.FieldRef<"price_list_items", 'String'>
   readonly price_list_id: Prisma.FieldRef<"price_list_items", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"price_list_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"price_list_items", 'String'>
 }
     
 

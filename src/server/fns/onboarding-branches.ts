@@ -1,7 +1,7 @@
 'use server'
 
 import prisma from '@/lib/prisma'
-import { resolveTenantId } from '@/server/utils/tenant'
+import { resolveTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 
 export interface OnboardingBranchInput {
   name: string
@@ -45,6 +45,8 @@ export async function createOnboardingBranches(
     throw new Error('Only tenant owners can create branches during onboarding.')
   }
 
+  const tenantUserId = await resolveTenantUserId(caller.authUserId)
+
   // Validate all city IDs exist
   const cityIds = [...new Set(input.branches.map((b) => b.cityId))]
   const existingCities = (await prisma.cities.findMany({
@@ -67,8 +69,9 @@ export async function createOnboardingBranches(
           city_id: branch.cityId,
           address: branch.address ?? null,
           phone: branch.phone ?? null,
-          auth_user_id: caller.authUserId,
           tenant_id: tenantId,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
           is_active: true,
         },
         select: {

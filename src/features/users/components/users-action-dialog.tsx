@@ -76,7 +76,7 @@ export function UsersActionDialog({
   })
 
   const form = useForm<UserForm>({
-    resolver: zodResolver(userFormSchema),
+    resolver: zodResolver(userFormSchema) as any,
     defaultValues: isEdit
       ? {
           ...currentRow,
@@ -102,7 +102,7 @@ export function UsersActionDialog({
 
   const onSubmit = (values: UserForm) => {
     if (isEdit) {
-      if (currentRow && values.role !== currentRow.role) {
+      if (currentRow && values.role && values.role !== currentRow.role) {
         updateUserRole.mutate({ userId: currentRow.id, role: values.role })
       }
 
@@ -148,8 +148,9 @@ export function UsersActionDialog({
     }
 
     const roleId =
-      rolesData.find((r) => r.name.toLowerCase() === values.role)?.id ||
-      values.role
+      rolesData.find((r) => r.name.toLowerCase() === (values.role || '').toLowerCase())?.id ||
+      values.role ||
+      ''
 
     createUser.mutate(
       {
@@ -157,7 +158,7 @@ export function UsersActionDialog({
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phoneNumber,
-        roleIds: [roleId],
+        roleIds: roleId ? [roleId] : [],
         branchId: values.branchId,
       },
       {

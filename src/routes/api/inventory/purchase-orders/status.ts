@@ -24,14 +24,14 @@ const POST = withAuth(
       const { userId } = auth
 
       const body = (await request.json()) as {
-        poId?: number
+        poId?: string | number
         status?: PurchaseOrderLifecycleStatus
       }
-      if (typeof body.poId !== 'number' || Number.isNaN(body.poId)) {
+      if (!body.poId) {
         return Response.json(
           {
             success: false,
-            error: { message: 'A numeric purchase order id is required.' },
+            error: { message: 'A purchase order id is required.' },
           },
           { status: 400 }
         )
@@ -47,7 +47,7 @@ const POST = withAuth(
           { status: 400 }
         )
       }
-      const data = await setPurchaseOrderStatus(userId, body.poId, body.status)
+      const data = await setPurchaseOrderStatus(userId, String(body.poId), body.status)
       return Response.json({ success: true, data })
     } catch (error) {
       return handleRouteError(error, 'Unable to update purchase order status')

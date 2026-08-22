@@ -16,6 +16,7 @@ export type Permission =
   | 'reservations'
   | 'reservations_view'
   | 'analytics'
+  | 'shifts'
   | 'settings'
   | 'payments'
   | 'void_approve'

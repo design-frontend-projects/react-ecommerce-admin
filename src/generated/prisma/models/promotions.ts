@@ -58,7 +58,6 @@ export type PromotionsMinAggregateOutputType = {
   usage_per_customer: number | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   buy_quantity: number | null
   get_discount_value: runtime.Decimal | null
   get_quantity: number | null
@@ -67,6 +66,8 @@ export type PromotionsMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   discount_type: $Enums.discount_type_enum | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type PromotionsMaxAggregateOutputType = {
@@ -81,7 +82,6 @@ export type PromotionsMaxAggregateOutputType = {
   usage_per_customer: number | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   buy_quantity: number | null
   get_discount_value: runtime.Decimal | null
   get_quantity: number | null
@@ -90,6 +90,8 @@ export type PromotionsMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   discount_type: $Enums.discount_type_enum | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type PromotionsCountAggregateOutputType = {
@@ -104,7 +106,6 @@ export type PromotionsCountAggregateOutputType = {
   usage_per_customer: number
   is_active: number
   created_at: number
-  auth_user_id: number
   activities: number
   buy_quantity: number
   get_discount_value: number
@@ -114,6 +115,8 @@ export type PromotionsCountAggregateOutputType = {
   id: number
   tenant_id: number
   discount_type: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -150,7 +153,6 @@ export type PromotionsMinAggregateInputType = {
   usage_per_customer?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   buy_quantity?: true
   get_discount_value?: true
   get_quantity?: true
@@ -159,6 +161,8 @@ export type PromotionsMinAggregateInputType = {
   id?: true
   tenant_id?: true
   discount_type?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type PromotionsMaxAggregateInputType = {
@@ -173,7 +177,6 @@ export type PromotionsMaxAggregateInputType = {
   usage_per_customer?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   buy_quantity?: true
   get_discount_value?: true
   get_quantity?: true
@@ -182,6 +185,8 @@ export type PromotionsMaxAggregateInputType = {
   id?: true
   tenant_id?: true
   discount_type?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type PromotionsCountAggregateInputType = {
@@ -196,7 +201,6 @@ export type PromotionsCountAggregateInputType = {
   usage_per_customer?: true
   is_active?: true
   created_at?: true
-  auth_user_id?: true
   activities?: true
   buy_quantity?: true
   get_discount_value?: true
@@ -206,6 +210,8 @@ export type PromotionsCountAggregateInputType = {
   id?: true
   tenant_id?: true
   discount_type?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -307,7 +313,6 @@ export type PromotionsGroupByOutputType = {
   usage_per_customer: number | null
   is_active: boolean | null
   created_at: Date | null
-  auth_user_id: string | null
   activities: string[]
   buy_quantity: number | null
   get_discount_value: runtime.Decimal | null
@@ -315,8 +320,10 @@ export type PromotionsGroupByOutputType = {
   promo_type: string
   updated_at: Date | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
   discount_type: $Enums.discount_type_enum | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: PromotionsCountAggregateOutputType | null
   _avg: PromotionsAvgAggregateOutputType | null
   _sum: PromotionsSumAggregateOutputType | null
@@ -324,7 +331,7 @@ export type PromotionsGroupByOutputType = {
   _max: PromotionsMaxAggregateOutputType | null
 }
 
-export type GetPromotionsGroupByPayload<T extends promotionsGroupByArgs> = Prisma.PrismaPromise<
+type GetPromotionsGroupByPayload<T extends promotionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PromotionsGroupByOutputType, T['by']> &
       {
@@ -354,7 +361,6 @@ export type promotionsWhereInput = {
   usage_per_customer?: Prisma.IntNullableFilter<"promotions"> | number | null
   is_active?: Prisma.BoolNullableFilter<"promotions"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
   activities?: Prisma.StringNullableListFilter<"promotions">
   buy_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   get_discount_value?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -362,8 +368,10 @@ export type promotionsWhereInput = {
   promo_type?: Prisma.StringFilter<"promotions"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
   id?: Prisma.UuidFilter<"promotions"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  tenant_id?: Prisma.UuidFilter<"promotions"> | string
   discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
 }
 
 export type promotionsOrderByWithRelationInput = {
@@ -378,7 +386,6 @@ export type promotionsOrderByWithRelationInput = {
   usage_per_customer?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   activities?: Prisma.SortOrder
   buy_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   get_discount_value?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -386,8 +393,10 @@ export type promotionsOrderByWithRelationInput = {
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type promotionsWhereUniqueInput = Prisma.AtLeast<{
@@ -406,15 +415,16 @@ export type promotionsWhereUniqueInput = Prisma.AtLeast<{
   usage_per_customer?: Prisma.IntNullableFilter<"promotions"> | number | null
   is_active?: Prisma.BoolNullableFilter<"promotions"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
   activities?: Prisma.StringNullableListFilter<"promotions">
   buy_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   get_discount_value?: Prisma.DecimalNullableFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   get_quantity?: Prisma.IntNullableFilter<"promotions"> | number | null
   promo_type?: Prisma.StringFilter<"promotions"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"promotions"> | Date | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  tenant_id?: Prisma.UuidFilter<"promotions"> | string
   discount_type?: Prisma.Enumdiscount_type_enumNullableFilter<"promotions"> | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"promotions"> | string | null
 }, "id">
 
 export type promotionsOrderByWithAggregationInput = {
@@ -429,7 +439,6 @@ export type promotionsOrderByWithAggregationInput = {
   usage_per_customer?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   activities?: Prisma.SortOrder
   buy_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   get_discount_value?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -437,8 +446,10 @@ export type promotionsOrderByWithAggregationInput = {
   promo_type?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   discount_type?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.promotionsCountOrderByAggregateInput
   _avg?: Prisma.promotionsAvgOrderByAggregateInput
   _max?: Prisma.promotionsMaxOrderByAggregateInput
@@ -461,7 +472,6 @@ export type promotionsScalarWhereWithAggregatesInput = {
   usage_per_customer?: Prisma.IntNullableWithAggregatesFilter<"promotions"> | number | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"promotions"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotions"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
   activities?: Prisma.StringNullableListFilter<"promotions">
   buy_quantity?: Prisma.IntNullableWithAggregatesFilter<"promotions"> | number | null
   get_discount_value?: Prisma.DecimalNullableWithAggregatesFilter<"promotions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -469,8 +479,10 @@ export type promotionsScalarWhereWithAggregatesInput = {
   promo_type?: Prisma.StringWithAggregatesFilter<"promotions"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotions"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"promotions"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"promotions"> | string
   discount_type?: Prisma.Enumdiscount_type_enumNullableWithAggregatesFilter<"promotions"> | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotions"> | string | null
 }
 
 export type promotionsCreateInput = {
@@ -485,7 +497,6 @@ export type promotionsCreateInput = {
   usage_per_customer?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   activities?: Prisma.promotionsCreateactivitiesInput | string[]
   buy_quantity?: number | null
   get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -493,8 +504,10 @@ export type promotionsCreateInput = {
   promo_type?: string
   updated_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   discount_type?: $Enums.discount_type_enum | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotionsUncheckedCreateInput = {
@@ -509,7 +522,6 @@ export type promotionsUncheckedCreateInput = {
   usage_per_customer?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   activities?: Prisma.promotionsCreateactivitiesInput | string[]
   buy_quantity?: number | null
   get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -517,8 +529,10 @@ export type promotionsUncheckedCreateInput = {
   promo_type?: string
   updated_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   discount_type?: $Enums.discount_type_enum | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotionsUpdateInput = {
@@ -533,7 +547,6 @@ export type promotionsUpdateInput = {
   usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activities?: Prisma.promotionsUpdateactivitiesInput | string[]
   buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -541,8 +554,10 @@ export type promotionsUpdateInput = {
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotionsUncheckedUpdateInput = {
@@ -557,7 +572,6 @@ export type promotionsUncheckedUpdateInput = {
   usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activities?: Prisma.promotionsUpdateactivitiesInput | string[]
   buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -565,8 +579,10 @@ export type promotionsUncheckedUpdateInput = {
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotionsCreateManyInput = {
@@ -581,7 +597,6 @@ export type promotionsCreateManyInput = {
   usage_per_customer?: number | null
   is_active?: boolean | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
   activities?: Prisma.promotionsCreateactivitiesInput | string[]
   buy_quantity?: number | null
   get_discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -589,8 +604,10 @@ export type promotionsCreateManyInput = {
   promo_type?: string
   updated_at?: Date | string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   discount_type?: $Enums.discount_type_enum | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotionsUpdateManyMutationInput = {
@@ -605,7 +622,6 @@ export type promotionsUpdateManyMutationInput = {
   usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activities?: Prisma.promotionsUpdateactivitiesInput | string[]
   buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -613,8 +629,10 @@ export type promotionsUpdateManyMutationInput = {
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotionsUncheckedUpdateManyInput = {
@@ -629,7 +647,6 @@ export type promotionsUncheckedUpdateManyInput = {
   usage_per_customer?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activities?: Prisma.promotionsUpdateactivitiesInput | string[]
   buy_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   get_discount_value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -637,8 +654,10 @@ export type promotionsUncheckedUpdateManyInput = {
   promo_type?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type StringNullableListFilter<$PrismaModel = never> = {
@@ -661,7 +680,6 @@ export type promotionsCountOrderByAggregateInput = {
   usage_per_customer?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   activities?: Prisma.SortOrder
   buy_quantity?: Prisma.SortOrder
   get_discount_value?: Prisma.SortOrder
@@ -671,6 +689,8 @@ export type promotionsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   discount_type?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotionsAvgOrderByAggregateInput = {
@@ -695,7 +715,6 @@ export type promotionsMaxOrderByAggregateInput = {
   usage_per_customer?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   buy_quantity?: Prisma.SortOrder
   get_discount_value?: Prisma.SortOrder
   get_quantity?: Prisma.SortOrder
@@ -704,6 +723,8 @@ export type promotionsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   discount_type?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotionsMinOrderByAggregateInput = {
@@ -718,7 +739,6 @@ export type promotionsMinOrderByAggregateInput = {
   usage_per_customer?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   buy_quantity?: Prisma.SortOrder
   get_discount_value?: Prisma.SortOrder
   get_quantity?: Prisma.SortOrder
@@ -727,6 +747,8 @@ export type promotionsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   discount_type?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotionsSumOrderByAggregateInput = {
@@ -766,7 +788,6 @@ export type promotionsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   usage_per_customer?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   activities?: boolean
   buy_quantity?: boolean
   get_discount_value?: boolean
@@ -776,6 +797,8 @@ export type promotionsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   tenant_id?: boolean
   discount_type?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotions"]>
 
 export type promotionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -790,7 +813,6 @@ export type promotionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   usage_per_customer?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   activities?: boolean
   buy_quantity?: boolean
   get_discount_value?: boolean
@@ -800,6 +822,8 @@ export type promotionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   tenant_id?: boolean
   discount_type?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotions"]>
 
 export type promotionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -814,7 +838,6 @@ export type promotionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   usage_per_customer?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   activities?: boolean
   buy_quantity?: boolean
   get_discount_value?: boolean
@@ -824,6 +847,8 @@ export type promotionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   tenant_id?: boolean
   discount_type?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotions"]>
 
 export type promotionsSelectScalar = {
@@ -838,7 +863,6 @@ export type promotionsSelectScalar = {
   usage_per_customer?: boolean
   is_active?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   activities?: boolean
   buy_quantity?: boolean
   get_discount_value?: boolean
@@ -848,9 +872,11 @@ export type promotionsSelectScalar = {
   id?: boolean
   tenant_id?: boolean
   discount_type?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type promotionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "name" | "description" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "auth_user_id" | "activities" | "buy_quantity" | "get_discount_value" | "get_quantity" | "promo_type" | "updated_at" | "id" | "tenant_id" | "discount_type", ExtArgs["result"]["promotions"]>
+export type promotionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "name" | "description" | "discount_value" | "minimum_purchase" | "start_date" | "end_date" | "usage_limit" | "usage_per_customer" | "is_active" | "created_at" | "activities" | "buy_quantity" | "get_discount_value" | "get_quantity" | "promo_type" | "updated_at" | "id" | "tenant_id" | "discount_type" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["promotions"]>
 
 export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "promotions"
@@ -867,7 +893,6 @@ export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     usage_per_customer: number | null
     is_active: boolean | null
     created_at: Date | null
-    auth_user_id: string | null
     activities: string[]
     buy_quantity: number | null
     get_discount_value: runtime.Decimal | null
@@ -875,8 +900,10 @@ export type $promotionsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     promo_type: string
     updated_at: Date | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
     discount_type: $Enums.discount_type_enum | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["promotions"]>
   composites: {}
 }
@@ -1311,7 +1338,6 @@ export interface promotionsFieldRefs {
   readonly usage_per_customer: Prisma.FieldRef<"promotions", 'Int'>
   readonly is_active: Prisma.FieldRef<"promotions", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"promotions", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"promotions", 'String'>
   readonly activities: Prisma.FieldRef<"promotions", 'String[]'>
   readonly buy_quantity: Prisma.FieldRef<"promotions", 'Int'>
   readonly get_discount_value: Prisma.FieldRef<"promotions", 'Decimal'>
@@ -1321,6 +1347,8 @@ export interface promotionsFieldRefs {
   readonly id: Prisma.FieldRef<"promotions", 'String'>
   readonly tenant_id: Prisma.FieldRef<"promotions", 'String'>
   readonly discount_type: Prisma.FieldRef<"promotions", 'discount_type_enum'>
+  readonly created_by_user_id: Prisma.FieldRef<"promotions", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"promotions", 'String'>
 }
     
 

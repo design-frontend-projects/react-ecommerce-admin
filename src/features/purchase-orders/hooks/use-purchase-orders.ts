@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
-import { useAuthQuery, useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuthEnabled } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { useAuth } from '@/hooks/use-auth'
 

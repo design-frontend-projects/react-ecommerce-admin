@@ -1,7 +1,7 @@
 'use server'
 
 import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface CreateRuleInput {
@@ -14,23 +14,11 @@ export interface CreateRuleInput {
   reorderQty?: number | null
   eoq?: number | null
   leadTimeDays?: number | null
-  preferredSupplierId?: number | null
+  preferredSupplierId?: string | null
   isActive?: boolean
 }
 
 export type UpdateRuleInput = Partial<CreateRuleInput>
-
-const RULE_INCLUDE = {
-  product_variants: {
-    select: {
-      id: true,
-      sku: true,
-      products: { select: { name: true } },
-    },
-  },
-  stores: { select: { store_id: true, name: true } },
-  suppliers: { select: { supplier_id: true, name: true } },
-} as const
 
 function assertReorderPoint(value: number): void {
   if (typeof value !== 'number' || Number.isNaN(value) || value < 0) {
@@ -52,12 +40,12 @@ export async function listRules(authUserId: string) {
   return prisma.reorder_rules.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: RULE_INCLUDE,
   })
 }
 
 export async function createRule(authUserId: string, input: CreateRuleInput) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.productVariantId) {
     throw new ApiError('A product variant is required.', 400)
@@ -71,7 +59,6 @@ export async function createRule(authUserId: string, input: CreateRuleInput) {
     return await prisma.reorder_rules.create({
       data: {
         tenant_id: tenantId,
-        auth_user_id: tenantId,
         product_variant_id: input.productVariantId,
         store_id: input.storeId,
         reorder_point: input.reorderPoint,
@@ -83,8 +70,9 @@ export async function createRule(authUserId: string, input: CreateRuleInput) {
         lead_time_days: input.leadTimeDays ?? null,
         preferred_supplier_id: input.preferredSupplierId ?? null,
         is_active: input.isActive ?? true,
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
       },
-      include: RULE_INCLUDE,
     })
   } catch (error) {
     if (isUniqueViolation(error)) {
@@ -103,6 +91,7 @@ export async function updateRule(
   input: UpdateRuleInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   const existing = (await prisma.reorder_rules.findFirst({
     where: { id, tenant_id: tenantId },
@@ -142,8 +131,8 @@ export async function updateRule(
           ? { preferred_supplier_id: input.preferredSupplierId }
           : {}),
         ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
+        updated_by_user_id: tenantUserId,
       },
-      include: RULE_INCLUDE,
     })
   } catch (error) {
     if (isUniqueViolation(error)) {

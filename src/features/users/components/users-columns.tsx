@@ -1,5 +1,4 @@
 import { type ColumnDef } from '@tanstack/react-table'
-import type { TFunction } from 'i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -9,7 +8,7 @@ import { callTypes, roles } from '../data/data'
 import { type User } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const getUsersColumns = (t: TFunction): ColumnDef<User>[] => [
+export const getUsersColumns = (t: any): ColumnDef<User>[] => [
   {
     id: 'select',
     header: ({ table }) => (

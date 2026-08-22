@@ -32,7 +32,6 @@ export type PermissionsMinAggregateOutputType = {
   updated_at: Date | null
   action: string | null
   resource: string | null
-  auth_user_id: string | null
 }
 
 export type PermissionsMaxAggregateOutputType = {
@@ -43,7 +42,6 @@ export type PermissionsMaxAggregateOutputType = {
   updated_at: Date | null
   action: string | null
   resource: string | null
-  auth_user_id: string | null
 }
 
 export type PermissionsCountAggregateOutputType = {
@@ -54,7 +52,6 @@ export type PermissionsCountAggregateOutputType = {
   updated_at: number
   action: number
   resource: number
-  auth_user_id: number
   _all: number
 }
 
@@ -67,7 +64,6 @@ export type PermissionsMinAggregateInputType = {
   updated_at?: true
   action?: true
   resource?: true
-  auth_user_id?: true
 }
 
 export type PermissionsMaxAggregateInputType = {
@@ -78,7 +74,6 @@ export type PermissionsMaxAggregateInputType = {
   updated_at?: true
   action?: true
   resource?: true
-  auth_user_id?: true
 }
 
 export type PermissionsCountAggregateInputType = {
@@ -89,7 +84,6 @@ export type PermissionsCountAggregateInputType = {
   updated_at?: true
   action?: true
   resource?: true
-  auth_user_id?: true
   _all?: true
 }
 
@@ -173,13 +167,12 @@ export type PermissionsGroupByOutputType = {
   updated_at: Date | null
   action: string | null
   resource: string | null
-  auth_user_id: string | null
   _count: PermissionsCountAggregateOutputType | null
   _min: PermissionsMinAggregateOutputType | null
   _max: PermissionsMaxAggregateOutputType | null
 }
 
-export type GetPermissionsGroupByPayload<T extends permissionsGroupByArgs> = Prisma.PrismaPromise<
+type GetPermissionsGroupByPayload<T extends permissionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PermissionsGroupByOutputType, T['by']> &
       {
@@ -205,7 +198,6 @@ export type permissionsWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"permissions"> | Date | string | null
   action?: Prisma.StringNullableFilter<"permissions"> | string | null
   resource?: Prisma.StringNullableFilter<"permissions"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"permissions"> | string | null
   role_permissions?: Prisma.Role_permissionsListRelationFilter
   screen_buttons?: Prisma.Screen_buttonsListRelationFilter
   screen_permissions?: Prisma.Screen_permissionsListRelationFilter
@@ -220,7 +212,6 @@ export type permissionsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrderInput | Prisma.SortOrder
   resource?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role_permissions?: Prisma.role_permissionsOrderByRelationAggregateInput
   screen_buttons?: Prisma.screen_buttonsOrderByRelationAggregateInput
   screen_permissions?: Prisma.screen_permissionsOrderByRelationAggregateInput
@@ -238,7 +229,6 @@ export type permissionsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"permissions"> | Date | string | null
   action?: Prisma.StringNullableFilter<"permissions"> | string | null
   resource?: Prisma.StringNullableFilter<"permissions"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"permissions"> | string | null
   role_permissions?: Prisma.Role_permissionsListRelationFilter
   screen_buttons?: Prisma.Screen_buttonsListRelationFilter
   screen_permissions?: Prisma.Screen_permissionsListRelationFilter
@@ -253,7 +243,6 @@ export type permissionsOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   action?: Prisma.SortOrderInput | Prisma.SortOrder
   resource?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.permissionsCountOrderByAggregateInput
   _max?: Prisma.permissionsMaxOrderByAggregateInput
   _min?: Prisma.permissionsMinOrderByAggregateInput
@@ -270,7 +259,6 @@ export type permissionsScalarWhereWithAggregatesInput = {
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"permissions"> | Date | string | null
   action?: Prisma.StringNullableWithAggregatesFilter<"permissions"> | string | null
   resource?: Prisma.StringNullableWithAggregatesFilter<"permissions"> | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"permissions"> | string | null
 }
 
 export type permissionsCreateInput = {
@@ -281,7 +269,6 @@ export type permissionsCreateInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
@@ -296,7 +283,6 @@ export type permissionsUncheckedCreateInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
@@ -311,7 +297,6 @@ export type permissionsUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
@@ -326,7 +311,6 @@ export type permissionsUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
@@ -341,7 +325,6 @@ export type permissionsCreateManyInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
 }
 
 export type permissionsUpdateManyMutationInput = {
@@ -352,7 +335,6 @@ export type permissionsUpdateManyMutationInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type permissionsUncheckedUpdateManyInput = {
@@ -363,7 +345,6 @@ export type permissionsUncheckedUpdateManyInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type permissionsCountOrderByAggregateInput = {
@@ -374,7 +355,6 @@ export type permissionsCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   action?: Prisma.SortOrder
   resource?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type permissionsMaxOrderByAggregateInput = {
@@ -385,7 +365,6 @@ export type permissionsMaxOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   action?: Prisma.SortOrder
   resource?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type permissionsMinOrderByAggregateInput = {
@@ -396,7 +375,6 @@ export type permissionsMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   action?: Prisma.SortOrder
   resource?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type PermissionsScalarRelationFilter = {
@@ -468,7 +446,6 @@ export type permissionsCreateWithoutRole_permissionsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
@@ -482,7 +459,6 @@ export type permissionsUncheckedCreateWithoutRole_permissionsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
@@ -512,7 +488,6 @@ export type permissionsUpdateWithoutRole_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
@@ -526,7 +501,6 @@ export type permissionsUncheckedUpdateWithoutRole_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
@@ -540,7 +514,6 @@ export type permissionsCreateWithoutScreen_permissionsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
@@ -554,7 +527,6 @@ export type permissionsUncheckedCreateWithoutScreen_permissionsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
@@ -584,7 +556,6 @@ export type permissionsUpdateWithoutScreen_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
@@ -598,7 +569,6 @@ export type permissionsUncheckedUpdateWithoutScreen_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
@@ -612,7 +582,6 @@ export type permissionsCreateWithoutScreen_buttonsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutPermissionsInput
@@ -626,7 +595,6 @@ export type permissionsUncheckedCreateWithoutScreen_buttonsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
@@ -656,7 +624,6 @@ export type permissionsUpdateWithoutScreen_buttonsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutPermissionsNestedInput
@@ -670,7 +637,6 @@ export type permissionsUncheckedUpdateWithoutScreen_buttonsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
@@ -684,7 +650,6 @@ export type permissionsCreateWithoutUser_permissionsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutPermissionsInput
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsCreateNestedManyWithoutPermissionsInput
@@ -698,7 +663,6 @@ export type permissionsUncheckedCreateWithoutUser_permissionsInput = {
   updated_at?: Date | string | null
   action?: string | null
   resource?: string | null
-  auth_user_id?: string | null
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermissionsInput
   screen_permissions?: Prisma.screen_permissionsUncheckedCreateNestedManyWithoutPermissionsInput
@@ -728,7 +692,6 @@ export type permissionsUpdateWithoutUser_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutPermissionsNestedInput
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUpdateManyWithoutPermissionsNestedInput
@@ -742,7 +705,6 @@ export type permissionsUncheckedUpdateWithoutUser_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   action?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermissionsNestedInput
   screen_permissions?: Prisma.screen_permissionsUncheckedUpdateManyWithoutPermissionsNestedInput
@@ -814,7 +776,6 @@ export type permissionsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updated_at?: boolean
   action?: boolean
   resource?: boolean
-  auth_user_id?: boolean
   role_permissions?: boolean | Prisma.permissions$role_permissionsArgs<ExtArgs>
   screen_buttons?: boolean | Prisma.permissions$screen_buttonsArgs<ExtArgs>
   screen_permissions?: boolean | Prisma.permissions$screen_permissionsArgs<ExtArgs>
@@ -830,7 +791,6 @@ export type permissionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   updated_at?: boolean
   action?: boolean
   resource?: boolean
-  auth_user_id?: boolean
 }, ExtArgs["result"]["permissions"]>
 
 export type permissionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -841,7 +801,6 @@ export type permissionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   updated_at?: boolean
   action?: boolean
   resource?: boolean
-  auth_user_id?: boolean
 }, ExtArgs["result"]["permissions"]>
 
 export type permissionsSelectScalar = {
@@ -852,10 +811,9 @@ export type permissionsSelectScalar = {
   updated_at?: boolean
   action?: boolean
   resource?: boolean
-  auth_user_id?: boolean
 }
 
-export type permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at" | "action" | "resource" | "auth_user_id", ExtArgs["result"]["permissions"]>
+export type permissionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at" | "action" | "resource", ExtArgs["result"]["permissions"]>
 export type permissionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   role_permissions?: boolean | Prisma.permissions$role_permissionsArgs<ExtArgs>
   screen_buttons?: boolean | Prisma.permissions$screen_buttonsArgs<ExtArgs>
@@ -882,7 +840,6 @@ export type $permissionsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     updated_at: Date | null
     action: string | null
     resource: string | null
-    auth_user_id: string | null
   }, ExtArgs["result"]["permissions"]>
   composites: {}
 }
@@ -1317,7 +1274,6 @@ export interface permissionsFieldRefs {
   readonly updated_at: Prisma.FieldRef<"permissions", 'DateTime'>
   readonly action: Prisma.FieldRef<"permissions", 'String'>
   readonly resource: Prisma.FieldRef<"permissions", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"permissions", 'String'>
 }
     
 

@@ -1,8 +1,8 @@
-import { Temporal } from '@js-temporal/polyfill'
 import prisma from '@/lib/prisma'
 
 export interface SyncPayload {
   orderId: string | number
+  tenantId: string
   customer: {
     firstName: string
     lastName: string
@@ -18,7 +18,7 @@ export interface SyncPayload {
  * Links the resulting customer to the POS sale record.
  */
 export async function syncTransactionToCRM(payload: SyncPayload) {
-  const { orderId, customer } = payload
+  const { orderId, tenantId, customer } = payload
 
   // Try to find an existing customer by email or phone
   let existingCustomer = null
@@ -26,6 +26,7 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
   if (customer.email || customer.phone) {
     existingCustomer = await prisma.customers.findFirst({
       where: {
+        tenant_id: tenantId,
         OR: [
           ...(customer.email ? [{ email: customer.email }] : []),
           ...(customer.phone ? [{ phone: customer.phone }] : []),
@@ -44,18 +45,19 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
         first_name: customer.firstName || existingCustomer.first_name,
         last_name: customer.lastName || existingCustomer.last_name,
         phone: customer.phone || existingCustomer.phone,
-        last_active_at: new Date(Temporal.Now.instant().epochMilliseconds),
+        updated_at: new Date(),
       },
     })
   } else {
     // Create new customer
     customerRecord = await prisma.customers.create({
       data: {
+        tenant_id: tenantId,
         first_name: customer.firstName,
         last_name: customer.lastName,
         email: customer.email,
         phone: customer.phone,
-        last_active_at: new Date(Temporal.Now.instant().epochMilliseconds),
+        updated_at: new Date(),
       },
     })
   }

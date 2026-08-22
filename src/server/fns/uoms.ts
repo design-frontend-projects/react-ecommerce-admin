@@ -1,7 +1,7 @@
 'use server'
 
 import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 const UOM_CATEGORIES = ['count', 'weight', 'volume', 'length', 'time'] as const
@@ -44,13 +44,14 @@ export async function listUoms(authUserId: string) {
     where: { tenant_id: tenantId },
     orderBy: { code: 'asc' },
     include: {
-      _count: { select: { conversions_from: true, conversions_to: true } },
+      _count: { select: { products: true } },
     },
   })
 }
 
 export async function createUom(authUserId: string, input: CreateUomInput) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   assertRequiredText(input.code, 'A unit code is required.')
   assertRequiredText(input.name, 'A unit name is required.')
   assertCategory(input.uomCategory)
@@ -58,11 +59,12 @@ export async function createUom(authUserId: string, input: CreateUomInput) {
   return prisma.uoms.create({
     data: {
       tenant_id: tenantId,
-      auth_user_id: tenantId,
       code: input.code.trim(),
       name: input.name.trim(),
       uom_category: input.uomCategory,
       is_base: input.isBase ?? false,
+      created_by_user_id: tenantUserId,
+      updated_by_user_id: tenantUserId,
     },
   })
 }
@@ -73,6 +75,7 @@ export async function updateUom(
   input: UpdateUomInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await prisma.uoms.findFirst({
     where: { id, tenant_id: tenantId },
     select: { id: true },
@@ -99,6 +102,7 @@ export async function updateUom(
       : {}),
     ...(input.isBase !== undefined ? { is_base: input.isBase } : {}),
     ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
+    updated_by_user_id: tenantUserId,
   }
   if (Object.keys(data).length === 0) {
     throw new ApiError('No changes provided.', 400)
@@ -116,9 +120,6 @@ export async function deleteUom(authUserId: string, id: string) {
       _count: {
         select: {
           products: true,
-          product_variants: true,
-          conversions_from: true,
-          conversions_to: true,
         },
       },
     },
@@ -126,26 +127,16 @@ export async function deleteUom(authUserId: string, id: string) {
     id: string
     _count: {
       products: number
-      product_variants: number
-      conversions_from: number
-      conversions_to: number
     }
   } | null
   if (!existing) {
     throw new ApiError('Unit of measure not found.', 404)
   }
 
-  const { products, product_variants, conversions_from, conversions_to } =
-    existing._count
-  if (products > 0 || product_variants > 0) {
+  const { products } = existing._count
+  if (products > 0) {
     throw new ApiError(
-      'This unit is referenced by products or variants and cannot be deleted.',
-      409
-    )
-  }
-  if (conversions_from > 0 || conversions_to > 0) {
-    throw new ApiError(
-      'This unit is used in unit conversions. Remove those conversions first.',
+      'This unit is referenced by products and cannot be deleted.',
       409
     )
   }
@@ -158,11 +149,6 @@ export async function listConversions(authUserId: string) {
   return prisma.unit_conversions.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      from_uom: { select: { id: true, code: true } },
-      to_uom: { select: { id: true, code: true } },
-      product_variants: { select: { id: true, sku: true } },
-    },
   })
 }
 
@@ -171,6 +157,7 @@ export async function createConversion(
   input: CreateConversionInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.fromUomId || !input.toUomId) {
     throw new ApiError('Both a from unit and a to unit are required.', 400)
@@ -199,11 +186,12 @@ export async function createConversion(
   return prisma.unit_conversions.create({
     data: {
       tenant_id: tenantId,
-      auth_user_id: tenantId,
       from_uom_id: input.fromUomId,
       to_uom_id: input.toUomId,
       factor: input.factor,
       product_variant_id: input.productVariantId || null,
+      created_by_user_id: tenantUserId,
+      updated_by_user_id: tenantUserId,
     },
   })
 }

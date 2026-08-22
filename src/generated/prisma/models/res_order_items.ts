@@ -46,9 +46,10 @@ export type Res_order_itemsMinAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   status: $Enums.order_item_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_order_itemsMaxAggregateOutputType = {
@@ -61,9 +62,10 @@ export type Res_order_itemsMaxAggregateOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   status: $Enums.order_item_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_order_itemsCountAggregateOutputType = {
@@ -77,9 +79,10 @@ export type Res_order_itemsCountAggregateOutputType = {
   notes: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   tenant_id: number
   status: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -104,9 +107,10 @@ export type Res_order_itemsMinAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_order_itemsMaxAggregateInputType = {
@@ -119,9 +123,10 @@ export type Res_order_itemsMaxAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_order_itemsCountAggregateInputType = {
@@ -135,9 +140,10 @@ export type Res_order_itemsCountAggregateInputType = {
   notes?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -238,9 +244,10 @@ export type Res_order_itemsGroupByOutputType = {
   notes: string | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
   status: $Enums.order_item_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Res_order_itemsCountAggregateOutputType | null
   _avg: Res_order_itemsAvgAggregateOutputType | null
   _sum: Res_order_itemsSumAggregateOutputType | null
@@ -248,7 +255,7 @@ export type Res_order_itemsGroupByOutputType = {
   _max: Res_order_itemsMaxAggregateOutputType | null
 }
 
-export type GetRes_order_itemsGroupByPayload<T extends res_order_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_order_itemsGroupByPayload<T extends res_order_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_order_itemsGroupByOutputType, T['by']> &
       {
@@ -277,9 +284,10 @@ export type res_order_itemsWhereInput = {
   notes?: Prisma.StringNullableFilter<"res_order_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_order_items"> | string
   status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
   res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
 }
@@ -295,9 +303,10 @@ export type res_order_itemsOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   res_menu_items?: Prisma.res_menu_itemsOrderByWithRelationInput
   res_orders?: Prisma.res_ordersOrderByWithRelationInput
 }
@@ -316,9 +325,10 @@ export type res_order_itemsWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"res_order_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_order_items"> | string
   status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
   res_menu_items?: Prisma.XOR<Prisma.Res_menu_itemsNullableScalarRelationFilter, Prisma.res_menu_itemsWhereInput> | null
   res_orders?: Prisma.XOR<Prisma.Res_ordersNullableScalarRelationFilter, Prisma.res_ordersWhereInput> | null
 }, "id">
@@ -334,9 +344,10 @@ export type res_order_itemsOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_order_itemsCountOrderByAggregateInput
   _avg?: Prisma.res_order_itemsAvgOrderByAggregateInput
   _max?: Prisma.res_order_itemsMaxOrderByAggregateInput
@@ -358,9 +369,10 @@ export type res_order_itemsScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"res_order_items"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_order_items"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"res_order_items"> | string
   status?: Prisma.Enumorder_item_statusNullableWithAggregatesFilter<"res_order_items"> | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_order_items"> | string | null
 }
 
 export type res_order_itemsCreateInput = {
@@ -372,9 +384,10 @@ export type res_order_itemsCreateInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
   res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_order_itemsInput
 }
@@ -390,9 +403,10 @@ export type res_order_itemsUncheckedCreateInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_order_itemsUpdateInput = {
@@ -404,9 +418,10 @@ export type res_order_itemsUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
   res_orders?: Prisma.res_ordersUpdateOneWithoutRes_order_itemsNestedInput
 }
@@ -422,9 +437,10 @@ export type res_order_itemsUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_order_itemsCreateManyInput = {
@@ -438,9 +454,10 @@ export type res_order_itemsCreateManyInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_order_itemsUpdateManyMutationInput = {
@@ -452,9 +469,10 @@ export type res_order_itemsUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_order_itemsUncheckedUpdateManyInput = {
@@ -468,9 +486,10 @@ export type res_order_itemsUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Res_order_itemsListRelationFilter = {
@@ -494,9 +513,10 @@ export type res_order_itemsCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_order_itemsAvgOrderByAggregateInput = {
@@ -514,9 +534,10 @@ export type res_order_itemsMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_order_itemsMinOrderByAggregateInput = {
@@ -529,9 +550,10 @@ export type res_order_itemsMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_order_itemsSumOrderByAggregateInput = {
@@ -636,9 +658,10 @@ export type res_order_itemsCreateWithoutRes_menu_itemsInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   res_orders?: Prisma.res_ordersCreateNestedOneWithoutRes_order_itemsInput
 }
 
@@ -652,9 +675,10 @@ export type res_order_itemsUncheckedCreateWithoutRes_menu_itemsInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_order_itemsCreateOrConnectWithoutRes_menu_itemsInput = {
@@ -697,9 +721,10 @@ export type res_order_itemsScalarWhereInput = {
   notes?: Prisma.StringNullableFilter<"res_order_items"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"res_order_items"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_order_items"> | string
   status?: Prisma.Enumorder_item_statusNullableFilter<"res_order_items"> | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_order_items"> | string | null
 }
 
 export type res_order_itemsCreateWithoutRes_ordersInput = {
@@ -711,9 +736,10 @@ export type res_order_itemsCreateWithoutRes_ordersInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   res_menu_items?: Prisma.res_menu_itemsCreateNestedOneWithoutRes_order_itemsInput
 }
 
@@ -727,9 +753,10 @@ export type res_order_itemsUncheckedCreateWithoutRes_ordersInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_order_itemsCreateOrConnectWithoutRes_ordersInput = {
@@ -768,9 +795,10 @@ export type res_order_itemsCreateManyRes_menu_itemsInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_order_itemsUpdateWithoutRes_menu_itemsInput = {
@@ -782,9 +810,10 @@ export type res_order_itemsUpdateWithoutRes_menu_itemsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_orders?: Prisma.res_ordersUpdateOneWithoutRes_order_itemsNestedInput
 }
 
@@ -798,9 +827,10 @@ export type res_order_itemsUncheckedUpdateWithoutRes_menu_itemsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_order_itemsUncheckedUpdateManyWithoutRes_menu_itemsInput = {
@@ -813,9 +843,10 @@ export type res_order_itemsUncheckedUpdateManyWithoutRes_menu_itemsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_order_itemsCreateManyRes_ordersInput = {
@@ -828,9 +859,10 @@ export type res_order_itemsCreateManyRes_ordersInput = {
   notes?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.order_item_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_order_itemsUpdateWithoutRes_ordersInput = {
@@ -842,9 +874,10 @@ export type res_order_itemsUpdateWithoutRes_ordersInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   res_menu_items?: Prisma.res_menu_itemsUpdateOneWithoutRes_order_itemsNestedInput
 }
 
@@ -858,9 +891,10 @@ export type res_order_itemsUncheckedUpdateWithoutRes_ordersInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_order_itemsUncheckedUpdateManyWithoutRes_ordersInput = {
@@ -873,9 +907,10 @@ export type res_order_itemsUncheckedUpdateManyWithoutRes_ordersInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumorder_item_statusFieldUpdateOperationsInput | $Enums.order_item_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -891,9 +926,10 @@ export type res_order_itemsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
   res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
 }, ExtArgs["result"]["res_order_items"]>
@@ -909,9 +945,10 @@ export type res_order_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
   res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
 }, ExtArgs["result"]["res_order_items"]>
@@ -927,9 +964,10 @@ export type res_order_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
   res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
 }, ExtArgs["result"]["res_order_items"]>
@@ -945,12 +983,13 @@ export type res_order_itemsSelectScalar = {
   notes?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type res_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_id" | "item_id" | "variant_id" | "quantity" | "unit_price" | "properties" | "notes" | "created_at" | "updated_at" | "auth_user_id" | "tenant_id" | "status", ExtArgs["result"]["res_order_items"]>
+export type res_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "order_id" | "item_id" | "variant_id" | "quantity" | "unit_price" | "properties" | "notes" | "created_at" | "updated_at" | "tenant_id" | "status" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["res_order_items"]>
 export type res_order_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   res_menu_items?: boolean | Prisma.res_order_items$res_menu_itemsArgs<ExtArgs>
   res_orders?: boolean | Prisma.res_order_items$res_ordersArgs<ExtArgs>
@@ -981,9 +1020,10 @@ export type $res_order_itemsPayload<ExtArgs extends runtime.Types.Extensions.Int
     notes: string | null
     created_at: Date | null
     updated_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
     status: $Enums.order_item_status | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["res_order_items"]>
   composites: {}
 }
@@ -1419,9 +1459,10 @@ export interface res_order_itemsFieldRefs {
   readonly notes: Prisma.FieldRef<"res_order_items", 'String'>
   readonly created_at: Prisma.FieldRef<"res_order_items", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"res_order_items", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"res_order_items", 'String'>
   readonly tenant_id: Prisma.FieldRef<"res_order_items", 'String'>
   readonly status: Prisma.FieldRef<"res_order_items", 'order_item_status'>
+  readonly created_by_user_id: Prisma.FieldRef<"res_order_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"res_order_items", 'String'>
 }
     
 

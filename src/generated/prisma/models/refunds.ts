@@ -42,7 +42,6 @@ export type RefundsMinAggregateOutputType = {
   reason: string | null
   processed_by: string | null
   notes: string | null
-  auth_user_id: string | null
   refund_status: $Enums.refund_status | null
   store_id: string | null
   sales_invoice_id: string | null
@@ -51,6 +50,8 @@ export type RefundsMinAggregateOutputType = {
   id: string | null
   res_order_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type RefundsMaxAggregateOutputType = {
@@ -61,7 +62,6 @@ export type RefundsMaxAggregateOutputType = {
   reason: string | null
   processed_by: string | null
   notes: string | null
-  auth_user_id: string | null
   refund_status: $Enums.refund_status | null
   store_id: string | null
   sales_invoice_id: string | null
@@ -70,6 +70,8 @@ export type RefundsMaxAggregateOutputType = {
   id: string | null
   res_order_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type RefundsCountAggregateOutputType = {
@@ -80,7 +82,6 @@ export type RefundsCountAggregateOutputType = {
   reason: number
   processed_by: number
   notes: number
-  auth_user_id: number
   refund_status: number
   store_id: number
   sales_invoice_id: number
@@ -89,6 +90,8 @@ export type RefundsCountAggregateOutputType = {
   id: number
   res_order_id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -109,7 +112,6 @@ export type RefundsMinAggregateInputType = {
   reason?: true
   processed_by?: true
   notes?: true
-  auth_user_id?: true
   refund_status?: true
   store_id?: true
   sales_invoice_id?: true
@@ -118,6 +120,8 @@ export type RefundsMinAggregateInputType = {
   id?: true
   res_order_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type RefundsMaxAggregateInputType = {
@@ -128,7 +132,6 @@ export type RefundsMaxAggregateInputType = {
   reason?: true
   processed_by?: true
   notes?: true
-  auth_user_id?: true
   refund_status?: true
   store_id?: true
   sales_invoice_id?: true
@@ -137,6 +140,8 @@ export type RefundsMaxAggregateInputType = {
   id?: true
   res_order_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type RefundsCountAggregateInputType = {
@@ -147,7 +152,6 @@ export type RefundsCountAggregateInputType = {
   reason?: true
   processed_by?: true
   notes?: true
-  auth_user_id?: true
   refund_status?: true
   store_id?: true
   sales_invoice_id?: true
@@ -156,6 +160,8 @@ export type RefundsCountAggregateInputType = {
   id?: true
   res_order_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -253,7 +259,6 @@ export type RefundsGroupByOutputType = {
   reason: string | null
   processed_by: string | null
   notes: string | null
-  auth_user_id: string | null
   refund_status: $Enums.refund_status | null
   store_id: string | null
   sales_invoice_id: string | null
@@ -261,7 +266,9 @@ export type RefundsGroupByOutputType = {
   created_by: string | null
   id: string
   res_order_id: string | null
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: RefundsCountAggregateOutputType | null
   _avg: RefundsAvgAggregateOutputType | null
   _sum: RefundsSumAggregateOutputType | null
@@ -269,7 +276,7 @@ export type RefundsGroupByOutputType = {
   _max: RefundsMaxAggregateOutputType | null
 }
 
-export type GetRefundsGroupByPayload<T extends refundsGroupByArgs> = Prisma.PrismaPromise<
+type GetRefundsGroupByPayload<T extends refundsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<RefundsGroupByOutputType, T['by']> &
       {
@@ -295,7 +302,6 @@ export type refundsWhereInput = {
   reason?: Prisma.StringNullableFilter<"refunds"> | string | null
   processed_by?: Prisma.StringNullableFilter<"refunds"> | string | null
   notes?: Prisma.StringNullableFilter<"refunds"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   refund_status?: Prisma.Enumrefund_statusNullableFilter<"refunds"> | $Enums.refund_status | null
   store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   sales_invoice_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
@@ -303,7 +309,9 @@ export type refundsWhereInput = {
   created_by?: Prisma.StringNullableFilter<"refunds"> | string | null
   id?: Prisma.UuidFilter<"refunds"> | string
   res_order_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  tenant_id?: Prisma.UuidFilter<"refunds"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
 }
 
 export type refundsOrderByWithRelationInput = {
@@ -314,7 +322,6 @@ export type refundsOrderByWithRelationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   processed_by?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   refund_status?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -322,7 +329,9 @@ export type refundsOrderByWithRelationInput = {
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type refundsWhereUniqueInput = Prisma.AtLeast<{
@@ -337,14 +346,15 @@ export type refundsWhereUniqueInput = Prisma.AtLeast<{
   reason?: Prisma.StringNullableFilter<"refunds"> | string | null
   processed_by?: Prisma.StringNullableFilter<"refunds"> | string | null
   notes?: Prisma.StringNullableFilter<"refunds"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   refund_status?: Prisma.Enumrefund_statusNullableFilter<"refunds"> | $Enums.refund_status | null
   store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   sales_invoice_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   created_by?: Prisma.StringNullableFilter<"refunds"> | string | null
   res_order_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  tenant_id?: Prisma.UuidFilter<"refunds"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
 }, "id">
 
 export type refundsOrderByWithAggregationInput = {
@@ -355,7 +365,6 @@ export type refundsOrderByWithAggregationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   processed_by?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   refund_status?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -363,7 +372,9 @@ export type refundsOrderByWithAggregationInput = {
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.refundsCountOrderByAggregateInput
   _avg?: Prisma.refundsAvgOrderByAggregateInput
   _max?: Prisma.refundsMaxOrderByAggregateInput
@@ -382,7 +393,6 @@ export type refundsScalarWhereWithAggregatesInput = {
   reason?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
   processed_by?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
   refund_status?: Prisma.Enumrefund_statusNullableWithAggregatesFilter<"refunds"> | $Enums.refund_status | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
   sales_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
@@ -390,7 +400,9 @@ export type refundsScalarWhereWithAggregatesInput = {
   created_by?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
   id?: Prisma.UuidWithAggregatesFilter<"refunds"> | string
   res_order_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"refunds"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
 }
 
 export type refundsCreateInput = {
@@ -401,7 +413,6 @@ export type refundsCreateInput = {
   reason?: string | null
   processed_by?: string | null
   notes?: string | null
-  auth_user_id?: string | null
   refund_status?: $Enums.refund_status | null
   store_id?: string | null
   sales_invoice_id?: string | null
@@ -409,7 +420,9 @@ export type refundsCreateInput = {
   created_by?: string | null
   id?: string
   res_order_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type refundsUncheckedCreateInput = {
@@ -420,7 +433,6 @@ export type refundsUncheckedCreateInput = {
   reason?: string | null
   processed_by?: string | null
   notes?: string | null
-  auth_user_id?: string | null
   refund_status?: $Enums.refund_status | null
   store_id?: string | null
   sales_invoice_id?: string | null
@@ -428,7 +440,9 @@ export type refundsUncheckedCreateInput = {
   created_by?: string | null
   id?: string
   res_order_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type refundsUpdateInput = {
@@ -439,7 +453,6 @@ export type refundsUpdateInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -447,7 +460,9 @@ export type refundsUpdateInput = {
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type refundsUncheckedUpdateInput = {
@@ -458,7 +473,6 @@ export type refundsUncheckedUpdateInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -466,7 +480,9 @@ export type refundsUncheckedUpdateInput = {
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type refundsCreateManyInput = {
@@ -477,7 +493,6 @@ export type refundsCreateManyInput = {
   reason?: string | null
   processed_by?: string | null
   notes?: string | null
-  auth_user_id?: string | null
   refund_status?: $Enums.refund_status | null
   store_id?: string | null
   sales_invoice_id?: string | null
@@ -485,7 +500,9 @@ export type refundsCreateManyInput = {
   created_by?: string | null
   id?: string
   res_order_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type refundsUpdateManyMutationInput = {
@@ -496,7 +513,6 @@ export type refundsUpdateManyMutationInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -504,7 +520,9 @@ export type refundsUpdateManyMutationInput = {
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type refundsUncheckedUpdateManyInput = {
@@ -515,7 +533,6 @@ export type refundsUncheckedUpdateManyInput = {
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -523,7 +540,9 @@ export type refundsUncheckedUpdateManyInput = {
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type refundsCountOrderByAggregateInput = {
@@ -534,7 +553,6 @@ export type refundsCountOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   processed_by?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   refund_status?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrder
@@ -543,6 +561,8 @@ export type refundsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type refundsAvgOrderByAggregateInput = {
@@ -557,7 +577,6 @@ export type refundsMaxOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   processed_by?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   refund_status?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrder
@@ -566,6 +585,8 @@ export type refundsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type refundsMinOrderByAggregateInput = {
@@ -576,7 +597,6 @@ export type refundsMinOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   processed_by?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   refund_status?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrder
@@ -585,6 +605,8 @@ export type refundsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   res_order_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type refundsSumOrderByAggregateInput = {
@@ -605,7 +627,6 @@ export type refundsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   reason?: boolean
   processed_by?: boolean
   notes?: boolean
-  auth_user_id?: boolean
   refund_status?: boolean
   store_id?: boolean
   sales_invoice_id?: boolean
@@ -614,6 +635,8 @@ export type refundsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   res_order_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["refunds"]>
 
 export type refundsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -624,7 +647,6 @@ export type refundsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   reason?: boolean
   processed_by?: boolean
   notes?: boolean
-  auth_user_id?: boolean
   refund_status?: boolean
   store_id?: boolean
   sales_invoice_id?: boolean
@@ -633,6 +655,8 @@ export type refundsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   res_order_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["refunds"]>
 
 export type refundsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -643,7 +667,6 @@ export type refundsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   reason?: boolean
   processed_by?: boolean
   notes?: boolean
-  auth_user_id?: boolean
   refund_status?: boolean
   store_id?: boolean
   sales_invoice_id?: boolean
@@ -652,6 +675,8 @@ export type refundsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   res_order_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["refunds"]>
 
 export type refundsSelectScalar = {
@@ -662,7 +687,6 @@ export type refundsSelectScalar = {
   reason?: boolean
   processed_by?: boolean
   notes?: boolean
-  auth_user_id?: boolean
   refund_status?: boolean
   store_id?: boolean
   sales_invoice_id?: boolean
@@ -671,9 +695,11 @@ export type refundsSelectScalar = {
   id?: boolean
   res_order_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type refundsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"sale_id" | "order_id" | "refund_date" | "refund_amount" | "reason" | "processed_by" | "notes" | "auth_user_id" | "refund_status" | "store_id" | "sales_invoice_id" | "branch_id" | "created_by" | "id" | "res_order_id" | "tenant_id", ExtArgs["result"]["refunds"]>
+export type refundsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"sale_id" | "order_id" | "refund_date" | "refund_amount" | "reason" | "processed_by" | "notes" | "refund_status" | "store_id" | "sales_invoice_id" | "branch_id" | "created_by" | "id" | "res_order_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["refunds"]>
 
 export type $refundsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "refunds"
@@ -686,7 +712,6 @@ export type $refundsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     reason: string | null
     processed_by: string | null
     notes: string | null
-    auth_user_id: string | null
     refund_status: $Enums.refund_status | null
     store_id: string | null
     sales_invoice_id: string | null
@@ -694,7 +719,9 @@ export type $refundsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     created_by: string | null
     id: string
     res_order_id: string | null
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["refunds"]>
   composites: {}
 }
@@ -1125,7 +1152,6 @@ export interface refundsFieldRefs {
   readonly reason: Prisma.FieldRef<"refunds", 'String'>
   readonly processed_by: Prisma.FieldRef<"refunds", 'String'>
   readonly notes: Prisma.FieldRef<"refunds", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"refunds", 'String'>
   readonly refund_status: Prisma.FieldRef<"refunds", 'refund_status'>
   readonly store_id: Prisma.FieldRef<"refunds", 'String'>
   readonly sales_invoice_id: Prisma.FieldRef<"refunds", 'String'>
@@ -1134,6 +1160,8 @@ export interface refundsFieldRefs {
   readonly id: Prisma.FieldRef<"refunds", 'String'>
   readonly res_order_id: Prisma.FieldRef<"refunds", 'String'>
   readonly tenant_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"refunds", 'String'>
 }
     
 

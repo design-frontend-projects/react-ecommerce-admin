@@ -45,8 +45,9 @@ export type Bundle_componentsMinAggregateOutputType = {
   sort_order: number | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   parent_product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Bundle_componentsMaxAggregateOutputType = {
@@ -58,8 +59,9 @@ export type Bundle_componentsMaxAggregateOutputType = {
   sort_order: number | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   parent_product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Bundle_componentsCountAggregateOutputType = {
@@ -71,8 +73,9 @@ export type Bundle_componentsCountAggregateOutputType = {
   sort_order: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   parent_product_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -96,8 +99,9 @@ export type Bundle_componentsMinAggregateInputType = {
   sort_order?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   parent_product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Bundle_componentsMaxAggregateInputType = {
@@ -109,8 +113,9 @@ export type Bundle_componentsMaxAggregateInputType = {
   sort_order?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   parent_product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Bundle_componentsCountAggregateInputType = {
@@ -122,8 +127,9 @@ export type Bundle_componentsCountAggregateInputType = {
   sort_order?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   parent_product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -222,8 +228,9 @@ export type Bundle_componentsGroupByOutputType = {
   sort_order: number
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
   parent_product_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Bundle_componentsCountAggregateOutputType | null
   _avg: Bundle_componentsAvgAggregateOutputType | null
   _sum: Bundle_componentsSumAggregateOutputType | null
@@ -231,7 +238,7 @@ export type Bundle_componentsGroupByOutputType = {
   _max: Bundle_componentsMaxAggregateOutputType | null
 }
 
-export type GetBundle_componentsGroupByPayload<T extends bundle_componentsGroupByArgs> = Prisma.PrismaPromise<
+type GetBundle_componentsGroupByPayload<T extends bundle_componentsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Bundle_componentsGroupByOutputType, T['by']> &
       {
@@ -258,8 +265,9 @@ export type bundle_componentsWhereInput = {
   sort_order?: Prisma.IntFilter<"bundle_components"> | number
   created_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
   parent_product_id?: Prisma.UuidFilter<"bundle_components"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
 }
 
 export type bundle_componentsOrderByWithRelationInput = {
@@ -271,8 +279,9 @@ export type bundle_componentsOrderByWithRelationInput = {
   sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   parent_product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type bundle_componentsWhereUniqueInput = Prisma.AtLeast<{
@@ -287,8 +296,9 @@ export type bundle_componentsWhereUniqueInput = Prisma.AtLeast<{
   sort_order?: Prisma.IntFilter<"bundle_components"> | number
   created_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"bundle_components"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
   parent_product_id?: Prisma.UuidFilter<"bundle_components"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"bundle_components"> | string | null
 }, "id">
 
 export type bundle_componentsOrderByWithAggregationInput = {
@@ -300,8 +310,9 @@ export type bundle_componentsOrderByWithAggregationInput = {
   sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   parent_product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.bundle_componentsCountOrderByAggregateInput
   _avg?: Prisma.bundle_componentsAvgOrderByAggregateInput
   _max?: Prisma.bundle_componentsMaxOrderByAggregateInput
@@ -321,8 +332,9 @@ export type bundle_componentsScalarWhereWithAggregatesInput = {
   sort_order?: Prisma.IntWithAggregatesFilter<"bundle_components"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"bundle_components"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"bundle_components"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"bundle_components"> | string | null
   parent_product_id?: Prisma.UuidWithAggregatesFilter<"bundle_components"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"bundle_components"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"bundle_components"> | string | null
 }
 
 export type bundle_componentsCreateInput = {
@@ -334,8 +346,9 @@ export type bundle_componentsCreateInput = {
   sort_order?: number
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   parent_product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type bundle_componentsUncheckedCreateInput = {
@@ -347,8 +360,9 @@ export type bundle_componentsUncheckedCreateInput = {
   sort_order?: number
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   parent_product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type bundle_componentsUpdateInput = {
@@ -360,8 +374,9 @@ export type bundle_componentsUpdateInput = {
   sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bundle_componentsUncheckedUpdateInput = {
@@ -373,8 +388,9 @@ export type bundle_componentsUncheckedUpdateInput = {
   sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bundle_componentsCreateManyInput = {
@@ -386,8 +402,9 @@ export type bundle_componentsCreateManyInput = {
   sort_order?: number
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   parent_product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type bundle_componentsUpdateManyMutationInput = {
@@ -399,8 +416,9 @@ export type bundle_componentsUpdateManyMutationInput = {
   sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bundle_componentsUncheckedUpdateManyInput = {
@@ -412,8 +430,9 @@ export type bundle_componentsUncheckedUpdateManyInput = {
   sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type bundle_componentsCountOrderByAggregateInput = {
@@ -425,8 +444,9 @@ export type bundle_componentsCountOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   parent_product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsAvgOrderByAggregateInput = {
@@ -443,8 +463,9 @@ export type bundle_componentsMaxOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   parent_product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsMinOrderByAggregateInput = {
@@ -456,8 +477,9 @@ export type bundle_componentsMinOrderByAggregateInput = {
   sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   parent_product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type bundle_componentsSumOrderByAggregateInput = {
@@ -476,8 +498,9 @@ export type bundle_componentsSelect<ExtArgs extends runtime.Types.Extensions.Int
   sort_order?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   parent_product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["bundle_components"]>
 
 export type bundle_componentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -489,8 +512,9 @@ export type bundle_componentsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   sort_order?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   parent_product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["bundle_components"]>
 
 export type bundle_componentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -502,8 +526,9 @@ export type bundle_componentsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   sort_order?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   parent_product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["bundle_components"]>
 
 export type bundle_componentsSelectScalar = {
@@ -515,11 +540,12 @@ export type bundle_componentsSelectScalar = {
   sort_order?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   parent_product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type bundle_componentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "component_variant_id" | "qty" | "uom_id" | "sort_order" | "created_at" | "updated_at" | "auth_user_id" | "parent_product_id", ExtArgs["result"]["bundle_components"]>
+export type bundle_componentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "component_variant_id" | "qty" | "uom_id" | "sort_order" | "created_at" | "updated_at" | "parent_product_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["bundle_components"]>
 
 export type $bundle_componentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "bundle_components"
@@ -533,8 +559,9 @@ export type $bundle_componentsPayload<ExtArgs extends runtime.Types.Extensions.I
     sort_order: number
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
     parent_product_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["bundle_components"]>
   composites: {}
 }
@@ -966,8 +993,9 @@ export interface bundle_componentsFieldRefs {
   readonly sort_order: Prisma.FieldRef<"bundle_components", 'Int'>
   readonly created_at: Prisma.FieldRef<"bundle_components", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"bundle_components", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"bundle_components", 'String'>
   readonly parent_product_id: Prisma.FieldRef<"bundle_components", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"bundle_components", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"bundle_components", 'String'>
 }
     
 

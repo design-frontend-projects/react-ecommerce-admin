@@ -32,7 +32,6 @@ export type Permission_buttonsMinAggregateOutputType = {
   is_system: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
 }
 
 export type Permission_buttonsMaxAggregateOutputType = {
@@ -43,7 +42,6 @@ export type Permission_buttonsMaxAggregateOutputType = {
   is_system: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
 }
 
 export type Permission_buttonsCountAggregateOutputType = {
@@ -54,7 +52,6 @@ export type Permission_buttonsCountAggregateOutputType = {
   is_system: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   _all: number
 }
 
@@ -67,7 +64,6 @@ export type Permission_buttonsMinAggregateInputType = {
   is_system?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
 }
 
 export type Permission_buttonsMaxAggregateInputType = {
@@ -78,7 +74,6 @@ export type Permission_buttonsMaxAggregateInputType = {
   is_system?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
 }
 
 export type Permission_buttonsCountAggregateInputType = {
@@ -89,7 +84,6 @@ export type Permission_buttonsCountAggregateInputType = {
   is_system?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   _all?: true
 }
 
@@ -173,13 +167,12 @@ export type Permission_buttonsGroupByOutputType = {
   is_system: boolean
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   _count: Permission_buttonsCountAggregateOutputType | null
   _min: Permission_buttonsMinAggregateOutputType | null
   _max: Permission_buttonsMaxAggregateOutputType | null
 }
 
-export type GetPermission_buttonsGroupByPayload<T extends permission_buttonsGroupByArgs> = Prisma.PrismaPromise<
+type GetPermission_buttonsGroupByPayload<T extends permission_buttonsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Permission_buttonsGroupByOutputType, T['by']> &
       {
@@ -205,7 +198,6 @@ export type permission_buttonsWhereInput = {
   is_system?: Prisma.BoolFilter<"permission_buttons"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"permission_buttons"> | string | null
   screen_buttons?: Prisma.Screen_buttonsListRelationFilter
 }
 
@@ -217,7 +209,6 @@ export type permission_buttonsOrderByWithRelationInput = {
   is_system?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   screen_buttons?: Prisma.screen_buttonsOrderByRelationAggregateInput
 }
 
@@ -232,7 +223,6 @@ export type permission_buttonsWhereUniqueInput = Prisma.AtLeast<{
   is_system?: Prisma.BoolFilter<"permission_buttons"> | boolean
   created_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"permission_buttons"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"permission_buttons"> | string | null
   screen_buttons?: Prisma.Screen_buttonsListRelationFilter
 }, "id" | "code">
 
@@ -244,7 +234,6 @@ export type permission_buttonsOrderByWithAggregationInput = {
   is_system?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.permission_buttonsCountOrderByAggregateInput
   _max?: Prisma.permission_buttonsMaxOrderByAggregateInput
   _min?: Prisma.permission_buttonsMinOrderByAggregateInput
@@ -261,7 +250,6 @@ export type permission_buttonsScalarWhereWithAggregatesInput = {
   is_system?: Prisma.BoolWithAggregatesFilter<"permission_buttons"> | boolean
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"permission_buttons"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"permission_buttons"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"permission_buttons"> | string | null
 }
 
 export type permission_buttonsCreateInput = {
@@ -272,7 +260,6 @@ export type permission_buttonsCreateInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   screen_buttons?: Prisma.screen_buttonsCreateNestedManyWithoutPermission_buttonsInput
 }
 
@@ -284,7 +271,6 @@ export type permission_buttonsUncheckedCreateInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
   screen_buttons?: Prisma.screen_buttonsUncheckedCreateNestedManyWithoutPermission_buttonsInput
 }
 
@@ -296,7 +282,6 @@ export type permission_buttonsUpdateInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   screen_buttons?: Prisma.screen_buttonsUpdateManyWithoutPermission_buttonsNestedInput
 }
 
@@ -308,7 +293,6 @@ export type permission_buttonsUncheckedUpdateInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   screen_buttons?: Prisma.screen_buttonsUncheckedUpdateManyWithoutPermission_buttonsNestedInput
 }
 
@@ -320,7 +304,6 @@ export type permission_buttonsCreateManyInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type permission_buttonsUpdateManyMutationInput = {
@@ -331,7 +314,6 @@ export type permission_buttonsUpdateManyMutationInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type permission_buttonsUncheckedUpdateManyInput = {
@@ -342,7 +324,6 @@ export type permission_buttonsUncheckedUpdateManyInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type permission_buttonsCountOrderByAggregateInput = {
@@ -353,7 +334,6 @@ export type permission_buttonsCountOrderByAggregateInput = {
   is_system?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type permission_buttonsMaxOrderByAggregateInput = {
@@ -364,7 +344,6 @@ export type permission_buttonsMaxOrderByAggregateInput = {
   is_system?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type permission_buttonsMinOrderByAggregateInput = {
@@ -375,7 +354,6 @@ export type permission_buttonsMinOrderByAggregateInput = {
   is_system?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
 }
 
 export type Permission_buttonsScalarRelationFilter = {
@@ -405,7 +383,6 @@ export type permission_buttonsCreateWithoutScreen_buttonsInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type permission_buttonsUncheckedCreateWithoutScreen_buttonsInput = {
@@ -416,7 +393,6 @@ export type permission_buttonsUncheckedCreateWithoutScreen_buttonsInput = {
   is_system?: boolean
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
 }
 
 export type permission_buttonsCreateOrConnectWithoutScreen_buttonsInput = {
@@ -443,7 +419,6 @@ export type permission_buttonsUpdateWithoutScreen_buttonsInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type permission_buttonsUncheckedUpdateWithoutScreen_buttonsInput = {
@@ -454,7 +429,6 @@ export type permission_buttonsUncheckedUpdateWithoutScreen_buttonsInput = {
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -496,7 +470,6 @@ export type permission_buttonsSelect<ExtArgs extends runtime.Types.Extensions.In
   is_system?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   screen_buttons?: boolean | Prisma.permission_buttons$screen_buttonsArgs<ExtArgs>
   _count?: boolean | Prisma.Permission_buttonsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permission_buttons"]>
@@ -509,7 +482,6 @@ export type permission_buttonsSelectCreateManyAndReturn<ExtArgs extends runtime.
   is_system?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
 }, ExtArgs["result"]["permission_buttons"]>
 
 export type permission_buttonsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -520,7 +492,6 @@ export type permission_buttonsSelectUpdateManyAndReturn<ExtArgs extends runtime.
   is_system?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
 }, ExtArgs["result"]["permission_buttons"]>
 
 export type permission_buttonsSelectScalar = {
@@ -531,10 +502,9 @@ export type permission_buttonsSelectScalar = {
   is_system?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
 }
 
-export type permission_buttonsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "is_system" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["permission_buttons"]>
+export type permission_buttonsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "is_system" | "created_at" | "updated_at", ExtArgs["result"]["permission_buttons"]>
 export type permission_buttonsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   screen_buttons?: boolean | Prisma.permission_buttons$screen_buttonsArgs<ExtArgs>
   _count?: boolean | Prisma.Permission_buttonsCountOutputTypeDefaultArgs<ExtArgs>
@@ -555,7 +525,6 @@ export type $permission_buttonsPayload<ExtArgs extends runtime.Types.Extensions.
     is_system: boolean
     created_at: Date | null
     updated_at: Date | null
-    auth_user_id: string | null
   }, ExtArgs["result"]["permission_buttons"]>
   composites: {}
 }
@@ -987,7 +956,6 @@ export interface permission_buttonsFieldRefs {
   readonly is_system: Prisma.FieldRef<"permission_buttons", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"permission_buttons", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"permission_buttons", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"permission_buttons", 'String'>
 }
     
 

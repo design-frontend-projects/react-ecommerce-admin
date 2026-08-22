@@ -45,10 +45,31 @@ export async function requireTenantId(authUserId: string): Promise<string> {
 }
 
 /**
- * Collect every auth user id belonging to the caller's tenant (members plus
- * the owning account), for scoping queries on tables keyed by `auth_user_id`.
- * Always includes the caller so a user without a tenant row is limited to
- * their own records.
+ * Resolve the tenant user record ID (`tenant_users.id`) for an authenticated Supabase user.
+ * Used for audit columns (created_by_user_id, updated_by_user_id).
+ */
+export async function resolveTenantUserId(
+  authUserId: string
+): Promise<string | null> {
+  const tenantUser = await prisma.tenant_users.findFirst({
+    where: { auth_user_id: authUserId },
+    select: { id: true },
+  })
+  return tenantUser?.id ?? null
+}
+
+export async function requireTenantUserId(
+  authUserId: string
+): Promise<string> {
+  const userId = await resolveTenantUserId(authUserId)
+  if (!userId) {
+    throw new Error('Unable to resolve the caller tenant user record.')
+  }
+  return userId
+}
+
+/**
+ * @deprecated Data queries should scope by `tenant_id` directly rather than filtering by a set of auth_user_ids.
  */
 export async function getTenantAuthUserIds(
   authUserId: string
@@ -70,7 +91,6 @@ export async function getTenantAuthUserIds(
     }
   }
 
-  // Include the owner subscription row (see resolveTenantId) if applicable.
   const ownerSubscription = (await prisma.tenant_subscriptions.findFirst({
     where: { id: tenantId },
     select: { auth_user_id: true },

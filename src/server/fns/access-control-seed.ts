@@ -12,8 +12,8 @@ import {
 import { ensureBasePermissionsSeeded } from './rbac'
 
 const SEED_SETTING_KEY = 'rbac_seed_version'
-// Nil UUID marker for system-authored settings rows (app_settings.auth_user_id is NOT NULL).
-const SYSTEM_AUTH_USER_ID = '00000000-0000-0000-0000-000000000000'
+// Nil UUID marker for system-authored settings rows (app_settings.tenant_id is NOT NULL).
+const SYSTEM_TENANT_ID = '00000000-0000-0000-0000-000000000000'
 
 async function isCurrentSeedVersion(): Promise<boolean> {
   const row = await prisma.app_settings.findFirst({
@@ -41,7 +41,7 @@ async function markSeedVersion(): Promise<void> {
       value: SEED_VERSION,
       group: 'rbac',
       is_public: false,
-      auth_user_id: SYSTEM_AUTH_USER_ID,
+      tenant_id: SYSTEM_TENANT_ID,
     },
   })
 }

@@ -15,17 +15,21 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+import { cn } from '@/lib/utils'
+
 type DataTablePaginationProps<TData> = {
   table: Table<TData>
+  className?: string
 }
 
 export function DataTablePagination<TData>({
   table,
+  className,
 }: DataTablePaginationProps<TData>) {
   const { t } = useTranslation()
 
   return (
-    <div className='flex items-center justify-between overflow-auto px-2 py-1'>
+    <div className={cn('flex items-center justify-between overflow-auto px-2 py-1', className)}>
       <div className='hidden text-sm text-muted-foreground sm:block'>
         {t('dataTable.rowSelected', {
           count: table.getFilteredSelectedRowModel().rows.length,

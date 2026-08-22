@@ -119,6 +119,7 @@ describe('useResposStore', () => {
   it('should surface structured errors from validation', async () => {
     vi.mocked(validatePromoCode).mockResolvedValue({
       valid: false,
+      discountAmount: 0,
       error: { key: 'respos.promo.error.inactive' },
     })
 
@@ -165,7 +166,7 @@ describe('useResposStore', () => {
       discount_type: 'fixed',
       discount_value: 10,
     })
-    vi.mocked(validatePromotion).mockReturnValue({
+    vi.mocked(validatePromotion).mockResolvedValue({
       valid: true,
       discountAmount: 10,
       promotion,

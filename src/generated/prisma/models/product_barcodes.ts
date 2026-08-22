@@ -45,7 +45,8 @@ export type Product_barcodesMinAggregateOutputType = {
   is_primary: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Product_barcodesMaxAggregateOutputType = {
@@ -59,7 +60,8 @@ export type Product_barcodesMaxAggregateOutputType = {
   is_primary: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Product_barcodesCountAggregateOutputType = {
@@ -73,7 +75,8 @@ export type Product_barcodesCountAggregateOutputType = {
   is_primary: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -97,7 +100,8 @@ export type Product_barcodesMinAggregateInputType = {
   is_primary?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Product_barcodesMaxAggregateInputType = {
@@ -111,7 +115,8 @@ export type Product_barcodesMaxAggregateInputType = {
   is_primary?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Product_barcodesCountAggregateInputType = {
@@ -125,7 +130,8 @@ export type Product_barcodesCountAggregateInputType = {
   is_primary?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -226,7 +232,8 @@ export type Product_barcodesGroupByOutputType = {
   is_primary: boolean
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Product_barcodesCountAggregateOutputType | null
   _avg: Product_barcodesAvgAggregateOutputType | null
   _sum: Product_barcodesSumAggregateOutputType | null
@@ -234,7 +241,7 @@ export type Product_barcodesGroupByOutputType = {
   _max: Product_barcodesMaxAggregateOutputType | null
 }
 
-export type GetProduct_barcodesGroupByPayload<T extends product_barcodesGroupByArgs> = Prisma.PrismaPromise<
+type GetProduct_barcodesGroupByPayload<T extends product_barcodesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Product_barcodesGroupByOutputType, T['by']> &
       {
@@ -263,7 +270,8 @@ export type product_barcodesWhereInput = {
   is_primary?: Prisma.BoolFilter<"product_barcodes"> | boolean
   created_at?: Prisma.DateTimeFilter<"product_barcodes"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_barcodes"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
 }
 
 export type product_barcodesOrderByWithRelationInput = {
@@ -277,7 +285,8 @@ export type product_barcodesOrderByWithRelationInput = {
   is_primary?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type product_barcodesWhereUniqueInput = Prisma.AtLeast<{
@@ -294,7 +303,8 @@ export type product_barcodesWhereUniqueInput = Prisma.AtLeast<{
   is_primary?: Prisma.BoolFilter<"product_barcodes"> | boolean
   created_at?: Prisma.DateTimeFilter<"product_barcodes"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"product_barcodes"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"product_barcodes"> | string | null
 }, "id">
 
 export type product_barcodesOrderByWithAggregationInput = {
@@ -308,7 +318,8 @@ export type product_barcodesOrderByWithAggregationInput = {
   is_primary?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.product_barcodesCountOrderByAggregateInput
   _avg?: Prisma.product_barcodesAvgOrderByAggregateInput
   _max?: Prisma.product_barcodesMaxOrderByAggregateInput
@@ -330,7 +341,8 @@ export type product_barcodesScalarWhereWithAggregatesInput = {
   is_primary?: Prisma.BoolWithAggregatesFilter<"product_barcodes"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"product_barcodes"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"product_barcodes"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_barcodes"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_barcodes"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_barcodes"> | string | null
 }
 
 export type product_barcodesCreateInput = {
@@ -344,7 +356,8 @@ export type product_barcodesCreateInput = {
   is_primary?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_barcodesUncheckedCreateInput = {
@@ -358,7 +371,8 @@ export type product_barcodesUncheckedCreateInput = {
   is_primary?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_barcodesUpdateInput = {
@@ -372,7 +386,8 @@ export type product_barcodesUpdateInput = {
   is_primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_barcodesUncheckedUpdateInput = {
@@ -386,7 +401,8 @@ export type product_barcodesUncheckedUpdateInput = {
   is_primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_barcodesCreateManyInput = {
@@ -400,7 +416,8 @@ export type product_barcodesCreateManyInput = {
   is_primary?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type product_barcodesUpdateManyMutationInput = {
@@ -414,7 +431,8 @@ export type product_barcodesUpdateManyMutationInput = {
   is_primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_barcodesUncheckedUpdateManyInput = {
@@ -428,7 +446,8 @@ export type product_barcodesUncheckedUpdateManyInput = {
   is_primary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type product_barcodesCountOrderByAggregateInput = {
@@ -442,7 +461,8 @@ export type product_barcodesCountOrderByAggregateInput = {
   is_primary?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_barcodesAvgOrderByAggregateInput = {
@@ -460,7 +480,8 @@ export type product_barcodesMaxOrderByAggregateInput = {
   is_primary?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_barcodesMinOrderByAggregateInput = {
@@ -474,7 +495,8 @@ export type product_barcodesMinOrderByAggregateInput = {
   is_primary?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type product_barcodesSumOrderByAggregateInput = {
@@ -494,7 +516,8 @@ export type product_barcodesSelect<ExtArgs extends runtime.Types.Extensions.Inte
   is_primary?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_barcodes"]>
 
 export type product_barcodesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -508,7 +531,8 @@ export type product_barcodesSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   is_primary?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_barcodes"]>
 
 export type product_barcodesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -522,7 +546,8 @@ export type product_barcodesSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   is_primary?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["product_barcodes"]>
 
 export type product_barcodesSelectScalar = {
@@ -536,10 +561,11 @@ export type product_barcodesSelectScalar = {
   is_primary?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type product_barcodesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "barcode" | "barcode_type" | "uom_id" | "qty_per_scan" | "is_primary" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["product_barcodes"]>
+export type product_barcodesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "barcode" | "barcode_type" | "uom_id" | "qty_per_scan" | "is_primary" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_barcodes"]>
 
 export type $product_barcodesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "product_barcodes"
@@ -555,7 +581,8 @@ export type $product_barcodesPayload<ExtArgs extends runtime.Types.Extensions.In
     is_primary: boolean
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["product_barcodes"]>
   composites: {}
 }
@@ -989,7 +1016,8 @@ export interface product_barcodesFieldRefs {
   readonly is_primary: Prisma.FieldRef<"product_barcodes", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"product_barcodes", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"product_barcodes", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"product_barcodes", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"product_barcodes", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"product_barcodes", 'String'>
 }
     
 

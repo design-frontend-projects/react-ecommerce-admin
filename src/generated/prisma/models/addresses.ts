@@ -52,7 +52,8 @@ export type AddressesMinAggregateOutputType = {
   is_default: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type AddressesMaxAggregateOutputType = {
@@ -71,7 +72,8 @@ export type AddressesMaxAggregateOutputType = {
   is_default: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type AddressesCountAggregateOutputType = {
@@ -90,7 +92,8 @@ export type AddressesCountAggregateOutputType = {
   is_default: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -121,7 +124,8 @@ export type AddressesMinAggregateInputType = {
   is_default?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type AddressesMaxAggregateInputType = {
@@ -140,7 +144,8 @@ export type AddressesMaxAggregateInputType = {
   is_default?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type AddressesCountAggregateInputType = {
@@ -159,7 +164,8 @@ export type AddressesCountAggregateInputType = {
   is_default?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -251,7 +257,7 @@ export type addressesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type AddressesGroupByOutputType = {
   id: string
-  tenant_id: string | null
+  tenant_id: string
   address_type: string | null
   line1: string | null
   line2: string | null
@@ -265,7 +271,8 @@ export type AddressesGroupByOutputType = {
   is_default: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: AddressesCountAggregateOutputType | null
   _avg: AddressesAvgAggregateOutputType | null
   _sum: AddressesSumAggregateOutputType | null
@@ -273,7 +280,7 @@ export type AddressesGroupByOutputType = {
   _max: AddressesMaxAggregateOutputType | null
 }
 
-export type GetAddressesGroupByPayload<T extends addressesGroupByArgs> = Prisma.PrismaPromise<
+type GetAddressesGroupByPayload<T extends addressesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AddressesGroupByOutputType, T['by']> &
       {
@@ -293,7 +300,7 @@ export type addressesWhereInput = {
   OR?: Prisma.addressesWhereInput[]
   NOT?: Prisma.addressesWhereInput | Prisma.addressesWhereInput[]
   id?: Prisma.UuidFilter<"addresses"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
+  tenant_id?: Prisma.UuidFilter<"addresses"> | string
   address_type?: Prisma.StringNullableFilter<"addresses"> | string | null
   line1?: Prisma.StringNullableFilter<"addresses"> | string | null
   line2?: Prisma.StringNullableFilter<"addresses"> | string | null
@@ -307,12 +314,13 @@ export type addressesWhereInput = {
   is_default?: Prisma.BoolNullableFilter<"addresses"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
 }
 
 export type addressesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   address_type?: Prisma.SortOrderInput | Prisma.SortOrder
   line1?: Prisma.SortOrderInput | Prisma.SortOrder
   line2?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -326,7 +334,8 @@ export type addressesOrderByWithRelationInput = {
   is_default?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type addressesWhereUniqueInput = Prisma.AtLeast<{
@@ -334,7 +343,7 @@ export type addressesWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.addressesWhereInput | Prisma.addressesWhereInput[]
   OR?: Prisma.addressesWhereInput[]
   NOT?: Prisma.addressesWhereInput | Prisma.addressesWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
+  tenant_id?: Prisma.UuidFilter<"addresses"> | string
   address_type?: Prisma.StringNullableFilter<"addresses"> | string | null
   line1?: Prisma.StringNullableFilter<"addresses"> | string | null
   line2?: Prisma.StringNullableFilter<"addresses"> | string | null
@@ -348,12 +357,13 @@ export type addressesWhereUniqueInput = Prisma.AtLeast<{
   is_default?: Prisma.BoolNullableFilter<"addresses"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"addresses"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"addresses"> | string | null
 }, "id">
 
 export type addressesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   address_type?: Prisma.SortOrderInput | Prisma.SortOrder
   line1?: Prisma.SortOrderInput | Prisma.SortOrder
   line2?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -367,7 +377,8 @@ export type addressesOrderByWithAggregationInput = {
   is_default?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.addressesCountOrderByAggregateInput
   _avg?: Prisma.addressesAvgOrderByAggregateInput
   _max?: Prisma.addressesMaxOrderByAggregateInput
@@ -380,7 +391,7 @@ export type addressesScalarWhereWithAggregatesInput = {
   OR?: Prisma.addressesScalarWhereWithAggregatesInput[]
   NOT?: Prisma.addressesScalarWhereWithAggregatesInput | Prisma.addressesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"addresses"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"addresses"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"addresses"> | string
   address_type?: Prisma.StringNullableWithAggregatesFilter<"addresses"> | string | null
   line1?: Prisma.StringNullableWithAggregatesFilter<"addresses"> | string | null
   line2?: Prisma.StringNullableWithAggregatesFilter<"addresses"> | string | null
@@ -394,12 +405,13 @@ export type addressesScalarWhereWithAggregatesInput = {
   is_default?: Prisma.BoolNullableWithAggregatesFilter<"addresses"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"addresses"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"addresses"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"addresses"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"addresses"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"addresses"> | string | null
 }
 
 export type addressesCreateInput = {
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   address_type?: string | null
   line1?: string | null
   line2?: string | null
@@ -413,12 +425,13 @@ export type addressesCreateInput = {
   is_default?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type addressesUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   address_type?: string | null
   line1?: string | null
   line2?: string | null
@@ -432,12 +445,13 @@ export type addressesUncheckedCreateInput = {
   is_default?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type addressesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -451,12 +465,13 @@ export type addressesUpdateInput = {
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type addressesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -470,12 +485,13 @@ export type addressesUncheckedUpdateInput = {
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type addressesCreateManyInput = {
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
   address_type?: string | null
   line1?: string | null
   line2?: string | null
@@ -489,12 +505,13 @@ export type addressesCreateManyInput = {
   is_default?: boolean | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type addressesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -508,12 +525,13 @@ export type addressesUpdateManyMutationInput = {
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type addressesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   address_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   line2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -527,7 +545,8 @@ export type addressesUncheckedUpdateManyInput = {
   is_default?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type addressesCountOrderByAggregateInput = {
@@ -546,7 +565,8 @@ export type addressesCountOrderByAggregateInput = {
   is_default?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type addressesAvgOrderByAggregateInput = {
@@ -570,7 +590,8 @@ export type addressesMaxOrderByAggregateInput = {
   is_default?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type addressesMinOrderByAggregateInput = {
@@ -589,7 +610,8 @@ export type addressesMinOrderByAggregateInput = {
   is_default?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type addressesSumOrderByAggregateInput = {
@@ -627,7 +649,8 @@ export type addressesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   is_default?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["addresses"]>
 
 export type addressesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -646,7 +669,8 @@ export type addressesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   is_default?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["addresses"]>
 
 export type addressesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -665,7 +689,8 @@ export type addressesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   is_default?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["addresses"]>
 
 export type addressesSelectScalar = {
@@ -684,17 +709,18 @@ export type addressesSelectScalar = {
   is_default?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type addressesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "address_type" | "line1" | "line2" | "city" | "state" | "postal_code" | "country" | "country_id" | "latitude" | "longitude" | "is_default" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["addresses"]>
+export type addressesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "address_type" | "line1" | "line2" | "city" | "state" | "postal_code" | "country" | "country_id" | "latitude" | "longitude" | "is_default" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["addresses"]>
 
 export type $addressesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "addresses"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
+    tenant_id: string
     address_type: string | null
     line1: string | null
     line2: string | null
@@ -708,7 +734,8 @@ export type $addressesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     is_default: boolean | null
     created_at: Date | null
     updated_at: Date | null
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["addresses"]>
   composites: {}
 }
@@ -1147,7 +1174,8 @@ export interface addressesFieldRefs {
   readonly is_default: Prisma.FieldRef<"addresses", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"addresses", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"addresses", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"addresses", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"addresses", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"addresses", 'String'>
 }
     
 
@@ -1347,7 +1375,7 @@ export type addressesCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * The data needed to create a addresses.
    */
-  data?: Prisma.XOR<Prisma.addressesCreateInput, Prisma.addressesUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.addressesCreateInput, Prisma.addressesUncheckedCreateInput>
 }
 
 /**

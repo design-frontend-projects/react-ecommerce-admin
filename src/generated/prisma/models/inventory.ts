@@ -45,7 +45,6 @@ export type InventorySumAggregateOutputType = {
 export type InventoryMinAggregateOutputType = {
   inventory_id: number | null
   quantity: number | null
-  auth_user_id: string | null
   store_id: string | null
   created_at: Date | null
   last_count_date: Date | null
@@ -55,12 +54,13 @@ export type InventoryMinAggregateOutputType = {
   tenant_id: string | null
   updated_at: Date | null
   product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type InventoryMaxAggregateOutputType = {
   inventory_id: number | null
   quantity: number | null
-  auth_user_id: string | null
   store_id: string | null
   created_at: Date | null
   last_count_date: Date | null
@@ -70,12 +70,13 @@ export type InventoryMaxAggregateOutputType = {
   tenant_id: string | null
   updated_at: Date | null
   product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type InventoryCountAggregateOutputType = {
   inventory_id: number
   quantity: number
-  auth_user_id: number
   store_id: number
   created_at: number
   last_count_date: number
@@ -85,6 +86,8 @@ export type InventoryCountAggregateOutputType = {
   tenant_id: number
   updated_at: number
   product_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -108,7 +111,6 @@ export type InventorySumAggregateInputType = {
 export type InventoryMinAggregateInputType = {
   inventory_id?: true
   quantity?: true
-  auth_user_id?: true
   store_id?: true
   created_at?: true
   last_count_date?: true
@@ -118,12 +120,13 @@ export type InventoryMinAggregateInputType = {
   tenant_id?: true
   updated_at?: true
   product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type InventoryMaxAggregateInputType = {
   inventory_id?: true
   quantity?: true
-  auth_user_id?: true
   store_id?: true
   created_at?: true
   last_count_date?: true
@@ -133,12 +136,13 @@ export type InventoryMaxAggregateInputType = {
   tenant_id?: true
   updated_at?: true
   product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type InventoryCountAggregateInputType = {
   inventory_id?: true
   quantity?: true
-  auth_user_id?: true
   store_id?: true
   created_at?: true
   last_count_date?: true
@@ -148,6 +152,8 @@ export type InventoryCountAggregateInputType = {
   tenant_id?: true
   updated_at?: true
   product_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -240,16 +246,17 @@ export type inventoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type InventoryGroupByOutputType = {
   inventory_id: number
   quantity: number | null
-  auth_user_id: string | null
   store_id: string | null
   created_at: Date | null
   last_count_date: Date | null
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
-  tenant_id: string | null
+  tenant_id: string
   updated_at: Date | null
   product_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: InventoryCountAggregateOutputType | null
   _avg: InventoryAvgAggregateOutputType | null
   _sum: InventorySumAggregateOutputType | null
@@ -257,7 +264,7 @@ export type InventoryGroupByOutputType = {
   _max: InventoryMaxAggregateOutputType | null
 }
 
-export type GetInventoryGroupByPayload<T extends inventoryGroupByArgs> = Prisma.PrismaPromise<
+type GetInventoryGroupByPayload<T extends inventoryGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<InventoryGroupByOutputType, T['by']> &
       {
@@ -278,31 +285,33 @@ export type inventoryWhereInput = {
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   inventory_id?: Prisma.IntFilter<"inventory"> | number
   quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
-  auth_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   store_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableFilter<"inventory"> | number | null
-  tenant_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  tenant_id?: Prisma.UuidFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
 }
 
 export type inventoryOrderByWithRelationInput = {
   inventory_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   last_count_date?: Prisma.SortOrderInput | Prisma.SortOrder
   max_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   min_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_point?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type inventoryWhereUniqueInput = Prisma.AtLeast<{
@@ -311,31 +320,33 @@ export type inventoryWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
-  auth_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   store_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableFilter<"inventory"> | number | null
-  tenant_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  tenant_id?: Prisma.UuidFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
 }, "inventory_id">
 
 export type inventoryOrderByWithAggregationInput = {
   inventory_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   last_count_date?: Prisma.SortOrderInput | Prisma.SortOrder
   max_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   min_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_point?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.inventoryCountOrderByAggregateInput
   _avg?: Prisma.inventoryAvgOrderByAggregateInput
   _max?: Prisma.inventoryMaxOrderByAggregateInput
@@ -349,124 +360,131 @@ export type inventoryScalarWhereWithAggregatesInput = {
   NOT?: Prisma.inventoryScalarWhereWithAggregatesInput | Prisma.inventoryScalarWhereWithAggregatesInput[]
   inventory_id?: Prisma.IntWithAggregatesFilter<"inventory"> | number
   quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
 }
 
 export type inventoryCreateInput = {
   quantity?: number | null
-  auth_user_id?: string | null
   store_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
-  tenant_id?: string | null
+  tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type inventoryUncheckedCreateInput = {
   inventory_id?: number
   quantity?: number | null
-  auth_user_id?: string | null
   store_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
-  tenant_id?: string | null
+  tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type inventoryUpdateInput = {
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type inventoryUncheckedUpdateInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type inventoryCreateManyInput = {
   inventory_id?: number
   quantity?: number | null
-  auth_user_id?: string | null
   store_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
-  tenant_id?: string | null
+  tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type inventoryUpdateManyMutationInput = {
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type inventoryUncheckedUpdateManyInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
   quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type inventoryCountOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
@@ -476,6 +494,8 @@ export type inventoryCountOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type inventoryAvgOrderByAggregateInput = {
@@ -489,7 +509,6 @@ export type inventoryAvgOrderByAggregateInput = {
 export type inventoryMaxOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
@@ -499,12 +518,13 @@ export type inventoryMaxOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type inventoryMinOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
@@ -514,6 +534,8 @@ export type inventoryMinOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type inventorySumOrderByAggregateInput = {
@@ -529,7 +551,6 @@ export type inventorySumOrderByAggregateInput = {
 export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventory_id?: boolean
   quantity?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
@@ -539,12 +560,13 @@ export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventory_id?: boolean
   quantity?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
@@ -554,12 +576,13 @@ export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventory_id?: boolean
   quantity?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
@@ -569,12 +592,13 @@ export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectScalar = {
   inventory_id?: boolean
   quantity?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
@@ -584,9 +608,11 @@ export type inventorySelectScalar = {
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "quantity" | "auth_user_id" | "store_id" | "created_at" | "last_count_date" | "max_quantity" | "min_quantity" | "reorder_point" | "tenant_id" | "updated_at" | "product_id", ExtArgs["result"]["inventory"]>
+export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "quantity" | "store_id" | "created_at" | "last_count_date" | "max_quantity" | "min_quantity" | "reorder_point" | "tenant_id" | "updated_at" | "product_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory"]>
 
 export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "inventory"
@@ -594,16 +620,17 @@ export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     inventory_id: number
     quantity: number | null
-    auth_user_id: string | null
     store_id: string | null
     created_at: Date | null
     last_count_date: Date | null
     max_quantity: number | null
     min_quantity: number | null
     reorder_point: number | null
-    tenant_id: string | null
+    tenant_id: string
     updated_at: Date | null
     product_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["inventory"]>
   composites: {}
 }
@@ -1029,7 +1056,6 @@ export interface Prisma__inventoryClient<T, Null = never, ExtArgs extends runtim
 export interface inventoryFieldRefs {
   readonly inventory_id: Prisma.FieldRef<"inventory", 'Int'>
   readonly quantity: Prisma.FieldRef<"inventory", 'Int'>
-  readonly auth_user_id: Prisma.FieldRef<"inventory", 'String'>
   readonly store_id: Prisma.FieldRef<"inventory", 'String'>
   readonly created_at: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly last_count_date: Prisma.FieldRef<"inventory", 'DateTime'>
@@ -1039,6 +1065,8 @@ export interface inventoryFieldRefs {
   readonly tenant_id: Prisma.FieldRef<"inventory", 'String'>
   readonly updated_at: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly product_id: Prisma.FieldRef<"inventory", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"inventory", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"inventory", 'String'>
 }
     
 
@@ -1238,7 +1266,7 @@ export type inventoryCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * The data needed to create a inventory.
    */
-  data?: Prisma.XOR<Prisma.inventoryCreateInput, Prisma.inventoryUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.inventoryCreateInput, Prisma.inventoryUncheckedCreateInput>
 }
 
 /**

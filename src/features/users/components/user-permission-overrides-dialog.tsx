@@ -31,12 +31,6 @@ interface UserPermissionOverridesDialogProps {
   rolePermissionNames: string[]
 }
 
-const STATE_LABELS: Record<OverrideState, string> = {
-  inherit: 'Inherit',
-  grant: 'Grant',
-  deny: 'Deny',
-}
-
 /**
  * Per-user permission overrides. Each permission is inherit (from roles),
  * explicitly granted, or explicitly denied — deny always wins over both role

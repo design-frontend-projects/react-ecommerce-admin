@@ -439,10 +439,6 @@ interface CustomerGroupFieldProps {
 function CustomerGroupField({ form }: CustomerGroupFieldProps) {
   const { data: groups, isLoading, isError } = useCustomerGroups()
 
-  const handleGroupCreated = (groupId: string | number) => {
-    form.setValue('group_id', String(groupId), { shouldValidate: true })
-  }
-
   return (
     <FormField
       control={form.control}

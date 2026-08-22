@@ -34,7 +34,8 @@ export type BrandsMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type BrandsMaxAggregateOutputType = {
@@ -47,7 +48,8 @@ export type BrandsMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type BrandsCountAggregateOutputType = {
@@ -60,7 +62,8 @@ export type BrandsCountAggregateOutputType = {
   is_active: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -75,7 +78,8 @@ export type BrandsMinAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type BrandsMaxAggregateInputType = {
@@ -88,7 +92,8 @@ export type BrandsMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type BrandsCountAggregateInputType = {
@@ -101,7 +106,8 @@ export type BrandsCountAggregateInputType = {
   is_active?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -187,13 +193,14 @@ export type BrandsGroupByOutputType = {
   is_active: boolean
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: BrandsCountAggregateOutputType | null
   _min: BrandsMinAggregateOutputType | null
   _max: BrandsMaxAggregateOutputType | null
 }
 
-export type GetBrandsGroupByPayload<T extends brandsGroupByArgs> = Prisma.PrismaPromise<
+type GetBrandsGroupByPayload<T extends brandsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BrandsGroupByOutputType, T['by']> &
       {
@@ -221,7 +228,8 @@ export type brandsWhereInput = {
   is_active?: Prisma.BoolFilter<"brands"> | boolean
   created_at?: Prisma.DateTimeFilter<"brands"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"brands"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   products?: Prisma.ProductsListRelationFilter
 }
 
@@ -235,7 +243,8 @@ export type brandsOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   products?: Prisma.productsOrderByRelationAggregateInput
 }
 
@@ -252,7 +261,8 @@ export type brandsWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolFilter<"brands"> | boolean
   created_at?: Prisma.DateTimeFilter<"brands"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"brands"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   products?: Prisma.ProductsListRelationFilter
 }, "id">
 
@@ -266,7 +276,8 @@ export type brandsOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.brandsCountOrderByAggregateInput
   _max?: Prisma.brandsMaxOrderByAggregateInput
   _min?: Prisma.brandsMinOrderByAggregateInput
@@ -285,7 +296,8 @@ export type brandsScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolWithAggregatesFilter<"brands"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"brands"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"brands"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"brands"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"brands"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"brands"> | string | null
 }
 
 export type brandsCreateInput = {
@@ -298,7 +310,8 @@ export type brandsCreateInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   products?: Prisma.productsCreateNestedManyWithoutBrandsInput
 }
 
@@ -312,7 +325,8 @@ export type brandsUncheckedCreateInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   products?: Prisma.productsUncheckedCreateNestedManyWithoutBrandsInput
 }
 
@@ -326,7 +340,8 @@ export type brandsUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateManyWithoutBrandsNestedInput
 }
 
@@ -340,7 +355,8 @@ export type brandsUncheckedUpdateInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUncheckedUpdateManyWithoutBrandsNestedInput
 }
 
@@ -354,7 +370,8 @@ export type brandsCreateManyInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type brandsUpdateManyMutationInput = {
@@ -367,7 +384,8 @@ export type brandsUpdateManyMutationInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type brandsUncheckedUpdateManyInput = {
@@ -380,7 +398,8 @@ export type brandsUncheckedUpdateManyInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BrandsNullableScalarRelationFilter = {
@@ -398,7 +417,8 @@ export type brandsCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type brandsMaxOrderByAggregateInput = {
@@ -411,7 +431,8 @@ export type brandsMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type brandsMinOrderByAggregateInput = {
@@ -424,7 +445,8 @@ export type brandsMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type brandsCreateNestedOneWithoutProductsInput = {
@@ -453,7 +475,8 @@ export type brandsCreateWithoutProductsInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type brandsUncheckedCreateWithoutProductsInput = {
@@ -466,7 +489,8 @@ export type brandsUncheckedCreateWithoutProductsInput = {
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type brandsCreateOrConnectWithoutProductsInput = {
@@ -495,7 +519,8 @@ export type brandsUpdateWithoutProductsInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type brandsUncheckedUpdateWithoutProductsInput = {
@@ -508,7 +533,8 @@ export type brandsUncheckedUpdateWithoutProductsInput = {
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -552,7 +578,8 @@ export type brandsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   products?: boolean | Prisma.brands$productsArgs<ExtArgs>
   _count?: boolean | Prisma.BrandsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["brands"]>
@@ -567,7 +594,8 @@ export type brandsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["brands"]>
 
 export type brandsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -580,7 +608,8 @@ export type brandsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["brands"]>
 
 export type brandsSelectScalar = {
@@ -593,10 +622,11 @@ export type brandsSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type brandsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "code" | "logo_url" | "description" | "is_active" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["brands"]>
+export type brandsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "name" | "code" | "logo_url" | "description" | "is_active" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["brands"]>
 export type brandsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.brands$productsArgs<ExtArgs>
   _count?: boolean | Prisma.BrandsCountOutputTypeDefaultArgs<ExtArgs>
@@ -619,7 +649,8 @@ export type $brandsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     is_active: boolean
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["brands"]>
   composites: {}
 }
@@ -1053,7 +1084,8 @@ export interface brandsFieldRefs {
   readonly is_active: Prisma.FieldRef<"brands", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"brands", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"brands", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"brands", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"brands", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"brands", 'String'>
 }
     
 

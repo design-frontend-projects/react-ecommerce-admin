@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface CreateCountInput {
@@ -23,10 +23,6 @@ export async function listCounts(authUserId: string) {
   return prisma.stock_counts.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      _count: { select: { stock_count_items: true } },
-    },
   })
 }
 
@@ -34,30 +30,22 @@ export async function getCount(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const count = await prisma.stock_counts.findFirst({
     where: { id, tenant_id: tenantId },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      stock_count_items: {
-        include: {
-          product_variants: {
-            select: {
-              id: true,
-              sku: true,
-              products: { select: { name: true } },
-            },
-          },
-          warehouse_locations: { select: { id: true, path: true } },
-        },
-      },
-    },
   })
   if (!count) {
     throw new ApiError('Stock count not found.', 404)
   }
-  return count
+  const items = await prisma.stock_count_items.findMany({
+    where: { stock_count_id: id },
+  })
+  return {
+    ...count,
+    stock_count_items: items,
+  }
 }
 
 export async function createCount(authUserId: string, input: CreateCountInput) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.storeId) {
     throw new ApiError('A store is required.', 400)
@@ -66,7 +54,6 @@ export async function createCount(authUserId: string, input: CreateCountInput) {
   return prisma.stock_counts.create({
     data: {
       tenant_id: tenantId,
-      auth_user_id: tenantId,
       store_id: input.storeId,
       warehouse_location_id: input.warehouseLocationId ?? null,
       category_id: input.categoryId ?? null,
@@ -74,6 +61,8 @@ export async function createCount(authUserId: string, input: CreateCountInput) {
       notes: input.notes ?? null,
       created_by: authUserId,
       status: 'draft',
+      created_by_user_id: tenantUserId,
+      updated_by_user_id: tenantUserId,
     },
   })
 }
@@ -111,6 +100,7 @@ export async function saveCounts(
   entries: CountEntryInput[]
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await requireCount(tenantId, id)
   if (existing.status !== 'counting') {
     throw new ApiError(
@@ -142,6 +132,7 @@ export async function saveCounts(
         qty_counted: entry.qtyCounted,
         counted_at: now,
         counted_by: authUserId,
+        updated_by_user_id: tenantUserId,
       },
     })
   }
@@ -176,6 +167,7 @@ export async function postCount(authUserId: string, id: string) {
 
 export async function cancelCount(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await requireCount(tenantId, id)
   if (!['draft', 'counting'].includes(existing.status)) {
     throw new ApiError(
@@ -185,6 +177,9 @@ export async function cancelCount(authUserId: string, id: string) {
   }
   return prisma.stock_counts.update({
     where: { id },
-    data: { status: 'cancelled' },
+    data: {
+      status: 'cancelled',
+      updated_by_user_id: tenantUserId,
+    },
   })
 }

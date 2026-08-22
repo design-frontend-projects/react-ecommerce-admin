@@ -52,7 +52,7 @@ export function UomFormDialog({
     if (open) {
       setCode(uom?.code ?? '')
       setName(uom?.name ?? '')
-      setCategory(uom?.uom_category ?? 'count')
+      setCategory((uom?.uom_category as any) ?? 'count')
       setIsBase(uom?.is_base ?? false)
       setIsActive(uom?.is_active ?? true)
     }

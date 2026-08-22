@@ -13,6 +13,8 @@ const SELECTED_BRANCH = 'respos_selected_branch'
 export interface UserProfile {
   id?: string
   auth_user_id?: string
+  tenant_id?: string
+  parent_tenant_id?: string | null
   email?: string | null
   first_name?: string | null
   last_name?: string | null
@@ -21,6 +23,8 @@ export interface UserProfile {
   default_role?: string | null
   onboarding_complete?: boolean
   is_active?: boolean | null
+  is_owner?: boolean
+  activity?: string | null
 }
 
 interface AuthState {

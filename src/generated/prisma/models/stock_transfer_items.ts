@@ -44,6 +44,8 @@ export type Stock_transfer_itemsMinAggregateOutputType = {
   unit_cost: runtime.Decimal | null
   created_at: Date | null
   batch_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_transfer_itemsMaxAggregateOutputType = {
@@ -54,6 +56,8 @@ export type Stock_transfer_itemsMaxAggregateOutputType = {
   unit_cost: runtime.Decimal | null
   created_at: Date | null
   batch_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_transfer_itemsCountAggregateOutputType = {
@@ -64,6 +68,8 @@ export type Stock_transfer_itemsCountAggregateOutputType = {
   unit_cost: number
   created_at: number
   batch_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -86,6 +92,8 @@ export type Stock_transfer_itemsMinAggregateInputType = {
   unit_cost?: true
   created_at?: true
   batch_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_transfer_itemsMaxAggregateInputType = {
@@ -96,6 +104,8 @@ export type Stock_transfer_itemsMaxAggregateInputType = {
   unit_cost?: true
   created_at?: true
   batch_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_transfer_itemsCountAggregateInputType = {
@@ -106,6 +116,8 @@ export type Stock_transfer_itemsCountAggregateInputType = {
   unit_cost?: true
   created_at?: true
   batch_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -203,6 +215,8 @@ export type Stock_transfer_itemsGroupByOutputType = {
   unit_cost: runtime.Decimal
   created_at: Date
   batch_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Stock_transfer_itemsCountAggregateOutputType | null
   _avg: Stock_transfer_itemsAvgAggregateOutputType | null
   _sum: Stock_transfer_itemsSumAggregateOutputType | null
@@ -210,7 +224,7 @@ export type Stock_transfer_itemsGroupByOutputType = {
   _max: Stock_transfer_itemsMaxAggregateOutputType | null
 }
 
-export type GetStock_transfer_itemsGroupByPayload<T extends stock_transfer_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_transfer_itemsGroupByPayload<T extends stock_transfer_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_transfer_itemsGroupByOutputType, T['by']> &
       {
@@ -236,6 +250,8 @@ export type stock_transfer_itemsWhereInput = {
   unit_cost?: Prisma.DecimalFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"stock_transfer_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
 }
 
 export type stock_transfer_itemsOrderByWithRelationInput = {
@@ -246,6 +262,8 @@ export type stock_transfer_itemsOrderByWithRelationInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type stock_transfer_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -259,6 +277,8 @@ export type stock_transfer_itemsWhereUniqueInput = Prisma.AtLeast<{
   unit_cost?: Prisma.DecimalFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"stock_transfer_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfer_items"> | string | null
 }, "id">
 
 export type stock_transfer_itemsOrderByWithAggregationInput = {
@@ -269,6 +289,8 @@ export type stock_transfer_itemsOrderByWithAggregationInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_transfer_itemsCountOrderByAggregateInput
   _avg?: Prisma.stock_transfer_itemsAvgOrderByAggregateInput
   _max?: Prisma.stock_transfer_itemsMaxOrderByAggregateInput
@@ -287,6 +309,8 @@ export type stock_transfer_itemsScalarWhereWithAggregatesInput = {
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"stock_transfer_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_transfer_items"> | Date | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfer_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfer_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfer_items"> | string | null
 }
 
 export type stock_transfer_itemsCreateInput = {
@@ -297,6 +321,8 @@ export type stock_transfer_itemsCreateInput = {
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_transfer_itemsUncheckedCreateInput = {
@@ -307,6 +333,8 @@ export type stock_transfer_itemsUncheckedCreateInput = {
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_transfer_itemsUpdateInput = {
@@ -317,6 +345,8 @@ export type stock_transfer_itemsUpdateInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfer_itemsUncheckedUpdateInput = {
@@ -327,6 +357,8 @@ export type stock_transfer_itemsUncheckedUpdateInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfer_itemsCreateManyInput = {
@@ -337,6 +369,8 @@ export type stock_transfer_itemsCreateManyInput = {
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_transfer_itemsUpdateManyMutationInput = {
@@ -347,6 +381,8 @@ export type stock_transfer_itemsUpdateManyMutationInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfer_itemsUncheckedUpdateManyInput = {
@@ -357,6 +393,8 @@ export type stock_transfer_itemsUncheckedUpdateManyInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfer_itemsCountOrderByAggregateInput = {
@@ -367,6 +405,8 @@ export type stock_transfer_itemsCountOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_transfer_itemsAvgOrderByAggregateInput = {
@@ -382,6 +422,8 @@ export type stock_transfer_itemsMaxOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_transfer_itemsMinOrderByAggregateInput = {
@@ -392,6 +434,8 @@ export type stock_transfer_itemsMinOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_transfer_itemsSumOrderByAggregateInput = {
@@ -409,6 +453,8 @@ export type stock_transfer_itemsSelect<ExtArgs extends runtime.Types.Extensions.
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_transfer_items"]>
 
 export type stock_transfer_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -419,6 +465,8 @@ export type stock_transfer_itemsSelectCreateManyAndReturn<ExtArgs extends runtim
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_transfer_items"]>
 
 export type stock_transfer_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -429,6 +477,8 @@ export type stock_transfer_itemsSelectUpdateManyAndReturn<ExtArgs extends runtim
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_transfer_items"]>
 
 export type stock_transfer_itemsSelectScalar = {
@@ -439,9 +489,11 @@ export type stock_transfer_itemsSelectScalar = {
   unit_cost?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type stock_transfer_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_transfer_id" | "product_variant_id" | "qty" | "unit_cost" | "created_at" | "batch_id", ExtArgs["result"]["stock_transfer_items"]>
+export type stock_transfer_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_transfer_id" | "product_variant_id" | "qty" | "unit_cost" | "created_at" | "batch_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_transfer_items"]>
 
 export type $stock_transfer_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_transfer_items"
@@ -454,6 +506,8 @@ export type $stock_transfer_itemsPayload<ExtArgs extends runtime.Types.Extension
     unit_cost: runtime.Decimal
     created_at: Date
     batch_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stock_transfer_items"]>
   composites: {}
 }
@@ -884,6 +938,8 @@ export interface stock_transfer_itemsFieldRefs {
   readonly unit_cost: Prisma.FieldRef<"stock_transfer_items", 'Decimal'>
   readonly created_at: Prisma.FieldRef<"stock_transfer_items", 'DateTime'>
   readonly batch_id: Prisma.FieldRef<"stock_transfer_items", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stock_transfer_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stock_transfer_items", 'String'>
 }
     
 

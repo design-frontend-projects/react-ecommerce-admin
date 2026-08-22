@@ -51,6 +51,8 @@ export type Stock_adjustment_itemsMinAggregateOutputType = {
   reason: $Enums.adjustment_reason_enum | null
   created_at: Date | null
   batch_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_adjustment_itemsMaxAggregateOutputType = {
@@ -64,6 +66,8 @@ export type Stock_adjustment_itemsMaxAggregateOutputType = {
   reason: $Enums.adjustment_reason_enum | null
   created_at: Date | null
   batch_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_adjustment_itemsCountAggregateOutputType = {
@@ -77,6 +81,8 @@ export type Stock_adjustment_itemsCountAggregateOutputType = {
   reason: number
   created_at: number
   batch_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -106,6 +112,8 @@ export type Stock_adjustment_itemsMinAggregateInputType = {
   reason?: true
   created_at?: true
   batch_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_adjustment_itemsMaxAggregateInputType = {
@@ -119,6 +127,8 @@ export type Stock_adjustment_itemsMaxAggregateInputType = {
   reason?: true
   created_at?: true
   batch_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_adjustment_itemsCountAggregateInputType = {
@@ -132,6 +142,8 @@ export type Stock_adjustment_itemsCountAggregateInputType = {
   reason?: true
   created_at?: true
   batch_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -232,6 +244,8 @@ export type Stock_adjustment_itemsGroupByOutputType = {
   reason: $Enums.adjustment_reason_enum | null
   created_at: Date
   batch_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Stock_adjustment_itemsCountAggregateOutputType | null
   _avg: Stock_adjustment_itemsAvgAggregateOutputType | null
   _sum: Stock_adjustment_itemsSumAggregateOutputType | null
@@ -239,7 +253,7 @@ export type Stock_adjustment_itemsGroupByOutputType = {
   _max: Stock_adjustment_itemsMaxAggregateOutputType | null
 }
 
-export type GetStock_adjustment_itemsGroupByPayload<T extends stock_adjustment_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_adjustment_itemsGroupByPayload<T extends stock_adjustment_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_adjustment_itemsGroupByOutputType, T['by']> &
       {
@@ -268,6 +282,8 @@ export type stock_adjustment_itemsWhereInput = {
   reason?: Prisma.Enumadjustment_reason_enumNullableFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeFilter<"stock_adjustment_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
 }
 
 export type stock_adjustment_itemsOrderByWithRelationInput = {
@@ -281,6 +297,8 @@ export type stock_adjustment_itemsOrderByWithRelationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type stock_adjustment_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -297,6 +315,8 @@ export type stock_adjustment_itemsWhereUniqueInput = Prisma.AtLeast<{
   reason?: Prisma.Enumadjustment_reason_enumNullableFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeFilter<"stock_adjustment_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
 }, "id">
 
 export type stock_adjustment_itemsOrderByWithAggregationInput = {
@@ -310,6 +330,8 @@ export type stock_adjustment_itemsOrderByWithAggregationInput = {
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_adjustment_itemsCountOrderByAggregateInput
   _avg?: Prisma.stock_adjustment_itemsAvgOrderByAggregateInput
   _max?: Prisma.stock_adjustment_itemsMaxOrderByAggregateInput
@@ -331,6 +353,8 @@ export type stock_adjustment_itemsScalarWhereWithAggregatesInput = {
   reason?: Prisma.Enumadjustment_reason_enumNullableWithAggregatesFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_adjustment_items"> | Date | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
 }
 
 export type stock_adjustment_itemsCreateInput = {
@@ -344,6 +368,8 @@ export type stock_adjustment_itemsCreateInput = {
   reason?: $Enums.adjustment_reason_enum | null
   created_at?: Date | string
   batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_adjustment_itemsUncheckedCreateInput = {
@@ -357,6 +383,8 @@ export type stock_adjustment_itemsUncheckedCreateInput = {
   reason?: $Enums.adjustment_reason_enum | null
   created_at?: Date | string
   batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_adjustment_itemsUpdateInput = {
@@ -370,6 +398,8 @@ export type stock_adjustment_itemsUpdateInput = {
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustment_itemsUncheckedUpdateInput = {
@@ -383,6 +413,8 @@ export type stock_adjustment_itemsUncheckedUpdateInput = {
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustment_itemsCreateManyInput = {
@@ -396,6 +428,8 @@ export type stock_adjustment_itemsCreateManyInput = {
   reason?: $Enums.adjustment_reason_enum | null
   created_at?: Date | string
   batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_adjustment_itemsUpdateManyMutationInput = {
@@ -409,6 +443,8 @@ export type stock_adjustment_itemsUpdateManyMutationInput = {
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustment_itemsUncheckedUpdateManyInput = {
@@ -422,6 +458,8 @@ export type stock_adjustment_itemsUncheckedUpdateManyInput = {
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_adjustment_itemsCountOrderByAggregateInput = {
@@ -435,6 +473,8 @@ export type stock_adjustment_itemsCountOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_adjustment_itemsAvgOrderByAggregateInput = {
@@ -455,6 +495,8 @@ export type stock_adjustment_itemsMaxOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_adjustment_itemsMinOrderByAggregateInput = {
@@ -468,6 +510,8 @@ export type stock_adjustment_itemsMinOrderByAggregateInput = {
   reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_adjustment_itemsSumOrderByAggregateInput = {
@@ -494,6 +538,8 @@ export type stock_adjustment_itemsSelect<ExtArgs extends runtime.Types.Extension
   reason?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_adjustment_items"]>
 
 export type stock_adjustment_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -507,6 +553,8 @@ export type stock_adjustment_itemsSelectCreateManyAndReturn<ExtArgs extends runt
   reason?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_adjustment_items"]>
 
 export type stock_adjustment_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -520,6 +568,8 @@ export type stock_adjustment_itemsSelectUpdateManyAndReturn<ExtArgs extends runt
   reason?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_adjustment_items"]>
 
 export type stock_adjustment_itemsSelectScalar = {
@@ -533,9 +583,11 @@ export type stock_adjustment_itemsSelectScalar = {
   reason?: boolean
   created_at?: boolean
   batch_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type stock_adjustment_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_adjustment_id" | "product_variant_id" | "qty_before" | "qty_after" | "qty_adjusted" | "unit_cost" | "reason" | "created_at" | "batch_id", ExtArgs["result"]["stock_adjustment_items"]>
+export type stock_adjustment_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_adjustment_id" | "product_variant_id" | "qty_before" | "qty_after" | "qty_adjusted" | "unit_cost" | "reason" | "created_at" | "batch_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_adjustment_items"]>
 
 export type $stock_adjustment_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_adjustment_items"
@@ -551,6 +603,8 @@ export type $stock_adjustment_itemsPayload<ExtArgs extends runtime.Types.Extensi
     reason: $Enums.adjustment_reason_enum | null
     created_at: Date
     batch_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stock_adjustment_items"]>
   composites: {}
 }
@@ -984,6 +1038,8 @@ export interface stock_adjustment_itemsFieldRefs {
   readonly reason: Prisma.FieldRef<"stock_adjustment_items", 'adjustment_reason_enum'>
   readonly created_at: Prisma.FieldRef<"stock_adjustment_items", 'DateTime'>
   readonly batch_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
 }
     
 

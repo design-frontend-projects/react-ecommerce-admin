@@ -45,6 +45,8 @@ export type Shipping_methodsMinAggregateOutputType = {
   is_active: boolean | null
   id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Shipping_methodsMaxAggregateOutputType = {
@@ -56,6 +58,8 @@ export type Shipping_methodsMaxAggregateOutputType = {
   is_active: boolean | null
   id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Shipping_methodsCountAggregateOutputType = {
@@ -67,6 +71,8 @@ export type Shipping_methodsCountAggregateOutputType = {
   is_active: number
   id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -90,6 +96,8 @@ export type Shipping_methodsMinAggregateInputType = {
   is_active?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Shipping_methodsMaxAggregateInputType = {
@@ -101,6 +109,8 @@ export type Shipping_methodsMaxAggregateInputType = {
   is_active?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Shipping_methodsCountAggregateInputType = {
@@ -112,6 +122,8 @@ export type Shipping_methodsCountAggregateInputType = {
   is_active?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -209,7 +221,9 @@ export type Shipping_methodsGroupByOutputType = {
   estimated_days_max: number | null
   is_active: boolean | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Shipping_methodsCountAggregateOutputType | null
   _avg: Shipping_methodsAvgAggregateOutputType | null
   _sum: Shipping_methodsSumAggregateOutputType | null
@@ -217,7 +231,7 @@ export type Shipping_methodsGroupByOutputType = {
   _max: Shipping_methodsMaxAggregateOutputType | null
 }
 
-export type GetShipping_methodsGroupByPayload<T extends shipping_methodsGroupByArgs> = Prisma.PrismaPromise<
+type GetShipping_methodsGroupByPayload<T extends shipping_methodsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Shipping_methodsGroupByOutputType, T['by']> &
       {
@@ -243,7 +257,9 @@ export type shipping_methodsWhereInput = {
   estimated_days_max?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   is_active?: Prisma.BoolNullableFilter<"shipping_methods"> | boolean | null
   id?: Prisma.UuidFilter<"shipping_methods"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
+  tenant_id?: Prisma.UuidFilter<"shipping_methods"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
 }
 
 export type shipping_methodsOrderByWithRelationInput = {
@@ -254,7 +270,9 @@ export type shipping_methodsOrderByWithRelationInput = {
   estimated_days_max?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type shipping_methodsWhereUniqueInput = Prisma.AtLeast<{
@@ -268,7 +286,9 @@ export type shipping_methodsWhereUniqueInput = Prisma.AtLeast<{
   estimated_days_min?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   estimated_days_max?: Prisma.IntNullableFilter<"shipping_methods"> | number | null
   is_active?: Prisma.BoolNullableFilter<"shipping_methods"> | boolean | null
-  tenant_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
+  tenant_id?: Prisma.UuidFilter<"shipping_methods"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"shipping_methods"> | string | null
 }, "id">
 
 export type shipping_methodsOrderByWithAggregationInput = {
@@ -279,7 +299,9 @@ export type shipping_methodsOrderByWithAggregationInput = {
   estimated_days_max?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipping_methodsCountOrderByAggregateInput
   _avg?: Prisma.shipping_methodsAvgOrderByAggregateInput
   _max?: Prisma.shipping_methodsMaxOrderByAggregateInput
@@ -298,7 +320,9 @@ export type shipping_methodsScalarWhereWithAggregatesInput = {
   estimated_days_max?: Prisma.IntNullableWithAggregatesFilter<"shipping_methods"> | number | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"shipping_methods"> | boolean | null
   id?: Prisma.UuidWithAggregatesFilter<"shipping_methods"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_methods"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"shipping_methods"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_methods"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipping_methods"> | string | null
 }
 
 export type shipping_methodsCreateInput = {
@@ -309,7 +333,9 @@ export type shipping_methodsCreateInput = {
   estimated_days_max?: number | null
   is_active?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type shipping_methodsUncheckedCreateInput = {
@@ -320,7 +346,9 @@ export type shipping_methodsUncheckedCreateInput = {
   estimated_days_max?: number | null
   is_active?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type shipping_methodsUpdateInput = {
@@ -331,7 +359,9 @@ export type shipping_methodsUpdateInput = {
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsUncheckedUpdateInput = {
@@ -342,7 +372,9 @@ export type shipping_methodsUncheckedUpdateInput = {
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsCreateManyInput = {
@@ -353,7 +385,9 @@ export type shipping_methodsCreateManyInput = {
   estimated_days_max?: number | null
   is_active?: boolean | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type shipping_methodsUpdateManyMutationInput = {
@@ -364,7 +398,9 @@ export type shipping_methodsUpdateManyMutationInput = {
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsUncheckedUpdateManyInput = {
@@ -375,7 +411,9 @@ export type shipping_methodsUncheckedUpdateManyInput = {
   estimated_days_max?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipping_methodsCountOrderByAggregateInput = {
@@ -387,6 +425,8 @@ export type shipping_methodsCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type shipping_methodsAvgOrderByAggregateInput = {
@@ -403,6 +443,8 @@ export type shipping_methodsMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type shipping_methodsMinOrderByAggregateInput = {
@@ -414,6 +456,8 @@ export type shipping_methodsMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type shipping_methodsSumOrderByAggregateInput = {
@@ -432,6 +476,8 @@ export type shipping_methodsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   is_active?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipping_methods"]>
 
 export type shipping_methodsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -443,6 +489,8 @@ export type shipping_methodsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   is_active?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipping_methods"]>
 
 export type shipping_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -454,6 +502,8 @@ export type shipping_methodsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   is_active?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipping_methods"]>
 
 export type shipping_methodsSelectScalar = {
@@ -465,9 +515,11 @@ export type shipping_methodsSelectScalar = {
   is_active?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type shipping_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "carrier" | "estimated_days_min" | "estimated_days_max" | "is_active" | "id" | "tenant_id", ExtArgs["result"]["shipping_methods"]>
+export type shipping_methodsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "carrier" | "estimated_days_min" | "estimated_days_max" | "is_active" | "id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["shipping_methods"]>
 
 export type $shipping_methodsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "shipping_methods"
@@ -480,7 +532,9 @@ export type $shipping_methodsPayload<ExtArgs extends runtime.Types.Extensions.In
     estimated_days_max: number | null
     is_active: boolean | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["shipping_methods"]>
   composites: {}
 }
@@ -912,6 +966,8 @@ export interface shipping_methodsFieldRefs {
   readonly is_active: Prisma.FieldRef<"shipping_methods", 'Boolean'>
   readonly id: Prisma.FieldRef<"shipping_methods", 'String'>
   readonly tenant_id: Prisma.FieldRef<"shipping_methods", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"shipping_methods", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"shipping_methods", 'String'>
 }
     
 

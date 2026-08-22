@@ -43,7 +43,8 @@ export type Unit_conversionsMinAggregateOutputType = {
   factor: runtime.Decimal | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Unit_conversionsMaxAggregateOutputType = {
@@ -55,7 +56,8 @@ export type Unit_conversionsMaxAggregateOutputType = {
   factor: runtime.Decimal | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Unit_conversionsCountAggregateOutputType = {
@@ -67,7 +69,8 @@ export type Unit_conversionsCountAggregateOutputType = {
   factor: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -89,7 +92,8 @@ export type Unit_conversionsMinAggregateInputType = {
   factor?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Unit_conversionsMaxAggregateInputType = {
@@ -101,7 +105,8 @@ export type Unit_conversionsMaxAggregateInputType = {
   factor?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Unit_conversionsCountAggregateInputType = {
@@ -113,7 +118,8 @@ export type Unit_conversionsCountAggregateInputType = {
   factor?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -212,7 +218,8 @@ export type Unit_conversionsGroupByOutputType = {
   factor: runtime.Decimal
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Unit_conversionsCountAggregateOutputType | null
   _avg: Unit_conversionsAvgAggregateOutputType | null
   _sum: Unit_conversionsSumAggregateOutputType | null
@@ -220,7 +227,7 @@ export type Unit_conversionsGroupByOutputType = {
   _max: Unit_conversionsMaxAggregateOutputType | null
 }
 
-export type GetUnit_conversionsGroupByPayload<T extends unit_conversionsGroupByArgs> = Prisma.PrismaPromise<
+type GetUnit_conversionsGroupByPayload<T extends unit_conversionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Unit_conversionsGroupByOutputType, T['by']> &
       {
@@ -247,7 +254,8 @@ export type unit_conversionsWhereInput = {
   factor?: Prisma.DecimalFilter<"unit_conversions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
 }
 
 export type unit_conversionsOrderByWithRelationInput = {
@@ -259,7 +267,8 @@ export type unit_conversionsOrderByWithRelationInput = {
   factor?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type unit_conversionsWhereUniqueInput = Prisma.AtLeast<{
@@ -274,7 +283,8 @@ export type unit_conversionsWhereUniqueInput = Prisma.AtLeast<{
   factor?: Prisma.DecimalFilter<"unit_conversions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"unit_conversions"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"unit_conversions"> | string | null
 }, "id">
 
 export type unit_conversionsOrderByWithAggregationInput = {
@@ -286,7 +296,8 @@ export type unit_conversionsOrderByWithAggregationInput = {
   factor?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.unit_conversionsCountOrderByAggregateInput
   _avg?: Prisma.unit_conversionsAvgOrderByAggregateInput
   _max?: Prisma.unit_conversionsMaxOrderByAggregateInput
@@ -306,7 +317,8 @@ export type unit_conversionsScalarWhereWithAggregatesInput = {
   factor?: Prisma.DecimalWithAggregatesFilter<"unit_conversions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"unit_conversions"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"unit_conversions"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"unit_conversions"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"unit_conversions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"unit_conversions"> | string | null
 }
 
 export type unit_conversionsCreateInput = {
@@ -318,7 +330,8 @@ export type unit_conversionsCreateInput = {
   factor: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type unit_conversionsUncheckedCreateInput = {
@@ -330,7 +343,8 @@ export type unit_conversionsUncheckedCreateInput = {
   factor: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type unit_conversionsUpdateInput = {
@@ -342,7 +356,8 @@ export type unit_conversionsUpdateInput = {
   factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type unit_conversionsUncheckedUpdateInput = {
@@ -354,7 +369,8 @@ export type unit_conversionsUncheckedUpdateInput = {
   factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type unit_conversionsCreateManyInput = {
@@ -366,7 +382,8 @@ export type unit_conversionsCreateManyInput = {
   factor: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type unit_conversionsUpdateManyMutationInput = {
@@ -378,7 +395,8 @@ export type unit_conversionsUpdateManyMutationInput = {
   factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type unit_conversionsUncheckedUpdateManyInput = {
@@ -390,7 +408,8 @@ export type unit_conversionsUncheckedUpdateManyInput = {
   factor?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type unit_conversionsCountOrderByAggregateInput = {
@@ -402,7 +421,8 @@ export type unit_conversionsCountOrderByAggregateInput = {
   factor?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type unit_conversionsAvgOrderByAggregateInput = {
@@ -418,7 +438,8 @@ export type unit_conversionsMaxOrderByAggregateInput = {
   factor?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type unit_conversionsMinOrderByAggregateInput = {
@@ -430,7 +451,8 @@ export type unit_conversionsMinOrderByAggregateInput = {
   factor?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type unit_conversionsSumOrderByAggregateInput = {
@@ -448,7 +470,8 @@ export type unit_conversionsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   factor?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["unit_conversions"]>
 
 export type unit_conversionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -460,7 +483,8 @@ export type unit_conversionsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   factor?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["unit_conversions"]>
 
 export type unit_conversionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -472,7 +496,8 @@ export type unit_conversionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   factor?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["unit_conversions"]>
 
 export type unit_conversionsSelectScalar = {
@@ -484,10 +509,11 @@ export type unit_conversionsSelectScalar = {
   factor?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type unit_conversionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "from_uom_id" | "to_uom_id" | "factor" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["unit_conversions"]>
+export type unit_conversionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "from_uom_id" | "to_uom_id" | "factor" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["unit_conversions"]>
 
 export type $unit_conversionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "unit_conversions"
@@ -501,7 +527,8 @@ export type $unit_conversionsPayload<ExtArgs extends runtime.Types.Extensions.In
     factor: runtime.Decimal
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["unit_conversions"]>
   composites: {}
 }
@@ -933,7 +960,8 @@ export interface unit_conversionsFieldRefs {
   readonly factor: Prisma.FieldRef<"unit_conversions", 'Decimal'>
   readonly created_at: Prisma.FieldRef<"unit_conversions", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"unit_conversions", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"unit_conversions", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"unit_conversions", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"unit_conversions", 'String'>
 }
     
 

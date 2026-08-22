@@ -39,7 +39,8 @@ export type Warehouse_locationsMinAggregateOutputType = {
   is_receivable: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Warehouse_locationsMaxAggregateOutputType = {
@@ -57,7 +58,8 @@ export type Warehouse_locationsMaxAggregateOutputType = {
   is_receivable: boolean | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Warehouse_locationsCountAggregateOutputType = {
@@ -75,7 +77,8 @@ export type Warehouse_locationsCountAggregateOutputType = {
   is_receivable: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -95,7 +98,8 @@ export type Warehouse_locationsMinAggregateInputType = {
   is_receivable?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Warehouse_locationsMaxAggregateInputType = {
@@ -113,7 +117,8 @@ export type Warehouse_locationsMaxAggregateInputType = {
   is_receivable?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Warehouse_locationsCountAggregateInputType = {
@@ -131,7 +136,8 @@ export type Warehouse_locationsCountAggregateInputType = {
   is_receivable?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -222,13 +228,14 @@ export type Warehouse_locationsGroupByOutputType = {
   is_receivable: boolean
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Warehouse_locationsCountAggregateOutputType | null
   _min: Warehouse_locationsMinAggregateOutputType | null
   _max: Warehouse_locationsMaxAggregateOutputType | null
 }
 
-export type GetWarehouse_locationsGroupByPayload<T extends warehouse_locationsGroupByArgs> = Prisma.PrismaPromise<
+type GetWarehouse_locationsGroupByPayload<T extends warehouse_locationsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Warehouse_locationsGroupByOutputType, T['by']> &
       {
@@ -261,7 +268,8 @@ export type warehouse_locationsWhereInput = {
   is_receivable?: Prisma.BoolFilter<"warehouse_locations"> | boolean
   created_at?: Prisma.DateTimeFilter<"warehouse_locations"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"warehouse_locations"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
 }
 
@@ -280,7 +288,8 @@ export type warehouse_locationsOrderByWithRelationInput = {
   is_receivable?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouses?: Prisma.warehousesOrderByWithRelationInput
 }
 
@@ -302,7 +311,8 @@ export type warehouse_locationsWhereUniqueInput = Prisma.AtLeast<{
   is_receivable?: Prisma.BoolFilter<"warehouse_locations"> | boolean
   created_at?: Prisma.DateTimeFilter<"warehouse_locations"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"warehouse_locations"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
   warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
 }, "id">
 
@@ -321,7 +331,8 @@ export type warehouse_locationsOrderByWithAggregationInput = {
   is_receivable?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.warehouse_locationsCountOrderByAggregateInput
   _max?: Prisma.warehouse_locationsMaxOrderByAggregateInput
   _min?: Prisma.warehouse_locationsMinOrderByAggregateInput
@@ -345,7 +356,8 @@ export type warehouse_locationsScalarWhereWithAggregatesInput = {
   is_receivable?: Prisma.BoolWithAggregatesFilter<"warehouse_locations"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"warehouse_locations"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"warehouse_locations"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouse_locations"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouse_locations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouse_locations"> | string | null
 }
 
 export type warehouse_locationsCreateInput = {
@@ -362,7 +374,8 @@ export type warehouse_locationsCreateInput = {
   is_receivable?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   warehouses: Prisma.warehousesCreateNestedOneWithoutWarehouse_locationsInput
 }
 
@@ -381,7 +394,8 @@ export type warehouse_locationsUncheckedCreateInput = {
   is_receivable?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type warehouse_locationsUpdateInput = {
@@ -398,7 +412,8 @@ export type warehouse_locationsUpdateInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouses?: Prisma.warehousesUpdateOneRequiredWithoutWarehouse_locationsNestedInput
 }
 
@@ -417,7 +432,8 @@ export type warehouse_locationsUncheckedUpdateInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type warehouse_locationsCreateManyInput = {
@@ -435,7 +451,8 @@ export type warehouse_locationsCreateManyInput = {
   is_receivable?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type warehouse_locationsUpdateManyMutationInput = {
@@ -452,7 +469,8 @@ export type warehouse_locationsUpdateManyMutationInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type warehouse_locationsUncheckedUpdateManyInput = {
@@ -470,7 +488,8 @@ export type warehouse_locationsUncheckedUpdateManyInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Warehouse_locationsListRelationFilter = {
@@ -498,7 +517,8 @@ export type warehouse_locationsCountOrderByAggregateInput = {
   is_receivable?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type warehouse_locationsMaxOrderByAggregateInput = {
@@ -516,7 +536,8 @@ export type warehouse_locationsMaxOrderByAggregateInput = {
   is_receivable?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type warehouse_locationsMinOrderByAggregateInput = {
@@ -534,7 +555,8 @@ export type warehouse_locationsMinOrderByAggregateInput = {
   is_receivable?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type warehouse_locationsCreateNestedManyWithoutWarehousesInput = {
@@ -597,7 +619,8 @@ export type warehouse_locationsCreateWithoutWarehousesInput = {
   is_receivable?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type warehouse_locationsUncheckedCreateWithoutWarehousesInput = {
@@ -614,7 +637,8 @@ export type warehouse_locationsUncheckedCreateWithoutWarehousesInput = {
   is_receivable?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type warehouse_locationsCreateOrConnectWithoutWarehousesInput = {
@@ -661,7 +685,8 @@ export type warehouse_locationsScalarWhereInput = {
   is_receivable?: Prisma.BoolFilter<"warehouse_locations"> | boolean
   created_at?: Prisma.DateTimeFilter<"warehouse_locations"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"warehouse_locations"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"warehouse_locations"> | string | null
 }
 
 export type warehouse_locationsCreateManyWarehousesInput = {
@@ -678,7 +703,8 @@ export type warehouse_locationsCreateManyWarehousesInput = {
   is_receivable?: boolean
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type warehouse_locationsUpdateWithoutWarehousesInput = {
@@ -695,7 +721,8 @@ export type warehouse_locationsUpdateWithoutWarehousesInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type warehouse_locationsUncheckedUpdateWithoutWarehousesInput = {
@@ -712,7 +739,8 @@ export type warehouse_locationsUncheckedUpdateWithoutWarehousesInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type warehouse_locationsUncheckedUpdateManyWithoutWarehousesInput = {
@@ -729,7 +757,8 @@ export type warehouse_locationsUncheckedUpdateManyWithoutWarehousesInput = {
   is_receivable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -749,7 +778,8 @@ export type warehouse_locationsSelect<ExtArgs extends runtime.Types.Extensions.I
   is_receivable?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["warehouse_locations"]>
 
@@ -768,7 +798,8 @@ export type warehouse_locationsSelectCreateManyAndReturn<ExtArgs extends runtime
   is_receivable?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["warehouse_locations"]>
 
@@ -787,7 +818,8 @@ export type warehouse_locationsSelectUpdateManyAndReturn<ExtArgs extends runtime
   is_receivable?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["warehouse_locations"]>
 
@@ -806,10 +838,11 @@ export type warehouse_locationsSelectScalar = {
   is_receivable?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type warehouse_locationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "parent_id" | "location_type" | "code" | "name" | "path" | "is_default" | "is_active" | "is_pickable" | "is_receivable" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["warehouse_locations"]>
+export type warehouse_locationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "parent_id" | "location_type" | "code" | "name" | "path" | "is_default" | "is_active" | "is_pickable" | "is_receivable" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["warehouse_locations"]>
 export type warehouse_locationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }
@@ -840,7 +873,8 @@ export type $warehouse_locationsPayload<ExtArgs extends runtime.Types.Extensions
     is_receivable: boolean
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["warehouse_locations"]>
   composites: {}
 }
@@ -1279,7 +1313,8 @@ export interface warehouse_locationsFieldRefs {
   readonly is_receivable: Prisma.FieldRef<"warehouse_locations", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"warehouse_locations", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"warehouse_locations", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"warehouse_locations", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"warehouse_locations", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"warehouse_locations", 'String'>
 }
     
 

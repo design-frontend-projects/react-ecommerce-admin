@@ -1,5 +1,5 @@
 import { supabaseAdmin } from '@/server/supabase'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { v4 as uuidv4 } from 'uuid'
 import prisma from '@/lib/prisma'
 import { generateInvoiceNumber } from '@/lib/utils/invoice-generator'
@@ -8,9 +8,8 @@ import type { CheckoutResponse } from '../types'
 
 interface VariantInfo {
   id: string
-  product_id: number
+  product_id: string
   product_type: string
-  bundle_components: Array<{ component_variant_id: string; qty: number }>
 }
 
 /**
@@ -20,7 +19,7 @@ interface VariantInfo {
 async function loadVariantInfo(
   variantIds: string[]
 ): Promise<Map<string, VariantInfo>> {
-  const variants = (await prisma.product_variants.findMany({
+  const variants = await prisma.product_variants.findMany({
     where: { id: { in: variantIds } },
     select: {
       id: true,
@@ -28,20 +27,10 @@ async function loadVariantInfo(
       products: {
         select: {
           product_type: true,
-          bundle_components: {
-            select: { component_variant_id: true, qty: true },
-          },
         },
       },
     },
-  })) as Array<{
-    id: string
-    product_id: number
-    products: {
-      product_type: string
-      bundle_components: Array<{ component_variant_id: string; qty: unknown }>
-    } | null
-  }>
+  })
 
   const map = new Map<string, VariantInfo>()
   for (const variant of variants) {
@@ -49,12 +38,6 @@ async function loadVariantInfo(
       id: variant.id,
       product_id: variant.product_id,
       product_type: variant.products?.product_type ?? 'simple',
-      bundle_components: (variant.products?.bundle_components ?? []).map(
-        (component) => ({
-          component_variant_id: component.component_variant_id,
-          qty: Number(component.qty),
-        })
-      ),
     })
   }
   return map
@@ -74,6 +57,7 @@ export async function processCheckout(
 ): Promise<CheckoutResponse> {
   try {
     const tenantId = await requireTenantId(authUserId)
+    const tenantUserId = (await resolveTenantUserId(authUserId).catch(() => null)) ?? null
 
     const {
       branchId,
@@ -98,7 +82,7 @@ export async function processCheckout(
 
       const invoice = await tx.sales_invoices.create({
         data: {
-          auth_user_id: tenantId,
+          tenant_id: tenantId,
           branch_id: branchId,
           store_id: storeId,
           customer_id: customerId,
@@ -111,8 +95,11 @@ export async function processCheckout(
           tax_amount: taxTotal,
           paid_amount: totalAmount,
           notes,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
           sales_invoice_items: {
             create: items.map((item, index) => ({
+              tenant_id: tenantId,
               product_variant_id: item.productVariantId,
               line_no: index + 1,
               quantity: item.quantity,
@@ -124,6 +111,8 @@ export async function processCheckout(
                 (item.taxAmount || 0),
               discount_amount: item.discountAmount || 0,
               tax_amount: item.taxAmount || 0,
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
             })),
           },
         },
@@ -133,6 +122,7 @@ export async function processCheckout(
       const resOrder = await tx.res_orders.create({
         data: {
           id: orderId,
+          tenant_id: tenantId,
           order_number: invoiceNo,
           total_amount: totalAmount,
           subtotal: subtotal,
@@ -142,15 +132,16 @@ export async function processCheckout(
           payment_method: paymentMethod,
           paid_at: new Date(),
           notes,
-          auth_user_id: tenantId,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
         },
       })
 
       if (data.isShipment && data.shipment) {
         await tx.res_shipments.create({
           data: {
+            tenant_id: tenantId,
             order_id: resOrder.id,
-            auth_user_id: tenantId,
             recipient_name: data.shipment.recipientName,
             recipient_phone: data.shipment.recipientPhone,
             delivery_address: data.shipment.deliveryAddress,
@@ -159,6 +150,8 @@ export async function processCheckout(
             postal_code: data.shipment.postalCode,
             notes: data.shipment.notes,
             status: 'pending',
+            created_by_user_id: tenantUserId,
+            updated_by_user_id: tenantUserId,
           },
         })
       }
@@ -167,7 +160,6 @@ export async function processCheckout(
         data: {
           id: uuidv4(),
           tenant_id: tenantId,
-          auth_user_id: tenantId,
           transaction_number: `TRN-${invoiceNo}`,
           transaction_type: 'sale',
           status: 'completed',
@@ -177,18 +169,21 @@ export async function processCheckout(
           discount_amount: discountTotal,
           notes: `Payment for invoice ${invoiceNo} via ${paymentMethod}`,
           sales_invoice_id: invoice.id,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
           transaction_details: {
             create: items.map((item, index) => ({
               tenant_id: tenantId,
               product_id:
-                variantInfo.get(item.productVariantId)?.product_id ?? 0,
+                variantInfo.get(item.productVariantId)?.product_id ? Number(variantInfo.get(item.productVariantId)?.product_id) || 0 : 0,
               quantity: item.quantity,
               unit_price: item.unitPrice,
               discount_amount: item.discountAmount || 0,
               tax_amount: item.taxAmount || 0,
               subtotal: item.quantity * item.unitPrice,
               sales_invoice_item_id: invoice.sales_invoice_items[index]?.id,
-              auth_user_id: tenantId,
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
             })),
           },
         },
@@ -198,7 +193,7 @@ export async function processCheckout(
     })
 
     // Stock effect via the movement engine — sales never touch balances
-    // directly. Bundles explode into component movements; services post none.
+    // directly.
     if (storeId) {
       const movements: Array<Record<string, unknown>> = []
       for (const item of items) {
@@ -219,27 +214,12 @@ export async function processCheckout(
           created_by: authUserId,
         }
 
-        if (
-          productType === 'bundle' &&
-          info &&
-          info.bundle_components.length > 0
-        ) {
-          for (const component of info.bundle_components) {
-            movements.push({
-              ...baseMovement,
-              product_variant_id: component.component_variant_id,
-              qty: item.quantity * component.qty,
-              idempotency_key: `pos:${result.invoice.id}:${item.productVariantId}:${component.component_variant_id}`,
-            })
-          }
-        } else {
-          movements.push({
-            ...baseMovement,
-            product_variant_id: item.productVariantId,
-            qty: item.quantity,
-            idempotency_key: `pos:${result.invoice.id}:${item.productVariantId}`,
-          })
-        }
+        movements.push({
+          ...baseMovement,
+          product_variant_id: item.productVariantId,
+          qty: item.quantity,
+          idempotency_key: `pos:${result.invoice.id}:${item.productVariantId}`,
+        })
       }
 
       if (movements.length > 0) {

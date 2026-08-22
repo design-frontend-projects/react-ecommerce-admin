@@ -34,8 +34,9 @@ export type Res_eventsMinAggregateOutputType = {
   is_active: boolean | null
   created_by: string | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_eventsMaxAggregateOutputType = {
@@ -48,8 +49,9 @@ export type Res_eventsMaxAggregateOutputType = {
   is_active: boolean | null
   created_by: string | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_eventsCountAggregateOutputType = {
@@ -63,8 +65,9 @@ export type Res_eventsCountAggregateOutputType = {
   is_active: number
   created_by: number
   created_at: number
-  auth_user_id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -79,8 +82,9 @@ export type Res_eventsMinAggregateInputType = {
   is_active?: true
   created_by?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_eventsMaxAggregateInputType = {
@@ -93,8 +97,9 @@ export type Res_eventsMaxAggregateInputType = {
   is_active?: true
   created_by?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_eventsCountAggregateInputType = {
@@ -108,8 +113,9 @@ export type Res_eventsCountAggregateInputType = {
   is_active?: true
   created_by?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -196,14 +202,15 @@ export type Res_eventsGroupByOutputType = {
   is_active: boolean | null
   created_by: string | null
   created_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Res_eventsCountAggregateOutputType | null
   _min: Res_eventsMinAggregateOutputType | null
   _max: Res_eventsMaxAggregateOutputType | null
 }
 
-export type GetRes_eventsGroupByPayload<T extends res_eventsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_eventsGroupByPayload<T extends res_eventsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_eventsGroupByOutputType, T['by']> &
       {
@@ -232,8 +239,9 @@ export type res_eventsWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"res_events"> | boolean | null
   created_by?: Prisma.UuidNullableFilter<"res_events"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_events"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_events"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
 }
 
 export type res_eventsOrderByWithRelationInput = {
@@ -247,8 +255,9 @@ export type res_eventsOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_eventsWhereUniqueInput = Prisma.AtLeast<{
@@ -265,8 +274,9 @@ export type res_eventsWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolNullableFilter<"res_events"> | boolean | null
   created_by?: Prisma.UuidNullableFilter<"res_events"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_events"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_events"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_events"> | string | null
 }, "id">
 
 export type res_eventsOrderByWithAggregationInput = {
@@ -280,8 +290,9 @@ export type res_eventsOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_eventsCountOrderByAggregateInput
   _max?: Prisma.res_eventsMaxOrderByAggregateInput
   _min?: Prisma.res_eventsMinOrderByAggregateInput
@@ -301,8 +312,9 @@ export type res_eventsScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"res_events"> | boolean | null
   created_by?: Prisma.UuidNullableWithAggregatesFilter<"res_events"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_events"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_events"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_events"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"res_events"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_events"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_events"> | string | null
 }
 
 export type res_eventsCreateInput = {
@@ -316,8 +328,9 @@ export type res_eventsCreateInput = {
   is_active?: boolean | null
   created_by?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_eventsUncheckedCreateInput = {
@@ -331,8 +344,9 @@ export type res_eventsUncheckedCreateInput = {
   is_active?: boolean | null
   created_by?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_eventsUpdateInput = {
@@ -346,8 +360,9 @@ export type res_eventsUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_eventsUncheckedUpdateInput = {
@@ -361,8 +376,9 @@ export type res_eventsUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_eventsCreateManyInput = {
@@ -376,8 +392,9 @@ export type res_eventsCreateManyInput = {
   is_active?: boolean | null
   created_by?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_eventsUpdateManyMutationInput = {
@@ -391,8 +408,9 @@ export type res_eventsUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_eventsUncheckedUpdateManyInput = {
@@ -406,8 +424,9 @@ export type res_eventsUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_eventsCountOrderByAggregateInput = {
@@ -421,8 +440,9 @@ export type res_eventsCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_eventsMaxOrderByAggregateInput = {
@@ -435,8 +455,9 @@ export type res_eventsMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_eventsMinOrderByAggregateInput = {
@@ -449,8 +470,9 @@ export type res_eventsMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_eventsCreateblocked_tablesInput = {
@@ -475,8 +497,9 @@ export type res_eventsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   is_active?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_events"]>
 
 export type res_eventsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -490,8 +513,9 @@ export type res_eventsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   is_active?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_events"]>
 
 export type res_eventsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -505,8 +529,9 @@ export type res_eventsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   is_active?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_events"]>
 
 export type res_eventsSelectScalar = {
@@ -520,11 +545,12 @@ export type res_eventsSelectScalar = {
   is_active?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type res_eventsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "event_date" | "start_time" | "end_time" | "blocked_tables" | "is_active" | "created_by" | "created_at" | "auth_user_id" | "tenant_id", ExtArgs["result"]["res_events"]>
+export type res_eventsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "event_date" | "start_time" | "end_time" | "blocked_tables" | "is_active" | "created_by" | "created_at" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["res_events"]>
 
 export type $res_eventsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_events"
@@ -540,8 +566,9 @@ export type $res_eventsPayload<ExtArgs extends runtime.Types.Extensions.Internal
     is_active: boolean | null
     created_by: string | null
     created_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["res_events"]>
   composites: {}
 }
@@ -975,8 +1002,9 @@ export interface res_eventsFieldRefs {
   readonly is_active: Prisma.FieldRef<"res_events", 'Boolean'>
   readonly created_by: Prisma.FieldRef<"res_events", 'String'>
   readonly created_at: Prisma.FieldRef<"res_events", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"res_events", 'String'>
   readonly tenant_id: Prisma.FieldRef<"res_events", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"res_events", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"res_events", 'String'>
 }
     
 

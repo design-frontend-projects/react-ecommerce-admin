@@ -41,17 +41,6 @@ export async function listSerials(
         : {}),
       ...(filters.status ? { status: filters.status } : {}),
     },
-    include: {
-      product_variants: {
-        select: {
-          id: true,
-          sku: true,
-          products: { select: { name: true } },
-        },
-      },
-      stores: { select: { store_id: true, name: true } },
-      product_batches: { select: { id: true, batch_number: true } },
-    },
     orderBy: { created_at: 'desc' },
     take: 500,
   })
@@ -68,29 +57,9 @@ export async function getSerialTrail(authUserId: string, serialId: string) {
     throw new ApiError('Serial not found.', 404)
   }
 
-  const entries = (await prisma.inventory_movement_serials.findMany({
+  const entries = await prisma.inventory_movement_serials.findMany({
     where: { serial_id: serialId },
-    include: {
-      inventory_movements: {
-        select: {
-          id: true,
-          movement_type: true,
-          movement_date: true,
-          qty_in: true,
-          qty_out: true,
-          reference_type: true,
-          reference_id: true,
-          remarks: true,
-        },
-      },
-    },
-  })) as Array<{
-    inventory_movements: { movement_date: Date }
-  }>
+  })
 
-  return [...entries].sort(
-    (a, b) =>
-      new Date(a.inventory_movements.movement_date).getTime() -
-      new Date(b.inventory_movements.movement_date).getTime()
-  )
+  return entries
 }

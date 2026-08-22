@@ -1,7 +1,7 @@
 'use server'
 
 import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { runWithTenantContext } from '@/server/context/tenant-context'
 import prisma from '@/lib/prisma'
 
@@ -46,6 +46,7 @@ export async function createWarehouse(
   input: WarehouseInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   if (!input.code?.trim() || !input.name?.trim()) {
     throw new ApiError('Code and name are required.', 400)
   }
@@ -53,7 +54,6 @@ export async function createWarehouse(
     return prisma.warehouses.create({
       data: {
         tenant_id: tenantId,
-        auth_user_id: tenantId,
         branch_id: input.branchId ?? null,
         store_id: input.storeId ?? null,
         code: input.code.trim(),
@@ -61,6 +61,8 @@ export async function createWarehouse(
         address: input.address ?? null,
         notes: input.notes ?? null,
         is_default: input.isDefault ?? false,
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
       },
     })
   })
@@ -72,6 +74,7 @@ export async function updateWarehouse(
   input: Partial<WarehouseInput>
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await prisma.warehouses.findFirst({
     where: { id, tenant_id: tenantId },
     select: { id: true },
@@ -90,6 +93,7 @@ export async function updateWarehouse(
       ...(input.notes !== undefined ? { notes: input.notes } : {}),
       ...(input.isDefault !== undefined ? { is_default: input.isDefault } : {}),
       ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
+      updated_by_user_id: tenantUserId,
     },
   })
 }
@@ -129,6 +133,7 @@ export async function createLocation(
   input: LocationInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const warehouse = await prisma.warehouses.findFirst({
     where: { id: warehouseId, tenant_id: tenantId },
     select: { id: true },
@@ -155,7 +160,6 @@ export async function createLocation(
   return prisma.warehouse_locations.create({
     data: {
       tenant_id: tenantId,
-      auth_user_id: tenantId,
       warehouse_id: warehouseId,
       parent_id: input.parentId ?? null,
       location_type: input.locationType,
@@ -164,6 +168,8 @@ export async function createLocation(
       path,
       is_pickable: input.isPickable ?? true,
       is_receivable: input.isReceivable ?? true,
+      created_by_user_id: tenantUserId,
+      updated_by_user_id: tenantUserId,
     },
   })
 }
@@ -174,6 +180,7 @@ export async function updateLocation(
   input: Partial<LocationInput>
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await prisma.warehouse_locations.findFirst({
     where: { id, tenant_id: tenantId },
     select: { id: true },
@@ -195,6 +202,7 @@ export async function updateLocation(
         ? { is_receivable: input.isReceivable }
         : {}),
       ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
+      updated_by_user_id: tenantUserId,
     },
   })
 }

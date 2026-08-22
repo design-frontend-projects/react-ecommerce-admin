@@ -13,7 +13,7 @@ import {
 import { jsonError } from '@/server/utils/http'
 import { withAuth } from '@/server/utils/with-auth'
 
-const GET = withAuth(undefined, async ({ auth, request }) => {
+const GET = withAuth(null, async ({ auth, request }) => {
   const url = new URL(request.url)
   const mode = url.searchParams.get('mode')
 
@@ -32,7 +32,7 @@ const GET = withAuth(undefined, async ({ auth, request }) => {
   return Response.json({ success: true, data: result })
 })
 
-const POST = withAuth(undefined, async ({ auth, request }) => {
+const POST = withAuth(null, async ({ auth, request }) => {
   try {
     const body = await request.json()
     const { action } = body
@@ -66,7 +66,7 @@ const POST = withAuth(undefined, async ({ auth, request }) => {
   }
 })
 
-const PATCH = withAuth(undefined, async ({ auth, request }) => {
+const PATCH = withAuth(null, async ({ auth, request }) => {
   try {
     const body = await request.json()
     const { markAll, userNotificationId } = body

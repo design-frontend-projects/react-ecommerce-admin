@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export async function listSuggestions(authUserId: string) {
@@ -10,17 +10,6 @@ export async function listSuggestions(authUserId: string) {
   return prisma.reorder_suggestions.findMany({
     where: { tenant_id: tenantId },
     orderBy: { run_at: 'desc' },
-    include: {
-      product_variants: {
-        select: {
-          id: true,
-          sku: true,
-          products: { select: { name: true } },
-        },
-      },
-      stores: { select: { store_id: true, name: true } },
-      suppliers: { select: { supplier_id: true, name: true } },
-    },
   })
 }
 
@@ -59,6 +48,7 @@ export async function convertSuggestions(authUserId: string, ids: string[]) {
 
 export async function dismissSuggestion(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   const existing = (await prisma.reorder_suggestions.findFirst({
     where: { id, tenant_id: tenantId },
@@ -73,6 +63,9 @@ export async function dismissSuggestion(authUserId: string, id: string) {
 
   return prisma.reorder_suggestions.update({
     where: { id },
-    data: { status: 'dismissed' },
+    data: {
+      status: 'dismissed',
+      updated_by_user_id: tenantUserId,
+    },
   })
 }

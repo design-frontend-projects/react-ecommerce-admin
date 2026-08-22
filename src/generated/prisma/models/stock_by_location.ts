@@ -49,7 +49,8 @@ export type Stock_by_locationMinAggregateOutputType = {
   last_movement_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_by_locationMaxAggregateOutputType = {
@@ -65,7 +66,8 @@ export type Stock_by_locationMaxAggregateOutputType = {
   last_movement_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_by_locationCountAggregateOutputType = {
@@ -81,7 +83,8 @@ export type Stock_by_locationCountAggregateOutputType = {
   last_movement_at: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -109,7 +112,8 @@ export type Stock_by_locationMinAggregateInputType = {
   last_movement_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_by_locationMaxAggregateInputType = {
@@ -125,7 +129,8 @@ export type Stock_by_locationMaxAggregateInputType = {
   last_movement_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_by_locationCountAggregateInputType = {
@@ -141,7 +146,8 @@ export type Stock_by_locationCountAggregateInputType = {
   last_movement_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -244,7 +250,8 @@ export type Stock_by_locationGroupByOutputType = {
   last_movement_at: Date | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Stock_by_locationCountAggregateOutputType | null
   _avg: Stock_by_locationAvgAggregateOutputType | null
   _sum: Stock_by_locationSumAggregateOutputType | null
@@ -252,7 +259,7 @@ export type Stock_by_locationGroupByOutputType = {
   _max: Stock_by_locationMaxAggregateOutputType | null
 }
 
-export type GetStock_by_locationGroupByPayload<T extends stock_by_locationGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_by_locationGroupByPayload<T extends stock_by_locationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_by_locationGroupByOutputType, T['by']> &
       {
@@ -283,7 +290,8 @@ export type stock_by_locationWhereInput = {
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_by_location"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
 }
 
 export type stock_by_locationOrderByWithRelationInput = {
@@ -299,7 +307,8 @@ export type stock_by_locationOrderByWithRelationInput = {
   last_movement_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type stock_by_locationWhereUniqueInput = Prisma.AtLeast<{
@@ -318,7 +327,8 @@ export type stock_by_locationWhereUniqueInput = Prisma.AtLeast<{
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_by_location"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_by_location"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_by_location"> | string | null
 }, "id">
 
 export type stock_by_locationOrderByWithAggregationInput = {
@@ -334,7 +344,8 @@ export type stock_by_locationOrderByWithAggregationInput = {
   last_movement_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_by_locationCountOrderByAggregateInput
   _avg?: Prisma.stock_by_locationAvgOrderByAggregateInput
   _max?: Prisma.stock_by_locationMaxOrderByAggregateInput
@@ -358,7 +369,8 @@ export type stock_by_locationScalarWhereWithAggregatesInput = {
   last_movement_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_by_location"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_by_location"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"stock_by_location"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_by_location"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_by_location"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_by_location"> | string | null
 }
 
 export type stock_by_locationCreateInput = {
@@ -374,7 +386,8 @@ export type stock_by_locationCreateInput = {
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_by_locationUncheckedCreateInput = {
@@ -390,7 +403,8 @@ export type stock_by_locationUncheckedCreateInput = {
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_by_locationUpdateInput = {
@@ -406,7 +420,8 @@ export type stock_by_locationUpdateInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_by_locationUncheckedUpdateInput = {
@@ -422,7 +437,8 @@ export type stock_by_locationUncheckedUpdateInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_by_locationCreateManyInput = {
@@ -438,7 +454,8 @@ export type stock_by_locationCreateManyInput = {
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_by_locationUpdateManyMutationInput = {
@@ -454,7 +471,8 @@ export type stock_by_locationUpdateManyMutationInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_by_locationUncheckedUpdateManyInput = {
@@ -470,7 +488,8 @@ export type stock_by_locationUncheckedUpdateManyInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_by_locationCountOrderByAggregateInput = {
@@ -486,7 +505,8 @@ export type stock_by_locationCountOrderByAggregateInput = {
   last_movement_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_by_locationAvgOrderByAggregateInput = {
@@ -507,7 +527,8 @@ export type stock_by_locationMaxOrderByAggregateInput = {
   last_movement_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_by_locationMinOrderByAggregateInput = {
@@ -523,7 +544,8 @@ export type stock_by_locationMinOrderByAggregateInput = {
   last_movement_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_by_locationSumOrderByAggregateInput = {
@@ -546,7 +568,8 @@ export type stock_by_locationSelect<ExtArgs extends runtime.Types.Extensions.Int
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_by_location"]>
 
 export type stock_by_locationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -562,7 +585,8 @@ export type stock_by_locationSelectCreateManyAndReturn<ExtArgs extends runtime.T
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_by_location"]>
 
 export type stock_by_locationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -578,7 +602,8 @@ export type stock_by_locationSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_by_location"]>
 
 export type stock_by_locationSelectScalar = {
@@ -594,10 +619,11 @@ export type stock_by_locationSelectScalar = {
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type stock_by_locationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "warehouse_id" | "warehouse_location_id" | "product_variant_id" | "batch_id" | "qty_on_hand" | "qty_reserved" | "last_movement_at" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["stock_by_location"]>
+export type stock_by_locationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "warehouse_id" | "warehouse_location_id" | "product_variant_id" | "batch_id" | "qty_on_hand" | "qty_reserved" | "last_movement_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_by_location"]>
 
 export type $stock_by_locationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_by_location"
@@ -615,7 +641,8 @@ export type $stock_by_locationPayload<ExtArgs extends runtime.Types.Extensions.I
     last_movement_at: Date | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stock_by_location"]>
   composites: {}
 }
@@ -1051,7 +1078,8 @@ export interface stock_by_locationFieldRefs {
   readonly last_movement_at: Prisma.FieldRef<"stock_by_location", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"stock_by_location", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"stock_by_location", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"stock_by_location", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stock_by_location", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stock_by_location", 'String'>
 }
     
 

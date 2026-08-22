@@ -18,19 +18,6 @@ export async function listStockByLocation(
     },
     orderBy: [{ warehouse_id: 'asc' }, { updated_at: 'desc' }],
     take: 1000,
-    include: {
-      product_variants: {
-        select: { id: true, sku: true, products: { select: { name: true } } },
-      },
-      warehouses: { select: { id: true, code: true, name: true } },
-      warehouse_locations: {
-        select: { id: true, code: true, path: true, location_type: true },
-      },
-      stores: { select: { store_id: true, name: true } },
-      product_batches: {
-        select: { id: true, batch_number: true, expiry_date: true },
-      },
-    },
   })
 }
 

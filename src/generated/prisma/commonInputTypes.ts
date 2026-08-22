@@ -867,6 +867,91 @@ export type Enumadjustment_reason_enumNullableWithAggregatesFilter<$PrismaModel 
   _max?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel>
 }
 
+export type Enumstock_count_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_count_status_enum | Prisma.Enumstock_count_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_count_status_enumFilter<$PrismaModel> | $Enums.stock_count_status_enum
+}
+
+export type Enumstock_count_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_count_status_enum | Prisma.Enumstock_count_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_count_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_count_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_count_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_count_status_enumFilter<$PrismaModel>
+}
+
+export type Enumrequisition_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.requisition_status_enum | Prisma.Enumrequisition_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrequisition_status_enumFilter<$PrismaModel> | $Enums.requisition_status_enum
+}
+
+export type Enumrequisition_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.requisition_status_enum | Prisma.Enumrequisition_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrequisition_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.requisition_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrequisition_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrequisition_status_enumFilter<$PrismaModel>
+}
+
+export type Enumsales_order_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.sales_order_status_enum | Prisma.Enumsales_order_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel> | $Enums.sales_order_status_enum
+}
+
+export type Enumsales_order_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.sales_order_status_enum | Prisma.Enumsales_order_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsales_order_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.sales_order_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
+}
+
+export type Enumstock_reservation_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_reservation_status_enum | Prisma.Enumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_reservation_status_enumFilter<$PrismaModel> | $Enums.stock_reservation_status_enum
+}
+
+export type Enumstock_reservation_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_reservation_status_enum | Prisma.Enumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_reservation_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_reservation_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_reservation_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_reservation_status_enumFilter<$PrismaModel>
+}
+
+export type Enumreorder_suggestion_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.reorder_suggestion_status_enum | Prisma.Enumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel> | $Enums.reorder_suggestion_status_enum
+}
+
+export type Enumreorder_suggestion_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.reorder_suggestion_status_enum | Prisma.Enumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumreorder_suggestion_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.reorder_suggestion_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel>
+}
+
 export type Enumlocation_type_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.location_type_enum | Prisma.Enumlocation_type_enumFieldRefInput<$PrismaModel>
   in?: $Enums.location_type_enum[] | Prisma.ListEnumlocation_type_enumFieldRefInput<$PrismaModel>
@@ -1741,6 +1826,91 @@ export type NestedEnumadjustment_reason_enumNullableWithAggregatesFilter<$Prisma
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumadjustment_reason_enumNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_count_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_count_status_enum | Prisma.Enumstock_count_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_count_status_enumFilter<$PrismaModel> | $Enums.stock_count_status_enum
+}
+
+export type NestedEnumstock_count_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_count_status_enum | Prisma.Enumstock_count_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_count_status_enum[] | Prisma.ListEnumstock_count_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_count_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_count_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_count_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_count_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumrequisition_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.requisition_status_enum | Prisma.Enumrequisition_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrequisition_status_enumFilter<$PrismaModel> | $Enums.requisition_status_enum
+}
+
+export type NestedEnumrequisition_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.requisition_status_enum | Prisma.Enumrequisition_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.requisition_status_enum[] | Prisma.ListEnumrequisition_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrequisition_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.requisition_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrequisition_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrequisition_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumsales_order_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.sales_order_status_enum | Prisma.Enumsales_order_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel> | $Enums.sales_order_status_enum
+}
+
+export type NestedEnumsales_order_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.sales_order_status_enum | Prisma.Enumsales_order_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.sales_order_status_enum[] | Prisma.ListEnumsales_order_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumsales_order_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.sales_order_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumsales_order_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_reservation_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_reservation_status_enum | Prisma.Enumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_reservation_status_enumFilter<$PrismaModel> | $Enums.stock_reservation_status_enum
+}
+
+export type NestedEnumstock_reservation_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_reservation_status_enum | Prisma.Enumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_reservation_status_enum[] | Prisma.ListEnumstock_reservation_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_reservation_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_reservation_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_reservation_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_reservation_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.reorder_suggestion_status_enum | Prisma.Enumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel> | $Enums.reorder_suggestion_status_enum
+}
+
+export type NestedEnumreorder_suggestion_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.reorder_suggestion_status_enum | Prisma.Enumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.reorder_suggestion_status_enum[] | Prisma.ListEnumreorder_suggestion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumreorder_suggestion_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.reorder_suggestion_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumreorder_suggestion_status_enumFilter<$PrismaModel>
 }
 
 export type NestedEnumlocation_type_enumFilter<$PrismaModel = never> = {

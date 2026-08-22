@@ -69,9 +69,11 @@ export type Sales_invoice_itemsMinAggregateOutputType = {
   unit_cost: runtime.Decimal | null
   created_at: Date | null
   returned_quantity: runtime.Decimal | null
-  auth_user_id: string | null
   batch_id: string | null
   tax_rate_id: string | null
+  tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Sales_invoice_itemsMaxAggregateOutputType = {
@@ -91,9 +93,11 @@ export type Sales_invoice_itemsMaxAggregateOutputType = {
   unit_cost: runtime.Decimal | null
   created_at: Date | null
   returned_quantity: runtime.Decimal | null
-  auth_user_id: string | null
   batch_id: string | null
   tax_rate_id: string | null
+  tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Sales_invoice_itemsCountAggregateOutputType = {
@@ -113,9 +117,11 @@ export type Sales_invoice_itemsCountAggregateOutputType = {
   unit_cost: number
   created_at: number
   returned_quantity: number
-  auth_user_id: number
   batch_id: number
   tax_rate_id: number
+  tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -163,9 +169,11 @@ export type Sales_invoice_itemsMinAggregateInputType = {
   unit_cost?: true
   created_at?: true
   returned_quantity?: true
-  auth_user_id?: true
   batch_id?: true
   tax_rate_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Sales_invoice_itemsMaxAggregateInputType = {
@@ -185,9 +193,11 @@ export type Sales_invoice_itemsMaxAggregateInputType = {
   unit_cost?: true
   created_at?: true
   returned_quantity?: true
-  auth_user_id?: true
   batch_id?: true
   tax_rate_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Sales_invoice_itemsCountAggregateInputType = {
@@ -207,9 +217,11 @@ export type Sales_invoice_itemsCountAggregateInputType = {
   unit_cost?: true
   created_at?: true
   returned_quantity?: true
-  auth_user_id?: true
   batch_id?: true
   tax_rate_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -316,9 +328,11 @@ export type Sales_invoice_itemsGroupByOutputType = {
   unit_cost: runtime.Decimal
   created_at: Date
   returned_quantity: runtime.Decimal
-  auth_user_id: string | null
   batch_id: string | null
   tax_rate_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Sales_invoice_itemsCountAggregateOutputType | null
   _avg: Sales_invoice_itemsAvgAggregateOutputType | null
   _sum: Sales_invoice_itemsSumAggregateOutputType | null
@@ -326,7 +340,7 @@ export type Sales_invoice_itemsGroupByOutputType = {
   _max: Sales_invoice_itemsMaxAggregateOutputType | null
 }
 
-export type GetSales_invoice_itemsGroupByPayload<T extends sales_invoice_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetSales_invoice_itemsGroupByPayload<T extends sales_invoice_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Sales_invoice_itemsGroupByOutputType, T['by']> &
       {
@@ -361,9 +375,11 @@ export type sales_invoice_itemsWhereInput = {
   unit_cost?: Prisma.DecimalFilter<"sales_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"sales_invoice_items"> | Date | string
   returned_quantity?: Prisma.DecimalFilter<"sales_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
   tax_rate_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"sales_invoice_items"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
 }
 
 export type sales_invoice_itemsOrderByWithRelationInput = {
@@ -383,9 +399,11 @@ export type sales_invoice_itemsOrderByWithRelationInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   returned_quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_rate_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type sales_invoice_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -408,9 +426,11 @@ export type sales_invoice_itemsWhereUniqueInput = Prisma.AtLeast<{
   unit_cost?: Prisma.DecimalFilter<"sales_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFilter<"sales_invoice_items"> | Date | string
   returned_quantity?: Prisma.DecimalFilter<"sales_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
   tax_rate_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"sales_invoice_items"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"sales_invoice_items"> | string | null
 }, "id">
 
 export type sales_invoice_itemsOrderByWithAggregationInput = {
@@ -430,9 +450,11 @@ export type sales_invoice_itemsOrderByWithAggregationInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   returned_quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tax_rate_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.sales_invoice_itemsCountOrderByAggregateInput
   _avg?: Prisma.sales_invoice_itemsAvgOrderByAggregateInput
   _max?: Prisma.sales_invoice_itemsMaxOrderByAggregateInput
@@ -460,9 +482,11 @@ export type sales_invoice_itemsScalarWhereWithAggregatesInput = {
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"sales_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"sales_invoice_items"> | Date | string
   returned_quantity?: Prisma.DecimalWithAggregatesFilter<"sales_invoice_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoice_items"> | string | null
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoice_items"> | string | null
   tax_rate_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoice_items"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"sales_invoice_items"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoice_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoice_items"> | string | null
 }
 
 export type sales_invoice_itemsCreateInput = {
@@ -482,9 +506,11 @@ export type sales_invoice_itemsCreateInput = {
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   returned_quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
   batch_id?: string | null
   tax_rate_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type sales_invoice_itemsUncheckedCreateInput = {
@@ -504,9 +530,11 @@ export type sales_invoice_itemsUncheckedCreateInput = {
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   returned_quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
   batch_id?: string | null
   tax_rate_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type sales_invoice_itemsUpdateInput = {
@@ -526,9 +554,11 @@ export type sales_invoice_itemsUpdateInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returned_quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_invoice_itemsUncheckedUpdateInput = {
@@ -548,9 +578,11 @@ export type sales_invoice_itemsUncheckedUpdateInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returned_quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_invoice_itemsCreateManyInput = {
@@ -570,9 +602,11 @@ export type sales_invoice_itemsCreateManyInput = {
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Date | string
   returned_quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: string | null
   batch_id?: string | null
   tax_rate_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type sales_invoice_itemsUpdateManyMutationInput = {
@@ -592,9 +626,11 @@ export type sales_invoice_itemsUpdateManyMutationInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returned_quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_invoice_itemsUncheckedUpdateManyInput = {
@@ -614,9 +650,11 @@ export type sales_invoice_itemsUncheckedUpdateManyInput = {
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returned_quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_invoice_itemsCountOrderByAggregateInput = {
@@ -636,9 +674,11 @@ export type sales_invoice_itemsCountOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   returned_quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   tax_rate_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type sales_invoice_itemsAvgOrderByAggregateInput = {
@@ -671,9 +711,11 @@ export type sales_invoice_itemsMaxOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   returned_quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   tax_rate_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type sales_invoice_itemsMinOrderByAggregateInput = {
@@ -693,9 +735,11 @@ export type sales_invoice_itemsMinOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   returned_quantity?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   tax_rate_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type sales_invoice_itemsSumOrderByAggregateInput = {
@@ -730,9 +774,11 @@ export type sales_invoice_itemsSelect<ExtArgs extends runtime.Types.Extensions.I
   unit_cost?: boolean
   created_at?: boolean
   returned_quantity?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
   tax_rate_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["sales_invoice_items"]>
 
 export type sales_invoice_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -752,9 +798,11 @@ export type sales_invoice_itemsSelectCreateManyAndReturn<ExtArgs extends runtime
   unit_cost?: boolean
   created_at?: boolean
   returned_quantity?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
   tax_rate_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["sales_invoice_items"]>
 
 export type sales_invoice_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -774,9 +822,11 @@ export type sales_invoice_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime
   unit_cost?: boolean
   created_at?: boolean
   returned_quantity?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
   tax_rate_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["sales_invoice_items"]>
 
 export type sales_invoice_itemsSelectScalar = {
@@ -796,12 +846,14 @@ export type sales_invoice_itemsSelectScalar = {
   unit_cost?: boolean
   created_at?: boolean
   returned_quantity?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
   tax_rate_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type sales_invoice_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice_id" | "product_variant_id" | "line_no" | "description" | "quantity" | "unit_price" | "discount_type" | "discount_value" | "discount_amount" | "tax_amount" | "line_subtotal" | "line_total" | "unit_cost" | "created_at" | "returned_quantity" | "auth_user_id" | "batch_id" | "tax_rate_id", ExtArgs["result"]["sales_invoice_items"]>
+export type sales_invoice_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoice_id" | "product_variant_id" | "line_no" | "description" | "quantity" | "unit_price" | "discount_type" | "discount_value" | "discount_amount" | "tax_amount" | "line_subtotal" | "line_total" | "unit_cost" | "created_at" | "returned_quantity" | "batch_id" | "tax_rate_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_invoice_items"]>
 
 export type $sales_invoice_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "sales_invoice_items"
@@ -823,9 +875,11 @@ export type $sales_invoice_itemsPayload<ExtArgs extends runtime.Types.Extensions
     unit_cost: runtime.Decimal
     created_at: Date
     returned_quantity: runtime.Decimal
-    auth_user_id: string | null
     batch_id: string | null
     tax_rate_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["sales_invoice_items"]>
   composites: {}
 }
@@ -1265,9 +1319,11 @@ export interface sales_invoice_itemsFieldRefs {
   readonly unit_cost: Prisma.FieldRef<"sales_invoice_items", 'Decimal'>
   readonly created_at: Prisma.FieldRef<"sales_invoice_items", 'DateTime'>
   readonly returned_quantity: Prisma.FieldRef<"sales_invoice_items", 'Decimal'>
-  readonly auth_user_id: Prisma.FieldRef<"sales_invoice_items", 'String'>
   readonly batch_id: Prisma.FieldRef<"sales_invoice_items", 'String'>
   readonly tax_rate_id: Prisma.FieldRef<"sales_invoice_items", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"sales_invoice_items", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"sales_invoice_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"sales_invoice_items", 'String'>
 }
     
 

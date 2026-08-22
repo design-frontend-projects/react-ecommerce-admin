@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface ReceiptItemInput {
@@ -17,8 +17,8 @@ export interface ReceiptItemInput {
 
 export interface CreateReceiptInput {
   storeId: string
-  purchaseOrderId?: number | null
-  supplierId?: number | null
+  purchaseOrderId?: string | null
+  supplierId?: string | null
   notes?: string | null
   items: ReceiptItemInput[]
 }
@@ -54,11 +54,6 @@ export async function listReceipts(authUserId: string) {
   return prisma.goods_receipts.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      suppliers: { select: { supplier_id: true, name: true } },
-      _count: { select: { goods_receipt_items: true } },
-    },
   })
 }
 
@@ -66,27 +61,17 @@ export async function getReceipt(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const receipt = await prisma.goods_receipts.findFirst({
     where: { id, tenant_id: tenantId },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      suppliers: { select: { supplier_id: true, name: true } },
-      goods_receipt_items: {
-        include: {
-          product_variants: {
-            select: {
-              id: true,
-              sku: true,
-              products: { select: { name: true } },
-            },
-          },
-          warehouse_locations: { select: { id: true, path: true } },
-        },
-      },
-    },
   })
   if (!receipt) {
     throw new ApiError('Goods receipt not found.', 404)
   }
-  return receipt
+  const items = await prisma.goods_receipt_items.findMany({
+    where: { goods_receipt_id: id },
+  })
+  return {
+    ...receipt,
+    goods_receipt_items: items,
+  }
 }
 
 export async function createReceipt(
@@ -94,24 +79,32 @@ export async function createReceipt(
   input: CreateReceiptInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.storeId) {
     throw new ApiError('A store is required.', 400)
   }
   assertItems(input.items)
 
-  return prisma.goods_receipts.create({
-    data: {
-      tenant_id: tenantId,
-      auth_user_id: tenantId,
-      store_id: input.storeId,
-      purchase_order_id: input.purchaseOrderId ?? null,
-      supplier_id: input.supplierId ?? null,
-      notes: input.notes ?? null,
-      created_by: authUserId,
-      status: 'draft',
-      goods_receipt_items: {
-        create: input.items.map((item) => ({
+  return prisma.$transaction(async (tx: any) => {
+    const created = await tx.goods_receipts.create({
+      data: {
+        tenant_id: tenantId,
+        store_id: input.storeId,
+        purchase_order_id: input.purchaseOrderId ?? null,
+        supplier_id: input.supplierId ?? null,
+        notes: input.notes ?? null,
+        created_by: authUserId,
+        status: 'draft',
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
+      },
+    })
+
+    if (input.items.length > 0) {
+      await tx.goods_receipt_items.createMany({
+        data: input.items.map((item) => ({
+          goods_receipt_id: created.id,
           product_variant_id: item.productVariantId,
           qty_received: item.qtyReceived,
           unit_cost: item.unitCost ?? 0,
@@ -119,15 +112,26 @@ export async function createReceipt(
           batch_number: item.batchNumber ?? null,
           expiry_date: item.expiryDate ? new Date(item.expiryDate) : null,
           serial_numbers: item.serialNumbers ?? undefined,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
         })),
-      },
-    },
-    include: { goods_receipt_items: true },
+      })
+    }
+
+    const items = await tx.goods_receipt_items.findMany({
+      where: { goods_receipt_id: created.id },
+    })
+
+    return {
+      ...created,
+      goods_receipt_items: items,
+    }
   })
 }
 
 export async function cancelReceipt(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = (await prisma.goods_receipts.findFirst({
     where: { id, tenant_id: tenantId },
     select: { status: true },
@@ -140,7 +144,10 @@ export async function cancelReceipt(authUserId: string, id: string) {
   }
   return prisma.goods_receipts.update({
     where: { id },
-    data: { status: 'cancelled' },
+    data: {
+      status: 'cancelled',
+      updated_by_user_id: tenantUserId,
+    },
   })
 }
 

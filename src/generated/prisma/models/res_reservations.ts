@@ -49,9 +49,10 @@ export type Res_reservationsMinAggregateOutputType = {
   notes: string | null
   created_by: string | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   status: $Enums.reservation_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_reservationsMaxAggregateOutputType = {
@@ -67,9 +68,10 @@ export type Res_reservationsMaxAggregateOutputType = {
   notes: string | null
   created_by: string | null
   created_at: Date | null
-  auth_user_id: string | null
   tenant_id: string | null
   status: $Enums.reservation_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Res_reservationsCountAggregateOutputType = {
@@ -85,9 +87,10 @@ export type Res_reservationsCountAggregateOutputType = {
   notes: number
   created_by: number
   created_at: number
-  auth_user_id: number
   tenant_id: number
   status: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -115,9 +118,10 @@ export type Res_reservationsMinAggregateInputType = {
   notes?: true
   created_by?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_reservationsMaxAggregateInputType = {
@@ -133,9 +137,10 @@ export type Res_reservationsMaxAggregateInputType = {
   notes?: true
   created_by?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Res_reservationsCountAggregateInputType = {
@@ -151,9 +156,10 @@ export type Res_reservationsCountAggregateInputType = {
   notes?: true
   created_by?: true
   created_at?: true
-  auth_user_id?: true
   tenant_id?: true
   status?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -256,9 +262,10 @@ export type Res_reservationsGroupByOutputType = {
   notes: string | null
   created_by: string | null
   created_at: Date | null
-  auth_user_id: string | null
-  tenant_id: string | null
+  tenant_id: string
   status: $Enums.reservation_status | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Res_reservationsCountAggregateOutputType | null
   _avg: Res_reservationsAvgAggregateOutputType | null
   _sum: Res_reservationsSumAggregateOutputType | null
@@ -266,7 +273,7 @@ export type Res_reservationsGroupByOutputType = {
   _max: Res_reservationsMaxAggregateOutputType | null
 }
 
-export type GetRes_reservationsGroupByPayload<T extends res_reservationsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_reservationsGroupByPayload<T extends res_reservationsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_reservationsGroupByOutputType, T['by']> &
       {
@@ -297,9 +304,10 @@ export type res_reservationsWhereInput = {
   notes?: Prisma.StringNullableFilter<"res_reservations"> | string | null
   created_by?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_reservations"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_reservations"> | string
   status?: Prisma.Enumreservation_statusNullableFilter<"res_reservations"> | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
 }
 
 export type res_reservationsOrderByWithRelationInput = {
@@ -315,9 +323,10 @@ export type res_reservationsOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type res_reservationsWhereUniqueInput = Prisma.AtLeast<{
@@ -336,9 +345,10 @@ export type res_reservationsWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"res_reservations"> | string | null
   created_by?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"res_reservations"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
+  tenant_id?: Prisma.UuidFilter<"res_reservations"> | string
   status?: Prisma.Enumreservation_statusNullableFilter<"res_reservations"> | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"res_reservations"> | string | null
 }, "id">
 
 export type res_reservationsOrderByWithAggregationInput = {
@@ -354,9 +364,10 @@ export type res_reservationsOrderByWithAggregationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.res_reservationsCountOrderByAggregateInput
   _avg?: Prisma.res_reservationsAvgOrderByAggregateInput
   _max?: Prisma.res_reservationsMaxOrderByAggregateInput
@@ -380,9 +391,10 @@ export type res_reservationsScalarWhereWithAggregatesInput = {
   notes?: Prisma.StringNullableWithAggregatesFilter<"res_reservations"> | string | null
   created_by?: Prisma.UuidNullableWithAggregatesFilter<"res_reservations"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"res_reservations"> | Date | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_reservations"> | string | null
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"res_reservations"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"res_reservations"> | string
   status?: Prisma.Enumreservation_statusNullableWithAggregatesFilter<"res_reservations"> | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_reservations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"res_reservations"> | string | null
 }
 
 export type res_reservationsCreateInput = {
@@ -398,9 +410,10 @@ export type res_reservationsCreateInput = {
   notes?: string | null
   created_by?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.reservation_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_reservationsUncheckedCreateInput = {
@@ -416,9 +429,10 @@ export type res_reservationsUncheckedCreateInput = {
   notes?: string | null
   created_by?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.reservation_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_reservationsUpdateInput = {
@@ -434,9 +448,10 @@ export type res_reservationsUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_reservationsUncheckedUpdateInput = {
@@ -452,9 +467,10 @@ export type res_reservationsUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_reservationsCreateManyInput = {
@@ -470,9 +486,10 @@ export type res_reservationsCreateManyInput = {
   notes?: string | null
   created_by?: string | null
   created_at?: Date | string | null
-  auth_user_id?: string | null
-  tenant_id?: string | null
+  tenant_id: string
   status?: $Enums.reservation_status | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type res_reservationsUpdateManyMutationInput = {
@@ -488,9 +505,10 @@ export type res_reservationsUpdateManyMutationInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_reservationsUncheckedUpdateManyInput = {
@@ -506,9 +524,10 @@ export type res_reservationsUncheckedUpdateManyInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableEnumreservation_statusFieldUpdateOperationsInput | $Enums.reservation_status | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type res_reservationsCountOrderByAggregateInput = {
@@ -524,9 +543,10 @@ export type res_reservationsCountOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_reservationsAvgOrderByAggregateInput = {
@@ -547,9 +567,10 @@ export type res_reservationsMaxOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_reservationsMinOrderByAggregateInput = {
@@ -565,9 +586,10 @@ export type res_reservationsMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type res_reservationsSumOrderByAggregateInput = {
@@ -594,9 +616,10 @@ export type res_reservationsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_reservations"]>
 
 export type res_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -612,9 +635,10 @@ export type res_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_reservations"]>
 
 export type res_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -630,9 +654,10 @@ export type res_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["res_reservations"]>
 
 export type res_reservationsSelectScalar = {
@@ -648,12 +673,13 @@ export type res_reservationsSelectScalar = {
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
-  auth_user_id?: boolean
   tenant_id?: boolean
   status?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type res_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "table_id" | "customer_name" | "customer_phone" | "customer_email" | "party_size" | "reservation_date" | "reservation_time" | "duration_minutes" | "notes" | "created_by" | "created_at" | "auth_user_id" | "tenant_id" | "status", ExtArgs["result"]["res_reservations"]>
+export type res_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "table_id" | "customer_name" | "customer_phone" | "customer_email" | "party_size" | "reservation_date" | "reservation_time" | "duration_minutes" | "notes" | "created_by" | "created_at" | "tenant_id" | "status" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["res_reservations"]>
 
 export type $res_reservationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "res_reservations"
@@ -671,9 +697,10 @@ export type $res_reservationsPayload<ExtArgs extends runtime.Types.Extensions.In
     notes: string | null
     created_by: string | null
     created_at: Date | null
-    auth_user_id: string | null
-    tenant_id: string | null
+    tenant_id: string
     status: $Enums.reservation_status | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["res_reservations"]>
   composites: {}
 }
@@ -1109,9 +1136,10 @@ export interface res_reservationsFieldRefs {
   readonly notes: Prisma.FieldRef<"res_reservations", 'String'>
   readonly created_by: Prisma.FieldRef<"res_reservations", 'String'>
   readonly created_at: Prisma.FieldRef<"res_reservations", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"res_reservations", 'String'>
   readonly tenant_id: Prisma.FieldRef<"res_reservations", 'String'>
   readonly status: Prisma.FieldRef<"res_reservations", 'reservation_status'>
+  readonly created_by_user_id: Prisma.FieldRef<"res_reservations", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"res_reservations", 'String'>
 }
     
 

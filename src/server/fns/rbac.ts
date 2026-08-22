@@ -115,7 +115,7 @@ async function renameLegacyPermissions() {
 
     // Both spellings exist (seed raced the migration): merge assignments into
     // the canonical row, then drop the legacy row.
-    await prisma.$transaction(async (tx: typeof prisma) => {
+    await prisma.$transaction(async (tx: any) => {
       const roleLinks = await tx.role_permissions.findMany({
         where: { permission_id: legacyId },
         select: { role_id: true },
@@ -484,7 +484,6 @@ export async function toggleRolePermission(
     data: {
       role_id: input.roleId,
       permission_id: input.permissionId,
-      granted_by: actorAuthUserId ?? null,
     },
   })
 
@@ -562,10 +561,12 @@ export async function updateUserRoles(
       },
     })
 
-    await syncClerkUserRoleMetadata(
-      tenantUser.auth_user_id,
-      roles.map((role) => role.name)
-    )
+    if (tenantUser.auth_user_id) {
+      await syncClerkUserRoleMetadata(
+        tenantUser.auth_user_id,
+        roles.map((role) => role.name)
+      )
+    }
   }
 
   invalidatePermissionCache()

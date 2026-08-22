@@ -38,9 +38,10 @@ export type Goods_receiptsMinAggregateOutputType = {
   posted_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   purchase_order_id: string | null
   supplier_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Goods_receiptsMaxAggregateOutputType = {
@@ -57,9 +58,10 @@ export type Goods_receiptsMaxAggregateOutputType = {
   posted_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
   purchase_order_id: string | null
   supplier_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Goods_receiptsCountAggregateOutputType = {
@@ -76,9 +78,10 @@ export type Goods_receiptsCountAggregateOutputType = {
   posted_at: number
   created_at: number
   updated_at: number
-  auth_user_id: number
   purchase_order_id: number
   supplier_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -97,9 +100,10 @@ export type Goods_receiptsMinAggregateInputType = {
   posted_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   purchase_order_id?: true
   supplier_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Goods_receiptsMaxAggregateInputType = {
@@ -116,9 +120,10 @@ export type Goods_receiptsMaxAggregateInputType = {
   posted_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   purchase_order_id?: true
   supplier_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Goods_receiptsCountAggregateInputType = {
@@ -135,9 +140,10 @@ export type Goods_receiptsCountAggregateInputType = {
   posted_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
   purchase_order_id?: true
   supplier_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -227,15 +233,16 @@ export type Goods_receiptsGroupByOutputType = {
   posted_at: Date | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
   purchase_order_id: string | null
   supplier_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Goods_receiptsCountAggregateOutputType | null
   _min: Goods_receiptsMinAggregateOutputType | null
   _max: Goods_receiptsMaxAggregateOutputType | null
 }
 
-export type GetGoods_receiptsGroupByPayload<T extends goods_receiptsGroupByArgs> = Prisma.PrismaPromise<
+type GetGoods_receiptsGroupByPayload<T extends goods_receiptsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Goods_receiptsGroupByOutputType, T['by']> &
       {
@@ -267,9 +274,10 @@ export type goods_receiptsWhereInput = {
   posted_at?: Prisma.DateTimeNullableFilter<"goods_receipts"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   purchase_order_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   supplier_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
 }
 
 export type goods_receiptsOrderByWithRelationInput = {
@@ -286,9 +294,10 @@ export type goods_receiptsOrderByWithRelationInput = {
   posted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   purchase_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type goods_receiptsWhereUniqueInput = Prisma.AtLeast<{
@@ -308,9 +317,10 @@ export type goods_receiptsWhereUniqueInput = Prisma.AtLeast<{
   posted_at?: Prisma.DateTimeNullableFilter<"goods_receipts"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   purchase_order_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   supplier_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
 }, "id">
 
 export type goods_receiptsOrderByWithAggregationInput = {
@@ -327,9 +337,10 @@ export type goods_receiptsOrderByWithAggregationInput = {
   posted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   purchase_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.goods_receiptsCountOrderByAggregateInput
   _max?: Prisma.goods_receiptsMaxOrderByAggregateInput
   _min?: Prisma.goods_receiptsMinOrderByAggregateInput
@@ -352,9 +363,10 @@ export type goods_receiptsScalarWhereWithAggregatesInput = {
   posted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"goods_receipts"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"goods_receipts"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"goods_receipts"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipts"> | string | null
   purchase_order_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipts"> | string | null
   supplier_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipts"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipts"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipts"> | string | null
 }
 
 export type goods_receiptsCreateInput = {
@@ -371,9 +383,10 @@ export type goods_receiptsCreateInput = {
   posted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   purchase_order_id?: string | null
   supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type goods_receiptsUncheckedCreateInput = {
@@ -390,9 +403,10 @@ export type goods_receiptsUncheckedCreateInput = {
   posted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   purchase_order_id?: string | null
   supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type goods_receiptsUpdateInput = {
@@ -409,9 +423,10 @@ export type goods_receiptsUpdateInput = {
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receiptsUncheckedUpdateInput = {
@@ -428,9 +443,10 @@ export type goods_receiptsUncheckedUpdateInput = {
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receiptsCreateManyInput = {
@@ -447,9 +463,10 @@ export type goods_receiptsCreateManyInput = {
   posted_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
   purchase_order_id?: string | null
   supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type goods_receiptsUpdateManyMutationInput = {
@@ -466,9 +483,10 @@ export type goods_receiptsUpdateManyMutationInput = {
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receiptsUncheckedUpdateManyInput = {
@@ -485,9 +503,10 @@ export type goods_receiptsUncheckedUpdateManyInput = {
   posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type goods_receiptsCountOrderByAggregateInput = {
@@ -504,9 +523,10 @@ export type goods_receiptsCountOrderByAggregateInput = {
   posted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   purchase_order_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type goods_receiptsMaxOrderByAggregateInput = {
@@ -523,9 +543,10 @@ export type goods_receiptsMaxOrderByAggregateInput = {
   posted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   purchase_order_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type goods_receiptsMinOrderByAggregateInput = {
@@ -542,9 +563,10 @@ export type goods_receiptsMinOrderByAggregateInput = {
   posted_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   purchase_order_id?: Prisma.SortOrder
   supplier_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type Enumreceipt_status_enumFieldUpdateOperationsInput = {
@@ -567,9 +589,10 @@ export type goods_receiptsSelect<ExtArgs extends runtime.Types.Extensions.Intern
   posted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   purchase_order_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["goods_receipts"]>
 
 export type goods_receiptsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -586,9 +609,10 @@ export type goods_receiptsSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   posted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   purchase_order_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["goods_receipts"]>
 
 export type goods_receiptsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -605,9 +629,10 @@ export type goods_receiptsSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   posted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   purchase_order_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["goods_receipts"]>
 
 export type goods_receiptsSelectScalar = {
@@ -624,12 +649,13 @@ export type goods_receiptsSelectScalar = {
   posted_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
   purchase_order_id?: boolean
   supplier_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type goods_receiptsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "receipt_number" | "store_id" | "warehouse_id" | "status" | "received_date" | "notes" | "created_by" | "posted_by" | "posted_at" | "created_at" | "updated_at" | "auth_user_id" | "purchase_order_id" | "supplier_id", ExtArgs["result"]["goods_receipts"]>
+export type goods_receiptsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "receipt_number" | "store_id" | "warehouse_id" | "status" | "received_date" | "notes" | "created_by" | "posted_by" | "posted_at" | "created_at" | "updated_at" | "purchase_order_id" | "supplier_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["goods_receipts"]>
 
 export type $goods_receiptsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "goods_receipts"
@@ -648,9 +674,10 @@ export type $goods_receiptsPayload<ExtArgs extends runtime.Types.Extensions.Inte
     posted_at: Date | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
     purchase_order_id: string | null
     supplier_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["goods_receipts"]>
   composites: {}
 }
@@ -1087,9 +1114,10 @@ export interface goods_receiptsFieldRefs {
   readonly posted_at: Prisma.FieldRef<"goods_receipts", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"goods_receipts", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"goods_receipts", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"goods_receipts", 'String'>
   readonly purchase_order_id: Prisma.FieldRef<"goods_receipts", 'String'>
   readonly supplier_id: Prisma.FieldRef<"goods_receipts", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"goods_receipts", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"goods_receipts", 'String'>
 }
     
 

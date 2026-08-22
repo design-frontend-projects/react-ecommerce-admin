@@ -43,10 +43,11 @@ export type Tax_ratesMinAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   is_inclusive: boolean | null
-  auth_user_id: string | null
   country_id: string | null
   id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Tax_ratesMaxAggregateOutputType = {
@@ -58,10 +59,11 @@ export type Tax_ratesMaxAggregateOutputType = {
   is_active: boolean | null
   created_at: Date | null
   is_inclusive: boolean | null
-  auth_user_id: string | null
   country_id: string | null
   id: string | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Tax_ratesCountAggregateOutputType = {
@@ -73,10 +75,11 @@ export type Tax_ratesCountAggregateOutputType = {
   is_active: number
   created_at: number
   is_inclusive: number
-  auth_user_id: number
   country_id: number
   id: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -98,10 +101,11 @@ export type Tax_ratesMinAggregateInputType = {
   is_active?: true
   created_at?: true
   is_inclusive?: true
-  auth_user_id?: true
   country_id?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Tax_ratesMaxAggregateInputType = {
@@ -113,10 +117,11 @@ export type Tax_ratesMaxAggregateInputType = {
   is_active?: true
   created_at?: true
   is_inclusive?: true
-  auth_user_id?: true
   country_id?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Tax_ratesCountAggregateInputType = {
@@ -128,10 +133,11 @@ export type Tax_ratesCountAggregateInputType = {
   is_active?: true
   created_at?: true
   is_inclusive?: true
-  auth_user_id?: true
   country_id?: true
   id?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -230,10 +236,11 @@ export type Tax_ratesGroupByOutputType = {
   is_active: boolean | null
   created_at: Date | null
   is_inclusive: boolean | null
-  auth_user_id: string | null
   country_id: string | null
   id: string
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Tax_ratesCountAggregateOutputType | null
   _avg: Tax_ratesAvgAggregateOutputType | null
   _sum: Tax_ratesSumAggregateOutputType | null
@@ -241,7 +248,7 @@ export type Tax_ratesGroupByOutputType = {
   _max: Tax_ratesMaxAggregateOutputType | null
 }
 
-export type GetTax_ratesGroupByPayload<T extends tax_ratesGroupByArgs> = Prisma.PrismaPromise<
+type GetTax_ratesGroupByPayload<T extends tax_ratesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tax_ratesGroupByOutputType, T['by']> &
       {
@@ -268,10 +275,11 @@ export type tax_ratesWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"tax_rates"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"tax_rates"> | Date | string | null
   is_inclusive?: Prisma.BoolNullableFilter<"tax_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   country_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   id?: Prisma.UuidFilter<"tax_rates"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
+  tenant_id?: Prisma.UuidFilter<"tax_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
 }
 
@@ -284,10 +292,11 @@ export type tax_ratesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_inclusive?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   country_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   countries?: Prisma.countriesOrderByWithRelationInput
 }
 
@@ -304,9 +313,10 @@ export type tax_ratesWhereUniqueInput = Prisma.AtLeast<{
   is_active?: Prisma.BoolNullableFilter<"tax_rates"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"tax_rates"> | Date | string | null
   is_inclusive?: Prisma.BoolNullableFilter<"tax_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   country_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
-  tenant_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
+  tenant_id?: Prisma.UuidFilter<"tax_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
 }, "id">
 
@@ -319,10 +329,11 @@ export type tax_ratesOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_inclusive?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   country_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.tax_ratesCountOrderByAggregateInput
   _avg?: Prisma.tax_ratesAvgOrderByAggregateInput
   _max?: Prisma.tax_ratesMaxOrderByAggregateInput
@@ -342,10 +353,11 @@ export type tax_ratesScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"tax_rates"> | boolean | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tax_rates"> | Date | string | null
   is_inclusive?: Prisma.BoolNullableWithAggregatesFilter<"tax_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"tax_rates"> | string | null
   country_id?: Prisma.UuidNullableWithAggregatesFilter<"tax_rates"> | string | null
   id?: Prisma.UuidWithAggregatesFilter<"tax_rates"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"tax_rates"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"tax_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"tax_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"tax_rates"> | string | null
 }
 
 export type tax_ratesCreateInput = {
@@ -357,9 +369,10 @@ export type tax_ratesCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   is_inclusive?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   countries?: Prisma.countriesCreateNestedOneWithoutTax_ratesInput
 }
 
@@ -372,10 +385,11 @@ export type tax_ratesUncheckedCreateInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   is_inclusive?: boolean | null
-  auth_user_id?: string | null
   country_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type tax_ratesUpdateInput = {
@@ -387,9 +401,10 @@ export type tax_ratesUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   countries?: Prisma.countriesUpdateOneWithoutTax_ratesNestedInput
 }
 
@@ -402,10 +417,11 @@ export type tax_ratesUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type tax_ratesCreateManyInput = {
@@ -417,10 +433,11 @@ export type tax_ratesCreateManyInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   is_inclusive?: boolean | null
-  auth_user_id?: string | null
   country_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type tax_ratesUpdateManyMutationInput = {
@@ -432,9 +449,10 @@ export type tax_ratesUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type tax_ratesUncheckedUpdateManyInput = {
@@ -446,10 +464,11 @@ export type tax_ratesUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Tax_ratesListRelationFilter = {
@@ -471,10 +490,11 @@ export type tax_ratesCountOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   is_inclusive?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type tax_ratesAvgOrderByAggregateInput = {
@@ -490,10 +510,11 @@ export type tax_ratesMaxOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   is_inclusive?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type tax_ratesMinOrderByAggregateInput = {
@@ -505,10 +526,11 @@ export type tax_ratesMinOrderByAggregateInput = {
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   is_inclusive?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type tax_ratesSumOrderByAggregateInput = {
@@ -566,9 +588,10 @@ export type tax_ratesCreateWithoutCountriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   is_inclusive?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type tax_ratesUncheckedCreateWithoutCountriesInput = {
@@ -580,9 +603,10 @@ export type tax_ratesUncheckedCreateWithoutCountriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   is_inclusive?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type tax_ratesCreateOrConnectWithoutCountriesInput = {
@@ -623,10 +647,11 @@ export type tax_ratesScalarWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"tax_rates"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"tax_rates"> | Date | string | null
   is_inclusive?: Prisma.BoolNullableFilter<"tax_rates"> | boolean | null
-  auth_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   country_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
   id?: Prisma.UuidFilter<"tax_rates"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
+  tenant_id?: Prisma.UuidFilter<"tax_rates"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"tax_rates"> | string | null
 }
 
 export type tax_ratesCreateManyCountriesInput = {
@@ -638,9 +663,10 @@ export type tax_ratesCreateManyCountriesInput = {
   is_active?: boolean | null
   created_at?: Date | string | null
   is_inclusive?: boolean | null
-  auth_user_id?: string | null
   id?: string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type tax_ratesUpdateWithoutCountriesInput = {
@@ -652,9 +678,10 @@ export type tax_ratesUpdateWithoutCountriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type tax_ratesUncheckedUpdateWithoutCountriesInput = {
@@ -666,9 +693,10 @@ export type tax_ratesUncheckedUpdateWithoutCountriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type tax_ratesUncheckedUpdateManyWithoutCountriesInput = {
@@ -680,9 +708,10 @@ export type tax_ratesUncheckedUpdateManyWithoutCountriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_inclusive?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -696,10 +725,11 @@ export type tax_ratesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   is_active?: boolean
   created_at?: boolean
   is_inclusive?: boolean
-  auth_user_id?: boolean
   country_id?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   countries?: boolean | Prisma.tax_rates$countriesArgs<ExtArgs>
 }, ExtArgs["result"]["tax_rates"]>
 
@@ -712,10 +742,11 @@ export type tax_ratesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   is_active?: boolean
   created_at?: boolean
   is_inclusive?: boolean
-  auth_user_id?: boolean
   country_id?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   countries?: boolean | Prisma.tax_rates$countriesArgs<ExtArgs>
 }, ExtArgs["result"]["tax_rates"]>
 
@@ -728,10 +759,11 @@ export type tax_ratesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   is_active?: boolean
   created_at?: boolean
   is_inclusive?: boolean
-  auth_user_id?: boolean
   country_id?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
   countries?: boolean | Prisma.tax_rates$countriesArgs<ExtArgs>
 }, ExtArgs["result"]["tax_rates"]>
 
@@ -744,13 +776,14 @@ export type tax_ratesSelectScalar = {
   is_active?: boolean
   created_at?: boolean
   is_inclusive?: boolean
-  auth_user_id?: boolean
   country_id?: boolean
   id?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type tax_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tax_type" | "rate" | "description" | "effective_from" | "effective_to" | "is_active" | "created_at" | "is_inclusive" | "auth_user_id" | "country_id" | "id" | "tenant_id", ExtArgs["result"]["tax_rates"]>
+export type tax_ratesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tax_type" | "rate" | "description" | "effective_from" | "effective_to" | "is_active" | "created_at" | "is_inclusive" | "country_id" | "id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["tax_rates"]>
 export type tax_ratesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   countries?: boolean | Prisma.tax_rates$countriesArgs<ExtArgs>
 }
@@ -775,10 +808,11 @@ export type $tax_ratesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     is_active: boolean | null
     created_at: Date | null
     is_inclusive: boolean | null
-    auth_user_id: string | null
     country_id: string | null
     id: string
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["tax_rates"]>
   composites: {}
 }
@@ -1211,10 +1245,11 @@ export interface tax_ratesFieldRefs {
   readonly is_active: Prisma.FieldRef<"tax_rates", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"tax_rates", 'DateTime'>
   readonly is_inclusive: Prisma.FieldRef<"tax_rates", 'Boolean'>
-  readonly auth_user_id: Prisma.FieldRef<"tax_rates", 'String'>
   readonly country_id: Prisma.FieldRef<"tax_rates", 'String'>
   readonly id: Prisma.FieldRef<"tax_rates", 'String'>
   readonly tenant_id: Prisma.FieldRef<"tax_rates", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"tax_rates", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"tax_rates", 'String'>
 }
     
 

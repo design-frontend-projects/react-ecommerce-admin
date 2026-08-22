@@ -118,7 +118,7 @@ export async function setScreenButtons(screenId: string, buttonIds: string[]) {
     select: { button_id: true },
   })) as Array<{ button_id: string }>
 
-  await prisma.$transaction(async (tx: typeof prisma) => {
+  await prisma.$transaction(async (tx: any) => {
     for (const button of buttons) {
       const permissionName = `${screen.code}.${button.code}`
       const permission = await tx.permissions.upsert({

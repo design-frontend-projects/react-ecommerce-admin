@@ -1,6 +1,6 @@
-﻿import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { jsonError } from '@/server/utils/http'
-import { getTenantAuthUserIds } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { withAuth } from '@/server/utils/with-auth'
 import prisma from '@/lib/prisma'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
@@ -15,27 +15,25 @@ export const Route = createFileRoute('/api/crm/customers/segment')({
           if (
             !payload.customerIds ||
             !Array.isArray(payload.customerIds) ||
-            !payload.segment
+            !payload.groupId
           ) {
             return jsonError('Invalid payload', 400)
           }
 
-          const { customerIds, segment } = payload
-
-          // Only customers belonging to the caller's tenant may be re-segmented.
-          const tenantAuthUserIds = await getTenantAuthUserIds(auth.userId)
+          const { customerIds, groupId } = payload
+          const tenantId = await requireTenantId(auth.userId)
+          const tenantUserId = await resolveTenantUserId(auth.userId)
 
           const result = await prisma.customers.updateMany({
             where: {
-              customer_id: {
+              id: {
                 in: customerIds,
               },
-              auth_user_id: {
-                in: tenantAuthUserIds,
-              },
+              tenant_id: tenantId,
             },
             data: {
-              crm_status: segment,
+              group_id: groupId,
+              updated_by_user_id: tenantUserId,
             },
           })
 

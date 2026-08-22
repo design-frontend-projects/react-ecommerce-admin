@@ -29,9 +29,11 @@ export type App_settingsMinAggregateOutputType = {
   key: string | null
   group: string | null
   is_public: boolean | null
-  auth_user_id: string | null
+  tenant_id: string | null
   created_at: Date | null
   updated_at: Date | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type App_settingsMaxAggregateOutputType = {
@@ -39,9 +41,11 @@ export type App_settingsMaxAggregateOutputType = {
   key: string | null
   group: string | null
   is_public: boolean | null
-  auth_user_id: string | null
+  tenant_id: string | null
   created_at: Date | null
   updated_at: Date | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type App_settingsCountAggregateOutputType = {
@@ -50,9 +54,11 @@ export type App_settingsCountAggregateOutputType = {
   value: number
   group: number
   is_public: number
-  auth_user_id: number
+  tenant_id: number
   created_at: number
   updated_at: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -62,9 +68,11 @@ export type App_settingsMinAggregateInputType = {
   key?: true
   group?: true
   is_public?: true
-  auth_user_id?: true
+  tenant_id?: true
   created_at?: true
   updated_at?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type App_settingsMaxAggregateInputType = {
@@ -72,9 +80,11 @@ export type App_settingsMaxAggregateInputType = {
   key?: true
   group?: true
   is_public?: true
-  auth_user_id?: true
+  tenant_id?: true
   created_at?: true
   updated_at?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type App_settingsCountAggregateInputType = {
@@ -83,9 +93,11 @@ export type App_settingsCountAggregateInputType = {
   value?: true
   group?: true
   is_public?: true
-  auth_user_id?: true
+  tenant_id?: true
   created_at?: true
   updated_at?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -167,15 +179,17 @@ export type App_settingsGroupByOutputType = {
   value: runtime.JsonValue
   group: string | null
   is_public: boolean
-  auth_user_id: string
+  tenant_id: string
   created_at: Date
   updated_at: Date
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: App_settingsCountAggregateOutputType | null
   _min: App_settingsMinAggregateOutputType | null
   _max: App_settingsMaxAggregateOutputType | null
 }
 
-export type GetApp_settingsGroupByPayload<T extends app_settingsGroupByArgs> = Prisma.PrismaPromise<
+type GetApp_settingsGroupByPayload<T extends app_settingsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<App_settingsGroupByOutputType, T['by']> &
       {
@@ -199,9 +213,11 @@ export type app_settingsWhereInput = {
   value?: Prisma.JsonFilter<"app_settings">
   group?: Prisma.StringNullableFilter<"app_settings"> | string | null
   is_public?: Prisma.BoolFilter<"app_settings"> | boolean
-  auth_user_id?: Prisma.UuidFilter<"app_settings"> | string
+  tenant_id?: Prisma.UuidFilter<"app_settings"> | string
   created_at?: Prisma.DateTimeFilter<"app_settings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"app_settings"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"app_settings"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"app_settings"> | string | null
 }
 
 export type app_settingsOrderByWithRelationInput = {
@@ -210,13 +226,16 @@ export type app_settingsOrderByWithRelationInput = {
   value?: Prisma.SortOrder
   group?: Prisma.SortOrderInput | Prisma.SortOrder
   is_public?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type app_settingsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  tenant_id_key?: Prisma.app_settingsTenant_idKeyCompoundUniqueInput
   AND?: Prisma.app_settingsWhereInput | Prisma.app_settingsWhereInput[]
   OR?: Prisma.app_settingsWhereInput[]
   NOT?: Prisma.app_settingsWhereInput | Prisma.app_settingsWhereInput[]
@@ -224,10 +243,12 @@ export type app_settingsWhereUniqueInput = Prisma.AtLeast<{
   value?: Prisma.JsonFilter<"app_settings">
   group?: Prisma.StringNullableFilter<"app_settings"> | string | null
   is_public?: Prisma.BoolFilter<"app_settings"> | boolean
-  auth_user_id?: Prisma.UuidFilter<"app_settings"> | string
+  tenant_id?: Prisma.UuidFilter<"app_settings"> | string
   created_at?: Prisma.DateTimeFilter<"app_settings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"app_settings"> | Date | string
-}, "id">
+  created_by_user_id?: Prisma.UuidNullableFilter<"app_settings"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"app_settings"> | string | null
+}, "id" | "tenant_id_key">
 
 export type app_settingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -235,9 +256,11 @@ export type app_settingsOrderByWithAggregationInput = {
   value?: Prisma.SortOrder
   group?: Prisma.SortOrderInput | Prisma.SortOrder
   is_public?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.app_settingsCountOrderByAggregateInput
   _max?: Prisma.app_settingsMaxOrderByAggregateInput
   _min?: Prisma.app_settingsMinOrderByAggregateInput
@@ -252,9 +275,11 @@ export type app_settingsScalarWhereWithAggregatesInput = {
   value?: Prisma.JsonWithAggregatesFilter<"app_settings">
   group?: Prisma.StringNullableWithAggregatesFilter<"app_settings"> | string | null
   is_public?: Prisma.BoolWithAggregatesFilter<"app_settings"> | boolean
-  auth_user_id?: Prisma.UuidWithAggregatesFilter<"app_settings"> | string
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"app_settings"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"app_settings"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"app_settings"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"app_settings"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"app_settings"> | string | null
 }
 
 export type app_settingsCreateInput = {
@@ -263,9 +288,11 @@ export type app_settingsCreateInput = {
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: string | null
   is_public?: boolean
-  auth_user_id: string
+  tenant_id: string
   created_at?: Date | string
   updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type app_settingsUncheckedCreateInput = {
@@ -274,9 +301,11 @@ export type app_settingsUncheckedCreateInput = {
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: string | null
   is_public?: boolean
-  auth_user_id: string
+  tenant_id: string
   created_at?: Date | string
   updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type app_settingsUpdateInput = {
@@ -285,9 +314,11 @@ export type app_settingsUpdateInput = {
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type app_settingsUncheckedUpdateInput = {
@@ -296,9 +327,11 @@ export type app_settingsUncheckedUpdateInput = {
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type app_settingsCreateManyInput = {
@@ -307,9 +340,11 @@ export type app_settingsCreateManyInput = {
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: string | null
   is_public?: boolean
-  auth_user_id: string
+  tenant_id: string
   created_at?: Date | string
   updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type app_settingsUpdateManyMutationInput = {
@@ -318,9 +353,11 @@ export type app_settingsUpdateManyMutationInput = {
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type app_settingsUncheckedUpdateManyInput = {
@@ -329,9 +366,16 @@ export type app_settingsUncheckedUpdateManyInput = {
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   group?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type app_settingsTenant_idKeyCompoundUniqueInput = {
+  tenant_id: string
+  key: string
 }
 
 export type app_settingsCountOrderByAggregateInput = {
@@ -340,9 +384,11 @@ export type app_settingsCountOrderByAggregateInput = {
   value?: Prisma.SortOrder
   group?: Prisma.SortOrder
   is_public?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type app_settingsMaxOrderByAggregateInput = {
@@ -350,9 +396,11 @@ export type app_settingsMaxOrderByAggregateInput = {
   key?: Prisma.SortOrder
   group?: Prisma.SortOrder
   is_public?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type app_settingsMinOrderByAggregateInput = {
@@ -360,9 +408,11 @@ export type app_settingsMinOrderByAggregateInput = {
   key?: Prisma.SortOrder
   group?: Prisma.SortOrder
   is_public?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 
@@ -373,9 +423,11 @@ export type app_settingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   value?: boolean
   group?: boolean
   is_public?: boolean
-  auth_user_id?: boolean
+  tenant_id?: boolean
   created_at?: boolean
   updated_at?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["app_settings"]>
 
 export type app_settingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -384,9 +436,11 @@ export type app_settingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   value?: boolean
   group?: boolean
   is_public?: boolean
-  auth_user_id?: boolean
+  tenant_id?: boolean
   created_at?: boolean
   updated_at?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["app_settings"]>
 
 export type app_settingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -395,9 +449,11 @@ export type app_settingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   value?: boolean
   group?: boolean
   is_public?: boolean
-  auth_user_id?: boolean
+  tenant_id?: boolean
   created_at?: boolean
   updated_at?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["app_settings"]>
 
 export type app_settingsSelectScalar = {
@@ -406,12 +462,14 @@ export type app_settingsSelectScalar = {
   value?: boolean
   group?: boolean
   is_public?: boolean
-  auth_user_id?: boolean
+  tenant_id?: boolean
   created_at?: boolean
   updated_at?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type app_settingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "key" | "value" | "group" | "is_public" | "auth_user_id" | "created_at" | "updated_at", ExtArgs["result"]["app_settings"]>
+export type app_settingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "key" | "value" | "group" | "is_public" | "tenant_id" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["app_settings"]>
 
 export type $app_settingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "app_settings"
@@ -422,9 +480,11 @@ export type $app_settingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     value: runtime.JsonValue
     group: string | null
     is_public: boolean
-    auth_user_id: string
+    tenant_id: string
     created_at: Date
     updated_at: Date
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["app_settings"]>
   composites: {}
 }
@@ -853,9 +913,11 @@ export interface app_settingsFieldRefs {
   readonly value: Prisma.FieldRef<"app_settings", 'Json'>
   readonly group: Prisma.FieldRef<"app_settings", 'String'>
   readonly is_public: Prisma.FieldRef<"app_settings", 'Boolean'>
-  readonly auth_user_id: Prisma.FieldRef<"app_settings", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"app_settings", 'String'>
   readonly created_at: Prisma.FieldRef<"app_settings", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"app_settings", 'DateTime'>
+  readonly created_by_user_id: Prisma.FieldRef<"app_settings", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"app_settings", 'String'>
 }
     
 

@@ -43,7 +43,6 @@ export type TransactionsSumAggregateOutputType = {
 export type TransactionsMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
-  auth_user_id: string | null
   transaction_number: string | null
   transaction_type: $Enums.transaction_type_enum | null
   status: string | null
@@ -60,12 +59,13 @@ export type TransactionsMinAggregateOutputType = {
   reference_transaction_id: string | null
   sales_invoice_id: string | null
   sales_return_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type TransactionsMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
-  auth_user_id: string | null
   transaction_number: string | null
   transaction_type: $Enums.transaction_type_enum | null
   status: string | null
@@ -82,12 +82,13 @@ export type TransactionsMaxAggregateOutputType = {
   reference_transaction_id: string | null
   sales_invoice_id: string | null
   sales_return_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type TransactionsCountAggregateOutputType = {
   id: number
   tenant_id: number
-  auth_user_id: number
   transaction_number: number
   transaction_type: number
   status: number
@@ -105,6 +106,8 @@ export type TransactionsCountAggregateOutputType = {
   reference_transaction_id: number
   sales_invoice_id: number
   sales_return_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -126,7 +129,6 @@ export type TransactionsSumAggregateInputType = {
 export type TransactionsMinAggregateInputType = {
   id?: true
   tenant_id?: true
-  auth_user_id?: true
   transaction_number?: true
   transaction_type?: true
   status?: true
@@ -143,12 +145,13 @@ export type TransactionsMinAggregateInputType = {
   reference_transaction_id?: true
   sales_invoice_id?: true
   sales_return_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type TransactionsMaxAggregateInputType = {
   id?: true
   tenant_id?: true
-  auth_user_id?: true
   transaction_number?: true
   transaction_type?: true
   status?: true
@@ -165,12 +168,13 @@ export type TransactionsMaxAggregateInputType = {
   reference_transaction_id?: true
   sales_invoice_id?: true
   sales_return_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type TransactionsCountAggregateInputType = {
   id?: true
   tenant_id?: true
-  auth_user_id?: true
   transaction_number?: true
   transaction_type?: true
   status?: true
@@ -188,6 +192,8 @@ export type TransactionsCountAggregateInputType = {
   reference_transaction_id?: true
   sales_invoice_id?: true
   sales_return_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -279,8 +285,7 @@ export type transactionsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 
 export type TransactionsGroupByOutputType = {
   id: string
-  tenant_id: string | null
-  auth_user_id: string
+  tenant_id: string
   transaction_number: string
   transaction_type: $Enums.transaction_type_enum
   status: string
@@ -298,6 +303,8 @@ export type TransactionsGroupByOutputType = {
   reference_transaction_id: string | null
   sales_invoice_id: string | null
   sales_return_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: TransactionsCountAggregateOutputType | null
   _avg: TransactionsAvgAggregateOutputType | null
   _sum: TransactionsSumAggregateOutputType | null
@@ -305,7 +312,7 @@ export type TransactionsGroupByOutputType = {
   _max: TransactionsMaxAggregateOutputType | null
 }
 
-export type GetTransactionsGroupByPayload<T extends transactionsGroupByArgs> = Prisma.PrismaPromise<
+type GetTransactionsGroupByPayload<T extends transactionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TransactionsGroupByOutputType, T['by']> &
       {
@@ -325,8 +332,7 @@ export type transactionsWhereInput = {
   OR?: Prisma.transactionsWhereInput[]
   NOT?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
   id?: Prisma.UuidFilter<"transactions"> | string
-  tenant_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  auth_user_id?: Prisma.UuidFilter<"transactions"> | string
+  tenant_id?: Prisma.UuidFilter<"transactions"> | string
   transaction_number?: Prisma.StringFilter<"transactions"> | string
   transaction_type?: Prisma.Enumtransaction_type_enumFilter<"transactions"> | $Enums.transaction_type_enum
   status?: Prisma.StringFilter<"transactions"> | string
@@ -344,12 +350,13 @@ export type transactionsWhereInput = {
   reference_transaction_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_invoice_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_return_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
 }
 
 export type transactionsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   transaction_number?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -367,6 +374,8 @@ export type transactionsOrderByWithRelationInput = {
   reference_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type transactionsWhereUniqueInput = Prisma.AtLeast<{
@@ -374,8 +383,7 @@ export type transactionsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
   OR?: Prisma.transactionsWhereInput[]
   NOT?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
-  tenant_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
-  auth_user_id?: Prisma.UuidFilter<"transactions"> | string
+  tenant_id?: Prisma.UuidFilter<"transactions"> | string
   transaction_number?: Prisma.StringFilter<"transactions"> | string
   transaction_type?: Prisma.Enumtransaction_type_enumFilter<"transactions"> | $Enums.transaction_type_enum
   status?: Prisma.StringFilter<"transactions"> | string
@@ -393,12 +401,13 @@ export type transactionsWhereUniqueInput = Prisma.AtLeast<{
   reference_transaction_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_invoice_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
   sales_return_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"transactions"> | string | null
 }, "id">
 
 export type transactionsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   transaction_number?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -416,6 +425,8 @@ export type transactionsOrderByWithAggregationInput = {
   reference_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   sales_return_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.transactionsCountOrderByAggregateInput
   _avg?: Prisma.transactionsAvgOrderByAggregateInput
   _max?: Prisma.transactionsMaxOrderByAggregateInput
@@ -428,8 +439,7 @@ export type transactionsScalarWhereWithAggregatesInput = {
   OR?: Prisma.transactionsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.transactionsScalarWhereWithAggregatesInput | Prisma.transactionsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"transactions"> | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"transactions"> | string | null
-  auth_user_id?: Prisma.UuidWithAggregatesFilter<"transactions"> | string
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"transactions"> | string
   transaction_number?: Prisma.StringWithAggregatesFilter<"transactions"> | string
   transaction_type?: Prisma.Enumtransaction_type_enumWithAggregatesFilter<"transactions"> | $Enums.transaction_type_enum
   status?: Prisma.StringWithAggregatesFilter<"transactions"> | string
@@ -447,12 +457,13 @@ export type transactionsScalarWhereWithAggregatesInput = {
   reference_transaction_id?: Prisma.UuidNullableWithAggregatesFilter<"transactions"> | string | null
   sales_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"transactions"> | string | null
   sales_return_id?: Prisma.UuidNullableWithAggregatesFilter<"transactions"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"transactions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"transactions"> | string | null
 }
 
 export type transactionsCreateInput = {
   id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
+  tenant_id: string
   transaction_number: string
   transaction_type: $Enums.transaction_type_enum
   status?: string
@@ -470,12 +481,13 @@ export type transactionsCreateInput = {
   reference_transaction_id?: string | null
   sales_invoice_id?: string | null
   sales_return_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type transactionsUncheckedCreateInput = {
   id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
+  tenant_id: string
   transaction_number: string
   transaction_type: $Enums.transaction_type_enum
   status?: string
@@ -493,12 +505,13 @@ export type transactionsUncheckedCreateInput = {
   reference_transaction_id?: string | null
   sales_invoice_id?: string | null
   sales_return_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type transactionsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -516,12 +529,13 @@ export type transactionsUpdateInput = {
   reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -539,12 +553,13 @@ export type transactionsUncheckedUpdateInput = {
   reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsCreateManyInput = {
   id?: string
-  tenant_id?: string | null
-  auth_user_id?: string
+  tenant_id: string
   transaction_number: string
   transaction_type: $Enums.transaction_type_enum
   status?: string
@@ -562,12 +577,13 @@ export type transactionsCreateManyInput = {
   reference_transaction_id?: string | null
   sales_invoice_id?: string | null
   sales_return_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type transactionsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -585,12 +601,13 @@ export type transactionsUpdateManyMutationInput = {
   reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_number?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -608,12 +625,13 @@ export type transactionsUncheckedUpdateManyInput = {
   reference_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_return_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   transaction_number?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -631,6 +649,8 @@ export type transactionsCountOrderByAggregateInput = {
   reference_transaction_id?: Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrder
   sales_return_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type transactionsAvgOrderByAggregateInput = {
@@ -643,7 +663,6 @@ export type transactionsAvgOrderByAggregateInput = {
 export type transactionsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   transaction_number?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -660,12 +679,13 @@ export type transactionsMaxOrderByAggregateInput = {
   reference_transaction_id?: Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrder
   sales_return_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type transactionsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   transaction_number?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -682,6 +702,8 @@ export type transactionsMinOrderByAggregateInput = {
   reference_transaction_id?: Prisma.SortOrder
   sales_invoice_id?: Prisma.SortOrder
   sales_return_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type transactionsSumOrderByAggregateInput = {
@@ -700,7 +722,6 @@ export type Enumtransaction_type_enumFieldUpdateOperationsInput = {
 export type transactionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
-  auth_user_id?: boolean
   transaction_number?: boolean
   transaction_type?: boolean
   status?: boolean
@@ -718,12 +739,13 @@ export type transactionsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
-  auth_user_id?: boolean
   transaction_number?: boolean
   transaction_type?: boolean
   status?: boolean
@@ -741,12 +763,13 @@ export type transactionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
-  auth_user_id?: boolean
   transaction_number?: boolean
   transaction_type?: boolean
   status?: boolean
@@ -764,12 +787,13 @@ export type transactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectScalar = {
   id?: boolean
   tenant_id?: boolean
-  auth_user_id?: boolean
   transaction_number?: boolean
   transaction_type?: boolean
   status?: boolean
@@ -787,17 +811,18 @@ export type transactionsSelectScalar = {
   reference_transaction_id?: boolean
   sales_invoice_id?: boolean
   sales_return_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type transactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "auth_user_id" | "transaction_number" | "transaction_type" | "status" | "currency" | "subtotal" | "tax_amount" | "discount_amount" | "total_amount" | "ip_address" | "user_agent" | "metadata" | "notes" | "created_at" | "updated_at" | "reference_transaction_id" | "sales_invoice_id" | "sales_return_id", ExtArgs["result"]["transactions"]>
+export type transactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transaction_number" | "transaction_type" | "status" | "currency" | "subtotal" | "tax_amount" | "discount_amount" | "total_amount" | "ip_address" | "user_agent" | "metadata" | "notes" | "created_at" | "updated_at" | "reference_transaction_id" | "sales_invoice_id" | "sales_return_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["transactions"]>
 
 export type $transactionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "transactions"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string | null
-    auth_user_id: string
+    tenant_id: string
     transaction_number: string
     transaction_type: $Enums.transaction_type_enum
     status: string
@@ -815,6 +840,8 @@ export type $transactionsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     reference_transaction_id: string | null
     sales_invoice_id: string | null
     sales_return_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["transactions"]>
   composites: {}
 }
@@ -1240,7 +1267,6 @@ export interface Prisma__transactionsClient<T, Null = never, ExtArgs extends run
 export interface transactionsFieldRefs {
   readonly id: Prisma.FieldRef<"transactions", 'String'>
   readonly tenant_id: Prisma.FieldRef<"transactions", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"transactions", 'String'>
   readonly transaction_number: Prisma.FieldRef<"transactions", 'String'>
   readonly transaction_type: Prisma.FieldRef<"transactions", 'transaction_type_enum'>
   readonly status: Prisma.FieldRef<"transactions", 'String'>
@@ -1258,6 +1284,8 @@ export interface transactionsFieldRefs {
   readonly reference_transaction_id: Prisma.FieldRef<"transactions", 'String'>
   readonly sales_invoice_id: Prisma.FieldRef<"transactions", 'String'>
   readonly sales_return_id: Prisma.FieldRef<"transactions", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"transactions", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"transactions", 'String'>
 }
     
 

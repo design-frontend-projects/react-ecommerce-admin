@@ -41,7 +41,8 @@ export type Stock_transfersMinAggregateOutputType = {
   received_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_transfersMaxAggregateOutputType = {
@@ -61,7 +62,8 @@ export type Stock_transfersMaxAggregateOutputType = {
   received_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_transfersCountAggregateOutputType = {
@@ -81,7 +83,8 @@ export type Stock_transfersCountAggregateOutputType = {
   received_at: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -103,7 +106,8 @@ export type Stock_transfersMinAggregateInputType = {
   received_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_transfersMaxAggregateInputType = {
@@ -123,7 +127,8 @@ export type Stock_transfersMaxAggregateInputType = {
   received_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_transfersCountAggregateInputType = {
@@ -143,7 +148,8 @@ export type Stock_transfersCountAggregateInputType = {
   received_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -236,13 +242,14 @@ export type Stock_transfersGroupByOutputType = {
   received_at: Date | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Stock_transfersCountAggregateOutputType | null
   _min: Stock_transfersMinAggregateOutputType | null
   _max: Stock_transfersMaxAggregateOutputType | null
 }
 
-export type GetStock_transfersGroupByPayload<T extends stock_transfersGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_transfersGroupByPayload<T extends stock_transfersGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_transfersGroupByOutputType, T['by']> &
       {
@@ -277,7 +284,8 @@ export type stock_transfersWhereInput = {
   received_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
 }
 
 export type stock_transfersOrderByWithRelationInput = {
@@ -297,7 +305,8 @@ export type stock_transfersOrderByWithRelationInput = {
   received_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type stock_transfersWhereUniqueInput = Prisma.AtLeast<{
@@ -320,7 +329,8 @@ export type stock_transfersWhereUniqueInput = Prisma.AtLeast<{
   received_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
 }, "id">
 
 export type stock_transfersOrderByWithAggregationInput = {
@@ -340,7 +350,8 @@ export type stock_transfersOrderByWithAggregationInput = {
   received_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_transfersCountOrderByAggregateInput
   _max?: Prisma.stock_transfersMaxOrderByAggregateInput
   _min?: Prisma.stock_transfersMinOrderByAggregateInput
@@ -366,7 +377,8 @@ export type stock_transfersScalarWhereWithAggregatesInput = {
   received_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"stock_transfers"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
 }
 
 export type stock_transfersCreateInput = {
@@ -386,7 +398,8 @@ export type stock_transfersCreateInput = {
   received_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_transfersUncheckedCreateInput = {
@@ -406,7 +419,8 @@ export type stock_transfersUncheckedCreateInput = {
   received_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_transfersUpdateInput = {
@@ -426,7 +440,8 @@ export type stock_transfersUpdateInput = {
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfersUncheckedUpdateInput = {
@@ -446,7 +461,8 @@ export type stock_transfersUncheckedUpdateInput = {
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfersCreateManyInput = {
@@ -466,7 +482,8 @@ export type stock_transfersCreateManyInput = {
   received_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_transfersUpdateManyMutationInput = {
@@ -486,7 +503,8 @@ export type stock_transfersUpdateManyMutationInput = {
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfersUncheckedUpdateManyInput = {
@@ -506,7 +524,8 @@ export type stock_transfersUncheckedUpdateManyInput = {
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_transfersCountOrderByAggregateInput = {
@@ -526,7 +545,8 @@ export type stock_transfersCountOrderByAggregateInput = {
   received_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_transfersMaxOrderByAggregateInput = {
@@ -546,7 +566,8 @@ export type stock_transfersMaxOrderByAggregateInput = {
   received_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_transfersMinOrderByAggregateInput = {
@@ -566,7 +587,8 @@ export type stock_transfersMinOrderByAggregateInput = {
   received_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type Enumtransfer_status_enumFieldUpdateOperationsInput = {
@@ -592,7 +614,8 @@ export type stock_transfersSelect<ExtArgs extends runtime.Types.Extensions.Inter
   received_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_transfers"]>
 
 export type stock_transfersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -612,7 +635,8 @@ export type stock_transfersSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   received_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_transfers"]>
 
 export type stock_transfersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -632,7 +656,8 @@ export type stock_transfersSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   received_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_transfers"]>
 
 export type stock_transfersSelectScalar = {
@@ -652,10 +677,11 @@ export type stock_transfersSelectScalar = {
   received_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type stock_transfersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "from_store_id" | "to_store_id" | "from_branch_id" | "to_branch_id" | "status" | "reference_no" | "notes" | "created_by" | "shipped_by" | "received_by" | "shipped_at" | "received_at" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["stock_transfers"]>
+export type stock_transfersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "from_store_id" | "to_store_id" | "from_branch_id" | "to_branch_id" | "status" | "reference_no" | "notes" | "created_by" | "shipped_by" | "received_by" | "shipped_at" | "received_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_transfers"]>
 
 export type $stock_transfersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_transfers"
@@ -677,7 +703,8 @@ export type $stock_transfersPayload<ExtArgs extends runtime.Types.Extensions.Int
     received_at: Date | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stock_transfers"]>
   composites: {}
 }
@@ -1117,7 +1144,8 @@ export interface stock_transfersFieldRefs {
   readonly received_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
 }
     
 

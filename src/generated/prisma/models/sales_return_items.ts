@@ -50,8 +50,10 @@ export type Sales_return_itemsMinAggregateOutputType = {
   tax_amount: runtime.Decimal | null
   line_total: runtime.Decimal | null
   reason: string | null
-  auth_user_id: string | null
   batch_id: string | null
+  tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Sales_return_itemsMaxAggregateOutputType = {
@@ -64,8 +66,10 @@ export type Sales_return_itemsMaxAggregateOutputType = {
   tax_amount: runtime.Decimal | null
   line_total: runtime.Decimal | null
   reason: string | null
-  auth_user_id: string | null
   batch_id: string | null
+  tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Sales_return_itemsCountAggregateOutputType = {
@@ -78,8 +82,10 @@ export type Sales_return_itemsCountAggregateOutputType = {
   tax_amount: number
   line_total: number
   reason: number
-  auth_user_id: number
   batch_id: number
+  tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -108,8 +114,10 @@ export type Sales_return_itemsMinAggregateInputType = {
   tax_amount?: true
   line_total?: true
   reason?: true
-  auth_user_id?: true
   batch_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Sales_return_itemsMaxAggregateInputType = {
@@ -122,8 +130,10 @@ export type Sales_return_itemsMaxAggregateInputType = {
   tax_amount?: true
   line_total?: true
   reason?: true
-  auth_user_id?: true
   batch_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Sales_return_itemsCountAggregateInputType = {
@@ -136,8 +146,10 @@ export type Sales_return_itemsCountAggregateInputType = {
   tax_amount?: true
   line_total?: true
   reason?: true
-  auth_user_id?: true
   batch_id?: true
+  tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -237,8 +249,10 @@ export type Sales_return_itemsGroupByOutputType = {
   tax_amount: runtime.Decimal
   line_total: runtime.Decimal
   reason: string | null
-  auth_user_id: string | null
   batch_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Sales_return_itemsCountAggregateOutputType | null
   _avg: Sales_return_itemsAvgAggregateOutputType | null
   _sum: Sales_return_itemsSumAggregateOutputType | null
@@ -246,7 +260,7 @@ export type Sales_return_itemsGroupByOutputType = {
   _max: Sales_return_itemsMaxAggregateOutputType | null
 }
 
-export type GetSales_return_itemsGroupByPayload<T extends sales_return_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetSales_return_itemsGroupByPayload<T extends sales_return_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Sales_return_itemsGroupByOutputType, T['by']> &
       {
@@ -274,8 +288,10 @@ export type sales_return_itemsWhereInput = {
   tax_amount?: Prisma.DecimalFilter<"sales_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFilter<"sales_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"sales_return_items"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"sales_return_items"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
 }
 
 export type sales_return_itemsOrderByWithRelationInput = {
@@ -288,8 +304,10 @@ export type sales_return_itemsOrderByWithRelationInput = {
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type sales_return_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -305,8 +323,10 @@ export type sales_return_itemsWhereUniqueInput = Prisma.AtLeast<{
   tax_amount?: Prisma.DecimalFilter<"sales_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFilter<"sales_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"sales_return_items"> | string | null
-  auth_user_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
+  tenant_id?: Prisma.UuidFilter<"sales_return_items"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"sales_return_items"> | string | null
 }, "id">
 
 export type sales_return_itemsOrderByWithAggregationInput = {
@@ -319,8 +339,10 @@ export type sales_return_itemsOrderByWithAggregationInput = {
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.sales_return_itemsCountOrderByAggregateInput
   _avg?: Prisma.sales_return_itemsAvgOrderByAggregateInput
   _max?: Prisma.sales_return_itemsMaxOrderByAggregateInput
@@ -341,8 +363,10 @@ export type sales_return_itemsScalarWhereWithAggregatesInput = {
   tax_amount?: Prisma.DecimalWithAggregatesFilter<"sales_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalWithAggregatesFilter<"sales_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableWithAggregatesFilter<"sales_return_items"> | string | null
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_return_items"> | string | null
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_return_items"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"sales_return_items"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_return_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_return_items"> | string | null
 }
 
 export type sales_return_itemsCreateInput = {
@@ -355,8 +379,10 @@ export type sales_return_itemsCreateInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
-  auth_user_id?: string | null
   batch_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type sales_return_itemsUncheckedCreateInput = {
@@ -369,8 +395,10 @@ export type sales_return_itemsUncheckedCreateInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
-  auth_user_id?: string | null
   batch_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type sales_return_itemsUpdateInput = {
@@ -383,8 +411,10 @@ export type sales_return_itemsUpdateInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_return_itemsUncheckedUpdateInput = {
@@ -397,8 +427,10 @@ export type sales_return_itemsUncheckedUpdateInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_return_itemsCreateManyInput = {
@@ -411,8 +443,10 @@ export type sales_return_itemsCreateManyInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
-  auth_user_id?: string | null
   batch_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type sales_return_itemsUpdateManyMutationInput = {
@@ -425,8 +459,10 @@ export type sales_return_itemsUpdateManyMutationInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_return_itemsUncheckedUpdateManyInput = {
@@ -439,8 +475,10 @@ export type sales_return_itemsUncheckedUpdateManyInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type sales_return_itemsCountOrderByAggregateInput = {
@@ -453,8 +491,10 @@ export type sales_return_itemsCountOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   reason?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type sales_return_itemsAvgOrderByAggregateInput = {
@@ -474,8 +514,10 @@ export type sales_return_itemsMaxOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   reason?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type sales_return_itemsMinOrderByAggregateInput = {
@@ -488,8 +530,10 @@ export type sales_return_itemsMinOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   reason?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type sales_return_itemsSumOrderByAggregateInput = {
@@ -511,8 +555,10 @@ export type sales_return_itemsSelect<ExtArgs extends runtime.Types.Extensions.In
   tax_amount?: boolean
   line_total?: boolean
   reason?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["sales_return_items"]>
 
 export type sales_return_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -525,8 +571,10 @@ export type sales_return_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.
   tax_amount?: boolean
   line_total?: boolean
   reason?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["sales_return_items"]>
 
 export type sales_return_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -539,8 +587,10 @@ export type sales_return_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.
   tax_amount?: boolean
   line_total?: boolean
   reason?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["sales_return_items"]>
 
 export type sales_return_itemsSelectScalar = {
@@ -553,11 +603,13 @@ export type sales_return_itemsSelectScalar = {
   tax_amount?: boolean
   line_total?: boolean
   reason?: boolean
-  auth_user_id?: boolean
   batch_id?: boolean
+  tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type sales_return_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sales_return_id" | "sales_invoice_item_id" | "product_variant_id" | "quantity" | "unit_price" | "tax_amount" | "line_total" | "reason" | "auth_user_id" | "batch_id", ExtArgs["result"]["sales_return_items"]>
+export type sales_return_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sales_return_id" | "sales_invoice_item_id" | "product_variant_id" | "quantity" | "unit_price" | "tax_amount" | "line_total" | "reason" | "batch_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_return_items"]>
 
 export type $sales_return_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "sales_return_items"
@@ -572,8 +624,10 @@ export type $sales_return_itemsPayload<ExtArgs extends runtime.Types.Extensions.
     tax_amount: runtime.Decimal
     line_total: runtime.Decimal
     reason: string | null
-    auth_user_id: string | null
     batch_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["sales_return_items"]>
   composites: {}
 }
@@ -1006,8 +1060,10 @@ export interface sales_return_itemsFieldRefs {
   readonly tax_amount: Prisma.FieldRef<"sales_return_items", 'Decimal'>
   readonly line_total: Prisma.FieldRef<"sales_return_items", 'Decimal'>
   readonly reason: Prisma.FieldRef<"sales_return_items", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"sales_return_items", 'String'>
   readonly batch_id: Prisma.FieldRef<"sales_return_items", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"sales_return_items", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"sales_return_items", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"sales_return_items", 'String'>
 }
     
 

@@ -10,8 +10,8 @@ export function determineSegment(customer: any, sales: any[]): string {
 
   // If no activity in 6 months, inactive
   if (
-    customer.last_active_at &&
-    Temporal.PlainDate.compare(toPlainDate(customer.last_active_at), sixMonthsAgo) < 0
+    customer.updated_at &&
+    Temporal.PlainDate.compare(toPlainDate(customer.updated_at), sixMonthsAgo) < 0
   ) {
     return 'inactive'
   }
@@ -47,15 +47,13 @@ export function determineSegment(customer: any, sales: any[]): string {
   return segment
 }
 
-export async function classifySegments() {
+export async function classifySegments(tenantId?: string) {
   const customers = await prisma.customers.findMany({
-    include: {
-      sales_invoices: true,
-    },
+    where: tenantId ? { tenant_id: tenantId } : undefined,
   })
 
   const updates = customers.map((customer: any) => {
-    const segment = determineSegment(customer, customer.sales_invoices || [])
+    const segment = determineSegment(customer, [])
     return {
       id: customer.id,
       segment,
@@ -65,8 +63,8 @@ export async function classifySegments() {
   // Batch update
   const updatePromises = updates.map((u: any) =>
     prisma.customers.update({
-      where: { customer_id: u.customer_id },
-      data: { crm_status: u.segment },
+      where: { id: u.id },
+      data: { is_active: u.segment !== 'inactive' },
     })
   )
 

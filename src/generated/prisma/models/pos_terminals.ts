@@ -26,7 +26,6 @@ export type AggregatePos_terminals = {
 
 export type Pos_terminalsMinAggregateOutputType = {
   id: string | null
-  auth_user_id: string | null
   store_id: string | null
   name: string | null
   code: string | null
@@ -36,11 +35,12 @@ export type Pos_terminalsMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Pos_terminalsMaxAggregateOutputType = {
   id: string | null
-  auth_user_id: string | null
   store_id: string | null
   name: string | null
   code: string | null
@@ -50,11 +50,12 @@ export type Pos_terminalsMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   tenant_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Pos_terminalsCountAggregateOutputType = {
   id: number
-  auth_user_id: number
   store_id: number
   name: number
   code: number
@@ -64,13 +65,14 @@ export type Pos_terminalsCountAggregateOutputType = {
   created_at: number
   updated_at: number
   tenant_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
 
 export type Pos_terminalsMinAggregateInputType = {
   id?: true
-  auth_user_id?: true
   store_id?: true
   name?: true
   code?: true
@@ -80,11 +82,12 @@ export type Pos_terminalsMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Pos_terminalsMaxAggregateInputType = {
   id?: true
-  auth_user_id?: true
   store_id?: true
   name?: true
   code?: true
@@ -94,11 +97,12 @@ export type Pos_terminalsMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Pos_terminalsCountAggregateInputType = {
   id?: true
-  auth_user_id?: true
   store_id?: true
   name?: true
   code?: true
@@ -108,6 +112,8 @@ export type Pos_terminalsCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   tenant_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -185,7 +191,6 @@ export type pos_terminalsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type Pos_terminalsGroupByOutputType = {
   id: string
-  auth_user_id: string
   store_id: string | null
   name: string
   code: string
@@ -194,13 +199,15 @@ export type Pos_terminalsGroupByOutputType = {
   status: $Enums.record_status
   created_at: Date
   updated_at: Date
-  tenant_id: string | null
+  tenant_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Pos_terminalsCountAggregateOutputType | null
   _min: Pos_terminalsMinAggregateOutputType | null
   _max: Pos_terminalsMaxAggregateOutputType | null
 }
 
-export type GetPos_terminalsGroupByPayload<T extends pos_terminalsGroupByArgs> = Prisma.PrismaPromise<
+type GetPos_terminalsGroupByPayload<T extends pos_terminalsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Pos_terminalsGroupByOutputType, T['by']> &
       {
@@ -220,7 +227,6 @@ export type pos_terminalsWhereInput = {
   OR?: Prisma.pos_terminalsWhereInput[]
   NOT?: Prisma.pos_terminalsWhereInput | Prisma.pos_terminalsWhereInput[]
   id?: Prisma.UuidFilter<"pos_terminals"> | string
-  auth_user_id?: Prisma.UuidFilter<"pos_terminals"> | string
   store_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
   name?: Prisma.StringFilter<"pos_terminals"> | string
   code?: Prisma.StringFilter<"pos_terminals"> | string
@@ -229,12 +235,13 @@ export type pos_terminalsWhereInput = {
   status?: Prisma.Enumrecord_statusFilter<"pos_terminals"> | $Enums.record_status
   created_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
-  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
+  tenant_id?: Prisma.UuidFilter<"pos_terminals"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
 }
 
 export type pos_terminalsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
@@ -243,7 +250,9 @@ export type pos_terminalsOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
@@ -251,7 +260,6 @@ export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.pos_terminalsWhereInput | Prisma.pos_terminalsWhereInput[]
   OR?: Prisma.pos_terminalsWhereInput[]
   NOT?: Prisma.pos_terminalsWhereInput | Prisma.pos_terminalsWhereInput[]
-  auth_user_id?: Prisma.UuidFilter<"pos_terminals"> | string
   store_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
   name?: Prisma.StringFilter<"pos_terminals"> | string
   code?: Prisma.StringFilter<"pos_terminals"> | string
@@ -260,12 +268,13 @@ export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.Enumrecord_statusFilter<"pos_terminals"> | $Enums.record_status
   created_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"pos_terminals"> | Date | string
-  tenant_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
+  tenant_id?: Prisma.UuidFilter<"pos_terminals"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"pos_terminals"> | string | null
 }, "id">
 
 export type pos_terminalsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
@@ -274,7 +283,9 @@ export type pos_terminalsOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.pos_terminalsCountOrderByAggregateInput
   _max?: Prisma.pos_terminalsMaxOrderByAggregateInput
   _min?: Prisma.pos_terminalsMinOrderByAggregateInput
@@ -285,7 +296,6 @@ export type pos_terminalsScalarWhereWithAggregatesInput = {
   OR?: Prisma.pos_terminalsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.pos_terminalsScalarWhereWithAggregatesInput | Prisma.pos_terminalsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"pos_terminals"> | string
-  auth_user_id?: Prisma.UuidWithAggregatesFilter<"pos_terminals"> | string
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"pos_terminals"> | string
   code?: Prisma.StringWithAggregatesFilter<"pos_terminals"> | string
@@ -294,12 +304,13 @@ export type pos_terminalsScalarWhereWithAggregatesInput = {
   status?: Prisma.Enumrecord_statusWithAggregatesFilter<"pos_terminals"> | $Enums.record_status
   created_at?: Prisma.DateTimeWithAggregatesFilter<"pos_terminals"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"pos_terminals"> | Date | string
-  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
+  tenant_id?: Prisma.UuidWithAggregatesFilter<"pos_terminals"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"pos_terminals"> | string | null
 }
 
 export type pos_terminalsCreateInput = {
   id?: string
-  auth_user_id?: string
   store_id?: string | null
   name: string
   code: string
@@ -308,12 +319,13 @@ export type pos_terminalsCreateInput = {
   status?: $Enums.record_status
   created_at?: Date | string
   updated_at?: Date | string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type pos_terminalsUncheckedCreateInput = {
   id?: string
-  auth_user_id?: string
   store_id?: string | null
   name: string
   code: string
@@ -322,12 +334,13 @@ export type pos_terminalsUncheckedCreateInput = {
   status?: $Enums.record_status
   created_at?: Date | string
   updated_at?: Date | string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type pos_terminalsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
@@ -336,12 +349,13 @@ export type pos_terminalsUpdateInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
@@ -350,12 +364,13 @@ export type pos_terminalsUncheckedUpdateInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsCreateManyInput = {
   id?: string
-  auth_user_id?: string
   store_id?: string | null
   name: string
   code: string
@@ -364,12 +379,13 @@ export type pos_terminalsCreateManyInput = {
   status?: $Enums.record_status
   created_at?: Date | string
   updated_at?: Date | string
-  tenant_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type pos_terminalsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
@@ -378,12 +394,13 @@ export type pos_terminalsUpdateManyMutationInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
@@ -392,12 +409,13 @@ export type pos_terminalsUncheckedUpdateManyInput = {
   status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type pos_terminalsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
@@ -407,11 +425,12 @@ export type pos_terminalsCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type pos_terminalsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
@@ -421,11 +440,12 @@ export type pos_terminalsMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type pos_terminalsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
@@ -435,6 +455,8 @@ export type pos_terminalsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type Enumrecord_statusFieldUpdateOperationsInput = {
@@ -449,7 +471,6 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type pos_terminalsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
   code?: boolean
@@ -459,11 +480,12 @@ export type pos_terminalsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   created_at?: boolean
   updated_at?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["pos_terminals"]>
 
 export type pos_terminalsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
   code?: boolean
@@ -473,11 +495,12 @@ export type pos_terminalsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   created_at?: boolean
   updated_at?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["pos_terminals"]>
 
 export type pos_terminalsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
   code?: boolean
@@ -487,11 +510,12 @@ export type pos_terminalsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   created_at?: boolean
   updated_at?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["pos_terminals"]>
 
 export type pos_terminalsSelectScalar = {
   id?: boolean
-  auth_user_id?: boolean
   store_id?: boolean
   name?: boolean
   code?: boolean
@@ -501,16 +525,17 @@ export type pos_terminalsSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   tenant_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type pos_terminalsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "store_id" | "name" | "code" | "device_identifier" | "receipt_printer_name" | "status" | "created_at" | "updated_at" | "tenant_id", ExtArgs["result"]["pos_terminals"]>
+export type pos_terminalsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "store_id" | "name" | "code" | "device_identifier" | "receipt_printer_name" | "status" | "created_at" | "updated_at" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["pos_terminals"]>
 
 export type $pos_terminalsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "pos_terminals"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    auth_user_id: string
     store_id: string | null
     name: string
     code: string
@@ -519,7 +544,9 @@ export type $pos_terminalsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     status: $Enums.record_status
     created_at: Date
     updated_at: Date
-    tenant_id: string | null
+    tenant_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["pos_terminals"]>
   composites: {}
 }
@@ -944,7 +971,6 @@ export interface Prisma__pos_terminalsClient<T, Null = never, ExtArgs extends ru
  */
 export interface pos_terminalsFieldRefs {
   readonly id: Prisma.FieldRef<"pos_terminals", 'String'>
-  readonly auth_user_id: Prisma.FieldRef<"pos_terminals", 'String'>
   readonly store_id: Prisma.FieldRef<"pos_terminals", 'String'>
   readonly name: Prisma.FieldRef<"pos_terminals", 'String'>
   readonly code: Prisma.FieldRef<"pos_terminals", 'String'>
@@ -954,6 +980,8 @@ export interface pos_terminalsFieldRefs {
   readonly created_at: Prisma.FieldRef<"pos_terminals", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"pos_terminals", 'DateTime'>
   readonly tenant_id: Prisma.FieldRef<"pos_terminals", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"pos_terminals", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"pos_terminals", 'String'>
 }
     
 

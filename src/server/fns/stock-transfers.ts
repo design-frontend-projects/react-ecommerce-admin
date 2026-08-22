@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface TransferItemInput {
@@ -52,11 +52,6 @@ export async function listTransfers(authUserId: string) {
   return prisma.stock_transfers.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
-    include: {
-      from_store: { select: { store_id: true, name: true } },
-      to_store: { select: { store_id: true, name: true } },
-      _count: { select: { stock_transfer_items: true } },
-    },
   })
 }
 
@@ -64,20 +59,17 @@ export async function getTransfer(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const transfer = await prisma.stock_transfers.findFirst({
     where: { id, tenant_id: tenantId },
-    include: {
-      from_store: { select: { store_id: true, name: true } },
-      to_store: { select: { store_id: true, name: true } },
-      stock_transfer_items: {
-        include: {
-          product_variants: { select: { id: true, sku: true } },
-        },
-      },
-    },
   })
   if (!transfer) {
     throw new ApiError('Transfer not found.', 404)
   }
-  return transfer
+  const items = await prisma.stock_transfer_items.findMany({
+    where: { stock_transfer_id: id },
+  })
+  return {
+    ...transfer,
+    stock_transfer_items: items,
+  }
 }
 
 export async function createTransfer(
@@ -85,6 +77,7 @@ export async function createTransfer(
   input: CreateTransferInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
 
   if (!input.fromStoreId || !input.toStoreId) {
     throw new ApiError('Source and destination stores are required.', 400)
@@ -99,27 +92,44 @@ export async function createTransfer(
     resolveStoreBranch(input.toStoreId),
   ])
 
-  return prisma.stock_transfers.create({
-    data: {
-      tenant_id: tenantId,
-      auth_user_id: tenantId,
-      from_store_id: input.fromStoreId,
-      to_store_id: input.toStoreId,
-      from_branch_id: fromBranchId,
-      to_branch_id: toBranchId,
-      reference_no: input.referenceNo ?? null,
-      notes: input.notes ?? null,
-      created_by: authUserId,
-      status: 'draft',
-      stock_transfer_items: {
-        create: input.items.map((item) => ({
+  return prisma.$transaction(async (tx: any) => {
+    const created = await tx.stock_transfers.create({
+      data: {
+        tenant_id: tenantId,
+        from_store_id: input.fromStoreId,
+        to_store_id: input.toStoreId,
+        from_branch_id: fromBranchId,
+        to_branch_id: toBranchId,
+        reference_no: input.referenceNo ?? null,
+        notes: input.notes ?? null,
+        created_by: authUserId,
+        status: 'draft',
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
+      },
+    })
+
+    if (input.items.length > 0) {
+      await tx.stock_transfer_items.createMany({
+        data: input.items.map((item) => ({
+          stock_transfer_id: created.id,
           product_variant_id: item.productVariantId,
           qty: item.qty,
           unit_cost: item.unitCost ?? 0,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
         })),
-      },
-    },
-    include: { stock_transfer_items: true },
+      })
+    }
+
+    const items = await tx.stock_transfer_items.findMany({
+      where: { stock_transfer_id: created.id },
+    })
+
+    return {
+      ...created,
+      stock_transfer_items: items,
+    }
   })
 }
 
@@ -129,6 +139,7 @@ export async function updateTransferDraft(
   input: UpdateTransferInput
 ) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = (await prisma.stock_transfers.findFirst({
     where: { id, tenant_id: tenantId },
     select: { status: true },
@@ -144,7 +155,7 @@ export async function updateTransferDraft(
     assertItems(input.items)
   }
 
-  return prisma.$transaction(async (tx: typeof prisma) => {
+  return prisma.$transaction(async (tx: any) => {
     if (input.items) {
       await tx.stock_transfer_items.deleteMany({
         where: { stock_transfer_id: id },
@@ -155,22 +166,32 @@ export async function updateTransferDraft(
           product_variant_id: item.productVariantId,
           qty: item.qty,
           unit_cost: item.unitCost ?? 0,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
         })),
       })
     }
-    return tx.stock_transfers.update({
+    const updated = await tx.stock_transfers.update({
       where: { id },
       data: {
         reference_no: input.referenceNo ?? undefined,
         notes: input.notes ?? undefined,
+        updated_by_user_id: tenantUserId,
       },
-      include: { stock_transfer_items: true },
     })
+    const items = await tx.stock_transfer_items.findMany({
+      where: { stock_transfer_id: id },
+    })
+    return {
+      ...updated,
+      stock_transfer_items: items,
+    }
   })
 }
 
 export async function cancelTransfer(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = (await prisma.stock_transfers.findFirst({
     where: { id, tenant_id: tenantId },
     select: { status: true },
@@ -183,7 +204,10 @@ export async function cancelTransfer(authUserId: string, id: string) {
   }
   return prisma.stock_transfers.update({
     where: { id },
-    data: { status: 'cancelled' },
+    data: {
+      status: 'cancelled',
+      updated_by_user_id: tenantUserId,
+    },
   })
 }
 

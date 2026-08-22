@@ -52,7 +52,8 @@ export type Stock_balancesMinAggregateOutputType = {
   last_movement_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_balancesMaxAggregateOutputType = {
@@ -67,7 +68,8 @@ export type Stock_balancesMaxAggregateOutputType = {
   last_movement_at: Date | null
   created_at: Date | null
   updated_at: Date | null
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Stock_balancesCountAggregateOutputType = {
@@ -82,7 +84,8 @@ export type Stock_balancesCountAggregateOutputType = {
   last_movement_at: number
   created_at: number
   updated_at: number
-  auth_user_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -113,7 +116,8 @@ export type Stock_balancesMinAggregateInputType = {
   last_movement_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_balancesMaxAggregateInputType = {
@@ -128,7 +132,8 @@ export type Stock_balancesMaxAggregateInputType = {
   last_movement_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Stock_balancesCountAggregateInputType = {
@@ -143,7 +148,8 @@ export type Stock_balancesCountAggregateInputType = {
   last_movement_at?: true
   created_at?: true
   updated_at?: true
-  auth_user_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -245,7 +251,8 @@ export type Stock_balancesGroupByOutputType = {
   last_movement_at: Date | null
   created_at: Date
   updated_at: Date
-  auth_user_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Stock_balancesCountAggregateOutputType | null
   _avg: Stock_balancesAvgAggregateOutputType | null
   _sum: Stock_balancesSumAggregateOutputType | null
@@ -253,7 +260,7 @@ export type Stock_balancesGroupByOutputType = {
   _max: Stock_balancesMaxAggregateOutputType | null
 }
 
-export type GetStock_balancesGroupByPayload<T extends stock_balancesGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_balancesGroupByPayload<T extends stock_balancesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_balancesGroupByOutputType, T['by']> &
       {
@@ -283,7 +290,8 @@ export type stock_balancesWhereInput = {
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
 }
 
 export type stock_balancesOrderByWithRelationInput = {
@@ -298,7 +306,8 @@ export type stock_balancesOrderByWithRelationInput = {
   last_movement_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
@@ -316,7 +325,8 @@ export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
-  auth_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
 }, "id">
 
 export type stock_balancesOrderByWithAggregationInput = {
@@ -331,7 +341,8 @@ export type stock_balancesOrderByWithAggregationInput = {
   last_movement_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_balancesCountOrderByAggregateInput
   _avg?: Prisma.stock_balancesAvgOrderByAggregateInput
   _max?: Prisma.stock_balancesMaxOrderByAggregateInput
@@ -354,7 +365,8 @@ export type stock_balancesScalarWhereWithAggregatesInput = {
   last_movement_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_balances"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"stock_balances"> | Date | string
-  auth_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_balances"> | string | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_balances"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_balances"> | string | null
 }
 
 export type stock_balancesCreateInput = {
@@ -369,7 +381,8 @@ export type stock_balancesCreateInput = {
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_balancesUncheckedCreateInput = {
@@ -384,7 +397,8 @@ export type stock_balancesUncheckedCreateInput = {
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_balancesUpdateInput = {
@@ -399,7 +413,8 @@ export type stock_balancesUpdateInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_balancesUncheckedUpdateInput = {
@@ -414,7 +429,8 @@ export type stock_balancesUncheckedUpdateInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_balancesCreateManyInput = {
@@ -429,7 +445,8 @@ export type stock_balancesCreateManyInput = {
   last_movement_at?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
-  auth_user_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type stock_balancesUpdateManyMutationInput = {
@@ -444,7 +461,8 @@ export type stock_balancesUpdateManyMutationInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_balancesUncheckedUpdateManyInput = {
@@ -459,7 +477,8 @@ export type stock_balancesUncheckedUpdateManyInput = {
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_balancesCountOrderByAggregateInput = {
@@ -474,7 +493,8 @@ export type stock_balancesCountOrderByAggregateInput = {
   last_movement_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_balancesAvgOrderByAggregateInput = {
@@ -496,7 +516,8 @@ export type stock_balancesMaxOrderByAggregateInput = {
   last_movement_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_balancesMinOrderByAggregateInput = {
@@ -511,7 +532,8 @@ export type stock_balancesMinOrderByAggregateInput = {
   last_movement_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  auth_user_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type stock_balancesSumOrderByAggregateInput = {
@@ -535,7 +557,8 @@ export type stock_balancesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -550,7 +573,8 @@ export type stock_balancesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -565,7 +589,8 @@ export type stock_balancesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectScalar = {
@@ -580,10 +605,11 @@ export type stock_balancesSelectScalar = {
   last_movement_at?: boolean
   created_at?: boolean
   updated_at?: boolean
-  auth_user_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type stock_balancesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "product_variant_id" | "qty_on_hand" | "qty_reserved" | "qty_available" | "avg_cost" | "last_movement_at" | "created_at" | "updated_at" | "auth_user_id", ExtArgs["result"]["stock_balances"]>
+export type stock_balancesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "product_variant_id" | "qty_on_hand" | "qty_reserved" | "qty_available" | "avg_cost" | "last_movement_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_balances"]>
 
 export type $stock_balancesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_balances"
@@ -600,7 +626,8 @@ export type $stock_balancesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     last_movement_at: Date | null
     created_at: Date
     updated_at: Date
-    auth_user_id: string | null
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["stock_balances"]>
   composites: {}
 }
@@ -1035,7 +1062,8 @@ export interface stock_balancesFieldRefs {
   readonly last_movement_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
-  readonly auth_user_id: Prisma.FieldRef<"stock_balances", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"stock_balances", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"stock_balances", 'String'>
 }
     
 

@@ -171,7 +171,7 @@ export async function createUser(
 
   let tenantUserId: string
   try {
-    const tenantUser = await prisma.$transaction(async (tx: typeof prisma) => {
+    const tenantUser = await prisma.$transaction(async (tx: any) => {
       const created = await tx.tenant_users.create({
         data: {
           auth_user_id: authUserId,
@@ -183,8 +183,8 @@ export async function createUser(
           is_active: true,
           default_role: primaryRole,
           is_restuarant_user: true,
-          modules,
-          primary_module: modules[0] ?? null,
+          modules: modules as any,
+          primary_module: (modules[0] ?? null) as any,
           tenant_id: callerTenantId,
           parent_tenant_id: callerTenantId,
           onboarding_complete: false,

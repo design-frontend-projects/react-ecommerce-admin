@@ -31,7 +31,10 @@ export type Promotion_menu_scopesMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   id: string | null
+  tenant_id: string | null
   promotion_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Promotion_menu_scopesMaxAggregateOutputType = {
@@ -41,7 +44,10 @@ export type Promotion_menu_scopesMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   id: string | null
+  tenant_id: string | null
   promotion_id: string | null
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
 }
 
 export type Promotion_menu_scopesCountAggregateOutputType = {
@@ -51,7 +57,10 @@ export type Promotion_menu_scopesCountAggregateOutputType = {
   created_at: number
   updated_at: number
   id: number
+  tenant_id: number
   promotion_id: number
+  created_by_user_id: number
+  updated_by_user_id: number
   _all: number
 }
 
@@ -63,7 +72,10 @@ export type Promotion_menu_scopesMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   id?: true
+  tenant_id?: true
   promotion_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Promotion_menu_scopesMaxAggregateInputType = {
@@ -73,7 +85,10 @@ export type Promotion_menu_scopesMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   id?: true
+  tenant_id?: true
   promotion_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
 }
 
 export type Promotion_menu_scopesCountAggregateInputType = {
@@ -83,7 +98,10 @@ export type Promotion_menu_scopesCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   id?: true
+  tenant_id?: true
   promotion_id?: true
+  created_by_user_id?: true
+  updated_by_user_id?: true
   _all?: true
 }
 
@@ -166,13 +184,16 @@ export type Promotion_menu_scopesGroupByOutputType = {
   created_at: Date | null
   updated_at: Date | null
   id: string
+  tenant_id: string | null
   promotion_id: string
+  created_by_user_id: string | null
+  updated_by_user_id: string | null
   _count: Promotion_menu_scopesCountAggregateOutputType | null
   _min: Promotion_menu_scopesMinAggregateOutputType | null
   _max: Promotion_menu_scopesMaxAggregateOutputType | null
 }
 
-export type GetPromotion_menu_scopesGroupByPayload<T extends promotion_menu_scopesGroupByArgs> = Prisma.PrismaPromise<
+type GetPromotion_menu_scopesGroupByPayload<T extends promotion_menu_scopesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Promotion_menu_scopesGroupByOutputType, T['by']> &
       {
@@ -197,7 +218,10 @@ export type promotion_menu_scopesWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"promotion_menu_scopes"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"promotion_menu_scopes"> | Date | string | null
   id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   promotion_id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
 }
 
 export type promotion_menu_scopesOrderByWithRelationInput = {
@@ -207,7 +231,10 @@ export type promotion_menu_scopesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type promotion_menu_scopesWhereUniqueInput = Prisma.AtLeast<{
@@ -220,7 +247,10 @@ export type promotion_menu_scopesWhereUniqueInput = Prisma.AtLeast<{
   scope_role?: Prisma.StringFilter<"promotion_menu_scopes"> | string
   created_at?: Prisma.DateTimeNullableFilter<"promotion_menu_scopes"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"promotion_menu_scopes"> | Date | string | null
+  tenant_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
   promotion_id?: Prisma.UuidFilter<"promotion_menu_scopes"> | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"promotion_menu_scopes"> | string | null
 }, "id">
 
 export type promotion_menu_scopesOrderByWithAggregationInput = {
@@ -230,7 +260,10 @@ export type promotion_menu_scopesOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.promotion_menu_scopesCountOrderByAggregateInput
   _max?: Prisma.promotion_menu_scopesMaxOrderByAggregateInput
   _min?: Prisma.promotion_menu_scopesMinOrderByAggregateInput
@@ -246,7 +279,10 @@ export type promotion_menu_scopesScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotion_menu_scopes"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"promotion_menu_scopes"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"promotion_menu_scopes"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_menu_scopes"> | string | null
   promotion_id?: Prisma.UuidWithAggregatesFilter<"promotion_menu_scopes"> | string
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_menu_scopes"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"promotion_menu_scopes"> | string | null
 }
 
 export type promotion_menu_scopesCreateInput = {
@@ -256,7 +292,10 @@ export type promotion_menu_scopesCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   id?: string
+  tenant_id?: string | null
   promotion_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotion_menu_scopesUncheckedCreateInput = {
@@ -266,7 +305,10 @@ export type promotion_menu_scopesUncheckedCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   id?: string
+  tenant_id?: string | null
   promotion_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotion_menu_scopesUpdateInput = {
@@ -276,7 +318,10 @@ export type promotion_menu_scopesUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_menu_scopesUncheckedUpdateInput = {
@@ -286,7 +331,10 @@ export type promotion_menu_scopesUncheckedUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_menu_scopesCreateManyInput = {
@@ -296,7 +344,10 @@ export type promotion_menu_scopesCreateManyInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   id?: string
+  tenant_id?: string | null
   promotion_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
 }
 
 export type promotion_menu_scopesUpdateManyMutationInput = {
@@ -306,7 +357,10 @@ export type promotion_menu_scopesUpdateManyMutationInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_menu_scopesUncheckedUpdateManyInput = {
@@ -316,7 +370,10 @@ export type promotion_menu_scopesUncheckedUpdateManyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   promotion_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type promotion_menu_scopesCountOrderByAggregateInput = {
@@ -326,7 +383,10 @@ export type promotion_menu_scopesCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotion_menu_scopesMaxOrderByAggregateInput = {
@@ -336,7 +396,10 @@ export type promotion_menu_scopesMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 export type promotion_menu_scopesMinOrderByAggregateInput = {
@@ -346,7 +409,10 @@ export type promotion_menu_scopesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   promotion_id?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
+  updated_by_user_id?: Prisma.SortOrder
 }
 
 
@@ -358,7 +424,10 @@ export type promotion_menu_scopesSelect<ExtArgs extends runtime.Types.Extensions
   created_at?: boolean
   updated_at?: boolean
   id?: boolean
+  tenant_id?: boolean
   promotion_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type promotion_menu_scopesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -368,7 +437,10 @@ export type promotion_menu_scopesSelectCreateManyAndReturn<ExtArgs extends runti
   created_at?: boolean
   updated_at?: boolean
   id?: boolean
+  tenant_id?: boolean
   promotion_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type promotion_menu_scopesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -378,7 +450,10 @@ export type promotion_menu_scopesSelectUpdateManyAndReturn<ExtArgs extends runti
   created_at?: boolean
   updated_at?: boolean
   id?: boolean
+  tenant_id?: boolean
   promotion_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }, ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type promotion_menu_scopesSelectScalar = {
@@ -388,10 +463,13 @@ export type promotion_menu_scopesSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   id?: boolean
+  tenant_id?: boolean
   promotion_id?: boolean
+  created_by_user_id?: boolean
+  updated_by_user_id?: boolean
 }
 
-export type promotion_menu_scopesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"menu_item_id" | "menu_category_id" | "scope_role" | "created_at" | "updated_at" | "id" | "promotion_id", ExtArgs["result"]["promotion_menu_scopes"]>
+export type promotion_menu_scopesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"menu_item_id" | "menu_category_id" | "scope_role" | "created_at" | "updated_at" | "id" | "tenant_id" | "promotion_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["promotion_menu_scopes"]>
 
 export type $promotion_menu_scopesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "promotion_menu_scopes"
@@ -403,7 +481,10 @@ export type $promotion_menu_scopesPayload<ExtArgs extends runtime.Types.Extensio
     created_at: Date | null
     updated_at: Date | null
     id: string
+    tenant_id: string | null
     promotion_id: string
+    created_by_user_id: string | null
+    updated_by_user_id: string | null
   }, ExtArgs["result"]["promotion_menu_scopes"]>
   composites: {}
 }
@@ -833,7 +914,10 @@ export interface promotion_menu_scopesFieldRefs {
   readonly created_at: Prisma.FieldRef<"promotion_menu_scopes", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"promotion_menu_scopes", 'DateTime'>
   readonly id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
   readonly promotion_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
+  readonly created_by_user_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
+  readonly updated_by_user_id: Prisma.FieldRef<"promotion_menu_scopes", 'String'>
 }
     
 

@@ -1,7 +1,5 @@
 // ResPOS API Mutations - TanStack Query mutation hooks
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import i18n from '@/config/i18n'
-import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { mapPromoRpcError } from '../lib/promo-engine'
 import type {
@@ -16,7 +14,6 @@ import type {
 } from '../types'
 import {
   createResOrder,
-  generateOrderNumber,
   type CreateResOrderPayload,
 } from './api'
 import { resposQueryKeys } from './queries'
@@ -1440,11 +1437,10 @@ export function useCreateRole() {
     mutationFn: async ({
       name,
       display_name,
-      permissions,
     }: {
       name: string
       display_name: string
-      permissions: string[]
+      permissions?: string[]
     }) => {
       const { data, error } = await supabase
         .from('roles')

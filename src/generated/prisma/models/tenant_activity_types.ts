@@ -158,7 +158,7 @@ export type Tenant_activity_typesGroupByOutputType = {
   _max: Tenant_activity_typesMaxAggregateOutputType | null
 }
 
-export type GetTenant_activity_typesGroupByPayload<T extends tenant_activity_typesGroupByArgs> = Prisma.PrismaPromise<
+type GetTenant_activity_typesGroupByPayload<T extends tenant_activity_typesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Tenant_activity_typesGroupByOutputType, T['by']> &
       {

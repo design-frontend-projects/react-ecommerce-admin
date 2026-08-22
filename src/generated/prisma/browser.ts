@@ -423,6 +423,51 @@ export type stock_adjustments = Prisma.stock_adjustmentsModel
  */
 export type stock_adjustment_items = Prisma.stock_adjustment_itemsModel
 /**
+ * Model stock_counts
+ * 
+ */
+export type stock_counts = Prisma.stock_countsModel
+/**
+ * Model stock_count_items
+ * 
+ */
+export type stock_count_items = Prisma.stock_count_itemsModel
+/**
+ * Model purchase_requisitions
+ * 
+ */
+export type purchase_requisitions = Prisma.purchase_requisitionsModel
+/**
+ * Model purchase_requisition_items
+ * 
+ */
+export type purchase_requisition_items = Prisma.purchase_requisition_itemsModel
+/**
+ * Model sales_orders
+ * 
+ */
+export type sales_orders = Prisma.sales_ordersModel
+/**
+ * Model sales_order_items
+ * 
+ */
+export type sales_order_items = Prisma.sales_order_itemsModel
+/**
+ * Model stock_reservations
+ * 
+ */
+export type stock_reservations = Prisma.stock_reservationsModel
+/**
+ * Model reorder_rules
+ * 
+ */
+export type reorder_rules = Prisma.reorder_rulesModel
+/**
+ * Model reorder_suggestions
+ * 
+ */
+export type reorder_suggestions = Prisma.reorder_suggestionsModel
+/**
  * Model app_settings
  * 
  */

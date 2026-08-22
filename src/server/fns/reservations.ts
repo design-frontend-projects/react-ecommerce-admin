@@ -2,7 +2,7 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export async function listReservations(authUserId: string) {
@@ -11,12 +11,6 @@ export async function listReservations(authUserId: string) {
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
     take: 500,
-    include: {
-      product_variants: {
-        select: { id: true, sku: true, products: { select: { name: true } } },
-      },
-      stores: { select: { store_id: true, name: true } },
-    },
   })
 }
 
@@ -35,6 +29,7 @@ interface ReservationRow {
 
 export async function releaseReservation(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const reservation = (await prisma.stock_reservations.findFirst({
     where: { id, tenant_id: tenantId },
     select: {
@@ -82,13 +77,20 @@ export async function releaseReservation(authUserId: string, id: string) {
 
   const updated = await prisma.stock_reservations.update({
     where: { id },
-    data: { status: 'released', released_at: new Date() },
+    data: {
+      status: 'released',
+      released_at: new Date(),
+      updated_by_user_id: tenantUserId,
+    },
   })
 
   if (reservation.reference_item_id) {
     await prisma.sales_order_items.update({
       where: { id: reservation.reference_item_id },
-      data: { qty_reserved: 0 },
+      data: {
+        qty_reserved: 0,
+        updated_by_user_id: tenantUserId,
+      },
     })
   }
 

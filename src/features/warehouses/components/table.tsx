@@ -93,7 +93,7 @@ export function WarehousesTable({ data }: { data: WarehouseListItem[] }) {
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} className='mt-auto' />
+      <DataTablePagination table={table} />
     </div>
   )
 }
