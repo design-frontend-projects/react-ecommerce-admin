@@ -685,6 +685,10 @@ export interface CreateLookupTypeInput {
   name: string
   description?: string | null
   sortOrder?: number
+  is_system?: boolean
+  is_active?: boolean
+  isSystem?: boolean
+  isActive?: boolean
 }
 
 /**
@@ -714,8 +718,8 @@ export async function createLookupType(
       code: normalizedCode,
       name: input.name.trim(),
       description: input.description?.trim() || null,
-      is_system: false,
-      is_active: true,
+      is_system: input.is_system ?? input.isSystem ?? false,
+      is_active: input.is_active ?? input.isActive ?? true,
       sort_order: input.sortOrder ?? 99,
     },
   })

@@ -195,6 +195,8 @@ export const lookupTypeFormSchema = z.object({
   name: z.string().min(1, 'Catalog name is required.').max(150, 'Name max 150 characters.'),
   description: z.string().max(500, 'Description max 500 characters.').optional().nullable(),
   sortOrder: z.number().int(),
+  is_system: z.boolean(),
+  is_active: z.boolean(),
 })
 
 export type LookupTypeFormValues = z.infer<typeof lookupTypeFormSchema>
