@@ -1,6 +1,4 @@
-import { useState } from 'react'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { StatusBadge } from '@/components/shared/status-badge'
 import {
   Dialog,
   DialogContent,
@@ -17,14 +15,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ConfirmDialog } from '@/components/confirm-dialog'
-import { Can } from '@/components/rbac/Can'
+import { Button } from '@/components/ui/button'
 import type { TransferListItem } from '../data/schema'
-import {
-  useApplyTransfer,
-  useCancelTransfer,
-  useTransfer,
-} from '../hooks/use-stock-transfers'
+import { useTransfer } from '../hooks/use-stock-transfers'
+import { TransferTimeline } from './transfer-timeline'
+import { TransferWorkflowActions } from './transfer-workflow-actions'
 
 export function TransferViewDialog({
   transfer,
@@ -38,128 +33,126 @@ export function TransferViewDialog({
   const { data: detail, isLoading } = useTransfer(
     open ? transfer.id : undefined
   )
-  const applyTransfer = useApplyTransfer()
-  const cancelTransfer = useCancelTransfer()
-  const [confirmApply, setConfirmApply] = useState(false)
-  const [confirmCancel, setConfirmCancel] = useState(false)
 
-  const isDraft = transfer.status === 'draft'
+  const totalQuantity = detail?.stock_transfer_items.reduce(
+    (acc, it) => acc + Number(it.qty || 0),
+    0
+  ) || 0
 
-  const handleApply = async () => {
-    try {
-      await applyTransfer.mutateAsync(transfer.id)
-      setConfirmApply(false)
-      onOpenChange(false)
-    } catch {
-      setConfirmApply(false)
-    }
-  }
-
-  const handleCancel = async () => {
-    try {
-      await cancelTransfer.mutateAsync(transfer.id)
-      setConfirmCancel(false)
-      onOpenChange(false)
-    } catch {
-      setConfirmCancel(false)
-    }
-  }
+  const totalCost = detail?.stock_transfer_items.reduce(
+    (acc, it) => acc + Number(it.qty || 0) * Number(it.unit_cost || 0),
+    0
+  ) || 0
 
   return (
-    <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className='sm:max-w-2xl'>
-          <DialogHeader>
-            <DialogTitle className='flex items-center gap-2'>
-              {transfer.reference_no || transfer.id.slice(0, 8)}
-              <Badge variant='secondary' className='capitalize'>
-                {transfer.status.replace('_', ' ')}
-              </Badge>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className='sm:max-w-2xl max-h-[90vh] overflow-y-auto'>
+        <DialogHeader>
+          <div className='flex items-center justify-between gap-3 pr-6'>
+            <DialogTitle className='text-lg font-bold flex items-center gap-2'>
+              Transfer: {transfer.reference_no || transfer.id.slice(0, 8)}
             </DialogTitle>
-            <DialogDescription>
-              {transfer.from_store?.name ?? '—'} →{' '}
+            <StatusBadge status={transfer.status} />
+          </div>
+          <DialogDescription className='text-xs pt-1'>
+            From{' '}
+            <span className='font-semibold text-foreground'>
+              {transfer.from_store?.name ?? '—'}
+            </span>{' '}
+            → To{' '}
+            <span className='font-semibold text-foreground'>
               {transfer.to_store?.name ?? '—'}
-            </DialogDescription>
-          </DialogHeader>
+            </span>
+          </DialogDescription>
+        </DialogHeader>
+
+        {/* Visual Workflow Stepper */}
+        <div className='my-2 px-2 py-3 rounded-lg border bg-muted/20'>
+          <TransferTimeline
+            status={transfer.status}
+            createdAt={transfer.created_at}
+          />
+        </div>
+
+        {/* Items Table */}
+        <div className='space-y-2'>
+          <div className='flex items-center justify-between text-xs font-semibold text-muted-foreground'>
+            <span>Transfer Items ({detail?.stock_transfer_items.length || 0})</span>
+            <span>Total Units: {totalQuantity}</span>
+          </div>
 
           {isLoading ? (
-            <p className='text-sm text-muted-foreground'>Loading items...</p>
+            <p className='text-sm text-muted-foreground py-6 text-center'>
+              Loading items...
+            </p>
           ) : (
             <div className='overflow-hidden rounded-md border'>
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Variant</TableHead>
-                    <TableHead className='text-end'>Qty</TableHead>
-                    <TableHead className='text-end'>Unit cost</TableHead>
+                  <TableRow className='bg-muted/40'>
+                    <TableHead className='text-xs'>Product / Variant</TableHead>
+                    <TableHead className='text-xs text-end'>Qty</TableHead>
+                    <TableHead className='text-xs text-end'>Unit Cost</TableHead>
+                    <TableHead className='text-xs text-end'>Line Total</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {detail?.stock_transfer_items.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>
-                        {item.product_variants?.sku ?? item.product_variant_id}
-                      </TableCell>
-                      <TableCell className='text-end'>{item.qty}</TableCell>
-                      <TableCell className='text-end'>
-                        {item.unit_cost}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {detail?.stock_transfer_items.map((item) => {
+                    const lineTotal =
+                      Number(item.qty || 0) * Number(item.unit_cost || 0)
+                    return (
+                      <TableRow key={item.id} className='text-xs'>
+                        <TableCell className='font-medium'>
+                          {item.product_variants?.sku ?? item.product_variant_id}
+                        </TableCell>
+                        <TableCell className='text-end font-semibold'>
+                          {item.qty}
+                        </TableCell>
+                        <TableCell className='text-end text-muted-foreground'>
+                          ${Number(item.unit_cost || 0).toFixed(2)}
+                        </TableCell>
+                        <TableCell className='text-end font-medium'>
+                          ${lineTotal.toFixed(2)}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </div>
           )}
 
-          {transfer.notes ? (
-            <p className='text-sm text-muted-foreground'>{transfer.notes}</p>
-          ) : null}
+          {totalCost > 0 && (
+            <div className='flex justify-end p-2 text-xs font-bold text-foreground bg-muted/30 rounded-md'>
+              <span>Total Value: ${totalCost.toFixed(2)}</span>
+            </div>
+          )}
+        </div>
 
-          <DialogFooter>
-            {isDraft ? (
-              <Can permission='inventory.manage'>
-                <Button
-                  variant='outline'
-                  onClick={() => setConfirmCancel(true)}
-                  disabled={cancelTransfer.isPending}
-                >
-                  Cancel transfer
-                </Button>
-                <Button
-                  onClick={() => setConfirmApply(true)}
-                  disabled={applyTransfer.isPending}
-                >
-                  Apply
-                </Button>
-              </Can>
-            ) : (
-              <Button variant='outline' onClick={() => onOpenChange(false)}>
-                Close
-              </Button>
-            )}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        {transfer.notes && (
+          <div className='p-3 rounded-md bg-muted/40 text-xs space-y-1'>
+            <span className='font-semibold text-foreground'>Notes:</span>
+            <p className='text-muted-foreground'>{transfer.notes}</p>
+          </div>
+        )}
 
-      <ConfirmDialog
-        open={confirmApply}
-        onOpenChange={setConfirmApply}
-        title='Apply this transfer?'
-        desc='Stock will move from the source to the destination store. This cannot be undone.'
-        confirmText='Apply'
-        isLoading={applyTransfer.isPending}
-        handleConfirm={handleApply}
-      />
-      <ConfirmDialog
-        open={confirmCancel}
-        onOpenChange={setConfirmCancel}
-        destructive
-        title='Cancel this transfer?'
-        desc='The draft transfer will be marked cancelled.'
-        confirmText='Cancel transfer'
-        isLoading={cancelTransfer.isPending}
-        handleConfirm={handleCancel}
-      />
-    </>
+        <DialogFooter className='flex-row items-center justify-between sm:justify-between gap-2 pt-2 border-t'>
+          <TransferWorkflowActions
+            transferId={transfer.id}
+            status={transfer.status}
+            referenceNo={transfer.reference_no}
+            onSuccess={() => onOpenChange(false)}
+          />
+
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => onOpenChange(false)}
+          >
+            Close
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
