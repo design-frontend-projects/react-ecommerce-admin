@@ -400,7 +400,13 @@
     "areas": "Areas",
     "salesShipments": "Sales Shipments",
     "customerReturns": "Customer Returns",
-    "systemSettings": "System Settings"
+    "systemSettings": "System Settings",
+    "orders": "Orders",
+    "roles": "Roles",
+    "permissions": "Permissions",
+    "screens": "Screens",
+    "buttons": "Buttons",
+    "rbacAudit": "Audit Trail"
   },
   "dashboard": {
     "loading": "Loading dashboard...",

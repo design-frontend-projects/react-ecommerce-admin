@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -18,10 +17,18 @@ import { ValueFormDialog } from './components/value-form-dialog'
 import { ValuesTable } from './components/values-table'
 import { ViewModeTabs } from './components/view-mode-tabs'
 import { VisualHierarchyGraph } from './components/visual-hierarchy-graph'
-import { useLookupTree, useLookupTypes, useLookupValues } from './hooks/use-lookups'
+import {
+  useLookupTree,
+  useLookupTypes,
+  useLookupValues,
+} from './hooks/use-lookups'
 
 function LookupsContent() {
-  const { data: treeData, isLoading: isTreeLoading, error: treeError } = useLookupTree()
+  const {
+    data: treeData,
+    isLoading: isTreeLoading,
+    error: treeError,
+  } = useLookupTree()
   const { data: types, isLoading: isTypesLoading } = useLookupTypes()
   const { viewMode, selectedType } = useLookupsContext()
   const { data: valuesData, isLoading: isValuesLoading } = useLookupValues(
@@ -42,15 +49,16 @@ function LookupsContent() {
         </div>
       </Header>
 
-      <Main className='flex flex-1 flex-col gap-4 sm:gap-5 pb-12'>
+      <Main className='flex flex-1 flex-col gap-4 pb-12 sm:gap-5'>
         {/* Page Header */}
-        <div className='flex flex-col md:flex-row md:items-end justify-between gap-4'>
+        <div className='flex flex-col justify-between gap-4 md:flex-row md:items-end'>
           <div>
-            <h2 className='bg-linear-to-r from-primary via-primary/80 to-primary/50 bg-clip-text text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent'>
+            <h2 className='bg-linear-to-r from-primary via-primary/80 to-primary/50 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent sm:text-3xl'>
               Master Lookups &amp; Reference Catalogs
             </h2>
-            <p className='text-xs sm:text-sm text-muted-foreground mt-0.5'>
-              Configure tenant-specific dropdown options, multi-tier tree hierarchies, and master reference lists.
+            <p className='mt-0.5 text-xs text-muted-foreground sm:text-sm'>
+              Configure tenant-specific dropdown options, multi-tier tree
+              hierarchies, and master reference lists.
             </p>
           </div>
 
@@ -65,17 +73,18 @@ function LookupsContent() {
 
         {/* View Mode Switching Canvas */}
         {isLoading ? (
-          <div className='flex min-h-[420px] flex-1 items-center justify-center rounded-xl border bg-card/40'>
+          <div className='flex min-h-105 flex-1 items-center justify-center rounded-xl border bg-card/40'>
             <Loader2 className='h-8 w-8 animate-spin text-primary' />
           </div>
         ) : treeError ? (
           <div className='flex flex-1 items-center justify-center rounded-xl border border-rose-200 bg-rose-50 p-8 text-rose-500 dark:bg-rose-950/20'>
-            <p className='font-medium text-sm'>
-              Unable to load lookup hierarchy data. Please verify your permissions.
+            <p className='text-sm font-medium'>
+              Unable to load lookup hierarchy data. Please verify your
+              permissions.
             </p>
           </div>
         ) : (
-          <div className='flex-1 min-h-[580px] flex flex-col'>
+          <div className='flex min-h-145 flex-1 flex-col'>
             {viewMode === 'tree' && (
               <HierarchyTreeView
                 domains={treeData?.domains || []}
@@ -93,11 +102,11 @@ function LookupsContent() {
             )}
 
             {viewMode === 'split' && (
-              <div className='grid grid-cols-1 md:grid-cols-12 gap-4 flex-1 min-h-[550px]'>
-                <div className='md:col-span-4 lg:col-span-3 h-[600px] md:h-auto'>
+              <div className='grid min-h-137.5 flex-1 grid-cols-1 gap-4 md:grid-cols-12'>
+                <div className='h-150 md:col-span-4 md:h-auto lg:col-span-3'>
                   <TypesList types={types ?? []} />
                 </div>
-                <div className='md:col-span-8 lg:col-span-9 h-[600px] md:h-auto'>
+                <div className='h-[600px] md:col-span-8 md:h-auto lg:col-span-9'>
                   <ValuesTable
                     values={valuesData?.values ?? []}
                     isLoading={isValuesLoading}
@@ -125,7 +134,6 @@ function LookupsContent() {
 }
 
 export function Lookups() {
-  const { t } = useTranslation()
   return (
     <LookupsProvider>
       <LookupsContent />

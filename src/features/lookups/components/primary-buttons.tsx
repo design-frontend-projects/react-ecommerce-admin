@@ -1,10 +1,8 @@
-import { useTranslation } from 'react-i18next'
 import { Plus, FolderPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLookupsContext } from './provider'
 
 export function LookupsPrimaryButtons() {
-  const { t } = useTranslation()
   const { selectedType, setIsCreateOpen, setIsCreateTypeOpen } = useLookupsContext()
 
   return (

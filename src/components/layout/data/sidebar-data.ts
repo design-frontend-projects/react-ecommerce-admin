@@ -142,7 +142,7 @@ export function useSidebarData(): SidebarData {
             roles: ADMINS,
           },
           {
-            title: 'Notifications',
+            title: t('sidebar.notifications'),
             url: '/notifications',
             icon: Bell,
             roles: ADMINS,
@@ -165,13 +165,13 @@ export function useSidebarData(): SidebarData {
             roles: [UserRole.Captain, ...ADMINS],
           },
           {
-            title: 'Captain Station',
+            title: t('sidebar.captainStation'),
             url: '/respos/captain',
             icon: ChefHat,
             roles: [UserRole.Captain, ...ADMINS],
           },
           {
-            title: 'Kitchen Display',
+            title: t('sidebar.kitchenDisplay'),
             url: '/respos/kitchen',
             icon: MonitorDot,
             roles: [UserRole.Kitchen, ...ADMINS],
@@ -690,7 +690,7 @@ export function useSidebarData(): SidebarData {
   // Access Control > Screens admin), drive nav from the catalog. Until then this returns null
   // and the curated static array above is used, so nav never regresses. Visibility filtering
   // stays in `app-sidebar.tsx` (`canAccessItem`), which now reads the converged RBAC store.
-  const catalogGroups = buildCatalogNavGroups(navCatalog.data)
+  const catalogGroups = buildCatalogNavGroups(navCatalog.data, t)
   if (catalogGroups) {
     return { ...staticData, navGroups: catalogGroups }
   }

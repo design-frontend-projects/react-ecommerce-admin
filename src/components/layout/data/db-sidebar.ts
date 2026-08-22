@@ -23,6 +23,28 @@ const MODULE_TRANSLATION_KEYS: Record<string, string> = {
   other: 'sidebar.other',
 }
 
+const SCREEN_TRANSLATION_KEYS: Record<string, string> = {
+  pos: 'sidebar.posSystem',
+  inventory: 'sidebar.inventoryItems',
+  inventory_shipments: 'sidebar.shipments',
+  users: 'sidebar.usersRoles',
+  respos_dashboard: 'sidebar.posDashboard',
+  respos_pos: 'sidebar.posScreen',
+  respos_captain: 'sidebar.captainStation',
+  respos_kitchen: 'sidebar.kitchenDisplay',
+  respos_menu: 'sidebar.menuManagement',
+  respos_floors: 'sidebar.floorsTables',
+  respos_reservations: 'sidebar.reservations',
+  respos_analytics: 'sidebar.analytics',
+  respos_shifts: 'sidebar.shifts',
+  respos_cashier: 'sidebar.cashierCheckout',
+  respos_payments: 'sidebar.payments',
+  respos_shipments: 'sidebar.shipments',
+  system_management: 'sidebar.systemManagement',
+  audit_logs: 'sidebar.auditLogs',
+  rbac_audit: 'sidebar.rbacAudit',
+}
+
 /**
  * Map the server-filtered navigation payload (access-control catalog) onto
  * the `NavGroup[]` shape the sidebar renders. Screens arrive pre-filtered by
@@ -39,7 +61,7 @@ export function buildNavGroupsFromNavigation(
     return {
       title: moduleTitle,
       items: module.screens.map((screen) => {
-        const screenKey = `sidebar.${toCamelCase(screen.code)}`
+        const screenKey = SCREEN_TRANSLATION_KEYS[screen.code] ?? `sidebar.${toCamelCase(screen.code)}`
         const screenTitle = t ? t(screenKey, screen.name) : screen.name
 
         return {
