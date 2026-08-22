@@ -4,7 +4,6 @@
  * to prevent compilation/runtime errors while allowing server-side execution.
  */
 
-import 'dotenv/config'
 import type { PrismaClient as PrismaClientType } from '@/generated/prisma/client'
 
 let prisma: PrismaClientType

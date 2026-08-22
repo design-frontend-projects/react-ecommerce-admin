@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 import {
+  ArrowRight,
   CalendarClock,
   ChefHat,
   ClipboardList,
@@ -17,6 +18,7 @@ import {
   UtensilsCrossed,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -30,7 +32,7 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { useDashboardStats } from '../api/queries'
+import { useDashboardStats, useOrders } from '../api/queries'
 import { NotificationsDropdown } from '../components'
 import { ReservationWidget } from '../components/reservation-widget'
 import { formatCurrency } from '../lib/formatters'
@@ -49,11 +51,28 @@ const item = {
   show: { opacity: 1, y: 0 },
 }
 
+function getOrderStatusVariant(status?: string | null) {
+  switch (status) {
+    case 'paid':
+      return 'border-emerald-500/20 bg-emerald-500/10 text-emerald-500'
+    case 'ready':
+      return 'border-blue-500/20 bg-blue-500/10 text-blue-500'
+    case 'in_progress':
+      return 'border-amber-500/20 bg-amber-500/10 text-amber-500'
+    case 'void':
+    case 'void_pending':
+      return 'border-rose-500/20 bg-rose-500/10 text-rose-500'
+    default:
+      return 'border-primary/20 bg-primary/10 text-primary'
+  }
+}
+
 export function ResposDashboard() {
   const { data: stats, isLoading: statsLoading } = useDashboardStats()
+  const { data: recentOrders = [], isLoading: ordersLoading } = useOrders()
   const { has, isLoaded, isSignedIn } = useAuth()
 
-  const isLoading = statsLoading || isLoaded
+  const isLoading = statsLoading || !isLoaded
 
   const quickActions: Array<{
     title: string
@@ -153,7 +172,6 @@ export function ResposDashboard() {
                 {format(new Date(), 'EEEE, MMMM d, yyyy')}
               </p>
             </div>
-
           </motion.div>
 
           {/* Stats Grid */}
@@ -206,22 +224,82 @@ export function ResposDashboard() {
             </div>
           </motion.div>
 
-          {/* Recent Activity */}
-
           {/* Dashboard Widgets */}
           <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
             <motion.div variants={item} className='col-span-4'>
-              <Card className='h-full'>
-                <CardHeader>
-                  <CardTitle>Recent Orders</CardTitle>
-                  <CardDescription>
-                    Latest orders from today's shift
-                  </CardDescription>
+              <Card className='flex h-full flex-col'>
+                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-3'>
+                  <div>
+                    <CardTitle className='text-base font-semibold'>
+                      Recent Orders
+                    </CardTitle>
+                    <CardDescription className='text-xs'>
+                      Latest orders from today's shift
+                    </CardDescription>
+                  </div>
+                  <Button asChild variant='ghost' size='sm' className='gap-1 text-xs'>
+                    <Link to='/respos/pos'>
+                      POS Screen
+                      <ArrowRight className='h-3.5 w-3.5' />
+                    </Link>
+                  </Button>
                 </CardHeader>
-                <CardContent>
-                  <p className='text-sm text-muted-foreground'>
-                    No orders yet. Start taking orders from the POS screen.
-                  </p>
+                <CardContent className='flex-1'>
+                  {ordersLoading ? (
+                    <div className='flex h-[180px] items-center justify-center'>
+                      <Loader2 className='h-6 w-6 animate-spin text-muted-foreground' />
+                    </div>
+                  ) : recentOrders.length > 0 ? (
+                    <div className='divide-y divide-border/40'>
+                      {recentOrders.slice(0, 5).map((order) => (
+                        <div
+                          key={order.id}
+                          className='flex items-center justify-between py-3 first:pt-0 last:pb-0'
+                        >
+                          <div className='space-y-1'>
+                            <div className='flex items-center gap-2'>
+                              <span className='font-mono text-sm font-medium'>
+                                #{order.order_number}
+                              </span>
+                              <span
+                                className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-medium capitalize ${getOrderStatusVariant(order.status)}`}
+                              >
+                                {order.status?.replace('_', ' ') || 'open'}
+                              </span>
+                            </div>
+                            <p className='text-xs text-muted-foreground'>
+                              {order.table?.table_number
+                                ? `Table ${order.table.table_number}`
+                                : order.customer_name || 'Takeaway'}
+                              {' • '}
+                              {order.order_items?.length || 0} items
+                            </p>
+                          </div>
+                          <div className='text-right'>
+                            <p className='text-sm font-semibold'>
+                              {formatCurrency(Number(order.total_amount) || 0)}
+                            </p>
+                            <p className='text-[11px] text-muted-foreground'>
+                              {order.created_at
+                                ? format(new Date(order.created_at), 'hh:mm a')
+                                : ''}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className='flex h-[160px] flex-col items-center justify-center gap-2 text-center text-muted-foreground'>
+                      <Receipt className='h-8 w-8 text-muted-foreground/50' />
+                      <p className='text-sm font-medium'>No orders yet</p>
+                      <p className='text-xs'>
+                        Start taking orders from the POS screen.
+                      </p>
+                      <Button asChild size='sm' variant='outline' className='mt-2'>
+                        <Link to='/respos/pos'>Create Order</Link>
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
@@ -231,7 +309,6 @@ export function ResposDashboard() {
           </div>
         </motion.div>
       </Main>
-
     </>
   )
 }

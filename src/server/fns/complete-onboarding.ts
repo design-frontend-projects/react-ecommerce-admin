@@ -308,12 +308,18 @@ export async function executeCompleteTenantOnboarding(
       })
 
       // d. Upsert tenant_users for owner
+      const isRestaurant =
+        tenantType === 'restaurant' ||
+        input.activity.toLowerCase().includes('restaurant') ||
+        input.activity.toLowerCase().includes('restuarant')
+
       const existingTenantUser = await tx.tenant_users.findFirst({
         where: { auth_user_id: input.authUserId },
       })
 
+      let ownerTenantUser
       if (existingTenantUser) {
-        await tx.tenant_users.update({
+        ownerTenantUser = await tx.tenant_users.update({
           where: { id: existingTenantUser.id },
           data: {
             tenant_id: createdTenant.id,
@@ -322,13 +328,17 @@ export async function executeCompleteTenantOnboarding(
             first_name: input.firstName,
             last_name: input.lastName,
             phone: input.phone || null,
+            is_active: true,
+            is_restuarant_user: isRestaurant,
+            primary_module: isRestaurant ? 'restaurant' : 'inventory',
+            modules: isRestaurant ? ['restaurant', 'inventory'] : ['inventory'],
             onboarding_complete: true,
             default_role: 'super_admin',
             updated_at: new Date(),
           },
         })
       } else {
-        await tx.tenant_users.create({
+        ownerTenantUser = await tx.tenant_users.create({
           data: {
             auth_user_id: input.authUserId,
             tenant_id: createdTenant.id,
@@ -338,13 +348,80 @@ export async function executeCompleteTenantOnboarding(
             last_name: input.lastName,
             phone: input.phone || null,
             is_active: true,
-            is_restuarant_user: true,
-            primary_module: 'inventory',
-            modules: ['inventory', 'restaurant'],
+            is_restuarant_user: isRestaurant,
+            primary_module: isRestaurant ? 'restaurant' : 'inventory',
+            modules: isRestaurant ? ['restaurant', 'inventory'] : ['inventory'],
             default_role: 'super_admin',
             onboarding_complete: true,
           },
         })
+      }
+
+      // e. Link owner role in user_roles if roles table has super_admin/admin
+      const superAdminRole = await tx.roles
+        .findFirst({
+          where: {
+            OR: [
+              { name: { equals: 'super_admin', mode: 'insensitive' } },
+              { name: { equals: 'Super Admin', mode: 'insensitive' } },
+              { name: { equals: 'admin', mode: 'insensitive' } },
+              { name: { equals: 'Owner', mode: 'insensitive' } },
+            ],
+          },
+        })
+        .catch(() => null)
+
+      const tenantUserRecordId = ownerTenantUser?.id
+      if (superAdminRole && tenantUserRecordId) {
+        await tx.user_roles
+          .upsert({
+            where: {
+              tenant_user_id_role_id: {
+                tenant_user_id: tenantUserRecordId,
+                role_id: superAdminRole.id,
+              },
+            },
+            create: {
+              tenant_user_id: tenantUserRecordId,
+              role_id: superAdminRole.id,
+            },
+            update: {},
+          })
+          .catch(() => null)
+      }
+
+      // f. Link tenant activity in tenant_activity_types if business_activity_types exists
+      const activityCode = input.activity.trim().toLowerCase()
+      const matchedActivityType = await tx.business_activity_types
+        .findFirst({
+          where: {
+            OR: [
+              { code: { equals: activityCode, mode: 'insensitive' } },
+              { name: { equals: activityCode, mode: 'insensitive' } },
+            ],
+          },
+        })
+        .catch(() => null)
+
+      if (matchedActivityType) {
+        await tx.tenant_activity_types
+          .upsert({
+            where: {
+              tenant_id_activity_type_id: {
+                tenant_id: createdTenant.id,
+                activity_type_id: matchedActivityType.id,
+              },
+            },
+            create: {
+              tenant_id: createdTenant.id,
+              activity_type_id: matchedActivityType.id,
+              is_active: true,
+            },
+            update: {
+              is_active: true,
+            },
+          })
+          .catch(() => null)
       }
 
       return createdTenant

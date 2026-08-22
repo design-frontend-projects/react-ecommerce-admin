@@ -7,7 +7,7 @@ export type ReorderRequestStatus = 'pending' | 'read'
 
 export interface PosReorderRequest {
   id: string
-  auth_user_id: string
+  tenant_id: string
   product_id: number
   product_variant_id: string | null
   requested_by_user_id: string
@@ -75,7 +75,7 @@ export function useAdminPendingReorderRequests(enabled = true) {
         .select(
           `
           id,
-          auth_user_id,
+          tenant_id,
           product_id,
           product_variant_id,
           requested_by_user_id,

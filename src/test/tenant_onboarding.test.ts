@@ -236,6 +236,25 @@ describe('executeCompleteTenantOnboarding', () => {
         }),
         update: vi.fn(),
       },
+      roles: {
+        findFirst: vi.fn().mockResolvedValue({
+          id: 'role-superadmin',
+          name: 'super_admin',
+        }),
+      },
+      user_roles: {
+        upsert: vi.fn().mockResolvedValue({}),
+      },
+      business_activity_types: {
+        findFirst: vi.fn().mockResolvedValue({
+          id: 'act-rest',
+          code: 'restaurant',
+          name: 'Restaurant',
+        }),
+      },
+      tenant_activity_types: {
+        upsert: vi.fn().mockResolvedValue({}),
+      },
     }
 
     prismaMock.$transaction.mockImplementation(async (cb: any) => {
