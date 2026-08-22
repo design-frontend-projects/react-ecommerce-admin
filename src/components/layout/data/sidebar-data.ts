@@ -1,5 +1,6 @@
 import { UserRole, ADMIN_ROLES } from '@/types/user-role.enum'
 import {
+  AlertTriangle,
   ArrowLeftRight,
   AudioWaveform,
   Barcode,
@@ -7,12 +8,14 @@ import {
   Boxes,
   ClipboardCheck,
   ClipboardList,
+  Clock,
   History,
   Building2,
   CalendarClock,
   ChefHat,
   Command,
   CreditCard,
+  Database,
   DollarSign,
   FileSpreadsheet,
   FileText,
@@ -242,6 +245,20 @@ export function useSidebarData(): SidebarData {
         title: t('sidebar.inventory'),
         items: [
           {
+            title: 'Inventory Dashboard',
+            url: '/inventory/dashboard',
+            icon: LayoutDashboard,
+            roles: ADMINS,
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
+          },
+          {
+            title: 'Inventory Alerts',
+            url: '/inventory/alerts',
+            icon: AlertTriangle,
+            roles: ADMINS,
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
+          },
+          {
             title: t('sidebar.categories'),
             url: '/categories',
             icon: Package,
@@ -252,6 +269,27 @@ export function useSidebarData(): SidebarData {
             url: '/inventory',
             icon: Package,
             roles: ADMINS,
+          },
+          {
+            title: 'Stock Ledger',
+            url: '/inventory/ledger',
+            icon: History,
+            roles: ADMINS,
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
+          },
+          {
+            title: 'Expiry Management',
+            url: '/inventory/expiry',
+            icon: Clock,
+            roles: ADMINS,
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
+          },
+          {
+            title: 'Inventory Valuation',
+            url: '/inventory/valuation',
+            icon: DollarSign,
+            roles: ADMINS,
+            permissions: ['inventory.stock.view', 'inventory.stock.manage'],
           },
           {
             title: t('sidebar.shipments'),
@@ -442,6 +480,12 @@ export function useSidebarData(): SidebarData {
       {
         title: t('sidebar.lookups'),
         items: [
+          {
+            title: 'Master Lookups',
+            url: '/lookups',
+            icon: Database,
+            roles: ADMINS,
+          },
           {
             title: t('sidebar.countries'),
             url: '/countries',

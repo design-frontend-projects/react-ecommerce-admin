@@ -28,11 +28,15 @@ export type AggregateGoods_receipt_items = {
 
 export type Goods_receipt_itemsAvgAggregateOutputType = {
   qty_received: runtime.Decimal | null
+  accepted_qty: runtime.Decimal | null
+  rejected_qty: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
 }
 
 export type Goods_receipt_itemsSumAggregateOutputType = {
   qty_received: runtime.Decimal | null
+  accepted_qty: runtime.Decimal | null
+  rejected_qty: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
 }
 
@@ -41,11 +45,16 @@ export type Goods_receipt_itemsMinAggregateOutputType = {
   goods_receipt_id: string | null
   product_variant_id: string | null
   qty_received: runtime.Decimal | null
+  accepted_qty: runtime.Decimal | null
+  rejected_qty: runtime.Decimal | null
+  rejection_reason: string | null
+  condition: $Enums.stock_condition_enum | null
   uom_id: string | null
   unit_cost: runtime.Decimal | null
   warehouse_location_id: string | null
   batch_id: string | null
   batch_number: string | null
+  serial_id: string | null
   expiry_date: Date | null
   created_at: Date | null
   purchase_order_item_id: string | null
@@ -58,11 +67,16 @@ export type Goods_receipt_itemsMaxAggregateOutputType = {
   goods_receipt_id: string | null
   product_variant_id: string | null
   qty_received: runtime.Decimal | null
+  accepted_qty: runtime.Decimal | null
+  rejected_qty: runtime.Decimal | null
+  rejection_reason: string | null
+  condition: $Enums.stock_condition_enum | null
   uom_id: string | null
   unit_cost: runtime.Decimal | null
   warehouse_location_id: string | null
   batch_id: string | null
   batch_number: string | null
+  serial_id: string | null
   expiry_date: Date | null
   created_at: Date | null
   purchase_order_item_id: string | null
@@ -75,11 +89,16 @@ export type Goods_receipt_itemsCountAggregateOutputType = {
   goods_receipt_id: number
   product_variant_id: number
   qty_received: number
+  accepted_qty: number
+  rejected_qty: number
+  rejection_reason: number
+  condition: number
   uom_id: number
   unit_cost: number
   warehouse_location_id: number
   batch_id: number
   batch_number: number
+  serial_id: number
   expiry_date: number
   serial_numbers: number
   created_at: number
@@ -92,11 +111,15 @@ export type Goods_receipt_itemsCountAggregateOutputType = {
 
 export type Goods_receipt_itemsAvgAggregateInputType = {
   qty_received?: true
+  accepted_qty?: true
+  rejected_qty?: true
   unit_cost?: true
 }
 
 export type Goods_receipt_itemsSumAggregateInputType = {
   qty_received?: true
+  accepted_qty?: true
+  rejected_qty?: true
   unit_cost?: true
 }
 
@@ -105,11 +128,16 @@ export type Goods_receipt_itemsMinAggregateInputType = {
   goods_receipt_id?: true
   product_variant_id?: true
   qty_received?: true
+  accepted_qty?: true
+  rejected_qty?: true
+  rejection_reason?: true
+  condition?: true
   uom_id?: true
   unit_cost?: true
   warehouse_location_id?: true
   batch_id?: true
   batch_number?: true
+  serial_id?: true
   expiry_date?: true
   created_at?: true
   purchase_order_item_id?: true
@@ -122,11 +150,16 @@ export type Goods_receipt_itemsMaxAggregateInputType = {
   goods_receipt_id?: true
   product_variant_id?: true
   qty_received?: true
+  accepted_qty?: true
+  rejected_qty?: true
+  rejection_reason?: true
+  condition?: true
   uom_id?: true
   unit_cost?: true
   warehouse_location_id?: true
   batch_id?: true
   batch_number?: true
+  serial_id?: true
   expiry_date?: true
   created_at?: true
   purchase_order_item_id?: true
@@ -139,11 +172,16 @@ export type Goods_receipt_itemsCountAggregateInputType = {
   goods_receipt_id?: true
   product_variant_id?: true
   qty_received?: true
+  accepted_qty?: true
+  rejected_qty?: true
+  rejection_reason?: true
+  condition?: true
   uom_id?: true
   unit_cost?: true
   warehouse_location_id?: true
   batch_id?: true
   batch_number?: true
+  serial_id?: true
   expiry_date?: true
   serial_numbers?: true
   created_at?: true
@@ -244,11 +282,16 @@ export type Goods_receipt_itemsGroupByOutputType = {
   goods_receipt_id: string
   product_variant_id: string
   qty_received: runtime.Decimal
+  accepted_qty: runtime.Decimal | null
+  rejected_qty: runtime.Decimal | null
+  rejection_reason: string | null
+  condition: $Enums.stock_condition_enum
   uom_id: string | null
   unit_cost: runtime.Decimal
   warehouse_location_id: string | null
   batch_id: string | null
   batch_number: string | null
+  serial_id: string | null
   expiry_date: Date | null
   serial_numbers: runtime.JsonValue | null
   created_at: Date
@@ -285,11 +328,16 @@ export type goods_receipt_itemsWhereInput = {
   goods_receipt_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   product_variant_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.DecimalNullableFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.DecimalNullableFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.StringNullableFilter<"goods_receipt_items"> | string | null
+  condition?: Prisma.Enumstock_condition_enumFilter<"goods_receipt_items"> | $Enums.stock_condition_enum
   uom_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   unit_cost?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   batch_number?: Prisma.StringNullableFilter<"goods_receipt_items"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   expiry_date?: Prisma.DateTimeNullableFilter<"goods_receipt_items"> | Date | string | null
   serial_numbers?: Prisma.JsonNullableFilter<"goods_receipt_items">
   created_at?: Prisma.DateTimeFilter<"goods_receipt_items"> | Date | string
@@ -303,11 +351,16 @@ export type goods_receipt_itemsOrderByWithRelationInput = {
   goods_receipt_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  condition?: Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_number?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   expiry_date?: Prisma.SortOrderInput | Prisma.SortOrder
   serial_numbers?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -324,11 +377,16 @@ export type goods_receipt_itemsWhereUniqueInput = Prisma.AtLeast<{
   goods_receipt_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   product_variant_id?: Prisma.UuidFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.DecimalNullableFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.DecimalNullableFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.StringNullableFilter<"goods_receipt_items"> | string | null
+  condition?: Prisma.Enumstock_condition_enumFilter<"goods_receipt_items"> | $Enums.stock_condition_enum
   uom_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   unit_cost?: Prisma.DecimalFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   batch_number?: Prisma.StringNullableFilter<"goods_receipt_items"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"goods_receipt_items"> | string | null
   expiry_date?: Prisma.DateTimeNullableFilter<"goods_receipt_items"> | Date | string | null
   serial_numbers?: Prisma.JsonNullableFilter<"goods_receipt_items">
   created_at?: Prisma.DateTimeFilter<"goods_receipt_items"> | Date | string
@@ -342,11 +400,16 @@ export type goods_receipt_itemsOrderByWithAggregationInput = {
   goods_receipt_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  condition?: Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_number?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   expiry_date?: Prisma.SortOrderInput | Prisma.SortOrder
   serial_numbers?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -368,11 +431,16 @@ export type goods_receipt_itemsScalarWhereWithAggregatesInput = {
   goods_receipt_id?: Prisma.UuidWithAggregatesFilter<"goods_receipt_items"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"goods_receipt_items"> | string
   qty_received?: Prisma.DecimalWithAggregatesFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.DecimalNullableWithAggregatesFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.DecimalNullableWithAggregatesFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.StringNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
+  condition?: Prisma.Enumstock_condition_enumWithAggregatesFilter<"goods_receipt_items"> | $Enums.stock_condition_enum
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"goods_receipt_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
   batch_number?: Prisma.StringNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
+  serial_id?: Prisma.UuidNullableWithAggregatesFilter<"goods_receipt_items"> | string | null
   expiry_date?: Prisma.DateTimeNullableWithAggregatesFilter<"goods_receipt_items"> | Date | string | null
   serial_numbers?: Prisma.JsonNullableWithAggregatesFilter<"goods_receipt_items">
   created_at?: Prisma.DateTimeWithAggregatesFilter<"goods_receipt_items"> | Date | string
@@ -386,11 +454,16 @@ export type goods_receipt_itemsCreateInput = {
   goods_receipt_id: string
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: string | null
+  condition?: $Enums.stock_condition_enum
   uom_id?: string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: string | null
   batch_id?: string | null
   batch_number?: string | null
+  serial_id?: string | null
   expiry_date?: Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -404,11 +477,16 @@ export type goods_receipt_itemsUncheckedCreateInput = {
   goods_receipt_id: string
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: string | null
+  condition?: $Enums.stock_condition_enum
   uom_id?: string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: string | null
   batch_id?: string | null
   batch_number?: string | null
+  serial_id?: string | null
   expiry_date?: Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -422,11 +500,16 @@ export type goods_receipt_itemsUpdateInput = {
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,11 +523,16 @@ export type goods_receipt_itemsUncheckedUpdateInput = {
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -458,11 +546,16 @@ export type goods_receipt_itemsCreateManyInput = {
   goods_receipt_id: string
   product_variant_id: string
   qty_received: runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: string | null
+  condition?: $Enums.stock_condition_enum
   uom_id?: string | null
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: string | null
   batch_id?: string | null
   batch_number?: string | null
+  serial_id?: string | null
   expiry_date?: Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Date | string
@@ -476,11 +569,16 @@ export type goods_receipt_itemsUpdateManyMutationInput = {
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -494,11 +592,16 @@ export type goods_receipt_itemsUncheckedUpdateManyInput = {
   goods_receipt_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   qty_received?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  accepted_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejected_qty?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serial_numbers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -512,11 +615,16 @@ export type goods_receipt_itemsCountOrderByAggregateInput = {
   goods_receipt_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   batch_number?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrder
   serial_numbers?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -527,6 +635,8 @@ export type goods_receipt_itemsCountOrderByAggregateInput = {
 
 export type goods_receipt_itemsAvgOrderByAggregateInput = {
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
 }
 
@@ -535,11 +645,16 @@ export type goods_receipt_itemsMaxOrderByAggregateInput = {
   goods_receipt_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   batch_number?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrder
@@ -552,11 +667,16 @@ export type goods_receipt_itemsMinOrderByAggregateInput = {
   goods_receipt_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrder
+  condition?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   batch_number?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   expiry_date?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   purchase_order_item_id?: Prisma.SortOrder
@@ -566,6 +686,8 @@ export type goods_receipt_itemsMinOrderByAggregateInput = {
 
 export type goods_receipt_itemsSumOrderByAggregateInput = {
   qty_received?: Prisma.SortOrder
+  accepted_qty?: Prisma.SortOrder
+  rejected_qty?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
 }
 
@@ -576,11 +698,16 @@ export type goods_receipt_itemsSelect<ExtArgs extends runtime.Types.Extensions.I
   goods_receipt_id?: boolean
   product_variant_id?: boolean
   qty_received?: boolean
+  accepted_qty?: boolean
+  rejected_qty?: boolean
+  rejection_reason?: boolean
+  condition?: boolean
   uom_id?: boolean
   unit_cost?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
   batch_number?: boolean
+  serial_id?: boolean
   expiry_date?: boolean
   serial_numbers?: boolean
   created_at?: boolean
@@ -594,11 +721,16 @@ export type goods_receipt_itemsSelectCreateManyAndReturn<ExtArgs extends runtime
   goods_receipt_id?: boolean
   product_variant_id?: boolean
   qty_received?: boolean
+  accepted_qty?: boolean
+  rejected_qty?: boolean
+  rejection_reason?: boolean
+  condition?: boolean
   uom_id?: boolean
   unit_cost?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
   batch_number?: boolean
+  serial_id?: boolean
   expiry_date?: boolean
   serial_numbers?: boolean
   created_at?: boolean
@@ -612,11 +744,16 @@ export type goods_receipt_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime
   goods_receipt_id?: boolean
   product_variant_id?: boolean
   qty_received?: boolean
+  accepted_qty?: boolean
+  rejected_qty?: boolean
+  rejection_reason?: boolean
+  condition?: boolean
   uom_id?: boolean
   unit_cost?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
   batch_number?: boolean
+  serial_id?: boolean
   expiry_date?: boolean
   serial_numbers?: boolean
   created_at?: boolean
@@ -630,11 +767,16 @@ export type goods_receipt_itemsSelectScalar = {
   goods_receipt_id?: boolean
   product_variant_id?: boolean
   qty_received?: boolean
+  accepted_qty?: boolean
+  rejected_qty?: boolean
+  rejection_reason?: boolean
+  condition?: boolean
   uom_id?: boolean
   unit_cost?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
   batch_number?: boolean
+  serial_id?: boolean
   expiry_date?: boolean
   serial_numbers?: boolean
   created_at?: boolean
@@ -643,7 +785,7 @@ export type goods_receipt_itemsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type goods_receipt_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "goods_receipt_id" | "product_variant_id" | "qty_received" | "uom_id" | "unit_cost" | "warehouse_location_id" | "batch_id" | "batch_number" | "expiry_date" | "serial_numbers" | "created_at" | "purchase_order_item_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["goods_receipt_items"]>
+export type goods_receipt_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "goods_receipt_id" | "product_variant_id" | "qty_received" | "accepted_qty" | "rejected_qty" | "rejection_reason" | "condition" | "uom_id" | "unit_cost" | "warehouse_location_id" | "batch_id" | "batch_number" | "serial_id" | "expiry_date" | "serial_numbers" | "created_at" | "purchase_order_item_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["goods_receipt_items"]>
 
 export type $goods_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "goods_receipt_items"
@@ -653,11 +795,16 @@ export type $goods_receipt_itemsPayload<ExtArgs extends runtime.Types.Extensions
     goods_receipt_id: string
     product_variant_id: string
     qty_received: runtime.Decimal
+    accepted_qty: runtime.Decimal | null
+    rejected_qty: runtime.Decimal | null
+    rejection_reason: string | null
+    condition: $Enums.stock_condition_enum
     uom_id: string | null
     unit_cost: runtime.Decimal
     warehouse_location_id: string | null
     batch_id: string | null
     batch_number: string | null
+    serial_id: string | null
     expiry_date: Date | null
     serial_numbers: runtime.JsonValue | null
     created_at: Date
@@ -1091,11 +1238,16 @@ export interface goods_receipt_itemsFieldRefs {
   readonly goods_receipt_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly qty_received: Prisma.FieldRef<"goods_receipt_items", 'Decimal'>
+  readonly accepted_qty: Prisma.FieldRef<"goods_receipt_items", 'Decimal'>
+  readonly rejected_qty: Prisma.FieldRef<"goods_receipt_items", 'Decimal'>
+  readonly rejection_reason: Prisma.FieldRef<"goods_receipt_items", 'String'>
+  readonly condition: Prisma.FieldRef<"goods_receipt_items", 'stock_condition_enum'>
   readonly uom_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly unit_cost: Prisma.FieldRef<"goods_receipt_items", 'Decimal'>
   readonly warehouse_location_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly batch_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly batch_number: Prisma.FieldRef<"goods_receipt_items", 'String'>
+  readonly serial_id: Prisma.FieldRef<"goods_receipt_items", 'String'>
   readonly expiry_date: Prisma.FieldRef<"goods_receipt_items", 'DateTime'>
   readonly serial_numbers: Prisma.FieldRef<"goods_receipt_items", 'Json'>
   readonly created_at: Prisma.FieldRef<"goods_receipt_items", 'DateTime'>

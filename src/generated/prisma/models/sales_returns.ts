@@ -50,6 +50,7 @@ export type Sales_returnsMinAggregateOutputType = {
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   reason: string | null
+  return_reason_id: string | null
   notes: string | null
   created_by: string | null
   created_at: Date | null
@@ -72,6 +73,7 @@ export type Sales_returnsMaxAggregateOutputType = {
   tax_amount: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   reason: string | null
+  return_reason_id: string | null
   notes: string | null
   created_by: string | null
   created_at: Date | null
@@ -94,6 +96,7 @@ export type Sales_returnsCountAggregateOutputType = {
   tax_amount: number
   total_amount: number
   reason: number
+  return_reason_id: number
   notes: number
   created_by: number
   created_at: number
@@ -130,6 +133,7 @@ export type Sales_returnsMinAggregateInputType = {
   tax_amount?: true
   total_amount?: true
   reason?: true
+  return_reason_id?: true
   notes?: true
   created_by?: true
   created_at?: true
@@ -152,6 +156,7 @@ export type Sales_returnsMaxAggregateInputType = {
   tax_amount?: true
   total_amount?: true
   reason?: true
+  return_reason_id?: true
   notes?: true
   created_by?: true
   created_at?: true
@@ -174,6 +179,7 @@ export type Sales_returnsCountAggregateInputType = {
   tax_amount?: true
   total_amount?: true
   reason?: true
+  return_reason_id?: true
   notes?: true
   created_by?: true
   created_at?: true
@@ -283,6 +289,7 @@ export type Sales_returnsGroupByOutputType = {
   tax_amount: runtime.Decimal
   total_amount: runtime.Decimal
   reason: string | null
+  return_reason_id: string | null
   notes: string | null
   created_by: string | null
   created_at: Date
@@ -328,6 +335,7 @@ export type sales_returnsWhereInput = {
   tax_amount?: Prisma.DecimalFilter<"sales_returns"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalFilter<"sales_returns"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"sales_returns"> | string | null
+  return_reason_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   notes?: Prisma.StringNullableFilter<"sales_returns"> | string | null
   created_by?: Prisma.StringNullableFilter<"sales_returns"> | string | null
   created_at?: Prisma.DateTimeFilter<"sales_returns"> | Date | string
@@ -350,6 +358,7 @@ export type sales_returnsOrderByWithRelationInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  return_reason_id?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -375,6 +384,7 @@ export type sales_returnsWhereUniqueInput = Prisma.AtLeast<{
   tax_amount?: Prisma.DecimalFilter<"sales_returns"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalFilter<"sales_returns"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableFilter<"sales_returns"> | string | null
+  return_reason_id?: Prisma.UuidNullableFilter<"sales_returns"> | string | null
   notes?: Prisma.StringNullableFilter<"sales_returns"> | string | null
   created_by?: Prisma.StringNullableFilter<"sales_returns"> | string | null
   created_at?: Prisma.DateTimeFilter<"sales_returns"> | Date | string
@@ -397,6 +407,7 @@ export type sales_returnsOrderByWithAggregationInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  return_reason_id?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -427,6 +438,7 @@ export type sales_returnsScalarWhereWithAggregatesInput = {
   tax_amount?: Prisma.DecimalWithAggregatesFilter<"sales_returns"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalWithAggregatesFilter<"sales_returns"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.StringNullableWithAggregatesFilter<"sales_returns"> | string | null
+  return_reason_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_returns"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"sales_returns"> | string | null
   created_by?: Prisma.StringNullableWithAggregatesFilter<"sales_returns"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"sales_returns"> | Date | string
@@ -449,6 +461,7 @@ export type sales_returnsCreateInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
+  return_reason_id?: string | null
   notes?: string | null
   created_by?: string | null
   created_at?: Date | string
@@ -471,6 +484,7 @@ export type sales_returnsUncheckedCreateInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
+  return_reason_id?: string | null
   notes?: string | null
   created_by?: string | null
   created_at?: Date | string
@@ -493,6 +507,7 @@ export type sales_returnsUpdateInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -515,6 +530,7 @@ export type sales_returnsUncheckedUpdateInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -537,6 +553,7 @@ export type sales_returnsCreateManyInput = {
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: string | null
+  return_reason_id?: string | null
   notes?: string | null
   created_by?: string | null
   created_at?: Date | string
@@ -559,6 +576,7 @@ export type sales_returnsUpdateManyMutationInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,6 +599,7 @@ export type sales_returnsUncheckedUpdateManyInput = {
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -603,6 +622,7 @@ export type sales_returnsCountOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
+  return_reason_id?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -631,6 +651,7 @@ export type sales_returnsMaxOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
+  return_reason_id?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -653,6 +674,7 @@ export type sales_returnsMinOrderByAggregateInput = {
   tax_amount?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   reason?: Prisma.SortOrder
+  return_reason_id?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -683,6 +705,7 @@ export type sales_returnsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   tax_amount?: boolean
   total_amount?: boolean
   reason?: boolean
+  return_reason_id?: boolean
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
@@ -705,6 +728,7 @@ export type sales_returnsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   tax_amount?: boolean
   total_amount?: boolean
   reason?: boolean
+  return_reason_id?: boolean
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
@@ -727,6 +751,7 @@ export type sales_returnsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   tax_amount?: boolean
   total_amount?: boolean
   reason?: boolean
+  return_reason_id?: boolean
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
@@ -749,6 +774,7 @@ export type sales_returnsSelectScalar = {
   tax_amount?: boolean
   total_amount?: boolean
   reason?: boolean
+  return_reason_id?: boolean
   notes?: boolean
   created_by?: boolean
   created_at?: boolean
@@ -759,7 +785,7 @@ export type sales_returnsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type sales_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sales_invoice_id" | "branch_id" | "store_id" | "return_no" | "return_date" | "status" | "subtotal" | "tax_amount" | "total_amount" | "reason" | "notes" | "created_by" | "created_at" | "updated_at" | "customer_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_returns"]>
+export type sales_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sales_invoice_id" | "branch_id" | "store_id" | "return_no" | "return_date" | "status" | "subtotal" | "tax_amount" | "total_amount" | "reason" | "return_reason_id" | "notes" | "created_by" | "created_at" | "updated_at" | "customer_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_returns"]>
 
 export type $sales_returnsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "sales_returns"
@@ -776,6 +802,7 @@ export type $sales_returnsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     tax_amount: runtime.Decimal
     total_amount: runtime.Decimal
     reason: string | null
+    return_reason_id: string | null
     notes: string | null
     created_by: string | null
     created_at: Date
@@ -1218,6 +1245,7 @@ export interface sales_returnsFieldRefs {
   readonly tax_amount: Prisma.FieldRef<"sales_returns", 'Decimal'>
   readonly total_amount: Prisma.FieldRef<"sales_returns", 'Decimal'>
   readonly reason: Prisma.FieldRef<"sales_returns", 'String'>
+  readonly return_reason_id: Prisma.FieldRef<"sales_returns", 'String'>
   readonly notes: Prisma.FieldRef<"sales_returns", 'String'>
   readonly created_by: Prisma.FieldRef<"sales_returns", 'String'>
   readonly created_at: Prisma.FieldRef<"sales_returns", 'DateTime'>

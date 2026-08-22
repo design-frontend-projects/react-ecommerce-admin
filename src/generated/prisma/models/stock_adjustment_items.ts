@@ -44,11 +44,13 @@ export type Stock_adjustment_itemsMinAggregateOutputType = {
   id: string | null
   stock_adjustment_id: string | null
   product_variant_id: string | null
+  location_id: string | null
   qty_before: runtime.Decimal | null
   qty_after: runtime.Decimal | null
   qty_adjusted: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   reason: $Enums.adjustment_reason_enum | null
+  reason_id: string | null
   created_at: Date | null
   batch_id: string | null
   created_by_user_id: string | null
@@ -59,11 +61,13 @@ export type Stock_adjustment_itemsMaxAggregateOutputType = {
   id: string | null
   stock_adjustment_id: string | null
   product_variant_id: string | null
+  location_id: string | null
   qty_before: runtime.Decimal | null
   qty_after: runtime.Decimal | null
   qty_adjusted: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   reason: $Enums.adjustment_reason_enum | null
+  reason_id: string | null
   created_at: Date | null
   batch_id: string | null
   created_by_user_id: string | null
@@ -74,11 +78,13 @@ export type Stock_adjustment_itemsCountAggregateOutputType = {
   id: number
   stock_adjustment_id: number
   product_variant_id: number
+  location_id: number
   qty_before: number
   qty_after: number
   qty_adjusted: number
   unit_cost: number
   reason: number
+  reason_id: number
   created_at: number
   batch_id: number
   created_by_user_id: number
@@ -105,11 +111,13 @@ export type Stock_adjustment_itemsMinAggregateInputType = {
   id?: true
   stock_adjustment_id?: true
   product_variant_id?: true
+  location_id?: true
   qty_before?: true
   qty_after?: true
   qty_adjusted?: true
   unit_cost?: true
   reason?: true
+  reason_id?: true
   created_at?: true
   batch_id?: true
   created_by_user_id?: true
@@ -120,11 +128,13 @@ export type Stock_adjustment_itemsMaxAggregateInputType = {
   id?: true
   stock_adjustment_id?: true
   product_variant_id?: true
+  location_id?: true
   qty_before?: true
   qty_after?: true
   qty_adjusted?: true
   unit_cost?: true
   reason?: true
+  reason_id?: true
   created_at?: true
   batch_id?: true
   created_by_user_id?: true
@@ -135,11 +145,13 @@ export type Stock_adjustment_itemsCountAggregateInputType = {
   id?: true
   stock_adjustment_id?: true
   product_variant_id?: true
+  location_id?: true
   qty_before?: true
   qty_after?: true
   qty_adjusted?: true
   unit_cost?: true
   reason?: true
+  reason_id?: true
   created_at?: true
   batch_id?: true
   created_by_user_id?: true
@@ -237,11 +249,13 @@ export type Stock_adjustment_itemsGroupByOutputType = {
   id: string
   stock_adjustment_id: string
   product_variant_id: string
+  location_id: string | null
   qty_before: runtime.Decimal
   qty_after: runtime.Decimal
   qty_adjusted: runtime.Decimal
   unit_cost: runtime.Decimal
   reason: $Enums.adjustment_reason_enum | null
+  reason_id: string | null
   created_at: Date
   batch_id: string | null
   created_by_user_id: string | null
@@ -275,11 +289,13 @@ export type stock_adjustment_itemsWhereInput = {
   id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
   stock_adjustment_id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
   product_variant_id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
+  location_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   qty_before?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.Enumadjustment_reason_enumNullableFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"stock_adjustment_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
@@ -290,11 +306,13 @@ export type stock_adjustment_itemsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   stock_adjustment_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty_before?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
   qty_adjusted?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -308,11 +326,13 @@ export type stock_adjustment_itemsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.stock_adjustment_itemsWhereInput | Prisma.stock_adjustment_itemsWhereInput[]
   stock_adjustment_id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
   product_variant_id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
+  location_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   qty_before?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.Enumadjustment_reason_enumNullableFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"stock_adjustment_items"> | Date | string
   batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
@@ -323,11 +343,13 @@ export type stock_adjustment_itemsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   stock_adjustment_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty_before?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
   qty_adjusted?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -346,11 +368,13 @@ export type stock_adjustment_itemsScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"stock_adjustment_items"> | string
   stock_adjustment_id?: Prisma.UuidWithAggregatesFilter<"stock_adjustment_items"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"stock_adjustment_items"> | string
+  location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
   qty_before?: Prisma.DecimalWithAggregatesFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalWithAggregatesFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalWithAggregatesFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.Enumadjustment_reason_enumNullableWithAggregatesFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_adjustment_items"> | Date | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_adjustment_items"> | string | null
@@ -361,11 +385,13 @@ export type stock_adjustment_itemsCreateInput = {
   id?: string
   stock_adjustment_id: string
   product_variant_id: string
+  location_id?: string | null
   qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
   created_at?: Date | string
   batch_id?: string | null
   created_by_user_id?: string | null
@@ -376,11 +402,13 @@ export type stock_adjustment_itemsUncheckedCreateInput = {
   id?: string
   stock_adjustment_id: string
   product_variant_id: string
+  location_id?: string | null
   qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
   created_at?: Date | string
   batch_id?: string | null
   created_by_user_id?: string | null
@@ -391,11 +419,13 @@ export type stock_adjustment_itemsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stock_adjustment_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -406,11 +436,13 @@ export type stock_adjustment_itemsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stock_adjustment_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -421,11 +453,13 @@ export type stock_adjustment_itemsCreateManyInput = {
   id?: string
   stock_adjustment_id: string
   product_variant_id: string
+  location_id?: string | null
   qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
   created_at?: Date | string
   batch_id?: string | null
   created_by_user_id?: string | null
@@ -436,11 +470,13 @@ export type stock_adjustment_itemsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stock_adjustment_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -451,11 +487,13 @@ export type stock_adjustment_itemsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   stock_adjustment_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -466,11 +504,13 @@ export type stock_adjustment_itemsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   stock_adjustment_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
   qty_before?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
   qty_adjusted?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   reason?: Prisma.SortOrder
+  reason_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
@@ -488,11 +528,13 @@ export type stock_adjustment_itemsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   stock_adjustment_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
   qty_before?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
   qty_adjusted?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   reason?: Prisma.SortOrder
+  reason_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
@@ -503,11 +545,13 @@ export type stock_adjustment_itemsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   stock_adjustment_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
   qty_before?: Prisma.SortOrder
   qty_after?: Prisma.SortOrder
   qty_adjusted?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   reason?: Prisma.SortOrder
+  reason_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
@@ -521,21 +565,19 @@ export type stock_adjustment_itemsSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
-export type NullableEnumadjustment_reason_enumFieldUpdateOperationsInput = {
-  set?: $Enums.adjustment_reason_enum | null
-}
-
 
 
 export type stock_adjustment_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   stock_adjustment_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
   qty_before?: boolean
   qty_after?: boolean
   qty_adjusted?: boolean
   unit_cost?: boolean
   reason?: boolean
+  reason_id?: boolean
   created_at?: boolean
   batch_id?: boolean
   created_by_user_id?: boolean
@@ -546,11 +588,13 @@ export type stock_adjustment_itemsSelectCreateManyAndReturn<ExtArgs extends runt
   id?: boolean
   stock_adjustment_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
   qty_before?: boolean
   qty_after?: boolean
   qty_adjusted?: boolean
   unit_cost?: boolean
   reason?: boolean
+  reason_id?: boolean
   created_at?: boolean
   batch_id?: boolean
   created_by_user_id?: boolean
@@ -561,11 +605,13 @@ export type stock_adjustment_itemsSelectUpdateManyAndReturn<ExtArgs extends runt
   id?: boolean
   stock_adjustment_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
   qty_before?: boolean
   qty_after?: boolean
   qty_adjusted?: boolean
   unit_cost?: boolean
   reason?: boolean
+  reason_id?: boolean
   created_at?: boolean
   batch_id?: boolean
   created_by_user_id?: boolean
@@ -576,18 +622,20 @@ export type stock_adjustment_itemsSelectScalar = {
   id?: boolean
   stock_adjustment_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
   qty_before?: boolean
   qty_after?: boolean
   qty_adjusted?: boolean
   unit_cost?: boolean
   reason?: boolean
+  reason_id?: boolean
   created_at?: boolean
   batch_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type stock_adjustment_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_adjustment_id" | "product_variant_id" | "qty_before" | "qty_after" | "qty_adjusted" | "unit_cost" | "reason" | "created_at" | "batch_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_adjustment_items"]>
+export type stock_adjustment_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_adjustment_id" | "product_variant_id" | "location_id" | "qty_before" | "qty_after" | "qty_adjusted" | "unit_cost" | "reason" | "reason_id" | "created_at" | "batch_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_adjustment_items"]>
 
 export type $stock_adjustment_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_adjustment_items"
@@ -596,11 +644,13 @@ export type $stock_adjustment_itemsPayload<ExtArgs extends runtime.Types.Extensi
     id: string
     stock_adjustment_id: string
     product_variant_id: string
+    location_id: string | null
     qty_before: runtime.Decimal
     qty_after: runtime.Decimal
     qty_adjusted: runtime.Decimal
     unit_cost: runtime.Decimal
     reason: $Enums.adjustment_reason_enum | null
+    reason_id: string | null
     created_at: Date
     batch_id: string | null
     created_by_user_id: string | null
@@ -1031,11 +1081,13 @@ export interface stock_adjustment_itemsFieldRefs {
   readonly id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
   readonly stock_adjustment_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
+  readonly location_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
   readonly qty_before: Prisma.FieldRef<"stock_adjustment_items", 'Decimal'>
   readonly qty_after: Prisma.FieldRef<"stock_adjustment_items", 'Decimal'>
   readonly qty_adjusted: Prisma.FieldRef<"stock_adjustment_items", 'Decimal'>
   readonly unit_cost: Prisma.FieldRef<"stock_adjustment_items", 'Decimal'>
   readonly reason: Prisma.FieldRef<"stock_adjustment_items", 'adjustment_reason_enum'>
+  readonly reason_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
   readonly created_at: Prisma.FieldRef<"stock_adjustment_items", 'DateTime'>
   readonly batch_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>
   readonly created_by_user_id: Prisma.FieldRef<"stock_adjustment_items", 'String'>

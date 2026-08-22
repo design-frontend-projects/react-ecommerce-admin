@@ -76,6 +76,7 @@ import { Route as AuthenticatedReorderRulesIndexRouteImport } from './routes/_au
 import { Route as AuthenticatedPurchaseRequisitionsIndexRouteImport } from './routes/_authenticated/purchase-requisitions/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
+import { Route as AuthenticatedLookupsIndexRouteImport } from './routes/_authenticated/lookups/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedInventoryMovementsIndexRouteImport } from './routes/_authenticated/inventory-movements/index'
 import { Route as AuthenticatedGoodsReceiptsIndexRouteImport } from './routes/_authenticated/goods-receipts/index'
@@ -99,6 +100,9 @@ import { Route as ApiOnboardingUsersRouteImport } from './routes/api/onboarding/
 import { Route as ApiOnboardingTenantUsersRouteImport } from './routes/api/onboarding/tenant-users'
 import { Route as ApiOnboardingCompleteRouteImport } from './routes/api/onboarding/complete'
 import { Route as ApiOnboardingBranchesRouteImport } from './routes/api/onboarding/branches'
+import { Route as ApiLookupsValuesRouteImport } from './routes/api/lookups/values'
+import { Route as ApiLookupsTypesRouteImport } from './routes/api/lookups/types'
+import { Route as ApiLookupsTreeRouteImport } from './routes/api/lookups/tree'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
@@ -119,6 +123,7 @@ import { Route as ApiInventoryAdjustmentsRouteImport } from './routes/api/invent
 import { Route as ApiCrmSyncTransactionRouteImport } from './routes/api/crm/sync-transaction'
 import { Route as ApiAuthProvisionSignupRouteImport } from './routes/api/auth/provision-signup'
 import { Route as ApiAccessControlNavigationRouteImport } from './routes/api/access-control/navigation'
+import { Route as AuthenticatedStockTransfersTransferIdRouteImport } from './routes/_authenticated/stock-transfers/$transferId'
 import { Route as AuthenticatedSettingsSystemRouteImport } from './routes/_authenticated/settings/system'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
@@ -135,7 +140,12 @@ import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authent
 import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authenticated/respos/cashier'
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
+import { Route as AuthenticatedInventoryValuationRouteImport } from './routes/_authenticated/inventory/valuation'
 import { Route as AuthenticatedInventoryShipmentsRouteImport } from './routes/_authenticated/inventory/shipments'
+import { Route as AuthenticatedInventoryLedgerRouteImport } from './routes/_authenticated/inventory/ledger'
+import { Route as AuthenticatedInventoryExpiryRouteImport } from './routes/_authenticated/inventory/expiry'
+import { Route as AuthenticatedInventoryDashboardRouteImport } from './routes/_authenticated/inventory/dashboard'
+import { Route as AuthenticatedInventoryAlertsRouteImport } from './routes/_authenticated/inventory/alerts'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedAccessControlScreensRouteImport } from './routes/_authenticated/access-control/screens'
 import { Route as AuthenticatedAccessControlButtonsRouteImport } from './routes/_authenticated/access-control/buttons'
@@ -552,6 +562,12 @@ const AuthenticatedPosIndexRoute = AuthenticatedPosIndexRouteImport.update({
   path: '/pos/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLookupsIndexRoute =
+  AuthenticatedLookupsIndexRouteImport.update({
+    id: '/lookups/',
+    path: '/lookups/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryIndexRoute =
   AuthenticatedInventoryIndexRouteImport.update({
     id: '/inventory/',
@@ -674,6 +690,21 @@ const ApiOnboardingBranchesRoute = ApiOnboardingBranchesRouteImport.update({
   path: '/api/onboarding/branches',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiLookupsValuesRoute = ApiLookupsValuesRouteImport.update({
+  id: '/api/lookups/values',
+  path: '/api/lookups/values',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLookupsTypesRoute = ApiLookupsTypesRouteImport.update({
+  id: '/api/lookups/types',
+  path: '/api/lookups/types',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLookupsTreeRoute = ApiLookupsTreeRouteImport.update({
+  id: '/api/lookups/tree',
+  path: '/api/lookups/tree',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInventoryWarehousesRoute = ApiInventoryWarehousesRouteImport.update({
   id: '/api/inventory/warehouses',
   path: '/api/inventory/warehouses',
@@ -782,6 +813,12 @@ const ApiAccessControlNavigationRoute =
     path: '/api/access-control/navigation',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedStockTransfersTransferIdRoute =
+  AuthenticatedStockTransfersTransferIdRouteImport.update({
+    id: '/stock-transfers/$transferId',
+    path: '/stock-transfers/$transferId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsSystemRoute =
   AuthenticatedSettingsSystemRouteImport.update({
     id: '/system',
@@ -876,10 +913,40 @@ const AuthenticatedResposAnalyticsRoute =
     path: '/respos/analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInventoryValuationRoute =
+  AuthenticatedInventoryValuationRouteImport.update({
+    id: '/inventory/valuation',
+    path: '/inventory/valuation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryShipmentsRoute =
   AuthenticatedInventoryShipmentsRouteImport.update({
     id: '/inventory/shipments',
     path: '/inventory/shipments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryLedgerRoute =
+  AuthenticatedInventoryLedgerRouteImport.update({
+    id: '/inventory/ledger',
+    path: '/inventory/ledger',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryExpiryRoute =
+  AuthenticatedInventoryExpiryRouteImport.update({
+    id: '/inventory/expiry',
+    path: '/inventory/expiry',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryDashboardRoute =
+  AuthenticatedInventoryDashboardRouteImport.update({
+    id: '/inventory/dashboard',
+    path: '/inventory/dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryAlertsRoute =
+  AuthenticatedInventoryAlertsRouteImport.update({
+    id: '/inventory/alerts',
+    path: '/inventory/alerts',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedErrorsErrorRoute =
@@ -1091,7 +1158,12 @@ export interface FileRoutesByFullPath {
   '/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
   '/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/inventory/alerts': typeof AuthenticatedInventoryAlertsRoute
+  '/inventory/dashboard': typeof AuthenticatedInventoryDashboardRoute
+  '/inventory/expiry': typeof AuthenticatedInventoryExpiryRoute
+  '/inventory/ledger': typeof AuthenticatedInventoryLedgerRoute
   '/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
+  '/inventory/valuation': typeof AuthenticatedInventoryValuationRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1108,6 +1180,7 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/stock-transfers/$transferId': typeof AuthenticatedStockTransfersTransferIdRoute
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
@@ -1128,6 +1201,9 @@ export interface FileRoutesByFullPath {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/tree': typeof ApiLookupsTreeRoute
+  '/api/lookups/types': typeof ApiLookupsTypesRoute
+  '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
   '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
@@ -1151,6 +1227,7 @@ export interface FileRoutesByFullPath {
   '/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/pos/': typeof AuthenticatedPosIndexRoute
   '/products/': typeof AuthenticatedProductsIndexRoute
   '/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -1244,7 +1321,12 @@ export interface FileRoutesByTo {
   '/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
   '/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/inventory/alerts': typeof AuthenticatedInventoryAlertsRoute
+  '/inventory/dashboard': typeof AuthenticatedInventoryDashboardRoute
+  '/inventory/expiry': typeof AuthenticatedInventoryExpiryRoute
+  '/inventory/ledger': typeof AuthenticatedInventoryLedgerRoute
   '/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
+  '/inventory/valuation': typeof AuthenticatedInventoryValuationRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1261,6 +1343,7 @@ export interface FileRoutesByTo {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/stock-transfers/$transferId': typeof AuthenticatedStockTransfersTransferIdRoute
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
@@ -1281,6 +1364,9 @@ export interface FileRoutesByTo {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/tree': typeof ApiLookupsTreeRoute
+  '/api/lookups/types': typeof ApiLookupsTypesRoute
+  '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
   '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
@@ -1304,6 +1390,7 @@ export interface FileRoutesByTo {
   '/goods-receipts': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
+  '/lookups': typeof AuthenticatedLookupsIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
   '/purchase-requisitions': typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -1402,7 +1489,12 @@ export interface FileRoutesById {
   '/_authenticated/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
   '/_authenticated/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/_authenticated/inventory/alerts': typeof AuthenticatedInventoryAlertsRoute
+  '/_authenticated/inventory/dashboard': typeof AuthenticatedInventoryDashboardRoute
+  '/_authenticated/inventory/expiry': typeof AuthenticatedInventoryExpiryRoute
+  '/_authenticated/inventory/ledger': typeof AuthenticatedInventoryLedgerRoute
   '/_authenticated/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
+  '/_authenticated/inventory/valuation': typeof AuthenticatedInventoryValuationRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/_authenticated/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1419,6 +1511,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/settings/system': typeof AuthenticatedSettingsSystemRoute
+  '/_authenticated/stock-transfers/$transferId': typeof AuthenticatedStockTransfersTransferIdRoute
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
@@ -1439,6 +1532,9 @@ export interface FileRoutesById {
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
+  '/api/lookups/tree': typeof ApiLookupsTreeRoute
+  '/api/lookups/types': typeof ApiLookupsTypesRoute
+  '/api/lookups/values': typeof ApiLookupsValuesRoute
   '/api/onboarding/branches': typeof ApiOnboardingBranchesRoute
   '/api/onboarding/complete': typeof ApiOnboardingCompleteRoute
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
@@ -1462,6 +1558,7 @@ export interface FileRoutesById {
   '/_authenticated/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/_authenticated/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/_authenticated/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
   '/_authenticated/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -1559,7 +1656,12 @@ export interface FileRouteTypes {
     | '/access-control/buttons'
     | '/access-control/screens'
     | '/errors/$error'
+    | '/inventory/alerts'
+    | '/inventory/dashboard'
+    | '/inventory/expiry'
+    | '/inventory/ledger'
     | '/inventory/shipments'
+    | '/inventory/valuation'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -1576,6 +1678,7 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
+    | '/stock-transfers/$transferId'
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
@@ -1596,6 +1699,9 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/tree'
+    | '/api/lookups/types'
+    | '/api/lookups/values'
     | '/api/onboarding/branches'
     | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
@@ -1619,6 +1725,7 @@ export interface FileRouteTypes {
     | '/goods-receipts/'
     | '/inventory-movements/'
     | '/inventory/'
+    | '/lookups/'
     | '/pos/'
     | '/products/'
     | '/purchase-requisitions/'
@@ -1712,7 +1819,12 @@ export interface FileRouteTypes {
     | '/access-control/buttons'
     | '/access-control/screens'
     | '/errors/$error'
+    | '/inventory/alerts'
+    | '/inventory/dashboard'
+    | '/inventory/expiry'
+    | '/inventory/ledger'
     | '/inventory/shipments'
+    | '/inventory/valuation'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -1729,6 +1841,7 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/settings/system'
+    | '/stock-transfers/$transferId'
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
@@ -1749,6 +1862,9 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/tree'
+    | '/api/lookups/types'
+    | '/api/lookups/values'
     | '/api/onboarding/branches'
     | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
@@ -1772,6 +1888,7 @@ export interface FileRouteTypes {
     | '/goods-receipts'
     | '/inventory-movements'
     | '/inventory'
+    | '/lookups'
     | '/pos'
     | '/products'
     | '/purchase-requisitions'
@@ -1869,7 +1986,12 @@ export interface FileRouteTypes {
     | '/_authenticated/access-control/buttons'
     | '/_authenticated/access-control/screens'
     | '/_authenticated/errors/$error'
+    | '/_authenticated/inventory/alerts'
+    | '/_authenticated/inventory/dashboard'
+    | '/_authenticated/inventory/expiry'
+    | '/_authenticated/inventory/ledger'
     | '/_authenticated/inventory/shipments'
+    | '/_authenticated/inventory/valuation'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
     | '/_authenticated/respos/cashier'
@@ -1886,6 +2008,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/settings/system'
+    | '/_authenticated/stock-transfers/$transferId'
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
@@ -1906,6 +2029,9 @@ export interface FileRouteTypes {
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
+    | '/api/lookups/tree'
+    | '/api/lookups/types'
+    | '/api/lookups/values'
     | '/api/onboarding/branches'
     | '/api/onboarding/complete'
     | '/api/onboarding/tenant-users'
@@ -1929,6 +2055,7 @@ export interface FileRouteTypes {
     | '/_authenticated/goods-receipts/'
     | '/_authenticated/inventory-movements/'
     | '/_authenticated/inventory/'
+    | '/_authenticated/lookups/'
     | '/_authenticated/pos/'
     | '/_authenticated/products/'
     | '/_authenticated/purchase-requisitions/'
@@ -2014,6 +2141,9 @@ export interface RootRouteChildren {
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
+  ApiLookupsTreeRoute: typeof ApiLookupsTreeRoute
+  ApiLookupsTypesRoute: typeof ApiLookupsTypesRoute
+  ApiLookupsValuesRoute: typeof ApiLookupsValuesRoute
   ApiOnboardingBranchesRoute: typeof ApiOnboardingBranchesRoute
   ApiOnboardingCompleteRoute: typeof ApiOnboardingCompleteRoute
   ApiOnboardingTenantUsersRoute: typeof ApiOnboardingTenantUsersRoute
@@ -2511,6 +2641,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPosIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/lookups/': {
+      id: '/_authenticated/lookups/'
+      path: '/lookups'
+      fullPath: '/lookups/'
+      preLoaderRoute: typeof AuthenticatedLookupsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory/': {
       id: '/_authenticated/inventory/'
       path: '/inventory'
@@ -2672,6 +2809,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiOnboardingBranchesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/lookups/values': {
+      id: '/api/lookups/values'
+      path: '/api/lookups/values'
+      fullPath: '/api/lookups/values'
+      preLoaderRoute: typeof ApiLookupsValuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lookups/types': {
+      id: '/api/lookups/types'
+      path: '/api/lookups/types'
+      fullPath: '/api/lookups/types'
+      preLoaderRoute: typeof ApiLookupsTypesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lookups/tree': {
+      id: '/api/lookups/tree'
+      path: '/api/lookups/tree'
+      fullPath: '/api/lookups/tree'
+      preLoaderRoute: typeof ApiLookupsTreeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/inventory/warehouses': {
       id: '/api/inventory/warehouses'
       path: '/api/inventory/warehouses'
@@ -2812,6 +2970,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAccessControlNavigationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/stock-transfers/$transferId': {
+      id: '/_authenticated/stock-transfers/$transferId'
+      path: '/stock-transfers/$transferId'
+      fullPath: '/stock-transfers/$transferId'
+      preLoaderRoute: typeof AuthenticatedStockTransfersTransferIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/system': {
       id: '/_authenticated/settings/system'
       path: '/system'
@@ -2924,11 +3089,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inventory/valuation': {
+      id: '/_authenticated/inventory/valuation'
+      path: '/inventory/valuation'
+      fullPath: '/inventory/valuation'
+      preLoaderRoute: typeof AuthenticatedInventoryValuationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory/shipments': {
       id: '/_authenticated/inventory/shipments'
       path: '/inventory/shipments'
       fullPath: '/inventory/shipments'
       preLoaderRoute: typeof AuthenticatedInventoryShipmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/ledger': {
+      id: '/_authenticated/inventory/ledger'
+      path: '/inventory/ledger'
+      fullPath: '/inventory/ledger'
+      preLoaderRoute: typeof AuthenticatedInventoryLedgerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/expiry': {
+      id: '/_authenticated/inventory/expiry'
+      path: '/inventory/expiry'
+      fullPath: '/inventory/expiry'
+      preLoaderRoute: typeof AuthenticatedInventoryExpiryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/dashboard': {
+      id: '/_authenticated/inventory/dashboard'
+      path: '/inventory/dashboard'
+      fullPath: '/inventory/dashboard'
+      preLoaderRoute: typeof AuthenticatedInventoryDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/alerts': {
+      id: '/_authenticated/inventory/alerts'
+      path: '/inventory/alerts'
+      fullPath: '/inventory/alerts'
+      preLoaderRoute: typeof AuthenticatedInventoryAlertsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/errors/$error': {
@@ -3206,7 +3406,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccessControlButtonsRoute: typeof AuthenticatedAccessControlButtonsRoute
   AuthenticatedAccessControlScreensRoute: typeof AuthenticatedAccessControlScreensRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
+  AuthenticatedInventoryAlertsRoute: typeof AuthenticatedInventoryAlertsRoute
+  AuthenticatedInventoryDashboardRoute: typeof AuthenticatedInventoryDashboardRoute
+  AuthenticatedInventoryExpiryRoute: typeof AuthenticatedInventoryExpiryRoute
+  AuthenticatedInventoryLedgerRoute: typeof AuthenticatedInventoryLedgerRoute
   AuthenticatedInventoryShipmentsRoute: typeof AuthenticatedInventoryShipmentsRoute
+  AuthenticatedInventoryValuationRoute: typeof AuthenticatedInventoryValuationRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
   AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
   AuthenticatedResposCashierRoute: typeof AuthenticatedResposCashierRoute
@@ -3218,6 +3423,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
+  AuthenticatedStockTransfersTransferIdRoute: typeof AuthenticatedStockTransfersTransferIdRoute
   AuthenticatedAccessControlIndexRoute: typeof AuthenticatedAccessControlIndexRoute
   AuthenticatedBatchesIndexRoute: typeof AuthenticatedBatchesIndexRoute
   AuthenticatedBrandsIndexRoute: typeof AuthenticatedBrandsIndexRoute
@@ -3225,6 +3431,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGoodsReceiptsIndexRoute: typeof AuthenticatedGoodsReceiptsIndexRoute
   AuthenticatedInventoryMovementsIndexRoute: typeof AuthenticatedInventoryMovementsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
+  AuthenticatedLookupsIndexRoute: typeof AuthenticatedLookupsIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
   AuthenticatedPurchaseRequisitionsIndexRoute: typeof AuthenticatedPurchaseRequisitionsIndexRoute
@@ -3278,7 +3485,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccessControlScreensRoute:
     AuthenticatedAccessControlScreensRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
+  AuthenticatedInventoryAlertsRoute: AuthenticatedInventoryAlertsRoute,
+  AuthenticatedInventoryDashboardRoute: AuthenticatedInventoryDashboardRoute,
+  AuthenticatedInventoryExpiryRoute: AuthenticatedInventoryExpiryRoute,
+  AuthenticatedInventoryLedgerRoute: AuthenticatedInventoryLedgerRoute,
   AuthenticatedInventoryShipmentsRoute: AuthenticatedInventoryShipmentsRoute,
+  AuthenticatedInventoryValuationRoute: AuthenticatedInventoryValuationRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
   AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
   AuthenticatedResposCashierRoute: AuthenticatedResposCashierRoute,
@@ -3290,6 +3502,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
+  AuthenticatedStockTransfersTransferIdRoute:
+    AuthenticatedStockTransfersTransferIdRoute,
   AuthenticatedAccessControlIndexRoute: AuthenticatedAccessControlIndexRoute,
   AuthenticatedBatchesIndexRoute: AuthenticatedBatchesIndexRoute,
   AuthenticatedBrandsIndexRoute: AuthenticatedBrandsIndexRoute,
@@ -3298,6 +3512,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInventoryMovementsIndexRoute:
     AuthenticatedInventoryMovementsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
+  AuthenticatedLookupsIndexRoute: AuthenticatedLookupsIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
   AuthenticatedPurchaseRequisitionsIndexRoute:
@@ -3563,6 +3778,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
+  ApiLookupsTreeRoute: ApiLookupsTreeRoute,
+  ApiLookupsTypesRoute: ApiLookupsTypesRoute,
+  ApiLookupsValuesRoute: ApiLookupsValuesRoute,
   ApiOnboardingBranchesRoute: ApiOnboardingBranchesRoute,
   ApiOnboardingCompleteRoute: ApiOnboardingCompleteRoute,
   ApiOnboardingTenantUsersRoute: ApiOnboardingTenantUsersRoute,

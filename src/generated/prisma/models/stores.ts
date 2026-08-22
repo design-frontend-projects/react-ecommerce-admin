@@ -46,6 +46,7 @@ export type StoresMinAggregateOutputType = {
   updated_at: Date | null
   city_id: string | null
   country_id: string | null
+  store_type_id: string | null
   name: string | null
   store_id: string | null
   status: boolean | null
@@ -65,6 +66,7 @@ export type StoresMaxAggregateOutputType = {
   updated_at: Date | null
   city_id: string | null
   country_id: string | null
+  store_type_id: string | null
   name: string | null
   store_id: string | null
   status: boolean | null
@@ -84,6 +86,7 @@ export type StoresCountAggregateOutputType = {
   updated_at: number
   city_id: number
   country_id: number
+  store_type_id: number
   name: number
   store_id: number
   status: number
@@ -115,6 +118,7 @@ export type StoresMinAggregateInputType = {
   updated_at?: true
   city_id?: true
   country_id?: true
+  store_type_id?: true
   name?: true
   store_id?: true
   status?: true
@@ -134,6 +138,7 @@ export type StoresMaxAggregateInputType = {
   updated_at?: true
   city_id?: true
   country_id?: true
+  store_type_id?: true
   name?: true
   store_id?: true
   status?: true
@@ -153,6 +158,7 @@ export type StoresCountAggregateInputType = {
   updated_at?: true
   city_id?: true
   country_id?: true
+  store_type_id?: true
   name?: true
   store_id?: true
   status?: true
@@ -259,6 +265,7 @@ export type StoresGroupByOutputType = {
   updated_at: Date | null
   city_id: string | null
   country_id: string | null
+  store_type_id: string | null
   name: string | null
   store_id: string
   status: boolean | null
@@ -301,6 +308,7 @@ export type storesWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"stores"> | Date | string | null
   city_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   country_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  store_type_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   name?: Prisma.StringNullableFilter<"stores"> | string | null
   store_id?: Prisma.UuidFilter<"stores"> | string
   status?: Prisma.BoolNullableFilter<"stores"> | boolean | null
@@ -324,6 +332,7 @@ export type storesOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   city_id?: Prisma.SortOrderInput | Prisma.SortOrder
   country_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -351,6 +360,7 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"stores"> | Date | string | null
   city_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   country_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  store_type_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   name?: Prisma.StringNullableFilter<"stores"> | string | null
   status?: Prisma.BoolNullableFilter<"stores"> | boolean | null
   branch_id?: Prisma.UuidNullableFilter<"stores"> | string | null
@@ -373,6 +383,7 @@ export type storesOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   city_id?: Prisma.SortOrderInput | Prisma.SortOrder
   country_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -400,6 +411,7 @@ export type storesScalarWhereWithAggregatesInput = {
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stores"> | Date | string | null
   city_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
   country_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
+  store_type_id?: Prisma.UuidNullableWithAggregatesFilter<"stores"> | string | null
   name?: Prisma.StringNullableWithAggregatesFilter<"stores"> | string | null
   store_id?: Prisma.UuidWithAggregatesFilter<"stores"> | string
   status?: Prisma.BoolNullableWithAggregatesFilter<"stores"> | boolean | null
@@ -417,6 +429,7 @@ export type storesCreateInput = {
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -439,6 +452,7 @@ export type storesUncheckedCreateInput = {
   updated_at?: Date | string | null
   city_id?: string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -457,6 +471,7 @@ export type storesUpdateInput = {
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -479,6 +494,7 @@ export type storesUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -499,6 +515,7 @@ export type storesCreateManyInput = {
   updated_at?: Date | string | null
   city_id?: string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -516,6 +533,7 @@ export type storesUpdateManyMutationInput = {
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -534,6 +552,7 @@ export type storesUncheckedUpdateManyInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -563,6 +582,7 @@ export type storesCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   city_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
+  store_type_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -587,6 +607,7 @@ export type storesMaxOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   city_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
+  store_type_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -606,6 +627,7 @@ export type storesMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   city_id?: Prisma.SortOrder
   country_id?: Prisma.SortOrder
+  store_type_id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -775,6 +797,7 @@ export type storesCreateWithoutBranchesInput = {
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -796,6 +819,7 @@ export type storesUncheckedCreateWithoutBranchesInput = {
   updated_at?: Date | string | null
   city_id?: string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -844,6 +868,7 @@ export type storesScalarWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"stores"> | Date | string | null
   city_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   country_id?: Prisma.UuidNullableFilter<"stores"> | string | null
+  store_type_id?: Prisma.UuidNullableFilter<"stores"> | string | null
   name?: Prisma.StringNullableFilter<"stores"> | string | null
   store_id?: Prisma.UuidFilter<"stores"> | string
   status?: Prisma.BoolNullableFilter<"stores"> | boolean | null
@@ -861,6 +886,7 @@ export type storesCreateWithoutCitiesInput = {
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -881,6 +907,7 @@ export type storesUncheckedCreateWithoutCitiesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -925,6 +952,7 @@ export type storesCreateWithoutCountriesInput = {
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -945,6 +973,7 @@ export type storesUncheckedCreateWithoutCountriesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   city_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -989,6 +1018,7 @@ export type storesCreateWithoutWarehousesInput = {
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -1010,6 +1040,7 @@ export type storesUncheckedCreateWithoutWarehousesInput = {
   updated_at?: Date | string | null
   city_id?: string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -1043,6 +1074,7 @@ export type storesUpdateWithoutWarehousesInput = {
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1064,6 +1096,7 @@ export type storesUncheckedUpdateWithoutWarehousesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1083,6 +1116,7 @@ export type storesCreateManyBranchesInput = {
   updated_at?: Date | string | null
   city_id?: string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -1099,6 +1133,7 @@ export type storesUpdateWithoutBranchesInput = {
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1120,6 +1155,7 @@ export type storesUncheckedUpdateWithoutBranchesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1139,6 +1175,7 @@ export type storesUncheckedUpdateManyWithoutBranchesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1156,6 +1193,7 @@ export type storesCreateManyCitiesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   country_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -1173,6 +1211,7 @@ export type storesUpdateWithoutCitiesInput = {
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1193,6 +1232,7 @@ export type storesUncheckedUpdateWithoutCitiesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1212,6 +1252,7 @@ export type storesUncheckedUpdateManyWithoutCitiesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1230,6 +1271,7 @@ export type storesCreateManyCountriesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   city_id?: string | null
+  store_type_id?: string | null
   name?: string | null
   store_id: string
   status?: boolean | null
@@ -1247,6 +1289,7 @@ export type storesUpdateWithoutCountriesInput = {
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1267,6 +1310,7 @@ export type storesUncheckedUpdateWithoutCountriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1286,6 +1330,7 @@ export type storesUncheckedUpdateManyWithoutCountriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1336,6 +1381,7 @@ export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updated_at?: boolean
   city_id?: boolean
   country_id?: boolean
+  store_type_id?: boolean
   name?: boolean
   store_id?: boolean
   status?: boolean
@@ -1360,6 +1406,7 @@ export type storesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   updated_at?: boolean
   city_id?: boolean
   country_id?: boolean
+  store_type_id?: boolean
   name?: boolean
   store_id?: boolean
   status?: boolean
@@ -1382,6 +1429,7 @@ export type storesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   updated_at?: boolean
   city_id?: boolean
   country_id?: boolean
+  store_type_id?: boolean
   name?: boolean
   store_id?: boolean
   status?: boolean
@@ -1404,6 +1452,7 @@ export type storesSelectScalar = {
   updated_at?: boolean
   city_id?: boolean
   country_id?: boolean
+  store_type_id?: boolean
   name?: boolean
   store_id?: boolean
   status?: boolean
@@ -1413,7 +1462,7 @@ export type storesSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type storesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"phone" | "email" | "address" | "latitude" | "longitude" | "created_at" | "updated_at" | "city_id" | "country_id" | "name" | "store_id" | "status" | "branch_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stores"]>
+export type storesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"phone" | "email" | "address" | "latitude" | "longitude" | "created_at" | "updated_at" | "city_id" | "country_id" | "store_type_id" | "name" | "store_id" | "status" | "branch_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stores"]>
 export type storesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.stores$branchesArgs<ExtArgs>
   cities?: boolean | Prisma.stores$citiesArgs<ExtArgs>
@@ -1450,6 +1499,7 @@ export type $storesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     updated_at: Date | null
     city_id: string | null
     country_id: string | null
+    store_type_id: string | null
     name: string | null
     store_id: string
     status: boolean | null
@@ -1893,6 +1943,7 @@ export interface storesFieldRefs {
   readonly updated_at: Prisma.FieldRef<"stores", 'DateTime'>
   readonly city_id: Prisma.FieldRef<"stores", 'String'>
   readonly country_id: Prisma.FieldRef<"stores", 'String'>
+  readonly store_type_id: Prisma.FieldRef<"stores", 'String'>
   readonly name: Prisma.FieldRef<"stores", 'String'>
   readonly store_id: Prisma.FieldRef<"stores", 'String'>
   readonly status: Prisma.FieldRef<"stores", 'Boolean'>

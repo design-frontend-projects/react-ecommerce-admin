@@ -27,6 +27,10 @@ export type AggregatePurchase_orders = {
 }
 
 export type Purchase_ordersAvgAggregateOutputType = {
+  subtotal: runtime.Decimal | null
+  tax_total: runtime.Decimal | null
+  discount_total: runtime.Decimal | null
+  grand_total: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   po_number: number | null
   shipping_amount: runtime.Decimal | null
@@ -35,6 +39,10 @@ export type Purchase_ordersAvgAggregateOutputType = {
 }
 
 export type Purchase_ordersSumAggregateOutputType = {
+  subtotal: runtime.Decimal | null
+  tax_total: runtime.Decimal | null
+  discount_total: runtime.Decimal | null
+  grand_total: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   po_number: number | null
   shipping_amount: runtime.Decimal | null
@@ -45,6 +53,11 @@ export type Purchase_ordersSumAggregateOutputType = {
 export type Purchase_ordersMinAggregateOutputType = {
   order_date: Date | null
   expected_delivery_date: Date | null
+  currency: string | null
+  subtotal: runtime.Decimal | null
+  tax_total: runtime.Decimal | null
+  discount_total: runtime.Decimal | null
+  grand_total: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   status: string | null
   notes: string | null
@@ -72,6 +85,11 @@ export type Purchase_ordersMinAggregateOutputType = {
 export type Purchase_ordersMaxAggregateOutputType = {
   order_date: Date | null
   expected_delivery_date: Date | null
+  currency: string | null
+  subtotal: runtime.Decimal | null
+  tax_total: runtime.Decimal | null
+  discount_total: runtime.Decimal | null
+  grand_total: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   status: string | null
   notes: string | null
@@ -99,6 +117,11 @@ export type Purchase_ordersMaxAggregateOutputType = {
 export type Purchase_ordersCountAggregateOutputType = {
   order_date: number
   expected_delivery_date: number
+  currency: number
+  subtotal: number
+  tax_total: number
+  discount_total: number
+  grand_total: number
   total_amount: number
   status: number
   notes: number
@@ -126,6 +149,10 @@ export type Purchase_ordersCountAggregateOutputType = {
 
 
 export type Purchase_ordersAvgAggregateInputType = {
+  subtotal?: true
+  tax_total?: true
+  discount_total?: true
+  grand_total?: true
   total_amount?: true
   po_number?: true
   shipping_amount?: true
@@ -134,6 +161,10 @@ export type Purchase_ordersAvgAggregateInputType = {
 }
 
 export type Purchase_ordersSumAggregateInputType = {
+  subtotal?: true
+  tax_total?: true
+  discount_total?: true
+  grand_total?: true
   total_amount?: true
   po_number?: true
   shipping_amount?: true
@@ -144,6 +175,11 @@ export type Purchase_ordersSumAggregateInputType = {
 export type Purchase_ordersMinAggregateInputType = {
   order_date?: true
   expected_delivery_date?: true
+  currency?: true
+  subtotal?: true
+  tax_total?: true
+  discount_total?: true
+  grand_total?: true
   total_amount?: true
   status?: true
   notes?: true
@@ -171,6 +207,11 @@ export type Purchase_ordersMinAggregateInputType = {
 export type Purchase_ordersMaxAggregateInputType = {
   order_date?: true
   expected_delivery_date?: true
+  currency?: true
+  subtotal?: true
+  tax_total?: true
+  discount_total?: true
+  grand_total?: true
   total_amount?: true
   status?: true
   notes?: true
@@ -198,6 +239,11 @@ export type Purchase_ordersMaxAggregateInputType = {
 export type Purchase_ordersCountAggregateInputType = {
   order_date?: true
   expected_delivery_date?: true
+  currency?: true
+  subtotal?: true
+  tax_total?: true
+  discount_total?: true
+  grand_total?: true
   total_amount?: true
   status?: true
   notes?: true
@@ -312,6 +358,11 @@ export type purchase_ordersGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type Purchase_ordersGroupByOutputType = {
   order_date: Date | null
   expected_delivery_date: Date | null
+  currency: string | null
+  subtotal: runtime.Decimal | null
+  tax_total: runtime.Decimal | null
+  discount_total: runtime.Decimal | null
+  grand_total: runtime.Decimal | null
   total_amount: runtime.Decimal | null
   status: string | null
   notes: string | null
@@ -362,6 +413,11 @@ export type purchase_ordersWhereInput = {
   NOT?: Prisma.purchase_ordersWhereInput | Prisma.purchase_ordersWhereInput[]
   order_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
+  currency?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
+  subtotal?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
   notes?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
@@ -391,6 +447,11 @@ export type purchase_ordersWhereInput = {
 export type purchase_ordersOrderByWithRelationInput = {
   order_date?: Prisma.SortOrderInput | Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrderInput | Prisma.SortOrder
+  subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  tax_total?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_total?: Prisma.SortOrderInput | Prisma.SortOrder
+  grand_total?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -424,6 +485,11 @@ export type purchase_ordersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.purchase_ordersWhereInput | Prisma.purchase_ordersWhereInput[]
   order_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
+  currency?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
+  subtotal?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
   notes?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
@@ -452,6 +518,11 @@ export type purchase_ordersWhereUniqueInput = Prisma.AtLeast<{
 export type purchase_ordersOrderByWithAggregationInput = {
   order_date?: Prisma.SortOrderInput | Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrderInput | Prisma.SortOrder
+  subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  tax_total?: Prisma.SortOrderInput | Prisma.SortOrder
+  discount_total?: Prisma.SortOrderInput | Prisma.SortOrder
+  grand_total?: Prisma.SortOrderInput | Prisma.SortOrder
   total_amount?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -487,6 +558,11 @@ export type purchase_ordersScalarWhereWithAggregatesInput = {
   NOT?: Prisma.purchase_ordersScalarWhereWithAggregatesInput | Prisma.purchase_ordersScalarWhereWithAggregatesInput[]
   order_date?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_orders"> | Date | string | null
+  currency?: Prisma.StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
+  subtotal?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableWithAggregatesFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"purchase_orders"> | string | null
@@ -514,6 +590,11 @@ export type purchase_ordersScalarWhereWithAggregatesInput = {
 export type purchase_ordersCreateInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -542,6 +623,11 @@ export type purchase_ordersCreateInput = {
 export type purchase_ordersUncheckedCreateInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -570,6 +656,11 @@ export type purchase_ordersUncheckedCreateInput = {
 export type purchase_ordersUpdateInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -598,6 +689,11 @@ export type purchase_ordersUpdateInput = {
 export type purchase_ordersUncheckedUpdateInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -626,6 +722,11 @@ export type purchase_ordersUncheckedUpdateInput = {
 export type purchase_ordersCreateManyInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -653,6 +754,11 @@ export type purchase_ordersCreateManyInput = {
 export type purchase_ordersUpdateManyMutationInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -679,6 +785,11 @@ export type purchase_ordersUpdateManyMutationInput = {
 export type purchase_ordersUncheckedUpdateManyInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -711,6 +822,11 @@ export type Purchase_ordersScalarRelationFilter = {
 export type purchase_ordersCountOrderByAggregateInput = {
   order_date?: Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  subtotal?: Prisma.SortOrder
+  tax_total?: Prisma.SortOrder
+  discount_total?: Prisma.SortOrder
+  grand_total?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -736,6 +852,10 @@ export type purchase_ordersCountOrderByAggregateInput = {
 }
 
 export type purchase_ordersAvgOrderByAggregateInput = {
+  subtotal?: Prisma.SortOrder
+  tax_total?: Prisma.SortOrder
+  discount_total?: Prisma.SortOrder
+  grand_total?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
@@ -746,6 +866,11 @@ export type purchase_ordersAvgOrderByAggregateInput = {
 export type purchase_ordersMaxOrderByAggregateInput = {
   order_date?: Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  subtotal?: Prisma.SortOrder
+  tax_total?: Prisma.SortOrder
+  discount_total?: Prisma.SortOrder
+  grand_total?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -773,6 +898,11 @@ export type purchase_ordersMaxOrderByAggregateInput = {
 export type purchase_ordersMinOrderByAggregateInput = {
   order_date?: Prisma.SortOrder
   expected_delivery_date?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  subtotal?: Prisma.SortOrder
+  tax_total?: Prisma.SortOrder
+  discount_total?: Prisma.SortOrder
+  grand_total?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -798,6 +928,10 @@ export type purchase_ordersMinOrderByAggregateInput = {
 }
 
 export type purchase_ordersSumOrderByAggregateInput = {
+  subtotal?: Prisma.SortOrder
+  tax_total?: Prisma.SortOrder
+  discount_total?: Prisma.SortOrder
+  grand_total?: Prisma.SortOrder
   total_amount?: Prisma.SortOrder
   po_number?: Prisma.SortOrder
   shipping_amount?: Prisma.SortOrder
@@ -878,6 +1012,11 @@ export type purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput = {
 export type purchase_ordersCreateWithoutPurchase_order_itemsInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -905,6 +1044,11 @@ export type purchase_ordersCreateWithoutPurchase_order_itemsInput = {
 export type purchase_ordersUncheckedCreateWithoutPurchase_order_itemsInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -948,6 +1092,11 @@ export type purchase_ordersUpdateToOneWithWhereWithoutPurchase_order_itemsInput 
 export type purchase_ordersUpdateWithoutPurchase_order_itemsInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -975,6 +1124,11 @@ export type purchase_ordersUpdateWithoutPurchase_order_itemsInput = {
 export type purchase_ordersUncheckedUpdateWithoutPurchase_order_itemsInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1002,6 +1156,11 @@ export type purchase_ordersUncheckedUpdateWithoutPurchase_order_itemsInput = {
 export type purchase_ordersCreateWithoutSuppliersInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -1029,6 +1188,11 @@ export type purchase_ordersCreateWithoutSuppliersInput = {
 export type purchase_ordersUncheckedCreateWithoutSuppliersInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -1085,6 +1249,11 @@ export type purchase_ordersScalarWhereInput = {
   NOT?: Prisma.purchase_ordersScalarWhereInput | Prisma.purchase_ordersScalarWhereInput[]
   order_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
   expected_delivery_date?: Prisma.DateTimeNullableFilter<"purchase_orders"> | Date | string | null
+  currency?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
+  subtotal?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.DecimalNullableFilter<"purchase_orders"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
   notes?: Prisma.StringNullableFilter<"purchase_orders"> | string | null
@@ -1112,6 +1281,11 @@ export type purchase_ordersScalarWhereInput = {
 export type purchase_ordersCreateManySuppliersInput = {
   order_date?: Date | string | null
   expected_delivery_date?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: string | null
   notes?: string | null
@@ -1138,6 +1312,11 @@ export type purchase_ordersCreateManySuppliersInput = {
 export type purchase_ordersUpdateWithoutSuppliersInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1165,6 +1344,11 @@ export type purchase_ordersUpdateWithoutSuppliersInput = {
 export type purchase_ordersUncheckedUpdateWithoutSuppliersInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1192,6 +1376,11 @@ export type purchase_ordersUncheckedUpdateWithoutSuppliersInput = {
 export type purchase_ordersUncheckedUpdateManyWithoutSuppliersInput = {
   order_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expected_delivery_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grand_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1249,6 +1438,11 @@ export type Purchase_ordersCountOutputTypeCountPurchase_order_itemsArgs<ExtArgs 
 export type purchase_ordersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_date?: boolean
   expected_delivery_date?: boolean
+  currency?: boolean
+  subtotal?: boolean
+  tax_total?: boolean
+  discount_total?: boolean
+  grand_total?: boolean
   total_amount?: boolean
   status?: boolean
   notes?: boolean
@@ -1279,6 +1473,11 @@ export type purchase_ordersSelect<ExtArgs extends runtime.Types.Extensions.Inter
 export type purchase_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_date?: boolean
   expected_delivery_date?: boolean
+  currency?: boolean
+  subtotal?: boolean
+  tax_total?: boolean
+  discount_total?: boolean
+  grand_total?: boolean
   total_amount?: boolean
   status?: boolean
   notes?: boolean
@@ -1307,6 +1506,11 @@ export type purchase_ordersSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 export type purchase_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   order_date?: boolean
   expected_delivery_date?: boolean
+  currency?: boolean
+  subtotal?: boolean
+  tax_total?: boolean
+  discount_total?: boolean
+  grand_total?: boolean
   total_amount?: boolean
   status?: boolean
   notes?: boolean
@@ -1335,6 +1539,11 @@ export type purchase_ordersSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type purchase_ordersSelectScalar = {
   order_date?: boolean
   expected_delivery_date?: boolean
+  currency?: boolean
+  subtotal?: boolean
+  tax_total?: boolean
+  discount_total?: boolean
+  grand_total?: boolean
   total_amount?: boolean
   status?: boolean
   notes?: boolean
@@ -1359,7 +1568,7 @@ export type purchase_ordersSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type purchase_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_date" | "expected_delivery_date" | "total_amount" | "status" | "notes" | "po_number" | "created_at" | "shipping_amount" | "tax_amount" | "payment_status" | "approved_at" | "approved_by" | "branch_id" | "closed_at" | "lifecycle_status" | "sent_at" | "store_id" | "warehouse_id" | "discount_amount" | "id" | "tenant_id" | "supplier_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_orders"]>
+export type purchase_ordersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"order_date" | "expected_delivery_date" | "currency" | "subtotal" | "tax_total" | "discount_total" | "grand_total" | "total_amount" | "status" | "notes" | "po_number" | "created_at" | "shipping_amount" | "tax_amount" | "payment_status" | "approved_at" | "approved_by" | "branch_id" | "closed_at" | "lifecycle_status" | "sent_at" | "store_id" | "warehouse_id" | "discount_amount" | "id" | "tenant_id" | "supplier_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_orders"]>
 export type purchase_ordersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   purchase_order_items?: boolean | Prisma.purchase_orders$purchase_order_itemsArgs<ExtArgs>
   suppliers?: boolean | Prisma.suppliersDefaultArgs<ExtArgs>
@@ -1381,6 +1590,11 @@ export type $purchase_ordersPayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     order_date: Date | null
     expected_delivery_date: Date | null
+    currency: string | null
+    subtotal: runtime.Decimal | null
+    tax_total: runtime.Decimal | null
+    discount_total: runtime.Decimal | null
+    grand_total: runtime.Decimal | null
     total_amount: runtime.Decimal | null
     status: string | null
     notes: string | null
@@ -1830,6 +2044,11 @@ export interface Prisma__purchase_ordersClient<T, Null = never, ExtArgs extends 
 export interface purchase_ordersFieldRefs {
   readonly order_date: Prisma.FieldRef<"purchase_orders", 'DateTime'>
   readonly expected_delivery_date: Prisma.FieldRef<"purchase_orders", 'DateTime'>
+  readonly currency: Prisma.FieldRef<"purchase_orders", 'String'>
+  readonly subtotal: Prisma.FieldRef<"purchase_orders", 'Decimal'>
+  readonly tax_total: Prisma.FieldRef<"purchase_orders", 'Decimal'>
+  readonly discount_total: Prisma.FieldRef<"purchase_orders", 'Decimal'>
+  readonly grand_total: Prisma.FieldRef<"purchase_orders", 'Decimal'>
   readonly total_amount: Prisma.FieldRef<"purchase_orders", 'Decimal'>
   readonly status: Prisma.FieldRef<"purchase_orders", 'String'>
   readonly notes: Prisma.FieldRef<"purchase_orders", 'String'>

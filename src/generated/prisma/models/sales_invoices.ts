@@ -74,6 +74,7 @@ export type Sales_invoicesMinAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   channel: string | null
+  channel_id: string | null
   tenant_id: string | null
   customer_id: string | null
   price_list_id: string | null
@@ -107,6 +108,7 @@ export type Sales_invoicesMaxAggregateOutputType = {
   created_at: Date | null
   updated_at: Date | null
   channel: string | null
+  channel_id: string | null
   tenant_id: string | null
   customer_id: string | null
   price_list_id: string | null
@@ -140,6 +142,7 @@ export type Sales_invoicesCountAggregateOutputType = {
   created_at: number
   updated_at: number
   channel: number
+  channel_id: number
   tenant_id: number
   customer_id: number
   price_list_id: number
@@ -197,6 +200,7 @@ export type Sales_invoicesMinAggregateInputType = {
   created_at?: true
   updated_at?: true
   channel?: true
+  channel_id?: true
   tenant_id?: true
   customer_id?: true
   price_list_id?: true
@@ -230,6 +234,7 @@ export type Sales_invoicesMaxAggregateInputType = {
   created_at?: true
   updated_at?: true
   channel?: true
+  channel_id?: true
   tenant_id?: true
   customer_id?: true
   price_list_id?: true
@@ -263,6 +268,7 @@ export type Sales_invoicesCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   channel?: true
+  channel_id?: true
   tenant_id?: true
   customer_id?: true
   price_list_id?: true
@@ -383,6 +389,7 @@ export type Sales_invoicesGroupByOutputType = {
   created_at: Date
   updated_at: Date
   channel: string | null
+  channel_id: string | null
   tenant_id: string
   customer_id: string | null
   price_list_id: string | null
@@ -439,6 +446,7 @@ export type sales_invoicesWhereInput = {
   created_at?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
   channel?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
+  channel_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   tenant_id?: Prisma.UuidFilter<"sales_invoices"> | string
   customer_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   price_list_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
@@ -472,6 +480,7 @@ export type sales_invoicesOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   channel?: Prisma.SortOrderInput | Prisma.SortOrder
+  channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -508,6 +517,7 @@ export type sales_invoicesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"sales_invoices"> | Date | string
   channel?: Prisma.StringNullableFilter<"sales_invoices"> | string | null
+  channel_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   tenant_id?: Prisma.UuidFilter<"sales_invoices"> | string
   customer_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
   price_list_id?: Prisma.UuidNullableFilter<"sales_invoices"> | string | null
@@ -541,6 +551,7 @@ export type sales_invoicesOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   channel?: Prisma.SortOrderInput | Prisma.SortOrder
+  channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -582,6 +593,7 @@ export type sales_invoicesScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"sales_invoices"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"sales_invoices"> | Date | string
   channel?: Prisma.StringNullableWithAggregatesFilter<"sales_invoices"> | string | null
+  channel_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
   tenant_id?: Prisma.UuidWithAggregatesFilter<"sales_invoices"> | string
   customer_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
   price_list_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_invoices"> | string | null
@@ -615,6 +627,7 @@ export type sales_invoicesCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   channel?: string | null
+  channel_id?: string | null
   tenant_id: string
   customer_id?: string | null
   price_list_id?: string | null
@@ -648,6 +661,7 @@ export type sales_invoicesUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   channel?: string | null
+  channel_id?: string | null
   tenant_id: string
   customer_id?: string | null
   price_list_id?: string | null
@@ -681,6 +695,7 @@ export type sales_invoicesUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -714,6 +729,7 @@ export type sales_invoicesUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -747,6 +763,7 @@ export type sales_invoicesCreateManyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   channel?: string | null
+  channel_id?: string | null
   tenant_id: string
   customer_id?: string | null
   price_list_id?: string | null
@@ -780,6 +797,7 @@ export type sales_invoicesUpdateManyMutationInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -813,6 +831,7 @@ export type sales_invoicesUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -846,6 +865,7 @@ export type sales_invoicesCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   channel?: Prisma.SortOrder
+  channel_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
@@ -890,6 +910,7 @@ export type sales_invoicesMaxOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   channel?: Prisma.SortOrder
+  channel_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
@@ -923,6 +944,7 @@ export type sales_invoicesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   channel?: Prisma.SortOrder
+  channel_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
   price_list_id?: Prisma.SortOrder
@@ -969,6 +991,7 @@ export type sales_invoicesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   created_at?: boolean
   updated_at?: boolean
   channel?: boolean
+  channel_id?: boolean
   tenant_id?: boolean
   customer_id?: boolean
   price_list_id?: boolean
@@ -1002,6 +1025,7 @@ export type sales_invoicesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   created_at?: boolean
   updated_at?: boolean
   channel?: boolean
+  channel_id?: boolean
   tenant_id?: boolean
   customer_id?: boolean
   price_list_id?: boolean
@@ -1035,6 +1059,7 @@ export type sales_invoicesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   created_at?: boolean
   updated_at?: boolean
   channel?: boolean
+  channel_id?: boolean
   tenant_id?: boolean
   customer_id?: boolean
   price_list_id?: boolean
@@ -1068,6 +1093,7 @@ export type sales_invoicesSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   channel?: boolean
+  channel_id?: boolean
   tenant_id?: boolean
   customer_id?: boolean
   price_list_id?: boolean
@@ -1075,7 +1101,7 @@ export type sales_invoicesSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type sales_invoicesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branch_id" | "store_id" | "pos_terminal_id" | "invoice_no" | "external_reference" | "invoice_date" | "due_date" | "status" | "subtotal" | "discount_type" | "discount_value" | "discount_amount" | "tax_amount" | "rounding_amount" | "total_amount" | "paid_amount" | "due_amount" | "notes" | "created_by" | "updated_by" | "posted_at" | "created_at" | "updated_at" | "channel" | "tenant_id" | "customer_id" | "price_list_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_invoices"]>
+export type sales_invoicesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "branch_id" | "store_id" | "pos_terminal_id" | "invoice_no" | "external_reference" | "invoice_date" | "due_date" | "status" | "subtotal" | "discount_type" | "discount_value" | "discount_amount" | "tax_amount" | "rounding_amount" | "total_amount" | "paid_amount" | "due_amount" | "notes" | "created_by" | "updated_by" | "posted_at" | "created_at" | "updated_at" | "channel" | "channel_id" | "tenant_id" | "customer_id" | "price_list_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_invoices"]>
 
 export type $sales_invoicesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "sales_invoices"
@@ -1106,6 +1132,7 @@ export type $sales_invoicesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     created_at: Date
     updated_at: Date
     channel: string | null
+    channel_id: string | null
     tenant_id: string
     customer_id: string | null
     price_list_id: string | null
@@ -1559,6 +1586,7 @@ export interface sales_invoicesFieldRefs {
   readonly created_at: Prisma.FieldRef<"sales_invoices", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"sales_invoices", 'DateTime'>
   readonly channel: Prisma.FieldRef<"sales_invoices", 'String'>
+  readonly channel_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly tenant_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly customer_id: Prisma.FieldRef<"sales_invoices", 'String'>
   readonly price_list_id: Prisma.FieldRef<"sales_invoices", 'String'>

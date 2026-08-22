@@ -45,6 +45,8 @@ export type Purchase_return_itemsMinAggregateOutputType = {
   purchase_return_id: string | null
   purchase_invoice_item_id: string | null
   product_variant_id: string | null
+  location_id: string | null
+  serial_id: string | null
   quantity: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
@@ -61,6 +63,8 @@ export type Purchase_return_itemsMaxAggregateOutputType = {
   purchase_return_id: string | null
   purchase_invoice_item_id: string | null
   product_variant_id: string | null
+  location_id: string | null
+  serial_id: string | null
   quantity: runtime.Decimal | null
   unit_cost: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
@@ -77,6 +81,8 @@ export type Purchase_return_itemsCountAggregateOutputType = {
   purchase_return_id: number
   purchase_invoice_item_id: number
   product_variant_id: number
+  location_id: number
+  serial_id: number
   quantity: number
   unit_cost: number
   tax_amount: number
@@ -109,6 +115,8 @@ export type Purchase_return_itemsMinAggregateInputType = {
   purchase_return_id?: true
   purchase_invoice_item_id?: true
   product_variant_id?: true
+  location_id?: true
+  serial_id?: true
   quantity?: true
   unit_cost?: true
   tax_amount?: true
@@ -125,6 +133,8 @@ export type Purchase_return_itemsMaxAggregateInputType = {
   purchase_return_id?: true
   purchase_invoice_item_id?: true
   product_variant_id?: true
+  location_id?: true
+  serial_id?: true
   quantity?: true
   unit_cost?: true
   tax_amount?: true
@@ -141,6 +151,8 @@ export type Purchase_return_itemsCountAggregateInputType = {
   purchase_return_id?: true
   purchase_invoice_item_id?: true
   product_variant_id?: true
+  location_id?: true
+  serial_id?: true
   quantity?: true
   unit_cost?: true
   tax_amount?: true
@@ -244,6 +256,8 @@ export type Purchase_return_itemsGroupByOutputType = {
   purchase_return_id: string
   purchase_invoice_item_id: string | null
   product_variant_id: string
+  location_id: string | null
+  serial_id: string | null
   quantity: runtime.Decimal
   unit_cost: runtime.Decimal
   tax_amount: runtime.Decimal
@@ -283,6 +297,8 @@ export type purchase_return_itemsWhereInput = {
   purchase_return_id?: Prisma.UuidFilter<"purchase_return_items"> | string
   purchase_invoice_item_id?: Prisma.UuidNullableFilter<"purchase_return_items"> | string | null
   product_variant_id?: Prisma.UuidFilter<"purchase_return_items"> | string
+  location_id?: Prisma.UuidNullableFilter<"purchase_return_items"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"purchase_return_items"> | string | null
   quantity?: Prisma.DecimalFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -299,6 +315,8 @@ export type purchase_return_itemsOrderByWithRelationInput = {
   purchase_return_id?: Prisma.SortOrder
   purchase_invoice_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -318,6 +336,8 @@ export type purchase_return_itemsWhereUniqueInput = Prisma.AtLeast<{
   purchase_return_id?: Prisma.UuidFilter<"purchase_return_items"> | string
   purchase_invoice_item_id?: Prisma.UuidNullableFilter<"purchase_return_items"> | string | null
   product_variant_id?: Prisma.UuidFilter<"purchase_return_items"> | string
+  location_id?: Prisma.UuidNullableFilter<"purchase_return_items"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"purchase_return_items"> | string | null
   quantity?: Prisma.DecimalFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -334,6 +354,8 @@ export type purchase_return_itemsOrderByWithAggregationInput = {
   purchase_return_id?: Prisma.SortOrder
   purchase_invoice_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -358,6 +380,8 @@ export type purchase_return_itemsScalarWhereWithAggregatesInput = {
   purchase_return_id?: Prisma.UuidWithAggregatesFilter<"purchase_return_items"> | string
   purchase_invoice_item_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_return_items"> | string | null
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"purchase_return_items"> | string
+  location_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_return_items"> | string | null
+  serial_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_return_items"> | string | null
   quantity?: Prisma.DecimalWithAggregatesFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalWithAggregatesFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalWithAggregatesFilter<"purchase_return_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -374,6 +398,8 @@ export type purchase_return_itemsCreateInput = {
   purchase_return_id: string
   purchase_invoice_item_id?: string | null
   product_variant_id: string
+  location_id?: string | null
+  serial_id?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -390,6 +416,8 @@ export type purchase_return_itemsUncheckedCreateInput = {
   purchase_return_id: string
   purchase_invoice_item_id?: string | null
   product_variant_id: string
+  location_id?: string | null
+  serial_id?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -406,6 +434,8 @@ export type purchase_return_itemsUpdateInput = {
   purchase_return_id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -422,6 +452,8 @@ export type purchase_return_itemsUncheckedUpdateInput = {
   purchase_return_id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -438,6 +470,8 @@ export type purchase_return_itemsCreateManyInput = {
   purchase_return_id: string
   purchase_invoice_item_id?: string | null
   product_variant_id: string
+  location_id?: string | null
+  serial_id?: string | null
   quantity: runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -454,6 +488,8 @@ export type purchase_return_itemsUpdateManyMutationInput = {
   purchase_return_id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -470,6 +506,8 @@ export type purchase_return_itemsUncheckedUpdateManyInput = {
   purchase_return_id?: Prisma.StringFieldUpdateOperationsInput | string
   purchase_invoice_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -486,6 +524,8 @@ export type purchase_return_itemsCountOrderByAggregateInput = {
   purchase_return_id?: Prisma.SortOrder
   purchase_invoice_item_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -509,6 +549,8 @@ export type purchase_return_itemsMaxOrderByAggregateInput = {
   purchase_return_id?: Prisma.SortOrder
   purchase_invoice_item_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -525,6 +567,8 @@ export type purchase_return_itemsMinOrderByAggregateInput = {
   purchase_return_id?: Prisma.SortOrder
   purchase_invoice_item_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
+  location_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unit_cost?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
@@ -550,6 +594,8 @@ export type purchase_return_itemsSelect<ExtArgs extends runtime.Types.Extensions
   purchase_return_id?: boolean
   purchase_invoice_item_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
+  serial_id?: boolean
   quantity?: boolean
   unit_cost?: boolean
   tax_amount?: boolean
@@ -566,6 +612,8 @@ export type purchase_return_itemsSelectCreateManyAndReturn<ExtArgs extends runti
   purchase_return_id?: boolean
   purchase_invoice_item_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
+  serial_id?: boolean
   quantity?: boolean
   unit_cost?: boolean
   tax_amount?: boolean
@@ -582,6 +630,8 @@ export type purchase_return_itemsSelectUpdateManyAndReturn<ExtArgs extends runti
   purchase_return_id?: boolean
   purchase_invoice_item_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
+  serial_id?: boolean
   quantity?: boolean
   unit_cost?: boolean
   tax_amount?: boolean
@@ -598,6 +648,8 @@ export type purchase_return_itemsSelectScalar = {
   purchase_return_id?: boolean
   purchase_invoice_item_id?: boolean
   product_variant_id?: boolean
+  location_id?: boolean
+  serial_id?: boolean
   quantity?: boolean
   unit_cost?: boolean
   tax_amount?: boolean
@@ -609,7 +661,7 @@ export type purchase_return_itemsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type purchase_return_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchase_return_id" | "purchase_invoice_item_id" | "product_variant_id" | "quantity" | "unit_cost" | "tax_amount" | "line_total" | "reason" | "batch_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_return_items"]>
+export type purchase_return_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchase_return_id" | "purchase_invoice_item_id" | "product_variant_id" | "location_id" | "serial_id" | "quantity" | "unit_cost" | "tax_amount" | "line_total" | "reason" | "batch_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_return_items"]>
 
 export type $purchase_return_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "purchase_return_items"
@@ -619,6 +671,8 @@ export type $purchase_return_itemsPayload<ExtArgs extends runtime.Types.Extensio
     purchase_return_id: string
     purchase_invoice_item_id: string | null
     product_variant_id: string
+    location_id: string | null
+    serial_id: string | null
     quantity: runtime.Decimal
     unit_cost: runtime.Decimal
     tax_amount: runtime.Decimal
@@ -1055,6 +1109,8 @@ export interface purchase_return_itemsFieldRefs {
   readonly purchase_return_id: Prisma.FieldRef<"purchase_return_items", 'String'>
   readonly purchase_invoice_item_id: Prisma.FieldRef<"purchase_return_items", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"purchase_return_items", 'String'>
+  readonly location_id: Prisma.FieldRef<"purchase_return_items", 'String'>
+  readonly serial_id: Prisma.FieldRef<"purchase_return_items", 'String'>
   readonly quantity: Prisma.FieldRef<"purchase_return_items", 'Decimal'>
   readonly unit_cost: Prisma.FieldRef<"purchase_return_items", 'Decimal'>
   readonly tax_amount: Prisma.FieldRef<"purchase_return_items", 'Decimal'>

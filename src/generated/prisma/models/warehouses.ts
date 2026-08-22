@@ -29,10 +29,12 @@ export type WarehousesMinAggregateOutputType = {
   tenant_id: string | null
   branch_id: string | null
   store_id: string | null
+  warehouse_type_id: string | null
   code: string | null
   name: string | null
   is_default: boolean | null
   is_active: boolean | null
+  allow_negative_stock: boolean | null
   address: string | null
   notes: string | null
   created_at: Date | null
@@ -46,10 +48,12 @@ export type WarehousesMaxAggregateOutputType = {
   tenant_id: string | null
   branch_id: string | null
   store_id: string | null
+  warehouse_type_id: string | null
   code: string | null
   name: string | null
   is_default: boolean | null
   is_active: boolean | null
+  allow_negative_stock: boolean | null
   address: string | null
   notes: string | null
   created_at: Date | null
@@ -63,10 +67,12 @@ export type WarehousesCountAggregateOutputType = {
   tenant_id: number
   branch_id: number
   store_id: number
+  warehouse_type_id: number
   code: number
   name: number
   is_default: number
   is_active: number
+  allow_negative_stock: number
   address: number
   notes: number
   created_at: number
@@ -82,10 +88,12 @@ export type WarehousesMinAggregateInputType = {
   tenant_id?: true
   branch_id?: true
   store_id?: true
+  warehouse_type_id?: true
   code?: true
   name?: true
   is_default?: true
   is_active?: true
+  allow_negative_stock?: true
   address?: true
   notes?: true
   created_at?: true
@@ -99,10 +107,12 @@ export type WarehousesMaxAggregateInputType = {
   tenant_id?: true
   branch_id?: true
   store_id?: true
+  warehouse_type_id?: true
   code?: true
   name?: true
   is_default?: true
   is_active?: true
+  allow_negative_stock?: true
   address?: true
   notes?: true
   created_at?: true
@@ -116,10 +126,12 @@ export type WarehousesCountAggregateInputType = {
   tenant_id?: true
   branch_id?: true
   store_id?: true
+  warehouse_type_id?: true
   code?: true
   name?: true
   is_default?: true
   is_active?: true
+  allow_negative_stock?: true
   address?: true
   notes?: true
   created_at?: true
@@ -206,10 +218,12 @@ export type WarehousesGroupByOutputType = {
   tenant_id: string
   branch_id: string | null
   store_id: string | null
+  warehouse_type_id: string | null
   code: string
   name: string
   is_default: boolean
   is_active: boolean
+  allow_negative_stock: boolean
   address: string | null
   notes: string | null
   created_at: Date
@@ -244,10 +258,12 @@ export type warehousesWhereInput = {
   tenant_id?: Prisma.UuidFilter<"warehouses"> | string
   branch_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
   store_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  warehouse_type_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
   code?: Prisma.StringFilter<"warehouses"> | string
   name?: Prisma.StringFilter<"warehouses"> | string
   is_default?: Prisma.BoolFilter<"warehouses"> | boolean
   is_active?: Prisma.BoolFilter<"warehouses"> | boolean
+  allow_negative_stock?: Prisma.BoolFilter<"warehouses"> | boolean
   address?: Prisma.StringNullableFilter<"warehouses"> | string | null
   notes?: Prisma.StringNullableFilter<"warehouses"> | string | null
   created_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
@@ -264,10 +280,12 @@ export type warehousesOrderByWithRelationInput = {
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  allow_negative_stock?: Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -287,10 +305,12 @@ export type warehousesWhereUniqueInput = Prisma.AtLeast<{
   tenant_id?: Prisma.UuidFilter<"warehouses"> | string
   branch_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
   store_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  warehouse_type_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
   code?: Prisma.StringFilter<"warehouses"> | string
   name?: Prisma.StringFilter<"warehouses"> | string
   is_default?: Prisma.BoolFilter<"warehouses"> | boolean
   is_active?: Prisma.BoolFilter<"warehouses"> | boolean
+  allow_negative_stock?: Prisma.BoolFilter<"warehouses"> | boolean
   address?: Prisma.StringNullableFilter<"warehouses"> | string | null
   notes?: Prisma.StringNullableFilter<"warehouses"> | string | null
   created_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
@@ -307,10 +327,12 @@ export type warehousesOrderByWithAggregationInput = {
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  allow_negative_stock?: Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -330,10 +352,12 @@ export type warehousesScalarWhereWithAggregatesInput = {
   tenant_id?: Prisma.UuidWithAggregatesFilter<"warehouses"> | string
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouses"> | string | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouses"> | string | null
+  warehouse_type_id?: Prisma.UuidNullableWithAggregatesFilter<"warehouses"> | string | null
   code?: Prisma.StringWithAggregatesFilter<"warehouses"> | string
   name?: Prisma.StringWithAggregatesFilter<"warehouses"> | string
   is_default?: Prisma.BoolWithAggregatesFilter<"warehouses"> | boolean
   is_active?: Prisma.BoolWithAggregatesFilter<"warehouses"> | boolean
+  allow_negative_stock?: Prisma.BoolWithAggregatesFilter<"warehouses"> | boolean
   address?: Prisma.StringNullableWithAggregatesFilter<"warehouses"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"warehouses"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"warehouses"> | Date | string
@@ -345,10 +369,12 @@ export type warehousesScalarWhereWithAggregatesInput = {
 export type warehousesCreateInput = {
   id?: string
   tenant_id: string
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -365,10 +391,12 @@ export type warehousesUncheckedCreateInput = {
   tenant_id: string
   branch_id?: string | null
   store_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -381,10 +409,12 @@ export type warehousesUncheckedCreateInput = {
 export type warehousesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -401,10 +431,12 @@ export type warehousesUncheckedUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -419,10 +451,12 @@ export type warehousesCreateManyInput = {
   tenant_id: string
   branch_id?: string | null
   store_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -434,10 +468,12 @@ export type warehousesCreateManyInput = {
 export type warehousesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -451,10 +487,12 @@ export type warehousesUncheckedUpdateManyInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -478,10 +516,12 @@ export type warehousesCountOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_type_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  allow_negative_stock?: Prisma.SortOrder
   address?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -495,10 +535,12 @@ export type warehousesMaxOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_type_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  allow_negative_stock?: Prisma.SortOrder
   address?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -512,10 +554,12 @@ export type warehousesMinOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_type_id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   is_default?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
+  allow_negative_stock?: Prisma.SortOrder
   address?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -630,10 +674,12 @@ export type warehousesUpdateOneRequiredWithoutWarehouse_locationsNestedInput = {
 export type warehousesCreateWithoutBranchesInput = {
   id?: string
   tenant_id: string
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -648,10 +694,12 @@ export type warehousesUncheckedCreateWithoutBranchesInput = {
   id?: string
   tenant_id: string
   store_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -695,10 +743,12 @@ export type warehousesScalarWhereInput = {
   tenant_id?: Prisma.UuidFilter<"warehouses"> | string
   branch_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
   store_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
+  warehouse_type_id?: Prisma.UuidNullableFilter<"warehouses"> | string | null
   code?: Prisma.StringFilter<"warehouses"> | string
   name?: Prisma.StringFilter<"warehouses"> | string
   is_default?: Prisma.BoolFilter<"warehouses"> | boolean
   is_active?: Prisma.BoolFilter<"warehouses"> | boolean
+  allow_negative_stock?: Prisma.BoolFilter<"warehouses"> | boolean
   address?: Prisma.StringNullableFilter<"warehouses"> | string | null
   notes?: Prisma.StringNullableFilter<"warehouses"> | string | null
   created_at?: Prisma.DateTimeFilter<"warehouses"> | Date | string
@@ -710,10 +760,12 @@ export type warehousesScalarWhereInput = {
 export type warehousesCreateWithoutStoresInput = {
   id?: string
   tenant_id: string
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -728,10 +780,12 @@ export type warehousesUncheckedCreateWithoutStoresInput = {
   id?: string
   tenant_id: string
   branch_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -770,10 +824,12 @@ export type warehousesUpdateManyWithWhereWithoutStoresInput = {
 export type warehousesCreateWithoutWarehouse_locationsInput = {
   id?: string
   tenant_id: string
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -789,10 +845,12 @@ export type warehousesUncheckedCreateWithoutWarehouse_locationsInput = {
   tenant_id: string
   branch_id?: string | null
   store_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -820,10 +878,12 @@ export type warehousesUpdateToOneWithWhereWithoutWarehouse_locationsInput = {
 export type warehousesUpdateWithoutWarehouse_locationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -839,10 +899,12 @@ export type warehousesUncheckedUpdateWithoutWarehouse_locationsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -855,10 +917,12 @@ export type warehousesCreateManyBranchesInput = {
   id?: string
   tenant_id: string
   store_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -870,10 +934,12 @@ export type warehousesCreateManyBranchesInput = {
 export type warehousesUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -888,10 +954,12 @@ export type warehousesUncheckedUpdateWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -905,10 +973,12 @@ export type warehousesUncheckedUpdateManyWithoutBranchesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -921,10 +991,12 @@ export type warehousesCreateManyStoresInput = {
   id?: string
   tenant_id: string
   branch_id?: string | null
+  warehouse_type_id?: string | null
   code: string
   name: string
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: string | null
   notes?: string | null
   created_at?: Date | string
@@ -936,10 +1008,12 @@ export type warehousesCreateManyStoresInput = {
 export type warehousesUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -954,10 +1028,12 @@ export type warehousesUncheckedUpdateWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -971,10 +1047,12 @@ export type warehousesUncheckedUpdateManyWithoutStoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1019,10 +1097,12 @@ export type warehousesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   tenant_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_type_id?: boolean
   code?: boolean
   name?: boolean
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: boolean
   notes?: boolean
   created_at?: boolean
@@ -1040,10 +1120,12 @@ export type warehousesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   tenant_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_type_id?: boolean
   code?: boolean
   name?: boolean
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: boolean
   notes?: boolean
   created_at?: boolean
@@ -1059,10 +1141,12 @@ export type warehousesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   tenant_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_type_id?: boolean
   code?: boolean
   name?: boolean
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: boolean
   notes?: boolean
   created_at?: boolean
@@ -1078,10 +1162,12 @@ export type warehousesSelectScalar = {
   tenant_id?: boolean
   branch_id?: boolean
   store_id?: boolean
+  warehouse_type_id?: boolean
   code?: boolean
   name?: boolean
   is_default?: boolean
   is_active?: boolean
+  allow_negative_stock?: boolean
   address?: boolean
   notes?: boolean
   created_at?: boolean
@@ -1090,7 +1176,7 @@ export type warehousesSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type warehousesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "branch_id" | "store_id" | "code" | "name" | "is_default" | "is_active" | "address" | "notes" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["warehouses"]>
+export type warehousesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "branch_id" | "store_id" | "warehouse_type_id" | "code" | "name" | "is_default" | "is_active" | "allow_negative_stock" | "address" | "notes" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["warehouses"]>
 export type warehousesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   warehouse_locations?: boolean | Prisma.warehouses$warehouse_locationsArgs<ExtArgs>
   branches?: boolean | Prisma.warehouses$branchesArgs<ExtArgs>
@@ -1118,10 +1204,12 @@ export type $warehousesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     tenant_id: string
     branch_id: string | null
     store_id: string | null
+    warehouse_type_id: string | null
     code: string
     name: string
     is_default: boolean
     is_active: boolean
+    allow_negative_stock: boolean
     address: string | null
     notes: string | null
     created_at: Date
@@ -1558,10 +1646,12 @@ export interface warehousesFieldRefs {
   readonly tenant_id: Prisma.FieldRef<"warehouses", 'String'>
   readonly branch_id: Prisma.FieldRef<"warehouses", 'String'>
   readonly store_id: Prisma.FieldRef<"warehouses", 'String'>
+  readonly warehouse_type_id: Prisma.FieldRef<"warehouses", 'String'>
   readonly code: Prisma.FieldRef<"warehouses", 'String'>
   readonly name: Prisma.FieldRef<"warehouses", 'String'>
   readonly is_default: Prisma.FieldRef<"warehouses", 'Boolean'>
   readonly is_active: Prisma.FieldRef<"warehouses", 'Boolean'>
+  readonly allow_negative_stock: Prisma.FieldRef<"warehouses", 'Boolean'>
   readonly address: Prisma.FieldRef<"warehouses", 'String'>
   readonly notes: Prisma.FieldRef<"warehouses", 'String'>
   readonly created_at: Prisma.FieldRef<"warehouses", 'DateTime'>

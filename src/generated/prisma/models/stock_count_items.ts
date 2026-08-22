@@ -42,10 +42,12 @@ export type Stock_count_itemsSumAggregateOutputType = {
 
 export type Stock_count_itemsMinAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   stock_count_id: string | null
   product_variant_id: string | null
   warehouse_location_id: string | null
   batch_id: string | null
+  serial_id: string | null
   qty_snapshot: runtime.Decimal | null
   qty_counted: runtime.Decimal | null
   variance: runtime.Decimal | null
@@ -59,10 +61,12 @@ export type Stock_count_itemsMinAggregateOutputType = {
 
 export type Stock_count_itemsMaxAggregateOutputType = {
   id: string | null
+  tenant_id: string | null
   stock_count_id: string | null
   product_variant_id: string | null
   warehouse_location_id: string | null
   batch_id: string | null
+  serial_id: string | null
   qty_snapshot: runtime.Decimal | null
   qty_counted: runtime.Decimal | null
   variance: runtime.Decimal | null
@@ -76,10 +80,12 @@ export type Stock_count_itemsMaxAggregateOutputType = {
 
 export type Stock_count_itemsCountAggregateOutputType = {
   id: number
+  tenant_id: number
   stock_count_id: number
   product_variant_id: number
   warehouse_location_id: number
   batch_id: number
+  serial_id: number
   qty_snapshot: number
   qty_counted: number
   variance: number
@@ -109,10 +115,12 @@ export type Stock_count_itemsSumAggregateInputType = {
 
 export type Stock_count_itemsMinAggregateInputType = {
   id?: true
+  tenant_id?: true
   stock_count_id?: true
   product_variant_id?: true
   warehouse_location_id?: true
   batch_id?: true
+  serial_id?: true
   qty_snapshot?: true
   qty_counted?: true
   variance?: true
@@ -126,10 +134,12 @@ export type Stock_count_itemsMinAggregateInputType = {
 
 export type Stock_count_itemsMaxAggregateInputType = {
   id?: true
+  tenant_id?: true
   stock_count_id?: true
   product_variant_id?: true
   warehouse_location_id?: true
   batch_id?: true
+  serial_id?: true
   qty_snapshot?: true
   qty_counted?: true
   variance?: true
@@ -143,10 +153,12 @@ export type Stock_count_itemsMaxAggregateInputType = {
 
 export type Stock_count_itemsCountAggregateInputType = {
   id?: true
+  tenant_id?: true
   stock_count_id?: true
   product_variant_id?: true
   warehouse_location_id?: true
   batch_id?: true
+  serial_id?: true
   qty_snapshot?: true
   qty_counted?: true
   variance?: true
@@ -247,10 +259,12 @@ export type stock_count_itemsGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type Stock_count_itemsGroupByOutputType = {
   id: string
+  tenant_id: string | null
   stock_count_id: string
   product_variant_id: string
   warehouse_location_id: string | null
   batch_id: string | null
+  serial_id: string | null
   qty_snapshot: runtime.Decimal
   qty_counted: runtime.Decimal | null
   variance: runtime.Decimal | null
@@ -287,10 +301,12 @@ export type stock_count_itemsWhereInput = {
   OR?: Prisma.stock_count_itemsWhereInput[]
   NOT?: Prisma.stock_count_itemsWhereInput | Prisma.stock_count_itemsWhereInput[]
   id?: Prisma.UuidFilter<"stock_count_items"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
   stock_count_id?: Prisma.UuidFilter<"stock_count_items"> | string
   product_variant_id?: Prisma.UuidFilter<"stock_count_items"> | string
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
   qty_snapshot?: Prisma.DecimalFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.DecimalNullableFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.DecimalNullableFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -304,10 +320,12 @@ export type stock_count_itemsWhereInput = {
 
 export type stock_count_itemsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   stock_count_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty_snapshot?: Prisma.SortOrder
   qty_counted?: Prisma.SortOrderInput | Prisma.SortOrder
   variance?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -324,10 +342,12 @@ export type stock_count_itemsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.stock_count_itemsWhereInput | Prisma.stock_count_itemsWhereInput[]
   OR?: Prisma.stock_count_itemsWhereInput[]
   NOT?: Prisma.stock_count_itemsWhereInput | Prisma.stock_count_itemsWhereInput[]
+  tenant_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
   stock_count_id?: Prisma.UuidFilter<"stock_count_items"> | string
   product_variant_id?: Prisma.UuidFilter<"stock_count_items"> | string
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
   batch_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"stock_count_items"> | string | null
   qty_snapshot?: Prisma.DecimalFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.DecimalNullableFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.DecimalNullableFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -341,10 +361,12 @@ export type stock_count_itemsWhereUniqueInput = Prisma.AtLeast<{
 
 export type stock_count_itemsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   stock_count_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  serial_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty_snapshot?: Prisma.SortOrder
   qty_counted?: Prisma.SortOrderInput | Prisma.SortOrder
   variance?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -366,10 +388,12 @@ export type stock_count_itemsScalarWhereWithAggregatesInput = {
   OR?: Prisma.stock_count_itemsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.stock_count_itemsScalarWhereWithAggregatesInput | Prisma.stock_count_itemsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"stock_count_items"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_count_items"> | string | null
   stock_count_id?: Prisma.UuidWithAggregatesFilter<"stock_count_items"> | string
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"stock_count_items"> | string
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_count_items"> | string | null
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_count_items"> | string | null
+  serial_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_count_items"> | string | null
   qty_snapshot?: Prisma.DecimalWithAggregatesFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.DecimalNullableWithAggregatesFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.DecimalNullableWithAggregatesFilter<"stock_count_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -383,10 +407,12 @@ export type stock_count_itemsScalarWhereWithAggregatesInput = {
 
 export type stock_count_itemsCreateInput = {
   id?: string
+  tenant_id?: string | null
   stock_count_id: string
   product_variant_id: string
   warehouse_location_id?: string | null
   batch_id?: string | null
+  serial_id?: string | null
   qty_snapshot?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -400,10 +426,12 @@ export type stock_count_itemsCreateInput = {
 
 export type stock_count_itemsUncheckedCreateInput = {
   id?: string
+  tenant_id?: string | null
   stock_count_id: string
   product_variant_id: string
   warehouse_location_id?: string | null
   batch_id?: string | null
+  serial_id?: string | null
   qty_snapshot?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -417,10 +445,12 @@ export type stock_count_itemsUncheckedCreateInput = {
 
 export type stock_count_itemsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_count_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_snapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -434,10 +464,12 @@ export type stock_count_itemsUpdateInput = {
 
 export type stock_count_itemsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_count_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_snapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -451,10 +483,12 @@ export type stock_count_itemsUncheckedUpdateInput = {
 
 export type stock_count_itemsCreateManyInput = {
   id?: string
+  tenant_id?: string | null
   stock_count_id: string
   product_variant_id: string
   warehouse_location_id?: string | null
   batch_id?: string | null
+  serial_id?: string | null
   qty_snapshot?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -468,10 +502,12 @@ export type stock_count_itemsCreateManyInput = {
 
 export type stock_count_itemsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_count_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_snapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -485,10 +521,12 @@ export type stock_count_itemsUpdateManyMutationInput = {
 
 export type stock_count_itemsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_count_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_snapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_counted?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   variance?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -502,10 +540,12 @@ export type stock_count_itemsUncheckedUpdateManyInput = {
 
 export type stock_count_itemsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   stock_count_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   qty_snapshot?: Prisma.SortOrder
   qty_counted?: Prisma.SortOrder
   variance?: Prisma.SortOrder
@@ -526,10 +566,12 @@ export type stock_count_itemsAvgOrderByAggregateInput = {
 
 export type stock_count_itemsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   stock_count_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   qty_snapshot?: Prisma.SortOrder
   qty_counted?: Prisma.SortOrder
   variance?: Prisma.SortOrder
@@ -543,10 +585,12 @@ export type stock_count_itemsMaxOrderByAggregateInput = {
 
 export type stock_count_itemsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
   stock_count_id?: Prisma.SortOrder
   product_variant_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  serial_id?: Prisma.SortOrder
   qty_snapshot?: Prisma.SortOrder
   qty_counted?: Prisma.SortOrder
   variance?: Prisma.SortOrder
@@ -569,10 +613,12 @@ export type stock_count_itemsSumOrderByAggregateInput = {
 
 export type stock_count_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   stock_count_id?: boolean
   product_variant_id?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
+  serial_id?: boolean
   qty_snapshot?: boolean
   qty_counted?: boolean
   variance?: boolean
@@ -586,10 +632,12 @@ export type stock_count_itemsSelect<ExtArgs extends runtime.Types.Extensions.Int
 
 export type stock_count_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   stock_count_id?: boolean
   product_variant_id?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
+  serial_id?: boolean
   qty_snapshot?: boolean
   qty_counted?: boolean
   variance?: boolean
@@ -603,10 +651,12 @@ export type stock_count_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.T
 
 export type stock_count_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  tenant_id?: boolean
   stock_count_id?: boolean
   product_variant_id?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
+  serial_id?: boolean
   qty_snapshot?: boolean
   qty_counted?: boolean
   variance?: boolean
@@ -620,10 +670,12 @@ export type stock_count_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
 
 export type stock_count_itemsSelectScalar = {
   id?: boolean
+  tenant_id?: boolean
   stock_count_id?: boolean
   product_variant_id?: boolean
   warehouse_location_id?: boolean
   batch_id?: boolean
+  serial_id?: boolean
   qty_snapshot?: boolean
   qty_counted?: boolean
   variance?: boolean
@@ -635,17 +687,19 @@ export type stock_count_itemsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type stock_count_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_count_id" | "product_variant_id" | "warehouse_location_id" | "batch_id" | "qty_snapshot" | "qty_counted" | "variance" | "unit_cost" | "counted_at" | "counted_by" | "created_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_count_items"]>
+export type stock_count_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "stock_count_id" | "product_variant_id" | "warehouse_location_id" | "batch_id" | "serial_id" | "qty_snapshot" | "qty_counted" | "variance" | "unit_cost" | "counted_at" | "counted_by" | "created_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_count_items"]>
 
 export type $stock_count_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_count_items"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    tenant_id: string | null
     stock_count_id: string
     product_variant_id: string
     warehouse_location_id: string | null
     batch_id: string | null
+    serial_id: string | null
     qty_snapshot: runtime.Decimal
     qty_counted: runtime.Decimal | null
     variance: runtime.Decimal | null
@@ -1079,10 +1133,12 @@ export interface Prisma__stock_count_itemsClient<T, Null = never, ExtArgs extend
  */
 export interface stock_count_itemsFieldRefs {
   readonly id: Prisma.FieldRef<"stock_count_items", 'String'>
+  readonly tenant_id: Prisma.FieldRef<"stock_count_items", 'String'>
   readonly stock_count_id: Prisma.FieldRef<"stock_count_items", 'String'>
   readonly product_variant_id: Prisma.FieldRef<"stock_count_items", 'String'>
   readonly warehouse_location_id: Prisma.FieldRef<"stock_count_items", 'String'>
   readonly batch_id: Prisma.FieldRef<"stock_count_items", 'String'>
+  readonly serial_id: Prisma.FieldRef<"stock_count_items", 'String'>
   readonly qty_snapshot: Prisma.FieldRef<"stock_count_items", 'Decimal'>
   readonly qty_counted: Prisma.FieldRef<"stock_count_items", 'Decimal'>
   readonly variance: Prisma.FieldRef<"stock_count_items", 'Decimal'>
