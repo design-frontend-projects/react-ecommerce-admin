@@ -274,7 +274,7 @@ export type Customer_return_itemsGroupByOutputType = {
   _max: Customer_return_itemsMaxAggregateOutputType | null
 }
 
-export type GetCustomer_return_itemsGroupByPayload<T extends customer_return_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetCustomer_return_itemsGroupByPayload<T extends customer_return_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Customer_return_itemsGroupByOutputType, T['by']> &
       {

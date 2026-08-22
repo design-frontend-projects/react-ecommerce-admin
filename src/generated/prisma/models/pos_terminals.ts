@@ -207,7 +207,7 @@ export type Pos_terminalsGroupByOutputType = {
   _max: Pos_terminalsMaxAggregateOutputType | null
 }
 
-export type GetPos_terminalsGroupByPayload<T extends pos_terminalsGroupByArgs> = Prisma.PrismaPromise<
+type GetPos_terminalsGroupByPayload<T extends pos_terminalsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Pos_terminalsGroupByOutputType, T['by']> &
       {

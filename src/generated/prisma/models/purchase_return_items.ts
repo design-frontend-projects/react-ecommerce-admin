@@ -274,7 +274,7 @@ export type Purchase_return_itemsGroupByOutputType = {
   _max: Purchase_return_itemsMaxAggregateOutputType | null
 }
 
-export type GetPurchase_return_itemsGroupByPayload<T extends purchase_return_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetPurchase_return_itemsGroupByPayload<T extends purchase_return_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Purchase_return_itemsGroupByOutputType, T['by']> &
       {

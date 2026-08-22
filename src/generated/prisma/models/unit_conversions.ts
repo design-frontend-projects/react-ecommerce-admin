@@ -227,7 +227,7 @@ export type Unit_conversionsGroupByOutputType = {
   _max: Unit_conversionsMaxAggregateOutputType | null
 }
 
-export type GetUnit_conversionsGroupByPayload<T extends unit_conversionsGroupByArgs> = Prisma.PrismaPromise<
+type GetUnit_conversionsGroupByPayload<T extends unit_conversionsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Unit_conversionsGroupByOutputType, T['by']> &
       {

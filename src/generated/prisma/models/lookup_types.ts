@@ -220,7 +220,7 @@ export type Lookup_typesGroupByOutputType = {
   _max: Lookup_typesMaxAggregateOutputType | null
 }
 
-export type GetLookup_typesGroupByPayload<T extends lookup_typesGroupByArgs> = Prisma.PrismaPromise<
+type GetLookup_typesGroupByPayload<T extends lookup_typesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Lookup_typesGroupByOutputType, T['by']> &
       {

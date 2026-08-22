@@ -392,7 +392,7 @@ export type Res_shiftsGroupByOutputType = {
   _max: Res_shiftsMaxAggregateOutputType | null
 }
 
-export type GetRes_shiftsGroupByPayload<T extends res_shiftsGroupByArgs> = Prisma.PrismaPromise<
+type GetRes_shiftsGroupByPayload<T extends res_shiftsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Res_shiftsGroupByOutputType, T['by']> &
       {

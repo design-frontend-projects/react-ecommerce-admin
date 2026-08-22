@@ -267,7 +267,7 @@ export type Stock_adjustment_itemsGroupByOutputType = {
   _max: Stock_adjustment_itemsMaxAggregateOutputType | null
 }
 
-export type GetStock_adjustment_itemsGroupByPayload<T extends stock_adjustment_itemsGroupByArgs> = Prisma.PrismaPromise<
+type GetStock_adjustment_itemsGroupByPayload<T extends stock_adjustment_itemsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Stock_adjustment_itemsGroupByOutputType, T['by']> &
       {
