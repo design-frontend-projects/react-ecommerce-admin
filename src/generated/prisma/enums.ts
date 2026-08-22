@@ -245,10 +245,54 @@ export type subscription_commission_type = (typeof subscription_commission_type)
 export const subscription_status = {
   new: 'new',
   paid: 'paid',
-  canceled: 'canceled'
+  canceled: 'canceled',
+  trial: 'trial',
+  active: 'active',
+  past_due: 'past_due',
+  expired: 'expired',
+  grace_period: 'grace_period',
+  paused: 'paused'
 } as const
 
 export type subscription_status = (typeof subscription_status)[keyof typeof subscription_status]
+
+
+export const subscription_tier = {
+  free_trial: 'free_trial',
+  starter: 'starter',
+  growth: 'growth',
+  professional: 'professional',
+  enterprise: 'enterprise',
+  custom: 'custom'
+} as const
+
+export type subscription_tier = (typeof subscription_tier)[keyof typeof subscription_tier]
+
+
+export const billing_interval_enum = {
+  day: 'day',
+  week: 'week',
+  month: 'month',
+  quarter: 'quarter',
+  half_year: 'half_year',
+  year: 'year',
+  lifetime: 'lifetime',
+  custom: 'custom'
+} as const
+
+export type billing_interval_enum = (typeof billing_interval_enum)[keyof typeof billing_interval_enum]
+
+
+export const subscription_invoice_status = {
+  draft: 'draft',
+  pending: 'pending',
+  paid: 'paid',
+  failed: 'failed',
+  refunded: 'refunded',
+  void: 'void'
+} as const
+
+export type subscription_invoice_status = (typeof subscription_invoice_status)[keyof typeof subscription_invoice_status]
 
 
 export const table_status = {

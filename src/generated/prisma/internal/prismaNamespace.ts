@@ -443,6 +443,8 @@ export const ModelName = {
   suppliers: 'suppliers',
   tax_rates: 'tax_rates',
   tenant_subscriptions: 'tenant_subscriptions',
+  tenant_subscription_usage: 'tenant_subscription_usage',
+  subscription_invoices: 'subscription_invoices',
   tenants: 'tenants',
   tenant_users: 'tenant_users',
   transaction_details: 'transaction_details',
@@ -509,7 +511,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4876,6 +4878,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.tenant_subscriptionsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Tenant_subscriptionsCountAggregateOutputType> | number
+        }
+      }
+    }
+    tenant_subscription_usage: {
+      payload: Prisma.$tenant_subscription_usagePayload<ExtArgs>
+      fields: Prisma.tenant_subscription_usageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.tenant_subscription_usageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.tenant_subscription_usageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>
+        }
+        findFirst: {
+          args: Prisma.tenant_subscription_usageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.tenant_subscription_usageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>
+        }
+        findMany: {
+          args: Prisma.tenant_subscription_usageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>[]
+        }
+        create: {
+          args: Prisma.tenant_subscription_usageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>
+        }
+        createMany: {
+          args: Prisma.tenant_subscription_usageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.tenant_subscription_usageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>[]
+        }
+        delete: {
+          args: Prisma.tenant_subscription_usageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>
+        }
+        update: {
+          args: Prisma.tenant_subscription_usageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>
+        }
+        deleteMany: {
+          args: Prisma.tenant_subscription_usageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.tenant_subscription_usageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.tenant_subscription_usageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>[]
+        }
+        upsert: {
+          args: Prisma.tenant_subscription_usageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_subscription_usagePayload>
+        }
+        aggregate: {
+          args: Prisma.Tenant_subscription_usageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenant_subscription_usage>
+        }
+        groupBy: {
+          args: Prisma.tenant_subscription_usageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tenant_subscription_usageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.tenant_subscription_usageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tenant_subscription_usageCountAggregateOutputType> | number
+        }
+      }
+    }
+    subscription_invoices: {
+      payload: Prisma.$subscription_invoicesPayload<ExtArgs>
+      fields: Prisma.subscription_invoicesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.subscription_invoicesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.subscription_invoicesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>
+        }
+        findFirst: {
+          args: Prisma.subscription_invoicesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.subscription_invoicesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>
+        }
+        findMany: {
+          args: Prisma.subscription_invoicesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>[]
+        }
+        create: {
+          args: Prisma.subscription_invoicesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>
+        }
+        createMany: {
+          args: Prisma.subscription_invoicesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.subscription_invoicesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>[]
+        }
+        delete: {
+          args: Prisma.subscription_invoicesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>
+        }
+        update: {
+          args: Prisma.subscription_invoicesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>
+        }
+        deleteMany: {
+          args: Prisma.subscription_invoicesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.subscription_invoicesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.subscription_invoicesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>[]
+        }
+        upsert: {
+          args: Prisma.subscription_invoicesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$subscription_invoicesPayload>
+        }
+        aggregate: {
+          args: Prisma.Subscription_invoicesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSubscription_invoices>
+        }
+        groupBy: {
+          args: Prisma.subscription_invoicesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Subscription_invoicesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.subscription_invoicesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Subscription_invoicesCountAggregateOutputType> | number
         }
       }
     }
@@ -9836,11 +9986,45 @@ export type StoresScalarFieldEnum = (typeof StoresScalarFieldEnum)[keyof typeof 
 
 
 export const SubscriptionsScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
   name: 'name',
+  description: 'description',
+  tier: 'tier',
+  billing_interval: 'billing_interval',
   duration_months: 'duration_months',
   price: 'price',
+  currency: 'currency',
+  setup_fee: 'setup_fee',
+  discount_percentage: 'discount_percentage',
+  trial_period_days: 'trial_period_days',
+  grace_period_days: 'grace_period_days',
+  max_branches: 'max_branches',
+  max_users: 'max_users',
+  max_stores: 'max_stores',
+  max_warehouses: 'max_warehouses',
+  max_products: 'max_products',
+  max_tables: 'max_tables',
+  max_pos_registers: 'max_pos_registers',
+  max_monthly_orders: 'max_monthly_orders',
+  max_storage_mb: 'max_storage_mb',
+  has_restaurant_pos: 'has_restaurant_pos',
+  has_inventory_tracking: 'has_inventory_tracking',
+  has_kitchen_display: 'has_kitchen_display',
+  has_delivery_management: 'has_delivery_management',
+  has_api_access: 'has_api_access',
+  has_advanced_reports: 'has_advanced_reports',
+  has_audit_logs: 'has_audit_logs',
+  has_priority_support: 'has_priority_support',
+  allowed_modules: 'allowed_modules',
+  features: 'features',
+  metadata: 'metadata',
+  is_active: 'is_active',
+  is_public: 'is_public',
+  is_popular: 'is_popular',
+  sort_order: 'sort_order',
   created_at: 'created_at',
-  id: 'id'
+  updated_at: 'updated_at'
 } as const
 
 export type SubscriptionsScalarFieldEnum = (typeof SubscriptionsScalarFieldEnum)[keyof typeof SubscriptionsScalarFieldEnum]
@@ -9899,6 +10083,12 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   first_use: 'first_use',
   start_date: 'start_date',
   end_date: 'end_date',
+  trial_ends_at: 'trial_ends_at',
+  grace_ends_at: 'grace_ends_at',
+  cancelled_at: 'cancelled_at',
+  auto_renew: 'auto_renew',
+  price_at_purchase: 'price_at_purchase',
+  currency: 'currency',
   created_at: 'created_at',
   updated_at: 'updated_at',
   commission_amount: 'commission_amount',
@@ -9909,10 +10099,61 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   tenant_id: 'tenant_id',
   subscription_id: 'subscription_id',
   payment_method: 'payment_method',
-  transfer_ref: 'transfer_ref'
+  transfer_ref: 'transfer_ref',
+  billing_details: 'billing_details',
+  custom_max_branches: 'custom_max_branches',
+  custom_max_users: 'custom_max_users',
+  custom_max_stores: 'custom_max_stores',
+  custom_max_warehouses: 'custom_max_warehouses',
+  custom_max_products: 'custom_max_products',
+  custom_max_storage_mb: 'custom_max_storage_mb',
+  custom_features: 'custom_features'
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
+
+
+export const Tenant_subscription_usageScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  current_branches_count: 'current_branches_count',
+  current_users_count: 'current_users_count',
+  current_stores_count: 'current_stores_count',
+  current_warehouses_count: 'current_warehouses_count',
+  current_products_count: 'current_products_count',
+  current_tables_count: 'current_tables_count',
+  current_pos_registers_count: 'current_pos_registers_count',
+  current_monthly_orders: 'current_monthly_orders',
+  current_storage_mb_used: 'current_storage_mb_used',
+  billing_period_start: 'billing_period_start',
+  billing_period_end: 'billing_period_end',
+  last_calculated_at: 'last_calculated_at'
+} as const
+
+export type Tenant_subscription_usageScalarFieldEnum = (typeof Tenant_subscription_usageScalarFieldEnum)[keyof typeof Tenant_subscription_usageScalarFieldEnum]
+
+
+export const Subscription_invoicesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_subscription_id: 'tenant_subscription_id',
+  invoice_number: 'invoice_number',
+  amount: 'amount',
+  tax_amount: 'tax_amount',
+  discount_amount: 'discount_amount',
+  currency: 'currency',
+  status: 'status',
+  payment_method: 'payment_method',
+  transaction_ref: 'transaction_ref',
+  due_date: 'due_date',
+  paid_at: 'paid_at',
+  billing_address: 'billing_address',
+  pdf_url: 'pdf_url',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Subscription_invoicesScalarFieldEnum = (typeof Subscription_invoicesScalarFieldEnum)[keyof typeof Subscription_invoicesScalarFieldEnum]
 
 
 export const TenantsScalarFieldEnum = {
@@ -11294,6 +11535,48 @@ export type ListEnumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInp
 
 
 /**
+ * Reference to a field of type 'subscription_tier'
+ */
+export type Enumsubscription_tierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscription_tier'>
+    
+
+
+/**
+ * Reference to a field of type 'subscription_tier[]'
+ */
+export type ListEnumsubscription_tierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscription_tier[]'>
+    
+
+
+/**
+ * Reference to a field of type 'billing_interval_enum'
+ */
+export type Enumbilling_interval_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'billing_interval_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'billing_interval_enum[]'
+ */
+export type ListEnumbilling_interval_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'billing_interval_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'user_module[]'
+ */
+export type ListEnumuser_moduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'user_module[]'>
+    
+
+
+/**
+ * Reference to a field of type 'user_module'
+ */
+export type Enumuser_moduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'user_module'>
+    
+
+
+/**
  * Reference to a field of type 'subscription_status'
  */
 export type Enumsubscription_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscription_status'>
@@ -11322,6 +11605,20 @@ export type ListEnumsubscription_commission_typeFieldRefInput<$PrismaModel> = Fi
 
 
 /**
+ * Reference to a field of type 'subscription_invoice_status'
+ */
+export type Enumsubscription_invoice_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscription_invoice_status'>
+    
+
+
+/**
+ * Reference to a field of type 'subscription_invoice_status[]'
+ */
+export type ListEnumsubscription_invoice_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'subscription_invoice_status[]'>
+    
+
+
+/**
  * Reference to a field of type 'tenant_type'
  */
 export type Enumtenant_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tenant_type'>
@@ -11346,20 +11643,6 @@ export type Enumtenant_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'tenant_status[]'
  */
 export type ListEnumtenant_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tenant_status[]'>
-    
-
-
-/**
- * Reference to a field of type 'user_module'
- */
-export type Enumuser_moduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'user_module'>
-    
-
-
-/**
- * Reference to a field of type 'user_module[]'
- */
-export type ListEnumuser_moduleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'user_module[]'>
     
 
 
@@ -11796,6 +12079,8 @@ export type GlobalOmitConfig = {
   suppliers?: Prisma.suppliersOmit
   tax_rates?: Prisma.tax_ratesOmit
   tenant_subscriptions?: Prisma.tenant_subscriptionsOmit
+  tenant_subscription_usage?: Prisma.tenant_subscription_usageOmit
+  subscription_invoices?: Prisma.subscription_invoicesOmit
   tenants?: Prisma.tenantsOmit
   tenant_users?: Prisma.tenant_usersOmit
   transaction_details?: Prisma.transaction_detailsOmit

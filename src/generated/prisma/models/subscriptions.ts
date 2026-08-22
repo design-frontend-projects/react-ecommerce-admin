@@ -29,35 +29,159 @@ export type AggregateSubscriptions = {
 export type SubscriptionsAvgAggregateOutputType = {
   duration_months: number | null
   price: runtime.Decimal | null
+  setup_fee: runtime.Decimal | null
+  discount_percentage: runtime.Decimal | null
+  trial_period_days: number | null
+  grace_period_days: number | null
+  max_branches: number | null
+  max_users: number | null
+  max_stores: number | null
+  max_warehouses: number | null
+  max_products: number | null
+  max_tables: number | null
+  max_pos_registers: number | null
+  max_monthly_orders: number | null
+  max_storage_mb: number | null
+  sort_order: number | null
 }
 
 export type SubscriptionsSumAggregateOutputType = {
   duration_months: number | null
   price: runtime.Decimal | null
+  setup_fee: runtime.Decimal | null
+  discount_percentage: runtime.Decimal | null
+  trial_period_days: number | null
+  grace_period_days: number | null
+  max_branches: number | null
+  max_users: number | null
+  max_stores: number | null
+  max_warehouses: number | null
+  max_products: number | null
+  max_tables: number | null
+  max_pos_registers: number | null
+  max_monthly_orders: number | null
+  max_storage_mb: number | null
+  sort_order: number | null
 }
 
 export type SubscriptionsMinAggregateOutputType = {
+  id: string | null
+  code: string | null
   name: string | null
+  description: string | null
+  tier: $Enums.subscription_tier | null
+  billing_interval: $Enums.billing_interval_enum | null
   duration_months: number | null
   price: runtime.Decimal | null
+  currency: string | null
+  setup_fee: runtime.Decimal | null
+  discount_percentage: runtime.Decimal | null
+  trial_period_days: number | null
+  grace_period_days: number | null
+  max_branches: number | null
+  max_users: number | null
+  max_stores: number | null
+  max_warehouses: number | null
+  max_products: number | null
+  max_tables: number | null
+  max_pos_registers: number | null
+  max_monthly_orders: number | null
+  max_storage_mb: number | null
+  has_restaurant_pos: boolean | null
+  has_inventory_tracking: boolean | null
+  has_kitchen_display: boolean | null
+  has_delivery_management: boolean | null
+  has_api_access: boolean | null
+  has_advanced_reports: boolean | null
+  has_audit_logs: boolean | null
+  has_priority_support: boolean | null
+  is_active: boolean | null
+  is_public: boolean | null
+  is_popular: boolean | null
+  sort_order: number | null
   created_at: Date | null
-  id: string | null
+  updated_at: Date | null
 }
 
 export type SubscriptionsMaxAggregateOutputType = {
+  id: string | null
+  code: string | null
   name: string | null
+  description: string | null
+  tier: $Enums.subscription_tier | null
+  billing_interval: $Enums.billing_interval_enum | null
   duration_months: number | null
   price: runtime.Decimal | null
+  currency: string | null
+  setup_fee: runtime.Decimal | null
+  discount_percentage: runtime.Decimal | null
+  trial_period_days: number | null
+  grace_period_days: number | null
+  max_branches: number | null
+  max_users: number | null
+  max_stores: number | null
+  max_warehouses: number | null
+  max_products: number | null
+  max_tables: number | null
+  max_pos_registers: number | null
+  max_monthly_orders: number | null
+  max_storage_mb: number | null
+  has_restaurant_pos: boolean | null
+  has_inventory_tracking: boolean | null
+  has_kitchen_display: boolean | null
+  has_delivery_management: boolean | null
+  has_api_access: boolean | null
+  has_advanced_reports: boolean | null
+  has_audit_logs: boolean | null
+  has_priority_support: boolean | null
+  is_active: boolean | null
+  is_public: boolean | null
+  is_popular: boolean | null
+  sort_order: number | null
   created_at: Date | null
-  id: string | null
+  updated_at: Date | null
 }
 
 export type SubscriptionsCountAggregateOutputType = {
+  id: number
+  code: number
   name: number
+  description: number
+  tier: number
+  billing_interval: number
   duration_months: number
   price: number
+  currency: number
+  setup_fee: number
+  discount_percentage: number
+  trial_period_days: number
+  grace_period_days: number
+  max_branches: number
+  max_users: number
+  max_stores: number
+  max_warehouses: number
+  max_products: number
+  max_tables: number
+  max_pos_registers: number
+  max_monthly_orders: number
+  max_storage_mb: number
+  has_restaurant_pos: number
+  has_inventory_tracking: number
+  has_kitchen_display: number
+  has_delivery_management: number
+  has_api_access: number
+  has_advanced_reports: number
+  has_audit_logs: number
+  has_priority_support: number
+  allowed_modules: number
+  features: number
+  metadata: number
+  is_active: number
+  is_public: number
+  is_popular: number
+  sort_order: number
   created_at: number
-  id: number
+  updated_at: number
   _all: number
 }
 
@@ -65,35 +189,159 @@ export type SubscriptionsCountAggregateOutputType = {
 export type SubscriptionsAvgAggregateInputType = {
   duration_months?: true
   price?: true
+  setup_fee?: true
+  discount_percentage?: true
+  trial_period_days?: true
+  grace_period_days?: true
+  max_branches?: true
+  max_users?: true
+  max_stores?: true
+  max_warehouses?: true
+  max_products?: true
+  max_tables?: true
+  max_pos_registers?: true
+  max_monthly_orders?: true
+  max_storage_mb?: true
+  sort_order?: true
 }
 
 export type SubscriptionsSumAggregateInputType = {
   duration_months?: true
   price?: true
+  setup_fee?: true
+  discount_percentage?: true
+  trial_period_days?: true
+  grace_period_days?: true
+  max_branches?: true
+  max_users?: true
+  max_stores?: true
+  max_warehouses?: true
+  max_products?: true
+  max_tables?: true
+  max_pos_registers?: true
+  max_monthly_orders?: true
+  max_storage_mb?: true
+  sort_order?: true
 }
 
 export type SubscriptionsMinAggregateInputType = {
+  id?: true
+  code?: true
   name?: true
+  description?: true
+  tier?: true
+  billing_interval?: true
   duration_months?: true
   price?: true
+  currency?: true
+  setup_fee?: true
+  discount_percentage?: true
+  trial_period_days?: true
+  grace_period_days?: true
+  max_branches?: true
+  max_users?: true
+  max_stores?: true
+  max_warehouses?: true
+  max_products?: true
+  max_tables?: true
+  max_pos_registers?: true
+  max_monthly_orders?: true
+  max_storage_mb?: true
+  has_restaurant_pos?: true
+  has_inventory_tracking?: true
+  has_kitchen_display?: true
+  has_delivery_management?: true
+  has_api_access?: true
+  has_advanced_reports?: true
+  has_audit_logs?: true
+  has_priority_support?: true
+  is_active?: true
+  is_public?: true
+  is_popular?: true
+  sort_order?: true
   created_at?: true
-  id?: true
+  updated_at?: true
 }
 
 export type SubscriptionsMaxAggregateInputType = {
+  id?: true
+  code?: true
   name?: true
+  description?: true
+  tier?: true
+  billing_interval?: true
   duration_months?: true
   price?: true
+  currency?: true
+  setup_fee?: true
+  discount_percentage?: true
+  trial_period_days?: true
+  grace_period_days?: true
+  max_branches?: true
+  max_users?: true
+  max_stores?: true
+  max_warehouses?: true
+  max_products?: true
+  max_tables?: true
+  max_pos_registers?: true
+  max_monthly_orders?: true
+  max_storage_mb?: true
+  has_restaurant_pos?: true
+  has_inventory_tracking?: true
+  has_kitchen_display?: true
+  has_delivery_management?: true
+  has_api_access?: true
+  has_advanced_reports?: true
+  has_audit_logs?: true
+  has_priority_support?: true
+  is_active?: true
+  is_public?: true
+  is_popular?: true
+  sort_order?: true
   created_at?: true
-  id?: true
+  updated_at?: true
 }
 
 export type SubscriptionsCountAggregateInputType = {
+  id?: true
+  code?: true
   name?: true
+  description?: true
+  tier?: true
+  billing_interval?: true
   duration_months?: true
   price?: true
+  currency?: true
+  setup_fee?: true
+  discount_percentage?: true
+  trial_period_days?: true
+  grace_period_days?: true
+  max_branches?: true
+  max_users?: true
+  max_stores?: true
+  max_warehouses?: true
+  max_products?: true
+  max_tables?: true
+  max_pos_registers?: true
+  max_monthly_orders?: true
+  max_storage_mb?: true
+  has_restaurant_pos?: true
+  has_inventory_tracking?: true
+  has_kitchen_display?: true
+  has_delivery_management?: true
+  has_api_access?: true
+  has_advanced_reports?: true
+  has_audit_logs?: true
+  has_priority_support?: true
+  allowed_modules?: true
+  features?: true
+  metadata?: true
+  is_active?: true
+  is_public?: true
+  is_popular?: true
+  sort_order?: true
   created_at?: true
-  id?: true
+  updated_at?: true
   _all?: true
 }
 
@@ -184,11 +432,45 @@ export type subscriptionsGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 export type SubscriptionsGroupByOutputType = {
+  id: string
+  code: string | null
   name: string
+  description: string | null
+  tier: $Enums.subscription_tier
+  billing_interval: $Enums.billing_interval_enum
   duration_months: number
   price: runtime.Decimal
+  currency: string
+  setup_fee: runtime.Decimal
+  discount_percentage: runtime.Decimal
+  trial_period_days: number
+  grace_period_days: number
+  max_branches: number
+  max_users: number
+  max_stores: number
+  max_warehouses: number
+  max_products: number
+  max_tables: number
+  max_pos_registers: number
+  max_monthly_orders: number
+  max_storage_mb: number
+  has_restaurant_pos: boolean
+  has_inventory_tracking: boolean
+  has_kitchen_display: boolean
+  has_delivery_management: boolean
+  has_api_access: boolean
+  has_advanced_reports: boolean
+  has_audit_logs: boolean
+  has_priority_support: boolean
+  allowed_modules: $Enums.user_module[]
+  features: runtime.JsonValue
+  metadata: runtime.JsonValue
+  is_active: boolean
+  is_public: boolean
+  is_popular: boolean
+  sort_order: number
   created_at: Date | null
-  id: string
+  updated_at: Date | null
   _count: SubscriptionsCountAggregateOutputType | null
   _avg: SubscriptionsAvgAggregateOutputType | null
   _sum: SubscriptionsSumAggregateOutputType | null
@@ -215,41 +497,177 @@ export type subscriptionsWhereInput = {
   AND?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
   OR?: Prisma.subscriptionsWhereInput[]
   NOT?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
+  id?: Prisma.UuidFilter<"subscriptions"> | string
+  code?: Prisma.StringNullableFilter<"subscriptions"> | string | null
   name?: Prisma.StringFilter<"subscriptions"> | string
+  description?: Prisma.StringNullableFilter<"subscriptions"> | string | null
+  tier?: Prisma.Enumsubscription_tierFilter<"subscriptions"> | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFilter<"subscriptions"> | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFilter<"subscriptions"> | number
   price?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFilter<"subscriptions"> | string
+  setup_fee?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFilter<"subscriptions"> | number
+  grace_period_days?: Prisma.IntFilter<"subscriptions"> | number
+  max_branches?: Prisma.IntFilter<"subscriptions"> | number
+  max_users?: Prisma.IntFilter<"subscriptions"> | number
+  max_stores?: Prisma.IntFilter<"subscriptions"> | number
+  max_warehouses?: Prisma.IntFilter<"subscriptions"> | number
+  max_products?: Prisma.IntFilter<"subscriptions"> | number
+  max_tables?: Prisma.IntFilter<"subscriptions"> | number
+  max_pos_registers?: Prisma.IntFilter<"subscriptions"> | number
+  max_monthly_orders?: Prisma.IntFilter<"subscriptions"> | number
+  max_storage_mb?: Prisma.IntFilter<"subscriptions"> | number
+  has_restaurant_pos?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_inventory_tracking?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_kitchen_display?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_delivery_management?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_api_access?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_advanced_reports?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_audit_logs?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_priority_support?: Prisma.BoolFilter<"subscriptions"> | boolean
+  allowed_modules?: Prisma.Enumuser_moduleNullableListFilter<"subscriptions">
+  features?: Prisma.JsonFilter<"subscriptions">
+  metadata?: Prisma.JsonFilter<"subscriptions">
+  is_active?: Prisma.BoolFilter<"subscriptions"> | boolean
+  is_public?: Prisma.BoolFilter<"subscriptions"> | boolean
+  is_popular?: Prisma.BoolFilter<"subscriptions"> | boolean
+  sort_order?: Prisma.IntFilter<"subscriptions"> | number
   created_at?: Prisma.DateTimeNullableFilter<"subscriptions"> | Date | string | null
-  id?: Prisma.UuidFilter<"subscriptions"> | string
+  updated_at?: Prisma.DateTimeNullableFilter<"subscriptions"> | Date | string | null
   tenant_subscriptions?: Prisma.Tenant_subscriptionsListRelationFilter
 }
 
 export type subscriptionsOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  billing_interval?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  has_restaurant_pos?: Prisma.SortOrder
+  has_inventory_tracking?: Prisma.SortOrder
+  has_kitchen_display?: Prisma.SortOrder
+  has_delivery_management?: Prisma.SortOrder
+  has_api_access?: Prisma.SortOrder
+  has_advanced_reports?: Prisma.SortOrder
+  has_audit_logs?: Prisma.SortOrder
+  has_priority_support?: Prisma.SortOrder
+  allowed_modules?: Prisma.SortOrder
+  features?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  is_public?: Prisma.SortOrder
+  is_popular?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  id?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_subscriptions?: Prisma.tenant_subscriptionsOrderByRelationAggregateInput
 }
 
 export type subscriptionsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  code?: string
   AND?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
   OR?: Prisma.subscriptionsWhereInput[]
   NOT?: Prisma.subscriptionsWhereInput | Prisma.subscriptionsWhereInput[]
   name?: Prisma.StringFilter<"subscriptions"> | string
+  description?: Prisma.StringNullableFilter<"subscriptions"> | string | null
+  tier?: Prisma.Enumsubscription_tierFilter<"subscriptions"> | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFilter<"subscriptions"> | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFilter<"subscriptions"> | number
   price?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFilter<"subscriptions"> | string
+  setup_fee?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFilter<"subscriptions"> | number
+  grace_period_days?: Prisma.IntFilter<"subscriptions"> | number
+  max_branches?: Prisma.IntFilter<"subscriptions"> | number
+  max_users?: Prisma.IntFilter<"subscriptions"> | number
+  max_stores?: Prisma.IntFilter<"subscriptions"> | number
+  max_warehouses?: Prisma.IntFilter<"subscriptions"> | number
+  max_products?: Prisma.IntFilter<"subscriptions"> | number
+  max_tables?: Prisma.IntFilter<"subscriptions"> | number
+  max_pos_registers?: Prisma.IntFilter<"subscriptions"> | number
+  max_monthly_orders?: Prisma.IntFilter<"subscriptions"> | number
+  max_storage_mb?: Prisma.IntFilter<"subscriptions"> | number
+  has_restaurant_pos?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_inventory_tracking?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_kitchen_display?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_delivery_management?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_api_access?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_advanced_reports?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_audit_logs?: Prisma.BoolFilter<"subscriptions"> | boolean
+  has_priority_support?: Prisma.BoolFilter<"subscriptions"> | boolean
+  allowed_modules?: Prisma.Enumuser_moduleNullableListFilter<"subscriptions">
+  features?: Prisma.JsonFilter<"subscriptions">
+  metadata?: Prisma.JsonFilter<"subscriptions">
+  is_active?: Prisma.BoolFilter<"subscriptions"> | boolean
+  is_public?: Prisma.BoolFilter<"subscriptions"> | boolean
+  is_popular?: Prisma.BoolFilter<"subscriptions"> | boolean
+  sort_order?: Prisma.IntFilter<"subscriptions"> | number
   created_at?: Prisma.DateTimeNullableFilter<"subscriptions"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"subscriptions"> | Date | string | null
   tenant_subscriptions?: Prisma.Tenant_subscriptionsListRelationFilter
-}, "id">
+}, "id" | "code">
 
 export type subscriptionsOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  billing_interval?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  has_restaurant_pos?: Prisma.SortOrder
+  has_inventory_tracking?: Prisma.SortOrder
+  has_kitchen_display?: Prisma.SortOrder
+  has_delivery_management?: Prisma.SortOrder
+  has_api_access?: Prisma.SortOrder
+  has_advanced_reports?: Prisma.SortOrder
+  has_audit_logs?: Prisma.SortOrder
+  has_priority_support?: Prisma.SortOrder
+  allowed_modules?: Prisma.SortOrder
+  features?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  is_public?: Prisma.SortOrder
+  is_popular?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  id?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.subscriptionsCountOrderByAggregateInput
   _avg?: Prisma.subscriptionsAvgOrderByAggregateInput
   _max?: Prisma.subscriptionsMaxOrderByAggregateInput
@@ -261,110 +679,531 @@ export type subscriptionsScalarWhereWithAggregatesInput = {
   AND?: Prisma.subscriptionsScalarWhereWithAggregatesInput | Prisma.subscriptionsScalarWhereWithAggregatesInput[]
   OR?: Prisma.subscriptionsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.subscriptionsScalarWhereWithAggregatesInput | Prisma.subscriptionsScalarWhereWithAggregatesInput[]
+  id?: Prisma.UuidWithAggregatesFilter<"subscriptions"> | string
+  code?: Prisma.StringNullableWithAggregatesFilter<"subscriptions"> | string | null
   name?: Prisma.StringWithAggregatesFilter<"subscriptions"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"subscriptions"> | string | null
+  tier?: Prisma.Enumsubscription_tierWithAggregatesFilter<"subscriptions"> | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumWithAggregatesFilter<"subscriptions"> | $Enums.billing_interval_enum
   duration_months?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
   price?: Prisma.DecimalWithAggregatesFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringWithAggregatesFilter<"subscriptions"> | string
+  setup_fee?: Prisma.DecimalWithAggregatesFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalWithAggregatesFilter<"subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  grace_period_days?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_branches?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_users?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_stores?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_warehouses?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_products?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_tables?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_pos_registers?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_monthly_orders?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  max_storage_mb?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
+  has_restaurant_pos?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_inventory_tracking?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_kitchen_display?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_delivery_management?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_api_access?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_advanced_reports?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_audit_logs?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  has_priority_support?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  allowed_modules?: Prisma.Enumuser_moduleNullableListFilter<"subscriptions">
+  features?: Prisma.JsonWithAggregatesFilter<"subscriptions">
+  metadata?: Prisma.JsonWithAggregatesFilter<"subscriptions">
+  is_active?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  is_public?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  is_popular?: Prisma.BoolWithAggregatesFilter<"subscriptions"> | boolean
+  sort_order?: Prisma.IntWithAggregatesFilter<"subscriptions"> | number
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"subscriptions"> | Date | string | null
-  id?: Prisma.UuidWithAggregatesFilter<"subscriptions"> | string
+  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"subscriptions"> | Date | string | null
 }
 
 export type subscriptionsCreateInput = {
+  id?: string
+  code?: string | null
   name: string
+  description?: string | null
+  tier?: $Enums.subscription_tier
+  billing_interval?: $Enums.billing_interval_enum
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  setup_fee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: number
+  grace_period_days?: number
+  max_branches?: number
+  max_users?: number
+  max_stores?: number
+  max_warehouses?: number
+  max_products?: number
+  max_tables?: number
+  max_pos_registers?: number
+  max_monthly_orders?: number
+  max_storage_mb?: number
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: Prisma.subscriptionsCreateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: number
   created_at?: Date | string | null
-  id?: string
+  updated_at?: Date | string | null
   tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutSubscriptionsInput
 }
 
 export type subscriptionsUncheckedCreateInput = {
+  id?: string
+  code?: string | null
   name: string
+  description?: string | null
+  tier?: $Enums.subscription_tier
+  billing_interval?: $Enums.billing_interval_enum
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  setup_fee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: number
+  grace_period_days?: number
+  max_branches?: number
+  max_users?: number
+  max_stores?: number
+  max_warehouses?: number
+  max_products?: number
+  max_tables?: number
+  max_pos_registers?: number
+  max_monthly_orders?: number
+  max_storage_mb?: number
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: Prisma.subscriptionsCreateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: number
   created_at?: Date | string | null
-  id?: string
+  updated_at?: Date | string | null
   tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutSubscriptionsInput
 }
 
 export type subscriptionsUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tier?: Prisma.Enumsubscription_tierFieldUpdateOperationsInput | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFieldUpdateOperationsInput | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  setup_fee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  grace_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  max_branches?: Prisma.IntFieldUpdateOperationsInput | number
+  max_users?: Prisma.IntFieldUpdateOperationsInput | number
+  max_stores?: Prisma.IntFieldUpdateOperationsInput | number
+  max_warehouses?: Prisma.IntFieldUpdateOperationsInput | number
+  max_products?: Prisma.IntFieldUpdateOperationsInput | number
+  max_tables?: Prisma.IntFieldUpdateOperationsInput | number
+  max_pos_registers?: Prisma.IntFieldUpdateOperationsInput | number
+  max_monthly_orders?: Prisma.IntFieldUpdateOperationsInput | number
+  max_storage_mb?: Prisma.IntFieldUpdateOperationsInput | number
+  has_restaurant_pos?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_inventory_tracking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_kitchen_display?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_delivery_management?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_api_access?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_advanced_reports?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_audit_logs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_priority_support?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowed_modules?: Prisma.subscriptionsUpdateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_popular?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutSubscriptionsNestedInput
 }
 
 export type subscriptionsUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tier?: Prisma.Enumsubscription_tierFieldUpdateOperationsInput | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFieldUpdateOperationsInput | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  setup_fee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  grace_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  max_branches?: Prisma.IntFieldUpdateOperationsInput | number
+  max_users?: Prisma.IntFieldUpdateOperationsInput | number
+  max_stores?: Prisma.IntFieldUpdateOperationsInput | number
+  max_warehouses?: Prisma.IntFieldUpdateOperationsInput | number
+  max_products?: Prisma.IntFieldUpdateOperationsInput | number
+  max_tables?: Prisma.IntFieldUpdateOperationsInput | number
+  max_pos_registers?: Prisma.IntFieldUpdateOperationsInput | number
+  max_monthly_orders?: Prisma.IntFieldUpdateOperationsInput | number
+  max_storage_mb?: Prisma.IntFieldUpdateOperationsInput | number
+  has_restaurant_pos?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_inventory_tracking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_kitchen_display?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_delivery_management?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_api_access?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_advanced_reports?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_audit_logs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_priority_support?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowed_modules?: Prisma.subscriptionsUpdateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_popular?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsNestedInput
 }
 
 export type subscriptionsCreateManyInput = {
+  id?: string
+  code?: string | null
   name: string
+  description?: string | null
+  tier?: $Enums.subscription_tier
+  billing_interval?: $Enums.billing_interval_enum
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  setup_fee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: number
+  grace_period_days?: number
+  max_branches?: number
+  max_users?: number
+  max_stores?: number
+  max_warehouses?: number
+  max_products?: number
+  max_tables?: number
+  max_pos_registers?: number
+  max_monthly_orders?: number
+  max_storage_mb?: number
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: Prisma.subscriptionsCreateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: number
   created_at?: Date | string | null
-  id?: string
+  updated_at?: Date | string | null
 }
 
 export type subscriptionsUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tier?: Prisma.Enumsubscription_tierFieldUpdateOperationsInput | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFieldUpdateOperationsInput | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  setup_fee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  grace_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  max_branches?: Prisma.IntFieldUpdateOperationsInput | number
+  max_users?: Prisma.IntFieldUpdateOperationsInput | number
+  max_stores?: Prisma.IntFieldUpdateOperationsInput | number
+  max_warehouses?: Prisma.IntFieldUpdateOperationsInput | number
+  max_products?: Prisma.IntFieldUpdateOperationsInput | number
+  max_tables?: Prisma.IntFieldUpdateOperationsInput | number
+  max_pos_registers?: Prisma.IntFieldUpdateOperationsInput | number
+  max_monthly_orders?: Prisma.IntFieldUpdateOperationsInput | number
+  max_storage_mb?: Prisma.IntFieldUpdateOperationsInput | number
+  has_restaurant_pos?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_inventory_tracking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_kitchen_display?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_delivery_management?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_api_access?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_advanced_reports?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_audit_logs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_priority_support?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowed_modules?: Prisma.subscriptionsUpdateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_popular?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type subscriptionsUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tier?: Prisma.Enumsubscription_tierFieldUpdateOperationsInput | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFieldUpdateOperationsInput | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  setup_fee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  grace_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  max_branches?: Prisma.IntFieldUpdateOperationsInput | number
+  max_users?: Prisma.IntFieldUpdateOperationsInput | number
+  max_stores?: Prisma.IntFieldUpdateOperationsInput | number
+  max_warehouses?: Prisma.IntFieldUpdateOperationsInput | number
+  max_products?: Prisma.IntFieldUpdateOperationsInput | number
+  max_tables?: Prisma.IntFieldUpdateOperationsInput | number
+  max_pos_registers?: Prisma.IntFieldUpdateOperationsInput | number
+  max_monthly_orders?: Prisma.IntFieldUpdateOperationsInput | number
+  max_storage_mb?: Prisma.IntFieldUpdateOperationsInput | number
+  has_restaurant_pos?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_inventory_tracking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_kitchen_display?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_delivery_management?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_api_access?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_advanced_reports?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_audit_logs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_priority_support?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowed_modules?: Prisma.subscriptionsUpdateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_popular?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type Enumuser_moduleNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.user_module[] | Prisma.ListEnumuser_moduleFieldRefInput<$PrismaModel> | null
+  has?: $Enums.user_module | Prisma.Enumuser_moduleFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.user_module[] | Prisma.ListEnumuser_moduleFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.user_module[] | Prisma.ListEnumuser_moduleFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type subscriptionsCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  billing_interval?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  has_restaurant_pos?: Prisma.SortOrder
+  has_inventory_tracking?: Prisma.SortOrder
+  has_kitchen_display?: Prisma.SortOrder
+  has_delivery_management?: Prisma.SortOrder
+  has_api_access?: Prisma.SortOrder
+  has_advanced_reports?: Prisma.SortOrder
+  has_audit_logs?: Prisma.SortOrder
+  has_priority_support?: Prisma.SortOrder
+  allowed_modules?: Prisma.SortOrder
+  features?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  is_public?: Prisma.SortOrder
+  is_popular?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  id?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type subscriptionsAvgOrderByAggregateInput = {
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
 }
 
 export type subscriptionsMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  billing_interval?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  has_restaurant_pos?: Prisma.SortOrder
+  has_inventory_tracking?: Prisma.SortOrder
+  has_kitchen_display?: Prisma.SortOrder
+  has_delivery_management?: Prisma.SortOrder
+  has_api_access?: Prisma.SortOrder
+  has_advanced_reports?: Prisma.SortOrder
+  has_audit_logs?: Prisma.SortOrder
+  has_priority_support?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  is_public?: Prisma.SortOrder
+  is_popular?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  id?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type subscriptionsMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  tier?: Prisma.SortOrder
+  billing_interval?: Prisma.SortOrder
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  has_restaurant_pos?: Prisma.SortOrder
+  has_inventory_tracking?: Prisma.SortOrder
+  has_kitchen_display?: Prisma.SortOrder
+  has_delivery_management?: Prisma.SortOrder
+  has_api_access?: Prisma.SortOrder
+  has_advanced_reports?: Prisma.SortOrder
+  has_audit_logs?: Prisma.SortOrder
+  has_priority_support?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  is_public?: Prisma.SortOrder
+  is_popular?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  id?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
 }
 
 export type subscriptionsSumOrderByAggregateInput = {
   duration_months?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  setup_fee?: Prisma.SortOrder
+  discount_percentage?: Prisma.SortOrder
+  trial_period_days?: Prisma.SortOrder
+  grace_period_days?: Prisma.SortOrder
+  max_branches?: Prisma.SortOrder
+  max_users?: Prisma.SortOrder
+  max_stores?: Prisma.SortOrder
+  max_warehouses?: Prisma.SortOrder
+  max_products?: Prisma.SortOrder
+  max_tables?: Prisma.SortOrder
+  max_pos_registers?: Prisma.SortOrder
+  max_monthly_orders?: Prisma.SortOrder
+  max_storage_mb?: Prisma.SortOrder
+  sort_order?: Prisma.SortOrder
 }
 
 export type SubscriptionsScalarRelationFilter = {
   is?: Prisma.subscriptionsWhereInput
   isNot?: Prisma.subscriptionsWhereInput
+}
+
+export type subscriptionsCreateallowed_modulesInput = {
+  set: $Enums.user_module[]
+}
+
+export type Enumsubscription_tierFieldUpdateOperationsInput = {
+  set?: $Enums.subscription_tier
+}
+
+export type Enumbilling_interval_enumFieldUpdateOperationsInput = {
+  set?: $Enums.billing_interval_enum
+}
+
+export type subscriptionsUpdateallowed_modulesInput = {
+  set?: $Enums.user_module[]
+  push?: $Enums.user_module | $Enums.user_module[]
 }
 
 export type subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput = {
@@ -382,19 +1221,87 @@ export type subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
 }
 
 export type subscriptionsCreateWithoutTenant_subscriptionsInput = {
+  id?: string
+  code?: string | null
   name: string
+  description?: string | null
+  tier?: $Enums.subscription_tier
+  billing_interval?: $Enums.billing_interval_enum
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  setup_fee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: number
+  grace_period_days?: number
+  max_branches?: number
+  max_users?: number
+  max_stores?: number
+  max_warehouses?: number
+  max_products?: number
+  max_tables?: number
+  max_pos_registers?: number
+  max_monthly_orders?: number
+  max_storage_mb?: number
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: Prisma.subscriptionsCreateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: number
   created_at?: Date | string | null
-  id?: string
+  updated_at?: Date | string | null
 }
 
 export type subscriptionsUncheckedCreateWithoutTenant_subscriptionsInput = {
+  id?: string
+  code?: string | null
   name: string
+  description?: string | null
+  tier?: $Enums.subscription_tier
+  billing_interval?: $Enums.billing_interval_enum
   duration_months: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  setup_fee?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: number
+  grace_period_days?: number
+  max_branches?: number
+  max_users?: number
+  max_stores?: number
+  max_warehouses?: number
+  max_products?: number
+  max_tables?: number
+  max_pos_registers?: number
+  max_monthly_orders?: number
+  max_storage_mb?: number
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: Prisma.subscriptionsCreateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: number
   created_at?: Date | string | null
-  id?: string
+  updated_at?: Date | string | null
 }
 
 export type subscriptionsCreateOrConnectWithoutTenant_subscriptionsInput = {
@@ -414,19 +1321,87 @@ export type subscriptionsUpdateToOneWithWhereWithoutTenant_subscriptionsInput = 
 }
 
 export type subscriptionsUpdateWithoutTenant_subscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tier?: Prisma.Enumsubscription_tierFieldUpdateOperationsInput | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFieldUpdateOperationsInput | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  setup_fee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  grace_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  max_branches?: Prisma.IntFieldUpdateOperationsInput | number
+  max_users?: Prisma.IntFieldUpdateOperationsInput | number
+  max_stores?: Prisma.IntFieldUpdateOperationsInput | number
+  max_warehouses?: Prisma.IntFieldUpdateOperationsInput | number
+  max_products?: Prisma.IntFieldUpdateOperationsInput | number
+  max_tables?: Prisma.IntFieldUpdateOperationsInput | number
+  max_pos_registers?: Prisma.IntFieldUpdateOperationsInput | number
+  max_monthly_orders?: Prisma.IntFieldUpdateOperationsInput | number
+  max_storage_mb?: Prisma.IntFieldUpdateOperationsInput | number
+  has_restaurant_pos?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_inventory_tracking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_kitchen_display?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_delivery_management?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_api_access?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_advanced_reports?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_audit_logs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_priority_support?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowed_modules?: Prisma.subscriptionsUpdateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_popular?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type subscriptionsUncheckedUpdateWithoutTenant_subscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tier?: Prisma.Enumsubscription_tierFieldUpdateOperationsInput | $Enums.subscription_tier
+  billing_interval?: Prisma.Enumbilling_interval_enumFieldUpdateOperationsInput | $Enums.billing_interval_enum
   duration_months?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  setup_fee?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_percentage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  trial_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  grace_period_days?: Prisma.IntFieldUpdateOperationsInput | number
+  max_branches?: Prisma.IntFieldUpdateOperationsInput | number
+  max_users?: Prisma.IntFieldUpdateOperationsInput | number
+  max_stores?: Prisma.IntFieldUpdateOperationsInput | number
+  max_warehouses?: Prisma.IntFieldUpdateOperationsInput | number
+  max_products?: Prisma.IntFieldUpdateOperationsInput | number
+  max_tables?: Prisma.IntFieldUpdateOperationsInput | number
+  max_pos_registers?: Prisma.IntFieldUpdateOperationsInput | number
+  max_monthly_orders?: Prisma.IntFieldUpdateOperationsInput | number
+  max_storage_mb?: Prisma.IntFieldUpdateOperationsInput | number
+  has_restaurant_pos?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_inventory_tracking?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_kitchen_display?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_delivery_management?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_api_access?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_advanced_reports?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_audit_logs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  has_priority_support?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  allowed_modules?: Prisma.subscriptionsUpdateallowed_modulesInput | $Enums.user_module[]
+  features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_public?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_popular?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sort_order?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -461,40 +1436,176 @@ export type SubscriptionsCountOutputTypeCountTenant_subscriptionsArgs<ExtArgs ex
 
 
 export type subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  code?: boolean
   name?: boolean
+  description?: boolean
+  tier?: boolean
+  billing_interval?: boolean
   duration_months?: boolean
   price?: boolean
+  currency?: boolean
+  setup_fee?: boolean
+  discount_percentage?: boolean
+  trial_period_days?: boolean
+  grace_period_days?: boolean
+  max_branches?: boolean
+  max_users?: boolean
+  max_stores?: boolean
+  max_warehouses?: boolean
+  max_products?: boolean
+  max_tables?: boolean
+  max_pos_registers?: boolean
+  max_monthly_orders?: boolean
+  max_storage_mb?: boolean
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: boolean
+  features?: boolean
+  metadata?: boolean
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: boolean
   created_at?: boolean
-  id?: boolean
+  updated_at?: boolean
   tenant_subscriptions?: boolean | Prisma.subscriptions$tenant_subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.SubscriptionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscriptions"]>
 
 export type subscriptionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  code?: boolean
   name?: boolean
+  description?: boolean
+  tier?: boolean
+  billing_interval?: boolean
   duration_months?: boolean
   price?: boolean
+  currency?: boolean
+  setup_fee?: boolean
+  discount_percentage?: boolean
+  trial_period_days?: boolean
+  grace_period_days?: boolean
+  max_branches?: boolean
+  max_users?: boolean
+  max_stores?: boolean
+  max_warehouses?: boolean
+  max_products?: boolean
+  max_tables?: boolean
+  max_pos_registers?: boolean
+  max_monthly_orders?: boolean
+  max_storage_mb?: boolean
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: boolean
+  features?: boolean
+  metadata?: boolean
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: boolean
   created_at?: boolean
-  id?: boolean
+  updated_at?: boolean
 }, ExtArgs["result"]["subscriptions"]>
 
 export type subscriptionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  code?: boolean
   name?: boolean
+  description?: boolean
+  tier?: boolean
+  billing_interval?: boolean
   duration_months?: boolean
   price?: boolean
+  currency?: boolean
+  setup_fee?: boolean
+  discount_percentage?: boolean
+  trial_period_days?: boolean
+  grace_period_days?: boolean
+  max_branches?: boolean
+  max_users?: boolean
+  max_stores?: boolean
+  max_warehouses?: boolean
+  max_products?: boolean
+  max_tables?: boolean
+  max_pos_registers?: boolean
+  max_monthly_orders?: boolean
+  max_storage_mb?: boolean
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: boolean
+  features?: boolean
+  metadata?: boolean
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: boolean
   created_at?: boolean
-  id?: boolean
+  updated_at?: boolean
 }, ExtArgs["result"]["subscriptions"]>
 
 export type subscriptionsSelectScalar = {
+  id?: boolean
+  code?: boolean
   name?: boolean
+  description?: boolean
+  tier?: boolean
+  billing_interval?: boolean
   duration_months?: boolean
   price?: boolean
+  currency?: boolean
+  setup_fee?: boolean
+  discount_percentage?: boolean
+  trial_period_days?: boolean
+  grace_period_days?: boolean
+  max_branches?: boolean
+  max_users?: boolean
+  max_stores?: boolean
+  max_warehouses?: boolean
+  max_products?: boolean
+  max_tables?: boolean
+  max_pos_registers?: boolean
+  max_monthly_orders?: boolean
+  max_storage_mb?: boolean
+  has_restaurant_pos?: boolean
+  has_inventory_tracking?: boolean
+  has_kitchen_display?: boolean
+  has_delivery_management?: boolean
+  has_api_access?: boolean
+  has_advanced_reports?: boolean
+  has_audit_logs?: boolean
+  has_priority_support?: boolean
+  allowed_modules?: boolean
+  features?: boolean
+  metadata?: boolean
+  is_active?: boolean
+  is_public?: boolean
+  is_popular?: boolean
+  sort_order?: boolean
   created_at?: boolean
-  id?: boolean
+  updated_at?: boolean
 }
 
-export type subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "duration_months" | "price" | "created_at" | "id", ExtArgs["result"]["subscriptions"]>
+export type subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "tier" | "billing_interval" | "duration_months" | "price" | "currency" | "setup_fee" | "discount_percentage" | "trial_period_days" | "grace_period_days" | "max_branches" | "max_users" | "max_stores" | "max_warehouses" | "max_products" | "max_tables" | "max_pos_registers" | "max_monthly_orders" | "max_storage_mb" | "has_restaurant_pos" | "has_inventory_tracking" | "has_kitchen_display" | "has_delivery_management" | "has_api_access" | "has_advanced_reports" | "has_audit_logs" | "has_priority_support" | "allowed_modules" | "features" | "metadata" | "is_active" | "is_public" | "is_popular" | "sort_order" | "created_at" | "updated_at", ExtArgs["result"]["subscriptions"]>
 export type subscriptionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant_subscriptions?: boolean | Prisma.subscriptions$tenant_subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.SubscriptionsCountOutputTypeDefaultArgs<ExtArgs>
@@ -508,11 +1619,45 @@ export type $subscriptionsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     tenant_subscriptions: Prisma.$tenant_subscriptionsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: string
+    code: string | null
     name: string
+    description: string | null
+    tier: $Enums.subscription_tier
+    billing_interval: $Enums.billing_interval_enum
     duration_months: number
     price: runtime.Decimal
+    currency: string
+    setup_fee: runtime.Decimal
+    discount_percentage: runtime.Decimal
+    trial_period_days: number
+    grace_period_days: number
+    max_branches: number
+    max_users: number
+    max_stores: number
+    max_warehouses: number
+    max_products: number
+    max_tables: number
+    max_pos_registers: number
+    max_monthly_orders: number
+    max_storage_mb: number
+    has_restaurant_pos: boolean
+    has_inventory_tracking: boolean
+    has_kitchen_display: boolean
+    has_delivery_management: boolean
+    has_api_access: boolean
+    has_advanced_reports: boolean
+    has_audit_logs: boolean
+    has_priority_support: boolean
+    allowed_modules: $Enums.user_module[]
+    features: runtime.JsonValue
+    metadata: runtime.JsonValue
+    is_active: boolean
+    is_public: boolean
+    is_popular: boolean
+    sort_order: number
     created_at: Date | null
-    id: string
+    updated_at: Date | null
   }, ExtArgs["result"]["subscriptions"]>
   composites: {}
 }
@@ -596,8 +1741,8 @@ export interface subscriptionsDelegate<ExtArgs extends runtime.Types.Extensions.
    * // Get first 10 Subscriptions
    * const subscriptions = await prisma.subscriptions.findMany({ take: 10 })
    * 
-   * // Only select the `name`
-   * const subscriptionsWithNameOnly = await prisma.subscriptions.findMany({ select: { name: true } })
+   * // Only select the `id`
+   * const subscriptionsWithIdOnly = await prisma.subscriptions.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends subscriptionsFindManyArgs>(args?: Prisma.SelectSubset<T, subscriptionsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$subscriptionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -641,9 +1786,9 @@ export interface subscriptionsDelegate<ExtArgs extends runtime.Types.Extensions.
    *   ]
    * })
    * 
-   * // Create many Subscriptions and only return the `name`
-   * const subscriptionsWithNameOnly = await prisma.subscriptions.createManyAndReturn({
-   *   select: { name: true },
+   * // Create many Subscriptions and only return the `id`
+   * const subscriptionsWithIdOnly = await prisma.subscriptions.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -732,9 +1877,9 @@ export interface subscriptionsDelegate<ExtArgs extends runtime.Types.Extensions.
    *   ]
    * })
    * 
-   * // Update zero or more Subscriptions and only return the `name`
-   * const subscriptionsWithNameOnly = await prisma.subscriptions.updateManyAndReturn({
-   *   select: { name: true },
+   * // Update zero or more Subscriptions and only return the `id`
+   * const subscriptionsWithIdOnly = await prisma.subscriptions.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -937,11 +2082,45 @@ export interface Prisma__subscriptionsClient<T, Null = never, ExtArgs extends ru
  * Fields of the subscriptions model
  */
 export interface subscriptionsFieldRefs {
+  readonly id: Prisma.FieldRef<"subscriptions", 'String'>
+  readonly code: Prisma.FieldRef<"subscriptions", 'String'>
   readonly name: Prisma.FieldRef<"subscriptions", 'String'>
+  readonly description: Prisma.FieldRef<"subscriptions", 'String'>
+  readonly tier: Prisma.FieldRef<"subscriptions", 'subscription_tier'>
+  readonly billing_interval: Prisma.FieldRef<"subscriptions", 'billing_interval_enum'>
   readonly duration_months: Prisma.FieldRef<"subscriptions", 'Int'>
   readonly price: Prisma.FieldRef<"subscriptions", 'Decimal'>
+  readonly currency: Prisma.FieldRef<"subscriptions", 'String'>
+  readonly setup_fee: Prisma.FieldRef<"subscriptions", 'Decimal'>
+  readonly discount_percentage: Prisma.FieldRef<"subscriptions", 'Decimal'>
+  readonly trial_period_days: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly grace_period_days: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_branches: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_users: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_stores: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_warehouses: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_products: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_tables: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_pos_registers: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_monthly_orders: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly max_storage_mb: Prisma.FieldRef<"subscriptions", 'Int'>
+  readonly has_restaurant_pos: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_inventory_tracking: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_kitchen_display: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_delivery_management: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_api_access: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_advanced_reports: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_audit_logs: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly has_priority_support: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly allowed_modules: Prisma.FieldRef<"subscriptions", 'user_module[]'>
+  readonly features: Prisma.FieldRef<"subscriptions", 'Json'>
+  readonly metadata: Prisma.FieldRef<"subscriptions", 'Json'>
+  readonly is_active: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly is_public: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly is_popular: Prisma.FieldRef<"subscriptions", 'Boolean'>
+  readonly sort_order: Prisma.FieldRef<"subscriptions", 'Int'>
   readonly created_at: Prisma.FieldRef<"subscriptions", 'DateTime'>
-  readonly id: Prisma.FieldRef<"subscriptions", 'String'>
+  readonly updated_at: Prisma.FieldRef<"subscriptions", 'DateTime'>
 }
     
 

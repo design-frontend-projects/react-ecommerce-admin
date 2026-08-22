@@ -27,11 +27,25 @@ export type AggregateTenant_subscriptions = {
 }
 
 export type Tenant_subscriptionsAvgAggregateOutputType = {
+  price_at_purchase: runtime.Decimal | null
   commission_amount: runtime.Decimal | null
+  custom_max_branches: number | null
+  custom_max_users: number | null
+  custom_max_stores: number | null
+  custom_max_warehouses: number | null
+  custom_max_products: number | null
+  custom_max_storage_mb: number | null
 }
 
 export type Tenant_subscriptionsSumAggregateOutputType = {
+  price_at_purchase: runtime.Decimal | null
   commission_amount: runtime.Decimal | null
+  custom_max_branches: number | null
+  custom_max_users: number | null
+  custom_max_stores: number | null
+  custom_max_warehouses: number | null
+  custom_max_products: number | null
+  custom_max_storage_mb: number | null
 }
 
 export type Tenant_subscriptionsMinAggregateOutputType = {
@@ -42,6 +56,12 @@ export type Tenant_subscriptionsMinAggregateOutputType = {
   first_use: boolean | null
   start_date: Date | null
   end_date: Date | null
+  trial_ends_at: Date | null
+  grace_ends_at: Date | null
+  cancelled_at: Date | null
+  auto_renew: boolean | null
+  price_at_purchase: runtime.Decimal | null
+  currency: string | null
   created_at: Date | null
   updated_at: Date | null
   commission_amount: runtime.Decimal | null
@@ -53,6 +73,12 @@ export type Tenant_subscriptionsMinAggregateOutputType = {
   subscription_id: string | null
   payment_method: string | null
   transfer_ref: string | null
+  custom_max_branches: number | null
+  custom_max_users: number | null
+  custom_max_stores: number | null
+  custom_max_warehouses: number | null
+  custom_max_products: number | null
+  custom_max_storage_mb: number | null
 }
 
 export type Tenant_subscriptionsMaxAggregateOutputType = {
@@ -63,6 +89,12 @@ export type Tenant_subscriptionsMaxAggregateOutputType = {
   first_use: boolean | null
   start_date: Date | null
   end_date: Date | null
+  trial_ends_at: Date | null
+  grace_ends_at: Date | null
+  cancelled_at: Date | null
+  auto_renew: boolean | null
+  price_at_purchase: runtime.Decimal | null
+  currency: string | null
   created_at: Date | null
   updated_at: Date | null
   commission_amount: runtime.Decimal | null
@@ -74,6 +106,12 @@ export type Tenant_subscriptionsMaxAggregateOutputType = {
   subscription_id: string | null
   payment_method: string | null
   transfer_ref: string | null
+  custom_max_branches: number | null
+  custom_max_users: number | null
+  custom_max_stores: number | null
+  custom_max_warehouses: number | null
+  custom_max_products: number | null
+  custom_max_storage_mb: number | null
 }
 
 export type Tenant_subscriptionsCountAggregateOutputType = {
@@ -84,6 +122,12 @@ export type Tenant_subscriptionsCountAggregateOutputType = {
   first_use: number
   start_date: number
   end_date: number
+  trial_ends_at: number
+  grace_ends_at: number
+  cancelled_at: number
+  auto_renew: number
+  price_at_purchase: number
+  currency: number
   created_at: number
   updated_at: number
   commission_amount: number
@@ -95,16 +139,38 @@ export type Tenant_subscriptionsCountAggregateOutputType = {
   subscription_id: number
   payment_method: number
   transfer_ref: number
+  billing_details: number
+  custom_max_branches: number
+  custom_max_users: number
+  custom_max_stores: number
+  custom_max_warehouses: number
+  custom_max_products: number
+  custom_max_storage_mb: number
+  custom_features: number
   _all: number
 }
 
 
 export type Tenant_subscriptionsAvgAggregateInputType = {
+  price_at_purchase?: true
   commission_amount?: true
+  custom_max_branches?: true
+  custom_max_users?: true
+  custom_max_stores?: true
+  custom_max_warehouses?: true
+  custom_max_products?: true
+  custom_max_storage_mb?: true
 }
 
 export type Tenant_subscriptionsSumAggregateInputType = {
+  price_at_purchase?: true
   commission_amount?: true
+  custom_max_branches?: true
+  custom_max_users?: true
+  custom_max_stores?: true
+  custom_max_warehouses?: true
+  custom_max_products?: true
+  custom_max_storage_mb?: true
 }
 
 export type Tenant_subscriptionsMinAggregateInputType = {
@@ -115,6 +181,12 @@ export type Tenant_subscriptionsMinAggregateInputType = {
   first_use?: true
   start_date?: true
   end_date?: true
+  trial_ends_at?: true
+  grace_ends_at?: true
+  cancelled_at?: true
+  auto_renew?: true
+  price_at_purchase?: true
+  currency?: true
   created_at?: true
   updated_at?: true
   commission_amount?: true
@@ -126,6 +198,12 @@ export type Tenant_subscriptionsMinAggregateInputType = {
   subscription_id?: true
   payment_method?: true
   transfer_ref?: true
+  custom_max_branches?: true
+  custom_max_users?: true
+  custom_max_stores?: true
+  custom_max_warehouses?: true
+  custom_max_products?: true
+  custom_max_storage_mb?: true
 }
 
 export type Tenant_subscriptionsMaxAggregateInputType = {
@@ -136,6 +214,12 @@ export type Tenant_subscriptionsMaxAggregateInputType = {
   first_use?: true
   start_date?: true
   end_date?: true
+  trial_ends_at?: true
+  grace_ends_at?: true
+  cancelled_at?: true
+  auto_renew?: true
+  price_at_purchase?: true
+  currency?: true
   created_at?: true
   updated_at?: true
   commission_amount?: true
@@ -147,6 +231,12 @@ export type Tenant_subscriptionsMaxAggregateInputType = {
   subscription_id?: true
   payment_method?: true
   transfer_ref?: true
+  custom_max_branches?: true
+  custom_max_users?: true
+  custom_max_stores?: true
+  custom_max_warehouses?: true
+  custom_max_products?: true
+  custom_max_storage_mb?: true
 }
 
 export type Tenant_subscriptionsCountAggregateInputType = {
@@ -157,6 +247,12 @@ export type Tenant_subscriptionsCountAggregateInputType = {
   first_use?: true
   start_date?: true
   end_date?: true
+  trial_ends_at?: true
+  grace_ends_at?: true
+  cancelled_at?: true
+  auto_renew?: true
+  price_at_purchase?: true
+  currency?: true
   created_at?: true
   updated_at?: true
   commission_amount?: true
@@ -168,6 +264,14 @@ export type Tenant_subscriptionsCountAggregateInputType = {
   subscription_id?: true
   payment_method?: true
   transfer_ref?: true
+  billing_details?: true
+  custom_max_branches?: true
+  custom_max_users?: true
+  custom_max_stores?: true
+  custom_max_warehouses?: true
+  custom_max_products?: true
+  custom_max_storage_mb?: true
+  custom_features?: true
   _all?: true
 }
 
@@ -265,6 +369,12 @@ export type Tenant_subscriptionsGroupByOutputType = {
   first_use: boolean
   start_date: Date | null
   end_date: Date | null
+  trial_ends_at: Date | null
+  grace_ends_at: Date | null
+  cancelled_at: Date | null
+  auto_renew: boolean
+  price_at_purchase: runtime.Decimal | null
+  currency: string
   created_at: Date | null
   updated_at: Date | null
   commission_amount: runtime.Decimal | null
@@ -276,6 +386,14 @@ export type Tenant_subscriptionsGroupByOutputType = {
   subscription_id: string
   payment_method: string | null
   transfer_ref: string | null
+  billing_details: runtime.JsonValue | null
+  custom_max_branches: number | null
+  custom_max_users: number | null
+  custom_max_stores: number | null
+  custom_max_warehouses: number | null
+  custom_max_products: number | null
+  custom_max_storage_mb: number | null
+  custom_features: runtime.JsonValue | null
   _count: Tenant_subscriptionsCountAggregateOutputType | null
   _avg: Tenant_subscriptionsAvgAggregateOutputType | null
   _sum: Tenant_subscriptionsSumAggregateOutputType | null
@@ -309,6 +427,12 @@ export type tenant_subscriptionsWhereInput = {
   first_use?: Prisma.BoolFilter<"tenant_subscriptions"> | boolean
   start_date?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  trial_ends_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  grace_ends_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  auto_renew?: Prisma.BoolFilter<"tenant_subscriptions"> | boolean
+  price_at_purchase?: Prisma.DecimalNullableFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFilter<"tenant_subscriptions"> | string
   created_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   commission_amount?: Prisma.DecimalNullableFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -320,8 +444,17 @@ export type tenant_subscriptionsWhereInput = {
   subscription_id?: Prisma.UuidFilter<"tenant_subscriptions"> | string
   payment_method?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   transfer_ref?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
+  billing_details?: Prisma.JsonNullableFilter<"tenant_subscriptions">
+  custom_max_branches?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_users?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_stores?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_warehouses?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_products?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_storage_mb?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_features?: Prisma.JsonNullableFilter<"tenant_subscriptions">
   subscriptions?: Prisma.XOR<Prisma.SubscriptionsScalarRelationFilter, Prisma.subscriptionsWhereInput>
   tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  subscription_invoices?: Prisma.Subscription_invoicesListRelationFilter
 }
 
 export type tenant_subscriptionsOrderByWithRelationInput = {
@@ -332,6 +465,12 @@ export type tenant_subscriptionsOrderByWithRelationInput = {
   first_use?: Prisma.SortOrder
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  trial_ends_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  grace_ends_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  auto_renew?: Prisma.SortOrder
+  price_at_purchase?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   commission_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -343,8 +482,17 @@ export type tenant_subscriptionsOrderByWithRelationInput = {
   subscription_id?: Prisma.SortOrder
   payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
   transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
+  billing_details?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_features?: Prisma.SortOrderInput | Prisma.SortOrder
   subscriptions?: Prisma.subscriptionsOrderByWithRelationInput
   tenants?: Prisma.tenantsOrderByWithRelationInput
+  subscription_invoices?: Prisma.subscription_invoicesOrderByRelationAggregateInput
 }
 
 export type tenant_subscriptionsWhereUniqueInput = Prisma.AtLeast<{
@@ -358,6 +506,12 @@ export type tenant_subscriptionsWhereUniqueInput = Prisma.AtLeast<{
   first_use?: Prisma.BoolFilter<"tenant_subscriptions"> | boolean
   start_date?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  trial_ends_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  grace_ends_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  auto_renew?: Prisma.BoolFilter<"tenant_subscriptions"> | boolean
+  price_at_purchase?: Prisma.DecimalNullableFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFilter<"tenant_subscriptions"> | string
   created_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   commission_amount?: Prisma.DecimalNullableFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -369,8 +523,17 @@ export type tenant_subscriptionsWhereUniqueInput = Prisma.AtLeast<{
   subscription_id?: Prisma.UuidFilter<"tenant_subscriptions"> | string
   payment_method?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   transfer_ref?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
+  billing_details?: Prisma.JsonNullableFilter<"tenant_subscriptions">
+  custom_max_branches?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_users?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_stores?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_warehouses?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_products?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_storage_mb?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_features?: Prisma.JsonNullableFilter<"tenant_subscriptions">
   subscriptions?: Prisma.XOR<Prisma.SubscriptionsScalarRelationFilter, Prisma.subscriptionsWhereInput>
   tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
+  subscription_invoices?: Prisma.Subscription_invoicesListRelationFilter
 }, "id">
 
 export type tenant_subscriptionsOrderByWithAggregationInput = {
@@ -381,6 +544,12 @@ export type tenant_subscriptionsOrderByWithAggregationInput = {
   first_use?: Prisma.SortOrder
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  trial_ends_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  grace_ends_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  auto_renew?: Prisma.SortOrder
+  price_at_purchase?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   commission_amount?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -392,6 +561,14 @@ export type tenant_subscriptionsOrderByWithAggregationInput = {
   subscription_id?: Prisma.SortOrder
   payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
   transfer_ref?: Prisma.SortOrderInput | Prisma.SortOrder
+  billing_details?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrderInput | Prisma.SortOrder
+  custom_features?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.tenant_subscriptionsCountOrderByAggregateInput
   _avg?: Prisma.tenant_subscriptionsAvgOrderByAggregateInput
   _max?: Prisma.tenant_subscriptionsMaxOrderByAggregateInput
@@ -410,6 +587,12 @@ export type tenant_subscriptionsScalarWhereWithAggregatesInput = {
   first_use?: Prisma.BoolWithAggregatesFilter<"tenant_subscriptions"> | boolean
   start_date?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
+  trial_ends_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
+  grace_ends_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
+  auto_renew?: Prisma.BoolWithAggregatesFilter<"tenant_subscriptions"> | boolean
+  price_at_purchase?: Prisma.DecimalNullableWithAggregatesFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringWithAggregatesFilter<"tenant_subscriptions"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_subscriptions"> | Date | string | null
   commission_amount?: Prisma.DecimalNullableWithAggregatesFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -421,6 +604,14 @@ export type tenant_subscriptionsScalarWhereWithAggregatesInput = {
   subscription_id?: Prisma.UuidWithAggregatesFilter<"tenant_subscriptions"> | string
   payment_method?: Prisma.StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
   transfer_ref?: Prisma.StringNullableWithAggregatesFilter<"tenant_subscriptions"> | string | null
+  billing_details?: Prisma.JsonNullableWithAggregatesFilter<"tenant_subscriptions">
+  custom_max_branches?: Prisma.IntNullableWithAggregatesFilter<"tenant_subscriptions"> | number | null
+  custom_max_users?: Prisma.IntNullableWithAggregatesFilter<"tenant_subscriptions"> | number | null
+  custom_max_stores?: Prisma.IntNullableWithAggregatesFilter<"tenant_subscriptions"> | number | null
+  custom_max_warehouses?: Prisma.IntNullableWithAggregatesFilter<"tenant_subscriptions"> | number | null
+  custom_max_products?: Prisma.IntNullableWithAggregatesFilter<"tenant_subscriptions"> | number | null
+  custom_max_storage_mb?: Prisma.IntNullableWithAggregatesFilter<"tenant_subscriptions"> | number | null
+  custom_features?: Prisma.JsonNullableWithAggregatesFilter<"tenant_subscriptions">
 }
 
 export type tenant_subscriptionsCreateInput = {
@@ -431,6 +622,12 @@ export type tenant_subscriptionsCreateInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -440,8 +637,17 @@ export type tenant_subscriptionsCreateInput = {
   is_owner?: boolean | null
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   subscriptions: Prisma.subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_subscriptionsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenant_subscriptionsInput
 }
 
 export type tenant_subscriptionsUncheckedCreateInput = {
@@ -452,6 +658,12 @@ export type tenant_subscriptionsUncheckedCreateInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -463,6 +675,15 @@ export type tenant_subscriptionsUncheckedCreateInput = {
   subscription_id: string
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
 }
 
 export type tenant_subscriptionsUpdateInput = {
@@ -473,6 +694,12 @@ export type tenant_subscriptionsUpdateInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -482,8 +709,17 @@ export type tenant_subscriptionsUpdateInput = {
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   subscriptions?: Prisma.subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_subscriptionsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenant_subscriptionsNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateInput = {
@@ -494,6 +730,12 @@ export type tenant_subscriptionsUncheckedUpdateInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -505,6 +747,15 @@ export type tenant_subscriptionsUncheckedUpdateInput = {
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
 }
 
 export type tenant_subscriptionsCreateManyInput = {
@@ -515,6 +766,12 @@ export type tenant_subscriptionsCreateManyInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -526,6 +783,14 @@ export type tenant_subscriptionsCreateManyInput = {
   subscription_id: string
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type tenant_subscriptionsUpdateManyMutationInput = {
@@ -536,6 +801,12 @@ export type tenant_subscriptionsUpdateManyMutationInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -545,6 +816,14 @@ export type tenant_subscriptionsUpdateManyMutationInput = {
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type tenant_subscriptionsUncheckedUpdateManyInput = {
@@ -555,6 +834,12 @@ export type tenant_subscriptionsUncheckedUpdateManyInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -566,6 +851,14 @@ export type tenant_subscriptionsUncheckedUpdateManyInput = {
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type Tenant_subscriptionsListRelationFilter = {
@@ -586,6 +879,12 @@ export type tenant_subscriptionsCountOrderByAggregateInput = {
   first_use?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  trial_ends_at?: Prisma.SortOrder
+  grace_ends_at?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  auto_renew?: Prisma.SortOrder
+  price_at_purchase?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   commission_amount?: Prisma.SortOrder
@@ -597,10 +896,25 @@ export type tenant_subscriptionsCountOrderByAggregateInput = {
   subscription_id?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
   transfer_ref?: Prisma.SortOrder
+  billing_details?: Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrder
+  custom_features?: Prisma.SortOrder
 }
 
 export type tenant_subscriptionsAvgOrderByAggregateInput = {
+  price_at_purchase?: Prisma.SortOrder
   commission_amount?: Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrder
 }
 
 export type tenant_subscriptionsMaxOrderByAggregateInput = {
@@ -611,6 +925,12 @@ export type tenant_subscriptionsMaxOrderByAggregateInput = {
   first_use?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  trial_ends_at?: Prisma.SortOrder
+  grace_ends_at?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  auto_renew?: Prisma.SortOrder
+  price_at_purchase?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   commission_amount?: Prisma.SortOrder
@@ -622,6 +942,12 @@ export type tenant_subscriptionsMaxOrderByAggregateInput = {
   subscription_id?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
   transfer_ref?: Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrder
 }
 
 export type tenant_subscriptionsMinOrderByAggregateInput = {
@@ -632,6 +958,12 @@ export type tenant_subscriptionsMinOrderByAggregateInput = {
   first_use?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  trial_ends_at?: Prisma.SortOrder
+  grace_ends_at?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  auto_renew?: Prisma.SortOrder
+  price_at_purchase?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   commission_amount?: Prisma.SortOrder
@@ -643,10 +975,28 @@ export type tenant_subscriptionsMinOrderByAggregateInput = {
   subscription_id?: Prisma.SortOrder
   payment_method?: Prisma.SortOrder
   transfer_ref?: Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrder
 }
 
 export type tenant_subscriptionsSumOrderByAggregateInput = {
+  price_at_purchase?: Prisma.SortOrder
   commission_amount?: Prisma.SortOrder
+  custom_max_branches?: Prisma.SortOrder
+  custom_max_users?: Prisma.SortOrder
+  custom_max_stores?: Prisma.SortOrder
+  custom_max_warehouses?: Prisma.SortOrder
+  custom_max_products?: Prisma.SortOrder
+  custom_max_storage_mb?: Prisma.SortOrder
+}
+
+export type Tenant_subscriptionsNullableScalarRelationFilter = {
+  is?: Prisma.tenant_subscriptionsWhereInput | null
+  isNot?: Prisma.tenant_subscriptionsWhereInput | null
 }
 
 export type tenant_subscriptionsCreateNestedManyWithoutSubscriptionsInput = {
@@ -699,6 +1049,22 @@ export type Enumsubscription_commission_typeFieldUpdateOperationsInput = {
   set?: $Enums.subscription_commission_type
 }
 
+export type tenant_subscriptionsCreateNestedOneWithoutSubscription_invoicesInput = {
+  create?: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutSubscription_invoicesInput>
+  connectOrCreate?: Prisma.tenant_subscriptionsCreateOrConnectWithoutSubscription_invoicesInput
+  connect?: Prisma.tenant_subscriptionsWhereUniqueInput
+}
+
+export type tenant_subscriptionsUpdateOneWithoutSubscription_invoicesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutSubscription_invoicesInput>
+  connectOrCreate?: Prisma.tenant_subscriptionsCreateOrConnectWithoutSubscription_invoicesInput
+  upsert?: Prisma.tenant_subscriptionsUpsertWithoutSubscription_invoicesInput
+  disconnect?: Prisma.tenant_subscriptionsWhereInput | boolean
+  delete?: Prisma.tenant_subscriptionsWhereInput | boolean
+  connect?: Prisma.tenant_subscriptionsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenant_subscriptionsUpdateToOneWithWhereWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUpdateWithoutSubscription_invoicesInput>, Prisma.tenant_subscriptionsUncheckedUpdateWithoutSubscription_invoicesInput>
+}
+
 export type tenant_subscriptionsCreateNestedManyWithoutTenantsInput = {
   create?: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutTenantsInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutTenantsInput> | Prisma.tenant_subscriptionsCreateWithoutTenantsInput[] | Prisma.tenant_subscriptionsUncheckedCreateWithoutTenantsInput[]
   connectOrCreate?: Prisma.tenant_subscriptionsCreateOrConnectWithoutTenantsInput | Prisma.tenant_subscriptionsCreateOrConnectWithoutTenantsInput[]
@@ -749,6 +1115,12 @@ export type tenant_subscriptionsCreateWithoutSubscriptionsInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -758,7 +1130,16 @@ export type tenant_subscriptionsCreateWithoutSubscriptionsInput = {
   is_owner?: boolean | null
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_subscriptionsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenant_subscriptionsInput
 }
 
 export type tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput = {
@@ -769,6 +1150,12 @@ export type tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -779,6 +1166,15 @@ export type tenant_subscriptionsUncheckedCreateWithoutSubscriptionsInput = {
   tenant_id?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
 }
 
 export type tenant_subscriptionsCreateOrConnectWithoutSubscriptionsInput = {
@@ -818,6 +1214,12 @@ export type tenant_subscriptionsScalarWhereInput = {
   first_use?: Prisma.BoolFilter<"tenant_subscriptions"> | boolean
   start_date?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  trial_ends_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  grace_ends_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
+  auto_renew?: Prisma.BoolFilter<"tenant_subscriptions"> | boolean
+  price_at_purchase?: Prisma.DecimalNullableFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFilter<"tenant_subscriptions"> | string
   created_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"tenant_subscriptions"> | Date | string | null
   commission_amount?: Prisma.DecimalNullableFilter<"tenant_subscriptions"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -829,6 +1231,170 @@ export type tenant_subscriptionsScalarWhereInput = {
   subscription_id?: Prisma.UuidFilter<"tenant_subscriptions"> | string
   payment_method?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
   transfer_ref?: Prisma.StringNullableFilter<"tenant_subscriptions"> | string | null
+  billing_details?: Prisma.JsonNullableFilter<"tenant_subscriptions">
+  custom_max_branches?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_users?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_stores?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_warehouses?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_products?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_max_storage_mb?: Prisma.IntNullableFilter<"tenant_subscriptions"> | number | null
+  custom_features?: Prisma.JsonNullableFilter<"tenant_subscriptions">
+}
+
+export type tenant_subscriptionsCreateWithoutSubscription_invoicesInput = {
+  id?: string
+  auth_user_id: string
+  email: string
+  status?: $Enums.subscription_status
+  first_use?: boolean
+  start_date?: Date | string | null
+  end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  commission_type?: $Enums.subscription_commission_type
+  first_name?: string | null
+  last_name?: string | null
+  is_owner?: boolean | null
+  payment_method?: string | null
+  transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscriptions: Prisma.subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_subscriptionsInput
+}
+
+export type tenant_subscriptionsUncheckedCreateWithoutSubscription_invoicesInput = {
+  id?: string
+  auth_user_id: string
+  email: string
+  status?: $Enums.subscription_status
+  first_use?: boolean
+  start_date?: Date | string | null
+  end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  commission_type?: $Enums.subscription_commission_type
+  first_name?: string | null
+  last_name?: string | null
+  is_owner?: boolean | null
+  tenant_id?: string | null
+  subscription_id: string
+  payment_method?: string | null
+  transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type tenant_subscriptionsCreateOrConnectWithoutSubscription_invoicesInput = {
+  where: Prisma.tenant_subscriptionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutSubscription_invoicesInput>
+}
+
+export type tenant_subscriptionsUpsertWithoutSubscription_invoicesInput = {
+  update: Prisma.XOR<Prisma.tenant_subscriptionsUpdateWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUncheckedUpdateWithoutSubscription_invoicesInput>
+  create: Prisma.XOR<Prisma.tenant_subscriptionsCreateWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUncheckedCreateWithoutSubscription_invoicesInput>
+  where?: Prisma.tenant_subscriptionsWhereInput
+}
+
+export type tenant_subscriptionsUpdateToOneWithWhereWithoutSubscription_invoicesInput = {
+  where?: Prisma.tenant_subscriptionsWhereInput
+  data: Prisma.XOR<Prisma.tenant_subscriptionsUpdateWithoutSubscription_invoicesInput, Prisma.tenant_subscriptionsUncheckedUpdateWithoutSubscription_invoicesInput>
+}
+
+export type tenant_subscriptionsUpdateWithoutSubscription_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsubscription_statusFieldUpdateOperationsInput | $Enums.subscription_status
+  first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  commission_type?: Prisma.Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscriptions?: Prisma.subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_subscriptionsNestedInput
+}
+
+export type tenant_subscriptionsUncheckedUpdateWithoutSubscription_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsubscription_statusFieldUpdateOperationsInput | $Enums.subscription_status
+  first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  commission_type?: Prisma.Enumsubscription_commission_typeFieldUpdateOperationsInput | $Enums.subscription_commission_type
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
+  payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type tenant_subscriptionsCreateWithoutTenantsInput = {
@@ -839,6 +1405,12 @@ export type tenant_subscriptionsCreateWithoutTenantsInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -848,7 +1420,16 @@ export type tenant_subscriptionsCreateWithoutTenantsInput = {
   is_owner?: boolean | null
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   subscriptions: Prisma.subscriptionsCreateNestedOneWithoutTenant_subscriptionsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenant_subscriptionsInput
 }
 
 export type tenant_subscriptionsUncheckedCreateWithoutTenantsInput = {
@@ -859,6 +1440,12 @@ export type tenant_subscriptionsUncheckedCreateWithoutTenantsInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -869,6 +1456,15 @@ export type tenant_subscriptionsUncheckedCreateWithoutTenantsInput = {
   subscription_id: string
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenant_subscriptionsInput
 }
 
 export type tenant_subscriptionsCreateOrConnectWithoutTenantsInput = {
@@ -905,6 +1501,12 @@ export type tenant_subscriptionsCreateManySubscriptionsInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -915,6 +1517,14 @@ export type tenant_subscriptionsCreateManySubscriptionsInput = {
   tenant_id?: string | null
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type tenant_subscriptionsUpdateWithoutSubscriptionsInput = {
@@ -925,6 +1535,12 @@ export type tenant_subscriptionsUpdateWithoutSubscriptionsInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -934,7 +1550,16 @@ export type tenant_subscriptionsUpdateWithoutSubscriptionsInput = {
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_subscriptionsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenant_subscriptionsNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateWithoutSubscriptionsInput = {
@@ -945,6 +1570,12 @@ export type tenant_subscriptionsUncheckedUpdateWithoutSubscriptionsInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -955,6 +1586,15 @@ export type tenant_subscriptionsUncheckedUpdateWithoutSubscriptionsInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsInput = {
@@ -965,6 +1605,12 @@ export type tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -975,6 +1621,14 @@ export type tenant_subscriptionsUncheckedUpdateManyWithoutSubscriptionsInput = {
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type tenant_subscriptionsCreateManyTenantsInput = {
@@ -985,6 +1639,12 @@ export type tenant_subscriptionsCreateManyTenantsInput = {
   first_use?: boolean
   start_date?: Date | string | null
   end_date?: Date | string | null
+  trial_ends_at?: Date | string | null
+  grace_ends_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  auto_renew?: boolean
+  price_at_purchase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   commission_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -995,6 +1655,14 @@ export type tenant_subscriptionsCreateManyTenantsInput = {
   subscription_id: string
   payment_method?: string | null
   transfer_ref?: string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: number | null
+  custom_max_users?: number | null
+  custom_max_stores?: number | null
+  custom_max_warehouses?: number | null
+  custom_max_products?: number | null
+  custom_max_storage_mb?: number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type tenant_subscriptionsUpdateWithoutTenantsInput = {
@@ -1005,6 +1673,12 @@ export type tenant_subscriptionsUpdateWithoutTenantsInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1014,7 +1688,16 @@ export type tenant_subscriptionsUpdateWithoutTenantsInput = {
   is_owner?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   subscriptions?: Prisma.subscriptionsUpdateOneRequiredWithoutTenant_subscriptionsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenant_subscriptionsNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateWithoutTenantsInput = {
@@ -1025,6 +1708,12 @@ export type tenant_subscriptionsUncheckedUpdateWithoutTenantsInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1035,6 +1724,15 @@ export type tenant_subscriptionsUncheckedUpdateWithoutTenantsInput = {
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenant_subscriptionsNestedInput
 }
 
 export type tenant_subscriptionsUncheckedUpdateManyWithoutTenantsInput = {
@@ -1045,6 +1743,12 @@ export type tenant_subscriptionsUncheckedUpdateManyWithoutTenantsInput = {
   first_use?: Prisma.BoolFieldUpdateOperationsInput | boolean
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trial_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  grace_ends_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  auto_renew?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price_at_purchase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1055,8 +1759,45 @@ export type tenant_subscriptionsUncheckedUpdateManyWithoutTenantsInput = {
   subscription_id?: Prisma.StringFieldUpdateOperationsInput | string
   payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transfer_ref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billing_details?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  custom_max_branches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_users?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_stores?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_warehouses?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_products?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_max_storage_mb?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  custom_features?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
+
+/**
+ * Count Type Tenant_subscriptionsCountOutputType
+ */
+
+export type Tenant_subscriptionsCountOutputType = {
+  subscription_invoices: number
+}
+
+export type Tenant_subscriptionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  subscription_invoices?: boolean | Tenant_subscriptionsCountOutputTypeCountSubscription_invoicesArgs
+}
+
+/**
+ * Tenant_subscriptionsCountOutputType without action
+ */
+export type Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tenant_subscriptionsCountOutputType
+   */
+  select?: Prisma.Tenant_subscriptionsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Tenant_subscriptionsCountOutputType without action
+ */
+export type Tenant_subscriptionsCountOutputTypeCountSubscription_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.subscription_invoicesWhereInput
+}
 
 
 export type tenant_subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1067,6 +1808,12 @@ export type tenant_subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.
   first_use?: boolean
   start_date?: boolean
   end_date?: boolean
+  trial_ends_at?: boolean
+  grace_ends_at?: boolean
+  cancelled_at?: boolean
+  auto_renew?: boolean
+  price_at_purchase?: boolean
+  currency?: boolean
   created_at?: boolean
   updated_at?: boolean
   commission_amount?: boolean
@@ -1078,8 +1825,18 @@ export type tenant_subscriptionsSelect<ExtArgs extends runtime.Types.Extensions.
   subscription_id?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  billing_details?: boolean
+  custom_max_branches?: boolean
+  custom_max_users?: boolean
+  custom_max_stores?: boolean
+  custom_max_warehouses?: boolean
+  custom_max_products?: boolean
+  custom_max_storage_mb?: boolean
+  custom_features?: boolean
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
+  subscription_invoices?: boolean | Prisma.tenant_subscriptions$subscription_invoicesArgs<ExtArgs>
+  _count?: boolean | Prisma.Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_subscriptions"]>
 
 export type tenant_subscriptionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1090,6 +1847,12 @@ export type tenant_subscriptionsSelectCreateManyAndReturn<ExtArgs extends runtim
   first_use?: boolean
   start_date?: boolean
   end_date?: boolean
+  trial_ends_at?: boolean
+  grace_ends_at?: boolean
+  cancelled_at?: boolean
+  auto_renew?: boolean
+  price_at_purchase?: boolean
+  currency?: boolean
   created_at?: boolean
   updated_at?: boolean
   commission_amount?: boolean
@@ -1101,6 +1864,14 @@ export type tenant_subscriptionsSelectCreateManyAndReturn<ExtArgs extends runtim
   subscription_id?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  billing_details?: boolean
+  custom_max_branches?: boolean
+  custom_max_users?: boolean
+  custom_max_stores?: boolean
+  custom_max_warehouses?: boolean
+  custom_max_products?: boolean
+  custom_max_storage_mb?: boolean
+  custom_features?: boolean
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_subscriptions"]>
@@ -1113,6 +1884,12 @@ export type tenant_subscriptionsSelectUpdateManyAndReturn<ExtArgs extends runtim
   first_use?: boolean
   start_date?: boolean
   end_date?: boolean
+  trial_ends_at?: boolean
+  grace_ends_at?: boolean
+  cancelled_at?: boolean
+  auto_renew?: boolean
+  price_at_purchase?: boolean
+  currency?: boolean
   created_at?: boolean
   updated_at?: boolean
   commission_amount?: boolean
@@ -1124,6 +1901,14 @@ export type tenant_subscriptionsSelectUpdateManyAndReturn<ExtArgs extends runtim
   subscription_id?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  billing_details?: boolean
+  custom_max_branches?: boolean
+  custom_max_users?: boolean
+  custom_max_stores?: boolean
+  custom_max_warehouses?: boolean
+  custom_max_products?: boolean
+  custom_max_storage_mb?: boolean
+  custom_features?: boolean
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_subscriptions"]>
@@ -1136,6 +1921,12 @@ export type tenant_subscriptionsSelectScalar = {
   first_use?: boolean
   start_date?: boolean
   end_date?: boolean
+  trial_ends_at?: boolean
+  grace_ends_at?: boolean
+  cancelled_at?: boolean
+  auto_renew?: boolean
+  price_at_purchase?: boolean
+  currency?: boolean
   created_at?: boolean
   updated_at?: boolean
   commission_amount?: boolean
@@ -1147,12 +1938,22 @@ export type tenant_subscriptionsSelectScalar = {
   subscription_id?: boolean
   payment_method?: boolean
   transfer_ref?: boolean
+  billing_details?: boolean
+  custom_max_branches?: boolean
+  custom_max_users?: boolean
+  custom_max_stores?: boolean
+  custom_max_warehouses?: boolean
+  custom_max_products?: boolean
+  custom_max_storage_mb?: boolean
+  custom_features?: boolean
 }
 
-export type tenant_subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "status" | "first_use" | "start_date" | "end_date" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name" | "is_owner" | "tenant_id" | "subscription_id" | "payment_method" | "transfer_ref", ExtArgs["result"]["tenant_subscriptions"]>
+export type tenant_subscriptionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "status" | "first_use" | "start_date" | "end_date" | "trial_ends_at" | "grace_ends_at" | "cancelled_at" | "auto_renew" | "price_at_purchase" | "currency" | "created_at" | "updated_at" | "commission_amount" | "commission_type" | "first_name" | "last_name" | "is_owner" | "tenant_id" | "subscription_id" | "payment_method" | "transfer_ref" | "billing_details" | "custom_max_branches" | "custom_max_users" | "custom_max_stores" | "custom_max_warehouses" | "custom_max_products" | "custom_max_storage_mb" | "custom_features", ExtArgs["result"]["tenant_subscriptions"]>
 export type tenant_subscriptionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>
+  subscription_invoices?: boolean | Prisma.tenant_subscriptions$subscription_invoicesArgs<ExtArgs>
+  _count?: boolean | Prisma.Tenant_subscriptionsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type tenant_subscriptionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subscriptions?: boolean | Prisma.subscriptionsDefaultArgs<ExtArgs>
@@ -1168,6 +1969,7 @@ export type $tenant_subscriptionsPayload<ExtArgs extends runtime.Types.Extension
   objects: {
     subscriptions: Prisma.$subscriptionsPayload<ExtArgs>
     tenants: Prisma.$tenantsPayload<ExtArgs> | null
+    subscription_invoices: Prisma.$subscription_invoicesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1177,6 +1979,12 @@ export type $tenant_subscriptionsPayload<ExtArgs extends runtime.Types.Extension
     first_use: boolean
     start_date: Date | null
     end_date: Date | null
+    trial_ends_at: Date | null
+    grace_ends_at: Date | null
+    cancelled_at: Date | null
+    auto_renew: boolean
+    price_at_purchase: runtime.Decimal | null
+    currency: string
     created_at: Date | null
     updated_at: Date | null
     commission_amount: runtime.Decimal | null
@@ -1188,6 +1996,14 @@ export type $tenant_subscriptionsPayload<ExtArgs extends runtime.Types.Extension
     subscription_id: string
     payment_method: string | null
     transfer_ref: string | null
+    billing_details: runtime.JsonValue | null
+    custom_max_branches: number | null
+    custom_max_users: number | null
+    custom_max_stores: number | null
+    custom_max_warehouses: number | null
+    custom_max_products: number | null
+    custom_max_storage_mb: number | null
+    custom_features: runtime.JsonValue | null
   }, ExtArgs["result"]["tenant_subscriptions"]>
   composites: {}
 }
@@ -1584,6 +2400,7 @@ export interface Prisma__tenant_subscriptionsClient<T, Null = never, ExtArgs ext
   readonly [Symbol.toStringTag]: "PrismaPromise"
   subscriptions<T extends Prisma.subscriptionsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.subscriptionsDefaultArgs<ExtArgs>>): Prisma.Prisma__subscriptionsClient<runtime.Types.Result.GetResult<Prisma.$subscriptionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenants<T extends Prisma.tenant_subscriptions$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_subscriptions$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  subscription_invoices<T extends Prisma.tenant_subscriptions$subscription_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_subscriptions$subscription_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$subscription_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1620,6 +2437,12 @@ export interface tenant_subscriptionsFieldRefs {
   readonly first_use: Prisma.FieldRef<"tenant_subscriptions", 'Boolean'>
   readonly start_date: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
+  readonly trial_ends_at: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
+  readonly grace_ends_at: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
+  readonly cancelled_at: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
+  readonly auto_renew: Prisma.FieldRef<"tenant_subscriptions", 'Boolean'>
+  readonly price_at_purchase: Prisma.FieldRef<"tenant_subscriptions", 'Decimal'>
+  readonly currency: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly created_at: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"tenant_subscriptions", 'DateTime'>
   readonly commission_amount: Prisma.FieldRef<"tenant_subscriptions", 'Decimal'>
@@ -1631,6 +2454,14 @@ export interface tenant_subscriptionsFieldRefs {
   readonly subscription_id: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly payment_method: Prisma.FieldRef<"tenant_subscriptions", 'String'>
   readonly transfer_ref: Prisma.FieldRef<"tenant_subscriptions", 'String'>
+  readonly billing_details: Prisma.FieldRef<"tenant_subscriptions", 'Json'>
+  readonly custom_max_branches: Prisma.FieldRef<"tenant_subscriptions", 'Int'>
+  readonly custom_max_users: Prisma.FieldRef<"tenant_subscriptions", 'Int'>
+  readonly custom_max_stores: Prisma.FieldRef<"tenant_subscriptions", 'Int'>
+  readonly custom_max_warehouses: Prisma.FieldRef<"tenant_subscriptions", 'Int'>
+  readonly custom_max_products: Prisma.FieldRef<"tenant_subscriptions", 'Int'>
+  readonly custom_max_storage_mb: Prisma.FieldRef<"tenant_subscriptions", 'Int'>
+  readonly custom_features: Prisma.FieldRef<"tenant_subscriptions", 'Json'>
 }
     
 
@@ -2048,6 +2879,30 @@ export type tenant_subscriptions$tenantsArgs<ExtArgs extends runtime.Types.Exten
    */
   include?: Prisma.tenantsInclude<ExtArgs> | null
   where?: Prisma.tenantsWhereInput
+}
+
+/**
+ * tenant_subscriptions.subscription_invoices
+ */
+export type tenant_subscriptions$subscription_invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the subscription_invoices
+   */
+  select?: Prisma.subscription_invoicesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the subscription_invoices
+   */
+  omit?: Prisma.subscription_invoicesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.subscription_invoicesInclude<ExtArgs> | null
+  where?: Prisma.subscription_invoicesWhereInput
+  orderBy?: Prisma.subscription_invoicesOrderByWithRelationInput | Prisma.subscription_invoicesOrderByWithRelationInput[]
+  cursor?: Prisma.subscription_invoicesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Subscription_invoicesScalarFieldEnum | Prisma.Subscription_invoicesScalarFieldEnum[]
 }
 
 /**

@@ -590,14 +590,6 @@ export type tenant_usersOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type Enumuser_moduleNullableListFilter<$PrismaModel = never> = {
-  equals?: $Enums.user_module[] | Prisma.ListEnumuser_moduleFieldRefInput<$PrismaModel> | null
-  has?: $Enums.user_module | Prisma.Enumuser_moduleFieldRefInput<$PrismaModel> | null
-  hasEvery?: $Enums.user_module[] | Prisma.ListEnumuser_moduleFieldRefInput<$PrismaModel>
-  hasSome?: $Enums.user_module[] | Prisma.ListEnumuser_moduleFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
 export type tenant_usersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   auth_user_id?: Prisma.SortOrder

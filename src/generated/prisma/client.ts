@@ -337,6 +337,16 @@ export type tax_rates = Prisma.tax_ratesModel
  */
 export type tenant_subscriptions = Prisma.tenant_subscriptionsModel
 /**
+ * Model tenant_subscription_usage
+ * 
+ */
+export type tenant_subscription_usage = Prisma.tenant_subscription_usageModel
+/**
+ * Model subscription_invoices
+ * 
+ */
+export type subscription_invoices = Prisma.subscription_invoicesModel
+/**
  * Model tenants
  * 
  */

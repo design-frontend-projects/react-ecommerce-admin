@@ -110,6 +110,8 @@ export const ModelName = {
   suppliers: 'suppliers',
   tax_rates: 'tax_rates',
   tenant_subscriptions: 'tenant_subscriptions',
+  tenant_subscription_usage: 'tenant_subscription_usage',
+  subscription_invoices: 'subscription_invoices',
   tenants: 'tenants',
   tenant_users: 'tenant_users',
   transaction_details: 'transaction_details',
@@ -1323,11 +1325,45 @@ export type StoresScalarFieldEnum = (typeof StoresScalarFieldEnum)[keyof typeof 
 
 
 export const SubscriptionsScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
   name: 'name',
+  description: 'description',
+  tier: 'tier',
+  billing_interval: 'billing_interval',
   duration_months: 'duration_months',
   price: 'price',
+  currency: 'currency',
+  setup_fee: 'setup_fee',
+  discount_percentage: 'discount_percentage',
+  trial_period_days: 'trial_period_days',
+  grace_period_days: 'grace_period_days',
+  max_branches: 'max_branches',
+  max_users: 'max_users',
+  max_stores: 'max_stores',
+  max_warehouses: 'max_warehouses',
+  max_products: 'max_products',
+  max_tables: 'max_tables',
+  max_pos_registers: 'max_pos_registers',
+  max_monthly_orders: 'max_monthly_orders',
+  max_storage_mb: 'max_storage_mb',
+  has_restaurant_pos: 'has_restaurant_pos',
+  has_inventory_tracking: 'has_inventory_tracking',
+  has_kitchen_display: 'has_kitchen_display',
+  has_delivery_management: 'has_delivery_management',
+  has_api_access: 'has_api_access',
+  has_advanced_reports: 'has_advanced_reports',
+  has_audit_logs: 'has_audit_logs',
+  has_priority_support: 'has_priority_support',
+  allowed_modules: 'allowed_modules',
+  features: 'features',
+  metadata: 'metadata',
+  is_active: 'is_active',
+  is_public: 'is_public',
+  is_popular: 'is_popular',
+  sort_order: 'sort_order',
   created_at: 'created_at',
-  id: 'id'
+  updated_at: 'updated_at'
 } as const
 
 export type SubscriptionsScalarFieldEnum = (typeof SubscriptionsScalarFieldEnum)[keyof typeof SubscriptionsScalarFieldEnum]
@@ -1386,6 +1422,12 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   first_use: 'first_use',
   start_date: 'start_date',
   end_date: 'end_date',
+  trial_ends_at: 'trial_ends_at',
+  grace_ends_at: 'grace_ends_at',
+  cancelled_at: 'cancelled_at',
+  auto_renew: 'auto_renew',
+  price_at_purchase: 'price_at_purchase',
+  currency: 'currency',
   created_at: 'created_at',
   updated_at: 'updated_at',
   commission_amount: 'commission_amount',
@@ -1396,10 +1438,61 @@ export const Tenant_subscriptionsScalarFieldEnum = {
   tenant_id: 'tenant_id',
   subscription_id: 'subscription_id',
   payment_method: 'payment_method',
-  transfer_ref: 'transfer_ref'
+  transfer_ref: 'transfer_ref',
+  billing_details: 'billing_details',
+  custom_max_branches: 'custom_max_branches',
+  custom_max_users: 'custom_max_users',
+  custom_max_stores: 'custom_max_stores',
+  custom_max_warehouses: 'custom_max_warehouses',
+  custom_max_products: 'custom_max_products',
+  custom_max_storage_mb: 'custom_max_storage_mb',
+  custom_features: 'custom_features'
 } as const
 
 export type Tenant_subscriptionsScalarFieldEnum = (typeof Tenant_subscriptionsScalarFieldEnum)[keyof typeof Tenant_subscriptionsScalarFieldEnum]
+
+
+export const Tenant_subscription_usageScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  current_branches_count: 'current_branches_count',
+  current_users_count: 'current_users_count',
+  current_stores_count: 'current_stores_count',
+  current_warehouses_count: 'current_warehouses_count',
+  current_products_count: 'current_products_count',
+  current_tables_count: 'current_tables_count',
+  current_pos_registers_count: 'current_pos_registers_count',
+  current_monthly_orders: 'current_monthly_orders',
+  current_storage_mb_used: 'current_storage_mb_used',
+  billing_period_start: 'billing_period_start',
+  billing_period_end: 'billing_period_end',
+  last_calculated_at: 'last_calculated_at'
+} as const
+
+export type Tenant_subscription_usageScalarFieldEnum = (typeof Tenant_subscription_usageScalarFieldEnum)[keyof typeof Tenant_subscription_usageScalarFieldEnum]
+
+
+export const Subscription_invoicesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_subscription_id: 'tenant_subscription_id',
+  invoice_number: 'invoice_number',
+  amount: 'amount',
+  tax_amount: 'tax_amount',
+  discount_amount: 'discount_amount',
+  currency: 'currency',
+  status: 'status',
+  payment_method: 'payment_method',
+  transaction_ref: 'transaction_ref',
+  due_date: 'due_date',
+  paid_at: 'paid_at',
+  billing_address: 'billing_address',
+  pdf_url: 'pdf_url',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Subscription_invoicesScalarFieldEnum = (typeof Subscription_invoicesScalarFieldEnum)[keyof typeof Subscription_invoicesScalarFieldEnum]
 
 
 export const TenantsScalarFieldEnum = {
