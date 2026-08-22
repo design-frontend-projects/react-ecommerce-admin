@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeleteTaxRate } from '../hooks/use-tax-rates'
 import { useTaxContext } from './tax-rates-provider'
 
 export function TaxDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useTaxContext()
   const deleteMutation = useDeleteTaxRate()
 
@@ -37,7 +39,7 @@ export function TaxDeleteDialog() {
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('taxRates.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the tax
             rate

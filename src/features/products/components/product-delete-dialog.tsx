@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
+  const { t } = useTranslation()
   const [value, setValue] = useState('')
   const queryClient = useQueryClient()
 
@@ -32,14 +34,14 @@ export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
 
       if (error) throw error
 
-      toast.success('Product deleted successfully')
+      toast.success(t('products.toast.deleted'))
       queryClient.invalidateQueries({ queryKey: ['products'] })
       onOpenChange(false)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
-        toast.error('Failed to delete product')
+        toast.error(t('products.toast.error'))
       }
     }
   }
@@ -56,37 +58,37 @@ export function ProductDeleteDialog({ open, onOpenChange, currentRow }: Props) {
             className='me-1 inline-block stroke-destructive'
             size={18}
           />{' '}
-          Delete Product
+          {t('products.delete.title')}
         </span>
       }
       desc={
         <div className='space-y-4'>
           <p>
-            Are you sure you want to delete{' '}
-            <span className='font-bold'>{currentRow.name}</span>?
-            <br />
-            This action will permanently remove the product from the inventory.
+            {t('products.delete.description')}{' '}
+            <span className='font-bold'>{currentRow.name}</span>
           </p>
 
           <Label>
-            Product Name:
+            {t('products.columns.name')}:
             <Input
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder='Enter product name to confirm'
+              placeholder={currentRow.name}
             />
           </Label>
 
           <Alert variant='destructive'>
-            <AlertTitle>Warning!</AlertTitle>
+            <AlertTitle>{t('common.confirm')}</AlertTitle>
             <AlertDescription>
-              This operation cannot be undone.
+              {t('products.delete.description')}
             </AlertDescription>
           </Alert>
         </div>
       }
-      confirmText='Delete'
+      confirmText={t('common.delete')}
+      cancelBtnText={t('common.cancel')}
       destructive
     />
   )
 }
+

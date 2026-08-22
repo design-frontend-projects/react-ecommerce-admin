@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Download, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTasks } from './tasks-provider'
 
 export function TasksPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useTasks()
   return (
     <div className='flex gap-2'>

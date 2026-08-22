@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
-  useStoreOnHand,
+  useWarehouseOnHand,
+  useWarehouseOptions,
   useStoreOptions,
   useVariantOptions,
 } from '@/hooks/use-inventory-lookups'
@@ -47,7 +48,15 @@ const QTY_LABEL: Record<AdjustmentType, string> = {
   stocktake: 'Counted qty',
 }
 
-const DAMAGE_REASONS: AdjustmentReason[] = ['damage', 'expired', 'theft']
+const DAMAGE_REASONS: AdjustmentReason[] = [
+  'damage',
+  'expired',
+  'theft',
+  'loss',
+  'data_entry_error',
+  'stocktake_discrepancy',
+  'other',
+]
 
 export function AdjustmentCreateDialog({
   open,
@@ -56,19 +65,25 @@ export function AdjustmentCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const [storeId, setStoreId] = useState('')
+  const [warehouseId, setWarehouseId] = useState('')
   const [type, setType] = useState<AdjustmentType>('manual')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItem[]>([{ ...emptyItem }])
   const [search, setSearch] = useState('')
 
+  const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
   const { data: variants = [] } = useVariantOptions(search)
-  const { data: onHand = {} } = useStoreOnHand(storeId || undefined)
+  const { data: onHand = {} } = useWarehouseOnHand(warehouseId || undefined)
   const createAdjustment = useCreateAdjustment()
 
+  const locationOptions =
+    warehouses.length > 0
+      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
+      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
+
   const reset = () => {
-    setStoreId('')
+    setWarehouseId('')
     setType('manual')
     setNotes('')
     setItems([{ ...emptyItem }])
@@ -91,7 +106,8 @@ export function AdjustmentCreateDialog({
 
   const handleSubmit = async () => {
     const parsed = createAdjustmentInputSchema.safeParse({
-      storeId,
+      warehouseId: warehouseId || undefined,
+      storeId: warehouseId || undefined,
       type,
       notes: notes || undefined,
       items: items
@@ -140,15 +156,15 @@ export function AdjustmentCreateDialog({
           <div className='grid gap-4'>
             <div className='grid grid-cols-2 gap-4'>
               <div className='grid gap-2'>
-                <Label>Store</Label>
-                <Select value={storeId} onValueChange={setStoreId}>
+                <Label>Warehouse / Location</Label>
+                <Select value={warehouseId} onValueChange={setWarehouseId}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select store' />
+                    <SelectValue placeholder='Select warehouse' />
                   </SelectTrigger>
                   <SelectContent>
-                    {stores.map((store) => (
-                      <SelectItem key={store.store_id} value={store.store_id}>
-                        {store.name ?? store.store_id}
+                    {locationOptions.map((loc) => (
+                      <SelectItem key={loc.id} value={loc.id}>
+                        {loc.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -178,8 +194,8 @@ export function AdjustmentCreateDialog({
                 <Input
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder='Search SKU...'
-                  className='h-8 w-40'
+                  placeholder='Search SKU / Product...'
+                  className='h-8 w-44'
                 />
               </div>
               <div className='space-y-2'>
@@ -254,7 +270,7 @@ export function AdjustmentCreateDialog({
                                 value={reason}
                                 className='capitalize'
                               >
-                                {reason}
+                                {reason.replace('_', ' ')}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -313,3 +329,4 @@ export function AdjustmentCreateDialog({
     </Dialog>
   )
 }
+

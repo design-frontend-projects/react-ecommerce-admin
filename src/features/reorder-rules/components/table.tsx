@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -24,6 +25,7 @@ import type { RuleListItem } from '../data/schema'
 import { columns } from './columns'
 
 export function ReorderRulesTable({ data }: { data: RuleListItem[] }) {
+  const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 

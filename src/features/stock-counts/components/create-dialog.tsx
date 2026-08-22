@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
-import { useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { useWarehouseLocationOptions, useWarehouseOptions, useStoreOptions } from '@/hooks/use-inventory-lookups'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -37,15 +37,19 @@ function useCategoryOptions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('categories')
-        .select('category_id, name')
+        .select('name, id')
         .order('name')
       if (error) throw error
-      return (data ?? []) as CategoryOption[]
+      return (data ?? []).map((c: any, idx: number) => ({
+        category_id: idx + 1,
+        name: c.name,
+      })) as CategoryOption[]
     },
   })
 }
 
 const ALL_CATEGORIES = 'all'
+const ALL_LOCATIONS = 'all'
 
 export function CountCreateDialog({
   open,
@@ -54,17 +58,26 @@ export function CountCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const [storeId, setStoreId] = useState('')
+  const [warehouseId, setWarehouseId] = useState('')
+  const [warehouseLocationId, setWarehouseLocationId] = useState(ALL_LOCATIONS)
   const [categoryId, setCategoryId] = useState(ALL_CATEGORIES)
   const [isBlind, setIsBlind] = useState(false)
   const [notes, setNotes] = useState('')
 
+  const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
+  const { data: locations = [] } = useWarehouseLocationOptions(warehouseId || undefined)
   const { data: categories = [] } = useCategoryOptions()
   const createCount = useCreateCount()
 
+  const locationOptions =
+    warehouses.length > 0
+      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
+      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
+
   const reset = () => {
-    setStoreId('')
+    setWarehouseId('')
+    setWarehouseLocationId(ALL_LOCATIONS)
     setCategoryId(ALL_CATEGORIES)
     setIsBlind(false)
     setNotes('')
@@ -72,7 +85,10 @@ export function CountCreateDialog({
 
   const handleSubmit = async () => {
     const parsed = createCountInputSchema.safeParse({
-      storeId,
+      warehouseId: warehouseId || undefined,
+      storeId: warehouseId || undefined,
+      warehouseLocationId:
+        warehouseLocationId === ALL_LOCATIONS ? undefined : warehouseLocationId,
       categoryId:
         categoryId === ALL_CATEGORIES ? undefined : Number(categoryId),
       isBlind,
@@ -108,26 +124,45 @@ export function CountCreateDialog({
           <DialogTitle>New Stock Count</DialogTitle>
           <DialogDescription>
             Create a draft count. Starting the count freezes expected quantities
-            for the selected scope.
+            for the selected warehouse / location scope.
           </DialogDescription>
         </DialogHeader>
 
         <div className='grid gap-4'>
           <div className='grid gap-2'>
-            <Label>Store</Label>
-            <Select value={storeId} onValueChange={setStoreId}>
+            <Label>Warehouse / Location</Label>
+            <Select value={warehouseId} onValueChange={setWarehouseId}>
               <SelectTrigger>
-                <SelectValue placeholder='Select store' />
+                <SelectValue placeholder='Select warehouse' />
               </SelectTrigger>
               <SelectContent>
-                {stores.map((store) => (
-                  <SelectItem key={store.store_id} value={store.store_id}>
-                    {store.name ?? store.store_id}
+                {locationOptions.map((loc) => (
+                  <SelectItem key={loc.id} value={loc.id}>
+                    {loc.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
+
+          {locations.length > 0 && (
+            <div className='grid gap-2'>
+              <Label>Specific Location (optional)</Label>
+              <Select value={warehouseLocationId} onValueChange={setWarehouseLocationId}>
+                <SelectTrigger>
+                  <SelectValue placeholder='All warehouse locations' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_LOCATIONS}>All warehouse locations</SelectItem>
+                  {locations.map((loc) => (
+                    <SelectItem key={loc.id} value={loc.id}>
+                      {loc.code} {loc.name ? `— ${loc.name}` : ''} ({loc.location_type})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           <div className='grid gap-2'>
             <Label>Category (optional)</Label>

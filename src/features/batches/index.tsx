@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -10,6 +11,7 @@ import { BatchesTable } from './components/table'
 import { useBatches } from './hooks/use-batches'
 
 export function Batches() {
+  const { t } = useTranslation()
   const { data: batches, isLoading, error } = useBatches()
 
   return (
@@ -26,9 +28,7 @@ export function Batches() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              Batches
-            </h2>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('batches.title')}</h2>
             <p className='text-muted-foreground'>
               Lot-tracked stock with expiry dates. Block a batch to keep it out
               of picking; run the sweep to expire overdue lots.

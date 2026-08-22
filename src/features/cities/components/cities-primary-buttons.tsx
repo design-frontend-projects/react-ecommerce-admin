@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCitiesDialog } from './cities-provider'
 
 export function CitiesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useCitiesDialog()
 
   return (

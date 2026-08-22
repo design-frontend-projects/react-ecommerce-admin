@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -13,6 +14,7 @@ import { UomsTable } from './components/table'
 import { useUoms } from './hooks/use-uoms'
 
 export function Units() {
+  const { t } = useTranslation()
   const { data: uoms, isLoading, error } = useUoms()
 
   return (

@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCurrenciesContext } from './currencies-provider'
 
 export function CurrenciesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useCurrenciesContext()
 
   return (

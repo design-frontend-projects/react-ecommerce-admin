@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useWarehousesContext } from './provider'
 
 export function WarehousesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useWarehousesContext()
   return (
     <Can permission='inventory.manage'>

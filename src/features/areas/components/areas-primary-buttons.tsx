@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus, Table } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAreasContext } from '../context/areas-context'
 
 export function AreasPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useAreasContext()
 
   return (

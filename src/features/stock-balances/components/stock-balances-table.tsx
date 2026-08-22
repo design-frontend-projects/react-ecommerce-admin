@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export function StockBalancesTable({ data }: Props) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -56,7 +58,7 @@ export function StockBalancesTable({ data }: Props) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Search by product name or SKU...'
+        searchPlaceholder={t('stockBalances.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         searchKey='product_name'
       />
       <div className='overflow-hidden rounded-md border'>

@@ -1,13 +1,17 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
+import { useAuthQuery } from '@/hooks/use-auth-query'
 import {
-  applyTransfer,
+  approveTransfer,
   cancelTransfer,
+  completeTransfer,
   createTransfer,
   fetchTransfer,
   fetchTransfers,
+  pickTransfer,
+  receiveTransfer,
+  shipTransfer,
   updateTransfer,
 } from '../data/actions'
 import type { CreateTransferInput, UpdateTransferInput } from '../data/schema'
@@ -20,7 +24,7 @@ export function useTransfers() {
   return useAuthQuery({
     queryKey: transfersKey,
     queryFn: (getToken) => fetchTransfers(getToken),
-    rbac: { permission: 'inventory.view' },
+    rbac: { permission: 'inventory.stock.view' },
   })
 }
 
@@ -29,15 +33,16 @@ export function useTransfer(id: string | undefined) {
     queryKey: transferKey(id ?? ''),
     queryFn: (getToken) => fetchTransfer(getToken, id as string),
     enabled: Boolean(id),
-    rbac: { permission: 'inventory.view' },
+    rbac: { permission: 'inventory.stock.view' },
   })
 }
 
 export function useCreateTransfer() {
   const queryClient = useQueryClient()
   return useAuthMutation({
-    mutationFn: (getToken, input: CreateTransferInput) => createTransfer(getToken, input),
-    rbac: { permission: 'inventory.manage' },
+    mutationFn: (getToken, input: CreateTransferInput) =>
+      createTransfer(getToken, input),
+    rbac: { permission: 'inventory.stock.manage' },
     onSuccess: () => {
       toast.success('Transfer created.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })
@@ -50,8 +55,9 @@ export function useCreateTransfer() {
 export function useUpdateTransfer() {
   const queryClient = useQueryClient()
   return useAuthMutation({
-    mutationFn: (getToken, input: UpdateTransferInput) => updateTransfer(getToken, input),
-    rbac: { permission: 'inventory.manage' },
+    mutationFn: (getToken, input: UpdateTransferInput) =>
+      updateTransfer(getToken, input),
+    rbac: { permission: 'inventory.stock.manage' },
     onSuccess: () => {
       toast.success('Transfer updated.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })
@@ -61,11 +67,83 @@ export function useUpdateTransfer() {
   })
 }
 
+export function useApproveTransfer() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => approveTransfer(getToken, id),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success('Transfer approved.')
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to approve transfer', { description: error.message }),
+  })
+}
+
+export function usePickTransfer() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => pickTransfer(getToken, id),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success('Transfer items picked.')
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to pick transfer', { description: error.message }),
+  })
+}
+
+export function useShipTransfer() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => shipTransfer(getToken, id),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success('Transfer shipped — in transit.')
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to ship transfer', { description: error.message }),
+  })
+}
+
+export function useReceiveTransfer() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => receiveTransfer(getToken, id),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success('Transfer received. Stock balances updated.')
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to receive transfer', { description: error.message }),
+  })
+}
+
+export function useCompleteTransfer() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => completeTransfer(getToken, id),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success('Transfer marked complete.')
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to complete transfer', {
+        description: error.message,
+      }),
+  })
+}
+
 export function useCancelTransfer() {
   const queryClient = useQueryClient()
   return useAuthMutation({
     mutationFn: (getToken, id: string) => cancelTransfer(getToken, id),
-    rbac: { permission: 'inventory.manage' },
+    rbac: { permission: 'inventory.stock.manage' },
     onSuccess: () => {
       toast.success('Transfer cancelled.')
       void queryClient.invalidateQueries({ queryKey: transfersKey })
@@ -76,15 +154,5 @@ export function useCancelTransfer() {
 }
 
 export function useApplyTransfer() {
-  const queryClient = useQueryClient()
-  return useAuthMutation({
-    mutationFn: (getToken, id: string) => applyTransfer(getToken, id),
-    rbac: { permission: 'inventory.manage' },
-    onSuccess: () => {
-      toast.success('Transfer applied. Stock balances updated.')
-      void queryClient.invalidateQueries({ queryKey: transfersKey })
-    },
-    onError: (error: Error) =>
-      toast.error('Unable to apply transfer', { description: error.message }),
-  })
+  return useReceiveTransfer()
 }

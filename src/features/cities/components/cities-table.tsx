@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import {
   getCoreRowModel,
@@ -21,6 +22,7 @@ type CitiesTableProps = {
 }
 
 export function CitiesTable({ data, search, navigate }: CitiesTableProps) {
+  const { t } = useTranslation()
   const columns = useMemo(() => citiesColumns, [])
 
   const {
@@ -76,7 +78,7 @@ export function CitiesTable({ data, search, navigate }: CitiesTableProps) {
       table={table}
       columns={columns}
       searchKey='name'
-      searchPlaceholder='Search cities...'
+      searchPlaceholder={t('cities.table.filterPlaceholder', { defaultValue: 'Filter...' })}
       toolbarActions={<CitiesTableAction />}
     />
   )

@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCountriesDialog } from './countries-provider'
 
 export function CountriesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useCountriesDialog()
 
   return (

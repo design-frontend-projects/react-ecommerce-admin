@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import {
   getCoreRowModel,
@@ -11,6 +12,7 @@ import { useCountries } from '../hooks/use-countries'
 import { countriesColumns } from './countries-columns'
 
 export function CountriesTable() {
+  const { t } = useTranslation()
   const { data: countries = [], isLoading } = useCountries()
   const columns = useMemo(() => countriesColumns, [])
 
@@ -37,7 +39,7 @@ export function CountriesTable() {
         table={table}
         columns={columns}
         searchKey='name'
-        searchPlaceholder='Search countries...'
+        searchPlaceholder={t('countries.table.filterPlaceholder', { defaultValue: 'Filter...' })}
       />
     </div>
   )

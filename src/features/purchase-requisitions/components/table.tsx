@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -24,6 +25,7 @@ import type { RequisitionListItem } from '../data/schema'
 import { columns } from './columns'
 
 export function RequisitionsTable({ data }: { data: RequisitionListItem[] }) {
+  const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -45,7 +47,7 @@ export function RequisitionsTable({ data }: { data: RequisitionListItem[] }) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter by requisition number...'
+        searchPlaceholder={t('purchaseRequisitions.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         searchKey='requisition_number'
       />
       <div className='overflow-hidden rounded-md border'>

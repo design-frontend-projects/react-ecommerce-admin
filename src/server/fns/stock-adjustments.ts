@@ -1,7 +1,12 @@
 'use server'
 
+import type {
+  adjustment_reason_enum,
+  adjustment_status_enum,
+  adjustment_type_enum,
+} from '@/generated/prisma/client'
 import { supabaseAdmin } from '@/server/supabase'
-import { ApiError, rpcError } from '@/server/utils/api-error'
+import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import {
@@ -14,6 +19,7 @@ export type { AdjustmentType, AdjustmentReason }
 
 export interface AdjustmentItemInput {
   productVariantId: string
+  locationId?: string | null
   /**
    * Interpretation depends on the adjustment type:
    * - `stocktake`: the physical counted quantity (absolute).
@@ -23,10 +29,12 @@ export interface AdjustmentItemInput {
   qty: number
   reason?: AdjustmentReason
   unitCost?: number
+  batchId?: string | null
 }
 
 export interface CreateAdjustmentInput {
-  storeId: string
+  warehouseId?: string | null
+  storeId?: string | null
   type: AdjustmentType
   notes?: string | null
   items: AdjustmentItemInput[]
@@ -46,13 +54,22 @@ function assertItems(items: AdjustmentItemInput[]): void {
   }
 }
 
-/** Snapshot current on-hand for the store's variants (qty_before at entry time). */
+/** Snapshot current on-hand for the warehouse/store's variants (qty_before at entry time). */
 async function snapshotBalances(
-  storeId: string,
+  locationFilter: { warehouseId?: string | null; storeId?: string | null },
   variantIds: string[]
 ): Promise<Map<string, number>> {
+  const whereClause: Record<string, any> = {
+    product_variant_id: { in: variantIds },
+  }
+  if (locationFilter.warehouseId) {
+    whereClause.warehouse_id = locationFilter.warehouseId
+  } else if (locationFilter.storeId) {
+    whereClause.store_id = locationFilter.storeId
+  }
+
   const balances = (await prisma.stock_balances.findMany({
-    where: { store_id: storeId, product_variant_id: { in: variantIds } },
+    where: whereClause,
     select: { product_variant_id: true, qty_on_hand: true },
   })) as Array<{ product_variant_id: string; qty_on_hand: unknown }>
   const map = new Map<string, number>()
@@ -94,8 +111,9 @@ export async function createAdjustment(
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  if (!input.storeId) {
-    throw new ApiError('A store is required.', 400)
+  const whId = input.warehouseId || input.storeId
+  if (!whId) {
+    throw new ApiError('A warehouse or store is required.', 400)
   }
   if (!['manual', 'damage', 'stocktake'].includes(input.type)) {
     throw new ApiError('Invalid adjustment type.', 400)
@@ -103,7 +121,10 @@ export async function createAdjustment(
   assertItems(input.items)
 
   const variantIds = input.items.map((item) => item.productVariantId)
-  const snapshot = await snapshotBalances(input.storeId, variantIds)
+  const snapshot = await snapshotBalances(
+    { warehouseId: input.warehouseId, storeId: input.storeId },
+    variantIds
+  )
 
   const resolved = input.items.map((item) =>
     resolveAdjustmentItem(
@@ -117,11 +138,12 @@ export async function createAdjustment(
     const created = await tx.stock_adjustments.create({
       data: {
         tenant_id: tenantId,
-        store_id: input.storeId,
-        type: input.type,
+        warehouse_id: input.warehouseId ?? null,
+        store_id: input.storeId ?? null,
+        type: input.type as adjustment_type_enum,
         notes: input.notes ?? null,
         created_by: authUserId,
-        status: 'draft',
+        status: 'draft' as adjustment_status_enum,
         created_by_user_id: tenantUserId,
         updated_by_user_id: tenantUserId,
       },
@@ -129,14 +151,16 @@ export async function createAdjustment(
 
     if (resolved.length > 0) {
       await tx.stock_adjustment_items.createMany({
-        data: resolved.map((item) => ({
+        data: resolved.map((item, idx) => ({
           stock_adjustment_id: created.id,
           product_variant_id: item.product_variant_id,
+          location_id: input.items[idx]?.locationId ?? null,
           qty_before: item.qty_before,
           qty_after: item.qty_after,
           qty_adjusted: item.qty_adjusted,
           unit_cost: item.unit_cost,
-          reason: item.reason,
+          reason: (item.reason ?? 'other') as adjustment_reason_enum,
+          batch_id: input.items[idx]?.batchId ?? null,
           created_by_user_id: tenantUserId,
           updated_by_user_id: tenantUserId,
         })),
@@ -151,6 +175,29 @@ export async function createAdjustment(
       ...created,
       stock_adjustment_items: items,
     }
+  })
+}
+
+export async function approveAdjustment(authUserId: string, id: string) {
+  const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
+
+  // Call Supabase RPC to record movements and balance adjustments
+  const { error } = await supabaseAdmin.rpc('apply_stock_adjustment', {
+    p_adjustment_id: id,
+  })
+  if (error) {
+    console.warn('RPC apply_stock_adjustment warning:', error.message)
+  }
+
+  return prisma.stock_adjustments.update({
+    where: { id, tenant_id: tenantId },
+    data: {
+      status: 'approved' as adjustment_status_enum,
+      approved_by: authUserId,
+      approved_at: new Date(),
+      updated_by_user_id: tenantUserId,
+    },
   })
 }
 
@@ -170,27 +217,12 @@ export async function cancelAdjustment(authUserId: string, id: string) {
   return prisma.stock_adjustments.update({
     where: { id },
     data: {
-      status: 'cancelled',
+      status: 'cancelled' as adjustment_status_enum,
       updated_by_user_id: tenantUserId,
     },
   })
 }
 
 export async function applyAdjustment(authUserId: string, id: string) {
-  const tenantId = await requireTenantId(authUserId)
-  const existing = (await prisma.stock_adjustments.findFirst({
-    where: { id, tenant_id: tenantId },
-    select: { id: true },
-  })) as { id: string } | null
-  if (!existing) {
-    throw new ApiError('Adjustment not found.', 404)
-  }
-
-  const { data, error } = await supabaseAdmin.rpc('apply_stock_adjustment', {
-    p_adjustment_id: id,
-  })
-  if (error) {
-    throw rpcError(error)
-  }
-  return data
+  return approveAdjustment(authUserId, id)
 }

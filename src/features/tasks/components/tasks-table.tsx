@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
 import {
@@ -35,6 +36,7 @@ type DataTableProps = {
 }
 
 export function TasksTable({ data }: DataTableProps) {
+  const { t } = useTranslation()
   // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -113,7 +115,7 @@ export function TasksTable({ data }: DataTableProps) {
     >
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter by title or ID...'
+        searchPlaceholder={t('tasks.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         filters={[
           {
             columnId: 'status',
@@ -182,9 +184,7 @@ export function TasksTable({ data }: DataTableProps) {
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
+                >{t('tasks.table.noResults', { defaultValue: 'No results.' })}</TableCell>
               </TableRow>
             )}
           </TableBody>

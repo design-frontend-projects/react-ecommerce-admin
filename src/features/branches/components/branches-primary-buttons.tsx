@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useBranchesContext } from './branches-provider'
 
 export function BranchesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useBranchesContext()
 
   return (

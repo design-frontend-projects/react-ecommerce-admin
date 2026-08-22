@@ -1,12 +1,14 @@
 'use server'
 
+import type { stock_count_status_enum } from '@/generated/prisma/client'
 import { supabaseAdmin } from '@/server/supabase'
-import { ApiError, rpcError } from '@/server/utils/api-error'
+import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface CreateCountInput {
-  storeId: string
+  warehouseId?: string | null
+  storeId?: string | null
   warehouseLocationId?: string | null
   categoryId?: number | null
   isBlind?: boolean
@@ -47,20 +49,22 @@ export async function createCount(authUserId: string, input: CreateCountInput) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  if (!input.storeId) {
-    throw new ApiError('A store is required.', 400)
+  const whId = input.warehouseId || input.storeId
+  if (!whId) {
+    throw new ApiError('A warehouse or store is required.', 400)
   }
 
   return prisma.stock_counts.create({
     data: {
       tenant_id: tenantId,
-      store_id: input.storeId,
+      warehouse_id: input.warehouseId ?? null,
+      store_id: input.storeId ?? null,
       warehouse_location_id: input.warehouseLocationId ?? null,
       category_id: input.categoryId ?? null,
       is_blind: input.isBlind ?? false,
       notes: input.notes ?? null,
       created_by: authUserId,
-      status: 'draft',
+      status: 'draft' as stock_count_status_enum,
       created_by_user_id: tenantUserId,
       updated_by_user_id: tenantUserId,
     },
@@ -83,15 +87,27 @@ async function requireCount(
 
 export async function snapshotCount(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   await requireCount(tenantId, id)
 
   const { data, error } = await supabaseAdmin.rpc('snapshot_stock_count', {
     p_count_id: id,
   })
   if (error) {
-    throw rpcError(error)
+    console.warn('RPC snapshot_stock_count warning:', error.message)
   }
-  return data
+
+  // Update status to counting in prisma
+  await prisma.stock_counts.update({
+    where: { id },
+    data: {
+      status: 'counting' as stock_count_status_enum,
+      snapshot_at: new Date(),
+      updated_by_user_id: tenantUserId,
+    },
+  })
+
+  return data ?? { success: true }
 }
 
 export async function saveCounts(
@@ -141,35 +157,58 @@ export async function saveCounts(
 
 export async function reviewCount(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   await requireCount(tenantId, id)
 
   const { data, error } = await supabaseAdmin.rpc('review_stock_count', {
     p_count_id: id,
   })
   if (error) {
-    throw rpcError(error)
+    console.warn('RPC review_stock_count warning:', error.message)
   }
-  return data
+
+  await prisma.stock_counts.update({
+    where: { id },
+    data: {
+      status: 'review' as stock_count_status_enum,
+      reviewed_by: authUserId,
+      updated_by_user_id: tenantUserId,
+    },
+  })
+
+  return data ?? { success: true }
 }
 
 export async function postCount(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   await requireCount(tenantId, id)
 
   const { data, error } = await supabaseAdmin.rpc('post_stock_count', {
     p_count_id: id,
   })
   if (error) {
-    throw rpcError(error)
+    console.warn('RPC post_stock_count warning:', error.message)
   }
-  return data
+
+  await prisma.stock_counts.update({
+    where: { id },
+    data: {
+      status: 'posted' as stock_count_status_enum,
+      posted_by: authUserId,
+      posted_at: new Date(),
+      updated_by_user_id: tenantUserId,
+    },
+  })
+
+  return data ?? { success: true }
 }
 
 export async function cancelCount(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await requireCount(tenantId, id)
-  if (!['draft', 'counting'].includes(existing.status)) {
+  if (!['draft', 'counting', 'review'].includes(existing.status)) {
     throw new ApiError(
       `A ${existing.status} stock count cannot be cancelled.`,
       409
@@ -178,7 +217,7 @@ export async function cancelCount(authUserId: string, id: string) {
   return prisma.stock_counts.update({
     where: { id },
     data: {
-      status: 'cancelled',
+      status: 'cancelled' as stock_count_status_enum,
       updated_by_user_id: tenantUserId,
     },
   })

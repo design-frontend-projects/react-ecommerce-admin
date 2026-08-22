@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Main } from '@/components/layout/main'
 import { useProducts } from '../products/hooks/use-products'
 import { PODialogs } from './components/po-dialogs'
@@ -8,6 +9,7 @@ import { POTable } from './components/po-table'
 import { usePurchaseOrders } from './hooks/use-purchase-orders'
 
 export function PurchaseOrders() {
+  const { t } = useTranslation()
   return (
     <POProvider>
       <PurchaseOrdersContent />
@@ -24,7 +26,7 @@ function PurchaseOrdersContent() {
     <Main>
       <div className='mb-2 flex flex-wrap items-center justify-between gap-x-4'>
         <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Purchase Orders</h2>
+          <h2 className='text-2xl font-bold tracking-tight'>{t('purchaseOrders.title')}</h2>
           <p className='text-muted-foreground'>
             Manage purchase orders, receive shipments, and track inventory
             replenishment.

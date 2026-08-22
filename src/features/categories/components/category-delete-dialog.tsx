@@ -1,4 +1,5 @@
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +14,7 @@ import { useDeleteCategory } from '../hooks/use-categories'
 import { useCategoriesContext } from './categories-provider'
 
 export function CategoryDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCategoriesContext()
   const deleteMutation = useDeleteCategory()
 
@@ -22,7 +24,7 @@ export function CategoryDeleteDialog() {
     if (currentRow) {
       try {
         await deleteMutation.mutateAsync(currentRow.category_id)
-        toast.success('Category deleted successfully')
+        toast.success(t('categories.toast.deleted'))
         setOpen(null)
       } catch (error: any) {
         toast.error('Error', {
@@ -37,10 +39,9 @@ export function CategoryDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('categories.delete.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            category
+            {t('categories.delete.description')}
             <span className='font-medium text-foreground'>
               {currentRow?.name ? ` "${currentRow.name}"` : ''}
             </span>
@@ -48,9 +49,7 @@ export function CategoryDeleteDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={deleteMutation.isPending}>
-            Cancel
-          </AlertDialogCancel>
+          <AlertDialogCancel disabled={deleteMutation.isPending}>{t('common.cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault()
@@ -59,7 +58,7 @@ export function CategoryDeleteDialog() {
             className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteMutation.isPending ? t('common.loading') : t('common.delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

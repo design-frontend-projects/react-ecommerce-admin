@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useUnitsContext } from './provider'
 
 export function UnitsPrimaryButtons() {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useUnitsContext()
   return (
     <Can permission='inventory.manage'>

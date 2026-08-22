@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -30,6 +31,7 @@ interface TaxTableProps {
 }
 
 export function TaxTable({ data }: TaxTableProps) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -102,9 +104,7 @@ export function TaxTable({ data }: TaxTableProps) {
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
+                >{t('taxRates.table.noResults', { defaultValue: 'No results.' })}</TableCell>
               </TableRow>
             )}
           </TableBody>

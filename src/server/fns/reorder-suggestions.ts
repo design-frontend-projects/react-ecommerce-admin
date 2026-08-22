@@ -9,9 +9,36 @@ export async function listSuggestions(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
   return prisma.reorder_suggestions.findMany({
     where: { tenant_id: tenantId },
+    include: {
+      product_variants: {
+        select: {
+          id: true,
+          sku: true,
+          barcode: true,
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+      stores: {
+        select: {
+          store_id: true,
+          name: true,
+        },
+      },
+      suppliers: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
     orderBy: { run_at: 'desc' },
   })
 }
+
 
 export async function runCheck(authUserId: string, storeId?: string) {
   const tenantId = await requireTenantId(authUserId)

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -23,6 +24,7 @@ export function AreasDeleteDialog({
   open,
   onOpenChange,
 }: AreasDeleteDialogProps) {
+  const { t } = useTranslation()
   const deleteArea = useDeleteArea()
 
   const onDelete = () => {
@@ -46,7 +48,7 @@ export function AreasDeleteDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('areas.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the area{' '}
             <strong>{currentRow?.name}</strong>.

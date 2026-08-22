@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -27,6 +28,7 @@ interface StoresTableProps {
 }
 
 export function StoresTable({ data }: StoresTableProps) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -55,7 +57,7 @@ export function StoresTable({ data }: StoresTableProps) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter stores...'
+        searchPlaceholder={t('stores.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -98,9 +100,7 @@ export function StoresTable({ data }: StoresTableProps) {
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
+                >{t('stores.table.noResults', { defaultValue: 'No results.' })}</TableCell>
               </TableRow>
             )}
           </TableBody>

@@ -1,6 +1,7 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
-import { useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { useWarehouseOptions, useStoreOptions } from '@/hooks/use-inventory-lookups'
 import { Badge } from '@/components/ui/badge'
 import {
   Select,
@@ -40,20 +41,35 @@ const MOVEMENT_TYPES = [
   'expired',
   'reserved',
   'released',
+  'production_output',
+  'production_consumption',
+  'lost',
+  'found',
+  'cycle_count_in',
+  'cycle_count_out',
+  'consumption',
 ]
 
 const ALL = '__all__'
 
 export function InventoryMovements() {
+  const { t } = useTranslation()
   const [movementType, setMovementType] = useState<string>(ALL)
-  const [storeId, setStoreId] = useState<string>(ALL)
+  const [warehouseId, setWarehouseId] = useState<string>(ALL)
 
   const filters: MovementFilters = {
     movementType: movementType === ALL ? undefined : movementType,
-    storeId: storeId === ALL ? undefined : storeId,
+    warehouseId: warehouseId === ALL ? undefined : warehouseId,
+    storeId: warehouseId === ALL ? undefined : warehouseId,
   }
   const { data: movements, isLoading, error } = useInventoryMovements(filters)
+  const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
+
+  const locationOptions =
+    warehouses.length > 0
+      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
+      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
 
   return (
     <>
@@ -68,38 +84,36 @@ export function InventoryMovements() {
 
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div>
-          <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-            Inventory Movements
-          </h2>
+          <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('inventoryMovements.title')}</h2>
           <p className='text-muted-foreground'>
-            The complete audit trail of every stock change — sales, purchases,
+            The immutable audit ledger of every stock transaction — purchases, sales,
             transfers, and adjustments.
           </p>
         </div>
 
         <div className='flex flex-wrap gap-2'>
           <Select value={movementType} onValueChange={setMovementType}>
-            <SelectTrigger className='w-52'>
+            <SelectTrigger className='w-56'>
               <SelectValue placeholder='All movement types' />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value={ALL}>All movement types</SelectItem>
               {MOVEMENT_TYPES.map((type) => (
                 <SelectItem key={type} value={type} className='capitalize'>
-                  {type.replace('_', ' ')}
+                  {type.replace(/_/g, ' ')}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Select value={storeId} onValueChange={setStoreId}>
-            <SelectTrigger className='w-52'>
-              <SelectValue placeholder='All stores' />
+          <Select value={warehouseId} onValueChange={setWarehouseId}>
+            <SelectTrigger className='w-56'>
+              <SelectValue placeholder='All warehouses' />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={ALL}>All stores</SelectItem>
-              {stores.map((store) => (
-                <SelectItem key={store.store_id} value={store.store_id}>
-                  {store.name ?? store.store_id}
+              <SelectItem value={ALL}>All warehouses / stores</SelectItem>
+              {locationOptions.map((loc) => (
+                <SelectItem key={loc.id} value={loc.id}>
+                  {loc.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -121,49 +135,61 @@ export function InventoryMovements() {
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Type</TableHead>
-                  <TableHead>Variant</TableHead>
-                  <TableHead>Store</TableHead>
+                  <TableHead>Variant / SKU</TableHead>
+                  <TableHead>Warehouse / Store</TableHead>
                   <TableHead className='text-end'>In</TableHead>
                   <TableHead className='text-end'>Out</TableHead>
+                  <TableHead className='text-end'>Unit Cost</TableHead>
                   <TableHead>Reference</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {movements?.length ? (
-                  movements.map((movement) => (
-                    <TableRow key={movement.id}>
-                      <TableCell className='whitespace-nowrap'>
-                        {new Date(movement.movement_date).toLocaleString(
-                          undefined,
-                          { dateStyle: 'medium', timeStyle: 'short' }
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant='outline' className='capitalize'>
-                          {movement.movement_type.replace('_', ' ')}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {movement.product_variants?.sku ??
-                          movement.product_variant_id.slice(0, 8)}
-                      </TableCell>
-                      <TableCell>{movement.stores?.name ?? '—'}</TableCell>
-                      <TableCell className='text-end text-emerald-600'>
-                        {movement.qty_in > 0 ? movement.qty_in : ''}
-                      </TableCell>
-                      <TableCell className='text-end text-rose-600'>
-                        {movement.qty_out > 0 ? movement.qty_out : ''}
-                      </TableCell>
-                      <TableCell className='text-muted-foreground'>
-                        {movement.reference_type
-                          ? movement.reference_type.replace('_', ' ')
-                          : '—'}
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  movements.map((movement) => {
+                    const locName =
+                      movement.warehouses?.name ??
+                      movement.stores?.name ??
+                      '—'
+                    return (
+                      <TableRow key={movement.id}>
+                        <TableCell className='whitespace-nowrap'>
+                          {new Date(movement.movement_date).toLocaleString(
+                            undefined,
+                            { dateStyle: 'medium', timeStyle: 'short' }
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant='outline' className='capitalize'>
+                            {movement.movement_type.replace(/_/g, ' ')}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <span className='font-mono font-medium'>
+                            {movement.product_variants?.sku ??
+                              movement.product_variant_id.slice(0, 8)}
+                          </span>
+                        </TableCell>
+                        <TableCell>{locName}</TableCell>
+                        <TableCell className='text-end font-semibold text-emerald-600'>
+                          {movement.qty_in > 0 ? `+${movement.qty_in}` : ''}
+                        </TableCell>
+                        <TableCell className='text-end font-semibold text-rose-600'>
+                          {movement.qty_out > 0 ? `-${movement.qty_out}` : ''}
+                        </TableCell>
+                        <TableCell className='text-end font-mono text-sm'>
+                          {movement.unit_cost > 0 ? `$${Number(movement.unit_cost).toFixed(2)}` : '—'}
+                        </TableCell>
+                        <TableCell className='text-muted-foreground'>
+                          {movement.reference_type
+                            ? movement.reference_type.replace(/_/g, ' ')
+                            : '—'}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={7} className='h-24 text-center'>
+                    <TableCell colSpan={8} className='h-24 text-center'>
                       No movements found.
                     </TableCell>
                   </TableRow>
@@ -176,3 +202,4 @@ export function InventoryMovements() {
     </>
   )
 }
+

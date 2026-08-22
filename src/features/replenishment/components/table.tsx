@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -25,6 +26,7 @@ import { columns } from './columns'
 import { useReplenishmentContext } from './provider'
 
 export function ReplenishmentTable({ data }: { data: SuggestionListItem[] }) {
+  const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
   const { rowSelection, setRowSelection } = useReplenishmentContext()

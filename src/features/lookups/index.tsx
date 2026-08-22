@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -124,6 +125,7 @@ function LookupsContent() {
 }
 
 export function Lookups() {
+  const { t } = useTranslation()
   return (
     <LookupsProvider>
       <LookupsContent />

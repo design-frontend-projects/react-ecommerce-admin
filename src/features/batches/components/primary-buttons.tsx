@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { CalendarClock } from 'lucide-react'
 import {
@@ -15,6 +16,7 @@ import { Can } from '@/components/rbac/Can'
 import { useExpireBatches } from '../hooks/use-batches'
 
 export function BatchesPrimaryButtons() {
+  const { t } = useTranslation()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const expireBatches = useExpireBatches()
 

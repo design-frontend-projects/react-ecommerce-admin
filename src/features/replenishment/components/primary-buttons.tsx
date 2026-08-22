@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { FileInput, RefreshCw } from 'lucide-react'
 import {
@@ -19,6 +20,7 @@ import {
 import { useReplenishmentContext } from './provider'
 
 export function ReplenishmentPrimaryButtons() {
+  const { t } = useTranslation()
   const [convertOpen, setConvertOpen] = useState(false)
   const { selectedIds, setRowSelection } = useReplenishmentContext()
   const runCheck = useRunReorderCheck()

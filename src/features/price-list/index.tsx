@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -12,6 +13,7 @@ import { PriceListTable } from './components/price-list-table'
 import { usePriceList } from './hooks/use-price-list'
 
 export function PriceList() {
+  const { t } = useTranslation()
   const { data: items, isLoading, error } = usePriceList()
 
   return (

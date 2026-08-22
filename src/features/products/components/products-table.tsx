@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -11,6 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 import {
   Table,
   TableBody,
@@ -21,16 +22,19 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type Product } from '../data/schema'
-import { columns } from './products-columns'
+import { getColumns } from './products-columns'
 
 interface Props {
   data: Product[]
 }
 
 export function ProductsTable({ data }: Props) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,
@@ -56,7 +60,7 @@ export function ProductsTable({ data }: Props) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter products...'
+        searchPlaceholder={t('products.table.filterPlaceholder')}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -100,7 +104,7 @@ export function ProductsTable({ data }: Props) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t('products.table.noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -111,3 +115,4 @@ export function ProductsTable({ data }: Props) {
     </div>
   )
 }
+

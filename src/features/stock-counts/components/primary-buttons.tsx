@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useCountsContext } from './provider'
 
 export function CountsPrimaryButtons() {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useCountsContext()
   return (
     <Can permission='inventory.manage'>

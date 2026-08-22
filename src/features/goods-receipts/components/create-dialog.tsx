@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
+  useWarehouseOptions,
   useStoreOptions,
+  useSupplierOptions,
   useVariantOptions,
 } from '@/hooks/use-inventory-lookups'
 import { Button } from '@/components/ui/button'
@@ -27,11 +29,12 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { createReceiptInputSchema } from '../data/schema'
 import { useCreateReceipt } from '../hooks/use-goods-receipts'
-import { useSupplierOptions } from '../hooks/use-supplier-options'
 
 interface LineItem {
   productVariantId: string
   qtyReceived: string
+  acceptedQty: string
+  rejectedQty: string
   unitCost: string
   batchNumber: string
   expiryDate: string
@@ -41,6 +44,8 @@ interface LineItem {
 const emptyItem: LineItem = {
   productVariantId: '',
   qtyReceived: '',
+  acceptedQty: '',
+  rejectedQty: '',
   unitCost: '',
   batchNumber: '',
   expiryDate: '',
@@ -56,20 +61,26 @@ export function ReceiptCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const [storeId, setStoreId] = useState('')
+  const [warehouseId, setWarehouseId] = useState('')
   const [poNumber, setPoNumber] = useState('')
   const [supplierId, setSupplierId] = useState(NO_SUPPLIER)
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItem[]>([{ ...emptyItem }])
   const [search, setSearch] = useState('')
 
+  const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
   const { data: suppliers = [] } = useSupplierOptions()
   const { data: variants = [] } = useVariantOptions(search)
   const createReceipt = useCreateReceipt()
 
+  const locationOptions =
+    warehouses.length > 0
+      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
+      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
+
   const reset = () => {
-    setStoreId('')
+    setWarehouseId('')
     setPoNumber('')
     setSupplierId(NO_SUPPLIER)
     setNotes('')
@@ -85,9 +96,10 @@ export function ReceiptCreateDialog({
 
   const handleSubmit = async () => {
     const parsed = createReceiptInputSchema.safeParse({
-      storeId,
-      purchaseOrderId: poNumber === '' ? undefined : Number(poNumber),
-      supplierId: supplierId === NO_SUPPLIER ? undefined : Number(supplierId),
+      warehouseId: warehouseId || undefined,
+      storeId: warehouseId || undefined,
+      purchaseOrderId: poNumber || undefined,
+      supplierId: supplierId === NO_SUPPLIER ? undefined : supplierId,
       notes: notes || undefined,
       items: items
         .filter((item) => item.productVariantId && item.qtyReceived !== '')
@@ -96,9 +108,14 @@ export function ReceiptCreateDialog({
             .split('\n')
             .map((serial) => serial.trim())
             .filter(Boolean)
+          const qty = Number(item.qtyReceived)
+          const accepted = item.acceptedQty ? Number(item.acceptedQty) : qty
+          const rejected = item.rejectedQty ? Number(item.rejectedQty) : 0
           return {
             productVariantId: item.productVariantId,
-            qtyReceived: Number(item.qtyReceived),
+            qtyReceived: qty,
+            acceptedQty: accepted,
+            rejectedQty: rejected,
             unitCost: item.unitCost === '' ? undefined : Number(item.unitCost),
             batchNumber: item.batchNumber || undefined,
             expiryDate: item.expiryDate || undefined,
@@ -135,8 +152,8 @@ export function ReceiptCreateDialog({
         <DialogHeader>
           <DialogTitle>New Goods Receipt</DialogTitle>
           <DialogDescription>
-            Record incoming goods against a store. Created as a draft; post it
-            through the movement engine to increase stock.
+            Receive items into warehouse. Enter inspection metrics (accepted vs rejected)
+            and batch/serial metadata.
           </DialogDescription>
         </DialogHeader>
 
@@ -144,28 +161,26 @@ export function ReceiptCreateDialog({
           <div className='grid gap-4'>
             <div className='grid grid-cols-3 gap-4'>
               <div className='grid gap-2'>
-                <Label>Store</Label>
-                <Select value={storeId} onValueChange={setStoreId}>
+                <Label>Warehouse</Label>
+                <Select value={warehouseId} onValueChange={setWarehouseId}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select store' />
+                    <SelectValue placeholder='Select warehouse' />
                   </SelectTrigger>
                   <SelectContent>
-                    {stores.map((store) => (
-                      <SelectItem key={store.store_id} value={store.store_id}>
-                        {store.name ?? store.store_id}
+                    {locationOptions.map((loc) => (
+                      <SelectItem key={loc.id} value={loc.id}>
+                        {loc.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className='grid gap-2'>
-                <Label>PO # (optional)</Label>
+                <Label>PO # / ID (optional)</Label>
                 <Input
-                  type='number'
-                  min={1}
                   value={poNumber}
                   onChange={(event) => setPoNumber(event.target.value)}
-                  placeholder='e.g. 42'
+                  placeholder='e.g. PO-2026-001'
                 />
               </div>
               <div className='grid gap-2'>
@@ -178,10 +193,10 @@ export function ReceiptCreateDialog({
                     <SelectItem value={NO_SUPPLIER}>No supplier</SelectItem>
                     {suppliers.map((supplier) => (
                       <SelectItem
-                        key={supplier.supplier_id}
-                        value={String(supplier.supplier_id)}
+                        key={supplier.id}
+                        value={supplier.id}
                       >
-                        {supplier.name ?? `#${supplier.supplier_id}`}
+                        {supplier.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -195,8 +210,8 @@ export function ReceiptCreateDialog({
                 <Input
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder='Search SKU...'
-                  className='h-8 w-40'
+                  placeholder='Search SKU / Product...'
+                  className='h-8 w-44'
                 />
               </div>
               <div className='space-y-3'>
@@ -235,7 +250,20 @@ export function ReceiptCreateDialog({
                             qtyReceived: event.target.value,
                           })
                         }
-                        placeholder='Qty'
+                        placeholder='Received'
+                        className='w-24'
+                      />
+                      <Input
+                        type='number'
+                        step='any'
+                        min={0}
+                        value={item.acceptedQty}
+                        onChange={(event) =>
+                          updateItem(index, {
+                            acceptedQty: event.target.value,
+                          })
+                        }
+                        placeholder='Accepted'
                         className='w-24'
                       />
                       <Input
@@ -276,6 +304,7 @@ export function ReceiptCreateDialog({
                               batchNumber: event.target.value,
                             })
                           }
+                          placeholder='e.g. BATCH-2026-X'
                         />
                       </div>
                       <div className='grid gap-1'>
@@ -301,6 +330,7 @@ export function ReceiptCreateDialog({
                           onChange={(event) =>
                             updateItem(index, { serials: event.target.value })
                           }
+                          placeholder='SN001&#10;SN002'
                           rows={2}
                         />
                       </div>
@@ -343,3 +373,4 @@ export function ReceiptCreateDialog({
     </Dialog>
   )
 }
+

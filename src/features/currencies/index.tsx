@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -12,6 +13,7 @@ import { CurrenciesTable } from './components/currencies-table'
 import { useCurrencies } from './hooks/use-currencies'
 
 export function Currencies() {
+  const { t } = useTranslation()
   const { data: currencies, isLoading, error } = useCurrencies()
 
   return (
@@ -28,7 +30,7 @@ export function Currencies() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Currencies</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('currencies.title')}</h2>
             <p className='text-muted-foreground'>Manage your currencies.</p>
           </div>
           <CurrenciesPrimaryButtons />

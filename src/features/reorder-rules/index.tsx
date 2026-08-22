@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -12,6 +13,7 @@ import { ReorderRulesTable } from './components/table'
 import { useReorderRules } from './hooks/use-reorder-rules'
 
 export function ReorderRules() {
+  const { t } = useTranslation()
   const { data: rules, isLoading, error } = useReorderRules()
 
   return (
@@ -28,9 +30,7 @@ export function ReorderRules() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              Reorder Rules
-            </h2>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('reorderRules.title')}</h2>
             <p className='text-muted-foreground'>
               Per-variant, per-store replenishment thresholds that drive the
               reorder check.

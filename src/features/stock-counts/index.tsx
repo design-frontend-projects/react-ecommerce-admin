@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -12,6 +13,7 @@ import { CountsTable } from './components/table'
 import { useCounts } from './hooks/use-stock-counts'
 
 export function StockCounts() {
+  const { t } = useTranslation()
   const { data: counts, isLoading, error } = useCounts()
 
   return (
@@ -28,9 +30,7 @@ export function StockCounts() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              Stock Counts
-            </h2>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('stockCounts.title')}</h2>
             <p className='text-muted-foreground'>
               Full and cycle counts: freeze a snapshot, count, review variances,
               and post the result as an adjustment.

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { Fragment } from 'react/jsx-runtime'
 import { format } from 'date-fns'
@@ -32,6 +33,7 @@ import { type ChatUser, type Convo } from './data/chat-types'
 import { conversations } from './data/convo.json'
 
 export function Chats() {
+  const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null)
   const [mobileSelectedUser, setMobileSelectedUser] = useState<ChatUser | null>(

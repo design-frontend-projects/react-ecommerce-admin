@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
@@ -13,6 +14,7 @@ import { InventoryProvider } from './components/inventory-provider'
 import { InventoryTable } from './components/inventory-table'
 
 export function Inventory() {
+  const { t } = useTranslation()
   const {
     data: inventory,
     isLoading,
@@ -46,7 +48,7 @@ export function Inventory() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Inventory</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('inventory.title')}</h2>
             <p className='text-muted-foreground'>
               Manage your product inventory levels and locations.
             </p>

@@ -1,9 +1,10 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import { type TFunction } from 'i18next'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type Category } from '../hooks/use-categories'
 import { CategoryRowActions } from './category-row-actions'
 
-export const columns: ColumnDef<Category>[] = [
+export const getColumns = (t: TFunction): ColumnDef<Category>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -30,14 +31,14 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: t('categories.columns.name'),
     cell: ({ row }) => <div className='w-[150px]'>{row.getValue('name')}</div>,
     enableSorting: true,
     enableHiding: false,
   },
   {
     accessorKey: 'description',
-    header: 'Description',
+    header: t('categories.columns.description'),
     cell: ({ row }) => {
       return (
         <div className='flex space-x-2'>
@@ -50,7 +51,7 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: 'created_at',
-    header: 'Created At',
+    header: t('categories.columns.createdAt'),
     cell: ({ row }) => {
       return (
         <div className='flex w-[100px] items-center'>
@@ -58,12 +59,11 @@ export const columns: ColumnDef<Category>[] = [
         </div>
       )
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CategoryRowActions row={row} />,
+    cell: CategoryRowActions,
   },
 ]
+
+export const columns = getColumns((k: string) => k)

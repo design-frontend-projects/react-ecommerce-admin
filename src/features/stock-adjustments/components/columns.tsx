@@ -18,10 +18,10 @@ export const columns: ColumnDef<AdjustmentListItem>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Reference' />
+      <DataTableColumnHeader column={column} title='Reference / ID' />
     ),
     cell: ({ row }) => (
-      <span className='font-medium'>{row.original.id.slice(0, 8)}</span>
+      <span className='font-medium'>{`ADJ-${row.original.id.slice(0, 8)}`}</span>
     ),
   },
   {
@@ -34,9 +34,12 @@ export const columns: ColumnDef<AdjustmentListItem>[] = [
     ),
   },
   {
-    id: 'store',
-    header: 'Store',
-    cell: ({ row }) => row.original.stores?.name ?? '—',
+    id: 'warehouse',
+    header: 'Warehouse / Store',
+    cell: ({ row }) =>
+      row.original.warehouses?.name ??
+      row.original.stores?.name ??
+      '—',
   },
   {
     id: 'items',
@@ -50,7 +53,7 @@ export const columns: ColumnDef<AdjustmentListItem>[] = [
     ),
     cell: ({ row }) => (
       <Badge
-        variant={STATUS_VARIANT[row.original.status]}
+        variant={STATUS_VARIANT[row.original.status] ?? 'outline'}
         className='capitalize'
       >
         {row.original.status}
@@ -75,3 +78,4 @@ export const columns: ColumnDef<AdjustmentListItem>[] = [
     cell: ({ row }) => <AdjustmentRowActions row={row.original} />,
   },
 ]
+

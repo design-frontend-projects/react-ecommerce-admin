@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeleteStore } from '../hooks/use-stores'
 import { useStoresContext } from './stores-provider'
 
 export function StoreDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useStoresContext()
   const deleteMutation = useDeleteStore()
 
@@ -37,7 +39,7 @@ export function StoreDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('stores.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the store
             <span className='font-medium text-foreground'>

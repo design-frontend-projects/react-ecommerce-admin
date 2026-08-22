@@ -9,10 +9,30 @@ export type BatchToggleStatus = 'active' | 'blocked'
 export async function listBatches(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
 
-  const batches = (await prisma.product_batches.findMany({
+  const batches = await prisma.product_batches.findMany({
     where: { tenant_id: tenantId },
+    include: {
+      product_variants: {
+        select: {
+          id: true,
+          sku: true,
+          barcode: true,
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+      suppliers: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
     orderBy: { created_at: 'desc' },
-  })) as Array<Record<string, unknown> & { id: string }>
+  })
 
   const sums = (await (prisma.stock_by_location as any).groupBy({
     by: ['batch_id'],
@@ -35,6 +55,7 @@ export async function listBatches(authUserId: string) {
     qty_on_hand: onHandByBatch.get(batch.id) ?? 0,
   }))
 }
+
 
 export async function setBatchStatus(
   authUserId: string,

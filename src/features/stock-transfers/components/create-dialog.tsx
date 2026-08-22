@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
+  useWarehouseOptions,
   useStoreOptions,
   useVariantOptions,
 } from '@/hooks/use-inventory-lookups'
@@ -43,20 +44,26 @@ export function TransferCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const [fromStoreId, setFromStoreId] = useState('')
-  const [toStoreId, setToStoreId] = useState('')
+  const [sourceWarehouseId, setSourceWarehouseId] = useState('')
+  const [destinationWarehouseId, setDestinationWarehouseId] = useState('')
   const [referenceNo, setReferenceNo] = useState('')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItem[]>([{ ...emptyItem }])
   const [search, setSearch] = useState('')
 
+  const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
   const { data: variants = [] } = useVariantOptions(search)
   const createTransfer = useCreateTransfer()
 
+  const locationOptions =
+    warehouses.length > 0
+      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
+      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
+
   const reset = () => {
-    setFromStoreId('')
-    setToStoreId('')
+    setSourceWarehouseId('')
+    setDestinationWarehouseId('')
     setReferenceNo('')
     setNotes('')
     setItems([{ ...emptyItem }])
@@ -71,8 +78,10 @@ export function TransferCreateDialog({
 
   const handleSubmit = async () => {
     const parsed = createTransferInputSchema.safeParse({
-      fromStoreId,
-      toStoreId,
+      sourceWarehouseId: sourceWarehouseId || undefined,
+      destinationWarehouseId: destinationWarehouseId || undefined,
+      fromStoreId: sourceWarehouseId || undefined,
+      toStoreId: destinationWarehouseId || undefined,
       referenceNo: referenceNo || undefined,
       notes: notes || undefined,
       items: items
@@ -112,8 +121,7 @@ export function TransferCreateDialog({
         <DialogHeader>
           <DialogTitle>New Stock Transfer</DialogTitle>
           <DialogDescription>
-            Move stock between two stores. The transfer is created as a draft;
-            apply it to update balances.
+            Move stock between warehouses with full workflow approval and status tracking.
           </DialogDescription>
         </DialogHeader>
 
@@ -121,30 +129,30 @@ export function TransferCreateDialog({
           <div className='grid gap-4'>
             <div className='grid grid-cols-2 gap-4'>
               <div className='grid gap-2'>
-                <Label>From store</Label>
-                <Select value={fromStoreId} onValueChange={setFromStoreId}>
+                <Label>Source Warehouse</Label>
+                <Select value={sourceWarehouseId} onValueChange={setSourceWarehouseId}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Source' />
+                    <SelectValue placeholder='Select source warehouse' />
                   </SelectTrigger>
                   <SelectContent>
-                    {stores.map((store) => (
-                      <SelectItem key={store.store_id} value={store.store_id}>
-                        {store.name ?? store.store_id}
+                    {locationOptions.map((loc) => (
+                      <SelectItem key={loc.id} value={loc.id}>
+                        {loc.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className='grid gap-2'>
-                <Label>To store</Label>
-                <Select value={toStoreId} onValueChange={setToStoreId}>
+                <Label>Destination Warehouse</Label>
+                <Select value={destinationWarehouseId} onValueChange={setDestinationWarehouseId}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Destination' />
+                    <SelectValue placeholder='Select destination warehouse' />
                   </SelectTrigger>
                   <SelectContent>
-                    {stores.map((store) => (
-                      <SelectItem key={store.store_id} value={store.store_id}>
-                        {store.name ?? store.store_id}
+                    {locationOptions.map((loc) => (
+                      <SelectItem key={loc.id} value={loc.id}>
+                        {loc.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -157,7 +165,7 @@ export function TransferCreateDialog({
               <Input
                 value={referenceNo}
                 onChange={(event) => setReferenceNo(event.target.value)}
-                placeholder='e.g. TR-1024'
+                placeholder='e.g. TR-2026-0001'
               />
             </div>
 
@@ -167,8 +175,8 @@ export function TransferCreateDialog({
                 <Input
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder='Search SKU...'
-                  className='h-8 w-40'
+                  placeholder='Search SKU / Product...'
+                  className='h-8 w-44'
                 />
               </div>
               <div className='space-y-2'>
@@ -270,3 +278,4 @@ export function TransferCreateDialog({
     </Dialog>
   )
 }
+

@@ -24,16 +24,19 @@ export const columns: ColumnDef<ReceiptListItem>[] = [
     ),
   },
   {
-    id: 'store',
-    header: 'Store',
-    cell: ({ row }) => row.original.stores?.name ?? '—',
+    id: 'warehouse',
+    header: 'Warehouse / Store',
+    cell: ({ row }) =>
+      row.original.warehouses?.name ??
+      row.original.stores?.name ??
+      '—',
   },
   {
     id: 'purchase_order',
     header: 'PO #',
     cell: ({ row }) =>
-      row.original.purchase_order_id !== null
-        ? `PO-${String(row.original.purchase_order_id).padStart(4, '0')}`
+      row.original.purchase_order_id
+        ? `PO-${row.original.purchase_order_id.slice(0, 8)}`
         : '—',
   },
   {
@@ -41,6 +44,7 @@ export const columns: ColumnDef<ReceiptListItem>[] = [
     header: 'Supplier',
     cell: ({ row }) => row.original.suppliers?.name ?? '—',
   },
+
   {
     accessorKey: 'status',
     header: ({ column }) => (

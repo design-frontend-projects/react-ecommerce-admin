@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -10,6 +11,7 @@ import { AreasTable } from './components/areas-table'
 import { AreasProvider, useAreasContext } from './context/areas-context'
 
 export default function Areas() {
+  const { t } = useTranslation()
   return (
     <AreasProvider>
       <AreasContent />
@@ -33,7 +35,7 @@ function AreasContent() {
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Areas</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('areas.title')}</h2>
             <p className='text-muted-foreground'>
               Manage regions and delivery zones.
             </p>

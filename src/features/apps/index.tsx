@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { type ChangeEvent, useState } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
 import { SlidersHorizontal, ArrowUpAZ, ArrowDownAZ } from 'lucide-react'
@@ -31,6 +32,7 @@ const appText = new Map<AppType, string>([
 ])
 
 export function Apps() {
+  const { t } = useTranslation()
   const {
     filter = '',
     type = 'all',

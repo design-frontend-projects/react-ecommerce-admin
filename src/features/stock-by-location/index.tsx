@@ -1,6 +1,7 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { CheckCircle2, Loader2, TriangleAlert } from 'lucide-react'
-import { useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { useWarehouseOptions, useStoreOptions } from '@/hooks/use-inventory-lookups'
 import { Badge } from '@/components/ui/badge'
 import {
   Select,
@@ -24,22 +25,31 @@ import {
 const ALL = '__all__'
 
 export function StockByLocation() {
-  const [storeId, setStoreId] = useState(ALL)
+  const { t } = useTranslation()
+  const [warehouseId, setWarehouseId] = useState(ALL)
+  const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
+
+  const locationOptions =
+    warehouses.length > 0
+      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
+      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
+
   const {
     data: rows,
     isLoading,
     error,
   } = useStockByLocation({
-    storeId: storeId === ALL ? undefined : storeId,
+    warehouseId: warehouseId === ALL ? undefined : warehouseId,
+    storeId: warehouseId === ALL ? undefined : warehouseId,
   })
   const { data: report } = useReconcileReport()
 
   const violationCount = report
-    ? report.balance_vs_location.length +
-      report.variant_cache.length +
-      report.qty_available.length +
-      report.serial_counts.length
+    ? (report.balance_vs_location?.length ?? 0) +
+      (report.variant_cache?.length ?? 0) +
+      (report.qty_available?.length ?? 0) +
+      (report.serial_counts?.length ?? 0)
     : 0
 
   return (
@@ -56,12 +66,10 @@ export function StockByLocation() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              Stock by Location
-            </h2>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('stockByLocation.title')}</h2>
             <p className='text-muted-foreground'>
               Bin-level stock detail. Location totals always reconcile to the
-              store balances maintained by the movement engine.
+              warehouse balances maintained by the movement engine.
             </p>
           </div>
           <div className='flex items-center gap-2'>
@@ -78,15 +86,15 @@ export function StockByLocation() {
                 </Badge>
               )
             ) : null}
-            <Select value={storeId} onValueChange={setStoreId}>
-              <SelectTrigger className='w-48'>
-                <SelectValue placeholder='All stores' />
+            <Select value={warehouseId} onValueChange={setWarehouseId}>
+              <SelectTrigger className='w-56'>
+                <SelectValue placeholder='All locations' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={ALL}>All stores</SelectItem>
-                {stores.map((store) => (
-                  <SelectItem key={store.store_id} value={store.store_id}>
-                    {store.name ?? store.store_id}
+                <SelectItem value={ALL}>All warehouses / stores</SelectItem>
+                {locationOptions.map((loc) => (
+                  <SelectItem key={loc.id} value={loc.id}>
+                    {loc.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -109,3 +117,4 @@ export function StockByLocation() {
     </>
   )
 }
+

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeleteSupplier } from '../hooks/use-suppliers'
 import { useSuppliersContext } from './suppliers-provider'
 
 export function SupplierDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useSuppliersContext()
   const deleteMutation = useDeleteSupplier()
 
@@ -39,7 +41,7 @@ export function SupplierDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('suppliers.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
             supplier

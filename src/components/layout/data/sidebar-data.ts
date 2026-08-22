@@ -48,7 +48,9 @@ import {
   Wrench,
   Truck,
   MonitorDot,
+  RotateCcw,
 } from 'lucide-react'
+
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '@/stores/auth-store'
 import { useNavCatalog } from '@/features/access-control/hooks/use-nav-catalog'
@@ -367,12 +369,27 @@ export function useSidebarData(): SidebarData {
             permissions: ['inventory.sales.view', 'inventory.sales.manage'],
           },
           {
+            title: 'Sales Shipments',
+            url: '/sales-shipments',
+            icon: Truck,
+            roles: ADMINS,
+            permissions: ['inventory.sales.view', 'inventory.sales.manage'],
+          },
+          {
+            title: 'Customer Returns',
+            url: '/customer-returns',
+            icon: RotateCcw,
+            roles: ADMINS,
+            permissions: ['inventory.sales.view', 'inventory.sales.manage'],
+          },
+          {
             title: t('sidebar.reservations'),
             url: '/reservations',
             icon: Lock,
             roles: ADMINS,
             permissions: ['inventory.sales.view', 'inventory.sales.manage'],
           },
+
           {
             title: t('sidebar.warehouses'),
             url: '/warehouses',

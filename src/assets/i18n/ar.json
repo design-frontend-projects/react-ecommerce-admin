@@ -87,7 +87,14 @@
       "mobile_transfer": "تحويل عبر الموبايل"
     },
     "transferRef": "رقم مرجع التحويل",
-    "transferRefPlaceholder": "أدخل رقم المرجع (مثل: 123456789)"
+    "transferRefPlaceholder": "أدخل رقم المرجع (مثل: 123456789)",
+    "businessInfo": "معلومات النشاط التجاري",
+    "businessName": "اسم النشاط التجاري",
+    "country": "الدولة",
+    "selectCountry": "اختر الدولة",
+    "displayName": "الاسم المعروض",
+    "legalName": "الاسم القانوني",
+    "selectPlan": "اختر باقة الاشتراك"
   },
   "otp": {
     "emailVerification": "تأكيد البريد الإلكتروني",
@@ -131,17 +138,31 @@
   },
   "common": {
     "cancel": "إلغاء",
-    "continue": "متابعة",
-    "confirm": "تأكيد",
     "save": "حفظ",
+    "previous": "السابق",
+    "next": "التالي",
+    "unknown": "غير معروف",
+    "loading": "جاري التحميل...",
     "delete": "حذف",
     "edit": "تعديل",
+    "create": "إنشاء",
     "search": "بحث...",
-    "select": "اختر",
-    "selectDate": "اختر تاريخاً",
-    "loading": "جاري التحميل...",
-    "learnMore": "معرفة المزيد",
-    "skipToMain": "الانتقال إلى المحتوى الرئيسي"
+    "filter": "تصفية",
+    "status": "الحالة",
+    "actions": "الإجراءات",
+    "all": "الكل",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "yes": "نعم",
+    "no": "لا",
+    "back": "رجوع",
+    "confirm": "تأكيد",
+    "refresh": "تحديث",
+    "export": "تصدير",
+    "import": "استيراد",
+    "print": "طباعة",
+    "download": "تنزيل",
+    "error": "خطأ"
   },
   "installBanner": {
     "title": "تثبيت التطبيق: اضغط على",
@@ -362,7 +383,8 @@
     "batches": "الدفعات",
     "serials": "الأرقام التسلسلية",
     "reorderRules": "قواعد إعادة الطلب",
-    "replenishment": "تجديد المخزون"
+    "replenishment": "تجديد المخزون",
+    "stores": "المتاجر"
   },
   "dashboard": {
     "loading": "جاري تحميل لوحة التحكم...",
@@ -573,7 +595,10 @@
         "notEligibleItems": "العرض لا ينطبق على أصناف هذا الطلب",
         "offline": "أكواد الخصم تتطلب اتصالاً بالإنترنت",
         "recordFailed": "تعذر تسجيل استخدام العرض"
-      }
+      },
+      "expiredTitle": "انتهت صلاحية العرض",
+      "expiredDescription": "العرض الترويجي المحدد منتهي الصلاحية ولا يمكن تطبيقه.",
+      "removeAndProceed": "إزالة والمتابعة"
     },
     "checkout": {
       "subtotal": "المجموع الفرعي",
@@ -625,7 +650,8 @@
       "paymentMethod": "طريقة الدفع",
       "amountReceived": "المبلغ المستلم",
       "cancel": "إلغاء",
-      "processPayment": "معالجة الدفع"
+      "processPayment": "معالجة الدفع",
+      "none": "لا يوجد"
     },
     "orderType": {
       "dineIn": "صالة",
@@ -1071,6 +1097,9 @@
       "deleted": "تم حذف البطاقة بنجاح",
       "error": "خطأ",
       "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "rowActions": {
+      "openMenu": "فتح القائمة"
     }
   },
   "customerGroups": {
@@ -1120,6 +1149,9 @@
       "deleted": "تم حذف مجموعة العملاء بنجاح",
       "error": "خطأ",
       "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "rowActions": {
+      "openMenu": "فتح القائمة"
     }
   },
   "paymentMethods": {
@@ -1156,12 +1188,6 @@
       "defaultSet": "تم تحديث طريقة الدفع الافتراضية.",
       "error": "حدث خطأ ما."
     }
-  },
-  "common": {
-    "cancel": "إلغاء",
-    "save": "حفظ",
-    "previous": "السابق",
-    "next": "التالي"
   },
   "shifts": {
     "status": {
@@ -1686,6 +1712,103 @@
         "cancel": "إلغاء",
         "delete": "حذف"
       }
+    },
+    "auditPage": {
+      "title": "سجلات تدقيق صلاحيات الوصول",
+      "subtitle": "مراجعة تاريخ تعيين الأدوار والصلاحيات وتعديلها.",
+      "restrictedTitle": "تم رفض الوصول",
+      "restrictedDesc": "ليس لديك صلاحية لعرض سجلات التدقيق.",
+      "category": "التحكم بالوصول",
+      "allTargets": "جميع الأهداف",
+      "targetRoles": "الأدوار",
+      "targetRolePermissions": "صلاحيات الدور",
+      "targetUserRoles": "أدوار المستخدمين",
+      "targetUserOverrides": "استثناءات المستخدمين",
+      "targetPermissions": "الصلاحيات",
+      "filterPlaceholder": "تصفية سجلات التدقيق...",
+      "failedLoadTitle": "فشل تحميل سجلات التدقيق",
+      "pleaseTryAgain": "يرجى المحاولة مرة أخرى لاحقاً.",
+      "when": "الوقت والتاريخ",
+      "action": "الإجراء",
+      "target": "الهدف",
+      "actor": "المنفذ",
+      "details": "التفاصيل",
+      "noEntries": "لم يتم العثور على سجلات تدقيق",
+      "noEntriesCount": "0 سجلات",
+      "showingRange": "عرض السجلات",
+      "previous": "السابق",
+      "next": "التالي",
+      "view": "عرض"
+    },
+    "buttonFormDialog": {
+      "createTitle": "إنشاء زر إجراء",
+      "editTitle": "تعديل زر الإجراء",
+      "createDesc": "إضافة زر إجراء جديد إلى سجل الشاشات.",
+      "editDesc": "تعديل بيانات زر الإجراء.",
+      "code": "رمز الإجراء",
+      "name": "اسم الزر",
+      "description": "الوصف",
+      "descriptionPlaceholder": "وصف اختياري لوظيفة هذا الزر",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات",
+      "createButton": "إنشاء الزر"
+    },
+    "buttonsPage": {
+      "title": "سجل أزرار الإجراءات",
+      "restrictedTitle": "تم رفض الوصول",
+      "restrictedDesc": "ليس لديك صلاحية لعرض أزرار الإجراءات.",
+      "category": "التحكم بالوصول",
+      "createButton": "إضافة زر",
+      "failedLoadTitle": "فشل تحميل أزرار الإجراءات",
+      "pleaseTryAgain": "يرجى المحاولة مرة أخرى لاحقاً.",
+      "noButtons": "لا توجد أزرار إجراءات مسجلة حتى الآن.",
+      "table": {
+        "code": "الرمز",
+        "name": "الاسم",
+        "description": "الوصف",
+        "type": "النوع",
+        "actions": "الإجراءات",
+        "system": "نظام",
+        "custom": "مخصص"
+      },
+      "deleteDialog": {
+        "title": "حذف زر الإجراء",
+        "desc": "هل أنت متأكد من رغبتك في حذف هذا الزر؟ قد يؤثر هذا على صلاحيات المستخدمين.",
+        "cancel": "إلغاء",
+        "confirm": "حذف"
+      }
+    },
+    "screensPage": {
+      "title": "سجل الشاشات والصفحات",
+      "subtitle": "تهيئة الشاشات والوحدات القابلة للتنقل وصلاحيات الوصول إليها.",
+      "restrictedTitle": "تم رفض الوصول",
+      "restrictedDesc": "ليس لديك صلاحية لعرض الشاشات.",
+      "category": "التحكم بالوصول",
+      "createScreen": "إضافة شاشة",
+      "failedLoadTitle": "فشل تحميل الشاشات",
+      "pleaseTryAgain": "يرجى المحاولة مرة أخرى لاحقاً.",
+      "screensCount": "شاشة",
+      "screensCountPlural": "شاشات",
+      "noScreens": "لم يتم العثور على شاشات.",
+      "table": {
+        "name": "اسم الشاشة",
+        "code": "الرمز",
+        "route": "المسار / الرابط",
+        "icon": "الأيقونة",
+        "sort": "ترتيب العرض",
+        "status": "الحالة",
+        "buttons": "الأزرار",
+        "actions": "الإجراءات",
+        "system": "نظام",
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "deleteDialog": {
+        "title": "حذف الشاشة",
+        "desc": "هل أنت متأكد من حذف هذه الشاشة؟ سيؤثر ذلك على كافة الأزرار والصلاحيات المرتبطة بها.",
+        "cancel": "إلغاء",
+        "confirm": "حذف"
+      }
     }
   },
   "system": {
@@ -1713,7 +1836,10 @@
       "subtitle": "إدارة جميع المطاعم في النظام.",
       "listTitle": "قائمة المطاعم",
       "listDesc": "نظرة عامة على مستوى النظام للمطاعم المسجلة.",
-      "placeholderData": "سيتم الاستعلام عن بيانات المطاعم وعرضها هنا."
+      "placeholderData": "سيتم الاستعلام عن بيانات المطاعم وعرضها هنا.",
+      "cardTitle": "المطاعم والفروع المتصلة",
+      "cardDescription": "إدارة فروع المطاعم وتراخيص نقاط البيع النشطة.",
+      "emptyNotice": "لا توجد مطاعم مسجلة حتى الآن."
     },
     "auditLogs": {
       "title": "سجلات التدقيق",
@@ -1747,7 +1873,1606 @@
         "metadata": "البيانات الوصفية",
         "ipAddress": "عنوان IP: {{ip}}",
         "userAgent": "متصفح المستخدم: {{ua}}"
-      }
+      },
+      "accessControlTitle": "سجلات تدقيق صلاحيات الوصول",
+      "accessControlSubtitle": "تتبع الأحداث الأمنية وتغييرات الصلاحيات في النظام."
     }
+  },
+  "products": {
+    "title": "المنتجات",
+    "description": "إدارة المخزون، ودليل المنتجات، والأسعار.",
+    "addProduct": "إضافة منتج",
+    "editProduct": "تعديل المنتج",
+    "createProduct": "إنشاء منتج",
+    "viewProduct": "تفاصيل المنتج",
+    "deleteProduct": "حذف المنتج",
+    "errorLoading": "حدث خطأ أثناء تحميل المنتجات.",
+    "tabs": {
+      "all": "جميع المنتجات",
+      "active": "نشط",
+      "draft": "مسودة",
+      "archived": "مؤرشف"
+    },
+    "table": {
+      "filterPlaceholder": "تصفية المنتجات بالاسم أو رمز SKU...",
+      "noResults": "لم يتم العثور على منتجات."
+    },
+    "columns": {
+      "name": "اسم المنتج",
+      "sku": "رمز المنتج (SKU)",
+      "category": "التصنيف",
+      "brand": "العلامة التجارية",
+      "price": "سعر البيع",
+      "cost": "سعر التكلفة",
+      "stock": "كمية المخزون",
+      "status": "الحالة",
+      "barcode": "الباركود",
+      "actions": "الإجراءات",
+      "createdAt": "تاريخ الإنشاء"
+    },
+    "form": {
+      "basicInfo": "المعلومات الأساسية",
+      "pricingAndTax": "الأسعار والضرائب",
+      "inventoryTracking": "تتبع المخزون",
+      "variants": "خيارات وأصناف المنتج",
+      "images": "صور المنتج",
+      "name": "اسم المنتج",
+      "namePlaceholder": "مثال: سماعات لاسلكية عازلة للضوضاء",
+      "sku": "رمز المنتج (SKU)",
+      "skuPlaceholder": "مثال: PRD-001",
+      "barcode": "الباركود / UPC",
+      "barcodePlaceholder": "مثال: 123456789012",
+      "description": "الوصف",
+      "descriptionPlaceholder": "وصف تفصيلي للمنتج...",
+      "category": "التصنيف",
+      "selectCategory": "اختر تصنيفاً",
+      "brand": "العلامة التجارية",
+      "selectBrand": "اختر علامة تجارية",
+      "unit": "وحدة القياس",
+      "selectUnit": "اختر الوحدة",
+      "price": "سعر البيع",
+      "costPrice": "سعر التكلفة",
+      "taxRate": "نسبة الضريبة",
+      "selectTaxRate": "اختر نسبة الضريبة",
+      "trackInventory": "تتبع المخزون",
+      "allowBackorders": "السماح بالطلب المسبق عند النفاد",
+      "reorderPoint": "حد إعادة الطلب",
+      "status": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "draft": "مسودة",
+      "cancel": "إلغاء",
+      "save": "حفظ المنتج",
+      "saving": "جاري الحفظ...",
+      "variantTitle": "إعداد الخيارات المتعددة",
+      "addVariant": "إضافة خيار",
+      "optionName": "اسم الخيار (مثال: اللون، الحجم)",
+      "optionValues": "القيم (مفصولة بفواصل)"
+    },
+    "delete": {
+      "title": "حذف المنتج",
+      "description": "هل أنت متأكد من رغبتك في حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء المنتج بنجاح",
+      "updated": "تم تحديث بيانات المنتج بنجاح",
+      "deleted": "تم حذف المنتج بنجاح",
+      "error": "حدث خطأ أثناء حفظ المنتج"
+    }
+  },
+  "categories": {
+    "title": "التصنيفات والأقسام",
+    "description": "تنظيم المنتجات في تصنيفات هرمية وأقسام رئيسية وفرعية.",
+    "addCategory": "إضافة تصنيف",
+    "editCategory": "تعديل التصنيف",
+    "createCategory": "إنشاء تصنيف",
+    "deleteCategory": "حذف التصنيف",
+    "table": {
+      "filterPlaceholder": "تصفية التصنيفات...",
+      "noResults": "لم يتم العثور على تصنيفات."
+    },
+    "columns": {
+      "name": "اسم التصنيف",
+      "slug": "الرمز / المعرف",
+      "parent": "التصنيف الأب",
+      "productsCount": "عدد المنتجات",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "createdAt": "تاريخ الإنشاء",
+      "description": "الوصف"
+    },
+    "form": {
+      "name": "اسم التصنيف",
+      "namePlaceholder": "مثال: إلكترونيات، مشروبات",
+      "slug": "المعرف اللطيف (Slug)",
+      "slugPlaceholder": "مثال: electronics",
+      "parent": "التصنيف الرئيسي (الأب)",
+      "selectParent": "بدون (تصنيف رئيسي)",
+      "description": "الوصف",
+      "descriptionPlaceholder": "وصف موجز للتصنيف",
+      "image": "أيقونة أو صورة التصنيف",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ التصنيف",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف التصنيف",
+      "description": "هل أنت متأكد من حذف هذا التصنيف؟ قد تصبح المنتجات المرتبطة به بدون تصنيف.",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء التصنيف بنجاح",
+      "updated": "تم تحديث التصنيف بنجاح",
+      "deleted": "تم حذف التصنيف بنجاح",
+      "error": "فشل حفظ التصنيف"
+    }
+  },
+  "brands": {
+    "title": "العلامات التجارية",
+    "description": "إدارة الماركات التجارية والشركات المصنعة للمنتجات.",
+    "addBrand": "إضافة علامة تجارية",
+    "editBrand": "تعديل العلامة التجارية",
+    "createBrand": "إنشاء علامة تجارية",
+    "deleteBrand": "حذف العلامة التجارية",
+    "table": {
+      "filterPlaceholder": "تصفية العلامات التجارية...",
+      "noResults": "لم يتم العثور على علامات تجارية."
+    },
+    "columns": {
+      "name": "اسم العلامة التجارية",
+      "code": "الرمز",
+      "website": "الموقع الإلكتروني",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم العلامة التجارية",
+      "namePlaceholder": "مثال: Apple, Sony, Samsung",
+      "code": "رمز العلامة التجارية",
+      "codePlaceholder": "مثال: BRD-001",
+      "website": "رابط الموقع",
+      "websitePlaceholder": "https://brand.com",
+      "description": "الوصف",
+      "logo": "شعار العلامة التجارية",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ العلامة التجارية",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف العلامة التجارية",
+      "description": "هل أنت متأكد من حذف هذه العلامة التجارية؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء العلامة التجارية بنجاح",
+      "updated": "تم تحديث العلامة التجارية بنجاح",
+      "deleted": "تم حذف العلامة التجارية بنجاح",
+      "error": "فشل حفظ العلامة التجارية"
+    }
+  },
+  "units": {
+    "title": "وحدات القياس",
+    "description": "تعريف وحدات القياس (كيلوجرام، قطعة، لتر، كرتون) ومعاملات التحويل.",
+    "addUnit": "إضافة وحدة",
+    "editUnit": "تعديل الوحدة",
+    "createUnit": "إنشاء وحدة",
+    "deleteUnit": "حذف الوحدة",
+    "table": {
+      "filterPlaceholder": "تصفية الوحدات...",
+      "noResults": "لم يتم العثور على وحدات قياس."
+    },
+    "columns": {
+      "name": "اسم الوحدة",
+      "code": "الرمز / الاختصار",
+      "baseUnit": "الوحدة الأساسية",
+      "conversionFactor": "معامل التحويل",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم الوحدة",
+      "namePlaceholder": "مثال: كيلوجرام، قطعة، كرتون",
+      "code": "الرمز / الاختصار",
+      "codePlaceholder": "مثال: kg, pcs, box",
+      "isBaseUnit": "هل هي وحدة أساسية",
+      "baseUnit": "الوحدة الأساسية المرجعية",
+      "conversionFactor": "معامل التحويل (بالنسبة للأساسية)",
+      "cancel": "إلغاء",
+      "save": "حفظ الوحدة",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف الوحدة",
+      "description": "هل أنت متأكد من حذف وحدة القياس هذه؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء وحدة القياس بنجاح",
+      "updated": "تم تحديث وحدة القياس بنجاح",
+      "deleted": "تم حذف وحدة القياس بنجاح",
+      "error": "فشل حفظ وحدة القياس"
+    }
+  },
+  "branches": {
+    "title": "الفروع والمقرات",
+    "description": "إدارة الفروع ومنافذ البيع والمواقع الجغرافية للنشاط.",
+    "addBranch": "إضافة فرع",
+    "editBranch": "تعديل الفرع",
+    "createBranch": "إنشاء فرع",
+    "deleteBranch": "حذف الفرع",
+    "table": {
+      "filterPlaceholder": "تصفية الفروع...",
+      "noResults": "لم يتم العثور على فروع."
+    },
+    "columns": {
+      "name": "اسم الفرع",
+      "code": "رمز الفرع",
+      "phone": "الهاتف",
+      "city": "المدينة",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم الفرع",
+      "code": "رمز الفرع",
+      "phone": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "address": "العنوان",
+      "city": "المدينة",
+      "country": "الدولة",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ الفرع",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف الفرع",
+      "description": "هل أنت متأكد من رغبتك في حذف هذا الفرع؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء الفرع بنجاح",
+      "updated": "تم تحديث بيانات الفرع بنجاح",
+      "deleted": "تم حذف الفرع بنجاح",
+      "error": "فشل حفظ الفرع"
+    }
+  },
+  "warehouses": {
+    "title": "المستودعات والمخازن",
+    "description": "إدارة المستودعات، ومراكز التوزيع، ومواقع التخزين.",
+    "addWarehouse": "إضافة مستودع",
+    "editWarehouse": "تعديل المستودع",
+    "createWarehouse": "إنشاء مستودع",
+    "deleteWarehouse": "حذف المستودع",
+    "table": {
+      "filterPlaceholder": "تصفية المستودعات...",
+      "noResults": "لم يتم العثور على مستودعات."
+    },
+    "columns": {
+      "name": "اسم المستودع",
+      "code": "الرمز",
+      "branch": "الفرع المرتبط",
+      "manager": "أمين المستودع",
+      "location": "الموقع",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم المستودع",
+      "code": "رمز المستودع",
+      "branch": "الفرع",
+      "selectBranch": "اختر الفرع",
+      "manager": "المسؤول / أمين المستودع",
+      "address": "العنوان",
+      "phone": "هاتف التواصل",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ المستودع",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف المستودع",
+      "description": "هل أنت متأكد من حذف هذا المستودع؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء المستودع بنجاح",
+      "updated": "تم تحديث بيانات المستودع بنجاح",
+      "deleted": "تم حذف المستودع بنجاح",
+      "error": "فشل حفظ المستودع"
+    }
+  },
+  "stores": {
+    "title": "المتاجر ومنافذ البيع",
+    "description": "إدارة المتاجر والمحلات التجارية التابعة للفروع.",
+    "addStore": "إضافة متجر",
+    "editStore": "تعديل المتجر",
+    "createStore": "إنشاء متجر",
+    "deleteStore": "حذف المتجر",
+    "table": {
+      "filterPlaceholder": "تصفية المتاجر...",
+      "noResults": "لم يتم العثور على متاجر."
+    },
+    "columns": {
+      "name": "اسم المتجر",
+      "code": "رمز المتجر",
+      "branch": "الفرع",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم المتجر",
+      "code": "رمز المتجر",
+      "branch": "الفرع",
+      "address": "العنوان",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ المتجر",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف المتجر",
+      "description": "هل أنت متأكد من حذف هذا المتجر؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء المتجر بنجاح",
+      "updated": "تم تحديث بيانات المتجر بنجاح",
+      "deleted": "تم حذف المتجر بنجاح",
+      "error": "فشل حفظ المتجر"
+    }
+  },
+  "suppliers": {
+    "title": "الموردين",
+    "description": "إدارة الموردين، وجهات الاتصال، وشروط الشراء والدفع.",
+    "addSupplier": "إضافة مورد",
+    "editSupplier": "تعديل المورد",
+    "createSupplier": "إنشاء مورد",
+    "deleteSupplier": "حذف المورد",
+    "table": {
+      "filterPlaceholder": "تصفية الموردين...",
+      "noResults": "لم يتم العثور على موردين."
+    },
+    "columns": {
+      "name": "اسم المورد",
+      "code": "رمز المورد",
+      "contactPerson": "الشخص المسؤول",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "taxNumber": "الرقم الضريبي",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم الشركة / المورد",
+      "code": "رمز المورد",
+      "contactPerson": "الشخص المسؤول",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "taxNumber": "الرقم الضريبي",
+      "address": "العنوان",
+      "paymentTerms": "شروط الدفع",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ المورد",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف المورد",
+      "description": "هل أنت متأكد من حذف هذا المورد؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء المورد بنجاح",
+      "updated": "تم تحديث بيانات المورد بنجاح",
+      "deleted": "تم حذف المورد بنجاح",
+      "error": "فشل حفظ بيانات المورد"
+    }
+  },
+  "customers": {
+    "title": "العملاء",
+    "description": "إدارة قاعدة بيانات العملاء، والحسابات الائتمانية، والملفات الشخصية.",
+    "addCustomer": "إضافة عميل",
+    "editCustomer": "تعديل العميل",
+    "createCustomer": "إنشاء عميل",
+    "deleteCustomer": "حذف العميل",
+    "table": {
+      "filterPlaceholder": "تصفية العملاء...",
+      "noResults": "لم يتم العثور على عملاء."
+    },
+    "columns": {
+      "name": "اسم العميل",
+      "group": "مجموعة العميل",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "balance": "الرصيد المستحق",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "الاسم الكامل / اسم المنشأة",
+      "phone": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "group": "مجموعة العميل",
+      "selectGroup": "اختر مجموعة العميل",
+      "taxNumber": "الرقم الضريبي",
+      "creditLimit": "الحد الائتماني",
+      "address": "عنوان الفوترة والشحن",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ العميل",
+      "saving": "جاري الحفظ..."
+    },
+    "delete": {
+      "title": "حذف العميل",
+      "description": "هل أنت متأكد من حذف سجل العميل هذا؟",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جاري الحذف..."
+    },
+    "toast": {
+      "created": "تم إنشاء العميل بنجاح",
+      "updated": "تم تحديث بيانات العميل بنجاح",
+      "deleted": "تم حذف العميل بنجاح",
+      "error": "فشل حفظ بيانات العميل"
+    }
+  },
+  "purchaseOrders": {
+    "title": "أوامر الشراء",
+    "description": "إدارة أوامر الشراء للموردين، وتتبع التوريد والاستلام.",
+    "createPO": "إنشاء أمر شراء",
+    "editPO": "تعديل أمر الشراء",
+    "deletePO": "حذف أمر الشراء",
+    "viewPO": "تفاصيل أمر الشراء",
+    "table": {
+      "filterPlaceholder": "تصفية أوامر الشراء...",
+      "noResults": "لم يتم العثور على أوامر شراء."
+    },
+    "columns": {
+      "orderNumber": "رقم أمر الشراء",
+      "supplier": "المورد",
+      "orderDate": "تاريخ الطلب",
+      "deliveryDate": "تاريخ التوريد المتوقع",
+      "totalAmount": "المبلغ الإجمالي",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "draft": "مسودة",
+      "pending": "قيد المراجعة",
+      "ordered": "تم الطلب",
+      "received": "تم الاستلام",
+      "partial": "مستلم جزئياً",
+      "cancelled": "ملغي"
+    },
+    "form": {
+      "supplier": "المورد",
+      "selectSupplier": "اختر المورد",
+      "orderDate": "تاريخ الطلب",
+      "expectedDate": "تاريخ الاستلام المتوقع",
+      "warehouse": "مستودع الاستلام",
+      "selectWarehouse": "اختر المستودع",
+      "notes": "الملاحظات والشروط",
+      "items": "بنود وأصناف الطلب",
+      "addItem": "إضافة بند",
+      "product": "المنتج",
+      "quantity": "الكمية",
+      "unitPrice": "سعر الوحدة",
+      "total": "الإجمالي",
+      "subtotal": "المجموع الفرعي",
+      "tax": "الضريبة",
+      "grandTotal": "المجموع الكلي",
+      "cancel": "إلغاء",
+      "save": "حفظ أمر الشراء",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء أمر الشراء بنجاح",
+      "updated": "تم تحديث أمر الشراء بنجاح",
+      "deleted": "تم حذف أمر الشراء بنجاح",
+      "error": "فشل حفظ أمر الشراء"
+    }
+  },
+  "purchaseRequisitions": {
+    "title": "طلبات الشراء الداخلية",
+    "description": "إدارة طلبات الاحتياج والشراء الداخلية ومسارات الموافقة.",
+    "createPR": "إنشاء طلب شراء",
+    "editPR": "تعديل الطلب",
+    "deletePR": "حذف الطلب",
+    "table": {
+      "filterPlaceholder": "تصفية طلبات الشراء...",
+      "noResults": "لم يتم العثور على طلبات شراء."
+    },
+    "columns": {
+      "reqNumber": "رقم الطلب",
+      "requestedBy": "مقدم الطلب",
+      "department": "القسم / الإدارة",
+      "date": "تاريخ الطلب",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "draft": "مسودة",
+      "pending": "قيد المراجعة",
+      "approved": "تمت الموافقة",
+      "rejected": "مرفوض",
+      "converted": "تم تحويله لأمر شراء"
+    },
+    "form": {
+      "requestedBy": "مقدم الطلب",
+      "department": "القسم",
+      "neededBy": "تاريخ الاحتياج",
+      "reason": "مبررات الطلب",
+      "cancel": "إلغاء",
+      "save": "تقديم الطلب",
+      "saving": "جاري التقديم..."
+    },
+    "toast": {
+      "created": "تم تقديم طلب الشراء بنجاح",
+      "updated": "تم تحديث الطلب بنجاح",
+      "deleted": "تم حذف الطلب بنجاح",
+      "error": "فشل تقديم طلب الشراء"
+    }
+  },
+  "goodsReceipts": {
+    "title": "سندات استلام البضائع",
+    "description": "تسجيل استلام البضائع والمشتريات من الموردين إلى المستودعات.",
+    "createReceipt": "استلام بضاعة",
+    "editReceipt": "تعديل سند الاستلام",
+    "deleteReceipt": "حذف سند الاستلام",
+    "table": {
+      "filterPlaceholder": "تصفية سندات الاستلام...",
+      "noResults": "لم يتم العثور على سندات استلام."
+    },
+    "columns": {
+      "receiptNumber": "رقم السند",
+      "poNumber": "رقم أمر الشراء",
+      "supplier": "المورد",
+      "warehouse": "المستودع",
+      "receivedDate": "تاريخ الاستلام",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "draft": "مسودة",
+      "inspected": "تم الفحص",
+      "completed": "مكتمل",
+      "rejected": "مرفوض"
+    },
+    "form": {
+      "poReference": "مرجع أمر الشراء",
+      "warehouse": "مستودع الاستلام",
+      "receivedDate": "تاريخ الاستلام",
+      "trackingNumber": "رقم بوليصة الشحن",
+      "notes": "ملاحظات الفحص والاستلام",
+      "cancel": "إلغاء",
+      "save": "تأكيد الاستلام",
+      "saving": "جاري المعالجة..."
+    },
+    "toast": {
+      "created": "تم استلام البضاعة وتحديث المخزون بنجاح",
+      "updated": "تم تحديث سند الاستلام بنجاح",
+      "deleted": "تم حذف سند الاستلام بنجاح",
+      "error": "فشل تسجيل استلام البضاعة"
+    }
+  },
+  "stockTransfers": {
+    "title": "التحويلات المخزنية",
+    "description": "تحويل البضائع والمخزون بين الفروع والمستودعات.",
+    "createTransfer": "إنشاء تحويل مخزني",
+    "editTransfer": "تعديل التحويل",
+    "deleteTransfer": "حذف التحويل",
+    "table": {
+      "filterPlaceholder": "تصفية التحويلات المخزنية...",
+      "noResults": "لم يتم العثور على تحويلات مخزنية."
+    },
+    "columns": {
+      "transferNumber": "رقم التحويل",
+      "sourceWarehouse": "المستودع المصدر",
+      "targetWarehouse": "المستودع المستلم",
+      "transferDate": "تاريخ التحويل",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "draft": "مسودة",
+      "inTransit": "في الطريق (قيد النقل)",
+      "received": "تم الاستلام",
+      "cancelled": "ملغي"
+    },
+    "form": {
+      "source": "المستودع المصدر",
+      "destination": "المستودع المستلم",
+      "date": "تاريخ التحويل",
+      "notes": "ملاحظات التحويل",
+      "items": "الأصناف المحولة",
+      "product": "المنتج",
+      "quantity": "الكمية المحولة",
+      "cancel": "إلغاء",
+      "save": "بدء التحويل",
+      "saving": "جاري المعالجة..."
+    },
+    "toast": {
+      "created": "تم بدء التحويل المخزني بنجاح",
+      "updated": "تم تحديث التحويل بنجاح",
+      "deleted": "تم حذف التحويل بنجاح",
+      "error": "فشل تنفيذ التحويل المخزني"
+    }
+  },
+  "stockAdjustments": {
+    "title": "تسويات المخزون",
+    "description": "تسوية الفروقات المخزنية، والتوالف، والهدر، وتصحيح الأرصدة.",
+    "createAdjustment": "تسوية جديدة",
+    "editAdjustment": "تعديل التسوية",
+    "deleteAdjustment": "حذف التسوية",
+    "table": {
+      "filterPlaceholder": "تصفية التسويات المخزنية...",
+      "noResults": "لم يتم العثور على تسويات."
+    },
+    "columns": {
+      "adjustmentNumber": "رقم التسوية",
+      "warehouse": "المستودع",
+      "reason": "السبب",
+      "date": "تاريخ التسوية",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "reasons": {
+      "damage": "تلف بضاعة",
+      "loss": "فقدان أو عجز",
+      "expiry": "انتهاء صلاحية",
+      "correction": "تصحيح جرد دوري",
+      "internalUse": "استخدام داخلي"
+    },
+    "status": {
+      "draft": "مسودة",
+      "approved": "معتمد ومطبق",
+      "rejected": "مرفوض"
+    },
+    "form": {
+      "warehouse": "المستودع",
+      "reason": "سبب التسوية",
+      "date": "التاريخ",
+      "notes": "الملاحظات",
+      "cancel": "إلغاء",
+      "save": "حفظ التسوية",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء تسوية المخزون بنجاح",
+      "updated": "تم تحديث التسوية بنجاح",
+      "deleted": "تم حذف التسوية بنجاح",
+      "error": "فشل تطبيق تسوية المخزون"
+    }
+  },
+  "stockCounts": {
+    "title": "جرد المخزون",
+    "description": "إجراء الجرد الفعلي للمخزون، والجرد الدوري، وتدقيق الفروقات.",
+    "createCount": "بدء جرد جديد",
+    "editCount": "تعديل الجرد",
+    "table": {
+      "filterPlaceholder": "تصفية عمليات الجرد...",
+      "noResults": "لم يتم العثور على عمليات جرد."
+    },
+    "columns": {
+      "countNumber": "رقم الجرد",
+      "warehouse": "المستودع",
+      "countDate": "تاريخ الجرد",
+      "countedBy": "القائم بالجرد",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتمل",
+      "reconciled": "تمت التسوية",
+      "cancelled": "ملغي"
+    },
+    "form": {
+      "warehouse": "المستودع المراد جرده",
+      "date": "تاريخ الجرد",
+      "notes": "ملاحظات الجرد",
+      "cancel": "إلغاء",
+      "save": "حفظ الجرد",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم بدء عملية الجرد بنجاح",
+      "updated": "تم تحديث بيانات الجرد بنجاح",
+      "reconciled": "تمت تسوية الجرد وتحديث أرصدة المخزون",
+      "error": "فشل حفظ عملية الجرد"
+    }
+  },
+  "stockBalances": {
+    "title": "أرصدة المخزون",
+    "description": "الكميات المتوفرة، والمحجوزة، وقيمة المخزون الإجمالية لكل مستودع.",
+    "table": {
+      "filterPlaceholder": "تصفية الأرصدة بالمنتج أو المستودع...",
+      "noResults": "لم يتم العثور على سجلات أرصدة."
+    },
+    "columns": {
+      "product": "اسم المنتج",
+      "sku": "رمز SKU",
+      "warehouse": "المستودع",
+      "quantityOnHand": "الكمية الفعلية بالمخزن",
+      "allocated": "الكمية المحجوزة",
+      "available": "الكمية المتاحة للبيع",
+      "unitCost": "سعر التكلفة",
+      "totalValue": "القيمة الإجمالية"
+    }
+  },
+  "stockByLocation": {
+    "title": "المخزون حسب الموقع التفصيلي",
+    "description": "تتبع مواقع التخزين، والأرفف، والصناديق داخل المستودع.",
+    "table": {
+      "filterPlaceholder": "تصفية بالموقع أو الرمز...",
+      "noResults": "لم يتم العثور على سجلات مواقع."
+    },
+    "columns": {
+      "warehouse": "المستودع",
+      "zone": "المنطقة / الممر",
+      "rack": "الرف",
+      "bin": "موقع الصندوق / الحاوية",
+      "product": "المنتج",
+      "quantity": "الكمية"
+    }
+  },
+  "inventory": {
+    "title": "إدارة المخزون",
+    "description": "نظرة عامة على مستويات المخزون، والتنبيهات، ومؤشرات الأداء.",
+    "lowStockAlerts": "تنبيهات انخفاض المخزون",
+    "outOfStock": "منتجات نفدت كميتها",
+    "totalItems": "إجمالي الأصناف والمنتجات",
+    "inventoryValue": "إجمالي قيمة المخزون",
+    "viewAllProducts": "عرض جميع المنتجات",
+    "manageStock": "إدارة المخزون",
+    "table": {
+      "filterPlaceholder": "تصفية المخزون...",
+      "noResults": "لم يتم العثور على سجلات مخزون."
+    }
+  },
+  "inventoryMovements": {
+    "title": "حركات المخزون",
+    "description": "سجل تدقيق كامل لجميع حركات الإدخال والإخراج والتحويل للمنتجات.",
+    "table": {
+      "filterPlaceholder": "تصفية الحركات بالمنتج أو الرقم المرجعي...",
+      "noResults": "لم يتم العثور على سجل حركات."
+    },
+    "columns": {
+      "timestamp": "الوقت والتاريخ",
+      "product": "المنتج",
+      "warehouse": "المستودع",
+      "type": "نوع الحركة",
+      "quantity": "الكمية",
+      "balanceAfter": "الرصيد بعد الحركة",
+      "reference": "المرجع"
+    },
+    "types": {
+      "purchase": "استلام مشتريات",
+      "sale": "فاتورة مبيعات",
+      "transferIn": "تحويل وارد",
+      "transferOut": "تحويل صادر",
+      "adjustment": "تسوية مخزنية",
+      "return": "مرتجع مبيعات"
+    }
+  },
+  "batches": {
+    "title": "تتبع التشغيلات والدفعات (Batches)",
+    "description": "إدارة أرقام التشغيلات وتواريخ الإنتاج وانتهاء الصلاحية.",
+    "addBatch": "إضافة تشغيلة",
+    "editBatch": "تعديل التشغيلة",
+    "deleteBatch": "حذف التشغيلة",
+    "table": {
+      "filterPlaceholder": "تصفية التشغيلات...",
+      "noResults": "لم يتم العثور على تشغيلات."
+    },
+    "columns": {
+      "batchNumber": "رقم التشغيلة / الدفعة",
+      "product": "المنتج",
+      "mfgDate": "تاريخ الإنتاج",
+      "expiryDate": "تاريخ انتهاء الصلاحية",
+      "quantity": "كمية الدفعة",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "active": "نشط",
+      "nearExpiry": "قريب من الانتهاء",
+      "expired": "منتهي الصلاحية",
+      "quarantine": "في الحجر الصحي"
+    },
+    "form": {
+      "batchNumber": "رقم التشغيلة",
+      "product": "المنتج",
+      "selectProduct": "اختر المنتج",
+      "mfgDate": "تاريخ الإنتاج",
+      "expiryDate": "تاريخ انتهاء الصلاحية",
+      "initialQty": "الكمية الأولية",
+      "cancel": "إلغاء",
+      "save": "حفظ التشغيلة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء التشغيلة بنجاح",
+      "updated": "تم تحديث بيانات التشغيلة بنجاح",
+      "deleted": "تم حذف التشغيلة بنجاح",
+      "error": "فشل حفظ التشغيلة"
+    }
+  },
+  "serials": {
+    "title": "الأرقام التسلسلية (Serial Numbers)",
+    "description": "تتبع الأرقام التسلسلية الفريدة لكل قطعة، والضمان، وتاريخ البيع.",
+    "addSerial": "إضافة رقم تسلسلي",
+    "editSerial": "تعديل الرقم التسلسلي",
+    "deleteSerial": "حذف الرقم التسلسلي",
+    "table": {
+      "filterPlaceholder": "تصفية الأرقام التسلسلية...",
+      "noResults": "لم يتم العثور على أرقام تسلسلية."
+    },
+    "columns": {
+      "serialNumber": "الرقم التسلسلي (Serial)",
+      "product": "المنتج",
+      "warehouse": "المستودع",
+      "warrantyExpiry": "تاريخ انتهاء الضمان",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "available": "متوفر بالمخزن",
+      "sold": "تم البيع",
+      "inRepair": "قيد الصيانة",
+      "defective": "معيب / تالف"
+    },
+    "form": {
+      "serialNumber": "الرقم التسلسلي",
+      "product": "المنتج",
+      "warehouse": "المستودع",
+      "warrantyMonths": "فترة الضمان (بالأشهر)",
+      "notes": "الملاحظات",
+      "cancel": "إلغاء",
+      "save": "حفظ الرقم التسلسلي",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم تسجيل الرقم التسلسلي بنجاح",
+      "updated": "تم تحديث الرقم التسلسلي بنجاح",
+      "deleted": "تم حذف الرقم التسلسلي بنجاح",
+      "error": "فشل حفظ الرقم التسلسلي"
+    }
+  },
+  "reorderRules": {
+    "title": "قواعد إعادة الطلب",
+    "description": "تهيئة حدود المخزون الدنيا والقصوى والتنبيه التلقائي لإعادة الطلب.",
+    "addRule": "إضافة قاعدة إعادة طلب",
+    "editRule": "تعديل القاعدة",
+    "deleteRule": "حذف القاعدة",
+    "table": {
+      "filterPlaceholder": "تصفية قواعد إعادة الطلب...",
+      "noResults": "لم يتم العثور على قواعد إعادة طلب."
+    },
+    "columns": {
+      "product": "المنتج",
+      "warehouse": "المستودع",
+      "minQty": "الحد الأدنى (نقطة الطلب)",
+      "maxQty": "الحد الأقصى للمخزون",
+      "reorderQty": "الكمية المقترحة للطلب",
+      "supplier": "المورد المفضل",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "product": "المنتج",
+      "warehouse": "المستودع",
+      "minQty": "الحد الأدنى للكمية",
+      "maxQty": "الحد الأقصى للكمية",
+      "reorderQty": "الكمية المقترح طلبها",
+      "supplier": "المورد المفضل",
+      "cancel": "إلغاء",
+      "save": "حفظ القاعدة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء قاعدة إعادة الطلب بنجاح",
+      "updated": "تم تحديث القاعدة بنجاح",
+      "deleted": "تم حذف القاعدة بنجاح",
+      "error": "فشل حفظ قاعدة إعادة الطلب"
+    }
+  },
+  "replenishment": {
+    "title": "مقترحات تعويض المخزون",
+    "description": "توصيات الشراء التلقائية بناءً على مستويات المخزون وقواعد التوريد.",
+    "generatePO": "إنشاء أوامر شراء للمقترحات",
+    "table": {
+      "filterPlaceholder": "تصفية المقترحات...",
+      "noResults": "لا توجد مقترحات تعويض حالياً."
+    },
+    "columns": {
+      "product": "المنتج",
+      "warehouse": "المستودع",
+      "currentStock": "المخزون الحالي",
+      "reorderPoint": "نقطة إعادة الطلب",
+      "suggestedQty": "الكمية المقترحة للطلب",
+      "supplier": "المورد المفضل",
+      "action": "الإجراء"
+    }
+  },
+  "sales": {
+    "title": "إدارة المبيعات",
+    "description": "نظرة عامة على إيرادات المبيعات، والعمليات، وفواتير العملاء.",
+    "newSale": "عملية بيع جديدة",
+    "totalRevenue": "إجمالي الإيرادات",
+    "totalOrders": "إجمالي عدد الطلبات",
+    "averageOrder": "متوسط قيمة الطلب",
+    "recentSales": "أحدث العمليات"
+  },
+  "salesOrders": {
+    "title": "فواتير وأوامر المبيعات",
+    "description": "إدارة فواتير المبيعات، ومتابعة التحصيل، والتسليم للعملاء.",
+    "createOrder": "إنشاء فاتورة مبيعات",
+    "editOrder": "تعديل الفاتورة",
+    "deleteOrder": "حذف الفاتورة",
+    "viewOrder": "تفاصيل الفاتورة",
+    "table": {
+      "filterPlaceholder": "تصفية فواتير المبيعات...",
+      "noResults": "لم يتم العثور على فواتير مبيعات."
+    },
+    "columns": {
+      "orderNumber": "رقم الفاتورة",
+      "customer": "العميل",
+      "orderDate": "التاريخ",
+      "totalAmount": "المبلغ الإجمالي",
+      "paymentStatus": "حالة الدفع",
+      "fulfillmentStatus": "حالة التسليم",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "paymentStatus": {
+      "paid": "مدفوع",
+      "unpaid": "غير مدفوع (آجل)",
+      "partial": "مدفوع جزئياً"
+    },
+    "fulfillmentStatus": {
+      "fulfilled": "تم التسليم",
+      "unfulfilled": "قيد التجهيز",
+      "partial": "تسليم جزئي"
+    },
+    "form": {
+      "customer": "العميل",
+      "selectCustomer": "اختر العميل",
+      "orderDate": "تاريخ الفاتورة",
+      "paymentMethod": "طريقة الدفع",
+      "items": "بنود الفاتورة",
+      "addItem": "إضافة بند",
+      "product": "المنتج",
+      "quantity": "الكمية",
+      "price": "سعر الوحدة",
+      "discount": "الخصم",
+      "tax": "الضريبة",
+      "total": "الإجمالي",
+      "notes": "ملاحظات الفاتورة",
+      "cancel": "إلغاء",
+      "save": "إتمام الفاتورة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء فاتورة المبيعات بنجاح",
+      "updated": "تم تحديث الفاتورة بنجاح",
+      "deleted": "تم حذف الفاتورة بنجاح",
+      "error": "فشل حفظ فاتورة المبيعات"
+    }
+  },
+  "salesShipments": {
+    "title": "الشحنات والتوصيل",
+    "description": "إدارة شحنات طلبات البيع، وشركات الشحن، وتتبع التوصيل.",
+    "createShipment": "إنشاء شحنة جديدة",
+    "table": {
+      "filterPlaceholder": "تصفية الشحنات...",
+      "noResults": "لم يتم العثور على شحنات."
+    },
+    "columns": {
+      "shipmentNumber": "رقم الشحنة",
+      "orderNumber": "رقم الطلب",
+      "customer": "العميل",
+      "carrier": "شركة الشحن / السائق",
+      "trackingNumber": "رقم التتبع",
+      "shipDate": "تاريخ الشحن",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "pending": "قيد التجهيز",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "returned": "مرتجع"
+    },
+    "form": {
+      "order": "أمر البيع",
+      "carrier": "شركة الشحن",
+      "trackingNumber": "رقم التتبع",
+      "shipDate": "تاريخ الإرسال",
+      "cancel": "إلغاء",
+      "save": "إرسال الشحنة",
+      "saving": "جاري الإرسال..."
+    },
+    "toast": {
+      "created": "تم إرسال الشحنة بنجاح",
+      "updated": "تم تحديث بيانات الشحنة بنجاح",
+      "deleted": "تم حذف الشحنة بنجاح",
+      "error": "فشل إرسال الشحنة"
+    }
+  },
+  "customerReturns": {
+    "title": "مرتجعات العملاء (RMA)",
+    "description": "معالجة مرتجعات المبيعات، واسترداد المبالغ، وإعادة الإدخال للمخزون.",
+    "createReturn": "معالجة مرتجع",
+    "table": {
+      "filterPlaceholder": "تصفية المرتجعات...",
+      "noResults": "لم يتم العثور على مرتجعات."
+    },
+    "columns": {
+      "returnNumber": "رقم المرتجع",
+      "orderNumber": "رقم الفاتورة",
+      "customer": "العميل",
+      "returnDate": "تاريخ الإرجاع",
+      "refundAmount": "المبلغ المسترد",
+      "reason": "السبب",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "pending": "قيد الفحص",
+      "approved": "معتمد ومسترد",
+      "restocked": "تمت إعادته للمخزن",
+      "rejected": "مرفوض"
+    },
+    "form": {
+      "order": "فاتورة المبيعات الأصلية",
+      "customer": "العميل",
+      "reason": "سبب الإرجاع",
+      "action": "الإجراء (استرداد نقدي / استبدال)",
+      "restockWarehouse": "مستودع إعادة الإدخال",
+      "cancel": "إلغاء",
+      "save": "تقديم طلب المرتجع",
+      "saving": "جاري المعالجة..."
+    },
+    "toast": {
+      "created": "تمت معالجة المرتجع بنجاح",
+      "updated": "تم تحديث بيانات المرتجع بنجاح",
+      "deleted": "تم حذف سجل المرتجع",
+      "error": "فشل معالجة المرتجع"
+    }
+  },
+  "priceList": {
+    "title": "قوائم الأسعار",
+    "description": "إدارة قوائم أسعار الجملة، والتجزئة، والأسعار الخاصة.",
+    "addPriceList": "إضافة قائمة أسعار",
+    "editPriceList": "تعديل قائمة الأسعار",
+    "deletePriceList": "حذف قائمة الأسعار",
+    "table": {
+      "filterPlaceholder": "تصفية قوائم الأسعار...",
+      "noResults": "لم يتم العثور على قوائم أسعار."
+    },
+    "columns": {
+      "name": "اسم قائمة الأسعار",
+      "currency": "العملة",
+      "isDefault": "افتراضية",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم قائمة الأسعار",
+      "currency": "العملة",
+      "isDefault": "تعيين كقائمة افتراضية",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ قائمة الأسعار",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء قائمة الأسعار بنجاح",
+      "updated": "تم تحديث قائمة الأسعار بنجاح",
+      "deleted": "تم حذف قائمة الأسعار بنجاح",
+      "error": "فشل حفظ قائمة الأسعار"
+    },
+    "delete": {
+      "title": "حذف قائمة الأسعار",
+      "description": "هل أنت متأكد من حذف قائمة الأسعار هذه؟"
+    }
+  },
+  "promotions": {
+    "title": "العروض والخصومات",
+    "description": "إدارة الحملات الترويجية، وكوبونات الخصم، والعروض الترويجية.",
+    "addPromo": "إضافة عرض ترويجي",
+    "editPromo": "تعديل العرض",
+    "deletePromo": "حذف العرض",
+    "table": {
+      "filterPlaceholder": "تصفية العروض الترويجية...",
+      "noResults": "لم يتم العثور على عروض ترويجية."
+    },
+    "columns": {
+      "name": "اسم العرض الترويجي",
+      "code": "كود الكوبون",
+      "discount": "نسبة الخصم",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم الحملة / العرض",
+      "code": "رمز الكود الترويجي",
+      "type": "نوع الخصم",
+      "value": "قيمة الخصم",
+      "startDate": "صالح من",
+      "endDate": "صالح حتى",
+      "usageLimit": "الحد الأقصى للاستخدام",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ العرض الترويجي",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء العرض الترويجي بنجاح",
+      "updated": "تم تحديث العرض بنجاح",
+      "deleted": "تم حذف العرض بنجاح",
+      "error": "فشل حفظ العرض الترويجي"
+    },
+    "delete": {
+      "title": "حذف العرض الترويجي",
+      "description": "هل أنت متأكد من حذف هذا العرض الترويجي؟"
+    }
+  },
+  "transactions": {
+    "title": "المعاملات والقيود المالية",
+    "description": "تتبع المدفوعات، والمتحصلات، والمصروفات، والمردودات المالية.",
+    "table": {
+      "filterPlaceholder": "تصفية المعاملات المالية...",
+      "noResults": "لم يتم العثور على معاملات مالية."
+    },
+    "columns": {
+      "transactionId": "رقم المعاملة",
+      "type": "نوع الحركة",
+      "paymentMethod": "طريقة الدفع",
+      "amount": "المبلغ",
+      "reference": "الرقم المرجعي",
+      "date": "الوقت والتاريخ",
+      "status": "الحالة"
+    },
+    "types": {
+      "payment": "تحصيل من عميل",
+      "refund": "استرداد مالي",
+      "supplierPayment": "سداد لمورد",
+      "expense": "مصروفات تشغيلية"
+    }
+  },
+  "areas": {
+    "title": "المناطق والأحياء",
+    "description": "تعريف مناطق التوصيل، والنطاقات الجغرافية، والقطاعات البيعية.",
+    "addArea": "إضافة منطقة",
+    "editArea": "تعديل المنطقة",
+    "deleteArea": "حذف المنطقة",
+    "table": {
+      "filterPlaceholder": "تصفية المناطق...",
+      "noResults": "لم يتم العثور على مناطق."
+    },
+    "columns": {
+      "name": "اسم المنطقة",
+      "city": "المدينة",
+      "code": "رمز المنطقة",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم المنطقة",
+      "city": "المدينة",
+      "code": "رمز المنطقة",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ المنطقة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء المنطقة بنجاح",
+      "updated": "تم تحديث بيانات المنطقة بنجاح",
+      "deleted": "تم حذف المنطقة بنجاح",
+      "error": "فشل حفظ المنطقة"
+    },
+    "delete": {
+      "title": "حذف المنطقة",
+      "description": "هل أنت متأكد من حذف هذه المنطقة؟"
+    }
+  },
+  "cities": {
+    "title": "المدن",
+    "description": "إدارة المدن والمحافظات لربط الفروع ومناطق الشحن والتوصيل.",
+    "addCity": "إضافة مدينة",
+    "editCity": "تعديل المدينة",
+    "deleteCity": "حذف المدينة",
+    "table": {
+      "filterPlaceholder": "تصفية المدن...",
+      "noResults": "لم يتم العثور على مدن."
+    },
+    "columns": {
+      "name": "اسم المدينة",
+      "country": "الدولة",
+      "code": "رمز المدينة",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم المدينة",
+      "country": "الدولة",
+      "code": "رمز المدينة",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ المدينة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء المدينة بنجاح",
+      "updated": "تم تحديث بيانات المدينة بنجاح",
+      "deleted": "تم حذف المدينة بنجاح",
+      "error": "فشل حفظ المدينة"
+    }
+  },
+  "countries": {
+    "title": "الدول",
+    "description": "إدارة الدول، ورموز الاتصال الدولية، والعملات الافتراضية.",
+    "addCountry": "إضافة دولة",
+    "editCountry": "تعديل الدولة",
+    "deleteCountry": "حذف الدولة",
+    "table": {
+      "filterPlaceholder": "تصفية الدول...",
+      "noResults": "لم يتم العثور على دول."
+    },
+    "columns": {
+      "name": "اسم الدولة",
+      "isoCode": "رمز ISO",
+      "dialCode": "رمز الاتصال",
+      "currency": "العملة الافتراضية",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم الدولة",
+      "isoCode": "رمز ISO (مثال: SA, AE, US)",
+      "dialCode": "رمز الاتصال الدولي (مثال: +966, +971)",
+      "currency": "العملة الافتراضية",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ الدولة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء الدولة بنجاح",
+      "updated": "تم تحديث بيانات الدولة بنجاح",
+      "deleted": "تم حذف الدولة بنجاح",
+      "error": "فشل حفظ بيانات الدولة"
+    }
+  },
+  "currencies": {
+    "title": "العملات وأسعار الصرف",
+    "description": "إدارة العملات المتعددة، والرموز، وأسعار الصرف المقابلة للعملة الأساسية.",
+    "addCurrency": "إضافة عملة",
+    "editCurrency": "تعديل العملة",
+    "deleteCurrency": "حذف العملة",
+    "table": {
+      "filterPlaceholder": "تصفية العملات...",
+      "noResults": "لم يتم العثور على عملات."
+    },
+    "columns": {
+      "name": "اسم العملة",
+      "code": "الرمز (مثال: SAR, USD)",
+      "symbol": "رمز العملة",
+      "exchangeRate": "سعر الصرف (مقابل الأساسية)",
+      "isBase": "العملة الأساسية",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم العملة",
+      "code": "رمز العملة",
+      "symbol": "رمز العملة المختصر",
+      "exchangeRate": "سعر الصرف",
+      "isBase": "هل هي العملة الأساسية للنظام",
+      "cancel": "إلغاء",
+      "save": "حفظ العملة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء العملة بنجاح",
+      "updated": "تم تحديث بيانات العملة بنجاح",
+      "deleted": "تم حذف العملة بنجاح",
+      "error": "فشل حفظ العملة"
+    }
+  },
+  "taxRates": {
+    "title": "الضرائب والرسوم",
+    "description": "إدارة ضريبة القيمة المضافة (VAT)، والضرائب المركبة، والإعفاءات.",
+    "addTaxRate": "إضافة نسبة ضريبية",
+    "editTaxRate": "تعديل الضريبة",
+    "deleteTaxRate": "حذف الضريبة",
+    "table": {
+      "filterPlaceholder": "تصفية الضرائب...",
+      "noResults": "لم يتم العثور على نسب ضريبية."
+    },
+    "columns": {
+      "name": "اسم الضريبة",
+      "rate": "النسبة المئوية (%)",
+      "code": "رمز الضريبة",
+      "isCompound": "ضريبة مركبة",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "name": "اسم الضريبة",
+      "rate": "النسبة المئوية (%)",
+      "code": "رمز / معرف الضريبة",
+      "isCompound": "ضريبة مركبة",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ الضريبة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء النسبة الضريبية بنجاح",
+      "updated": "تم تحديث النسبة الضريبية بنجاح",
+      "deleted": "تم حذف النسبة الضريبية بنجاح",
+      "error": "فشل حفظ النسبة الضريبية"
+    },
+    "delete": {
+      "title": "حذف النسبة الضريبية",
+      "description": "هل أنت متأكد من حذف هذه النسبة الضريبية؟"
+    }
+  },
+  "lookups": {
+    "title": "القوائم والقواميس المرجعية",
+    "description": "إدارة القوائم المنسدلة، وأنواع البيانات المرجعية للنظام.",
+    "addLookup": "إضافة عنصر مرجعي",
+    "editLookup": "تعديل العنصر",
+    "deleteLookup": "حذف العنصر",
+    "table": {
+      "filterPlaceholder": "تصفية القوائم المرجعية...",
+      "noResults": "لم يتم العثور على عناصر."
+    },
+    "columns": {
+      "type": "النوع / التصنيف",
+      "code": "المفتاح / الرمز",
+      "label": "الاسم المعروض",
+      "sortOrder": "ترتيب العرض",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "form": {
+      "type": "نوع القائمة المرجعية",
+      "code": "الرمز البرمجي",
+      "label": "النص المعروض",
+      "sortOrder": "ترتيب العرض",
+      "status": "الحالة",
+      "cancel": "إلغاء",
+      "save": "حفظ العنصر",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء العنصر بنجاح",
+      "updated": "تم تحديث العنصر بنجاح",
+      "deleted": "تم حذف العنصر بنجاح",
+      "error": "فشل حفظ العنصر"
+    }
+  },
+  "pos": {
+    "title": "نقطة البيع (POS)",
+    "description": "شاشة الكاشير السريعة، وإتمام الطلبات، ومعالجة المدفوعات.",
+    "searchProducts": "البحث عن منتج بالاسم أو الباركود...",
+    "allCategories": "جميع الأقسام",
+    "cart": "ملخص السلة",
+    "emptyCart": "السلة فارغة. انقر على المنتجات للإضافة.",
+    "subtotal": "المجموع الفرعي",
+    "tax": "الضريبة",
+    "discount": "الخصم",
+    "total": "الإجمالي المطلوب",
+    "pay": "دفع الآن",
+    "holdOrder": "تعليق الطلب",
+    "clearCart": "تفريغ السلة",
+    "customer": "العميل",
+    "walkInCustomer": "عميل عام (نقدي)",
+    "selectCustomer": "تحديد عميل",
+    "checkoutDialog": {
+      "title": "إتمام عملية الدفع",
+      "paymentMethod": "طريقة الدفع",
+      "amountDue": "المبلغ المستحق",
+      "amountPaid": "المبلغ المدفوع",
+      "change": "المتبقي للعميل",
+      "notes": "ملاحظات الطلب",
+      "confirmPayment": "تأكيد الدفع",
+      "processing": "جاري معالجة الدفع..."
+    },
+    "receipt": {
+      "title": "إيصال الدفع والطلب",
+      "print": "طباعة الإيصال",
+      "newSale": "بدء عملية بيع جديدة",
+      "thankYou": "شكراً لتعاملكم معنا!"
+    }
+  },
+  "reservations": {
+    "title": "الحجوزات",
+    "description": "إدارة حجوزات الطاولات، ومواعيد العملاء، وعدد الضيوف.",
+    "addReservation": "حجز جديد",
+    "editReservation": "تعديل الحجز",
+    "cancelReservation": "إلغاء الحجز",
+    "table": {
+      "filterPlaceholder": "تصفية الحجوزات...",
+      "noResults": "لم يتم العثور على حجوزات."
+    },
+    "columns": {
+      "customerName": "اسم العميل",
+      "phone": "الهاتف",
+      "tableNumber": "رقم الطاولة",
+      "date": "الوقت والتاريخ",
+      "guests": "عدد الضيوف",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "confirmed": "مؤكد",
+      "seated": "تم الجلوس",
+      "completed": "مكتمل",
+      "cancelled": "ملغي"
+    },
+    "form": {
+      "customerName": "اسم العميل",
+      "phone": "رقم الهاتف",
+      "guests": "عدد الضيوف",
+      "date": "الوقت والتاريخ",
+      "table": "اختيار الطاولة",
+      "notes": "طلبات خاصة",
+      "cancel": "إلغاء",
+      "save": "تأكيد الحجز",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم تأكيد الحجز بنجاح",
+      "updated": "تم تحديث الحجز بنجاح",
+      "cancelled": "تم إلغاء الحجز",
+      "error": "فشل حفظ بيانات الحجز"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات العامة",
+    "description": "تهيئة تفضيلات النظام، وبيانات المنشأة، ونماذج الإيصالات، والربط الإلكتروني.",
+    "tabs": {
+      "general": "عام",
+      "business": "الملف التجاري",
+      "receipts": "نماذج الفواتير والإيصالات",
+      "tax": "الضرائب والمحاسبة",
+      "notifications": "التنبيهات",
+      "security": "الأمان والصلاحيات",
+      "integrations": "التكامل والربط"
+    },
+    "general": {
+      "companyName": "اسم المنشأة / الشركة",
+      "defaultLanguage": "اللغة الافتراضية",
+      "defaultCurrency": "العملة الافتراضية",
+      "timezone": "المنطقة الزمنية",
+      "saveChanges": "حفظ التفضيلات"
+    },
+    "receipts": {
+      "headerText": "نص رأس الفاتورة (Header)",
+      "footerText": "نص تذييل الفاتورة (Footer)",
+      "showLogo": "إظهار شعار المنشأة",
+      "showTaxId": "إظهار الرقم الضريبي",
+      "showBarcode": "طباعة باركود الفاتورة"
+    },
+    "toast": {
+      "saved": "تم حفظ الإعدادات بنجاح",
+      "error": "فشل حفظ الإعدادات"
+    }
+  },
+  "tasks": {
+    "title": "المهام والأنشطة",
+    "description": "إدارة مهام فريق العمل، والتعيينات، والمواعيد النهائية.",
+    "createTask": "إنشاء مهمة",
+    "editTask": "تعديل المهمة",
+    "deleteTask": "حذف المهمة",
+    "table": {
+      "filterPlaceholder": "تصفية المهام...",
+      "noResults": "لم يتم العثور على مهام."
+    },
+    "columns": {
+      "title": "عنوان المهمة",
+      "assignedTo": "المسؤول عنها",
+      "priority": "الأولوية",
+      "dueDate": "تاريخ الاستحقاق",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "priorities": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة جداً"
+    },
+    "status": {
+      "todo": "قيد الانتظار",
+      "inProgress": "قيد التنفيذ",
+      "review": "قيد المراجعة",
+      "done": "مكتملة"
+    },
+    "form": {
+      "title": "عنوان المهمة",
+      "description": "الوصف",
+      "assignedTo": "المسؤول",
+      "priority": "الأولوية",
+      "dueDate": "تاريخ الاستحقاق",
+      "cancel": "إلغاء",
+      "save": "حفظ المهمة",
+      "saving": "جاري الحفظ..."
+    },
+    "toast": {
+      "created": "تم إنشاء المهمة بنجاح",
+      "updated": "تم تحديث المهمة بنجاح",
+      "deleted": "تم حذف المهمة بنجاح",
+      "error": "فشل حفظ المهمة"
+    }
+  },
+  "notifications": {
+    "title": "التنبيهات والإشعارات",
+    "description": "عرض تنبيهات انخفاض المخزون، وتحديثات الطلبات، ورسائل النظام.",
+    "markAllRead": "تحديد الكل كمقروء",
+    "clearAll": "مسح جميع الإشعارات",
+    "empty": "لا توجد إشعارات جديدة.",
+    "unread": "غير مقروء",
+    "all": "جميع الإشعارات"
+  },
+  "chats": {
+    "title": "محادثات الفريق",
+    "description": "التواصل الداخلي بين الموظفين وملاحظات الفروع والطلبات.",
+    "conversations": "المحادثات",
+    "typeMessage": "اكتب رسالة...",
+    "send": "إرسال",
+    "noMessages": "لا توجد رسائل بعد. ابدأ محادثة جديدة!"
+  },
+  "errors": {
+    "notFound": {
+      "title": "الصفحة غير موجودة (404)",
+      "description": "الصفحة التي تحاول الوصول إليها غير موجودة أو تم نقلها.",
+      "backHome": "العودة للوحة التحكم"
+    },
+    "unauthorized": {
+      "title": "غير مصرح بالدخول (403)",
+      "description": "ليس لديك الصلاحيات الكافية للوصول إلى هذه الصفحة.",
+      "backHome": "العودة للوحة التحكم"
+    },
+    "serverError": {
+      "title": "خطأ في النظام (500)",
+      "description": "حدث خطأ غير متوقع في الخادم. يرجى المحاولة مرة أخرى لاحقاً.",
+      "refresh": "إعادة المحاولة"
+    }
+  },
+  "apps": {
+    "title": "متجر التطبيقات والإضافات",
+    "description": "توسيع إمكانيات نقاط البيع وإدارة المخزون من خلال الربط والتكامل.",
+    "installed": "التطبيقات المثبتة",
+    "available": "الإضافات المتاحة",
+    "install": "تثبيت التطبيق",
+    "configure": "تهيئة",
+    "uninstall": "إلغاء التثبيت"
   }
 }

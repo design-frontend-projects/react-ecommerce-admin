@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useReorderRulesContext } from './provider'
 
 export function ReorderRulesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useReorderRulesContext()
   return (
     <Can permission='inventory.manage'>

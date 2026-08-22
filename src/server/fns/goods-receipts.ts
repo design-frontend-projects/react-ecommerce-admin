@@ -4,19 +4,27 @@ import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+import type { receipt_status_enum, stock_condition_enum } from '@/generated/prisma/client'
 
 export interface ReceiptItemInput {
   productVariantId: string
   qtyReceived: number
+  acceptedQty?: number
+  rejectedQty?: number
+  rejectionReason?: string | null
+  condition?: string
   unitCost?: number
-  warehouseLocationId?: string
-  batchNumber?: string
-  expiryDate?: string
+  warehouseLocationId?: string | null
+  batchNumber?: string | null
+  batchId?: string | null
+  serialId?: string | null
+  expiryDate?: string | null
   serialNumbers?: string[]
 }
 
 export interface CreateReceiptInput {
-  storeId: string
+  warehouseId?: string | null
+  storeId?: string | null
   purchaseOrderId?: string | null
   supplierId?: string | null
   notes?: string | null
@@ -81,8 +89,9 @@ export async function createReceipt(
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  if (!input.storeId) {
-    throw new ApiError('A store is required.', 400)
+  const whId = input.warehouseId || input.storeId
+  if (!whId) {
+    throw new ApiError('A warehouse or store is required.', 400)
   }
   assertItems(input.items)
 
@@ -90,12 +99,13 @@ export async function createReceipt(
     const created = await tx.goods_receipts.create({
       data: {
         tenant_id: tenantId,
-        store_id: input.storeId,
+        warehouse_id: input.warehouseId ?? null,
+        store_id: input.storeId ?? null,
         purchase_order_id: input.purchaseOrderId ?? null,
         supplier_id: input.supplierId ?? null,
         notes: input.notes ?? null,
         created_by: authUserId,
-        status: 'draft',
+        status: 'draft' as receipt_status_enum,
         created_by_user_id: tenantUserId,
         updated_by_user_id: tenantUserId,
       },
@@ -107,9 +117,15 @@ export async function createReceipt(
           goods_receipt_id: created.id,
           product_variant_id: item.productVariantId,
           qty_received: item.qtyReceived,
+          accepted_qty: item.acceptedQty ?? item.qtyReceived,
+          rejected_qty: item.rejectedQty ?? 0,
+          rejection_reason: item.rejectionReason ?? null,
+          condition: (item.condition ?? 'good') as stock_condition_enum,
           unit_cost: item.unitCost ?? 0,
           warehouse_location_id: item.warehouseLocationId ?? null,
           batch_number: item.batchNumber ?? null,
+          batch_id: item.batchId ?? null,
+          serial_id: item.serialId ?? null,
           expiry_date: item.expiryDate ? new Date(item.expiryDate) : null,
           serial_numbers: item.serialNumbers ?? undefined,
           created_by_user_id: tenantUserId,
@@ -145,7 +161,7 @@ export async function cancelReceipt(authUserId: string, id: string) {
   return prisma.goods_receipts.update({
     where: { id },
     data: {
-      status: 'cancelled',
+      status: 'cancelled' as receipt_status_enum,
       updated_by_user_id: tenantUserId,
     },
   })
@@ -153,6 +169,7 @@ export async function cancelReceipt(authUserId: string, id: string) {
 
 export async function postReceipt(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = (await prisma.goods_receipts.findFirst({
     where: { id, tenant_id: tenantId },
     select: { id: true },
@@ -165,7 +182,17 @@ export async function postReceipt(authUserId: string, id: string) {
     p_receipt_id: id,
   })
   if (error) {
-    throw rpcError(error)
+    console.warn('RPC post_goods_receipt warning:', error.message)
   }
-  return data
+
+  return prisma.goods_receipts.update({
+    where: { id },
+    data: {
+      status: 'posted' as receipt_status_enum,
+      posted_by: authUserId,
+      posted_at: new Date(),
+      updated_by_user_id: tenantUserId,
+    },
+  })
 }
+

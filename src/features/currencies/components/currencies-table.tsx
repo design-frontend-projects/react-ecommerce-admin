@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -28,6 +29,7 @@ interface CurrenciesTableProps {
 }
 
 export function CurrenciesTable({ data }: CurrenciesTableProps) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -56,7 +58,7 @@ export function CurrenciesTable({ data }: CurrenciesTableProps) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter currencies...'
+        searchPlaceholder={t('currencies.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -99,9 +101,7 @@ export function CurrenciesTable({ data }: CurrenciesTableProps) {
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
+                >{t('currencies.table.noResults', { defaultValue: 'No results.' })}</TableCell>
               </TableRow>
             )}
           </TableBody>

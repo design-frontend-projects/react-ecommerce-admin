@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 'use client'
 
 import { useState } from 'react'
@@ -21,6 +22,7 @@ export function CitiesDeleteDialog({
   onOpenChange,
   currentRow,
 }: CityDeleteDialogProps) {
+  const { t } = useTranslation()
   const [value, setValue] = useState('')
   const deleteCity = useDeleteCity()
 

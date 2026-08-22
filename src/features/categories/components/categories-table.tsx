@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   type SortingState,
   type VisibilityState,
@@ -21,7 +22,7 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type Category } from '../hooks/use-categories'
-import { columns } from './categories-columns'
+import { getColumns } from './categories-columns'
 
 interface CategoriesTableProps {
   data: Category[]
@@ -56,7 +57,7 @@ export function CategoriesTable({ data }: CategoriesTableProps) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter categories...'
+        searchPlaceholder={t('categories.table.filterPlaceholder')}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -100,7 +101,7 @@ export function CategoriesTable({ data }: CategoriesTableProps) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t('categories.table.noResults')}
                 </TableCell>
               </TableRow>
             )}

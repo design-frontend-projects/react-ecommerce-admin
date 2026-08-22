@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useReceiptsContext } from './provider'
 
 export function ReceiptsPrimaryButtons() {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useReceiptsContext()
   return (
     <Can permission='purchasing.manage'>

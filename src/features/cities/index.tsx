@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { getRouteApi } from '@tanstack/react-router'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -13,6 +14,7 @@ import { useCities } from './hooks/use-cities'
 const route = getRouteApi('/_authenticated/cities')
 
 export function Cities() {
+  const { t } = useTranslation()
   const search = route.useSearch()
   const navigate = route.useNavigate()
   const { data: cities = [], isLoading } = useCities()
@@ -38,7 +40,7 @@ export function Cities() {
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Cities</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('cities.title')}</h2>
             <p className='text-muted-foreground'>Manage your cities here.</p>
           </div>
           <CitiesPrimaryButtons />

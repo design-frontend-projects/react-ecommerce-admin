@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useStoresContext } from './stores-provider'
 
 export function StoresPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useStoresContext()
 
   return (

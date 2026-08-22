@@ -61,12 +61,60 @@ export async function cancelTransfer(
   })
 }
 
-export async function applyTransfer(
+export async function approveTransfer(
   getToken: TokenGetter,
   id: string
 ): Promise<void> {
-  await authorizedRequest(getToken, `${BASE}/apply`, {
+  await authorizedRequest(getToken, `${BASE}/approve`, {
     method: 'POST',
     body: JSON.stringify({ id }),
   })
 }
+
+export async function pickTransfer(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/pick`, {
+    method: 'POST',
+    body: JSON.stringify({ id }),
+  })
+}
+
+export async function shipTransfer(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/ship`, {
+    method: 'POST',
+    body: JSON.stringify({ id }),
+  })
+}
+
+export async function receiveTransfer(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/receive`, {
+    method: 'POST',
+    body: JSON.stringify({ id }),
+  })
+}
+
+export async function completeTransfer(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/complete`, {
+    method: 'POST',
+    body: JSON.stringify({ id }),
+  })
+}
+
+export async function applyTransfer(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  return receiveTransfer(getToken, id)
+}
+

@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useSuppliersContext } from './suppliers-provider'
 
 export function SuppliersPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useSuppliersContext()
 
   return (

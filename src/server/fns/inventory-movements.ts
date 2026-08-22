@@ -6,6 +6,7 @@ import prisma from '@/lib/prisma'
 
 export interface MovementFilters {
   movementType?: string
+  warehouseId?: string
   storeId?: string
   productVariantId?: string
   referenceType?: string
@@ -28,10 +29,18 @@ const MOVEMENT_TYPES = new Set([
   'expired',
   'reserved',
   'released',
+  'production_output',
+  'production_consumption',
+  'lost',
+  'found',
+  'cycle_count_in',
+  'cycle_count_out',
+  'reservation_conversion',
+  'consumption',
 ])
 
 /**
- * Read the inventory movement ledger for the authenticated user's branches.
+ * Read the inventory movement ledger for the authenticated user's tenant.
  * Strictly scoped by `tenant_id`.
  */
 export async function listMovements(
@@ -43,27 +52,30 @@ export async function listMovements(
 
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
     const where: Record<string, unknown> = {
-      OR: [{ tenant_id: tenantId }, { auth_user_id: tenantId }],
+      tenant_id: tenantId,
     }
 
-  if (filters.movementType && MOVEMENT_TYPES.has(filters.movementType)) {
-    where.movement_type = filters.movementType
-  }
-  if (filters.storeId) {
-    where.store_id = filters.storeId
-  }
-  if (filters.productVariantId) {
-    where.product_variant_id = filters.productVariantId
-  }
-  if (filters.referenceType) {
-    where.reference_type = filters.referenceType
-  }
-  if (filters.dateFrom || filters.dateTo) {
-    where.movement_date = {
-      ...(filters.dateFrom ? { gte: new Date(filters.dateFrom) } : {}),
-      ...(filters.dateTo ? { lte: new Date(filters.dateTo) } : {}),
+    if (filters.movementType && MOVEMENT_TYPES.has(filters.movementType)) {
+      where.movement_type = filters.movementType
     }
-  }
+    if (filters.warehouseId) {
+      where.warehouse_id = filters.warehouseId
+    }
+    if (filters.storeId) {
+      where.store_id = filters.storeId
+    }
+    if (filters.productVariantId) {
+      where.product_variant_id = filters.productVariantId
+    }
+    if (filters.referenceType) {
+      where.reference_type = filters.referenceType
+    }
+    if (filters.dateFrom || filters.dateTo) {
+      where.movement_date = {
+        ...(filters.dateFrom ? { gte: new Date(filters.dateFrom) } : {}),
+        ...(filters.dateTo ? { lte: new Date(filters.dateTo) } : {}),
+      }
+    }
 
     const movements = await prisma.inventory_movements.findMany({
       where,
@@ -78,18 +90,27 @@ export async function listMovements(
     const variantIds = Array.from(
       new Set(movements.map((m) => m.product_variant_id).filter(Boolean))
     )
+    const warehouseIds = Array.from(
+      new Set(movements.map((m) => m.warehouse_id).filter(Boolean))
+    ) as string[]
     const storeIds = Array.from(
       new Set(movements.map((m) => m.store_id).filter(Boolean))
     ) as string[]
     const branchIds = Array.from(
       new Set(movements.map((m) => m.branch_id).filter(Boolean))
-    )
+    ) as string[]
 
-    const [variants, stores, branches] = await Promise.all([
+    const [variants, warehouses, stores, branches] = await Promise.all([
       variantIds.length
         ? prisma.product_variants.findMany({
             where: { id: { in: variantIds } },
             select: { id: true, sku: true },
+          })
+        : [],
+      warehouseIds.length
+        ? prisma.warehouses.findMany({
+            where: { id: { in: warehouseIds } },
+            select: { id: true, name: true, code: true },
           })
         : [],
       storeIds.length
@@ -107,15 +128,18 @@ export async function listMovements(
     ])
 
     const variantMap = new Map(variants.map((v) => [v.id, v]))
+    const warehouseMap = new Map(warehouses.map((w) => [w.id, w]))
     const storeMap = new Map(stores.map((s) => [s.store_id, s]))
     const branchMap = new Map(branches.map((b) => [b.id, b]))
 
     return movements.map((m) => ({
       ...m,
       product_variants: variantMap.get(m.product_variant_id) ?? null,
+      warehouses: m.warehouse_id ? (warehouseMap.get(m.warehouse_id) ?? null) : null,
       stores: m.store_id ? (storeMap.get(m.store_id) ?? null) : null,
-      branches: branchMap.get(m.branch_id) ?? null,
+      branches: m.branch_id ? (branchMap.get(m.branch_id) ?? null) : null,
     }))
   })
 }
+
 

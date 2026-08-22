@@ -29,8 +29,16 @@ export const suggestionListItemSchema = z.object({
   stores: z
     .object({ store_id: z.string(), name: z.string().nullable() })
     .nullable(),
-  suppliers: z.object({ supplier_id: z.number(), name: z.string() }).nullable(),
+  suppliers: z
+    .object({
+      id: z.string().optional(),
+      supplier_id: z.coerce.number().optional(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
 })
+
 export type SuggestionListItem = z.infer<typeof suggestionListItemSchema>
 
 export const suggestionListResponseSchema = successEnvelope(

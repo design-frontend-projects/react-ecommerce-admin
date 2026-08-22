@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -12,6 +13,7 @@ import { StoresTable } from './components/stores-table'
 import { useStores } from './hooks/use-stores'
 
 export function Stores() {
+  const { t } = useTranslation()
   const { data: stores, isLoading, error } = useStores()
 
   return (

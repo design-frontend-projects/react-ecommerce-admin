@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import {
   getCoreRowModel,
@@ -11,6 +12,7 @@ import { useAreas } from '../hooks/use-areas'
 import { areaColumns } from './areas-columns'
 
 export function AreasTable() {
+  const { t } = useTranslation()
   const { data, isLoading } = useAreas()
   const columns = useMemo(() => areaColumns, [])
 

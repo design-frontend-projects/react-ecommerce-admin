@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -12,6 +13,7 @@ import { PromotionsTable } from './components/promotions-table'
 import { usePromotions } from './hooks/use-promotions'
 
 export function Promotions() {
+  const { t } = useTranslation()
   const { data: promotions, isLoading, error } = usePromotions()
 
   return (
@@ -28,7 +30,7 @@ export function Promotions() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Promotions</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('promotions.title')}</h2>
             <p className='text-muted-foreground'>
               Manage discounts and special offers.
             </p>

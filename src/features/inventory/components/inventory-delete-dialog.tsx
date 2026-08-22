@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
@@ -19,6 +20,7 @@ export function InventoryDeleteDialog({
   onOpenChange,
   currentRow,
 }: Props) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   const handleDelete = async () => {

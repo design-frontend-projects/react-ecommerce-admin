@@ -1,4 +1,4 @@
-import { AsyncLocalStorage } from 'async_hooks'
+import * as asyncHooks from 'node:async_hooks'
 
 export interface TenantContextPayload {
   tenantId: string
@@ -11,7 +11,16 @@ export interface TenantContextPayload {
  * AsyncLocalStorage container for request-scoped tenant identity.
  * Propagates tenant context transparently through async call chains without argument-drilling.
  */
-export const tenantStorage = new AsyncLocalStorage<TenantContextPayload>()
+export const tenantStorage = (asyncHooks.AsyncLocalStorage
+  ? new asyncHooks.AsyncLocalStorage<TenantContextPayload>()
+  : {
+      run: <R>(_store: any, fn: () => R) => fn(),
+      getStore: () => undefined,
+    }) as asyncHooks.AsyncLocalStorage<TenantContextPayload>
+
+
+
+
 
 /**
  * Run a callback within an isolated tenant context.

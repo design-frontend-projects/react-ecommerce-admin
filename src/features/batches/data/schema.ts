@@ -31,8 +31,16 @@ export const batchListItemSchema = z.object({
       products: z.object({ name: z.string() }).nullable(),
     })
     .nullable(),
-  suppliers: z.object({ supplier_id: z.number(), name: z.string() }).nullable(),
+  suppliers: z
+    .object({
+      id: z.string().optional(),
+      supplier_id: z.coerce.number().optional(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
 })
+
 export type BatchListItem = z.infer<typeof batchListItemSchema>
 
 export const batchListResponseSchema = successEnvelope(

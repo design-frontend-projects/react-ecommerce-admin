@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@/hooks/use-auth'
 import { LanguageSwitch } from '@/components/language-switch'
@@ -14,6 +15,7 @@ import { ProductsProvider } from './components/products-provider'
 import { ProductsTable } from './components/products-table'
 
 export function Products() {
+  const { t } = useTranslation()
   const { user } = useUser()
   const {
     data: products,
@@ -48,9 +50,9 @@ export function Products() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Products</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('products.title')}</h2>
             <p className='text-muted-foreground'>
-              Manage your inventory and product listings.
+              {t('products.description')}
             </p>
           </div>
           <ProductsPrimaryButtons />
@@ -61,7 +63,7 @@ export function Products() {
             <Loader2 className='h-8 w-8 animate-spin text-primary' />
           </div>
         ) : error ? (
-          <div className='text-destructive'>Error loading products</div>
+          <div className='text-destructive'>{t('products.errorLoading')}</div>
         ) : (
           <ProductsTable data={products || []} />
         )}
@@ -71,3 +73,4 @@ export function Products() {
     </ProductsProvider>
   )
 }
+

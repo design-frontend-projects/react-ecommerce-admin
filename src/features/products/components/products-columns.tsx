@@ -1,4 +1,5 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import { type TFunction } from 'i18next'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
@@ -6,7 +7,7 @@ import { LongText } from '@/components/long-text'
 import { type Product } from '../data/schema'
 import { ProductRowActions } from './product-row-actions'
 
-export const columns: ColumnDef<Product>[] = [
+export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,7 +35,7 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Product Name' />
+      <DataTableColumnHeader column={column} title={t('products.columns.name')} />
     ),
     cell: ({ row }) => (
       <LongText className='max-w-48 font-medium'>
@@ -45,7 +46,7 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'sku',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='SKU' />
+      <DataTableColumnHeader column={column} title={t('products.columns.sku')} />
     ),
     cell: ({ row }) => (
       <div className='font-mono text-xs'>{row.getValue('sku')}</div>
@@ -54,7 +55,7 @@ export const columns: ColumnDef<Product>[] = [
   {
     id: 'category',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Category' />
+      <DataTableColumnHeader column={column} title={t('products.columns.category')} />
     ),
     cell: ({ row }) => {
       const product = row.original
@@ -72,7 +73,7 @@ export const columns: ColumnDef<Product>[] = [
       return row.product_variants[0].price
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Price' />
+      <DataTableColumnHeader column={column} title={t('products.columns.price')} />
     ),
     cell: ({ row }) => {
       const variants = row.original.product_variants
@@ -103,13 +104,13 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: 'is_active',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t('products.columns.status')} />
     ),
     cell: ({ row }) => {
       const isActive = row.getValue('is_active')
       return (
         <Badge variant={isActive ? 'default' : 'secondary'}>
-          {isActive ? 'Active' : 'Inactive'}
+          {isActive ? t('common.active') : t('common.inactive')}
         </Badge>
       )
     },
@@ -119,3 +120,6 @@ export const columns: ColumnDef<Product>[] = [
     cell: ProductRowActions,
   },
 ]
+
+export const columns = getColumns((k: string) => k)
+

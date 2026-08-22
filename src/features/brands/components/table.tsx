@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -24,6 +25,7 @@ import type { BrandListItem } from '../data/schema'
 import { columns } from './columns'
 
 export function BrandsTable({ data }: { data: BrandListItem[] }) {
+  const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -45,7 +47,7 @@ export function BrandsTable({ data }: { data: BrandListItem[] }) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter by name...'
+        searchPlaceholder={t('brands.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>

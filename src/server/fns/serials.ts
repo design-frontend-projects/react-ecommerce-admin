@@ -41,10 +41,37 @@ export async function listSerials(
         : {}),
       ...(filters.status ? { status: filters.status } : {}),
     },
+    include: {
+      product_variants: {
+        select: {
+          id: true,
+          sku: true,
+          barcode: true,
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+      stores: {
+        select: {
+          store_id: true,
+          name: true,
+        },
+      },
+      product_batches: {
+        select: {
+          id: true,
+          batch_number: true,
+        },
+      },
+    },
     orderBy: { created_at: 'desc' },
     take: 500,
   })
 }
+
 
 export async function getSerialTrail(authUserId: string, serialId: string) {
   const tenantId = await requireTenantId(authUserId)

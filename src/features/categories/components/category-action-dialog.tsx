@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -33,6 +34,7 @@ const formSchema = z.object({
 type CategoryFormValues = z.infer<typeof formSchema>
 
 export function CategoryActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCategoriesContext()
   const createMutation = useCreateCategory()
   const updateMutation = useUpdateCategory()
@@ -69,10 +71,10 @@ export function CategoryActionDialog() {
           id: currentRow.category_id,
           ...values,
         })
-        toast.success('Category updated successfully')
+        toast.success(t('categories.toast.updated'))
       } else {
         await createMutation.mutateAsync(values)
-        toast.success('Category created successfully')
+        toast.success(t('categories.toast.created'))
       }
       setOpen(null)
     } catch (error: any) {
@@ -87,7 +89,7 @@ export function CategoryActionDialog() {
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Edit Category' : 'Create Category'}
+            {isEdit ? t('categories.editCategory') : t('categories.createCategory')}
           </DialogTitle>
           <DialogDescription>
             {isEdit
@@ -105,7 +107,7 @@ export function CategoryActionDialog() {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>{t('categories.form.name')}</FormLabel>
                   <FormControl>
                     <Input placeholder='Category name' {...field} />
                   </FormControl>
@@ -118,7 +120,7 @@ export function CategoryActionDialog() {
               name='description'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t('categories.form.description')}</FormLabel>
                   <FormControl>
                     <Textarea placeholder='Description (optional)' {...field} />
                   </FormControl>

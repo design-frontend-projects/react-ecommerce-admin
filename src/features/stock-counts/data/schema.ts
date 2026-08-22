@@ -17,7 +17,8 @@ export type CountAction = z.infer<typeof countActionSchema>
 
 // ── Inputs ──
 export const createCountInputSchema = z.object({
-  storeId: z.string().uuid('Select a store.'),
+  warehouseId: z.string().uuid().optional().nullable(),
+  storeId: z.string().uuid().optional().nullable(),
   warehouseLocationId: z.string().uuid().optional().nullable(),
   categoryId: z.coerce.number().int().optional().nullable(),
   isBlind: z.boolean().optional(),
@@ -32,15 +33,16 @@ export const countEntryInputSchema = z.object({
 export type CountEntryInput = z.infer<typeof countEntryInputSchema>
 
 // ── Responses ──
-const storeRefSchema = z
-  .object({ store_id: z.string(), name: z.string().nullable() })
+const entityRefSchema = z
+  .object({ id: z.string().optional(), store_id: z.string().optional(), name: z.string().nullable(), code: z.string().optional().nullable() })
   .nullable()
 
 export const countListItemSchema = z.object({
   id: z.string().uuid(),
   count_number: z.string(),
   status: countStatusSchema,
-  store_id: z.string(),
+  warehouse_id: z.string().nullable().optional(),
+  store_id: z.string().nullable().optional(),
   warehouse_location_id: z.string().nullable(),
   category_id: z.number().nullable(),
   is_blind: z.boolean(),
@@ -49,7 +51,8 @@ export const countListItemSchema = z.object({
   posted_adjustment_id: z.string().nullable(),
   notes: z.string().nullable(),
   created_at: z.string(),
-  stores: storeRefSchema,
+  warehouses: entityRefSchema.optional(),
+  stores: entityRefSchema.optional(),
   _count: z.object({ stock_count_items: z.number() }).optional(),
 })
 
@@ -57,6 +60,8 @@ export const countItemRowSchema = z.object({
   id: z.string().uuid(),
   product_variant_id: z.string(),
   warehouse_location_id: z.string().nullable(),
+  batch_id: z.string().nullable().optional(),
+  serial_id: z.string().nullable().optional(),
   qty_snapshot: z.coerce.number(),
   qty_counted: z.coerce.number().nullable(),
   variance: z.coerce.number().nullable(),
@@ -66,12 +71,13 @@ export const countItemRowSchema = z.object({
     .object({
       id: z.string(),
       sku: z.string(),
+      barcode: z.string().nullable().optional(),
       products: z.object({ name: z.string() }).nullable().optional(),
     })
     .nullable()
     .optional(),
   warehouse_locations: z
-    .object({ id: z.string(), path: z.string().nullable() })
+    .object({ id: z.string(), code: z.string().optional(), name: z.string().nullable().optional(), path: z.string().nullable().optional() })
     .nullable()
     .optional(),
 })
@@ -88,3 +94,4 @@ export const countListResponseSchema = successEnvelope(
   z.array(countListItemSchema)
 )
 export const countDetailResponseSchema = successEnvelope(countDetailSchema)
+

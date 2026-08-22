@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -9,6 +10,7 @@ import { CountriesProvider } from './components/countries-provider'
 import { CountriesTable } from './components/countries-table'
 
 export function Countries() {
+  const { t } = useTranslation()
   return (
     <CountriesProvider>
       <Header fixed>
@@ -22,7 +24,7 @@ export function Countries() {
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Countries</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('countries.title')}</h2>
             <p className='text-muted-foreground'>
               Manage your countries and their settings.
             </p>

@@ -10,7 +10,7 @@ import { useAuth } from '@/hooks/use-auth'
 export const stockBalancesQueryKey = ['stock-balances'] as const
 
 export function useStockBalances() {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
   return useQuery<StockBalanceRow[]>({
     queryKey: stockBalancesQueryKey,
     queryFn: async () => {
@@ -22,12 +22,18 @@ export function useStockBalances() {
           product_variants (
             id,
             sku,
+            barcode,
             price,
             cost_price,
             products (
-              product_id,
+              id,
               name
             )
+          ),
+          warehouses (
+            id,
+            name,
+            code
           ),
           stores (
             store_id,
@@ -38,11 +44,18 @@ export function useStockBalances() {
         .order('updated_at', { ascending: false })
 
       if (error) throw error
-      return (data ?? []) as StockBalanceRow[]
+      return (data ?? []).map((row: any) => ({
+        ...row,
+        qty_available:
+          row.qty_available !== null && row.qty_available !== undefined
+            ? Number(row.qty_available)
+            : Number(row.qty_on_hand || 0) - Number(row.qty_reserved || 0),
+      })) as StockBalanceRow[]
     },
     enabled: authEnabled,
   })
 }
+
 
 // ── Mutation: manual stock adjustment ──
 export function useAdjustStock() {

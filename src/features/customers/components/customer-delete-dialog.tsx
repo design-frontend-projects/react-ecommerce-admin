@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeleteCustomer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
 
 export function CustomerDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCustomersContext()
   const deleteMutation = useDeleteCustomer()
 
@@ -37,7 +39,7 @@ export function CustomerDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('customers.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
             customer

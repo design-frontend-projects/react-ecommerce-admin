@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeletePriceList } from '../hooks/use-price-list'
 import { usePriceListContext } from './price-list-provider'
 
 export function PriceListDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = usePriceListContext()
   const deleteMutation = useDeletePriceList()
 
@@ -38,7 +40,7 @@ export function PriceListDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('priceList.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the price
             rule

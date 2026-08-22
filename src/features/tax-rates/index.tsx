@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -11,6 +12,7 @@ import { TaxTable } from './components/tax-rates-table'
 import { useTaxRates } from './hooks/use-tax-rates'
 
 export function TaxRates() {
+  const { t } = useTranslation()
   const { data, isLoading } = useTaxRates()
 
   return (
@@ -27,7 +29,7 @@ export function TaxRates() {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Tax Rates</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('taxRates.title')}</h2>
             <p className='text-muted-foreground'>
               Manage tax rates for different regions and product types.
             </p>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
   AlertDialog,
@@ -13,6 +14,7 @@ import { useDeletePromotion } from '../hooks/use-promotions'
 import { usePromotionsContext } from './promotions-provider'
 
 export function PromotionDeleteDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = usePromotionsContext()
   const deleteMutation = useDeletePromotion()
 
@@ -39,7 +41,7 @@ export function PromotionDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('promotions.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
             promotion

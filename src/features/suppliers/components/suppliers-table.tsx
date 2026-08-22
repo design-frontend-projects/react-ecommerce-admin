@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import {
   type SortingState,
@@ -28,6 +29,7 @@ interface SuppliersTableProps {
 }
 
 export function SuppliersTable({ data }: SuppliersTableProps) {
+  const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -56,7 +58,7 @@ export function SuppliersTable({ data }: SuppliersTableProps) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder='Filter suppliers...'
+        searchPlaceholder={t('suppliers.table.filterPlaceholder', { defaultValue: 'Filter...' })}
         searchKey='name'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -99,9 +101,7 @@ export function SuppliersTable({ data }: SuppliersTableProps) {
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
+                >{t('suppliers.table.noResults', { defaultValue: 'No results.' })}</TableCell>
               </TableRow>
             )}
           </TableBody>

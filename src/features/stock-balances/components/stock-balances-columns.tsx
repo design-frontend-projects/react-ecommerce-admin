@@ -54,18 +54,34 @@ export const columns: ColumnDef<StockBalanceRow>[] = [
     },
   },
   {
-    id: 'store_name',
+    id: 'warehouse_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Store' />
+      <DataTableColumnHeader column={column} title='Warehouse / Store' />
     ),
-    cell: ({ row }) => (
-      <div className='text-sm'>{row.original.stores?.name || 'N/A'}</div>
-    ),
+    cell: ({ row }) => {
+      const name =
+        row.original.warehouses?.name ??
+        row.original.stores?.name ??
+        '—'
+      const condition = row.original.condition ?? 'good'
+      return (
+        <div className='flex flex-col gap-0.5'>
+          <div className='text-sm font-medium'>{name}</div>
+          {condition !== 'good' && (
+            <Badge variant='outline' className='w-fit text-[10px] uppercase text-amber-600 border-amber-300'>
+              {condition}
+            </Badge>
+          )}
+        </div>
+      )
+    },
     filterFn: (row, _id, filterValue: string) => {
-      const name = row.original.stores?.name?.toLowerCase() ?? ''
+      const name =
+        (row.original.warehouses?.name ?? row.original.stores?.name ?? '').toLowerCase()
       return name.includes(filterValue.toLowerCase())
     },
   },
+
   {
     accessorKey: 'qty_on_hand',
     header: ({ column }) => (

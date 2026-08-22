@@ -87,7 +87,14 @@
       "mobile_transfer": "Mobile Transfer"
     },
     "transferRef": "Transfer Reference Number",
-    "transferRefPlaceholder": "Enter transfer reference (e.g. 123456789)"
+    "transferRefPlaceholder": "Enter transfer reference (e.g. 123456789)",
+    "businessInfo": "Business Information",
+    "businessName": "Business Name",
+    "country": "Country",
+    "selectCountry": "Select country",
+    "displayName": "Display Name",
+    "legalName": "Legal Name",
+    "selectPlan": "Select Subscription Plan"
   },
   "otp": {
     "emailVerification": "Email Verification",
@@ -131,17 +138,31 @@
   },
   "common": {
     "cancel": "Cancel",
-    "continue": "Continue",
-    "confirm": "Confirm",
     "save": "Save",
+    "previous": "Previous",
+    "next": "Next",
+    "unknown": "Unknown",
+    "loading": "Loading...",
     "delete": "Delete",
     "edit": "Edit",
+    "create": "Create",
     "search": "Search...",
-    "select": "Select",
-    "selectDate": "Pick a date",
-    "loading": "Loading...",
-    "learnMore": "Learn more",
-    "skipToMain": "Skip to main content"
+    "filter": "Filter",
+    "status": "Status",
+    "actions": "Actions",
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "confirm": "Confirm",
+    "refresh": "Refresh",
+    "export": "Export",
+    "import": "Import",
+    "print": "Print",
+    "download": "Download",
+    "error": "Error"
   },
   "installBanner": {
     "title": "Install app: Tap",
@@ -574,7 +595,10 @@
         "notEligibleItems": "Promo does not apply to the items in this order",
         "offline": "Promo codes require an internet connection",
         "recordFailed": "Could not record promo usage"
-      }
+      },
+      "expiredTitle": "Promotion Expired",
+      "expiredDescription": "The selected promotion has expired and cannot be applied.",
+      "removeAndProceed": "Remove & Proceed"
     },
     "checkout": {
       "subtotal": "Subtotal",
@@ -626,7 +650,8 @@
       "paymentMethod": "Payment Method",
       "amountReceived": "Amount Received",
       "cancel": "Cancel",
-      "processPayment": "Process Payment"
+      "processPayment": "Process Payment",
+      "none": "None"
     },
     "orderType": {
       "dineIn": "Dine-in",
@@ -1072,6 +1097,9 @@
       "deleted": "Card deleted successfully",
       "error": "Error",
       "genericError": "Something went wrong. Please try again."
+    },
+    "rowActions": {
+      "openMenu": "Open menu"
     }
   },
   "customerGroups": {
@@ -1121,6 +1149,9 @@
       "deleted": "Customer group deleted successfully",
       "error": "Error",
       "genericError": "Something went wrong. Please try again."
+    },
+    "rowActions": {
+      "openMenu": "Open menu"
     }
   },
   "paymentMethods": {
@@ -1157,12 +1188,6 @@
       "defaultSet": "Default payment method updated.",
       "error": "Something went wrong."
     }
-  },
-  "common": {
-    "cancel": "Cancel",
-    "save": "Save",
-    "previous": "Previous",
-    "next": "Next"
   },
   "shifts": {
     "status": {
@@ -1687,6 +1712,103 @@
         "cancel": "Cancel",
         "delete": "Delete"
       }
+    },
+    "auditPage": {
+      "title": "Access Control Audit Logs",
+      "subtitle": "Review permission and role assignments history.",
+      "restrictedTitle": "Access Denied",
+      "restrictedDesc": "You do not have permission to view audit logs.",
+      "category": "Access Control",
+      "allTargets": "All Targets",
+      "targetRoles": "Roles",
+      "targetRolePermissions": "Role Permissions",
+      "targetUserRoles": "User Roles",
+      "targetUserOverrides": "User Overrides",
+      "targetPermissions": "Permissions",
+      "filterPlaceholder": "Filter audit records...",
+      "failedLoadTitle": "Failed to load audit logs",
+      "pleaseTryAgain": "Please try again later.",
+      "when": "Timestamp",
+      "action": "Action",
+      "target": "Target",
+      "actor": "Actor",
+      "details": "Details",
+      "noEntries": "No audit records found",
+      "noEntriesCount": "0 records found",
+      "showingRange": "Showing records",
+      "previous": "Previous",
+      "next": "Next",
+      "view": "View"
+    },
+    "buttonFormDialog": {
+      "createTitle": "Create Action Button",
+      "editTitle": "Edit Action Button",
+      "createDesc": "Add a new action button to the screen registry.",
+      "editDesc": "Modify the details of this action button.",
+      "code": "Action Code",
+      "name": "Button Name",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description of what this button does",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "createButton": "Create Button"
+    },
+    "buttonsPage": {
+      "title": "Action Buttons Registry",
+      "restrictedTitle": "Access Denied",
+      "restrictedDesc": "You do not have permission to view action buttons.",
+      "category": "Access Control",
+      "createButton": "Add Button",
+      "failedLoadTitle": "Failed to load action buttons",
+      "pleaseTryAgain": "Please try again later.",
+      "noButtons": "No action buttons registered yet.",
+      "table": {
+        "code": "Code",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "actions": "Actions",
+        "system": "System",
+        "custom": "Custom"
+      },
+      "deleteDialog": {
+        "title": "Delete Action Button",
+        "desc": "Are you sure you want to delete this action button? This may affect user permissions.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
+    },
+    "screensPage": {
+      "title": "Screens Registry",
+      "subtitle": "Configure navigable screens, modules, and their access permissions.",
+      "restrictedTitle": "Access Denied",
+      "restrictedDesc": "You do not have permission to view screens.",
+      "category": "Access Control",
+      "createScreen": "Add Screen",
+      "failedLoadTitle": "Failed to load screens",
+      "pleaseTryAgain": "Please try again later.",
+      "screensCount": "screen",
+      "screensCountPlural": "screens",
+      "noScreens": "No screens found.",
+      "table": {
+        "name": "Screen Name",
+        "code": "Code",
+        "route": "Route / Path",
+        "icon": "Icon",
+        "sort": "Sort Order",
+        "status": "Status",
+        "buttons": "Buttons",
+        "actions": "Actions",
+        "system": "System",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "deleteDialog": {
+        "title": "Delete Screen",
+        "desc": "Are you sure you want to delete this screen? All linked buttons and permissions will be impacted.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
     }
   },
   "system": {
@@ -1714,7 +1836,10 @@
       "subtitle": "Manage all restaurants in the system.",
       "listTitle": "Restaurants List",
       "listDesc": "System-wide overview of registered restaurants.",
-      "placeholderData": "Restaurant data will be queried and displayed here."
+      "placeholderData": "Restaurant data will be queried and displayed here.",
+      "cardTitle": "Connected Restaurants & Outlets",
+      "cardDescription": "Manage active restaurant branches and POS licenses.",
+      "emptyNotice": "No restaurants registered yet."
     },
     "auditLogs": {
       "title": "Audit Logs",
@@ -1748,7 +1873,1606 @@
         "metadata": "Metadata",
         "ipAddress": "IP Address: {{ip}}",
         "userAgent": "User Agent: {{ua}}"
-      }
+      },
+      "accessControlTitle": "Access Control Audit Logs",
+      "accessControlSubtitle": "Track security events and permission changes across the system."
     }
+  },
+  "products": {
+    "title": "Products",
+    "description": "Manage your inventory, product catalog, and pricing.",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "createProduct": "Create Product",
+    "viewProduct": "Product Details",
+    "deleteProduct": "Delete Product",
+    "errorLoading": "Error loading products.",
+    "tabs": {
+      "all": "All Products",
+      "active": "Active",
+      "draft": "Draft",
+      "archived": "Archived"
+    },
+    "table": {
+      "filterPlaceholder": "Filter products by name or SKU...",
+      "noResults": "No products found."
+    },
+    "columns": {
+      "name": "Product Name",
+      "sku": "SKU",
+      "category": "Category",
+      "brand": "Brand",
+      "price": "Price",
+      "cost": "Cost Price",
+      "stock": "Stock Quantity",
+      "status": "Status",
+      "barcode": "Barcode",
+      "actions": "Actions",
+      "createdAt": "Created At"
+    },
+    "form": {
+      "basicInfo": "Basic Information",
+      "pricingAndTax": "Pricing & Tax",
+      "inventoryTracking": "Inventory Tracking",
+      "variants": "Product Variants",
+      "images": "Product Images",
+      "name": "Product Name",
+      "namePlaceholder": "e.g. Wireless Noise-Cancelling Headphones",
+      "sku": "SKU",
+      "skuPlaceholder": "e.g. PRD-001",
+      "barcode": "Barcode / UPC",
+      "barcodePlaceholder": "e.g. 123456789012",
+      "description": "Description",
+      "descriptionPlaceholder": "Detailed product description...",
+      "category": "Category",
+      "selectCategory": "Select a category",
+      "brand": "Brand",
+      "selectBrand": "Select a brand",
+      "unit": "Unit of Measure",
+      "selectUnit": "Select unit",
+      "price": "Selling Price",
+      "costPrice": "Cost Price",
+      "taxRate": "Tax Rate",
+      "selectTaxRate": "Select tax rate",
+      "trackInventory": "Track Inventory",
+      "allowBackorders": "Allow Backorders",
+      "reorderPoint": "Reorder Point",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "draft": "Draft",
+      "cancel": "Cancel",
+      "save": "Save Product",
+      "saving": "Saving...",
+      "variantTitle": "Variants Setup",
+      "addVariant": "Add Variant",
+      "optionName": "Option Name (e.g. Color, Size)",
+      "optionValues": "Values (comma separated)"
+    },
+    "delete": {
+      "title": "Delete Product",
+      "description": "Are you sure you want to delete this product? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Product created successfully",
+      "updated": "Product updated successfully",
+      "deleted": "Product deleted successfully",
+      "error": "An error occurred while saving product"
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "description": "Organize products into hierarchical categories and departments.",
+    "addCategory": "Add Category",
+    "editCategory": "Edit Category",
+    "createCategory": "Create Category",
+    "deleteCategory": "Delete Category",
+    "table": {
+      "filterPlaceholder": "Filter categories...",
+      "noResults": "No categories found."
+    },
+    "columns": {
+      "name": "Category Name",
+      "slug": "Slug / Code",
+      "parent": "Parent Category",
+      "productsCount": "Products",
+      "status": "Status",
+      "actions": "Actions",
+      "createdAt": "Created At",
+      "description": "Description"
+    },
+    "form": {
+      "name": "Category Name",
+      "namePlaceholder": "e.g. Electronics, Beverages",
+      "slug": "Slug",
+      "slugPlaceholder": "e.g. electronics",
+      "parent": "Parent Category",
+      "selectParent": "None (Top Level)",
+      "description": "Description",
+      "descriptionPlaceholder": "Brief description of category",
+      "image": "Category Icon / Image",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Category",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Category",
+      "description": "Are you sure you want to delete this category? Associated products may become uncategorized.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Category created successfully",
+      "updated": "Category updated successfully",
+      "deleted": "Category deleted successfully",
+      "error": "Failed to save category"
+    }
+  },
+  "brands": {
+    "title": "Brands",
+    "description": "Manage product brands, manufacturers, and vendor labels.",
+    "addBrand": "Add Brand",
+    "editBrand": "Edit Brand",
+    "createBrand": "Create Brand",
+    "deleteBrand": "Delete Brand",
+    "table": {
+      "filterPlaceholder": "Filter brands...",
+      "noResults": "No brands found."
+    },
+    "columns": {
+      "name": "Brand Name",
+      "code": "Code",
+      "website": "Website",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Brand Name",
+      "namePlaceholder": "e.g. Apple, Sony, Samsung",
+      "code": "Brand Code",
+      "codePlaceholder": "e.g. BRD-001",
+      "website": "Website URL",
+      "websitePlaceholder": "https://brand.com",
+      "description": "Description",
+      "logo": "Brand Logo",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Brand",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Brand",
+      "description": "Are you sure you want to delete this brand?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Brand created successfully",
+      "updated": "Brand updated successfully",
+      "deleted": "Brand deleted successfully",
+      "error": "Failed to save brand"
+    }
+  },
+  "units": {
+    "title": "Units of Measure",
+    "description": "Define measurement units (kg, pcs, liters, boxes) and conversion rates.",
+    "addUnit": "Add Unit",
+    "editUnit": "Edit Unit",
+    "createUnit": "Create Unit",
+    "deleteUnit": "Delete Unit",
+    "table": {
+      "filterPlaceholder": "Filter units...",
+      "noResults": "No units found."
+    },
+    "columns": {
+      "name": "Unit Name",
+      "code": "Symbol / Code",
+      "baseUnit": "Base Unit",
+      "conversionFactor": "Conversion Factor",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Unit Name",
+      "namePlaceholder": "e.g. Kilogram, Piece, Carton",
+      "code": "Symbol / Code",
+      "codePlaceholder": "e.g. kg, pcs, box",
+      "isBaseUnit": "Is Base Unit",
+      "baseUnit": "Base Unit Reference",
+      "conversionFactor": "Conversion Factor (to Base)",
+      "cancel": "Cancel",
+      "save": "Save Unit",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Unit",
+      "description": "Are you sure you want to delete this unit of measure?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Unit created successfully",
+      "updated": "Unit updated successfully",
+      "deleted": "Unit deleted successfully",
+      "error": "Failed to save unit"
+    }
+  },
+  "branches": {
+    "title": "Branches",
+    "description": "Manage physical store locations, outlets, and business branches.",
+    "addBranch": "Add Branch",
+    "editBranch": "Edit Branch",
+    "createBranch": "Create Branch",
+    "deleteBranch": "Delete Branch",
+    "table": {
+      "filterPlaceholder": "Filter branches...",
+      "noResults": "No branches found."
+    },
+    "columns": {
+      "name": "Branch Name",
+      "code": "Code",
+      "phone": "Phone",
+      "city": "City",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Branch Name",
+      "code": "Branch Code",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "address": "Address",
+      "city": "City",
+      "country": "Country",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Branch",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Branch",
+      "description": "Are you sure you want to delete this branch?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Branch created successfully",
+      "updated": "Branch updated successfully",
+      "deleted": "Branch deleted successfully",
+      "error": "Failed to save branch"
+    }
+  },
+  "warehouses": {
+    "title": "Warehouses",
+    "description": "Manage storage warehouses, fulfillment centers, and depot locations.",
+    "addWarehouse": "Add Warehouse",
+    "editWarehouse": "Edit Warehouse",
+    "createWarehouse": "Create Warehouse",
+    "deleteWarehouse": "Delete Warehouse",
+    "table": {
+      "filterPlaceholder": "Filter warehouses...",
+      "noResults": "No warehouses found."
+    },
+    "columns": {
+      "name": "Warehouse Name",
+      "code": "Code",
+      "branch": "Associated Branch",
+      "manager": "Manager",
+      "location": "Location",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Warehouse Name",
+      "code": "Warehouse Code",
+      "branch": "Branch",
+      "selectBranch": "Select branch",
+      "manager": "Warehouse Manager",
+      "address": "Address",
+      "phone": "Contact Phone",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Warehouse",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Warehouse",
+      "description": "Are you sure you want to delete this warehouse?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Warehouse created successfully",
+      "updated": "Warehouse updated successfully",
+      "deleted": "Warehouse deleted successfully",
+      "error": "Failed to save warehouse"
+    }
+  },
+  "stores": {
+    "title": "Stores",
+    "description": "Manage retail storefronts and sales points.",
+    "addStore": "Add Store",
+    "editStore": "Edit Store",
+    "createStore": "Create Store",
+    "deleteStore": "Delete Store",
+    "table": {
+      "filterPlaceholder": "Filter stores...",
+      "noResults": "No stores found."
+    },
+    "columns": {
+      "name": "Store Name",
+      "code": "Store Code",
+      "branch": "Branch",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Store Name",
+      "code": "Store Code",
+      "branch": "Branch",
+      "address": "Address",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Store",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Store",
+      "description": "Are you sure you want to delete this store?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Store created successfully",
+      "updated": "Store updated successfully",
+      "deleted": "Store deleted successfully",
+      "error": "Failed to save store"
+    }
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "description": "Manage vendors, procurement contacts, and purchasing terms.",
+    "addSupplier": "Add Supplier",
+    "editSupplier": "Edit Supplier",
+    "createSupplier": "Create Supplier",
+    "deleteSupplier": "Delete Supplier",
+    "table": {
+      "filterPlaceholder": "Filter suppliers...",
+      "noResults": "No suppliers found."
+    },
+    "columns": {
+      "name": "Supplier Name",
+      "code": "Supplier Code",
+      "contactPerson": "Contact Person",
+      "email": "Email",
+      "phone": "Phone",
+      "taxNumber": "Tax / VAT ID",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Company / Supplier Name",
+      "code": "Supplier Code",
+      "contactPerson": "Contact Person",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "taxNumber": "Tax Registration Number",
+      "address": "Address",
+      "paymentTerms": "Payment Terms",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Supplier",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Supplier",
+      "description": "Are you sure you want to delete this supplier?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Supplier created successfully",
+      "updated": "Supplier updated successfully",
+      "deleted": "Supplier deleted successfully",
+      "error": "Failed to save supplier"
+    }
+  },
+  "customers": {
+    "title": "Customers",
+    "description": "Manage client database, contact profiles, and credit accounts.",
+    "addCustomer": "Add Customer",
+    "editCustomer": "Edit Customer",
+    "createCustomer": "Create Customer",
+    "deleteCustomer": "Delete Customer",
+    "table": {
+      "filterPlaceholder": "Filter customers...",
+      "noResults": "No customers found."
+    },
+    "columns": {
+      "name": "Customer Name",
+      "group": "Customer Group",
+      "phone": "Phone",
+      "email": "Email",
+      "balance": "Outstanding Balance",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Full Name / Company Name",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "group": "Customer Group",
+      "selectGroup": "Select customer group",
+      "taxNumber": "Tax Number",
+      "creditLimit": "Credit Limit",
+      "address": "Billing & Shipping Address",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Customer",
+      "saving": "Saving..."
+    },
+    "delete": {
+      "title": "Delete Customer",
+      "description": "Are you sure you want to delete this customer record?",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "toast": {
+      "created": "Customer created successfully",
+      "updated": "Customer updated successfully",
+      "deleted": "Customer deleted successfully",
+      "error": "Failed to save customer"
+    }
+  },
+  "purchaseOrders": {
+    "title": "Purchase Orders",
+    "description": "Manage vendor purchase orders, procurement status, and deliveries.",
+    "createPO": "Create Purchase Order",
+    "editPO": "Edit Purchase Order",
+    "deletePO": "Delete Purchase Order",
+    "viewPO": "PO Details",
+    "table": {
+      "filterPlaceholder": "Filter purchase orders...",
+      "noResults": "No purchase orders found."
+    },
+    "columns": {
+      "orderNumber": "PO Number",
+      "supplier": "Supplier",
+      "orderDate": "Order Date",
+      "deliveryDate": "Expected Delivery",
+      "totalAmount": "Total Amount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending Approval",
+      "ordered": "Ordered",
+      "received": "Received",
+      "partial": "Partially Received",
+      "cancelled": "Cancelled"
+    },
+    "form": {
+      "supplier": "Supplier",
+      "selectSupplier": "Select supplier",
+      "orderDate": "Order Date",
+      "expectedDate": "Expected Delivery Date",
+      "warehouse": "Receiving Warehouse",
+      "selectWarehouse": "Select warehouse",
+      "notes": "Notes & Terms",
+      "items": "Order Items",
+      "addItem": "Add Line Item",
+      "product": "Product",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Cost",
+      "total": "Line Total",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "grandTotal": "Grand Total",
+      "cancel": "Cancel",
+      "save": "Save Purchase Order",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Purchase order created successfully",
+      "updated": "Purchase order updated successfully",
+      "deleted": "Purchase order deleted successfully",
+      "error": "Failed to save purchase order"
+    }
+  },
+  "purchaseRequisitions": {
+    "title": "Purchase Requisitions",
+    "description": "Manage internal requisition requests and approval workflows.",
+    "createPR": "Create Requisition",
+    "editPR": "Edit Requisition",
+    "deletePR": "Delete Requisition",
+    "table": {
+      "filterPlaceholder": "Filter requisitions...",
+      "noResults": "No requisitions found."
+    },
+    "columns": {
+      "reqNumber": "Requisition #",
+      "requestedBy": "Requested By",
+      "department": "Department",
+      "date": "Request Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending Review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "converted": "Converted to PO"
+    },
+    "form": {
+      "requestedBy": "Requested By",
+      "department": "Department",
+      "neededBy": "Date Needed",
+      "reason": "Business Justification",
+      "cancel": "Cancel",
+      "save": "Submit Requisition",
+      "saving": "Submitting..."
+    },
+    "toast": {
+      "created": "Requisition submitted successfully",
+      "updated": "Requisition updated successfully",
+      "deleted": "Requisition deleted successfully",
+      "error": "Failed to save requisition"
+    }
+  },
+  "goodsReceipts": {
+    "title": "Goods Receipts",
+    "description": "Record incoming goods from purchase orders into warehouses.",
+    "createReceipt": "Receive Goods",
+    "editReceipt": "Edit Goods Receipt",
+    "deleteReceipt": "Delete Goods Receipt",
+    "table": {
+      "filterPlaceholder": "Filter goods receipts...",
+      "noResults": "No goods receipts found."
+    },
+    "columns": {
+      "receiptNumber": "Receipt #",
+      "poNumber": "PO Reference",
+      "supplier": "Supplier",
+      "warehouse": "Warehouse",
+      "receivedDate": "Date Received",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "draft": "Draft",
+      "inspected": "Inspected",
+      "completed": "Completed",
+      "rejected": "Rejected"
+    },
+    "form": {
+      "poReference": "Purchase Order Reference",
+      "warehouse": "Destination Warehouse",
+      "receivedDate": "Received Date",
+      "trackingNumber": "Waybill / Tracking #",
+      "notes": "Inspection Notes",
+      "cancel": "Cancel",
+      "save": "Complete Receipt",
+      "saving": "Processing..."
+    },
+    "toast": {
+      "created": "Goods received successfully",
+      "updated": "Receipt updated successfully",
+      "deleted": "Receipt deleted successfully",
+      "error": "Failed to process goods receipt"
+    }
+  },
+  "stockTransfers": {
+    "title": "Stock Transfers",
+    "description": "Transfer stock between warehouses, branches, and retail locations.",
+    "createTransfer": "Create Transfer",
+    "editTransfer": "Edit Transfer",
+    "deleteTransfer": "Delete Transfer",
+    "table": {
+      "filterPlaceholder": "Filter stock transfers...",
+      "noResults": "No stock transfers found."
+    },
+    "columns": {
+      "transferNumber": "Transfer #",
+      "sourceWarehouse": "Source Warehouse",
+      "targetWarehouse": "Destination Warehouse",
+      "transferDate": "Transfer Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "draft": "Draft",
+      "inTransit": "In Transit",
+      "received": "Received",
+      "cancelled": "Cancelled"
+    },
+    "form": {
+      "source": "Source Warehouse",
+      "destination": "Destination Warehouse",
+      "date": "Transfer Date",
+      "notes": "Transfer Notes",
+      "items": "Transfer Items",
+      "product": "Product",
+      "quantity": "Transfer Quantity",
+      "cancel": "Cancel",
+      "save": "Initiate Transfer",
+      "saving": "Processing..."
+    },
+    "toast": {
+      "created": "Stock transfer initiated successfully",
+      "updated": "Transfer updated successfully",
+      "deleted": "Transfer deleted successfully",
+      "error": "Failed to process stock transfer"
+    }
+  },
+  "stockAdjustments": {
+    "title": "Stock Adjustments",
+    "description": "Reconcile inventory variances, damages, write-offs, and stock corrections.",
+    "createAdjustment": "New Adjustment",
+    "editAdjustment": "Edit Adjustment",
+    "deleteAdjustment": "Delete Adjustment",
+    "table": {
+      "filterPlaceholder": "Filter adjustments...",
+      "noResults": "No adjustments found."
+    },
+    "columns": {
+      "adjustmentNumber": "Adjustment #",
+      "warehouse": "Warehouse",
+      "reason": "Reason",
+      "date": "Adjustment Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "reasons": {
+      "damage": "Damaged Goods",
+      "loss": "Theft or Loss",
+      "expiry": "Expired Stock",
+      "correction": "Inventory Audit Correction",
+      "internalUse": "Internal Usage"
+    },
+    "status": {
+      "draft": "Draft",
+      "approved": "Approved & Applied",
+      "rejected": "Rejected"
+    },
+    "form": {
+      "warehouse": "Warehouse",
+      "reason": "Adjustment Reason",
+      "date": "Date",
+      "notes": "Notes",
+      "cancel": "Cancel",
+      "save": "Save Adjustment",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Stock adjustment created successfully",
+      "updated": "Adjustment updated successfully",
+      "deleted": "Adjustment deleted successfully",
+      "error": "Failed to apply adjustment"
+    }
+  },
+  "stockCounts": {
+    "title": "Stock Counts & Audits",
+    "description": "Perform physical stock counts, cycle counting, and variance reconciliation.",
+    "createCount": "Start Stock Count",
+    "editCount": "Edit Count",
+    "table": {
+      "filterPlaceholder": "Filter stock counts...",
+      "noResults": "No stock counts found."
+    },
+    "columns": {
+      "countNumber": "Count #",
+      "warehouse": "Warehouse",
+      "countDate": "Audit Date",
+      "countedBy": "Auditor",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "reconciled": "Reconciled",
+      "cancelled": "Cancelled"
+    },
+    "form": {
+      "warehouse": "Warehouse to Audit",
+      "date": "Audit Date",
+      "notes": "Audit Notes",
+      "cancel": "Cancel",
+      "save": "Save Count",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Stock count started successfully",
+      "updated": "Count updated successfully",
+      "reconciled": "Count reconciled and stock updated",
+      "error": "Failed to save stock count"
+    }
+  },
+  "stockBalances": {
+    "title": "Stock Balances",
+    "description": "Real-time stock levels, available quantities, and valuations per warehouse.",
+    "table": {
+      "filterPlaceholder": "Filter balances by product or warehouse...",
+      "noResults": "No balance records found."
+    },
+    "columns": {
+      "product": "Product Name",
+      "sku": "SKU",
+      "warehouse": "Warehouse",
+      "quantityOnHand": "Quantity On Hand",
+      "allocated": "Allocated / Reserved",
+      "available": "Available Quantity",
+      "unitCost": "Unit Cost",
+      "totalValue": "Total Valuation"
+    }
+  },
+  "stockByLocation": {
+    "title": "Stock by Location",
+    "description": "Track inventory across specific bins, racks, shelves, and zones.",
+    "table": {
+      "filterPlaceholder": "Filter by location or SKU...",
+      "noResults": "No location stock records found."
+    },
+    "columns": {
+      "warehouse": "Warehouse",
+      "zone": "Zone / Aisle",
+      "rack": "Rack / Shelf",
+      "bin": "Bin Location",
+      "product": "Product",
+      "quantity": "Quantity"
+    }
+  },
+  "inventory": {
+    "title": "Inventory Management",
+    "description": "Overview of stock levels, inventory alerts, and catalog metrics.",
+    "lowStockAlerts": "Low Stock Alerts",
+    "outOfStock": "Out of Stock",
+    "totalItems": "Total SKUs",
+    "inventoryValue": "Total Inventory Value",
+    "viewAllProducts": "View All Products",
+    "manageStock": "Manage Stock",
+    "table": {
+      "filterPlaceholder": "Filter inventory...",
+      "noResults": "No inventory records found."
+    }
+  },
+  "inventoryMovements": {
+    "title": "Inventory Movements",
+    "description": "Comprehensive audit trail of all inventory transactions and stock movements.",
+    "table": {
+      "filterPlaceholder": "Filter movements by product or reference...",
+      "noResults": "No movement history found."
+    },
+    "columns": {
+      "timestamp": "Date & Time",
+      "product": "Product",
+      "warehouse": "Warehouse",
+      "type": "Movement Type",
+      "quantity": "Quantity Change",
+      "balanceAfter": "Balance After",
+      "reference": "Reference #"
+    },
+    "types": {
+      "purchase": "Purchase Receipt",
+      "sale": "Sales Order",
+      "transferIn": "Transfer In",
+      "transferOut": "Transfer Out",
+      "adjustment": "Stock Adjustment",
+      "return": "Customer Return"
+    }
+  },
+  "batches": {
+    "title": "Batch & Lot Tracking",
+    "description": "Manage product batches, lot numbers, manufacturing, and expiry dates.",
+    "addBatch": "Add Batch",
+    "editBatch": "Edit Batch",
+    "deleteBatch": "Delete Batch",
+    "table": {
+      "filterPlaceholder": "Filter batches...",
+      "noResults": "No batches found."
+    },
+    "columns": {
+      "batchNumber": "Batch / Lot #",
+      "product": "Product",
+      "mfgDate": "Mfg Date",
+      "expiryDate": "Expiry Date",
+      "quantity": "Batch Quantity",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "nearExpiry": "Near Expiry",
+      "expired": "Expired",
+      "quarantine": "In Quarantine"
+    },
+    "form": {
+      "batchNumber": "Batch Number",
+      "product": "Product",
+      "selectProduct": "Select product",
+      "mfgDate": "Manufacturing Date",
+      "expiryDate": "Expiry Date",
+      "initialQty": "Initial Quantity",
+      "cancel": "Cancel",
+      "save": "Save Batch",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Batch created successfully",
+      "updated": "Batch updated successfully",
+      "deleted": "Batch deleted successfully",
+      "error": "Failed to save batch"
+    }
+  },
+  "serials": {
+    "title": "Serial Numbers",
+    "description": "Track unique item serial numbers, warranty terms, and assignment history.",
+    "addSerial": "Add Serial Number",
+    "editSerial": "Edit Serial",
+    "deleteSerial": "Delete Serial",
+    "table": {
+      "filterPlaceholder": "Filter serial numbers...",
+      "noResults": "No serial numbers found."
+    },
+    "columns": {
+      "serialNumber": "Serial Number",
+      "product": "Product",
+      "warehouse": "Warehouse",
+      "warrantyExpiry": "Warranty Expiry",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "available": "In Stock",
+      "sold": "Sold",
+      "inRepair": "Under Repair",
+      "defective": "Defective"
+    },
+    "form": {
+      "serialNumber": "Serial Number",
+      "product": "Product",
+      "warehouse": "Warehouse",
+      "warrantyMonths": "Warranty Period (Months)",
+      "notes": "Notes",
+      "cancel": "Cancel",
+      "save": "Save Serial",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Serial number registered",
+      "updated": "Serial number updated",
+      "deleted": "Serial number deleted",
+      "error": "Failed to save serial number"
+    }
+  },
+  "reorderRules": {
+    "title": "Reorder Rules",
+    "description": "Configure automated reorder triggers, min/max thresholds, and lead times.",
+    "addRule": "Add Reorder Rule",
+    "editRule": "Edit Reorder Rule",
+    "deleteRule": "Delete Rule",
+    "table": {
+      "filterPlaceholder": "Filter reorder rules...",
+      "noResults": "No reorder rules found."
+    },
+    "columns": {
+      "product": "Product",
+      "warehouse": "Warehouse",
+      "minQty": "Min Quantity (Reorder Point)",
+      "maxQty": "Max Quantity (Target)",
+      "reorderQty": "Reorder Quantity",
+      "supplier": "Preferred Supplier",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "product": "Product",
+      "warehouse": "Warehouse",
+      "minQty": "Minimum Quantity",
+      "maxQty": "Maximum Quantity",
+      "reorderQty": "Suggested Order Quantity",
+      "supplier": "Preferred Supplier",
+      "cancel": "Cancel",
+      "save": "Save Rule",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Reorder rule created successfully",
+      "updated": "Reorder rule updated successfully",
+      "deleted": "Reorder rule deleted successfully",
+      "error": "Failed to save reorder rule"
+    }
+  },
+  "replenishment": {
+    "title": "Replenishment Suggestions",
+    "description": "Automated replenishment recommendations based on stock rules and lead time.",
+    "generatePO": "Create Purchase Orders",
+    "table": {
+      "filterPlaceholder": "Filter suggestions...",
+      "noResults": "No replenishment recommendations at this time."
+    },
+    "columns": {
+      "product": "Product",
+      "warehouse": "Warehouse",
+      "currentStock": "Current Stock",
+      "reorderPoint": "Reorder Point",
+      "suggestedQty": "Suggested Order Qty",
+      "supplier": "Preferred Supplier",
+      "action": "Action"
+    }
+  },
+  "sales": {
+    "title": "Sales Management",
+    "description": "Overview of sales revenue, transactions, and order pipelines.",
+    "newSale": "New Sale",
+    "totalRevenue": "Total Revenue",
+    "totalOrders": "Total Orders",
+    "averageOrder": "Average Order Value",
+    "recentSales": "Recent Transactions"
+  },
+  "salesOrders": {
+    "title": "Sales Orders",
+    "description": "Manage customer sales orders, invoices, and fulfillment workflows.",
+    "createOrder": "New Sales Order",
+    "editOrder": "Edit Order",
+    "deleteOrder": "Delete Order",
+    "viewOrder": "Order Details",
+    "table": {
+      "filterPlaceholder": "Filter sales orders...",
+      "noResults": "No sales orders found."
+    },
+    "columns": {
+      "orderNumber": "Order #",
+      "customer": "Customer",
+      "orderDate": "Date",
+      "totalAmount": "Total Amount",
+      "paymentStatus": "Payment Status",
+      "fulfillmentStatus": "Fulfillment",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "paymentStatus": {
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "partial": "Partially Paid"
+    },
+    "fulfillmentStatus": {
+      "fulfilled": "Fulfilled",
+      "unfulfilled": "Unfulfilled",
+      "partial": "Partial"
+    },
+    "form": {
+      "customer": "Customer",
+      "selectCustomer": "Select customer",
+      "orderDate": "Order Date",
+      "paymentMethod": "Payment Method",
+      "items": "Order Items",
+      "addItem": "Add Item",
+      "product": "Product",
+      "quantity": "Quantity",
+      "price": "Unit Price",
+      "discount": "Discount",
+      "tax": "Tax",
+      "total": "Total",
+      "notes": "Customer Notes",
+      "cancel": "Cancel",
+      "save": "Complete Order",
+      "saving": "Processing..."
+    },
+    "toast": {
+      "created": "Sales order created successfully",
+      "updated": "Sales order updated successfully",
+      "deleted": "Sales order deleted successfully",
+      "error": "Failed to save sales order"
+    }
+  },
+  "salesShipments": {
+    "title": "Shipments & Deliveries",
+    "description": "Manage sales order dispatch, carrier shipping, and tracking.",
+    "createShipment": "New Shipment",
+    "table": {
+      "filterPlaceholder": "Filter shipments...",
+      "noResults": "No shipments found."
+    },
+    "columns": {
+      "shipmentNumber": "Shipment #",
+      "orderNumber": "Order Reference",
+      "customer": "Customer",
+      "carrier": "Carrier / Courier",
+      "trackingNumber": "Tracking Code",
+      "shipDate": "Ship Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending Dispatch",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "returned": "Returned"
+    },
+    "form": {
+      "order": "Sales Order",
+      "carrier": "Carrier",
+      "trackingNumber": "Tracking Number",
+      "shipDate": "Ship Date",
+      "cancel": "Cancel",
+      "save": "Dispatch Shipment",
+      "saving": "Dispatching..."
+    },
+    "toast": {
+      "created": "Shipment dispatched successfully",
+      "updated": "Shipment updated successfully",
+      "deleted": "Shipment deleted successfully",
+      "error": "Failed to dispatch shipment"
+    }
+  },
+  "customerReturns": {
+    "title": "Customer Returns (RMA)",
+    "description": "Process customer return merchandise authorizations, refunds, and restock.",
+    "createReturn": "Process Return",
+    "table": {
+      "filterPlaceholder": "Filter returns...",
+      "noResults": "No customer returns found."
+    },
+    "columns": {
+      "returnNumber": "RMA #",
+      "orderNumber": "Order #",
+      "customer": "Customer",
+      "returnDate": "Return Date",
+      "refundAmount": "Refund Amount",
+      "reason": "Reason",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending Inspection",
+      "approved": "Approved & Refunded",
+      "restocked": "Restocked",
+      "rejected": "Rejected"
+    },
+    "form": {
+      "order": "Original Sales Order",
+      "customer": "Customer",
+      "reason": "Return Reason",
+      "action": "Action (Refund / Replace)",
+      "restockWarehouse": "Restock Warehouse",
+      "cancel": "Cancel",
+      "save": "Submit RMA",
+      "saving": "Processing..."
+    },
+    "toast": {
+      "created": "Return processed successfully",
+      "updated": "Return updated successfully",
+      "deleted": "Return record deleted",
+      "error": "Failed to process return"
+    }
+  },
+  "priceList": {
+    "title": "Price Lists",
+    "description": "Manage wholesale, retail, and special promotional price tiers.",
+    "addPriceList": "Add Price List",
+    "editPriceList": "Edit Price List",
+    "deletePriceList": "Delete Price List",
+    "table": {
+      "filterPlaceholder": "Filter price lists...",
+      "noResults": "No price lists found."
+    },
+    "columns": {
+      "name": "Price List Name",
+      "currency": "Currency",
+      "isDefault": "Default",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Price List Name",
+      "currency": "Currency",
+      "isDefault": "Set as Default",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Price List",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Price list created successfully",
+      "updated": "Price list updated successfully",
+      "deleted": "Price list deleted successfully",
+      "error": "Failed to save price list"
+    },
+    "delete": {
+      "title": "Delete Price List",
+      "description": "Are you sure you want to delete this price list?"
+    }
+  },
+  "promotions": {
+    "title": "Promotions & Discounts",
+    "description": "Configure discount campaigns, coupon codes, and promotional bundles.",
+    "addPromo": "Add Promotion",
+    "editPromo": "Edit Promotion",
+    "deletePromo": "Delete Promotion",
+    "table": {
+      "filterPlaceholder": "Filter promotions...",
+      "noResults": "No promotions found."
+    },
+    "columns": {
+      "name": "Promotion Name",
+      "code": "Coupon Code",
+      "discount": "Discount",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Campaign / Promotion Name",
+      "code": "Promo Code",
+      "type": "Discount Type",
+      "value": "Discount Value",
+      "startDate": "Valid From",
+      "endDate": "Valid To",
+      "usageLimit": "Usage Limit",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Promotion",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Promotion created successfully",
+      "updated": "Promotion updated successfully",
+      "deleted": "Promotion deleted successfully",
+      "error": "Failed to save promotion"
+    },
+    "delete": {
+      "title": "Delete Promotion",
+      "description": "Are you sure you want to delete this promotion?"
+    }
+  },
+  "transactions": {
+    "title": "Financial Transactions",
+    "description": "Track payments, invoices, refunds, and financial ledgers.",
+    "table": {
+      "filterPlaceholder": "Filter transactions...",
+      "noResults": "No transactions found."
+    },
+    "columns": {
+      "transactionId": "Transaction ID",
+      "type": "Type",
+      "paymentMethod": "Payment Method",
+      "amount": "Amount",
+      "reference": "Reference #",
+      "date": "Date & Time",
+      "status": "Status"
+    },
+    "types": {
+      "payment": "Customer Payment",
+      "refund": "Refund",
+      "supplierPayment": "Vendor Payment",
+      "expense": "Expense"
+    }
+  },
+  "areas": {
+    "title": "Areas & Zones",
+    "description": "Define delivery regions, sales territories, and local areas.",
+    "addArea": "Add Area",
+    "editArea": "Edit Area",
+    "deleteArea": "Delete Area",
+    "table": {
+      "filterPlaceholder": "Filter areas...",
+      "noResults": "No areas found."
+    },
+    "columns": {
+      "name": "Area Name",
+      "city": "City",
+      "code": "Area Code",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Area Name",
+      "city": "City",
+      "code": "Area Code",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Area",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Area created successfully",
+      "updated": "Area updated successfully",
+      "deleted": "Area deleted successfully",
+      "error": "Failed to save area"
+    },
+    "delete": {
+      "title": "Delete Area",
+      "description": "Are you sure you want to delete this area?"
+    }
+  },
+  "cities": {
+    "title": "Cities",
+    "description": "Manage cities and municipalities for delivery and branch mapping.",
+    "addCity": "Add City",
+    "editCity": "Edit City",
+    "deleteCity": "Delete City",
+    "table": {
+      "filterPlaceholder": "Filter cities...",
+      "noResults": "No cities found."
+    },
+    "columns": {
+      "name": "City Name",
+      "country": "Country",
+      "code": "City Code",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "City Name",
+      "country": "Country",
+      "code": "City Code",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save City",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "City created successfully",
+      "updated": "City updated successfully",
+      "deleted": "City deleted successfully",
+      "error": "Failed to save city"
+    }
+  },
+  "countries": {
+    "title": "Countries",
+    "description": "Manage countries, international dialing codes, and currencies.",
+    "addCountry": "Add Country",
+    "editCountry": "Edit Country",
+    "deleteCountry": "Delete Country",
+    "table": {
+      "filterPlaceholder": "Filter countries...",
+      "noResults": "No countries found."
+    },
+    "columns": {
+      "name": "Country Name",
+      "isoCode": "ISO Code",
+      "dialCode": "Dial Code",
+      "currency": "Default Currency",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Country Name",
+      "isoCode": "ISO Code (e.g. US, SA, AE)",
+      "dialCode": "Dial Code (e.g. +1, +966)",
+      "currency": "Default Currency",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Country",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Country created successfully",
+      "updated": "Country updated successfully",
+      "deleted": "Country deleted successfully",
+      "error": "Failed to save country"
+    }
+  },
+  "currencies": {
+    "title": "Currencies",
+    "description": "Manage multi-currency support, exchange rates, and symbols.",
+    "addCurrency": "Add Currency",
+    "editCurrency": "Edit Currency",
+    "deleteCurrency": "Delete Currency",
+    "table": {
+      "filterPlaceholder": "Filter currencies...",
+      "noResults": "No currencies found."
+    },
+    "columns": {
+      "name": "Currency Name",
+      "code": "Code (e.g. USD, SAR)",
+      "symbol": "Symbol",
+      "exchangeRate": "Exchange Rate (to Base)",
+      "isBase": "Base Currency",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Currency Name",
+      "code": "Currency Code",
+      "symbol": "Currency Symbol",
+      "exchangeRate": "Exchange Rate",
+      "isBase": "Is Base Currency",
+      "cancel": "Cancel",
+      "save": "Save Currency",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Currency created successfully",
+      "updated": "Currency updated successfully",
+      "deleted": "Currency deleted successfully",
+      "error": "Failed to save currency"
+    }
+  },
+  "taxRates": {
+    "title": "Tax Rates",
+    "description": "Configure sales taxes, VAT, compound rates, and exemptions.",
+    "addTaxRate": "Add Tax Rate",
+    "editTaxRate": "Edit Tax Rate",
+    "deleteTaxRate": "Delete Tax Rate",
+    "table": {
+      "filterPlaceholder": "Filter tax rates...",
+      "noResults": "No tax rates found."
+    },
+    "columns": {
+      "name": "Tax Name",
+      "rate": "Rate (%)",
+      "code": "Tax Code",
+      "isCompound": "Compound Tax",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Tax Name",
+      "rate": "Percentage Rate (%)",
+      "code": "Tax Code / Identifier",
+      "isCompound": "Compound Tax",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Tax Rate",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Tax rate created successfully",
+      "updated": "Tax rate updated successfully",
+      "deleted": "Tax rate deleted successfully",
+      "error": "Failed to save tax rate"
+    },
+    "delete": {
+      "title": "Delete Tax Rate",
+      "description": "Are you sure you want to delete this tax rate?"
+    }
+  },
+  "lookups": {
+    "title": "System Lookups",
+    "description": "Manage system categories, lookup types, and reference dictionaries.",
+    "addLookup": "Add Lookup Item",
+    "editLookup": "Edit Lookup Item",
+    "deleteLookup": "Delete Lookup Item",
+    "table": {
+      "filterPlaceholder": "Filter lookups...",
+      "noResults": "No lookups found."
+    },
+    "columns": {
+      "type": "Type / Category",
+      "code": "Key / Code",
+      "label": "Display Label",
+      "sortOrder": "Sort Order",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "form": {
+      "type": "Lookup Type",
+      "code": "Lookup Code",
+      "label": "Label",
+      "sortOrder": "Sort Order",
+      "status": "Status",
+      "cancel": "Cancel",
+      "save": "Save Lookup",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Lookup created successfully",
+      "updated": "Lookup updated successfully",
+      "deleted": "Lookup deleted successfully",
+      "error": "Failed to save lookup"
+    }
+  },
+  "pos": {
+    "title": "Point of Sale (POS)",
+    "description": "Fast touch-screen checkout, quick orders, and register operations.",
+    "searchProducts": "Search products by name or barcode...",
+    "allCategories": "All Categories",
+    "cart": "Cart Summary",
+    "emptyCart": "Cart is empty. Add products to get started.",
+    "subtotal": "Subtotal",
+    "tax": "Tax",
+    "discount": "Discount",
+    "total": "Total Payable",
+    "pay": "Pay Now",
+    "holdOrder": "Hold Order",
+    "clearCart": "Clear Cart",
+    "customer": "Customer",
+    "walkInCustomer": "Walk-in Customer",
+    "selectCustomer": "Select Customer",
+    "checkoutDialog": {
+      "title": "Complete Checkout",
+      "paymentMethod": "Payment Method",
+      "amountDue": "Amount Due",
+      "amountPaid": "Amount Paid",
+      "change": "Change Due",
+      "notes": "Order Notes",
+      "confirmPayment": "Confirm Payment",
+      "processing": "Processing Payment..."
+    },
+    "receipt": {
+      "title": "Payment Receipt",
+      "print": "Print Receipt",
+      "newSale": "Start New Sale",
+      "thankYou": "Thank you for your business!"
+    }
+  },
+  "reservations": {
+    "title": "Reservations",
+    "description": "Manage table bookings, customer schedules, and party sizes.",
+    "addReservation": "New Reservation",
+    "editReservation": "Edit Reservation",
+    "cancelReservation": "Cancel Reservation",
+    "table": {
+      "filterPlaceholder": "Filter reservations...",
+      "noResults": "No reservations found."
+    },
+    "columns": {
+      "customerName": "Customer Name",
+      "phone": "Phone",
+      "tableNumber": "Table",
+      "date": "Date & Time",
+      "guests": "Guests",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "seated": "Seated",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "form": {
+      "customerName": "Customer Name",
+      "phone": "Phone Number",
+      "guests": "Number of Guests",
+      "date": "Date & Time",
+      "table": "Table Selection",
+      "notes": "Special Requests",
+      "cancel": "Cancel",
+      "save": "Confirm Booking",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Reservation booked successfully",
+      "updated": "Reservation updated successfully",
+      "cancelled": "Reservation cancelled",
+      "error": "Failed to save reservation"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Configure system preferences, company details, receipts, and integrations.",
+    "tabs": {
+      "general": "General",
+      "business": "Business Profile",
+      "receipts": "Receipt Templates",
+      "tax": "Tax & Accounting",
+      "notifications": "Notifications",
+      "security": "Security & Access",
+      "integrations": "Integrations"
+    },
+    "general": {
+      "companyName": "Company / Brand Name",
+      "defaultLanguage": "Default Language",
+      "defaultCurrency": "Default Currency",
+      "timezone": "Timezone",
+      "saveChanges": "Save Preferences"
+    },
+    "receipts": {
+      "headerText": "Receipt Header Text",
+      "footerText": "Receipt Footer Note",
+      "showLogo": "Show Company Logo",
+      "showTaxId": "Show VAT / Tax Number",
+      "showBarcode": "Print Order Barcode"
+    },
+    "toast": {
+      "saved": "Settings updated successfully",
+      "error": "Failed to save settings"
+    }
+  },
+  "tasks": {
+    "title": "Tasks",
+    "description": "Manage team tasks, assignments, deadlines, and project priorities.",
+    "createTask": "Create Task",
+    "editTask": "Edit Task",
+    "deleteTask": "Delete Task",
+    "table": {
+      "filterPlaceholder": "Filter tasks...",
+      "noResults": "No tasks found."
+    },
+    "columns": {
+      "title": "Task Title",
+      "assignedTo": "Assigned To",
+      "priority": "Priority",
+      "dueDate": "Due Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "status": {
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "review": "In Review",
+      "done": "Completed"
+    },
+    "form": {
+      "title": "Task Title",
+      "description": "Description",
+      "assignedTo": "Assignee",
+      "priority": "Priority",
+      "dueDate": "Due Date",
+      "cancel": "Cancel",
+      "save": "Save Task",
+      "saving": "Saving..."
+    },
+    "toast": {
+      "created": "Task created successfully",
+      "updated": "Task updated successfully",
+      "deleted": "Task deleted successfully",
+      "error": "Failed to save task"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "View alerts, stock warnings, order updates, and system messages.",
+    "markAllRead": "Mark all as read",
+    "clearAll": "Clear All",
+    "empty": "No new notifications.",
+    "unread": "Unread",
+    "all": "All Notifications"
+  },
+  "chats": {
+    "title": "Team Chat",
+    "description": "Internal team communication, order notes, and staff discussions.",
+    "conversations": "Conversations",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "noMessages": "No messages yet. Start a conversation!"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for does not exist or has been moved.",
+      "backHome": "Back to Dashboard"
+    },
+    "unauthorized": {
+      "title": "Unauthorized Access",
+      "description": "You do not have the required permissions to access this page.",
+      "backHome": "Back to Dashboard"
+    },
+    "serverError": {
+      "title": "Internal Server Error",
+      "description": "Something went wrong on our end. Please try again later.",
+      "refresh": "Try Again"
+    }
+  },
+  "apps": {
+    "title": "App Marketplace & Add-ons",
+    "description": "Extend your POS and ERP with integrations and modules.",
+    "installed": "Installed Apps",
+    "available": "Available Integrations",
+    "install": "Install App",
+    "configure": "Configure",
+    "uninstall": "Uninstall"
   }
 }

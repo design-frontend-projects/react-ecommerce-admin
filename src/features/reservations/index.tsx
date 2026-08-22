@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -9,6 +10,7 @@ import { ReservationsTable } from './components/table'
 import { useReservations } from './hooks/use-reservations'
 
 export function StockReservations() {
+  const { t } = useTranslation()
   const { data: reservations, isLoading, error } = useReservations()
 
   return (

@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Can } from '@/components/rbac/Can'
 import { useOrdersContext } from './provider'
 
 export function OrdersPrimaryButtons() {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useOrdersContext()
   return (
     <Can permission='sales.manage'>

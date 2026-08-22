@@ -10,20 +10,27 @@ export type ReceiptStatus = z.infer<typeof receiptStatusSchema>
 export const receiptItemInputSchema = z.object({
   productVariantId: z.string().uuid('Select a variant.'),
   qtyReceived: z.coerce.number().positive('Quantity must be > 0.'),
+  acceptedQty: z.coerce.number().min(0).optional(),
+  rejectedQty: z.coerce.number().min(0).optional(),
+  rejectionReason: z.string().optional().nullable(),
+  condition: z.string().default('good').optional(),
   unitCost: z.coerce
     .number()
     .min(0, 'Unit cost cannot be negative.')
     .optional(),
-  warehouseLocationId: z.string().uuid().optional(),
-  batchNumber: z.string().optional(),
-  expiryDate: z.string().optional(),
+  warehouseLocationId: z.string().uuid().optional().nullable(),
+  batchNumber: z.string().optional().nullable(),
+  batchId: z.string().uuid().optional().nullable(),
+  serialId: z.string().uuid().optional().nullable(),
+  expiryDate: z.string().optional().nullable(),
   serialNumbers: z.array(z.string()).optional(),
 })
 
 export const createReceiptInputSchema = z.object({
-  storeId: z.string().uuid('Select a store.'),
-  purchaseOrderId: z.coerce.number().int().positive().optional().nullable(),
-  supplierId: z.coerce.number().int().positive().optional().nullable(),
+  warehouseId: z.string().uuid().optional().nullable(),
+  storeId: z.string().uuid().optional().nullable(),
+  purchaseOrderId: z.string().uuid().optional().nullable(),
+  supplierId: z.string().uuid().optional().nullable(),
   notes: z.string().optional().nullable(),
   items: z.array(receiptItemInputSchema).min(1, 'Add at least one item.'),
 })
@@ -32,12 +39,8 @@ export type ReceiptItemInput = z.infer<typeof receiptItemInputSchema>
 export type CreateReceiptInput = z.infer<typeof createReceiptInputSchema>
 
 // ── Responses ──
-const storeRefSchema = z
-  .object({ store_id: z.string(), name: z.string().nullable() })
-  .nullable()
-
-const supplierRefSchema = z
-  .object({ supplier_id: z.number(), name: z.string().nullable() })
+const entityRefSchema = z
+  .object({ id: z.string().optional(), store_id: z.string().optional(), name: z.string().nullable(), code: z.string().optional().nullable() })
   .nullable()
 
 export const receiptListItemSchema = z.object({
@@ -45,30 +48,44 @@ export const receiptListItemSchema = z.object({
   receipt_number: z.string(),
   status: receiptStatusSchema,
   received_date: z.string(),
-  purchase_order_id: z.number().nullable(),
+  warehouse_id: z.string().nullable().optional(),
+  store_id: z.string().nullable().optional(),
+  purchase_order_id: z.string().nullable().optional(),
+  supplier_id: z.string().nullable().optional(),
   notes: z.string().nullable(),
-  stores: storeRefSchema,
-  suppliers: supplierRefSchema,
+  warehouses: entityRefSchema.optional(),
+  stores: entityRefSchema.optional(),
+  suppliers: entityRefSchema.optional(),
   _count: z.object({ goods_receipt_items: z.number() }).optional(),
 })
 
 export const receiptItemRowSchema = z.object({
   id: z.string().uuid(),
+  product_variant_id: z.string(),
   qty_received: z.coerce.number(),
+  accepted_qty: z.coerce.number().optional().nullable(),
+  rejected_qty: z.coerce.number().optional().nullable(),
+  rejection_reason: z.string().nullable().optional(),
+  condition: z.string().default('good').optional(),
   unit_cost: z.coerce.number(),
-  batch_number: z.string().nullable(),
-  expiry_date: z.string().nullable(),
-  serial_numbers: z.unknown().nullable(),
+  batch_number: z.string().nullable().optional(),
+  batch_id: z.string().nullable().optional(),
+  serial_id: z.string().nullable().optional(),
+  expiry_date: z.string().nullable().optional(),
+  serial_numbers: z.unknown().nullable().optional(),
   product_variants: z
     .object({
       id: z.string(),
       sku: z.string(),
-      products: z.object({ name: z.string() }).nullable(),
+      barcode: z.string().nullable().optional(),
+      products: z.object({ name: z.string() }).nullable().optional(),
     })
-    .nullable(),
+    .nullable()
+    .optional(),
   warehouse_locations: z
-    .object({ id: z.string(), path: z.string().nullable() })
-    .nullable(),
+    .object({ id: z.string(), code: z.string().optional(), path: z.string().nullable().optional() })
+    .nullable()
+    .optional(),
 })
 
 export const receiptDetailSchema = receiptListItemSchema.extend({
@@ -83,3 +100,4 @@ export const receiptListResponseSchema = successEnvelope(
   z.array(receiptListItemSchema)
 )
 export const receiptDetailResponseSchema = successEnvelope(receiptDetailSchema)
+

@@ -26,15 +26,18 @@ export const columns: ColumnDef<CountListItem>[] = [
     ),
   },
   {
-    id: 'store',
-    header: 'Store',
-    cell: ({ row }) => row.original.stores?.name ?? '—',
+    id: 'warehouse',
+    header: 'Warehouse / Store',
+    cell: ({ row }) =>
+      row.original.warehouses?.name ??
+      row.original.stores?.name ??
+      '—',
   },
   {
     id: 'scope',
     header: 'Scope',
     cell: ({ row }) =>
-      row.original.warehouse_location_id ? 'Location' : 'Store-wide',
+      row.original.warehouse_location_id ? 'Specific Location' : 'Warehouse-wide',
   },
   {
     accessorKey: 'status',
@@ -44,7 +47,7 @@ export const columns: ColumnDef<CountListItem>[] = [
     cell: ({ row }) => (
       <div className='flex items-center gap-1'>
         <Badge
-          variant={STATUS_VARIANT[row.original.status]}
+          variant={STATUS_VARIANT[row.original.status] ?? 'outline'}
           className='capitalize'
         >
           {row.original.status}
@@ -88,3 +91,4 @@ export const columns: ColumnDef<CountListItem>[] = [
     cell: ({ row }) => <CountRowActions row={row.original} />,
   },
 ]
+

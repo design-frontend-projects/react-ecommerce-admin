@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTransactionsContext } from './transactions-provider'
 
 export function TransactionsPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen } = useTransactionsContext()
 
   return (

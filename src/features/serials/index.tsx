@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { LanguageSwitch } from '@/components/language-switch'
@@ -15,6 +16,7 @@ import { useSerials } from './hooks/use-serials'
 const ALL = 'all'
 
 export function Serials() {
+  const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<string>(ALL)
   const [trailSerial, setTrailSerial] = useState<SerialListItem | null>(null)

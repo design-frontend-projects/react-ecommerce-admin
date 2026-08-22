@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { PackagePlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useStockBalancesContext } from './stock-balances-provider'
 
 export function StockBalancesPrimaryButtons() {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useStockBalancesContext()
 
   return (

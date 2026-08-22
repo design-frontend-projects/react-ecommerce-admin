@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
@@ -19,6 +20,7 @@ export function CountriesDeleteDialog({
   onOpenChange,
   currentRow,
 }: CountryDeleteDialogProps) {
+  const { t } = useTranslation()
   const [value, setValue] = useState('')
   const deleteCountry = useDeleteCountry()
 
