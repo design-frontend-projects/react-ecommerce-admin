@@ -143,7 +143,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       product_type_id: null,
       tracking_mode: 'none',
       base_price: 0,
-      cost_price: 0,
       tax_code: '',
       tax_classification_id: null,
       reorder_level: 0,
@@ -180,7 +179,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           product_type_id: currentRow.product_type_id || null,
           tracking_mode: (currentRow.tracking_mode as TrackingMode) || 'none',
           base_price: currentRow.base_price ? Number(currentRow.base_price) : (firstVariant ? Number(firstVariant.price) : 0),
-          cost_price: firstVariant?.cost_price ? Number(firstVariant.cost_price) : 0,
           tax_code: currentRow.tax_code || '',
           tax_classification_id: currentRow.tax_classification_id || null,
           reorder_level: currentRow.reorder_level ? Number(currentRow.reorder_level) : 0,
@@ -211,7 +209,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           product_type_id: null,
           tracking_mode: 'none',
           base_price: 0,
-          cost_price: 0,
           tax_code: '',
           tax_classification_id: null,
           reorder_level: 0,
@@ -266,7 +263,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         barcode: values.barcode || null,
         name: values.name,
         price: values.base_price || 0,
-        cost_price: values.cost_price || null,
+        cost_price: null,
         is_active: values.is_active,
         weight: values.weight,
         dimensions: values.dimensions,
@@ -980,29 +977,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
                     <FormField
                       control={form.control}
-                      name='cost_price'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t('products.form.costPrice')}</FormLabel>
-                          <FormControl>
-                            <Input
-                              type='number'
-                              step='0.01'
-                              min='0'
-                              placeholder='0.00'
-                              value={(field.value as number) ?? ''}
-                              onChange={(e) =>
-                                field.onChange(e.target.valueAsNumber || 0)
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
                       name='tax_code'
                       render={({ field }) => (
                         <FormItem>
@@ -1114,7 +1088,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             barcode: '',
                             name: `Variant ${fields.length + 1}`,
                             price: form.getValues('base_price') || 0,
-                            cost_price: form.getValues('cost_price') || 0,
+                            cost_price: 0,
                             stock_quantity: 0,
                             min_stock: form.getValues('reorder_level') || 0,
                             weight: form.getValues('weight') || null,

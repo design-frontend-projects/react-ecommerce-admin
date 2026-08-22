@@ -40,12 +40,24 @@ export const useProductWizardStore = create<ProductWizardState>((set) => ({
   setIsOpen: (isOpen) => set({ isOpen }),
   setStep: (step) => set({ currentStep: step }),
   nextStep: () =>
-    set((state) => ({ currentStep: Math.min(state.currentStep + 1, 2) })),
+    set((state) => ({
+      currentStep: Math.min(state.currentStep + 1, state.isVariantsEnabled ? 4 : 3),
+    })),
   prevStep: () =>
     set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
-  setVariantsEnabled: (enabled) => set({ isVariantsEnabled: enabled }),
+  setVariantsEnabled: (enabled) =>
+    set((state) => ({
+      isVariantsEnabled: enabled,
+      // If disabled and we are on step 4, pull back to step 3
+      currentStep: !enabled && state.currentStep > 3 ? 3 : state.currentStep,
+    })),
 
-  setBaseProductData: (data) => set({ baseProductData: data }),
+  setBaseProductData: (data) =>
+    set((state) => ({
+      baseProductData: state.baseProductData
+        ? { ...state.baseProductData, ...data }
+        : data,
+    })),
   setVariantsData: (data) => set({ variantsData: data }),
 
   resetWizard: () => set({ ...initialState }),

@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
-import { CalendarIcon } from 'lucide-react'
+import { CalendarIcon, Scan as LucideScan } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -30,6 +30,8 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
+import { LookupSelect } from '@/features/lookups/components/lookup-select'
 import {
   useBrandOptions,
   useCategoryOptions,
@@ -40,7 +42,10 @@ import { useProductWizardStore } from '../context/product-wizard-store'
 import {
   baseProductSchema,
   type BaseProductFormData,
+  type ProductType,
+  type TrackingMode,
 } from '../data/schema'
+import { BarcodeDisplay } from './barcode-display'
 
 export function ProductBaseForm({
   onSubmitDirect,
@@ -48,8 +53,14 @@ export function ProductBaseForm({
   onSubmitDirect?: (data: BaseProductFormData) => void
 }) {
   const { t } = useTranslation()
-  const { baseProductData, setBaseProductData, nextStep, setVariantsEnabled } =
-    useProductWizardStore()
+  const [isScannerOpen, setIsScannerOpen] = useState(false)
+  const {
+    currentStep,
+    baseProductData,
+    setBaseProductData,
+    nextStep,
+    setVariantsEnabled,
+  } = useProductWizardStore()
 
   const { data: categories = [] } = useCategoryOptions()
   const { data: brands = [] } = useBrandOptions()
@@ -71,7 +82,6 @@ export function ProductBaseForm({
       product_type_id: null,
       tracking_mode: 'none',
       base_price: 0,
-      cost_price: 0,
       tax_code: '',
       tax_classification_id: null,
       reorder_level: 0,
@@ -82,7 +92,7 @@ export function ProductBaseForm({
       reorderable: true,
       is_batch_tracked: false,
       is_serial_tracked: false,
-      has_variants: true,
+      has_variants: false,
       has_expiration: false,
       expiration_date: null,
       is_marketplace: false,
@@ -98,12 +108,33 @@ export function ProductBaseForm({
     setVariantsEnabled(Boolean(hasVariants || productType === 'variant'))
   }, [hasVariants, productType, setVariantsEnabled])
 
-  const onSubmit = (data: BaseProductFormData) => {
+  // Sync back to store when values change
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      setBaseProductData(value as Partial<BaseProductFormData>)
+    })
+    return () => subscription.unsubscribe()
+  }, [form, setBaseProductData])
+
+  const onSubmit = async (data: BaseProductFormData) => {
     setBaseProductData(data)
-    if (data.has_variants || data.product_type === 'variant') {
+
+    if (currentStep === 1) {
+      const isValid = await form.trigger(['name', 'sku'])
+      if (isValid) {
+        nextStep()
+      }
+    } else if (currentStep === 2) {
       nextStep()
-    } else if (onSubmitDirect) {
-      onSubmitDirect(data)
+    } else if (currentStep === 3) {
+      const isValid = await form.trigger()
+      if (!isValid) return
+
+      if (data.has_variants || data.product_type === 'variant') {
+        nextStep()
+      } else if (onSubmitDirect) {
+        onSubmitDirect(data)
+      }
     }
   }
 
@@ -114,332 +145,713 @@ export function ProductBaseForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className='space-y-4 py-2'
       >
-        <FormField
-          control={form.control}
-          name='name'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('products.form.name')} *</FormLabel>
-              <FormControl>
-                <Input placeholder={t('products.form.namePlaceholder')} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          <FormField
-            control={form.control}
-            name='sku'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.sku')} *</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t('products.form.skuPlaceholder')}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='barcode'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.barcode')}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t('products.form.barcodePlaceholder')}
-                    {...field}
-                    value={field.value || ''}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <FormField
-          control={form.control}
-          name='description'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('products.form.description')}</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder={t('products.form.descriptionPlaceholder')}
-                  className='resize-none'
-                  {...field}
-                  value={field.value || ''}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          <FormField
-            control={form.control}
-            name='category_id'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.category')}</FormLabel>
-                <Select
-                  onValueChange={(val) => field.onChange(val || null)}
-                  value={field.value || ''}
-                >
+        {/* =========================================================================
+            STEP 1: IDENTITY & BASIC INFO
+           ========================================================================= */}
+        {currentStep === 1 && (
+          <div className='space-y-4 animate-in fade-in-50 duration-200'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('products.form.name')} *</FormLabel>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('products.form.selectCategory')} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='brand_id'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.brand')}</FormLabel>
-                <Select
-                  onValueChange={(val) => field.onChange(val || null)}
-                  value={field.value || ''}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('products.form.selectBrand')} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {brands.map((b) => (
-                      <SelectItem key={b.id} value={b.id}>
-                        {b.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='base_uom_id'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.unit')}</FormLabel>
-                <Select
-                  onValueChange={(val) => field.onChange(val || null)}
-                  value={field.value || ''}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('products.form.selectUnit')} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {uoms.map((u) => (
-                      <SelectItem key={u.id} value={u.id}>
-                        {u.name} ({u.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='supplier_id'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.supplier')}</FormLabel>
-                <Select
-                  onValueChange={(val) => field.onChange(val || null)}
-                  value={field.value || ''}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('products.form.selectSupplier')} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {suppliers.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
-                        {s.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-          <FormField
-            control={form.control}
-            name='base_price'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.price')} *</FormLabel>
-                <FormControl>
-                  <Input
-                    type='number'
-                    step='0.01'
-                    min='0'
-                    placeholder='0.00'
-                    value={(field.value as number) ?? ''}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='cost_price'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('products.form.costPrice')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type='number'
-                    step='0.01'
-                    min='0'
-                    placeholder='0.00'
-                    value={(field.value as number) ?? ''}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className='grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3'>
-          <FormField
-            control={form.control}
-            name='is_active'
-            render={({ field }) => (
-              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
-                <div className='space-y-0.5'>
-                  <FormLabel className='text-xs'>{t('products.form.active')}</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='has_variants'
-            render={({ field }) => (
-              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
-                <div className='space-y-0.5'>
-                  <FormLabel className='text-xs'>{t('products.form.hasVariants')}</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name='has_expiration'
-            render={({ field }) => (
-              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
-                <div className='space-y-0.5'>
-                  <FormLabel className='text-xs'>{t('products.form.hasExpiration')}</FormLabel>
-                </div>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-
-        {hasExpiration && (
-          <FormField
-            control={form.control}
-            name='expiration_date'
-            render={({ field }) => (
-              <FormItem className='flex flex-col'>
-                <FormLabel>{t('products.form.expirationDate')}</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant='outline'
-                        className={cn(
-                          'w-full pl-3 text-left font-normal',
-                          !field.value && 'text-muted-foreground'
-                        )}
-                      >
-                        {field.value ? (
-                          format(new Date(field.value), 'PPP')
-                        ) : (
-                          <span>{t('products.form.pickExpirationDate')}</span>
-                        )}
-                        <CalendarIcon className='ms-auto h-4 w-4 opacity-50' />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className='w-auto p-0' align='start'>
-                    <Calendar
-                      mode='single'
-                      selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date < new Date(new Date().setHours(0, 0, 0, 0))
-                      }
-                      initialFocus
+                    <Input
+                      placeholder={t('products.form.namePlaceholder')}
+                      {...field}
                     />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='sku'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.sku')} *</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t('products.form.skuPlaceholder')}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='barcode'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.barcode')}</FormLabel>
+                    <div className='flex gap-2'>
+                      <FormControl>
+                        <Input
+                          placeholder={t('products.form.barcodePlaceholder')}
+                          {...field}
+                          value={field.value || ''}
+                        />
+                      </FormControl>
+                      <Button
+                        type='button'
+                        variant='outline'
+                        size='icon'
+                        title='Scan Barcode'
+                        onClick={() => setIsScannerOpen(true)}
+                      >
+                        <LucideScan className='h-4 w-4' />
+                      </Button>
+                    </div>
+
+                    <QRCodeScanner
+                      open={isScannerOpen}
+                      onOpenChange={setIsScannerOpen}
+                      onScan={(data: string) => {
+                        field.onChange(data)
+                        setIsScannerOpen(false)
+                      }}
+                    />
+                    {field.value && (
+                      <div className='mt-2'>
+                        <BarcodeDisplay
+                          value={field.value}
+                          type={field.value.length > 20 ? 'qrcode' : 'barcode'}
+                        />
+                      </div>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name='product_type'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('products.form.productType')}</FormLabel>
+                  <Select
+                    onValueChange={(val) => field.onChange(val as ProductType)}
+                    value={field.value || 'simple'}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={t('products.form.selectProductType')}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value='simple'>
+                        {t('products.enums.productType.simple')}
+                      </SelectItem>
+                      <SelectItem value='variant'>
+                        {t('products.enums.productType.variant')}
+                      </SelectItem>
+                      <SelectItem value='bundle'>
+                        {t('products.enums.productType.bundle')}
+                      </SelectItem>
+                      <SelectItem value='service'>
+                        {t('products.enums.productType.service')}
+                      </SelectItem>
+                      <SelectItem value='composite'>
+                        {t('products.enums.productType.composite')}
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('products.form.description')}</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={t('products.form.descriptionPlaceholder')}
+                      className='resize-none min-h-[90px]'
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
+
+        {/* =========================================================================
+            STEP 2: ORGANIZATION & CLASSIFICATION
+           ========================================================================= */}
+        {currentStep === 2 && (
+          <div className='space-y-4 animate-in fade-in-50 duration-200'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='category_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.category')}</FormLabel>
+                    <Select
+                      onValueChange={(val) => field.onChange(val || null)}
+                      value={field.value || ''}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t('products.form.selectCategory')}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='brand_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.brand')}</FormLabel>
+                    <Select
+                      onValueChange={(val) => field.onChange(val || null)}
+                      value={field.value || ''}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t('products.form.selectBrand')}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {brands.map((b) => (
+                          <SelectItem key={b.id} value={b.id}>
+                            {b.name} {b.code ? `(${b.code})` : ''}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='base_uom_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.unit')}</FormLabel>
+                    <Select
+                      onValueChange={(val) => field.onChange(val || null)}
+                      value={field.value || ''}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t('products.form.selectUnit')}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {uoms.map((u) => (
+                          <SelectItem key={u.id} value={u.id}>
+                            {u.name} ({u.code})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='supplier_id'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.supplier')}</FormLabel>
+                    <Select
+                      onValueChange={(val) => field.onChange(val || null)}
+                      value={field.value || ''}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t('products.form.selectSupplier')}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {suppliers.map((s) => (
+                          <SelectItem key={s.id} value={s.id}>
+                            {s.name} {s.code ? `(${s.code})` : ''}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name='product_type_id'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t('products.form.productTypeClassification')}
+                  </FormLabel>
+                  <FormControl>
+                    <LookupSelect
+                      lookupType='product_type'
+                      value={field.value}
+                      onChange={(val) => field.onChange(val)}
+                      placeholder={t('products.form.selectProductType')}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
+
+        {/* =========================================================================
+            STEP 3: PRICING, INVENTORY & LOGISTICS
+           ========================================================================= */}
+        {currentStep === 3 && (
+          <div className='space-y-4 animate-in fade-in-50 duration-200'>
+            {/* Pricing & Tax */}
+            <div className='space-y-3'>
+              <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                {t('products.form.pricingAndTax')}
+              </h4>
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+                <FormField
+                  control={form.control}
+                  name='base_price'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('products.form.price')} *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type='number'
+                          step='0.01'
+                          min='0'
+                          placeholder='0.00'
+                          value={(field.value as number) ?? ''}
+                          onChange={(e) =>
+                            field.onChange(e.target.valueAsNumber || 0)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='tax_code'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('products.form.taxCode')}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t('products.form.taxCodePlaceholder')}
+                          {...field}
+                          value={field.value || ''}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='tax_classification_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t('products.form.taxClassification')}
+                      </FormLabel>
+                      <FormControl>
+                        <LookupSelect
+                          lookupType='tax_classification'
+                          value={field.value}
+                          onChange={(val) => field.onChange(val)}
+                          placeholder={t(
+                            'products.form.selectTaxClassification'
+                          )}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* Inventory & Tracking */}
+            <div className='space-y-3 pt-2'>
+              <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                {t('products.form.inventoryTracking')}
+              </h4>
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormField
+                  control={form.control}
+                  name='tracking_mode'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('products.form.trackingMode')}</FormLabel>
+                      <Select
+                        onValueChange={(val) =>
+                          field.onChange(val as TrackingMode)
+                        }
+                        value={field.value || 'none'}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder={t(
+                                'products.form.selectTrackingMode'
+                              )}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value='none'>
+                            {t('products.enums.trackingMode.none')}
+                          </SelectItem>
+                          <SelectItem value='batch'>
+                            {t('products.enums.trackingMode.batch')}
+                          </SelectItem>
+                          <SelectItem value='serial'>
+                            {t('products.enums.trackingMode.serial')}
+                          </SelectItem>
+                          <SelectItem value='batch_and_serial'>
+                            {t('products.enums.trackingMode.batch_and_serial')}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='reorder_level'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('products.form.reorderLevel')}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type='number'
+                          min='0'
+                          placeholder={t(
+                            'products.form.reorderLevelPlaceholder'
+                          )}
+                          value={(field.value as number) ?? ''}
+                          onChange={(e) =>
+                            field.onChange(e.target.valueAsNumber || 0)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Physical Attributes */}
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2 pt-1'>
+                <FormField
+                  control={form.control}
+                  name='weight'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('products.form.weight')} (kg)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type='number'
+                          step='0.01'
+                          min='0'
+                          placeholder='0.00'
+                          value={(field.value as number) ?? ''}
+                          onChange={(e) =>
+                            field.onChange(
+                              isNaN(e.target.valueAsNumber)
+                                ? null
+                                : e.target.valueAsNumber
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='dimensions'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('products.form.dimensions')}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t('products.form.dimensionsPlaceholder')}
+                          {...field}
+                          value={field.value || ''}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Toggles Grid */}
+              <div className='grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2 md:grid-cols-4'>
+                <FormField
+                  control={form.control}
+                  name='is_active'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.active')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='is_stock_item'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.isStockItem')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='reorderable'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.reorderable')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='is_marketplace'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.isMarketplace')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='is_batch_tracked'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.isBatchTracked')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='is_serial_tracked'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.isSerialTracked')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='has_variants'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs font-semibold text-primary'>
+                          {t('products.form.hasVariants')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='has_expiration'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-xs'>
+                          {t('products.form.hasExpiration')}
+                        </FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {hasExpiration && (
+              <FormField
+                control={form.control}
+                name='expiration_date'
+                render={({ field }) => (
+                  <FormItem className='flex flex-col pt-2'>
+                    <FormLabel>{t('products.form.expirationDate')}</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant='outline'
+                            className={cn(
+                              'w-full pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                          >
+                            {field.value ? (
+                              format(new Date(field.value), 'PPP')
+                            ) : (
+                              <span>
+                                {t('products.form.pickExpirationDate')}
+                              </span>
+                            )}
+                            <CalendarIcon className='ms-auto h-4 w-4 opacity-50' />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className='w-auto p-0' align='start'>
+                        <Calendar
+                          mode='single'
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date < new Date(new Date().setHours(0, 0, 0, 0))
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
-          />
+          </div>
         )}
       </form>
     </Form>

@@ -62,7 +62,6 @@ export function ProductWizardDialog() {
           product_type_id: baseProductData.product_type_id || null,
           tracking_mode: baseProductData.tracking_mode || 'none',
           base_price: baseProductData.base_price ?? 0,
-          cost_price: baseProductData.cost_price ?? 0,
           tax_code: baseProductData.tax_code || null,
           tax_classification_id: baseProductData.tax_classification_id || null,
           reorder_level: baseProductData.reorder_level ?? 0,
@@ -84,52 +83,125 @@ export function ProductWizardDialog() {
       toast.success(t('products.toast.created'))
       handleOpenChange(false)
     } catch (error) {
-      toast.error(
-        (error as Error).message || t('products.toast.error')
-      )
+      toast.error((error as Error).message || t('products.toast.error'))
+    }
+  }
+
+  const getStepDescription = (step: number) => {
+    switch (step) {
+      case 1:
+        return t('products.form.basicInfo')
+      case 2:
+        return t('products.form.classification')
+      case 3:
+        return t('products.form.pricingAndTax')
+      case 4:
+        return t('products.form.variantTitle')
+      default:
+        return ''
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className='sm:max-w-[800px]'>
+      <DialogContent className='sm:max-w-[850px]'>
         <DialogHeader>
           <DialogTitle>{t('products.createProduct')}</DialogTitle>
           <DialogDescription>
-            {currentStep === 1
-              ? t('products.form.basicInfo')
-              : t('products.form.variantTitle')}
+            {getStepDescription(currentStep)}
           </DialogDescription>
         </DialogHeader>
 
-        {/* Visual Stepper */}
-        <div className='my-2 flex items-center justify-center space-x-2 text-sm'>
+        {/* Visual 4-Step Stepper */}
+        <div className='my-2 flex items-center justify-center gap-1 text-xs sm:gap-2 sm:text-sm overflow-x-auto py-1'>
+          {/* Step 1: Identity */}
           <div
-            className={`flex items-center space-x-2 ${currentStep >= 1 ? 'text-primary' : 'text-muted-foreground'}`}
+            className={`flex items-center gap-1.5 ${currentStep >= 1 ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
           >
             <div
-              className={`flex h-6 w-6 items-center justify-center rounded-full border text-xs ${currentStep >= 1 ? 'border-primary bg-primary text-primary-foreground' : ''}`}
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs ${
+                currentStep > 1
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : currentStep === 1
+                    ? 'border-primary bg-primary/10 text-primary font-bold'
+                    : 'border-muted-foreground/40'
+              }`}
             >
-              1
+              {currentStep > 1 ? <Check className='h-3.5 w-3.5' /> : '1'}
             </div>
-            <span className='font-medium'>{t('products.formTabs.basic')}</span>
+            <span className='hidden sm:inline'>{t('products.formTabs.basic')}</span>
           </div>
-          <ChevronRight
-            className={`h-4 w-4 ${!isVariantsEnabled ? 'text-muted-foreground/30' : 'text-muted-foreground'}`}
-          />
+
+          <ChevronRight className='h-3.5 w-3.5 text-muted-foreground/50 shrink-0' />
+
+          {/* Step 2: Organization */}
           <div
-            className={`flex items-center space-x-2 ${currentStep >= 2 ? 'text-primary' : 'text-muted-foreground'} ${!isVariantsEnabled ? 'opacity-40' : ''}`}
+            className={`flex items-center gap-1.5 ${currentStep >= 2 ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
           >
             <div
-              className={`flex h-6 w-6 items-center justify-center rounded-full border text-xs ${currentStep >= 2 ? 'border-primary bg-primary text-primary-foreground' : ''}`}
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs ${
+                currentStep > 2
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : currentStep === 2
+                    ? 'border-primary bg-primary/10 text-primary font-bold'
+                    : 'border-muted-foreground/40'
+              }`}
             >
-              {currentStep > 2 ? <Check className='h-4 w-4' /> : '2'}
+              {currentStep > 2 ? <Check className='h-3.5 w-3.5' /> : '2'}
             </div>
-            <span className='font-medium'>{t('products.formTabs.variants')}</span>
+            <span className='hidden sm:inline'>
+              {t('products.formTabs.organization')}
+            </span>
           </div>
+
+          <ChevronRight className='h-3.5 w-3.5 text-muted-foreground/50 shrink-0' />
+
+          {/* Step 3: Pricing & Inventory */}
+          <div
+            className={`flex items-center gap-1.5 ${currentStep >= 3 ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
+          >
+            <div
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs ${
+                currentStep > 3
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : currentStep === 3
+                    ? 'border-primary bg-primary/10 text-primary font-bold'
+                    : 'border-muted-foreground/40'
+              }`}
+            >
+              {currentStep > 3 ? <Check className='h-3.5 w-3.5' /> : '3'}
+            </div>
+            <span className='hidden sm:inline'>
+              {t('products.formTabs.pricing')}
+            </span>
+          </div>
+
+          {/* Step 4: Variants (Conditional) */}
+          {isVariantsEnabled && (
+            <>
+              <ChevronRight className='h-3.5 w-3.5 text-muted-foreground/50 shrink-0' />
+              <div
+                className={`flex items-center gap-1.5 ${currentStep >= 4 ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
+              >
+                <div
+                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs ${
+                    currentStep === 4
+                      ? 'border-primary bg-primary/10 text-primary font-bold'
+                      : 'border-muted-foreground/40'
+                  }`}
+                >
+                  4
+                </div>
+                <span className='hidden sm:inline'>
+                  {t('products.formTabs.variants')}
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
-        {currentStep === 1 && (
+        {/* Form Body */}
+        {currentStep <= 3 && (
           <ProductBaseForm
             onSubmitDirect={async (data) => {
               try {
@@ -153,7 +225,6 @@ export function ProductWizardDialog() {
                     product_type_id: data.product_type_id || null,
                     tracking_mode: data.tracking_mode || 'none',
                     base_price: data.base_price ?? 0,
-                    cost_price: data.cost_price ?? 0,
                     tax_code: data.tax_code || null,
                     tax_classification_id: data.tax_classification_id || null,
                     reorder_level: data.reorder_level ?? 0,
@@ -181,10 +252,14 @@ export function ProductWizardDialog() {
             }}
           />
         )}
-        {currentStep === 2 && <ProductVariantsForm onSubmit={handleCreate} />}
 
-        <DialogFooter className='flex items-center justify-between sm:justify-between sm:space-x-2'>
-          <div className='flex w-full justify-between'>
+        {currentStep === 4 && (
+          <ProductVariantsForm onSubmit={handleCreate} />
+        )}
+
+        {/* Dialog Footer */}
+        <DialogFooter className='flex items-center justify-between sm:justify-between sm:space-x-2 pt-2'>
+          <div className='flex w-full justify-between items-center'>
             {currentStep === 1 ? (
               <Button
                 type='button'
@@ -195,11 +270,19 @@ export function ProductWizardDialog() {
               </Button>
             ) : (
               <Button type='button' variant='outline' onClick={prevStep}>
-                Back
+                {t('common.back', 'Back')}
               </Button>
             )}
 
-            {currentStep === 1 ? (
+            {currentStep < 3 ? (
+              <Button
+                type='submit'
+                form='product-base-form'
+                disabled={isPending}
+              >
+                {t('common.continue', 'Continue')}
+              </Button>
+            ) : currentStep === 3 ? (
               <Button
                 type='submit'
                 form='product-base-form'
@@ -208,7 +291,7 @@ export function ProductWizardDialog() {
                 {isPending
                   ? t('products.form.saving')
                   : isVariantsEnabled
-                    ? 'Continue to Variants'
+                    ? t('products.form.continueToVariants', 'Continue to Variants')
                     : t('products.form.create')}
               </Button>
             ) : (
@@ -217,7 +300,9 @@ export function ProductWizardDialog() {
                 form='product-variants-form'
                 disabled={isPending}
               >
-                {isPending ? t('products.form.saving') : t('products.form.create')}
+                {isPending
+                  ? t('products.form.saving')
+                  : t('products.form.create')}
               </Button>
             )}
           </div>

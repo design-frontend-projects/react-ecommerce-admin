@@ -76,7 +76,6 @@ export const productSchema = z.object({
   created_at: z.string().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   reorder_level: z.coerce.number().optional().nullable(),
-  store_id: z.string().optional().nullable(),
   has_variants: z.boolean().default(false),
   is_deleted: z.boolean().default(false),
   deleted_at: z.string().optional().nullable(),
@@ -130,11 +129,6 @@ export const baseProductSchema = z.object({
     .min(0, 'Price must be 0 or greater')
     .optional()
     .nullable(),
-  cost_price: z.coerce
-    .number()
-    .min(0, 'Cost price must be 0 or greater')
-    .optional()
-    .nullable(),
   tax_code: z.string().optional().nullable(),
   tax_classification_id: z.string().uuid().optional().nullable(),
   reorder_level: z.coerce.number().optional().nullable(),
@@ -149,7 +143,6 @@ export const baseProductSchema = z.object({
   has_expiration: z.boolean().default(false),
   expiration_date: z.union([z.date(), z.string()]).optional().nullable(),
   is_marketplace: z.boolean().default(false),
-  store_id: z.string().optional().nullable(),
 })
 export type BaseProductFormData = z.infer<typeof baseProductSchema>
 

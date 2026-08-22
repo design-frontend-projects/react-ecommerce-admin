@@ -190,6 +190,8 @@ export const useCreateProductWithVariants = () => {
         suppliers: _sup,
         product_id: _legacyPid,
         id: _ignoredId,
+        cost_price: _costPrice,
+        store_id: _storeId,
         ...productPayload
       } = base as Partial<Product> & Record<string, unknown>
 
@@ -303,6 +305,8 @@ export const useUpdateProductWithVariants = () => {
         suppliers: _sup,
         product_id: _legacyPid,
         id: _ignoredId,
+        cost_price: _costPrice,
+        store_id: _storeId,
         ...productPayload
       } = base as Partial<Product> & Record<string, unknown>
 
