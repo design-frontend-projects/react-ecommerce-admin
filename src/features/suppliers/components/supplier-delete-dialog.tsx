@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,16 +22,10 @@ export function SupplierDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.supplier_id)
-        toast.success('Supplier deleted successfully')
+        await deleteMutation.mutateAsync(currentRow.id)
         setOpen(null)
-      } catch (error: unknown) {
-        toast.error('Error', {
-          description:
-            error && error instanceof Error
-              ? error.message
-              : 'Something went wrong. Please try again.',
-        })
+      } catch {
+        // error toast handled by mutation hook
       }
     }
   }
@@ -41,7 +34,9 @@ export function SupplierDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('suppliers.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t('suppliers.delete.title', { defaultValue: 'Are you sure?' })}
+          </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
             supplier

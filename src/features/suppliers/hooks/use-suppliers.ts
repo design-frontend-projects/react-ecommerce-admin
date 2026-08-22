@@ -1,117 +1,72 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
+import {
+  createSupplier,
+  deleteSupplier,
+  fetchSuppliers,
+  updateSupplier,
+} from '../data/actions'
+import type { SupplierInput, SupplierListItem } from '../data/schema'
 
-export interface Supplier {
-  supplier_id: number
-  name: string
-  contact_person: string | null
-  email: string | null
-  phone: string | null
-  address: string | null
-  website: string | null
-  notes: string | null
-  created_at: string
-  is_preferred: boolean
-}
+export type Supplier = SupplierListItem
+export type { SupplierInput }
 
-export interface SupplierInput {
-  name: string
-  contact_person?: string
-  email?: string
-  phone?: string
-  address?: string
-  website?: string
-  notes?: string
-  is_preferred?: boolean
-}
+export const suppliersKey = ['inventory', 'suppliers'] as const
 
-export const useSuppliers = () => {
-  return useQuery({
-    queryKey: ['suppliers'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('suppliers')
-        .select('*')
-        .order('name')
-
-      if (error) throw error
-      return data as Supplier[]
-    },
+export function useSuppliers() {
+  return useAuthQuery({
+    queryKey: suppliersKey,
+    queryFn: (getToken) => fetchSuppliers(getToken),
+    rbac: { permission: 'purchasing.view' },
   })
 }
 
-export const useSupplier = (id: number) => {
-  return useQuery({
-    queryKey: ['suppliers', id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('suppliers')
-        .select('*')
-        .eq('supplier_id', id)
-        .maybeSingle()
-
-      if (error) throw error
-      return data as Supplier
-    },
-    enabled: !!id,
-  })
-}
-
-export const useCreateSupplier = () => {
+export function useCreateSupplier() {
   const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (newSupplier: SupplierInput) => {
-      const { data, error } = await supabase
-        .from('suppliers')
-        .insert(newSupplier)
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
-    },
+  return useAuthMutation({
+    mutationFn: (getToken, input: SupplierInput) => createSupplier(getToken, input),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      toast.success('Supplier created successfully.')
+      void queryClient.invalidateQueries({ queryKey: suppliersKey })
+      void queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     },
+    onError: (error: Error) =>
+      toast.error('Unable to create supplier', { description: error.message }),
   })
 }
 
-export const useUpdateSupplier = () => {
+export function useUpdateSupplier() {
   const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({ id, ...updates }: SupplierInput & { id: number }) => {
-      const { data, error } = await supabase
-        .from('suppliers')
-        .update(updates)
-        .eq('supplier_id', id)
-        .select()
-        .maybeSingle()
-
-      if (error) throw error
-      return data
-    },
+  return useAuthMutation({
+    mutationFn: (
+      getToken,
+      { id, input }: { id: string; input: Partial<SupplierInput> }
+    ) => updateSupplier(getToken, id, input),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      toast.success('Supplier updated successfully.')
+      void queryClient.invalidateQueries({ queryKey: suppliersKey })
+      void queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     },
+    onError: (error: Error) =>
+      toast.error('Unable to update supplier', { description: error.message }),
   })
 }
 
-export const useDeleteSupplier = () => {
+export function useDeleteSupplier() {
   const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (id: number) => {
-      const { error } = await supabase
-        .from('suppliers')
-        .delete()
-        .eq('supplier_id', id)
-
-      if (error) throw error
-    },
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteSupplier(getToken, id),
+    rbac: { permission: 'purchasing.manage' },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
+      toast.success('Supplier deleted successfully.')
+      void queryClient.invalidateQueries({ queryKey: suppliersKey })
+      void queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     },
+    onError: (error: Error) =>
+      toast.error('Unable to delete supplier', { description: error.message }),
   })
 }

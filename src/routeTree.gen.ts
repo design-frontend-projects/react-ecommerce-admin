@@ -108,6 +108,7 @@ import { Route as ApiLookupsTreeRouteImport } from './routes/api/lookups/tree'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
+import { Route as ApiInventorySuppliersRouteImport } from './routes/api/inventory/suppliers'
 import { Route as ApiInventoryStockCountsRouteImport } from './routes/api/inventory/stock-counts'
 import { Route as ApiInventoryStockByLocationRouteImport } from './routes/api/inventory/stock-by-location'
 import { Route as ApiInventorySerialsRouteImport } from './routes/api/inventory/serials'
@@ -743,6 +744,11 @@ const ApiInventoryTransfersRoute = ApiInventoryTransfersRouteImport.update({
   path: '/api/inventory/transfers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInventorySuppliersRoute = ApiInventorySuppliersRouteImport.update({
+  id: '/api/inventory/suppliers',
+  path: '/api/inventory/suppliers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInventoryStockCountsRoute = ApiInventoryStockCountsRouteImport.update({
   id: '/api/inventory/stock-counts',
   path: '/api/inventory/stock-counts',
@@ -1277,6 +1283,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/serials': typeof ApiInventorySerialsRoute
   '/api/inventory/stock-by-location': typeof ApiInventoryStockByLocationRoute
   '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
+  '/api/inventory/suppliers': typeof ApiInventorySuppliersRoute
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
@@ -1451,6 +1458,7 @@ export interface FileRoutesByTo {
   '/api/inventory/serials': typeof ApiInventorySerialsRoute
   '/api/inventory/stock-by-location': typeof ApiInventoryStockByLocationRoute
   '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
+  '/api/inventory/suppliers': typeof ApiInventorySuppliersRoute
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
@@ -1630,6 +1638,7 @@ export interface FileRoutesById {
   '/api/inventory/serials': typeof ApiInventorySerialsRoute
   '/api/inventory/stock-by-location': typeof ApiInventoryStockByLocationRoute
   '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
+  '/api/inventory/suppliers': typeof ApiInventorySuppliersRoute
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
@@ -1808,6 +1817,7 @@ export interface FileRouteTypes {
     | '/api/inventory/serials'
     | '/api/inventory/stock-by-location'
     | '/api/inventory/stock-counts'
+    | '/api/inventory/suppliers'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
@@ -1982,6 +1992,7 @@ export interface FileRouteTypes {
     | '/api/inventory/serials'
     | '/api/inventory/stock-by-location'
     | '/api/inventory/stock-counts'
+    | '/api/inventory/suppliers'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
@@ -2160,6 +2171,7 @@ export interface FileRouteTypes {
     | '/api/inventory/serials'
     | '/api/inventory/stock-by-location'
     | '/api/inventory/stock-counts'
+    | '/api/inventory/suppliers'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
@@ -2283,6 +2295,7 @@ export interface RootRouteChildren {
   ApiInventorySerialsRoute: typeof ApiInventorySerialsRoute
   ApiInventoryStockByLocationRoute: typeof ApiInventoryStockByLocationRoute
   ApiInventoryStockCountsRoute: typeof ApiInventoryStockCountsRouteWithChildren
+  ApiInventorySuppliersRoute: typeof ApiInventorySuppliersRoute
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
@@ -3008,6 +3021,13 @@ declare module '@tanstack/react-router' {
       path: '/api/inventory/transfers'
       fullPath: '/api/inventory/transfers'
       preLoaderRoute: typeof ApiInventoryTransfersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/suppliers': {
+      id: '/api/inventory/suppliers'
+      path: '/api/inventory/suppliers'
+      fullPath: '/api/inventory/suppliers'
+      preLoaderRoute: typeof ApiInventorySuppliersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/stock-counts': {
@@ -4044,6 +4064,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventorySerialsRoute: ApiInventorySerialsRoute,
   ApiInventoryStockByLocationRoute: ApiInventoryStockByLocationRoute,
   ApiInventoryStockCountsRoute: ApiInventoryStockCountsRouteWithChildren,
+  ApiInventorySuppliersRoute: ApiInventorySuppliersRoute,
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,

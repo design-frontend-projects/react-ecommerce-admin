@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -90,23 +89,28 @@ export function SupplierActionDialog() {
 
   const onSubmit = async (values: SupplierFormValues) => {
     try {
+      const payload = {
+        name: values.name,
+        contactPerson: values.contact_person || null,
+        email: values.email || null,
+        phone: values.phone || null,
+        address: values.address || null,
+        website: values.website || null,
+        notes: values.notes || null,
+        isPreferred: values.is_preferred ?? false,
+      }
+
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.supplier_id,
-          ...values,
+          id: currentRow.id,
+          input: payload,
         })
-        toast.success('Supplier updated successfully')
       } else {
-        await createMutation.mutateAsync(values)
-        toast.success('Supplier created successfully')
+        await createMutation.mutateAsync(payload)
       }
       setOpen(null)
-    } catch (error: unknown) {
-      toast.error('Error', {
-        description:
-          (error as Error)?.message ||
-          'Something went wrong. Please try again.',
-      })
+    } catch {
+      // error toast is handled in mutation hook
     }
   }
 

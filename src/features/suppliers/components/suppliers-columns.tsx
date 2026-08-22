@@ -56,9 +56,17 @@ export const columns: ColumnDef<Supplier>[] = [
     accessorKey: 'created_at',
     header: 'Created At',
     cell: ({ row }) => {
+      const val = row.getValue('created_at')
+      if (!val) {
+        return (
+          <div className='flex w-[100px] items-center text-muted-foreground'>
+            -
+          </div>
+        )
+      }
       return (
         <div className='flex w-[100px] items-center'>
-          {new Date(row.getValue('created_at')).toLocaleDateString()}
+          {new Date(val as string | number | Date).toLocaleDateString()}
         </div>
       )
     },

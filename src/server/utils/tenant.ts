@@ -1,6 +1,13 @@
 import prisma from '@/lib/prisma'
 import { getOptionalTenantContext } from '@/server/context/tenant-context'
 
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+export function isValidUuid(value: unknown): value is string {
+  return typeof value === 'string' && UUID_REGEX.test(value)
+}
+
 /**
  * Resolve the tenant/account id for an authenticated Supabase user.
  * Prioritizes active AsyncLocalStorage context if present, then falls back
@@ -10,16 +17,25 @@ export async function resolveTenantId(
   authUserId: string
 ): Promise<string | null> {
   const currentContext = getOptionalTenantContext()
-  if (currentContext?.tenantId) {
+  if (currentContext?.tenantId && isValidUuid(currentContext.tenantId)) {
     return currentContext.tenantId
+  }
+
+  if (!isValidUuid(authUserId)) {
+    return null
   }
 
   const tenantUser = (await prisma.tenant_users.findFirst({
     where: { auth_user_id: authUserId },
     select: { tenant_id: true, parent_tenant_id: true },
   })) as { tenant_id: string | null; parent_tenant_id: string | null } | null
-  if (tenantUser?.tenant_id) return tenantUser.tenant_id
-  if (tenantUser?.parent_tenant_id) return tenantUser.parent_tenant_id
+
+  if (tenantUser?.tenant_id && isValidUuid(tenantUser.tenant_id)) {
+    return tenantUser.tenant_id
+  }
+  if (tenantUser?.parent_tenant_id && isValidUuid(tenantUser.parent_tenant_id)) {
+    return tenantUser.parent_tenant_id
+  }
 
   const tenantOwner = prisma.tenants
     ? await prisma.tenants.findFirst({
@@ -27,19 +43,22 @@ export async function resolveTenantId(
         select: { id: true },
       })
     : null
-  if (tenantOwner?.id) return tenantOwner.id
+  if (tenantOwner?.id && isValidUuid(tenantOwner.id)) return tenantOwner.id
 
   const subscription = (await prisma.tenant_subscriptions.findFirst({
     where: { auth_user_id: authUserId },
     select: { tenant_id: true, id: true },
   })) as { tenant_id: string | null; id: string } | null
-  return subscription?.tenant_id ?? subscription?.id ?? null
+  const subTenantId = subscription?.tenant_id ?? subscription?.id ?? null
+  if (subTenantId && isValidUuid(subTenantId)) return subTenantId
+
+  return null
 }
 
 export async function requireTenantId(authUserId: string): Promise<string> {
   const tenantId = await resolveTenantId(authUserId)
   if (!tenantId) {
-    throw new Error('Unable to resolve the caller tenant.')
+    throw new Error('Unable to resolve the caller tenant. Please complete onboarding first.')
   }
   return tenantId
 }
@@ -51,6 +70,10 @@ export async function requireTenantId(authUserId: string): Promise<string> {
 export async function resolveTenantUserId(
   authUserId: string
 ): Promise<string | null> {
+  if (!isValidUuid(authUserId)) {
+    return null
+  }
+
   const tenantUser = await prisma.tenant_users.findFirst({
     where: { auth_user_id: authUserId },
     select: { id: true },
