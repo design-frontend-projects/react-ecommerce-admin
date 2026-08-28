@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CalendarIcon, Scan as LucideScan } from 'lucide-react'
+import { CalendarIcon, Scan as LucideScan, Layers } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -133,8 +133,12 @@ export function ProductBaseForm({
       const isValid = await form.trigger()
       if (!isValid) return
 
-      if (data.has_variants || data.product_type === 'variant') {
-        nextStep()
+      const isVariant = Boolean(
+        data.has_variants || data.product_type === 'variant'
+      )
+      if (isVariant) {
+        setVariantsEnabled(true)
+        nextStep(true)
       } else if (onSubmitDirect) {
         onSubmitDirect(data)
       }
@@ -847,11 +851,27 @@ export function ProductBaseForm({
                   control={form.control}
                   name='has_variants'
                   render={({ field }) => (
-                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
+                    <FormItem
+                      className={cn(
+                        'flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs transition-colors',
+                        field.value
+                          ? 'border-primary/50 bg-primary/5'
+                          : 'border-border'
+                      )}
+                    >
                       <div className='space-y-0.5'>
-                        <FormLabel className='text-xs font-semibold text-primary'>
-                          {t('products.form.hasVariants')}
-                        </FormLabel>
+                        <div className='flex items-center gap-1.5'>
+                          <Layers className='h-3.5 w-3.5 text-primary' />
+                          <FormLabel className='cursor-pointer text-xs font-semibold text-primary'>
+                            {t('products.form.hasVariants')}
+                          </FormLabel>
+                        </div>
+                        <FormDescription className='text-[10px] text-muted-foreground'>
+                          {t(
+                            'products.form.hasVariantsDesc',
+                            'Configures multiple options in Step 4'
+                          )}
+                        </FormDescription>
                       </div>
                       <FormControl>
                         <Switch

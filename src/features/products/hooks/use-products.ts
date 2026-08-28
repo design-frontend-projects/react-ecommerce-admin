@@ -3,6 +3,7 @@ import { authorizedRequest } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
 import { useAuthEnabled } from '@/hooks/use-auth-query'
 import { useAuth } from '@/hooks/use-auth'
+import { useAuthStore } from '@/stores/auth-store'
 import type { VariantRowFormData, Product } from '../data/schema'
 
 /**
@@ -20,6 +21,22 @@ async function postOpeningStock(
     method: 'POST',
     body: JSON.stringify({ storeId, items }),
   })
+}
+
+function getAuthTenantAndUser() {
+  const { user, profile } = useAuthStore.getState().auth
+  const tenantId =
+    profile?.tenant_id ||
+    (user?.app_metadata as Record<string, unknown> | undefined)?.tenant_id ||
+    (user?.user_metadata as Record<string, unknown> | undefined)?.tenant_id ||
+    null
+
+  const userId = profile?.id || profile?.auth_user_id || user?.id || null
+
+  return {
+    tenantId: tenantId ? String(tenantId) : null,
+    userId: userId ? String(userId) : null,
+  }
 }
 
 function normalizeProduct(raw: Record<string, unknown>): Product {
@@ -89,9 +106,43 @@ export const useCreateProduct = () => {
         throw new Error('You do not have permission to perform this action.')
       }
 
+      const { tenantId, userId } = getAuthTenantAndUser()
+
+      const {
+        product_variants: _pv,
+        categories: _cat,
+        brands: _br,
+        base_uom: _uom,
+        suppliers: _sup,
+        product_types: _pt,
+        product_id: _legacyPid,
+        id: _ignoredId,
+        cost_price: _costPrice,
+        store_id: _storeId,
+        pos_reorder_requests: _prr,
+        purchase_order_items: _poi,
+        variants: _vars,
+        attributes_label: _al,
+        ...productPayload
+      } = newProduct as Record<string, unknown>
+
+      const payloadToInsert: Record<string, unknown> = {
+        ...productPayload,
+        is_deleted: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+
+      if (tenantId && !payloadToInsert.tenant_id) {
+        payloadToInsert.tenant_id = tenantId
+      }
+      if (userId && !payloadToInsert.created_by_user_id) {
+        payloadToInsert.created_by_user_id = userId
+      }
+
       const { data, error } = await supabase
         .from('products')
-        .insert(newProduct)
+        .insert(payloadToInsert)
         .select()
         .maybeSingle()
 
@@ -117,13 +168,39 @@ export const useUpdateProduct = () => {
         throw new Error('You do not have permission to perform this action.')
       }
 
+      const { userId } = getAuthTenantAndUser()
       const cleanId = String(id)
+
+      const {
+        product_variants: _pv,
+        categories: _cat,
+        brands: _br,
+        base_uom: _uom,
+        suppliers: _sup,
+        product_types: _pt,
+        product_id: _legacyPid,
+        id: _ignoredId,
+        cost_price: _costPrice,
+        store_id: _storeId,
+        pos_reorder_requests: _prr,
+        purchase_order_items: _poi,
+        variants: _vars,
+        attributes_label: _al,
+        ...productPayload
+      } = updates as Record<string, unknown>
+
+      const payloadToUpdate: Record<string, unknown> = {
+        ...productPayload,
+        updated_at: new Date().toISOString(),
+      }
+
+      if (userId) {
+        payloadToUpdate.updated_by_user_id = userId
+      }
+
       const { data, error } = await supabase
         .from('products')
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString(),
-        })
+        .update(payloadToUpdate)
         .eq('id', cleanId)
         .select()
         .maybeSingle()
@@ -181,6 +258,8 @@ export const useCreateProductWithVariants = () => {
         throw new Error('You do not have permission to perform this action.')
       }
 
+      const { tenantId, userId } = getAuthTenantAndUser()
+
       // Filter out relation properties and client-only helpers from base payload
       const {
         product_variants: _pv,
@@ -188,22 +267,39 @@ export const useCreateProductWithVariants = () => {
         brands: _br,
         base_uom: _uom,
         suppliers: _sup,
+        product_types: _pt,
         product_id: _legacyPid,
         id: _ignoredId,
         cost_price: _costPrice,
         store_id: _storeId,
+        pos_reorder_requests: _prr,
+        purchase_order_items: _poi,
+        variants: _vars,
+        attributes_label: _al,
         ...productPayload
       } = base as Partial<Product> & Record<string, unknown>
+
+      const resolvedTenantId =
+        (productPayload.tenant_id as string | undefined) || tenantId || undefined
+
+      const finalProductPayload: Record<string, unknown> = {
+        ...productPayload,
+        is_deleted: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }
+
+      if (resolvedTenantId && !finalProductPayload.tenant_id) {
+        finalProductPayload.tenant_id = resolvedTenantId
+      }
+      if (userId && !finalProductPayload.created_by_user_id) {
+        finalProductPayload.created_by_user_id = userId
+      }
 
       // 1. Insert product
       const { data: product, error: productError } = await supabase
         .from('products')
-        .insert({
-          ...productPayload,
-          is_deleted: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
+        .insert(finalProductPayload)
         .select()
         .single()
 
@@ -211,11 +307,13 @@ export const useCreateProductWithVariants = () => {
       if (!product) throw new Error('Failed to create product')
 
       const productId = product.id as string
+      const productTenantId = (product.tenant_id as string) || resolvedTenantId
 
       // 2. Insert variants with zero stock — quantities go through the engine
       if (variants.length > 0) {
         const variantsWithProductId = variants.map((v) => ({
           product_id: productId,
+          tenant_id: productTenantId,
           sku: v.sku,
           barcode: v.barcode || null,
           name: v.name || v.attributes_label || null,
@@ -231,6 +329,9 @@ export const useCreateProductWithVariants = () => {
               ? JSON.stringify({ label: v.dimensions })
               : null,
           is_active: v.is_active ?? true,
+          created_by_user_id: userId,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         }))
 
         const { data: createdVariants, error: variantsError } = await supabase
@@ -294,6 +395,7 @@ export const useUpdateProductWithVariants = () => {
         throw new Error('You do not have permission to perform this action.')
       }
 
+      const { tenantId, userId } = getAuthTenantAndUser()
       const cleanProductId = String(id)
 
       // Clean up base payload
@@ -303,25 +405,42 @@ export const useUpdateProductWithVariants = () => {
         brands: _br,
         base_uom: _uom,
         suppliers: _sup,
+        product_types: _pt,
         product_id: _legacyPid,
         id: _ignoredId,
         cost_price: _costPrice,
         store_id: _storeId,
+        pos_reorder_requests: _prr,
+        purchase_order_items: _poi,
+        variants: _vars,
+        attributes_label: _al,
         ...productPayload
       } = base as Partial<Product> & Record<string, unknown>
+
+      const finalProductUpdate: Record<string, unknown> = {
+        ...productPayload,
+        updated_at: new Date().toISOString(),
+      }
+
+      if (userId) {
+        finalProductUpdate.updated_by_user_id = userId
+      }
 
       // 1. Update product
       const { data: product, error: productError } = await supabase
         .from('products')
-        .update({
-          ...productPayload,
-          updated_at: new Date().toISOString(),
-        })
+        .update(finalProductUpdate)
         .eq('id', cleanProductId)
         .select()
         .single()
 
       if (productError) throw productError
+
+      const productTenantId =
+        (product?.tenant_id as string | undefined) ||
+        (productPayload.tenant_id as string | undefined) ||
+        tenantId ||
+        undefined
 
       // 2. Fetch existing variants to know what to delete
       const { data: existingVariants, error: fetchError } = await supabase
@@ -370,6 +489,7 @@ export const useUpdateProductWithVariants = () => {
             : null,
         is_active: v.is_active ?? true,
         updated_at: new Date().toISOString(),
+        ...(userId ? { updated_by_user_id: userId } : {}),
       })
 
       const existingToUpdate = variants.filter((v) => v.id)
@@ -393,6 +513,8 @@ export const useUpdateProductWithVariants = () => {
           .insert(
             newToInsert.map((v) => ({
               ...buildVariantPayload(v),
+              tenant_id: productTenantId,
+              created_by_user_id: userId,
               stock_quantity: 0,
               created_at: new Date().toISOString(),
             }))

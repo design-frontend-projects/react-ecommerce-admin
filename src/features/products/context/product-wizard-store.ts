@@ -14,7 +14,7 @@ interface ProductWizardState {
   // Actions
   setIsOpen: (isOpen: boolean) => void
   setStep: (step: number) => void
-  nextStep: () => void
+  nextStep: (forceVariantsEnabled?: boolean) => void
   prevStep: () => void
   setVariantsEnabled: (enabled: boolean) => void
 
@@ -39,10 +39,17 @@ export const useProductWizardStore = create<ProductWizardState>((set) => ({
 
   setIsOpen: (isOpen) => set({ isOpen }),
   setStep: (step) => set({ currentStep: step }),
-  nextStep: () =>
-    set((state) => ({
-      currentStep: Math.min(state.currentStep + 1, state.isVariantsEnabled ? 4 : 3),
-    })),
+  nextStep: (forceVariantsEnabled?: boolean) =>
+    set((state) => {
+      const variantsActive =
+        forceVariantsEnabled !== undefined
+          ? forceVariantsEnabled
+          : state.isVariantsEnabled
+      return {
+        isVariantsEnabled: variantsActive,
+        currentStep: Math.min(state.currentStep + 1, variantsActive ? 4 : 3),
+      }
+    }),
   prevStep: () =>
     set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
   setVariantsEnabled: (enabled) =>

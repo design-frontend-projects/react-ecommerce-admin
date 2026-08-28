@@ -241,6 +241,26 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const hasExpiration = form.watch('has_expiration')
   const productType = form.watch('product_type')
 
+  useEffect(() => {
+    if ((hasVariants || productType === 'variant') && fields.length === 0 && open) {
+      const currentValues = form.getValues()
+      append({
+        sku: currentValues.sku ? `${currentValues.sku}-V1` : '',
+        barcode: '',
+        name: 'Default',
+        price: currentValues.base_price || 0,
+        cost_price: 0,
+        stock_quantity: 0,
+        min_stock: currentValues.reorder_level || 0,
+        weight: currentValues.weight || null,
+        dimensions: currentValues.dimensions || '',
+        is_active: true,
+        uom_id: currentValues.base_uom_id || null,
+        attributes_label: 'Default',
+      })
+    }
+  }, [hasVariants, productType, fields.length, open, append, form])
+
   const onSubmit = async (values: ProductActionFormData) => {
     try {
       const { variants, ...baseData } = values
