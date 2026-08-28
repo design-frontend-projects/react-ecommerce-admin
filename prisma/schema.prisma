@@ -280,6 +280,8 @@ model product_variants {
   pos_reorder_requests pos_reorder_requests[]
   products             products               @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_variants_products")
   purchase_order_items purchase_order_items[]
+  reorder_rules        reorder_rules[]
+  reorder_suggestions  reorder_suggestions[]
 }
 
 model products {
@@ -1065,6 +1067,8 @@ model stores {
   cities             cities?      @relation(fields: [city_id], references: [id], onUpdate: NoAction)
   countries          countries?   @relation(fields: [country_id], references: [id], onUpdate: NoAction)
   warehouses         warehouses[]
+  reorder_rules        reorder_rules[]
+  reorder_suggestions  reorder_suggestions[]
 }
 
 model subscriptions {
@@ -1146,6 +1150,8 @@ model suppliers {
   purchase_orders      purchase_orders[]
   cities               cities?           @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   products             products[]
+  reorder_rules        reorder_rules[]
+  reorder_suggestions  reorder_suggestions[]
 }
 
 model tax_rates {
@@ -1708,6 +1714,7 @@ model purchase_requisitions {
   updated_at                  DateTime                @default(now()) @db.Timestamptz(6)
   created_by_user_id          String?                 @db.Uuid
   updated_by_user_id          String?                 @db.Uuid
+  reorder_suggestions         reorder_suggestions[]
 }
 
 model purchase_requisition_items {
@@ -1874,24 +1881,29 @@ model stock_reservations {
 }
 
 model reorder_rules {
-  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id             String    @db.Uuid
-  product_variant_id    String    @db.Uuid
-  warehouse_id          String?   @db.Uuid
-  store_id              String?   @db.Uuid
-  min_qty               Decimal?  @db.Decimal(18, 4)
-  max_qty               Decimal?  @db.Decimal(18, 4)
-  safety_stock          Decimal   @default(0) @db.Decimal(18, 4)
-  reorder_point         Decimal   @db.Decimal(18, 4)
-  reorder_qty           Decimal?  @db.Decimal(18, 4)
-  eoq                   Decimal?  @db.Decimal(18, 4)
+  id                    String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String                @db.Uuid
+  product_variant_id    String                @db.Uuid
+  warehouse_id          String?               @db.Uuid
+  store_id              String?               @db.Uuid
+  min_qty               Decimal?              @db.Decimal(18, 4)
+  max_qty               Decimal?              @db.Decimal(18, 4)
+  safety_stock          Decimal               @default(0) @db.Decimal(18, 4)
+  reorder_point         Decimal               @db.Decimal(18, 4)
+  reorder_qty           Decimal?              @db.Decimal(18, 4)
+  eoq                   Decimal?              @db.Decimal(18, 4)
   lead_time_days        Int?
-  preferred_supplier_id String?   @db.Uuid
-  is_active             Boolean   @default(true)
-  created_at            DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
-  created_by_user_id    String?   @db.Uuid
-  updated_by_user_id    String?   @db.Uuid
+  preferred_supplier_id String?               @db.Uuid
+  is_active             Boolean               @default(true)
+  created_at            DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime              @default(now()) @db.Timestamptz(6)
+  created_by_user_id    String?               @db.Uuid
+  updated_by_user_id    String?               @db.Uuid
+  product_variants      product_variants      @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores                stores?               @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+  suppliers             suppliers?            @relation(fields: [preferred_supplier_id], references: [id], onUpdate: NoAction)
+  warehouses            warehouses?           @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
+  reorder_suggestions   reorder_suggestions[]
 }
 
 model reorder_suggestions {
@@ -1912,6 +1924,12 @@ model reorder_suggestions {
   updated_at               DateTime                        @default(now()) @db.Timestamptz(6)
   created_by_user_id       String?                         @db.Uuid
   updated_by_user_id       String?                         @db.Uuid
+  reorder_rules            reorder_rules                   @relation(fields: [reorder_rule_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants         product_variants                @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores                   stores?                         @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+  suppliers                suppliers?                      @relation(fields: [preferred_supplier_id], references: [id], onUpdate: NoAction)
+  warehouses               warehouses?                     @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
+  purchase_requisitions    purchase_requisitions?          @relation(fields: [converted_requisition_id], references: [id], onUpdate: NoAction)
 }
 
 model app_settings {
@@ -1949,6 +1967,8 @@ model warehouses {
   warehouse_locations warehouse_locations[]
   branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stores              stores?               @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
+  reorder_rules       reorder_rules[]
+  reorder_suggestions reorder_suggestions[]
 }
 
 model warehouse_locations {

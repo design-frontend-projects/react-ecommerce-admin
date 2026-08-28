@@ -320,6 +320,12 @@ export type reorder_suggestionsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  reorder_rules?: Prisma.XOR<Prisma.Reorder_rulesScalarRelationFilter, Prisma.reorder_rulesWhereInput>
+  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  suppliers?: Prisma.XOR<Prisma.SuppliersNullableScalarRelationFilter, Prisma.suppliersWhereInput> | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  purchase_requisitions?: Prisma.XOR<Prisma.Purchase_requisitionsNullableScalarRelationFilter, Prisma.purchase_requisitionsWhereInput> | null
 }
 
 export type reorder_suggestionsOrderByWithRelationInput = {
@@ -340,6 +346,12 @@ export type reorder_suggestionsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  reorder_rules?: Prisma.reorder_rulesOrderByWithRelationInput
+  product_variants?: Prisma.product_variantsOrderByWithRelationInput
+  stores?: Prisma.storesOrderByWithRelationInput
+  suppliers?: Prisma.suppliersOrderByWithRelationInput
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
+  purchase_requisitions?: Prisma.purchase_requisitionsOrderByWithRelationInput
 }
 
 export type reorder_suggestionsWhereUniqueInput = Prisma.AtLeast<{
@@ -363,6 +375,12 @@ export type reorder_suggestionsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  reorder_rules?: Prisma.XOR<Prisma.Reorder_rulesScalarRelationFilter, Prisma.reorder_rulesWhereInput>
+  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  suppliers?: Prisma.XOR<Prisma.SuppliersNullableScalarRelationFilter, Prisma.suppliersWhereInput> | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  purchase_requisitions?: Prisma.XOR<Prisma.Purchase_requisitionsNullableScalarRelationFilter, Prisma.purchase_requisitionsWhereInput> | null
 }, "id">
 
 export type reorder_suggestionsOrderByWithAggregationInput = {
@@ -416,21 +434,21 @@ export type reorder_suggestionsScalarWhereWithAggregatesInput = {
 export type reorder_suggestionsCreateInput = {
   id?: string
   tenant_id: string
-  reorder_rule_id: string
-  product_variant_id: string
-  warehouse_id?: string | null
-  store_id?: string | null
   qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: string | null
   status?: $Enums.reorder_suggestion_status_enum
-  converted_requisition_id?: string | null
   run_at?: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  reorder_rules: Prisma.reorder_rulesCreateNestedOneWithoutReorder_suggestionsInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutReorder_suggestionsInput
+  stores?: Prisma.storesCreateNestedOneWithoutReorder_suggestionsInput
+  suppliers?: Prisma.suppliersCreateNestedOneWithoutReorder_suggestionsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutReorder_suggestionsInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput
 }
 
 export type reorder_suggestionsUncheckedCreateInput = {
@@ -456,21 +474,21 @@ export type reorder_suggestionsUncheckedCreateInput = {
 export type reorder_suggestionsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
-  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_rules?: Prisma.reorder_rulesUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutReorder_suggestionsNestedInput
+  suppliers?: Prisma.suppliersUpdateOneWithoutReorder_suggestionsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutReorder_suggestionsNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput
 }
 
 export type reorder_suggestionsUncheckedUpdateInput = {
@@ -516,16 +534,10 @@ export type reorder_suggestionsCreateManyInput = {
 export type reorder_suggestionsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
-  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -551,6 +563,16 @@ export type reorder_suggestionsUncheckedUpdateManyInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Reorder_suggestionsListRelationFilter = {
+  every?: Prisma.reorder_suggestionsWhereInput
+  some?: Prisma.reorder_suggestionsWhereInput
+  none?: Prisma.reorder_suggestionsWhereInput
+}
+
+export type reorder_suggestionsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type reorder_suggestionsCountOrderByAggregateInput = {
@@ -625,8 +647,1123 @@ export type reorder_suggestionsSumOrderByAggregateInput = {
   suggested_qty?: Prisma.SortOrder
 }
 
+export type reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyProduct_variantsInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyProduct_variantsInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutProduct_variantsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyProduct_variantsInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutProduct_variantsInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput> | Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutProduct_variantsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyProduct_variantsInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutProduct_variantsInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutProduct_variantsInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput> | Prisma.reorder_suggestionsCreateWithoutStoresInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput | Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyStoresInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUncheckedCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput> | Prisma.reorder_suggestionsCreateWithoutStoresInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput | Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyStoresInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput> | Prisma.reorder_suggestionsCreateWithoutStoresInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput | Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutStoresInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyStoresInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutStoresInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutStoresInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput> | Prisma.reorder_suggestionsCreateWithoutStoresInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput | Prisma.reorder_suggestionsCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutStoresInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyStoresInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutStoresInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutStoresInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsCreateNestedManyWithoutSuppliersInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput> | Prisma.reorder_suggestionsCreateWithoutSuppliersInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput | Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManySuppliersInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput> | Prisma.reorder_suggestionsCreateWithoutSuppliersInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput | Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManySuppliersInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUpdateManyWithoutSuppliersNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput> | Prisma.reorder_suggestionsCreateWithoutSuppliersInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput | Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutSuppliersInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutSuppliersInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManySuppliersInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutSuppliersInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutSuppliersInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutSuppliersInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutSuppliersInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput> | Prisma.reorder_suggestionsCreateWithoutSuppliersInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput | Prisma.reorder_suggestionsCreateOrConnectWithoutSuppliersInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutSuppliersInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutSuppliersInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManySuppliersInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutSuppliersInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutSuppliersInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutSuppliersInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutSuppliersInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsCreateNestedManyWithoutPurchase_requisitionsInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput> | Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyPurchase_requisitionsInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUncheckedCreateNestedManyWithoutPurchase_requisitionsInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput> | Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyPurchase_requisitionsInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUpdateManyWithoutPurchase_requisitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput> | Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutPurchase_requisitionsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyPurchase_requisitionsInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutPurchase_requisitionsInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutPurchase_requisitionsInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutPurchase_requisitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput> | Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutPurchase_requisitionsInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyPurchase_requisitionsInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutPurchase_requisitionsInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutPurchase_requisitionsInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutPurchase_requisitionsInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsCreateNestedManyWithoutReorder_rulesInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput> | Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyReorder_rulesInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUncheckedCreateNestedManyWithoutReorder_rulesInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput> | Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyReorder_rulesInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUpdateManyWithoutReorder_rulesNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput> | Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutReorder_rulesInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutReorder_rulesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyReorder_rulesInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutReorder_rulesInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutReorder_rulesInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutReorder_rulesInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutReorder_rulesInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutReorder_rulesNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput> | Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutReorder_rulesInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutReorder_rulesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyReorder_rulesInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutReorder_rulesInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutReorder_rulesInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutReorder_rulesInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutReorder_rulesInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
 export type Enumreorder_suggestion_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.reorder_suggestion_status_enum
+}
+
+export type reorder_suggestionsCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput> | Prisma.reorder_suggestionsCreateWithoutWarehousesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput> | Prisma.reorder_suggestionsCreateWithoutWarehousesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+}
+
+export type reorder_suggestionsUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput> | Prisma.reorder_suggestionsCreateWithoutWarehousesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyWarehousesInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutWarehousesInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput> | Prisma.reorder_suggestionsCreateWithoutWarehousesInput[] | Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput | Prisma.reorder_suggestionsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.reorder_suggestionsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.reorder_suggestionsCreateManyWarehousesInputEnvelope
+  set?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  disconnect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  delete?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  connect?: Prisma.reorder_suggestionsWhereUniqueInput | Prisma.reorder_suggestionsWhereUniqueInput[]
+  update?: Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.reorder_suggestionsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.reorder_suggestionsUpdateManyWithWhereWithoutWarehousesInput | Prisma.reorder_suggestionsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+}
+
+export type reorder_suggestionsCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  reorder_rules: Prisma.reorder_rulesCreateNestedOneWithoutReorder_suggestionsInput
+  stores?: Prisma.storesCreateNestedOneWithoutReorder_suggestionsInput
+  suppliers?: Prisma.suppliersCreateNestedOneWithoutReorder_suggestionsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutReorder_suggestionsInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput
+}
+
+export type reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsCreateOrConnectWithoutProduct_variantsInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput>
+}
+
+export type reorder_suggestionsCreateManyProduct_variantsInputEnvelope = {
+  data: Prisma.reorder_suggestionsCreateManyProduct_variantsInput | Prisma.reorder_suggestionsCreateManyProduct_variantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type reorder_suggestionsUpsertWithWhereUniqueWithoutProduct_variantsInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutProduct_variantsInput>
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutProduct_variantsInput>
+}
+
+export type reorder_suggestionsUpdateWithWhereUniqueWithoutProduct_variantsInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutProduct_variantsInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutProduct_variantsInput>
+}
+
+export type reorder_suggestionsUpdateManyWithWhereWithoutProduct_variantsInput = {
+  where: Prisma.reorder_suggestionsScalarWhereInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateManyMutationInput, Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsInput>
+}
+
+export type reorder_suggestionsScalarWhereInput = {
+  AND?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+  OR?: Prisma.reorder_suggestionsScalarWhereInput[]
+  NOT?: Prisma.reorder_suggestionsScalarWhereInput | Prisma.reorder_suggestionsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"reorder_suggestions"> | string
+  tenant_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
+  reorder_rule_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
+  product_variant_id?: Prisma.UuidFilter<"reorder_suggestions"> | string
+  warehouse_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  qty_available_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFilter<"reorder_suggestions"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFilter<"reorder_suggestions"> | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  run_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"reorder_suggestions"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"reorder_suggestions"> | string | null
+}
+
+export type reorder_suggestionsCreateWithoutStoresInput = {
+  id?: string
+  tenant_id: string
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  reorder_rules: Prisma.reorder_rulesCreateNestedOneWithoutReorder_suggestionsInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutReorder_suggestionsInput
+  suppliers?: Prisma.suppliersCreateNestedOneWithoutReorder_suggestionsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutReorder_suggestionsInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput
+}
+
+export type reorder_suggestionsUncheckedCreateWithoutStoresInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsCreateOrConnectWithoutStoresInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput>
+}
+
+export type reorder_suggestionsCreateManyStoresInputEnvelope = {
+  data: Prisma.reorder_suggestionsCreateManyStoresInput | Prisma.reorder_suggestionsCreateManyStoresInput[]
+  skipDuplicates?: boolean
+}
+
+export type reorder_suggestionsUpsertWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutStoresInput>
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedCreateWithoutStoresInput>
+}
+
+export type reorder_suggestionsUpdateWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutStoresInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutStoresInput>
+}
+
+export type reorder_suggestionsUpdateManyWithWhereWithoutStoresInput = {
+  where: Prisma.reorder_suggestionsScalarWhereInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateManyMutationInput, Prisma.reorder_suggestionsUncheckedUpdateManyWithoutStoresInput>
+}
+
+export type reorder_suggestionsCreateWithoutSuppliersInput = {
+  id?: string
+  tenant_id: string
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  reorder_rules: Prisma.reorder_rulesCreateNestedOneWithoutReorder_suggestionsInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutReorder_suggestionsInput
+  stores?: Prisma.storesCreateNestedOneWithoutReorder_suggestionsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutReorder_suggestionsInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput
+}
+
+export type reorder_suggestionsUncheckedCreateWithoutSuppliersInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsCreateOrConnectWithoutSuppliersInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput>
+}
+
+export type reorder_suggestionsCreateManySuppliersInputEnvelope = {
+  data: Prisma.reorder_suggestionsCreateManySuppliersInput | Prisma.reorder_suggestionsCreateManySuppliersInput[]
+  skipDuplicates?: boolean
+}
+
+export type reorder_suggestionsUpsertWithWhereUniqueWithoutSuppliersInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutSuppliersInput>
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedCreateWithoutSuppliersInput>
+}
+
+export type reorder_suggestionsUpdateWithWhereUniqueWithoutSuppliersInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutSuppliersInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutSuppliersInput>
+}
+
+export type reorder_suggestionsUpdateManyWithWhereWithoutSuppliersInput = {
+  where: Prisma.reorder_suggestionsScalarWhereInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateManyMutationInput, Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersInput>
+}
+
+export type reorder_suggestionsCreateWithoutPurchase_requisitionsInput = {
+  id?: string
+  tenant_id: string
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  reorder_rules: Prisma.reorder_rulesCreateNestedOneWithoutReorder_suggestionsInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutReorder_suggestionsInput
+  stores?: Prisma.storesCreateNestedOneWithoutReorder_suggestionsInput
+  suppliers?: Prisma.suppliersCreateNestedOneWithoutReorder_suggestionsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutReorder_suggestionsInput
+}
+
+export type reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsCreateOrConnectWithoutPurchase_requisitionsInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput>
+}
+
+export type reorder_suggestionsCreateManyPurchase_requisitionsInputEnvelope = {
+  data: Prisma.reorder_suggestionsCreateManyPurchase_requisitionsInput | Prisma.reorder_suggestionsCreateManyPurchase_requisitionsInput[]
+  skipDuplicates?: boolean
+}
+
+export type reorder_suggestionsUpsertWithWhereUniqueWithoutPurchase_requisitionsInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutPurchase_requisitionsInput>
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedCreateWithoutPurchase_requisitionsInput>
+}
+
+export type reorder_suggestionsUpdateWithWhereUniqueWithoutPurchase_requisitionsInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutPurchase_requisitionsInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutPurchase_requisitionsInput>
+}
+
+export type reorder_suggestionsUpdateManyWithWhereWithoutPurchase_requisitionsInput = {
+  where: Prisma.reorder_suggestionsScalarWhereInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateManyMutationInput, Prisma.reorder_suggestionsUncheckedUpdateManyWithoutPurchase_requisitionsInput>
+}
+
+export type reorder_suggestionsCreateWithoutReorder_rulesInput = {
+  id?: string
+  tenant_id: string
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutReorder_suggestionsInput
+  stores?: Prisma.storesCreateNestedOneWithoutReorder_suggestionsInput
+  suppliers?: Prisma.suppliersCreateNestedOneWithoutReorder_suggestionsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutReorder_suggestionsInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput
+}
+
+export type reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsCreateOrConnectWithoutReorder_rulesInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput>
+}
+
+export type reorder_suggestionsCreateManyReorder_rulesInputEnvelope = {
+  data: Prisma.reorder_suggestionsCreateManyReorder_rulesInput | Prisma.reorder_suggestionsCreateManyReorder_rulesInput[]
+  skipDuplicates?: boolean
+}
+
+export type reorder_suggestionsUpsertWithWhereUniqueWithoutReorder_rulesInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutReorder_rulesInput>
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutReorder_rulesInput>
+}
+
+export type reorder_suggestionsUpdateWithWhereUniqueWithoutReorder_rulesInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutReorder_rulesInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutReorder_rulesInput>
+}
+
+export type reorder_suggestionsUpdateManyWithWhereWithoutReorder_rulesInput = {
+  where: Prisma.reorder_suggestionsScalarWhereInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateManyMutationInput, Prisma.reorder_suggestionsUncheckedUpdateManyWithoutReorder_rulesInput>
+}
+
+export type reorder_suggestionsCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  reorder_rules: Prisma.reorder_rulesCreateNestedOneWithoutReorder_suggestionsInput
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutReorder_suggestionsInput
+  stores?: Prisma.storesCreateNestedOneWithoutReorder_suggestionsInput
+  suppliers?: Prisma.suppliersCreateNestedOneWithoutReorder_suggestionsInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput
+}
+
+export type reorder_suggestionsUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type reorder_suggestionsCreateManyWarehousesInputEnvelope = {
+  data: Prisma.reorder_suggestionsCreateManyWarehousesInput | Prisma.reorder_suggestionsCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type reorder_suggestionsUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.reorder_suggestionsCreateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type reorder_suggestionsUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.reorder_suggestionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateWithoutWarehousesInput, Prisma.reorder_suggestionsUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type reorder_suggestionsUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.reorder_suggestionsScalarWhereInput
+  data: Prisma.XOR<Prisma.reorder_suggestionsUpdateManyMutationInput, Prisma.reorder_suggestionsUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type reorder_suggestionsCreateManyProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_rules?: Prisma.reorder_rulesUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutReorder_suggestionsNestedInput
+  suppliers?: Prisma.suppliersUpdateOneWithoutReorder_suggestionsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutReorder_suggestionsNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput
+}
+
+export type reorder_suggestionsUncheckedUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsCreateManyStoresInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_rules?: Prisma.reorder_rulesUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  suppliers?: Prisma.suppliersUpdateOneWithoutReorder_suggestionsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutReorder_suggestionsNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput
+}
+
+export type reorder_suggestionsUncheckedUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsCreateManySuppliersInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsUpdateWithoutSuppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_rules?: Prisma.reorder_rulesUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutReorder_suggestionsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutReorder_suggestionsNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput
+}
+
+export type reorder_suggestionsUncheckedUpdateWithoutSuppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutSuppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsCreateManyPurchase_requisitionsInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsUpdateWithoutPurchase_requisitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_rules?: Prisma.reorder_rulesUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutReorder_suggestionsNestedInput
+  suppliers?: Prisma.suppliersUpdateOneWithoutReorder_suggestionsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutReorder_suggestionsNestedInput
+}
+
+export type reorder_suggestionsUncheckedUpdateWithoutPurchase_requisitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutPurchase_requisitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsCreateManyReorder_rulesInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsUpdateWithoutReorder_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutReorder_suggestionsNestedInput
+  suppliers?: Prisma.suppliersUpdateOneWithoutReorder_suggestionsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutReorder_suggestionsNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput
+}
+
+export type reorder_suggestionsUncheckedUpdateWithoutReorder_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutReorder_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsCreateManyWarehousesInput = {
+  id?: string
+  tenant_id: string
+  reorder_rule_id: string
+  product_variant_id: string
+  store_id?: string | null
+  qty_available_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: string | null
+  status?: $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: string | null
+  run_at?: Date | string
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type reorder_suggestionsUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_rules?: Prisma.reorder_rulesUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput
+  stores?: Prisma.storesUpdateOneWithoutReorder_suggestionsNestedInput
+  suppliers?: Prisma.suppliersUpdateOneWithoutReorder_suggestionsNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput
+}
+
+export type reorder_suggestionsUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type reorder_suggestionsUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reorder_rule_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_available_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_on_order_at_run?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  suggested_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  preferred_supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreorder_suggestion_status_enumFieldUpdateOperationsInput | $Enums.reorder_suggestion_status_enum
+  converted_requisition_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  run_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -649,6 +1786,12 @@ export type reorder_suggestionsSelect<ExtArgs extends runtime.Types.Extensions.I
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  reorder_rules?: boolean | Prisma.reorder_rulesDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  stores?: boolean | Prisma.reorder_suggestions$storesArgs<ExtArgs>
+  suppliers?: boolean | Prisma.reorder_suggestions$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.reorder_suggestions$warehousesArgs<ExtArgs>
+  purchase_requisitions?: boolean | Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>
 }, ExtArgs["result"]["reorder_suggestions"]>
 
 export type reorder_suggestionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -669,6 +1812,12 @@ export type reorder_suggestionsSelectCreateManyAndReturn<ExtArgs extends runtime
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  reorder_rules?: boolean | Prisma.reorder_rulesDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  stores?: boolean | Prisma.reorder_suggestions$storesArgs<ExtArgs>
+  suppliers?: boolean | Prisma.reorder_suggestions$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.reorder_suggestions$warehousesArgs<ExtArgs>
+  purchase_requisitions?: boolean | Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>
 }, ExtArgs["result"]["reorder_suggestions"]>
 
 export type reorder_suggestionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -689,6 +1838,12 @@ export type reorder_suggestionsSelectUpdateManyAndReturn<ExtArgs extends runtime
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  reorder_rules?: boolean | Prisma.reorder_rulesDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  stores?: boolean | Prisma.reorder_suggestions$storesArgs<ExtArgs>
+  suppliers?: boolean | Prisma.reorder_suggestions$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.reorder_suggestions$warehousesArgs<ExtArgs>
+  purchase_requisitions?: boolean | Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>
 }, ExtArgs["result"]["reorder_suggestions"]>
 
 export type reorder_suggestionsSelectScalar = {
@@ -712,10 +1867,41 @@ export type reorder_suggestionsSelectScalar = {
 }
 
 export type reorder_suggestionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "reorder_rule_id" | "product_variant_id" | "warehouse_id" | "store_id" | "qty_available_at_run" | "qty_on_order_at_run" | "suggested_qty" | "preferred_supplier_id" | "status" | "converted_requisition_id" | "run_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["reorder_suggestions"]>
+export type reorder_suggestionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reorder_rules?: boolean | Prisma.reorder_rulesDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  stores?: boolean | Prisma.reorder_suggestions$storesArgs<ExtArgs>
+  suppliers?: boolean | Prisma.reorder_suggestions$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.reorder_suggestions$warehousesArgs<ExtArgs>
+  purchase_requisitions?: boolean | Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>
+}
+export type reorder_suggestionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reorder_rules?: boolean | Prisma.reorder_rulesDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  stores?: boolean | Prisma.reorder_suggestions$storesArgs<ExtArgs>
+  suppliers?: boolean | Prisma.reorder_suggestions$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.reorder_suggestions$warehousesArgs<ExtArgs>
+  purchase_requisitions?: boolean | Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>
+}
+export type reorder_suggestionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reorder_rules?: boolean | Prisma.reorder_rulesDefaultArgs<ExtArgs>
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  stores?: boolean | Prisma.reorder_suggestions$storesArgs<ExtArgs>
+  suppliers?: boolean | Prisma.reorder_suggestions$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.reorder_suggestions$warehousesArgs<ExtArgs>
+  purchase_requisitions?: boolean | Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>
+}
 
 export type $reorder_suggestionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "reorder_suggestions"
-  objects: {}
+  objects: {
+    reorder_rules: Prisma.$reorder_rulesPayload<ExtArgs>
+    product_variants: Prisma.$product_variantsPayload<ExtArgs>
+    stores: Prisma.$storesPayload<ExtArgs> | null
+    suppliers: Prisma.$suppliersPayload<ExtArgs> | null
+    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+    purchase_requisitions: Prisma.$purchase_requisitionsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1128,6 +2314,12 @@ readonly fields: reorder_suggestionsFieldRefs;
  */
 export interface Prisma__reorder_suggestionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  reorder_rules<T extends Prisma.reorder_rulesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reorder_rulesDefaultArgs<ExtArgs>>): Prisma.Prisma__reorder_rulesClient<runtime.Types.Result.GetResult<Prisma.$reorder_rulesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  product_variants<T extends Prisma.product_variantsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variantsDefaultArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  stores<T extends Prisma.reorder_suggestions$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reorder_suggestions$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  suppliers<T extends Prisma.reorder_suggestions$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reorder_suggestions$suppliersArgs<ExtArgs>>): Prisma.Prisma__suppliersClient<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouses<T extends Prisma.reorder_suggestions$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reorder_suggestions$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  purchase_requisitions<T extends Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.reorder_suggestions$purchase_requisitionsArgs<ExtArgs>>): Prisma.Prisma__purchase_requisitionsClient<runtime.Types.Result.GetResult<Prisma.$purchase_requisitionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1191,6 +2383,10 @@ export type reorder_suggestionsFindUniqueArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  /**
    * Filter, which reorder_suggestions to fetch.
    */
   where: Prisma.reorder_suggestionsWhereUniqueInput
@@ -1209,6 +2405,10 @@ export type reorder_suggestionsFindUniqueOrThrowArgs<ExtArgs extends runtime.Typ
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  /**
    * Filter, which reorder_suggestions to fetch.
    */
   where: Prisma.reorder_suggestionsWhereUniqueInput
@@ -1226,6 +2426,10 @@ export type reorder_suggestionsFindFirstArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the reorder_suggestions
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
   /**
    * Filter, which reorder_suggestions to fetch.
    */
@@ -1275,6 +2479,10 @@ export type reorder_suggestionsFindFirstOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  /**
    * Filter, which reorder_suggestions to fetch.
    */
   where?: Prisma.reorder_suggestionsWhereInput
@@ -1322,6 +2530,10 @@ export type reorder_suggestionsFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the reorder_suggestions
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
   /**
    * Filter, which reorder_suggestions to fetch.
    */
@@ -1371,6 +2583,10 @@ export type reorder_suggestionsCreateArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  /**
    * The data needed to create a reorder_suggestions.
    */
   data: Prisma.XOR<Prisma.reorder_suggestionsCreateInput, Prisma.reorder_suggestionsUncheckedCreateInput>
@@ -1404,6 +2620,10 @@ export type reorder_suggestionsCreateManyAndReturnArgs<ExtArgs extends runtime.T
    */
   data: Prisma.reorder_suggestionsCreateManyInput | Prisma.reorder_suggestionsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1418,6 +2638,10 @@ export type reorder_suggestionsUpdateArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the reorder_suggestions
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
   /**
    * The data needed to update a reorder_suggestions.
    */
@@ -1470,6 +2694,10 @@ export type reorder_suggestionsUpdateManyAndReturnArgs<ExtArgs extends runtime.T
    * Limit how many reorder_suggestions to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1484,6 +2712,10 @@ export type reorder_suggestionsUpsertArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the reorder_suggestions
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
   /**
    * The filter to search for the reorder_suggestions to update in case it exists.
    */
@@ -1511,6 +2743,10 @@ export type reorder_suggestionsDeleteArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  /**
    * Filter which reorder_suggestions to delete.
    */
   where: Prisma.reorder_suggestionsWhereUniqueInput
@@ -1531,6 +2767,82 @@ export type reorder_suggestionsDeleteManyArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
+ * reorder_suggestions.stores
+ */
+export type reorder_suggestions$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stores
+   */
+  select?: Prisma.storesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stores
+   */
+  omit?: Prisma.storesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.storesInclude<ExtArgs> | null
+  where?: Prisma.storesWhereInput
+}
+
+/**
+ * reorder_suggestions.suppliers
+ */
+export type reorder_suggestions$suppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the suppliers
+   */
+  select?: Prisma.suppliersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the suppliers
+   */
+  omit?: Prisma.suppliersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.suppliersInclude<ExtArgs> | null
+  where?: Prisma.suppliersWhereInput
+}
+
+/**
+ * reorder_suggestions.warehouses
+ */
+export type reorder_suggestions$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+}
+
+/**
+ * reorder_suggestions.purchase_requisitions
+ */
+export type reorder_suggestions$purchase_requisitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the purchase_requisitions
+   */
+  select?: Prisma.purchase_requisitionsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the purchase_requisitions
+   */
+  omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  where?: Prisma.purchase_requisitionsWhereInput
+}
+
+/**
  * reorder_suggestions without action
  */
 export type reorder_suggestionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1542,4 +2854,8 @@ export type reorder_suggestionsDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the reorder_suggestions
    */
   omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
 }

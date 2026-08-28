@@ -278,6 +278,7 @@ export type purchase_requisitionsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"purchase_requisitions"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
+  reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
 }
 
 export type purchase_requisitionsOrderByWithRelationInput = {
@@ -298,6 +299,7 @@ export type purchase_requisitionsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  reorder_suggestions?: Prisma.reorder_suggestionsOrderByRelationAggregateInput
 }
 
 export type purchase_requisitionsWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +323,7 @@ export type purchase_requisitionsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"purchase_requisitions"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_requisitions"> | string | null
+  reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
 }, "id">
 
 export type purchase_requisitionsOrderByWithAggregationInput = {
@@ -387,6 +390,7 @@ export type purchase_requisitionsCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutPurchase_requisitionsInput
 }
 
 export type purchase_requisitionsUncheckedCreateInput = {
@@ -407,6 +411,7 @@ export type purchase_requisitionsUncheckedCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutPurchase_requisitionsInput
 }
 
 export type purchase_requisitionsUpdateInput = {
@@ -427,6 +432,7 @@ export type purchase_requisitionsUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutPurchase_requisitionsNestedInput
 }
 
 export type purchase_requisitionsUncheckedUpdateInput = {
@@ -447,6 +453,7 @@ export type purchase_requisitionsUncheckedUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutPurchase_requisitionsNestedInput
 }
 
 export type purchase_requisitionsCreateManyInput = {
@@ -569,10 +576,156 @@ export type purchase_requisitionsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
+export type Purchase_requisitionsNullableScalarRelationFilter = {
+  is?: Prisma.purchase_requisitionsWhereInput | null
+  isNot?: Prisma.purchase_requisitionsWhereInput | null
+}
+
 export type Enumrequisition_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.requisition_status_enum
 }
 
+export type purchase_requisitionsCreateNestedOneWithoutReorder_suggestionsInput = {
+  create?: Prisma.XOR<Prisma.purchase_requisitionsCreateWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUncheckedCreateWithoutReorder_suggestionsInput>
+  connectOrCreate?: Prisma.purchase_requisitionsCreateOrConnectWithoutReorder_suggestionsInput
+  connect?: Prisma.purchase_requisitionsWhereUniqueInput
+}
+
+export type purchase_requisitionsUpdateOneWithoutReorder_suggestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.purchase_requisitionsCreateWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUncheckedCreateWithoutReorder_suggestionsInput>
+  connectOrCreate?: Prisma.purchase_requisitionsCreateOrConnectWithoutReorder_suggestionsInput
+  upsert?: Prisma.purchase_requisitionsUpsertWithoutReorder_suggestionsInput
+  disconnect?: Prisma.purchase_requisitionsWhereInput | boolean
+  delete?: Prisma.purchase_requisitionsWhereInput | boolean
+  connect?: Prisma.purchase_requisitionsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.purchase_requisitionsUpdateToOneWithWhereWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUpdateWithoutReorder_suggestionsInput>, Prisma.purchase_requisitionsUncheckedUpdateWithoutReorder_suggestionsInput>
+}
+
+export type purchase_requisitionsCreateWithoutReorder_suggestionsInput = {
+  id?: string
+  tenant_id: string
+  requisition_number?: string
+  branch_id?: string | null
+  store_id?: string | null
+  status?: $Enums.requisition_status_enum
+  source?: string
+  requested_by?: string | null
+  approved_by?: string | null
+  approved_at?: Date | string | null
+  converted_purchase_order_id?: string | null
+  needed_by?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type purchase_requisitionsUncheckedCreateWithoutReorder_suggestionsInput = {
+  id?: string
+  tenant_id: string
+  requisition_number?: string
+  branch_id?: string | null
+  store_id?: string | null
+  status?: $Enums.requisition_status_enum
+  source?: string
+  requested_by?: string | null
+  approved_by?: string | null
+  approved_at?: Date | string | null
+  converted_purchase_order_id?: string | null
+  needed_by?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type purchase_requisitionsCreateOrConnectWithoutReorder_suggestionsInput = {
+  where: Prisma.purchase_requisitionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.purchase_requisitionsCreateWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUncheckedCreateWithoutReorder_suggestionsInput>
+}
+
+export type purchase_requisitionsUpsertWithoutReorder_suggestionsInput = {
+  update: Prisma.XOR<Prisma.purchase_requisitionsUpdateWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUncheckedUpdateWithoutReorder_suggestionsInput>
+  create: Prisma.XOR<Prisma.purchase_requisitionsCreateWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUncheckedCreateWithoutReorder_suggestionsInput>
+  where?: Prisma.purchase_requisitionsWhereInput
+}
+
+export type purchase_requisitionsUpdateToOneWithWhereWithoutReorder_suggestionsInput = {
+  where?: Prisma.purchase_requisitionsWhereInput
+  data: Prisma.XOR<Prisma.purchase_requisitionsUpdateWithoutReorder_suggestionsInput, Prisma.purchase_requisitionsUncheckedUpdateWithoutReorder_suggestionsInput>
+}
+
+export type purchase_requisitionsUpdateWithoutReorder_suggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  requisition_number?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrequisition_status_enumFieldUpdateOperationsInput | $Enums.requisition_status_enum
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type purchase_requisitionsUncheckedUpdateWithoutReorder_suggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  requisition_number?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrequisition_status_enumFieldUpdateOperationsInput | $Enums.requisition_status_enum
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  converted_purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  needed_by?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type Purchase_requisitionsCountOutputType
+ */
+
+export type Purchase_requisitionsCountOutputType = {
+  reorder_suggestions: number
+}
+
+export type Purchase_requisitionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reorder_suggestions?: boolean | Purchase_requisitionsCountOutputTypeCountReorder_suggestionsArgs
+}
+
+/**
+ * Purchase_requisitionsCountOutputType without action
+ */
+export type Purchase_requisitionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Purchase_requisitionsCountOutputType
+   */
+  select?: Prisma.Purchase_requisitionsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Purchase_requisitionsCountOutputType without action
+ */
+export type Purchase_requisitionsCountOutputTypeCountReorder_suggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.reorder_suggestionsWhereInput
+}
 
 
 export type purchase_requisitionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -593,6 +746,8 @@ export type purchase_requisitionsSelect<ExtArgs extends runtime.Types.Extensions
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  reorder_suggestions?: boolean | Prisma.purchase_requisitions$reorder_suggestionsArgs<ExtArgs>
+  _count?: boolean | Prisma.Purchase_requisitionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["purchase_requisitions"]>
 
 export type purchase_requisitionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -656,10 +811,18 @@ export type purchase_requisitionsSelectScalar = {
 }
 
 export type purchase_requisitionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "requisition_number" | "branch_id" | "store_id" | "status" | "source" | "requested_by" | "approved_by" | "approved_at" | "converted_purchase_order_id" | "needed_by" | "notes" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["purchase_requisitions"]>
+export type purchase_requisitionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reorder_suggestions?: boolean | Prisma.purchase_requisitions$reorder_suggestionsArgs<ExtArgs>
+  _count?: boolean | Prisma.Purchase_requisitionsCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type purchase_requisitionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type purchase_requisitionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $purchase_requisitionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "purchase_requisitions"
-  objects: {}
+  objects: {
+    reorder_suggestions: Prisma.$reorder_suggestionsPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1072,6 +1235,7 @@ readonly fields: purchase_requisitionsFieldRefs;
  */
 export interface Prisma__purchase_requisitionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  reorder_suggestions<T extends Prisma.purchase_requisitions$reorder_suggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.purchase_requisitions$reorder_suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_suggestionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1135,6 +1299,10 @@ export type purchase_requisitionsFindUniqueArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  /**
    * Filter, which purchase_requisitions to fetch.
    */
   where: Prisma.purchase_requisitionsWhereUniqueInput
@@ -1153,6 +1321,10 @@ export type purchase_requisitionsFindUniqueOrThrowArgs<ExtArgs extends runtime.T
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  /**
    * Filter, which purchase_requisitions to fetch.
    */
   where: Prisma.purchase_requisitionsWhereUniqueInput
@@ -1170,6 +1342,10 @@ export type purchase_requisitionsFindFirstArgs<ExtArgs extends runtime.Types.Ext
    * Omit specific fields from the purchase_requisitions
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
   /**
    * Filter, which purchase_requisitions to fetch.
    */
@@ -1219,6 +1395,10 @@ export type purchase_requisitionsFindFirstOrThrowArgs<ExtArgs extends runtime.Ty
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  /**
    * Filter, which purchase_requisitions to fetch.
    */
   where?: Prisma.purchase_requisitionsWhereInput
@@ -1266,6 +1446,10 @@ export type purchase_requisitionsFindManyArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the purchase_requisitions
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
   /**
    * Filter, which purchase_requisitions to fetch.
    */
@@ -1315,6 +1499,10 @@ export type purchase_requisitionsCreateArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  /**
    * The data needed to create a purchase_requisitions.
    */
   data: Prisma.XOR<Prisma.purchase_requisitionsCreateInput, Prisma.purchase_requisitionsUncheckedCreateInput>
@@ -1362,6 +1550,10 @@ export type purchase_requisitionsUpdateArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the purchase_requisitions
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
   /**
    * The data needed to update a purchase_requisitions.
    */
@@ -1429,6 +1621,10 @@ export type purchase_requisitionsUpsertArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  /**
    * The filter to search for the purchase_requisitions to update in case it exists.
    */
   where: Prisma.purchase_requisitionsWhereUniqueInput
@@ -1455,6 +1651,10 @@ export type purchase_requisitionsDeleteArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
+  /**
    * Filter which purchase_requisitions to delete.
    */
   where: Prisma.purchase_requisitionsWhereUniqueInput
@@ -1475,6 +1675,30 @@ export type purchase_requisitionsDeleteManyArgs<ExtArgs extends runtime.Types.Ex
 }
 
 /**
+ * purchase_requisitions.reorder_suggestions
+ */
+export type purchase_requisitions$reorder_suggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the reorder_suggestions
+   */
+  select?: Prisma.reorder_suggestionsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the reorder_suggestions
+   */
+  omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  where?: Prisma.reorder_suggestionsWhereInput
+  orderBy?: Prisma.reorder_suggestionsOrderByWithRelationInput | Prisma.reorder_suggestionsOrderByWithRelationInput[]
+  cursor?: Prisma.reorder_suggestionsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Reorder_suggestionsScalarFieldEnum | Prisma.Reorder_suggestionsScalarFieldEnum[]
+}
+
+/**
  * purchase_requisitions without action
  */
 export type purchase_requisitionsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1486,4 +1710,8 @@ export type purchase_requisitionsDefaultArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the purchase_requisitions
    */
   omit?: Prisma.purchase_requisitionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisitionsInclude<ExtArgs> | null
 }

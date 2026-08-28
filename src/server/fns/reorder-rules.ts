@@ -39,6 +39,32 @@ export async function listRules(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
   return prisma.reorder_rules.findMany({
     where: { tenant_id: tenantId },
+    include: {
+      product_variants: {
+        select: {
+          id: true,
+          sku: true,
+          barcode: true,
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+      stores: {
+        select: {
+          store_id: true,
+          name: true,
+        },
+      },
+      suppliers: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
     orderBy: { created_at: 'desc' },
   })
 }

@@ -335,6 +335,8 @@ export type product_variantsWhereInput = {
   pos_reorder_requests?: Prisma.Pos_reorder_requestsListRelationFilter
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
+  reorder_rules?: Prisma.Reorder_rulesListRelationFilter
+  reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
 }
 
 export type product_variantsOrderByWithRelationInput = {
@@ -359,6 +361,8 @@ export type product_variantsOrderByWithRelationInput = {
   pos_reorder_requests?: Prisma.pos_reorder_requestsOrderByRelationAggregateInput
   products?: Prisma.productsOrderByWithRelationInput
   purchase_order_items?: Prisma.purchase_order_itemsOrderByRelationAggregateInput
+  reorder_rules?: Prisma.reorder_rulesOrderByRelationAggregateInput
+  reorder_suggestions?: Prisma.reorder_suggestionsOrderByRelationAggregateInput
 }
 
 export type product_variantsWhereUniqueInput = Prisma.AtLeast<{
@@ -386,6 +390,8 @@ export type product_variantsWhereUniqueInput = Prisma.AtLeast<{
   pos_reorder_requests?: Prisma.Pos_reorder_requestsListRelationFilter
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
+  reorder_rules?: Prisma.Reorder_rulesListRelationFilter
+  reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
 }, "id">
 
 export type product_variantsOrderByWithAggregationInput = {
@@ -459,6 +465,8 @@ export type product_variantsCreateInput = {
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateInput = {
@@ -482,6 +490,8 @@ export type product_variantsUncheckedCreateInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUpdateInput = {
@@ -505,6 +515,8 @@ export type product_variantsUpdateInput = {
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateInput = {
@@ -528,6 +540,8 @@ export type product_variantsUncheckedUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateManyInput = {
@@ -684,6 +698,11 @@ export type Product_variantsNullableScalarRelationFilter = {
   isNot?: Prisma.product_variantsWhereInput | null
 }
 
+export type Product_variantsScalarRelationFilter = {
+  is?: Prisma.product_variantsWhereInput
+  isNot?: Prisma.product_variantsWhereInput
+}
+
 export type product_variantsCreateNestedManyWithoutProductsInput = {
   create?: Prisma.XOR<Prisma.product_variantsCreateWithoutProductsInput, Prisma.product_variantsUncheckedCreateWithoutProductsInput> | Prisma.product_variantsCreateWithoutProductsInput[] | Prisma.product_variantsUncheckedCreateWithoutProductsInput[]
   connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutProductsInput | Prisma.product_variantsCreateOrConnectWithoutProductsInput[]
@@ -758,6 +777,34 @@ export type product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.product_variantsUpdateToOneWithWhereWithoutPurchase_order_itemsInput, Prisma.product_variantsUpdateWithoutPurchase_order_itemsInput>, Prisma.product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput>
 }
 
+export type product_variantsCreateNestedOneWithoutReorder_rulesInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_rulesInput, Prisma.product_variantsUncheckedCreateWithoutReorder_rulesInput>
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutReorder_rulesInput
+  connect?: Prisma.product_variantsWhereUniqueInput
+}
+
+export type product_variantsUpdateOneRequiredWithoutReorder_rulesNestedInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_rulesInput, Prisma.product_variantsUncheckedCreateWithoutReorder_rulesInput>
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutReorder_rulesInput
+  upsert?: Prisma.product_variantsUpsertWithoutReorder_rulesInput
+  connect?: Prisma.product_variantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_variantsUpdateToOneWithWhereWithoutReorder_rulesInput, Prisma.product_variantsUpdateWithoutReorder_rulesInput>, Prisma.product_variantsUncheckedUpdateWithoutReorder_rulesInput>
+}
+
+export type product_variantsCreateNestedOneWithoutReorder_suggestionsInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_suggestionsInput, Prisma.product_variantsUncheckedCreateWithoutReorder_suggestionsInput>
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutReorder_suggestionsInput
+  connect?: Prisma.product_variantsWhereUniqueInput
+}
+
+export type product_variantsUpdateOneRequiredWithoutReorder_suggestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_suggestionsInput, Prisma.product_variantsUncheckedCreateWithoutReorder_suggestionsInput>
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutReorder_suggestionsInput
+  upsert?: Prisma.product_variantsUpsertWithoutReorder_suggestionsInput
+  connect?: Prisma.product_variantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_variantsUpdateToOneWithWhereWithoutReorder_suggestionsInput, Prisma.product_variantsUpdateWithoutReorder_suggestionsInput>, Prisma.product_variantsUncheckedUpdateWithoutReorder_suggestionsInput>
+}
+
 export type product_variantsCreateWithoutProductsInput = {
   id?: string
   tenant_id: string
@@ -778,6 +825,8 @@ export type product_variantsCreateWithoutProductsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutProductsInput = {
@@ -800,6 +849,8 @@ export type product_variantsUncheckedCreateWithoutProductsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutProductsInput = {
@@ -872,6 +923,8 @@ export type product_variantsCreateWithoutPos_reorder_requestsInput = {
   updated_by_user_id?: string | null
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPos_reorder_requestsInput = {
@@ -894,6 +947,8 @@ export type product_variantsUncheckedCreateWithoutPos_reorder_requestsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPos_reorder_requestsInput = {
@@ -932,6 +987,8 @@ export type product_variantsUpdateWithoutPos_reorder_requestsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPos_reorder_requestsInput = {
@@ -954,6 +1011,8 @@ export type product_variantsUncheckedUpdateWithoutPos_reorder_requestsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateWithoutPurchase_order_itemsInput = {
@@ -976,6 +1035,8 @@ export type product_variantsCreateWithoutPurchase_order_itemsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsUncheckedCreateWithoutPurchase_order_itemsInput = {
@@ -998,6 +1059,8 @@ export type product_variantsUncheckedCreateWithoutPurchase_order_itemsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
 }
 
 export type product_variantsCreateOrConnectWithoutPurchase_order_itemsInput = {
@@ -1036,6 +1099,8 @@ export type product_variantsUpdateWithoutPurchase_order_itemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
@@ -1058,6 +1123,232 @@ export type product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+}
+
+export type product_variantsCreateWithoutReorder_rulesInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: number | null
+  min_stock?: number | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
+  products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
+}
+
+export type product_variantsUncheckedCreateWithoutReorder_rulesInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: number | null
+  min_stock?: number | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
+}
+
+export type product_variantsCreateOrConnectWithoutReorder_rulesInput = {
+  where: Prisma.product_variantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_rulesInput, Prisma.product_variantsUncheckedCreateWithoutReorder_rulesInput>
+}
+
+export type product_variantsUpsertWithoutReorder_rulesInput = {
+  update: Prisma.XOR<Prisma.product_variantsUpdateWithoutReorder_rulesInput, Prisma.product_variantsUncheckedUpdateWithoutReorder_rulesInput>
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_rulesInput, Prisma.product_variantsUncheckedCreateWithoutReorder_rulesInput>
+  where?: Prisma.product_variantsWhereInput
+}
+
+export type product_variantsUpdateToOneWithWhereWithoutReorder_rulesInput = {
+  where?: Prisma.product_variantsWhereInput
+  data: Prisma.XOR<Prisma.product_variantsUpdateWithoutReorder_rulesInput, Prisma.product_variantsUncheckedUpdateWithoutReorder_rulesInput>
+}
+
+export type product_variantsUpdateWithoutReorder_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
+  products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
+}
+
+export type product_variantsUncheckedUpdateWithoutReorder_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+}
+
+export type product_variantsCreateWithoutReorder_suggestionsInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: number | null
+  min_stock?: number | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
+  products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+}
+
+export type product_variantsUncheckedCreateWithoutReorder_suggestionsInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: number | null
+  min_stock?: number | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+}
+
+export type product_variantsCreateOrConnectWithoutReorder_suggestionsInput = {
+  where: Prisma.product_variantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_suggestionsInput, Prisma.product_variantsUncheckedCreateWithoutReorder_suggestionsInput>
+}
+
+export type product_variantsUpsertWithoutReorder_suggestionsInput = {
+  update: Prisma.XOR<Prisma.product_variantsUpdateWithoutReorder_suggestionsInput, Prisma.product_variantsUncheckedUpdateWithoutReorder_suggestionsInput>
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutReorder_suggestionsInput, Prisma.product_variantsUncheckedCreateWithoutReorder_suggestionsInput>
+  where?: Prisma.product_variantsWhereInput
+}
+
+export type product_variantsUpdateToOneWithWhereWithoutReorder_suggestionsInput = {
+  where?: Prisma.product_variantsWhereInput
+  data: Prisma.XOR<Prisma.product_variantsUpdateWithoutReorder_suggestionsInput, Prisma.product_variantsUncheckedUpdateWithoutReorder_suggestionsInput>
+}
+
+export type product_variantsUpdateWithoutReorder_suggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
+  products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+}
+
+export type product_variantsUncheckedUpdateWithoutReorder_suggestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  cost_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  stock_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsCreateManyProductsInput = {
@@ -1100,6 +1391,8 @@ export type product_variantsUpdateWithoutProductsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateWithoutProductsInput = {
@@ -1122,6 +1415,8 @@ export type product_variantsUncheckedUpdateWithoutProductsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
 }
 
 export type product_variantsUncheckedUpdateManyWithoutProductsInput = {
@@ -1152,11 +1447,15 @@ export type product_variantsUncheckedUpdateManyWithoutProductsInput = {
 export type Product_variantsCountOutputType = {
   pos_reorder_requests: number
   purchase_order_items: number
+  reorder_rules: number
+  reorder_suggestions: number
 }
 
 export type Product_variantsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pos_reorder_requests?: boolean | Product_variantsCountOutputTypeCountPos_reorder_requestsArgs
   purchase_order_items?: boolean | Product_variantsCountOutputTypeCountPurchase_order_itemsArgs
+  reorder_rules?: boolean | Product_variantsCountOutputTypeCountReorder_rulesArgs
+  reorder_suggestions?: boolean | Product_variantsCountOutputTypeCountReorder_suggestionsArgs
 }
 
 /**
@@ -1183,6 +1482,20 @@ export type Product_variantsCountOutputTypeCountPurchase_order_itemsArgs<ExtArgs
   where?: Prisma.purchase_order_itemsWhereInput
 }
 
+/**
+ * Product_variantsCountOutputType without action
+ */
+export type Product_variantsCountOutputTypeCountReorder_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.reorder_rulesWhereInput
+}
+
+/**
+ * Product_variantsCountOutputType without action
+ */
+export type Product_variantsCountOutputTypeCountReorder_suggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.reorder_suggestionsWhereInput
+}
+
 
 export type product_variantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1206,6 +1519,8 @@ export type product_variantsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   pos_reorder_requests?: boolean | Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.product_variants$purchase_order_itemsArgs<ExtArgs>
+  reorder_rules?: boolean | Prisma.product_variants$reorder_rulesArgs<ExtArgs>
+  reorder_suggestions?: boolean | Prisma.product_variants$reorder_suggestionsArgs<ExtArgs>
   _count?: boolean | Prisma.Product_variantsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product_variants"]>
 
@@ -1279,6 +1594,8 @@ export type product_variantsInclude<ExtArgs extends runtime.Types.Extensions.Int
   pos_reorder_requests?: boolean | Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.product_variants$purchase_order_itemsArgs<ExtArgs>
+  reorder_rules?: boolean | Prisma.product_variants$reorder_rulesArgs<ExtArgs>
+  reorder_suggestions?: boolean | Prisma.product_variants$reorder_suggestionsArgs<ExtArgs>
   _count?: boolean | Prisma.Product_variantsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type product_variantsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1294,6 +1611,8 @@ export type $product_variantsPayload<ExtArgs extends runtime.Types.Extensions.In
     pos_reorder_requests: Prisma.$pos_reorder_requestsPayload<ExtArgs>[]
     products: Prisma.$productsPayload<ExtArgs>
     purchase_order_items: Prisma.$purchase_order_itemsPayload<ExtArgs>[]
+    reorder_rules: Prisma.$reorder_rulesPayload<ExtArgs>[]
+    reorder_suggestions: Prisma.$reorder_suggestionsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1711,6 +2030,8 @@ export interface Prisma__product_variantsClient<T, Null = never, ExtArgs extends
   pos_reorder_requests<T extends Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_reorder_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   products<T extends Prisma.productsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.productsDefaultArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   purchase_order_items<T extends Prisma.product_variants$purchase_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$purchase_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reorder_rules<T extends Prisma.product_variants$reorder_rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$reorder_rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_rulesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reorder_suggestions<T extends Prisma.product_variants$reorder_suggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$reorder_suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_suggestionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2204,6 +2525,54 @@ export type product_variants$purchase_order_itemsArgs<ExtArgs extends runtime.Ty
   take?: number
   skip?: number
   distinct?: Prisma.Purchase_order_itemsScalarFieldEnum | Prisma.Purchase_order_itemsScalarFieldEnum[]
+}
+
+/**
+ * product_variants.reorder_rules
+ */
+export type product_variants$reorder_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the reorder_rules
+   */
+  select?: Prisma.reorder_rulesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the reorder_rules
+   */
+  omit?: Prisma.reorder_rulesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_rulesInclude<ExtArgs> | null
+  where?: Prisma.reorder_rulesWhereInput
+  orderBy?: Prisma.reorder_rulesOrderByWithRelationInput | Prisma.reorder_rulesOrderByWithRelationInput[]
+  cursor?: Prisma.reorder_rulesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Reorder_rulesScalarFieldEnum | Prisma.Reorder_rulesScalarFieldEnum[]
+}
+
+/**
+ * product_variants.reorder_suggestions
+ */
+export type product_variants$reorder_suggestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the reorder_suggestions
+   */
+  select?: Prisma.reorder_suggestionsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the reorder_suggestions
+   */
+  omit?: Prisma.reorder_suggestionsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.reorder_suggestionsInclude<ExtArgs> | null
+  where?: Prisma.reorder_suggestionsWhereInput
+  orderBy?: Prisma.reorder_suggestionsOrderByWithRelationInput | Prisma.reorder_suggestionsOrderByWithRelationInput[]
+  cursor?: Prisma.reorder_suggestionsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Reorder_suggestionsScalarFieldEnum | Prisma.Reorder_suggestionsScalarFieldEnum[]
 }
 
 /**

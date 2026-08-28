@@ -19,7 +19,7 @@ export const ruleInputSchema = z.object({
   reorderQty: z.coerce.number().optional().nullable(),
   eoq: z.coerce.number().optional().nullable(),
   leadTimeDays: z.coerce.number().int().optional().nullable(),
-  preferredSupplierId: z.coerce.number().int().optional().nullable(),
+  preferredSupplierId: z.string().uuid().optional().nullable(),
   isActive: z.boolean().optional(),
 })
 export type RuleInput = z.infer<typeof ruleInputSchema>
@@ -45,7 +45,14 @@ export const ruleListItemSchema = z.object({
   stores: z
     .object({ store_id: z.string(), name: z.string().nullable() })
     .nullable(),
-  suppliers: z.object({ supplier_id: z.number(), name: z.string() }).nullable(),
+  suppliers: z
+    .object({
+      id: z.string().optional(),
+      supplier_id: z.any().optional(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
 })
 export type RuleListItem = z.infer<typeof ruleListItemSchema>
 
