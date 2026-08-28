@@ -41,12 +41,16 @@ BEGIN
 
     -- 4. Foreign Key on products.product_type_id if not exists
     IF NOT EXISTS (
-        SELECT 1 FROM information_schema.table_constraints 
-        WHERE constraint_name = 'fk_products_product_type_id'
-          AND table_name = 'products'
+        SELECT 1 FROM information_schema.table_constraints tc
+        JOIN information_schema.key_column_usage kcu
+          ON tc.constraint_name = kcu.constraint_name
+          AND tc.table_schema = kcu.table_schema
+        WHERE tc.constraint_type = 'FOREIGN KEY'
+          AND tc.table_name = 'products'
+          AND kcu.column_name = 'product_type_id'
     ) THEN
         ALTER TABLE public.products 
-        ADD CONSTRAINT fk_products_product_type_id 
+        ADD CONSTRAINT products_product_type_id_fkey 
         FOREIGN KEY (product_type_id) 
         REFERENCES public.product_types(id) 
         ON DELETE SET NULL 
