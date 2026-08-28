@@ -329,6 +329,7 @@ model products {
   product_types          product_types?         @relation(fields: [product_type_id], references: [id], onUpdate: NoAction)
   suppliers              suppliers?             @relation(fields: [supplier_id], references: [id], onUpdate: NoAction)
   purchase_order_items   purchase_order_items[]
+  inventory              inventory[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -361,6 +362,7 @@ model inventory {
   product_id         String?   @db.Uuid
   created_by_user_id String?   @db.Uuid
   updated_by_user_id String?   @db.Uuid
+  products           products? @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model pos_reorder_requests {
