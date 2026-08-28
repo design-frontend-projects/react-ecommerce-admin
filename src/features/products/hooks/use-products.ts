@@ -319,7 +319,7 @@ export const useCreateProductWithVariants = () => {
           name: v.name || v.attributes_label || null,
           price: v.price,
           cost_price: v.cost_price ?? null,
-          stock_quantity: 0,
+          stock_quantity: Number(v.stock_quantity) || 0,
           min_stock: v.min_stock ?? 0,
           weight: v.weight ?? null,
           uom_id: v.uom_id || null,
@@ -477,6 +477,7 @@ export const useUpdateProductWithVariants = () => {
         name: v.name || v.attributes_label || null,
         price: v.price,
         cost_price: v.cost_price ?? null,
+        stock_quantity: Number(v.stock_quantity) || 0,
         min_stock: v.min_stock ?? 0,
         weight: v.weight ?? null,
         uom_id: v.uom_id || null,
@@ -515,7 +516,7 @@ export const useUpdateProductWithVariants = () => {
               ...buildVariantPayload(v),
               tenant_id: productTenantId,
               created_by_user_id: userId,
-              stock_quantity: 0,
+              stock_quantity: Number(v.stock_quantity) || 0,
               created_at: new Date().toISOString(),
             }))
           )
