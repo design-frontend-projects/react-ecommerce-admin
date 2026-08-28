@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useForm, useFieldArray, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
@@ -14,11 +14,19 @@ import {
   Truck,
   Sliders,
   FolderTree,
+  Table as TableIcon,
+  LayoutGrid,
+  Copy,
+  Sparkles,
+  Loader2,
+  CheckCircle2,
+  XCircle,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Dialog,
@@ -53,6 +61,14 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { LookupSelect } from '@/features/lookups/components/lookup-select'
 import {
@@ -68,8 +84,10 @@ import {
   type Product,
   type ProductType,
   type TrackingMode,
+  type VariantRowFormData,
 } from '../data/schema'
 import {
+  useProduct,
   useCreateProductWithVariants,
   useUpdateProductWithVariants,
 } from '../hooks/use-products'
@@ -84,8 +102,19 @@ interface Props {
 export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const { t } = useTranslation()
   const isEdit = Boolean(currentRow)
-  const [isScannerOpen, setIsScannerOpen] = useState(false)
+  const [isBaseScannerOpen, setIsBaseScannerOpen] = useState(false)
+  const [scanningVariantIndex, setScanningVariantIndex] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState('basic')
+  const [variantViewMode, setVariantViewMode] = useState<'table' | 'cards'>('table')
+
+  const targetProductId = currentRow?.id || (currentRow?.product_id ? String(currentRow.product_id) : null)
+
+  // Fetch fresh product with all variants and relationships when editing
+  const { data: freshProduct, isLoading: isFreshLoading } = useProduct(
+    open && targetProductId ? targetProductId : null
+  )
+
+  const activeProduct = freshProduct || currentRow
 
   const { mutateAsync: createProduct, isPending: isCreating } =
     useCreateProductWithVariants()
@@ -100,7 +129,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const { data: suppliers = [] } = useSupplierOptions()
   const { data: productTypes = [] } = useProductTypeOptions()
 
-  const getInitialVariants = (product?: Product | null) => {
+  const getInitialVariants = (product?: Product | null): VariantRowFormData[] => {
     if (!product || !product.product_variants || product.product_variants.length === 0) {
       return []
     }
@@ -108,7 +137,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       let dimLabel = ''
       if (typeof v.dimensions === 'string') {
         dimLabel = v.dimensions
-      } else if (v.dimensions && typeof v.dimensions === 'object' && 'label' in (v.dimensions as Record<string, unknown>)) {
+      } else if (
+        v.dimensions &&
+        typeof v.dimensions === 'object' &&
+        'label' in (v.dimensions as Record<string, unknown>)
+      ) {
         dimLabel = String((v.dimensions as Record<string, unknown>).label || '')
       }
 
@@ -163,39 +196,55 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     },
   })
 
-  // Reset form when currentRow or open changes
+  // Reset form when activeProduct or open changes
   useEffect(() => {
     if (open) {
-      if (currentRow) {
-        const firstVariant = currentRow.product_variants?.[0]
+      if (activeProduct) {
+        const firstVariant = activeProduct.product_variants?.[0]
+        const existingVariants = getInitialVariants(activeProduct)
+        const hasExistingVariants = Boolean(
+          activeProduct.has_variants === true ||
+            existingVariants.length > 0 ||
+            activeProduct.product_type === 'variant'
+        )
+
         form.reset({
-          name: currentRow.name || '',
-          description: currentRow.description || '',
-          sku: currentRow.sku || '',
-          barcode: currentRow.barcode || '',
-          category_id: currentRow.category_id || null,
-          brand_id: currentRow.brand_id || null,
-          base_uom_id: currentRow.base_uom_id || null,
-          supplier_id: currentRow.supplier_id || null,
-          product_type: (currentRow.product_type as ProductType) || 'simple',
-          product_type_id: currentRow.product_type_id || null,
-          tracking_mode: (currentRow.tracking_mode as TrackingMode) || 'none',
-          base_price: currentRow.base_price ? Number(currentRow.base_price) : (firstVariant ? Number(firstVariant.price) : 0),
-          tax_code: currentRow.tax_code || '',
-          tax_classification_id: currentRow.tax_classification_id || null,
-          reorder_level: currentRow.reorder_level ? Number(currentRow.reorder_level) : 0,
-          weight: currentRow.weight ? Number(currentRow.weight) : null,
-          dimensions: currentRow.dimensions || '',
-          is_active: currentRow.is_active ?? true,
-          is_stock_item: currentRow.is_stock_item ?? true,
-          reorderable: currentRow.reorderable ?? true,
-          is_batch_tracked: currentRow.is_batch_tracked ?? false,
-          is_serial_tracked: currentRow.is_serial_tracked ?? false,
-          has_variants: currentRow.has_variants ?? (currentRow.product_variants && currentRow.product_variants.length > 1),
-          has_expiration: currentRow.has_expiration ?? false,
-          expiration_date: currentRow.expiration_date ? new Date(currentRow.expiration_date) : null,
-          is_marketplace: currentRow.is_marketplace ?? false,
-          variants: getInitialVariants(currentRow),
+          name: activeProduct.name || '',
+          description: activeProduct.description || '',
+          sku: activeProduct.sku || '',
+          barcode: activeProduct.barcode || '',
+          category_id: activeProduct.category_id || null,
+          brand_id: activeProduct.brand_id || null,
+          base_uom_id: activeProduct.base_uom_id || null,
+          supplier_id: activeProduct.supplier_id || null,
+          product_type: (activeProduct.product_type as ProductType) || 'simple',
+          product_type_id: activeProduct.product_type_id || null,
+          tracking_mode: (activeProduct.tracking_mode as TrackingMode) || 'none',
+          base_price:
+            activeProduct.base_price !== null && activeProduct.base_price !== undefined
+              ? Number(activeProduct.base_price)
+              : firstVariant
+                ? Number(firstVariant.price)
+                : 0,
+          tax_code: activeProduct.tax_code || '',
+          tax_classification_id: activeProduct.tax_classification_id || null,
+          reorder_level: activeProduct.reorder_level
+            ? Number(activeProduct.reorder_level)
+            : 0,
+          weight: activeProduct.weight ? Number(activeProduct.weight) : null,
+          dimensions: activeProduct.dimensions || '',
+          is_active: activeProduct.is_active ?? true,
+          is_stock_item: activeProduct.is_stock_item ?? true,
+          reorderable: activeProduct.reorderable ?? true,
+          is_batch_tracked: activeProduct.is_batch_tracked ?? false,
+          is_serial_tracked: activeProduct.is_serial_tracked ?? false,
+          has_variants: hasExistingVariants,
+          has_expiration: activeProduct.has_expiration ?? false,
+          expiration_date: activeProduct.expiration_date
+            ? new Date(activeProduct.expiration_date)
+            : null,
+          is_marketplace: activeProduct.is_marketplace ?? false,
+          variants: existingVariants,
         })
       } else {
         form.reset({
@@ -230,7 +279,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       }
       setActiveTab('basic')
     }
-  }, [open, currentRow, form])
+  }, [open, activeProduct, form])
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -240,7 +289,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const hasVariants = form.watch('has_variants')
   const hasExpiration = form.watch('has_expiration')
   const productType = form.watch('product_type')
+  const watchedVariants = form.watch('variants') || []
 
+  // Auto-seed first variant if variants enabled and list is empty
   useEffect(() => {
     if ((hasVariants || productType === 'variant') && fields.length === 0 && open) {
       const currentValues = form.getValues()
@@ -261,11 +312,91 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     }
   }, [hasVariants, productType, fields.length, open, append, form])
 
+  // Calculated metrics for variants summary
+  const variantMetrics = useMemo(() => {
+    const total = watchedVariants.length
+    const activeCount = watchedVariants.filter((v) => v.is_active !== false).length
+    const prices = watchedVariants.map((v) => Number(v.price) || 0)
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0
+    const totalStock = watchedVariants.reduce(
+      (sum, v) => sum + (Number(v.stock_quantity) || 0),
+      0
+    )
+
+    return {
+      total,
+      activeCount,
+      minPrice,
+      maxPrice,
+      totalStock,
+    }
+  }, [watchedVariants])
+
+  const formatCurrency = (val: number) =>
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(val)
+
+  const handleAddVariant = () => {
+    const currentValues = form.getValues()
+    const nextIdx = fields.length + 1
+    append({
+      sku: currentValues.sku
+        ? `${currentValues.sku}-V${nextIdx}`
+        : `SKU-V${nextIdx}`,
+      barcode: '',
+      name: `Variant ${nextIdx}`,
+      price: currentValues.base_price || 0,
+      cost_price: 0,
+      stock_quantity: 0,
+      min_stock: currentValues.reorder_level || 0,
+      weight: currentValues.weight || null,
+      dimensions: currentValues.dimensions || '',
+      is_active: true,
+      uom_id: currentValues.base_uom_id || null,
+      attributes_label: `Variant ${nextIdx}`,
+    })
+  }
+
+  const handleDuplicateVariant = (index: number) => {
+    const item = form.getValues(`variants.${index}`)
+    if (!item) return
+    const nextIdx = fields.length + 1
+    append({
+      sku: item.sku ? `${item.sku}-COPY` : `SKU-V${nextIdx}`,
+      barcode: '',
+      name: item.name ? `${item.name} (Copy)` : `Variant ${nextIdx}`,
+      price: item.price || 0,
+      cost_price: item.cost_price || 0,
+      stock_quantity: item.stock_quantity || 0,
+      min_stock: item.min_stock || 0,
+      weight: item.weight || null,
+      dimensions: item.dimensions || '',
+      is_active: item.is_active ?? true,
+      uom_id: item.uom_id || null,
+      attributes_label: item.attributes_label
+        ? `${item.attributes_label} (Copy)`
+        : `Variant ${nextIdx}`,
+    })
+    toast.success(t('products.form.duplicateVariant') + ' OK')
+  }
+
+  const handleGenerateSkuForVariant = (index: number) => {
+    const baseSku = form.getValues('sku') || 'PRD'
+    const label = form.getValues(`variants.${index}.attributes_label`) || `V${index + 1}`
+    const sanitized = label.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()
+    form.setValue(`variants.${index}.sku`, `${baseSku}-${sanitized}`)
+  }
+
   const onSubmit = async (values: ProductActionFormData) => {
     try {
       const { variants, ...baseData } = values
 
-      const targetId = currentRow?.id || (currentRow?.product_id ? String(currentRow.product_id) : null)
+      const targetId =
+        currentRow?.id ||
+        (currentRow?.product_id ? String(currentRow.product_id) : null)
 
       const expirationIso = baseData.expiration_date
         ? typeof baseData.expiration_date === 'string'
@@ -273,14 +404,18 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           : baseData.expiration_date.toISOString()
         : null
 
+      const isVariantsConfigured = Boolean(
+        hasVariants || productType === 'variant' || (variants && variants.length > 0)
+      )
+
       const cleanedBase: Partial<Product> = {
         ...baseData,
         expiration_date: expirationIso,
-        has_variants: Boolean(hasVariants || productType === 'variant' || (variants && variants.length > 1)),
+        has_variants: isVariantsConfigured,
       }
 
-      // Default single variant fallback if no variants array
-      const defaultVariant = {
+      // Default single variant fallback if no variants configured
+      const defaultVariant: VariantRowFormData = {
         sku: values.sku,
         barcode: values.barcode || null,
         name: values.name,
@@ -324,6 +459,13 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     }
   }
 
+  const showVariantsTab = Boolean(
+    hasVariants ||
+      productType === 'variant' ||
+      fields.length > 0 ||
+      (activeProduct?.product_variants && activeProduct.product_variants.length > 0)
+  )
+
   return (
     <Dialog
       open={open}
@@ -334,12 +476,22 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     >
       <DialogContent className='flex max-h-[92vh] max-w-4xl flex-col p-0'>
         <DialogHeader className='border-b px-6 py-4'>
-          <DialogTitle className='text-xl font-bold'>
-            {isEdit ? t('products.editProduct') : t('products.createProduct')}
-          </DialogTitle>
-          <DialogDescription>
-            {t('products.description')}
-          </DialogDescription>
+          <div className='flex items-center justify-between'>
+            <div>
+              <DialogTitle className='text-xl font-bold'>
+                {isEdit ? t('products.editProduct') : t('products.createProduct')}
+              </DialogTitle>
+              <DialogDescription>
+                {t('products.description')}
+              </DialogDescription>
+            </div>
+            {isFreshLoading && (
+              <div className='flex items-center gap-2 text-xs text-muted-foreground'>
+                <Loader2 className='h-3.5 w-3.5 animate-spin' />
+                <span>Loading latest data...</span>
+              </div>
+            )}
+          </div>
         </DialogHeader>
 
         <Form {...form}>
@@ -354,7 +506,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
               className='flex flex-1 flex-col overflow-hidden'
             >
               <div className='border-b bg-muted/30 px-6'>
-                <TabsList className='h-11 w-full justify-start gap-2 bg-transparent p-0'>
+                <TabsList className='h-11 w-full justify-start gap-2 bg-transparent p-0 overflow-x-auto'>
                   <TabsTrigger
                     value='basic'
                     className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
@@ -390,13 +542,19 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                     <Truck className='h-4 w-4' />
                     {t('products.formTabs.logistics')}
                   </TabsTrigger>
-                  {(hasVariants || productType === 'variant') && (
+                  {showVariantsTab && (
                     <TabsTrigger
                       value='variants'
                       className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
                     >
                       <Layers className='h-4 w-4' />
-                      {t('products.formTabs.variants')} ({fields.length})
+                      {t('products.formTabs.variants')}
+                      <Badge
+                        variant='secondary'
+                        className='ms-1 h-5 px-1.5 text-[11px] font-semibold'
+                      >
+                        {fields.length}
+                      </Badge>
                     </TabsTrigger>
                   )}
                 </TabsList>
@@ -459,18 +617,18 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               variant='outline'
                               size='icon'
                               title='Scan Barcode'
-                              onClick={() => setIsScannerOpen(true)}
+                              onClick={() => setIsBaseScannerOpen(true)}
                             >
                               <LucideScan className='h-4 w-4' />
                             </Button>
                           </div>
 
                           <QRCodeScanner
-                            open={isScannerOpen}
-                            onOpenChange={setIsScannerOpen}
+                            open={isBaseScannerOpen}
+                            onOpenChange={setIsBaseScannerOpen}
                             onScan={(data: string) => {
                               field.onChange(data)
-                              setIsScannerOpen(false)
+                              setIsBaseScannerOpen(false)
                             }}
                           />
                           {field.value && (
@@ -564,8 +722,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormItem>
                           <FormLabel>{t('products.form.category')}</FormLabel>
                           <Select
-                            onValueChange={(val) => field.onChange(val || null)}
-                            value={field.value || ''}
+                            onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                            value={field.value || 'none'}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -573,6 +731,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
+                              <SelectItem value='none' className='text-muted-foreground italic'>
+                                -- {t('common.none', 'None')} --
+                              </SelectItem>
                               {categories.map((cat) => (
                                 <SelectItem key={cat.id} value={cat.id}>
                                   {cat.name}
@@ -593,8 +754,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormItem>
                           <FormLabel>{t('products.form.brand')}</FormLabel>
                           <Select
-                            onValueChange={(val) => field.onChange(val || null)}
-                            value={field.value || ''}
+                            onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                            value={field.value || 'none'}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -602,6 +763,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
+                              <SelectItem value='none' className='text-muted-foreground italic'>
+                                -- {t('common.none', 'None')} --
+                              </SelectItem>
                               {brands.map((b) => (
                                 <SelectItem key={b.id} value={b.id}>
                                   {b.name} {b.code ? `(${b.code})` : ''}
@@ -622,8 +786,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormItem>
                           <FormLabel>{t('products.form.unit')}</FormLabel>
                           <Select
-                            onValueChange={(val) => field.onChange(val || null)}
-                            value={field.value || ''}
+                            onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                            value={field.value || 'none'}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -631,6 +795,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
+                              <SelectItem value='none' className='text-muted-foreground italic'>
+                                -- {t('common.none', 'None')} --
+                              </SelectItem>
                               {uoms.map((u) => (
                                 <SelectItem key={u.id} value={u.id}>
                                   {u.name} ({u.code})
@@ -651,8 +818,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormItem>
                           <FormLabel>{t('products.form.supplier')}</FormLabel>
                           <Select
-                            onValueChange={(val) => field.onChange(val || null)}
-                            value={field.value || ''}
+                            onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                            value={field.value || 'none'}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -660,6 +827,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
+                              <SelectItem value='none' className='text-muted-foreground italic'>
+                                -- {t('common.none', 'None')} --
+                              </SelectItem>
                               {suppliers.map((s) => (
                                 <SelectItem key={s.id} value={s.id}>
                                   {s.name} {s.code ? `(${s.code})` : ''}
@@ -682,7 +852,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormItem>
                           <FormLabel>{t('products.form.productType')}</FormLabel>
                           <Select
-                            onValueChange={field.onChange}
+                            onValueChange={(val) => {
+                              field.onChange(val)
+                              if (val === 'variant' && !form.getValues('has_variants')) {
+                                form.setValue('has_variants', true)
+                              }
+                            }}
                             value={field.value || 'simple'}
                           >
                             <FormControl>
@@ -960,7 +1135,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           <FormControl>
                             <Switch
                               checked={field.value}
-                              onCheckedChange={field.onChange}
+                              onCheckedChange={(checked) => {
+                                field.onChange(checked)
+                                if (checked && fields.length === 0) {
+                                  handleAddVariant()
+                                }
+                              }}
                             />
                           </FormControl>
                         </FormItem>
@@ -1150,9 +1330,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                 </TabsContent>
 
                 {/* ── TAB 6: VARIANTS ─────────────────────────────────── */}
-                {(hasVariants || productType === 'variant') && (
+                {showVariantsTab && (
                   <TabsContent value='variants' className='m-0 space-y-4'>
-                    <div className='flex items-center justify-between border-b pb-2'>
+                    {/* Header with stats and mode switcher */}
+                    <div className='flex flex-wrap items-center justify-between gap-3 border-b pb-3'>
                       <div>
                         <h3 className='text-base font-semibold'>
                           {t('products.form.variantTitle')}
@@ -1161,249 +1342,711 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           {t('products.form.hasVariantsDesc')}
                         </p>
                       </div>
-                      <Button
-                        type='button'
-                        variant='outline'
-                        size='sm'
-                        onClick={() =>
-                          append({
-                            sku: form.getValues('sku')
-                              ? `${form.getValues('sku')}-V${fields.length + 1}`
-                              : '',
-                            barcode: '',
-                            name: `Variant ${fields.length + 1}`,
-                            price: form.getValues('base_price') || 0,
-                            cost_price: 0,
-                            stock_quantity: 0,
-                            min_stock: form.getValues('reorder_level') || 0,
-                            weight: form.getValues('weight') || null,
-                            dimensions: form.getValues('dimensions') || '',
-                            is_active: true,
-                            uom_id: form.getValues('base_uom_id') || null,
-                            attributes_label: `Variant ${fields.length + 1}`,
-                          })
-                        }
-                      >
-                        <Plus className='me-1.5 h-4 w-4' />
-                        {t('products.form.addVariant')}
-                      </Button>
-                    </div>
 
-                    <div className='space-y-4 pr-1'>
-                      {fields.map((field, index) => (
-                        <Card key={field.id} className='relative shadow-xs'>
-                          <CardContent className='flex flex-col gap-3 pt-4'>
-                            {fields.length > 1 && (
-                              <Button
-                                type='button'
-                                variant='ghost'
-                                size='icon'
-                                className='absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-destructive'
-                                onClick={() => remove(index)}
-                              >
-                                <Trash2 className='h-4 w-4' />
-                              </Button>
-                            )}
-
-                            {/* Variant Row 1 */}
-                            <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.attributes_label`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantLabel')}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        placeholder={t('products.form.variantLabelPlaceholder')}
-                                        {...vField}
-                                        value={vField.value || ''}
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.sku`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantSku')} *
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input placeholder='SKU' {...vField} />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.barcode`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantBarcode')}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        placeholder='Barcode'
-                                        {...vField}
-                                        value={vField.value || ''}
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.is_active`}
-                                render={({ field: vField }) => (
-                                  <FormItem className='flex h-[36px] flex-row items-center justify-between rounded-lg border px-3 sm:mt-[22px]'>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.active')}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Switch
-                                        checked={vField.value}
-                                        onCheckedChange={vField.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-
-                            {/* Variant Row 2 */}
-                            <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.price`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantPrice')} *
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        type='number'
-                                        step='0.01'
-                                        min='0'
-                                        value={(vField.value as number) ?? ''}
-                                        onChange={(e) =>
-                                          vField.onChange(
-                                            e.target.valueAsNumber || 0
-                                          )
-                                        }
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.cost_price`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantCost')}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        type='number'
-                                        step='0.01'
-                                        min='0'
-                                        value={(vField.value as number) ?? ''}
-                                        onChange={(e) =>
-                                          vField.onChange(
-                                            e.target.valueAsNumber || 0
-                                          )
-                                        }
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.stock_quantity`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantInitialStock')}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        type='number'
-                                        min='0'
-                                        value={(vField.value as number) ?? ''}
-                                        onChange={(e) =>
-                                          vField.onChange(
-                                            e.target.valueAsNumber || 0
-                                          )
-                                        }
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={form.control}
-                                name={`variants.${index}.min_stock`}
-                                render={({ field: vField }) => (
-                                  <FormItem>
-                                    <FormLabel className='text-xs'>
-                                      {t('products.form.variantMinStock')}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        type='number'
-                                        min='0'
-                                        value={(vField.value as number) ?? ''}
-                                        onChange={(e) =>
-                                          vField.onChange(
-                                            e.target.valueAsNumber || 0
-                                          )
-                                        }
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-
-                      {fields.length === 0 && (
-                        <div className='rounded-lg border border-dashed bg-muted/20 p-8 text-center'>
-                          <p className='text-sm text-muted-foreground'>
-                            {t('products.form.noVariantsPrompt')}
-                          </p>
+                      <div className='flex items-center gap-2'>
+                        {/* View Switcher: Table vs Cards */}
+                        <div className='flex items-center rounded-lg border bg-muted/40 p-0.5 text-xs'>
+                          <Button
+                            type='button'
+                            variant={variantViewMode === 'table' ? 'secondary' : 'ghost'}
+                            size='sm'
+                            className='h-7 gap-1 px-2.5 text-xs shadow-none'
+                            onClick={() => setVariantViewMode('table')}
+                          >
+                            <TableIcon className='h-3.5 w-3.5' />
+                            <span>{t('products.form.tablePreview')}</span>
+                          </Button>
+                          <Button
+                            type='button'
+                            variant={variantViewMode === 'cards' ? 'secondary' : 'ghost'}
+                            size='sm'
+                            className='h-7 gap-1 px-2.5 text-xs shadow-none'
+                            onClick={() => setVariantViewMode('cards')}
+                          >
+                            <LayoutGrid className='h-3.5 w-3.5' />
+                            <span>{t('products.form.cardEditor')}</span>
+                          </Button>
                         </div>
-                      )}
+
+                        <Button
+                          type='button'
+                          variant='default'
+                          size='sm'
+                          className='h-7 gap-1 px-2.5 text-xs'
+                          onClick={handleAddVariant}
+                        >
+                          <Plus className='h-3.5 w-3.5' />
+                          {t('products.form.addVariant')}
+                        </Button>
+                      </div>
                     </div>
+
+                    {/* Quick Stats Metric Strip */}
+                    <div className='grid grid-cols-2 gap-2 sm:grid-cols-4'>
+                      <div className='rounded-lg border bg-card p-2.5 shadow-2xs'>
+                        <span className='text-[11px] font-medium text-muted-foreground'>
+                          {t('products.form.totalVariants')}
+                        </span>
+                        <div className='mt-0.5 flex items-baseline gap-1.5'>
+                          <span className='text-lg font-bold'>{variantMetrics.total}</span>
+                          <span className='text-[11px] text-muted-foreground'>items</span>
+                        </div>
+                      </div>
+
+                      <div className='rounded-lg border bg-card p-2.5 shadow-2xs'>
+                        <span className='text-[11px] font-medium text-muted-foreground'>
+                          {t('products.form.activeVariants')}
+                        </span>
+                        <div className='mt-0.5 flex items-center gap-1.5'>
+                          <span className='text-lg font-bold text-emerald-600 dark:text-emerald-400'>
+                            {variantMetrics.activeCount}
+                          </span>
+                          <span className='text-[11px] text-muted-foreground'>
+                            / {variantMetrics.total}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className='rounded-lg border bg-card p-2.5 shadow-2xs'>
+                        <span className='text-[11px] font-medium text-muted-foreground'>
+                          {t('products.form.priceRange')}
+                        </span>
+                        <div className='mt-0.5 text-sm font-semibold truncate'>
+                          {variantMetrics.total === 0
+                            ? '—'
+                            : variantMetrics.minPrice === variantMetrics.maxPrice
+                              ? formatCurrency(variantMetrics.minPrice)
+                              : `${formatCurrency(variantMetrics.minPrice)} - ${formatCurrency(variantMetrics.maxPrice)}`}
+                        </div>
+                      </div>
+
+                      <div className='rounded-lg border bg-card p-2.5 shadow-2xs'>
+                        <span className='text-[11px] font-medium text-muted-foreground'>
+                          {t('products.form.totalStock')}
+                        </span>
+                        <div className='mt-0.5 flex items-baseline gap-1.5'>
+                          <span className='text-lg font-bold'>{variantMetrics.totalStock}</span>
+                          <span className='text-[11px] text-muted-foreground'>units</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* MODE 1: Table Preview Matrix */}
+                    {variantViewMode === 'table' && (
+                      <div className='rounded-md border bg-card overflow-hidden'>
+                        <Table>
+                          <TableHeader className='bg-muted/50'>
+                            <TableRow>
+                              <TableHead className='w-[60px] text-center'>
+                                {t('products.columns.status')}
+                              </TableHead>
+                              <TableHead>{t('products.form.variantLabel')}</TableHead>
+                              <TableHead>{t('products.form.variantSku')}</TableHead>
+                              <TableHead>{t('products.form.variantBarcode')}</TableHead>
+                              <TableHead>{t('products.form.variantPrice')}</TableHead>
+                              <TableHead>{t('products.form.variantCost')}</TableHead>
+                              <TableHead>{t('products.form.variantInitialStock')}</TableHead>
+                              <TableHead>{t('products.form.variantMinStock')}</TableHead>
+                              <TableHead>{t('products.form.variantUom')}</TableHead>
+                              <TableHead className='w-[80px] text-right'>
+                                {t('products.columns.actions')}
+                              </TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {fields.map((field, index) => {
+                              const v = watchedVariants[index] || {}
+                              const uomObj = uoms.find((u) => u.id === v.uom_id)
+
+                              return (
+                                <TableRow key={field.id} className='hover:bg-muted/30'>
+                                  <TableCell className='text-center'>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.is_active`}
+                                      render={({ field: vField }) => (
+                                        <Switch
+                                          checked={vField.value}
+                                          onCheckedChange={vField.onChange}
+                                          className='scale-75'
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell className='font-medium'>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.attributes_label`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          className='h-8 text-xs'
+                                          placeholder='Label/Size/Color'
+                                          {...vField}
+                                          value={vField.value || ''}
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.sku`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          className='h-8 text-xs font-mono'
+                                          placeholder='SKU'
+                                          {...vField}
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.barcode`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          className='h-8 text-xs font-mono'
+                                          placeholder='Barcode'
+                                          {...vField}
+                                          value={vField.value || ''}
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.price`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          type='number'
+                                          step='0.01'
+                                          min='0'
+                                          className='h-8 text-xs w-24'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.cost_price`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          type='number'
+                                          step='0.01'
+                                          min='0'
+                                          className='h-8 text-xs w-24'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.stock_quantity`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          type='number'
+                                          min='0'
+                                          className='h-8 text-xs w-20'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.min_stock`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          type='number'
+                                          min='0'
+                                          className='h-8 text-xs w-20'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      )}
+                                    />
+                                  </TableCell>
+
+                                  <TableCell className='text-xs text-muted-foreground whitespace-nowrap'>
+                                    {uomObj ? `${uomObj.code}` : '—'}
+                                  </TableCell>
+
+                                  <TableCell className='text-right whitespace-nowrap'>
+                                    <div className='flex items-center justify-end gap-1'>
+                                      <Button
+                                        type='button'
+                                        variant='ghost'
+                                        size='icon'
+                                        className='h-7 w-7 text-muted-foreground hover:text-foreground'
+                                        title={t('products.form.duplicateVariant')}
+                                        onClick={() => handleDuplicateVariant(index)}
+                                      >
+                                        <Copy className='h-3.5 w-3.5' />
+                                      </Button>
+                                      {fields.length > 1 && (
+                                        <Button
+                                          type='button'
+                                          variant='ghost'
+                                          size='icon'
+                                          className='h-7 w-7 text-muted-foreground hover:text-destructive'
+                                          title='Delete'
+                                          onClick={() => remove(index)}
+                                        >
+                                          <Trash2 className='h-3.5 w-3.5' />
+                                        </Button>
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
+                              )
+                            })}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+
+                    {/* MODE 2: Detailed Card Editor */}
+                    {variantViewMode === 'cards' && (
+                      <div className='space-y-4 pr-1'>
+                        {fields.map((field, index) => (
+                          <Card key={field.id} className='relative shadow-xs border-muted-foreground/20'>
+                            <CardHeader className='flex flex-row items-center justify-between border-b bg-muted/20 px-4 py-2.5'>
+                              <div className='flex items-center gap-2'>
+                                <Badge variant='outline' className='font-mono text-xs'>
+                                  #{index + 1}
+                                </Badge>
+                                <CardTitle className='text-sm font-semibold'>
+                                  {form.watch(`variants.${index}.attributes_label`) ||
+                                    `Variant ${index + 1}`}
+                                </CardTitle>
+                                {form.watch(`variants.${index}.is_active`) ? (
+                                  <Badge variant='default' className='h-5 px-1.5 text-[10px] gap-1'>
+                                    <CheckCircle2 className='h-3 w-3' />
+                                    {t('products.form.active')}
+                                  </Badge>
+                                ) : (
+                                  <Badge variant='secondary' className='h-5 px-1.5 text-[10px] gap-1'>
+                                    <XCircle className='h-3 w-3' />
+                                    {t('products.form.inactive')}
+                                  </Badge>
+                                )}
+                              </div>
+
+                              <div className='flex items-center gap-1.5'>
+                                <Button
+                                  type='button'
+                                  variant='outline'
+                                  size='sm'
+                                  className='h-7 gap-1 px-2 text-xs'
+                                  onClick={() => handleDuplicateVariant(index)}
+                                >
+                                  <Copy className='h-3.5 w-3.5' />
+                                  {t('products.form.duplicateVariant')}
+                                </Button>
+                                {fields.length > 1 && (
+                                  <Button
+                                    type='button'
+                                    variant='ghost'
+                                    size='icon'
+                                    className='h-7 w-7 text-muted-foreground hover:text-destructive'
+                                    onClick={() => remove(index)}
+                                  >
+                                    <Trash2 className='h-4 w-4' />
+                                  </Button>
+                                )}
+                              </div>
+                            </CardHeader>
+
+                            <CardContent className='flex flex-col gap-3 p-4'>
+                              {/* Row 1: Option Label, SKU, Barcode, Active Switch */}
+                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.attributes_label`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantLabel')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          placeholder={t('products.form.variantLabelPlaceholder')}
+                                          {...vField}
+                                          value={vField.value || ''}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.sku`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <div className='flex items-center justify-between'>
+                                        <FormLabel className='text-xs'>
+                                          {t('products.form.variantSku')} *
+                                        </FormLabel>
+                                        <Button
+                                          type='button'
+                                          variant='ghost'
+                                          size='sm'
+                                          className='h-4 px-1 text-[10px] text-primary hover:bg-transparent'
+                                          onClick={() => handleGenerateSkuForVariant(index)}
+                                        >
+                                          <Sparkles className='me-0.5 h-3 w-3' />
+                                          {t('products.form.generateSku')}
+                                        </Button>
+                                      </div>
+                                      <FormControl>
+                                        <Input placeholder='SKU' {...vField} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.barcode`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantBarcode')}
+                                      </FormLabel>
+                                      <div className='flex gap-1.5'>
+                                        <FormControl>
+                                          <Input
+                                            placeholder='Barcode / UPC'
+                                            {...vField}
+                                            value={vField.value || ''}
+                                          />
+                                        </FormControl>
+                                        <Button
+                                          type='button'
+                                          variant='outline'
+                                          size='icon'
+                                          className='h-9 w-9 shrink-0'
+                                          title='Scan Barcode'
+                                          onClick={() => setScanningVariantIndex(index)}
+                                        >
+                                          <LucideScan className='h-3.5 w-3.5' />
+                                        </Button>
+                                      </div>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.is_active`}
+                                  render={({ field: vField }) => (
+                                    <FormItem className='flex h-[36px] flex-row items-center justify-between rounded-lg border px-3 sm:mt-[22px]'>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.active')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Switch
+                                          checked={vField.value}
+                                          onCheckedChange={vField.onChange}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+
+                              {/* Row 2: Price, Cost Price, Initial Stock, Min Stock */}
+                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.price`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantPrice')} *
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          type='number'
+                                          step='0.01'
+                                          min='0'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.cost_price`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantCost')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          type='number'
+                                          step='0.01'
+                                          min='0'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.stock_quantity`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantInitialStock')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          type='number'
+                                          min='0'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.min_stock`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantMinStock')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          type='number'
+                                          min='0'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.valueAsNumber || 0
+                                            )
+                                          }
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+
+                              {/* Row 3: Unit of Measure, Weight, Dimensions */}
+                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-3'>
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.uom_id`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantUom')}
+                                      </FormLabel>
+                                      <Select
+                                        onValueChange={(val) =>
+                                          vField.onChange(val === 'none' ? null : val)
+                                        }
+                                        value={vField.value || 'none'}
+                                      >
+                                        <FormControl>
+                                          <SelectTrigger className='h-9 text-xs'>
+                                            <SelectValue
+                                              placeholder={t('products.form.selectVariantUom')}
+                                            />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          <SelectItem
+                                            value='none'
+                                            className='text-muted-foreground italic'
+                                          >
+                                            -- {t('common.none', 'Inherit Base Unit')} --
+                                          </SelectItem>
+                                          {uoms.map((u) => (
+                                            <SelectItem key={u.id} value={u.id}>
+                                              {u.name} ({u.code})
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.weight`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantWeight')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          type='number'
+                                          step='0.01'
+                                          min='0'
+                                          placeholder='0.00'
+                                          className='h-9 text-xs'
+                                          value={(vField.value as number) ?? ''}
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              isNaN(e.target.valueAsNumber)
+                                                ? null
+                                                : e.target.valueAsNumber
+                                            )
+                                          }
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.dimensions`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.variantDimensions')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          placeholder='L x W x H'
+                                          className='h-9 text-xs'
+                                          {...vField}
+                                          value={vField.value || ''}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+
+                              {/* Barcode Display if Barcode Exists */}
+                              {form.watch(`variants.${index}.barcode`) && (
+                                <div className='pt-1'>
+                                  <BarcodeDisplay
+                                    value={form.watch(`variants.${index}.barcode`) || ''}
+                                    type='barcode'
+                                  />
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Empty State */}
+                    {fields.length === 0 && (
+                      <div className='rounded-lg border border-dashed bg-muted/20 p-8 text-center'>
+                        <Layers className='mx-auto h-8 w-8 text-muted-foreground/60' />
+                        <p className='mt-2 text-sm font-medium'>
+                          {t('products.form.noVariantsPrompt')}
+                        </p>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          size='sm'
+                          className='mt-3 gap-1.5'
+                          onClick={handleAddVariant}
+                        >
+                          <Plus className='h-4 w-4' />
+                          {t('products.form.addVariant')}
+                        </Button>
+                      </div>
+                    )}
                   </TabsContent>
                 )}
               </div>
             </Tabs>
           </form>
         </Form>
+
+        {/* Modal for Per-Variant Barcode Scanner */}
+        {scanningVariantIndex !== null && (
+          <QRCodeScanner
+            open={scanningVariantIndex !== null}
+            onOpenChange={(v) => {
+              if (!v) setScanningVariantIndex(null)
+            }}
+            onScan={(data: string) => {
+              if (scanningVariantIndex !== null) {
+                form.setValue(`variants.${scanningVariantIndex}.barcode`, data)
+                setScanningVariantIndex(null)
+              }
+            }}
+          />
+        )}
 
         <DialogFooter className='border-t bg-muted/20 px-6 py-3'>
           <Button

@@ -2017,6 +2017,17 @@
       "variantMinStock": "Min Alert Stock",
       "variantWeight": "Weight (kg)",
       "variantDimensions": "Dimensions",
+      "variantUom": "Variant Unit (UOM)",
+      "selectVariantUom": "Select unit (optional)",
+      "duplicateVariant": "Duplicate",
+      "generateSku": "Gen SKU",
+      "viewMode": "View Mode",
+      "tablePreview": "Table Preview",
+      "cardEditor": "Detailed Editor",
+      "totalVariants": "Total Variants",
+      "priceRange": "Price Range",
+      "totalStock": "Total Stock",
+      "activeVariants": "Active Variants",
       "noVariantsPrompt": "No variants configured. The base product parameters will apply as a single variant."
     },
     "enums": {

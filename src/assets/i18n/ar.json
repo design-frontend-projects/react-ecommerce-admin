@@ -2017,6 +2017,17 @@
       "variantMinStock": "حد التنبيه الأدنى",
       "variantWeight": "الوزن (كجم)",
       "variantDimensions": "الأبعاد",
+      "variantUom": "وحدة قياس الصنف (UOM)",
+      "selectVariantUom": "اختر وحدة القياس (اختياري)",
+      "duplicateVariant": "نسخ الصنف",
+      "generateSku": "توليد SKU",
+      "viewMode": "نمط العرض",
+      "tablePreview": "معاينة الجدول",
+      "cardEditor": "المحرر التفصيلي",
+      "totalVariants": "إجمالي الأصناف",
+      "priceRange": "نطاق الأسعار",
+      "totalStock": "إجمالي المخزون",
+      "activeVariants": "الأصناف النشطة",
       "noVariantsPrompt": "لم يتم إعداد خيارات متعددة. سيتم اعتماد البيانات الأساسية كصنف فردي."
     },
     "enums": {
