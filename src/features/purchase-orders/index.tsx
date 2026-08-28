@@ -9,7 +9,6 @@ import { POTable } from './components/po-table'
 import { usePurchaseOrders } from './hooks/use-purchase-orders'
 
 export function PurchaseOrders() {
-  const { t } = useTranslation()
   return (
     <POProvider>
       <PurchaseOrdersContent />
@@ -18,6 +17,7 @@ export function PurchaseOrders() {
 }
 
 function PurchaseOrdersContent() {
+  const { t } = useTranslation()
   const { data: purchaseOrders, isLoading, error } = usePurchaseOrders()
   // Warm products + variants query cache before opening PO dialogs.
   useProducts()
