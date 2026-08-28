@@ -108,6 +108,11 @@ export type product_variants = Prisma.product_variantsModel
  */
 export type products = Prisma.productsModel
 /**
+ * Model product_types
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type product_types = Prisma.product_typesModel
+/**
  * Model inventory
  * 
  */

@@ -324,8 +324,25 @@ model products {
   base_uom               uoms?                  @relation(fields: [base_uom_id], references: [id], onUpdate: NoAction)
   brands                 brands?                @relation(fields: [brand_id], references: [id], onUpdate: NoAction)
   categories             categories?            @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  product_types          product_types?         @relation(fields: [product_type_id], references: [id], onUpdate: NoAction)
   suppliers              suppliers?             @relation(fields: [supplier_id], references: [id], onUpdate: NoAction)
   purchase_order_items   purchase_order_items[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model product_types {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String     @unique @db.VarChar(50)
+  name        String     @db.VarChar(100)
+  name_ar     String?    @db.VarChar(100)
+  description String?
+  icon        String?    @db.VarChar(50)
+  color       String?    @db.VarChar(20)
+  sort_order  Int?       @default(1)
+  is_active   Boolean?   @default(true)
+  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  products    products[]
 }
 
 model inventory {

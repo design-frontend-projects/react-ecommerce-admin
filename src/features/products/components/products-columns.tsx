@@ -97,10 +97,27 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     cell: ({ row }) => {
       const pType = (row.getValue('product_type') as string) || 'simple'
       const key = `products.enums.productType.${pType}`
+      const macroType = row.original.product_types
       return (
-        <Badge variant='outline' className='text-xs font-normal capitalize'>
-          {t(key, pType)}
-        </Badge>
+        <div className='flex flex-col gap-1 items-start'>
+          <Badge variant='outline' className='text-xs font-normal capitalize'>
+            {t(key, pType)}
+          </Badge>
+          {macroType && (
+            <span
+              className='text-[10px] text-muted-foreground flex items-center gap-1'
+              title={macroType.name}
+            >
+              {macroType.color && (
+                <span
+                  className='h-1.5 w-1.5 rounded-full shrink-0'
+                  style={{ backgroundColor: macroType.color }}
+                />
+              )}
+              <span className='truncate max-w-[120px]'>{macroType.name}</span>
+            </span>
+          )}
+        </div>
       )
     },
   },

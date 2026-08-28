@@ -59,6 +59,28 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                   {pTypeKey ? t(pTypeKey, currentRow.product_type) : currentRow.product_type}
                 </Badge>
               )}
+              {currentRow.product_types && (
+                <Badge
+                  variant='outline'
+                  className='gap-1.5 font-normal'
+                  style={{
+                    borderColor: currentRow.product_types.color || undefined,
+                  }}
+                >
+                  {currentRow.product_types.color && (
+                    <span
+                      className='h-2 w-2 rounded-full shrink-0'
+                      style={{ backgroundColor: currentRow.product_types.color }}
+                    />
+                  )}
+                  <span>{currentRow.product_types.name}</span>
+                  {currentRow.product_types.name_ar && (
+                    <span className='text-[10px] text-muted-foreground'>
+                      ({currentRow.product_types.name_ar})
+                    </span>
+                  )}
+                </Badge>
+              )}
             </div>
           </div>
         </DialogHeader>

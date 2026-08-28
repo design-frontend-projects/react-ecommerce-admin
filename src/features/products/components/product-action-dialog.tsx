@@ -60,6 +60,7 @@ import {
   useCategoryOptions,
   useSupplierOptions,
   useUomOptions,
+  useProductTypeOptions,
 } from '../hooks/use-product-options'
 import {
   productActionFormSchema,
@@ -97,6 +98,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const { data: brands = [] } = useBrandOptions()
   const { data: uoms = [] } = useUomOptions()
   const { data: suppliers = [] } = useSupplierOptions()
+  const { data: productTypes = [] } = useProductTypeOptions()
 
   const getInitialVariants = (product?: Product | null) => {
     if (!product || !product.product_variants || product.product_variants.length === 0) {
@@ -691,24 +693,87 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       )}
                     />
 
-                    {/* Lookup Select for Product Type Classification */}
+                    {/* Select for Product Type Classification (Global Product Types) */}
                     <FormField
                       control={form.control}
                       name='product_type_id'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t('products.form.productTypeClassification')}</FormLabel>
-                          <FormControl>
-                            <LookupSelect
-                              lookupType='product_type'
-                              value={field.value}
-                              onChange={(val) => field.onChange(val)}
-                              placeholder={t('products.form.selectProductType')}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      render={({ field }) => {
+                        const selectedType = productTypes.find((pt) => pt.id === field.value)
+                        return (
+                          <FormItem>
+                            <FormLabel>{t('products.form.productTypeClassification')}</FormLabel>
+                            <Select
+                              onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                              value={field.value || 'none'}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder={t('products.form.selectProductType')}>
+                                    {selectedType ? (
+                                      <div className='flex items-center gap-2 truncate'>
+                                        {selectedType.color && (
+                                          <span
+                                            className='h-2.5 w-2.5 rounded-full shrink-0'
+                                            style={{ backgroundColor: selectedType.color }}
+                                          />
+                                        )}
+                                        <span className='font-medium'>{selectedType.name}</span>
+                                        {selectedType.name_ar && (
+                                          <span className='text-xs text-muted-foreground'>
+                                            ({selectedType.name_ar})
+                                          </span>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <span className='text-muted-foreground'>
+                                        {t('products.form.selectProductType')}
+                                      </span>
+                                    )}
+                                  </SelectValue>
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value='none' className='text-muted-foreground italic'>
+                                  -- {t('common.none', 'None / Unclassified')} --
+                                </SelectItem>
+                                {productTypes.map((pt) => (
+                                  <SelectItem key={pt.id} value={pt.id}>
+                                    <div className='flex flex-col py-0.5 text-left'>
+                                      <div className='flex items-center gap-2'>
+                                        {pt.color && (
+                                          <span
+                                            className='h-2.5 w-2.5 rounded-full shrink-0'
+                                            style={{ backgroundColor: pt.color }}
+                                          />
+                                        )}
+                                        <span className='font-medium text-foreground'>{pt.name}</span>
+                                        {pt.name_ar && (
+                                          <span className='text-xs text-muted-foreground'>
+                                            ({pt.name_ar})
+                                          </span>
+                                        )}
+                                      </div>
+                                      {pt.description && (
+                                        <span className='text-[11px] text-muted-foreground line-clamp-1'>
+                                          {pt.description}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormDescription className='text-xs'>
+                              {selectedType?.description ||
+                                t(
+                                  'products.form.productTypeClassificationDesc',
+                                  'Macro-level product classification (e.g., Non-durable goods, Durable goods, Service)'
+                                )}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )
+                      }}
                     />
                   </div>
                 </TabsContent>

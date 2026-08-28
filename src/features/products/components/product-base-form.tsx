@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslation } from 'react-i18next'
 import { CalendarIcon, Scan as LucideScan } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,12 +33,6 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { LookupSelect } from '@/features/lookups/components/lookup-select'
-import {
-  useBrandOptions,
-  useCategoryOptions,
-  useSupplierOptions,
-  useUomOptions,
-} from '../hooks/use-product-options'
 import { useProductWizardStore } from '../context/product-wizard-store'
 import {
   baseProductSchema,
@@ -45,6 +40,13 @@ import {
   type ProductType,
   type TrackingMode,
 } from '../data/schema'
+import {
+  useBrandOptions,
+  useCategoryOptions,
+  useSupplierOptions,
+  useUomOptions,
+  useProductTypeOptions,
+} from '../hooks/use-product-options'
 import { BarcodeDisplay } from './barcode-display'
 
 export function ProductBaseForm({
@@ -66,6 +68,7 @@ export function ProductBaseForm({
   const { data: brands = [] } = useBrandOptions()
   const { data: uoms = [] } = useUomOptions()
   const { data: suppliers = [] } = useSupplierOptions()
+  const { data: productTypes = [] } = useProductTypeOptions()
 
   const form = useForm<BaseProductFormData>({
     resolver: zodResolver(baseProductSchema) as Resolver<BaseProductFormData>,
@@ -149,7 +152,7 @@ export function ProductBaseForm({
             STEP 1: IDENTITY & BASIC INFO
            ========================================================================= */}
         {currentStep === 1 && (
-          <div className='space-y-4 animate-in fade-in-50 duration-200'>
+          <div className='animate-in space-y-4 duration-200 fade-in-50'>
             <FormField
               control={form.control}
               name='name'
@@ -281,7 +284,7 @@ export function ProductBaseForm({
                   <FormControl>
                     <Textarea
                       placeholder={t('products.form.descriptionPlaceholder')}
-                      className='resize-none min-h-[90px]'
+                      className='min-h-[90px] resize-none'
                       {...field}
                       value={field.value || ''}
                     />
@@ -297,7 +300,7 @@ export function ProductBaseForm({
             STEP 2: ORGANIZATION & CLASSIFICATION
            ========================================================================= */}
         {currentStep === 2 && (
-          <div className='space-y-4 animate-in fade-in-50 duration-200'>
+          <div className='animate-in space-y-4 duration-200 fade-in-50'>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
               <FormField
                 control={form.control}
@@ -423,22 +426,100 @@ export function ProductBaseForm({
             <FormField
               control={form.control}
               name='product_type_id'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    {t('products.form.productTypeClassification')}
-                  </FormLabel>
-                  <FormControl>
-                    <LookupSelect
-                      lookupType='product_type'
-                      value={field.value}
-                      onChange={(val) => field.onChange(val)}
-                      placeholder={t('products.form.selectProductType')}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const selectedType = productTypes.find(
+                  (pt) => pt.id === field.value
+                )
+                return (
+                  <FormItem>
+                    <FormLabel>
+                      {t('products.form.productTypeClassification')}
+                    </FormLabel>
+                    <Select
+                      onValueChange={(val) =>
+                        field.onChange(val === 'none' ? null : val)
+                      }
+                      value={field.value || 'none'}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder={t('products.form.selectProductType')}
+                          >
+                            {selectedType ? (
+                              <div className='flex items-center gap-2 truncate'>
+                                {selectedType.color && (
+                                  <span
+                                    className='h-2.5 w-2.5 shrink-0 rounded-full'
+                                    style={{
+                                      backgroundColor: selectedType.color,
+                                    }}
+                                  />
+                                )}
+                                <span className='font-medium'>
+                                  {selectedType.name}
+                                </span>
+                                {selectedType.name_ar && (
+                                  <span className='text-xs text-muted-foreground'>
+                                    ({selectedType.name_ar})
+                                  </span>
+                                )}
+                              </div>
+                            ) : (
+                              <span className='text-muted-foreground'>
+                                {t('products.form.selectProductType')}
+                              </span>
+                            )}
+                          </SelectValue>
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem
+                          value='none'
+                          className='text-muted-foreground italic'
+                        >
+                          -- {t('common.none', 'None / Unclassified')} --
+                        </SelectItem>
+                        {productTypes.map((pt) => (
+                          <SelectItem key={pt.id} value={pt.id}>
+                            <div className='flex flex-col py-0.5 text-left'>
+                              <div className='flex items-center gap-2'>
+                                {pt.color && (
+                                  <span
+                                    className='h-2.5 w-2.5 shrink-0 rounded-full'
+                                    style={{ backgroundColor: pt.color }}
+                                  />
+                                )}
+                                <span className='font-medium text-foreground'>
+                                  {pt.name}
+                                </span>
+                                {pt.name_ar && (
+                                  <span className='text-xs text-muted-foreground'>
+                                    ({pt.name_ar})
+                                  </span>
+                                )}
+                              </div>
+                              {pt.description && (
+                                <span className='line-clamp-1 text-[11px] text-muted-foreground'>
+                                  {pt.description}
+                                </span>
+                              )}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription className='text-xs'>
+                      {selectedType?.description ||
+                        t(
+                          'products.form.productTypeClassificationDesc',
+                          'Macro-level product classification (e.g., Non-durable goods, Durable goods, Service)'
+                        )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
             />
           </div>
         )}
@@ -447,7 +528,7 @@ export function ProductBaseForm({
             STEP 3: PRICING, INVENTORY & LOGISTICS
            ========================================================================= */}
         {currentStep === 3 && (
-          <div className='space-y-4 animate-in fade-in-50 duration-200'>
+          <div className='animate-in space-y-4 duration-200 fade-in-50'>
             {/* Pricing & Tax */}
             <div className='space-y-3'>
               <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
@@ -593,7 +674,7 @@ export function ProductBaseForm({
               </div>
 
               {/* Physical Attributes */}
-              <div className='grid grid-cols-1 gap-4 md:grid-cols-2 pt-1'>
+              <div className='grid grid-cols-1 gap-4 pt-1 md:grid-cols-2'>
                 <FormField
                   control={form.control}
                   name='weight'

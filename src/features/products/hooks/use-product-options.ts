@@ -26,6 +26,16 @@ export interface SupplierOption {
   code?: string | null
 }
 
+export interface ProductTypeOption {
+  id: string
+  name: string
+  name_ar?: string | null
+  code: string
+  description?: string | null
+  icon?: string | null
+  color?: string | null
+}
+
 /**
  * Hook to fetch active categories for product form dropdowns.
  */
@@ -109,3 +119,25 @@ export function useSupplierOptions() {
     enabled: authEnabled,
   })
 }
+
+/**
+ * Hook to fetch active product types (macro classifications: durable, non-durable, service, etc.)
+ */
+export function useProductTypeOptions() {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
+  return useQuery<ProductTypeOption[]>({
+    queryKey: ['product_types', 'options'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('product_types')
+        .select('id, name, name_ar, code, description, icon, color')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
+
+      if (error) throw error
+      return (data ?? []) as ProductTypeOption[]
+    },
+    enabled: authEnabled,
+  })
+}
+

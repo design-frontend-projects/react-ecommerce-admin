@@ -28,6 +28,72 @@ async function main() {
     }
   }
 
+  // 1b. Seed global product types (macro classifications)
+  const productTypes = [
+    {
+      code: 'non_durable',
+      name: 'Non-durable goods',
+      name_ar: 'بضائع غير معمرة',
+      description: 'Perishable items and consumables (e.g. food, drinks, ingredients, toiletries)',
+      icon: 'Apple',
+      color: '#10b981',
+      sort_order: 1,
+    },
+    {
+      code: 'durable',
+      name: 'Durable goods',
+      name_ar: 'بضائع معمرة',
+      description: 'Long-lasting physical goods (e.g. equipment, electronics, appliances, furniture)',
+      icon: 'Package',
+      color: '#3b82f6',
+      sort_order: 2,
+    },
+    {
+      code: 'service',
+      name: 'Service',
+      name_ar: 'خدمة',
+      description: 'Non-physical tasks, hospitality services, labor, and consulting',
+      icon: 'Wrench',
+      color: '#8b5cf6',
+      sort_order: 3,
+    },
+    {
+      code: 'digital',
+      name: 'Digital goods',
+      name_ar: 'سلع رقمية',
+      description: 'Virtual, downloadable, or software license products',
+      icon: 'Download',
+      color: '#f59e0b',
+      sort_order: 4,
+    },
+  ];
+
+  console.log('\nStart seeding global product types...');
+  for (const pt of productTypes) {
+    await prisma.product_types.upsert({
+      where: { code: pt.code },
+      update: {
+        name: pt.name,
+        name_ar: pt.name_ar,
+        description: pt.description,
+        icon: pt.icon,
+        color: pt.color,
+        sort_order: pt.sort_order,
+      },
+      create: {
+        code: pt.code,
+        name: pt.name,
+        name_ar: pt.name_ar,
+        description: pt.description,
+        icon: pt.icon,
+        color: pt.color,
+        sort_order: pt.sort_order,
+        is_active: true,
+      },
+    });
+    console.log(`Upserted product type: ${pt.name} (${pt.code})`);
+  }
+
   // 2. Ensure baseline subscription plans exist
   console.log('\nChecking default subscription plans...');
   const defaultPlans = [

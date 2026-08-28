@@ -110,6 +110,7 @@ export type Product = z.infer<typeof productSchema> & {
   brands?: { id?: string; name: string; code?: string | null } | null
   base_uom?: { id?: string; name: string; code?: string } | null
   suppliers?: { id?: string; name: string; code?: string | null } | null
+  product_types?: { id?: string; name: string; name_ar?: string | null; code?: string | null; icon?: string | null; color?: string | null } | null
 }
 
 export const baseProductSchema = z.object({
