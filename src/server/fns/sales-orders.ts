@@ -11,11 +11,14 @@ export interface OrderItemInput {
   unitPrice: number
   discountAmount?: number
   taxAmount?: number
+  uomId?: string | null
 }
 
 export interface CreateOrderInput {
   storeId: string
+  warehouseId?: string | null
   customerId?: string | null
+  currency?: string | null
   expectedDate?: string | null
   notes?: string | null
   items: OrderItemInput[]
@@ -50,10 +53,76 @@ function assertItems(items: OrderItemInput[]): void {
 
 export async function listOrders(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
-  return prisma.sales_orders.findMany({
+  const orders = await prisma.sales_orders.findMany({
     where: { tenant_id: tenantId },
     orderBy: { created_at: 'desc' },
   })
+  if (orders.length === 0) return []
+
+  const customerIds = Array.from(
+    new Set(orders.map((o) => o.customer_id).filter(Boolean) as string[])
+  )
+  const storeIds = Array.from(
+    new Set(orders.map((o) => o.store_id).filter(Boolean) as string[])
+  )
+  const warehouseIds = Array.from(
+    new Set(orders.map((o) => o.warehouse_id).filter(Boolean) as string[])
+  )
+  const orderIds = orders.map((o) => o.id)
+
+  const [customers, stores, warehouses, itemCounts] = await Promise.all([
+    customerIds.length > 0
+      ? prisma.customers.findMany({
+          where: { id: { in: customerIds } },
+          select: {
+            id: true,
+            first_name: true,
+            last_name: true,
+            email: true,
+            phone: true,
+            code: true,
+          },
+        })
+      : [],
+    storeIds.length > 0
+      ? prisma.stores.findMany({
+          where: { store_id: { in: storeIds } },
+          select: { store_id: true, name: true },
+        })
+      : [],
+    warehouseIds.length > 0
+      ? prisma.warehouses.findMany({
+          where: { id: { in: warehouseIds } },
+          select: { id: true, name: true, code: true },
+        })
+      : [],
+    prisma.sales_order_items.groupBy({
+      by: ['sales_order_id'],
+      where: { sales_order_id: { in: orderIds } },
+      _count: { id: true },
+    }),
+  ])
+
+  const customerMap = new Map(customers.map((c) => [c.id, c]))
+  const storeMap = new Map(stores.map((s) => [s.store_id, s]))
+  const warehouseMap = new Map(warehouses.map((w) => [w.id, w]))
+  const countMap = new Map(
+    itemCounts.map((c) => [c.sales_order_id, c._count.id])
+  )
+
+  return orders.map((order) => ({
+    ...order,
+    customers: order.customer_id
+      ? customerMap.get(order.customer_id) ?? null
+      : null,
+    stores: order.store_id ? storeMap.get(order.store_id) ?? null : null,
+    warehouses: order.warehouse_id
+      ? warehouseMap.get(order.warehouse_id) ?? null
+      : null,
+    _count: {
+      sales_order_items: countMap.get(order.id) ?? 0,
+    },
+  }))
 }
 
 export async function getOrder(authUserId: string, id: string) {
@@ -64,12 +133,115 @@ export async function getOrder(authUserId: string, id: string) {
   if (!order) {
     throw new ApiError('Sales order not found.', 404)
   }
+
   const items = await prisma.sales_order_items.findMany({
     where: { sales_order_id: id },
+    orderBy: { line_no: 'asc' },
   })
+
+  const variantIds = Array.from(
+    new Set(items.map((i) => i.product_variant_id).filter(Boolean) as string[])
+  )
+  const uomIds = Array.from(
+    new Set(items.map((i) => i.uom_id).filter(Boolean) as string[])
+  )
+
+  const [customer, store, warehouse, variants, uoms] = await Promise.all([
+    order.customer_id
+      ? prisma.customers.findFirst({
+          where: { id: order.customer_id },
+          select: {
+            id: true,
+            first_name: true,
+            last_name: true,
+            email: true,
+            phone: true,
+            code: true,
+            address_line1: true,
+            city: true,
+            state: true,
+            postal_code: true,
+            country: true,
+          },
+        })
+      : null,
+    order.store_id
+      ? prisma.stores.findFirst({
+          where: { store_id: order.store_id },
+          select: {
+            store_id: true,
+            name: true,
+            address: true,
+            phone: true,
+            email: true,
+          },
+        })
+      : null,
+    order.warehouse_id
+      ? prisma.warehouses.findFirst({
+          where: { id: order.warehouse_id },
+          select: { id: true, name: true, code: true },
+        })
+      : null,
+    variantIds.length > 0
+      ? prisma.product_variants.findMany({
+          where: { id: { in: variantIds } },
+          select: {
+            id: true,
+            sku: true,
+            name: true,
+            price: true,
+            cost_price: true,
+            products: {
+              select: {
+                id: true,
+                name: true,
+                sku: true,
+              },
+            },
+          },
+        })
+      : [],
+    uomIds.length > 0
+      ? prisma.uoms.findMany({
+          where: { id: { in: uomIds } },
+          select: { id: true, name: true, code: true },
+        })
+      : [],
+  ])
+
+  const variantMap = new Map(variants.map((v) => [v.id, v]))
+  const uomMap = new Map(uoms.map((u) => [u.id, u]))
+
+  const enrichedItems = items.map((item) => {
+    const v = variantMap.get(item.product_variant_id)
+    const u = item.uom_id ? uomMap.get(item.uom_id) : null
+    return {
+      ...item,
+      product_variants: v
+        ? {
+            id: v.id,
+            sku: v.sku,
+            name: v.name,
+            products: v.products,
+          }
+        : null,
+      uoms: u
+        ? {
+            id: u.id,
+            name: u.name,
+            code: u.code,
+          }
+        : null,
+    }
+  })
+
   return {
     ...order,
-    sales_order_items: items,
+    customers: customer,
+    stores: store,
+    warehouses: warehouse,
+    sales_order_items: enrichedItems,
   }
 }
 
@@ -93,6 +265,7 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
       discount_amount: discount,
       tax_amount: tax,
       line_total: item.qtyOrdered * item.unitPrice - discount + tax,
+      uom_id: item.uomId ?? null,
     }
   })
   const subtotal = lines.reduce(
@@ -110,7 +283,9 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
       data: {
         tenant_id: tenantId,
         store_id: input.storeId,
+        warehouse_id: input.warehouseId ?? null,
         customer_id: input.customerId ?? null,
+        currency: input.currency ?? 'USD',
         expected_date: input.expectedDate ? new Date(input.expectedDate) : null,
         notes: input.notes ?? null,
         created_by: authUserId,
@@ -128,6 +303,7 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
       await tx.sales_order_items.createMany({
         data: lines.map((l) => ({
           sales_order_id: order.id,
+          tenant_id: tenantId,
           ...l,
           created_by_user_id: tenantUserId,
           updated_by_user_id: tenantUserId,
@@ -135,14 +311,7 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
       })
     }
 
-    const items = await tx.sales_order_items.findMany({
-      where: { sales_order_id: order.id },
-    })
-
-    return {
-      ...order,
-      sales_order_items: items,
-    }
+    return getOrder(authUserId, order.id)
   })
 }
 

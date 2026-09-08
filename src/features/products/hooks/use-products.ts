@@ -59,7 +59,7 @@ export const useProducts = () => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*), categories(id, name), brands(id, name, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name), brands(id, name, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
@@ -82,7 +82,7 @@ export const useProduct = (id?: string | number | null) => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*), categories(id, name), brands(id, name, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name), brands(id, name, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .eq('id', productId)
         .maybeSingle()
@@ -345,7 +345,57 @@ export const useCreateProductWithVariants = () => {
           throw variantsError
         }
 
-        // 3. Post initial quantities as opening_stock movements if store is specified
+        // 3. Upsert variant prices into the Tenant's Default Price List
+        try {
+          let defaultPlId: string | null = null
+          const { data: defaultPl } = await supabase
+            .from('price_list')
+            .select('id')
+            .eq('is_default', true)
+            .eq('tenant_id', productTenantId)
+            .maybeSingle()
+
+          if (defaultPl) {
+            defaultPlId = defaultPl.id
+          } else {
+            const { data: newPl } = await supabase
+              .from('price_list')
+              .insert({
+                tenant_id: productTenantId,
+                name: 'Default Base Price List',
+                code: 'DEFAULT',
+                is_default: true,
+                is_active: true,
+                start_date: new Date().toISOString().slice(0, 10),
+                created_by_user_id: userId,
+              })
+              .select('id')
+              .single()
+            if (newPl) defaultPlId = newPl.id
+          }
+
+          if (defaultPlId && createdVariants && createdVariants.length > 0) {
+            const priceItems = createdVariants.map((created, index) => ({
+              tenant_id: productTenantId,
+              price_list_id: defaultPlId!,
+              product_variant_id: created.id as string,
+              product_id: productId,
+              price: Number(variants[index]?.price || 0),
+              cost_price: Number(variants[index]?.cost_price || 0),
+              min_price: 0,
+              max_discount_percent: 0,
+              created_by_user_id: userId,
+            }))
+
+            await supabase
+              .from('price_list_items')
+              .upsert(priceItems, { onConflict: 'price_list_id,product_variant_id' })
+          }
+        } catch (plErr) {
+          console.error('Failed to sync price list items for new product:', plErr)
+        }
+
+        // 4. Post initial quantities as opening_stock movements if store is specified
         const storeId = (base as { store_id?: string | null }).store_id
         if (storeId && createdVariants) {
           const openingItems = createdVariants
@@ -373,6 +423,9 @@ export const useCreateProductWithVariants = () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
       queryClient.invalidateQueries({ queryKey: ['inventory', 'movements'] })
+      queryClient.invalidateQueries({ queryKey: ['price-list'] })
+      queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
     },
   })
 }
@@ -542,6 +595,50 @@ export const useUpdateProductWithVariants = () => {
         }
       }
 
+      // Sync variant prices into the Tenant's Default Price List
+      try {
+        const { data: defaultPl } = await supabase
+          .from('price_list')
+          .select('id')
+          .eq('is_default', true)
+          .eq('tenant_id', productTenantId)
+          .maybeSingle()
+
+        if (defaultPl) {
+          const allVariantsToSync = [
+            ...existingToUpdate.map((v) => ({
+              variantId: v.id!,
+              price: Number(v.price || 0),
+              costPrice: Number(v.cost_price || 0),
+            })),
+            ...(insertedVariants || []).map((iv, idx) => ({
+              variantId: iv.id as string,
+              price: Number(newToInsert[idx]?.price || 0),
+              costPrice: Number(newToInsert[idx]?.cost_price || 0),
+            })),
+          ].filter((item) => item.price > 0)
+
+          if (allVariantsToSync.length > 0) {
+            const priceItems = allVariantsToSync.map((v) => ({
+              tenant_id: productTenantId,
+              price_list_id: defaultPl.id,
+              product_variant_id: v.variantId,
+              product_id: cleanProductId,
+              price: v.price,
+              cost_price: v.costPrice,
+              min_price: 0,
+              max_discount_percent: 0,
+              updated_by_user_id: userId,
+            }))
+            await supabase
+              .from('price_list_items')
+              .upsert(priceItems, { onConflict: 'price_list_id,product_variant_id' })
+          }
+        }
+      } catch (plErr) {
+        console.error('Failed to sync price list items on update:', plErr)
+      }
+
       return {
         product: normalizeProduct(product as Record<string, unknown>),
         variants: insertedVariants,
@@ -551,6 +648,9 @@ export const useUpdateProductWithVariants = () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
       queryClient.invalidateQueries({ queryKey: ['inventory', 'movements'] })
+      queryClient.invalidateQueries({ queryKey: ['price-list'] })
+      queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
     },
   })
 }

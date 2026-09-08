@@ -81,6 +81,9 @@ export function PriceListActionDialog() {
   const form = useForm<PriceListFormData>({
     resolver: zodResolver(priceListFormSchema) as unknown as Resolver<PriceListFormData>,
     defaultValues: {
+      name: '',
+      code: '',
+      is_default: false,
       product_id: '',
       price: 0,
       type: null,
@@ -175,8 +178,11 @@ export function PriceListActionDialog() {
           }))
 
       form.reset({
-        product_id: currentRow.product_id,
-        price: Number(currentRow.price),
+        name: currentRow.name || '',
+        code: currentRow.code || '',
+        is_default: currentRow.is_default ?? false,
+        product_id: currentRow.product_id || '',
+        price: Number(currentRow.price || 0),
         type: currentRow.type || null,
         group_id: currentRow.group_id || '',
         store_id: currentRow.store_id || '',
@@ -190,6 +196,9 @@ export function PriceListActionDialog() {
       })
     } else if (open === 'create') {
       form.reset({
+        name: '',
+        code: '',
+        is_default: false,
         product_id: '',
         price: 0,
         type: null,
@@ -294,15 +303,70 @@ export function PriceListActionDialog() {
               </h3>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                {/* Product Selector */}
+                {/* Price List Name */}
+                <FormField
+                  control={form.control}
+                  name='name'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t('priceList.form.name', { defaultValue: 'Price List Name' })}{' '}
+                        <span className='text-destructive'>*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder='e.g. Retail Standard 2026' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Price List Code */}
+                <FormField
+                  control={form.control}
+                  name='code'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t('priceList.form.code', { defaultValue: 'Code' })}
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder='e.g. RETAIL_STD' {...field} value={field.value || ''} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Is Default Switch */}
+                <FormField
+                  control={form.control}
+                  name='is_default'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm md:col-span-2'>
+                      <div className='space-y-0.5'>
+                        <FormLabel className='text-sm font-medium'>
+                          {t('priceList.form.isDefault', { defaultValue: 'Default Base Price List' })}
+                        </FormLabel>
+                        <FormDescription className='text-xs'>
+                          {t('priceList.form.isDefaultDesc', { defaultValue: 'Use as default fallback price list for this tenant' })}
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                {/* Product Selector (Optional specific product focus) */}
                 <FormField
                   control={form.control}
                   name='product_id'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t('priceList.form.product', { defaultValue: 'Product' })}{' '}
-                        <span className='text-destructive'>*</span>
+                        {t('priceList.form.product', { defaultValue: 'Product (Optional)' })}
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}

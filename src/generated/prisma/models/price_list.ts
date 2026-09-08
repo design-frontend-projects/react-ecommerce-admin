@@ -35,6 +35,9 @@ export type Price_listSumAggregateOutputType = {
 }
 
 export type Price_listMinAggregateOutputType = {
+  name: string | null
+  code: string | null
+  is_default: boolean | null
   price: runtime.Decimal | null
   start_date: Date | null
   end_date: Date | null
@@ -49,11 +52,16 @@ export type Price_listMinAggregateOutputType = {
   tenant_id: string | null
   product_id: string | null
   group_id: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
 
 export type Price_listMaxAggregateOutputType = {
+  name: string | null
+  code: string | null
+  is_default: boolean | null
   price: runtime.Decimal | null
   start_date: Date | null
   end_date: Date | null
@@ -68,11 +76,16 @@ export type Price_listMaxAggregateOutputType = {
   tenant_id: string | null
   product_id: string | null
   group_id: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
 
 export type Price_listCountAggregateOutputType = {
+  name: number
+  code: number
+  is_default: number
   price: number
   start_date: number
   end_date: number
@@ -87,6 +100,8 @@ export type Price_listCountAggregateOutputType = {
   tenant_id: number
   product_id: number
   group_id: number
+  created_at: number
+  updated_at: number
   created_by_user_id: number
   updated_by_user_id: number
   _all: number
@@ -102,6 +117,9 @@ export type Price_listSumAggregateInputType = {
 }
 
 export type Price_listMinAggregateInputType = {
+  name?: true
+  code?: true
+  is_default?: true
   price?: true
   start_date?: true
   end_date?: true
@@ -116,11 +134,16 @@ export type Price_listMinAggregateInputType = {
   tenant_id?: true
   product_id?: true
   group_id?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
 
 export type Price_listMaxAggregateInputType = {
+  name?: true
+  code?: true
+  is_default?: true
   price?: true
   start_date?: true
   end_date?: true
@@ -135,11 +158,16 @@ export type Price_listMaxAggregateInputType = {
   tenant_id?: true
   product_id?: true
   group_id?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
 
 export type Price_listCountAggregateInputType = {
+  name?: true
+  code?: true
+  is_default?: true
   price?: true
   start_date?: true
   end_date?: true
@@ -154,6 +182,8 @@ export type Price_listCountAggregateInputType = {
   tenant_id?: true
   product_id?: true
   group_id?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
   _all?: true
@@ -246,7 +276,10 @@ export type price_listGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 export type Price_listGroupByOutputType = {
-  price: runtime.Decimal
+  name: string | null
+  code: string | null
+  is_default: boolean
+  price: runtime.Decimal | null
   start_date: Date
   end_date: Date | null
   is_active: boolean | null
@@ -258,8 +291,10 @@ export type Price_listGroupByOutputType = {
   channel_id: string | null
   id: string
   tenant_id: string
-  product_id: string
+  product_id: string | null
   group_id: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
   _count: Price_listCountAggregateOutputType | null
@@ -288,7 +323,10 @@ export type price_listWhereInput = {
   AND?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
   OR?: Prisma.price_listWhereInput[]
   NOT?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
-  price?: Prisma.DecimalFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.StringNullableFilter<"price_list"> | string | null
+  code?: Prisma.StringNullableFilter<"price_list"> | string | null
+  is_default?: Prisma.BoolFilter<"price_list"> | boolean
+  price?: Prisma.DecimalNullableFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableFilter<"price_list"> | boolean | null
@@ -300,11 +338,13 @@ export type price_listWhereInput = {
   channel_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   id?: Prisma.UuidFilter<"price_list"> | string
   tenant_id?: Prisma.UuidFilter<"price_list"> | string
-  product_id?: Prisma.UuidFilter<"price_list"> | string
+  product_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
-  products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
+  products?: Prisma.XOR<Prisma.ProductsNullableScalarRelationFilter, Prisma.productsWhereInput> | null
   customer_groups?: Prisma.XOR<Prisma.Customer_groupsNullableScalarRelationFilter, Prisma.customer_groupsWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
@@ -313,7 +353,10 @@ export type price_listWhereInput = {
 }
 
 export type price_listOrderByWithRelationInput = {
-  price?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_default?: Prisma.SortOrder
+  price?: Prisma.SortOrderInput | Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -325,8 +368,10 @@ export type price_listOrderByWithRelationInput = {
   channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
+  product_id?: Prisma.SortOrderInput | Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   products?: Prisma.productsOrderByWithRelationInput
@@ -342,7 +387,10 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
   OR?: Prisma.price_listWhereInput[]
   NOT?: Prisma.price_listWhereInput | Prisma.price_listWhereInput[]
-  price?: Prisma.DecimalFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.StringNullableFilter<"price_list"> | string | null
+  code?: Prisma.StringNullableFilter<"price_list"> | string | null
+  is_default?: Prisma.BoolFilter<"price_list"> | boolean
+  price?: Prisma.DecimalNullableFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableFilter<"price_list"> | boolean | null
@@ -353,11 +401,13 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   currency_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   channel_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   tenant_id?: Prisma.UuidFilter<"price_list"> | string
-  product_id?: Prisma.UuidFilter<"price_list"> | string
+  product_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
-  products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
+  products?: Prisma.XOR<Prisma.ProductsNullableScalarRelationFilter, Prisma.productsWhereInput> | null
   customer_groups?: Prisma.XOR<Prisma.Customer_groupsNullableScalarRelationFilter, Prisma.customer_groupsWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
@@ -366,7 +416,10 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
 }, "id">
 
 export type price_listOrderByWithAggregationInput = {
-  price?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_default?: Prisma.SortOrder
+  price?: Prisma.SortOrderInput | Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -378,8 +431,10 @@ export type price_listOrderByWithAggregationInput = {
   channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
-  product_id?: Prisma.SortOrder
+  product_id?: Prisma.SortOrderInput | Prisma.SortOrder
   group_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.price_listCountOrderByAggregateInput
@@ -393,7 +448,10 @@ export type price_listScalarWhereWithAggregatesInput = {
   AND?: Prisma.price_listScalarWhereWithAggregatesInput | Prisma.price_listScalarWhereWithAggregatesInput[]
   OR?: Prisma.price_listScalarWhereWithAggregatesInput[]
   NOT?: Prisma.price_listScalarWhereWithAggregatesInput | Prisma.price_listScalarWhereWithAggregatesInput[]
-  price?: Prisma.DecimalWithAggregatesFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.StringNullableWithAggregatesFilter<"price_list"> | string | null
+  code?: Prisma.StringNullableWithAggregatesFilter<"price_list"> | string | null
+  is_default?: Prisma.BoolWithAggregatesFilter<"price_list"> | boolean
+  price?: Prisma.DecimalNullableWithAggregatesFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeWithAggregatesFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"price_list"> | boolean | null
@@ -405,14 +463,19 @@ export type price_listScalarWhereWithAggregatesInput = {
   channel_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
-  product_id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
+  product_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   group_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"price_list"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"price_list"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
 }
 
 export type price_listCreateInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -421,9 +484,11 @@ export type price_listCreateInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
@@ -432,7 +497,10 @@ export type price_listCreateInput = {
 }
 
 export type price_listUncheckedCreateInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -444,15 +512,20 @@ export type price_listUncheckedCreateInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUpdateInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -461,9 +534,11 @@ export type price_listUpdateInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutPrice_listNestedInput
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
@@ -472,7 +547,10 @@ export type price_listUpdateInput = {
 }
 
 export type price_listUncheckedUpdateInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -484,15 +562,20 @@ export type price_listUncheckedUpdateInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listCreateManyInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -504,14 +587,19 @@ export type price_listCreateManyInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type price_listUpdateManyMutationInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -520,12 +608,17 @@ export type price_listUpdateManyMutationInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listUncheckedUpdateManyInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -537,8 +630,10 @@ export type price_listUncheckedUpdateManyInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -554,6 +649,9 @@ export type price_listOrderByRelationAggregateInput = {
 }
 
 export type price_listCountOrderByAggregateInput = {
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  is_default?: Prisma.SortOrder
   price?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -568,6 +666,8 @@ export type price_listCountOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -577,6 +677,9 @@ export type price_listAvgOrderByAggregateInput = {
 }
 
 export type price_listMaxOrderByAggregateInput = {
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  is_default?: Prisma.SortOrder
   price?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -591,11 +694,16 @@ export type price_listMaxOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
 
 export type price_listMinOrderByAggregateInput = {
+  name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  is_default?: Prisma.SortOrder
   price?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -610,6 +718,8 @@ export type price_listMinOrderByAggregateInput = {
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
   group_id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -705,14 +815,6 @@ export type price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput = {
   update?: Prisma.price_listUpdateWithWhereUniqueWithoutCustomer_groupsInput | Prisma.price_listUpdateWithWhereUniqueWithoutCustomer_groupsInput[]
   updateMany?: Prisma.price_listUpdateManyWithWhereWithoutCustomer_groupsInput | Prisma.price_listUpdateManyWithWhereWithoutCustomer_groupsInput[]
   deleteMany?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
-}
-
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type NullableEnumprice_list_typesFieldUpdateOperationsInput = {
@@ -860,7 +962,10 @@ export type price_listUncheckedUpdateManyWithoutChannelsNestedInput = {
 }
 
 export type price_listCreateWithoutCurrenciesInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -869,9 +974,11 @@ export type price_listCreateWithoutCurrenciesInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
@@ -879,7 +986,10 @@ export type price_listCreateWithoutCurrenciesInput = {
 }
 
 export type price_listUncheckedCreateWithoutCurrenciesInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -890,8 +1000,10 @@ export type price_listUncheckedCreateWithoutCurrenciesInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
@@ -927,7 +1039,10 @@ export type price_listScalarWhereInput = {
   AND?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
   OR?: Prisma.price_listScalarWhereInput[]
   NOT?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
-  price?: Prisma.DecimalFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.StringNullableFilter<"price_list"> | string | null
+  code?: Prisma.StringNullableFilter<"price_list"> | string | null
+  is_default?: Prisma.BoolFilter<"price_list"> | boolean
+  price?: Prisma.DecimalNullableFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFilter<"price_list"> | Date | string
   end_date?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   is_active?: Prisma.BoolNullableFilter<"price_list"> | boolean | null
@@ -939,14 +1054,19 @@ export type price_listScalarWhereInput = {
   channel_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   id?: Prisma.UuidFilter<"price_list"> | string
   tenant_id?: Prisma.UuidFilter<"price_list"> | string
-  product_id?: Prisma.UuidFilter<"price_list"> | string
+  product_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"price_list"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
 }
 
 export type price_listCreateWithoutCustomer_groupsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -955,9 +1075,11 @@ export type price_listCreateWithoutCustomer_groupsInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
@@ -965,7 +1087,10 @@ export type price_listCreateWithoutCustomer_groupsInput = {
 }
 
 export type price_listUncheckedCreateWithoutCustomer_groupsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -977,7 +1102,9 @@ export type price_listUncheckedCreateWithoutCustomer_groupsInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
@@ -1010,7 +1137,10 @@ export type price_listUpdateManyWithWhereWithoutCustomer_groupsInput = {
 }
 
 export type price_listCreateWithoutPrice_list_itemsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1019,9 +1149,11 @@ export type price_listCreateWithoutPrice_list_itemsInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
@@ -1029,7 +1161,10 @@ export type price_listCreateWithoutPrice_list_itemsInput = {
 }
 
 export type price_listUncheckedCreateWithoutPrice_list_itemsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1041,8 +1176,10 @@ export type price_listUncheckedCreateWithoutPrice_list_itemsInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -1064,7 +1201,10 @@ export type price_listUpdateToOneWithWhereWithoutPrice_list_itemsInput = {
 }
 
 export type price_listUpdateWithoutPrice_list_itemsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1073,9 +1213,11 @@ export type price_listUpdateWithoutPrice_list_itemsInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutPrice_listNestedInput
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
@@ -1083,7 +1225,10 @@ export type price_listUpdateWithoutPrice_list_itemsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1095,14 +1240,19 @@ export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCreateWithoutProductsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1111,6 +1261,8 @@ export type price_listCreateWithoutProductsInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
@@ -1121,7 +1273,10 @@ export type price_listCreateWithoutProductsInput = {
 }
 
 export type price_listUncheckedCreateWithoutProductsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1134,6 +1289,8 @@ export type price_listUncheckedCreateWithoutProductsInput = {
   id?: string
   tenant_id: string
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
@@ -1166,7 +1323,10 @@ export type price_listUpdateManyWithWhereWithoutProductsInput = {
 }
 
 export type price_listCreateWithoutStoresInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1175,9 +1335,11 @@ export type price_listCreateWithoutStoresInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
@@ -1185,7 +1347,10 @@ export type price_listCreateWithoutStoresInput = {
 }
 
 export type price_listUncheckedCreateWithoutStoresInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1196,8 +1361,10 @@ export type price_listUncheckedCreateWithoutStoresInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
@@ -1230,7 +1397,10 @@ export type price_listUpdateManyWithWhereWithoutStoresInput = {
 }
 
 export type price_listCreateWithoutChannelsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1239,9 +1409,11 @@ export type price_listCreateWithoutChannelsInput = {
   price_list_type_id?: string | null
   id?: string
   tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
-  products: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
@@ -1249,7 +1421,10 @@ export type price_listCreateWithoutChannelsInput = {
 }
 
 export type price_listUncheckedCreateWithoutChannelsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1260,8 +1435,10 @@ export type price_listUncheckedCreateWithoutChannelsInput = {
   currency_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
@@ -1294,7 +1471,10 @@ export type price_listUpdateManyWithWhereWithoutChannelsInput = {
 }
 
 export type price_listCreateManyCurrenciesInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1305,14 +1485,19 @@ export type price_listCreateManyCurrenciesInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type price_listUpdateWithoutCurrenciesInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1321,9 +1506,11 @@ export type price_listUpdateWithoutCurrenciesInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutPrice_listNestedInput
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
@@ -1331,7 +1518,10 @@ export type price_listUpdateWithoutCurrenciesInput = {
 }
 
 export type price_listUncheckedUpdateWithoutCurrenciesInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1342,15 +1532,20 @@ export type price_listUncheckedUpdateWithoutCurrenciesInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutCurrenciesInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1361,14 +1556,19 @@ export type price_listUncheckedUpdateManyWithoutCurrenciesInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCreateManyCustomer_groupsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1380,13 +1580,18 @@ export type price_listCreateManyCustomer_groupsInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type price_listUpdateWithoutCustomer_groupsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1395,9 +1600,11 @@ export type price_listUpdateWithoutCustomer_groupsInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutPrice_listNestedInput
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
@@ -1405,7 +1612,10 @@ export type price_listUpdateWithoutCustomer_groupsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1417,14 +1627,19 @@ export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutCustomer_groupsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1436,13 +1651,18 @@ export type price_listUncheckedUpdateManyWithoutCustomer_groupsInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCreateManyProductsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1455,12 +1675,17 @@ export type price_listCreateManyProductsInput = {
   id?: string
   tenant_id: string
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type price_listUpdateWithoutProductsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1469,6 +1694,8 @@ export type price_listUpdateWithoutProductsInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
@@ -1479,7 +1706,10 @@ export type price_listUpdateWithoutProductsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutProductsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1492,13 +1722,18 @@ export type price_listUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutProductsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1511,12 +1746,17 @@ export type price_listUncheckedUpdateManyWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCreateManyStoresInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1527,14 +1767,19 @@ export type price_listCreateManyStoresInput = {
   channel_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type price_listUpdateWithoutStoresInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1543,9 +1788,11 @@ export type price_listUpdateWithoutStoresInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutPrice_listNestedInput
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
@@ -1553,7 +1800,10 @@ export type price_listUpdateWithoutStoresInput = {
 }
 
 export type price_listUncheckedUpdateWithoutStoresInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1564,15 +1814,20 @@ export type price_listUncheckedUpdateWithoutStoresInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutStoresInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1583,14 +1838,19 @@ export type price_listUncheckedUpdateManyWithoutStoresInput = {
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type price_listCreateManyChannelsInput = {
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Date | string
   end_date?: Date | string | null
   is_active?: boolean | null
@@ -1601,14 +1861,19 @@ export type price_listCreateManyChannelsInput = {
   currency_id?: string | null
   id?: string
   tenant_id: string
-  product_id: string
+  product_id?: string | null
   group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type price_listUpdateWithoutChannelsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1617,9 +1882,11 @@ export type price_listUpdateWithoutChannelsInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  products?: Prisma.productsUpdateOneRequiredWithoutPrice_listNestedInput
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
@@ -1627,7 +1894,10 @@ export type price_listUpdateWithoutChannelsInput = {
 }
 
 export type price_listUncheckedUpdateWithoutChannelsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1638,15 +1908,20 @@ export type price_listUncheckedUpdateWithoutChannelsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutChannelsInput = {
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -1657,8 +1932,10 @@ export type price_listUncheckedUpdateManyWithoutChannelsInput = {
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -1695,6 +1972,9 @@ export type Price_listCountOutputTypeCountPrice_list_itemsArgs<ExtArgs extends r
 
 
 export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  name?: boolean
+  code?: boolean
+  is_default?: boolean
   price?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1709,9 +1989,11 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
@@ -1721,6 +2003,9 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  name?: boolean
+  code?: boolean
+  is_default?: boolean
   price?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1735,9 +2020,11 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
@@ -1745,6 +2032,9 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  name?: boolean
+  code?: boolean
+  is_default?: boolean
   price?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1759,9 +2049,11 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
@@ -1769,6 +2061,9 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectScalar = {
+  name?: boolean
+  code?: boolean
+  is_default?: boolean
   price?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1783,13 +2078,15 @@ export type price_listSelectScalar = {
   tenant_id?: boolean
   product_id?: boolean
   group_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"price" | "start_date" | "end_date" | "is_active" | "description" | "type" | "price_list_type_id" | "store_id" | "currency_id" | "channel_id" | "id" | "tenant_id" | "product_id" | "group_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["price_list"]>
+export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "code" | "is_default" | "price" | "start_date" | "end_date" | "is_active" | "description" | "type" | "price_list_type_id" | "store_id" | "currency_id" | "channel_id" | "id" | "tenant_id" | "product_id" | "group_id" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["price_list"]>
 export type price_listInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
@@ -1798,14 +2095,14 @@ export type price_listInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   _count?: boolean | Prisma.Price_listCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type price_listIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
 }
 export type price_listIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
@@ -1815,7 +2112,7 @@ export type price_listIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "price_list"
   objects: {
-    products: Prisma.$productsPayload<ExtArgs>
+    products: Prisma.$productsPayload<ExtArgs> | null
     customer_groups: Prisma.$customer_groupsPayload<ExtArgs> | null
     stores: Prisma.$storesPayload<ExtArgs> | null
     currencies: Prisma.$currenciesPayload<ExtArgs> | null
@@ -1823,7 +2120,10 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     price_list_items: Prisma.$price_list_itemsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    price: runtime.Decimal
+    name: string | null
+    code: string | null
+    is_default: boolean
+    price: runtime.Decimal | null
     start_date: Date
     end_date: Date | null
     is_active: boolean | null
@@ -1835,8 +2135,10 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     channel_id: string | null
     id: string
     tenant_id: string
-    product_id: string
+    product_id: string | null
     group_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
     created_by_user_id: string | null
     updated_by_user_id: string | null
   }, ExtArgs["result"]["price_list"]>
@@ -1922,8 +2224,8 @@ export interface price_listDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 Price_lists
    * const price_lists = await prisma.price_list.findMany({ take: 10 })
    * 
-   * // Only select the `price`
-   * const price_listWithPriceOnly = await prisma.price_list.findMany({ select: { price: true } })
+   * // Only select the `name`
+   * const price_listWithNameOnly = await prisma.price_list.findMany({ select: { name: true } })
    * 
    */
   findMany<T extends price_listFindManyArgs>(args?: Prisma.SelectSubset<T, price_listFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1967,9 +2269,9 @@ export interface price_listDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many Price_lists and only return the `price`
-   * const price_listWithPriceOnly = await prisma.price_list.createManyAndReturn({
-   *   select: { price: true },
+   * // Create many Price_lists and only return the `name`
+   * const price_listWithNameOnly = await prisma.price_list.createManyAndReturn({
+   *   select: { name: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -2058,9 +2360,9 @@ export interface price_listDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more Price_lists and only return the `price`
-   * const price_listWithPriceOnly = await prisma.price_list.updateManyAndReturn({
-   *   select: { price: true },
+   * // Update zero or more Price_lists and only return the `name`
+   * const price_listWithNameOnly = await prisma.price_list.updateManyAndReturn({
+   *   select: { name: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -2233,7 +2535,7 @@ readonly fields: price_listFieldRefs;
  */
 export interface Prisma__price_listClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  products<T extends Prisma.productsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.productsDefaultArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  products<T extends Prisma.price_list$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$productsArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   customer_groups<T extends Prisma.price_list$customer_groupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$customer_groupsArgs<ExtArgs>>): Prisma.Prisma__customer_groupsClient<runtime.Types.Result.GetResult<Prisma.$customer_groupsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.price_list$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   currencies<T extends Prisma.price_list$currenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$currenciesArgs<ExtArgs>>): Prisma.Prisma__currenciesClient<runtime.Types.Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2268,6 +2570,9 @@ export interface Prisma__price_listClient<T, Null = never, ExtArgs extends runti
  * Fields of the price_list model
  */
 export interface price_listFieldRefs {
+  readonly name: Prisma.FieldRef<"price_list", 'String'>
+  readonly code: Prisma.FieldRef<"price_list", 'String'>
+  readonly is_default: Prisma.FieldRef<"price_list", 'Boolean'>
   readonly price: Prisma.FieldRef<"price_list", 'Decimal'>
   readonly start_date: Prisma.FieldRef<"price_list", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"price_list", 'DateTime'>
@@ -2282,6 +2587,8 @@ export interface price_listFieldRefs {
   readonly tenant_id: Prisma.FieldRef<"price_list", 'String'>
   readonly product_id: Prisma.FieldRef<"price_list", 'String'>
   readonly group_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly created_at: Prisma.FieldRef<"price_list", 'DateTime'>
+  readonly updated_at: Prisma.FieldRef<"price_list", 'DateTime'>
   readonly created_by_user_id: Prisma.FieldRef<"price_list", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"price_list", 'String'>
 }
@@ -2682,6 +2989,25 @@ export type price_listDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many price_lists to delete.
    */
   limit?: number
+}
+
+/**
+ * price_list.products
+ */
+export type price_list$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the products
+   */
+  select?: Prisma.productsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the products
+   */
+  omit?: Prisma.productsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.productsInclude<ExtArgs> | null
+  where?: Prisma.productsWhereInput
 }
 
 /**

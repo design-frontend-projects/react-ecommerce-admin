@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { useForm, type SubmitHandler, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -41,7 +40,6 @@ import { useStoresContext } from './stores-provider'
 const formSchema = z.object({
   name: z.string().min(1, 'Store name is required'),
   status: z.boolean(),
-  auth_user_id: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   email: z
     .string()
@@ -61,7 +59,6 @@ type StoreFormValues = z.infer<typeof formSchema>
 
 export function StoreActionDialog() {
   const { open, setOpen, currentRow } = useStoresContext()
-  const { user } = useUser()
   const createMutation = useCreateStore()
   const updateMutation = useUpdateStore()
 
@@ -75,7 +72,6 @@ export function StoreActionDialog() {
     resolver: zodResolver(formSchema) as Resolver<StoreFormValues>,
     defaultValues: {
       name: '',
-      auth_user_id: user?.id || '',
       phone: '',
       email: '',
       address: '',
@@ -105,7 +101,6 @@ export function StoreActionDialog() {
       if (currentRow) {
         form.reset({
           name: currentRow.name || '',
-          auth_user_id: currentRow.auth_user_id || user?.id || '',
           phone: currentRow.phone || '',
           email: currentRow.email || '',
           address: currentRow.address || '',
@@ -113,13 +108,12 @@ export function StoreActionDialog() {
           longitude: currentRow.longitude || undefined,
           city_id: currentRow.city_id || '',
           country_id: currentRow.country_id || '',
-          branch_id: String(currentRow.branch_id || ''),
+          branch_id: currentRow.branch_id ? String(currentRow.branch_id) : '',
           status: currentRow.status ?? true,
         })
       } else {
         form.reset({
           name: '',
-          auth_user_id: user?.id || '',
           phone: '',
           email: '',
           address: '',
@@ -132,18 +126,31 @@ export function StoreActionDialog() {
         })
       }
     }
-  }, [currentRow, form, user?.id, isOpen])
+  }, [currentRow, form, isOpen])
 
   const onSubmit: SubmitHandler<StoreFormValues> = async (data) => {
     try {
+      const sanitizedData = {
+        name: data.name.trim(),
+        status: data.status,
+        phone: data.phone?.trim() || null,
+        email: data.email?.trim() || null,
+        address: data.address?.trim() || null,
+        latitude: data.latitude ?? null,
+        longitude: data.longitude ?? null,
+        city_id: data.city_id || null,
+        country_id: data.country_id || null,
+        branch_id: data.branch_id ? data.branch_id : null,
+      }
+
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
           store_id: currentRow.store_id,
-          ...data,
+          ...sanitizedData,
         })
         toast.success('Store updated successfully')
       } else {
-        await createMutation.mutateAsync(data)
+        await createMutation.mutateAsync(sanitizedData)
         toast.success('Store created successfully')
       }
       setOpen(null)

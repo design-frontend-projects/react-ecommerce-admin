@@ -24,14 +24,14 @@ export const productVariantSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().max(100).optional().nullable(),
   name: z.string().max(200).optional().nullable(),
-  price: z.coerce.number().min(0, 'Price must be 0 or greater'),
+  price: z.coerce.number().min(0, 'Price must be 0 or greater').optional().nullable(),
   cost_price: z.coerce
     .number()
     .min(0, 'Cost must be 0 or greater')
     .optional()
     .nullable(),
-  stock_quantity: z.coerce.number().default(0),
-  min_stock: z.coerce.number().default(0),
+  stock_quantity: z.coerce.number().optional().nullable().default(0),
+  min_stock: z.coerce.number().optional().nullable().default(0),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.any().optional().nullable(),
   is_active: z.boolean().default(true),
@@ -39,6 +39,9 @@ export const productVariantSchema = z.object({
   created_at: z.string().optional().nullable(),
   updated_at: z.string().optional().nullable(),
   attributes_label: z.string().optional(),
+  // Joined relation fields
+  price_list_items: z.array(z.any()).optional(),
+  stock_balances: z.array(z.any()).optional(),
 })
 export type ProductVariant = z.infer<typeof productVariantSchema>
 
@@ -47,14 +50,15 @@ export const variantRowSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().optional().nullable(),
   name: z.string().optional().nullable(),
-  price: z.coerce.number().min(0, 'Price must be 0 or greater'),
+  price: z.coerce.number().min(0, 'Price must be 0 or greater').optional().nullable().default(0),
   cost_price: z.coerce
     .number()
     .min(0, 'Cost must be 0 or greater')
     .optional()
-    .nullable(),
-  stock_quantity: z.coerce.number().default(0),
-  min_stock: z.coerce.number().default(0),
+    .nullable()
+    .default(0),
+  stock_quantity: z.coerce.number().optional().nullable().default(0),
+  min_stock: z.coerce.number().optional().nullable().default(0),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.string().optional().nullable(),
   is_active: z.boolean().default(true),

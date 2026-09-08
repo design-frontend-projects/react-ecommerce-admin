@@ -419,6 +419,9 @@ export type Pos_terminalsScalarFieldEnum = (typeof Pos_terminalsScalarFieldEnum)
 
 
 export const Price_listScalarFieldEnum = {
+  name: 'name',
+  code: 'code',
+  is_default: 'is_default',
   price: 'price',
   start_date: 'start_date',
   end_date: 'end_date',
@@ -433,6 +436,8 @@ export const Price_listScalarFieldEnum = {
   tenant_id: 'tenant_id',
   product_id: 'product_id',
   group_id: 'group_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -443,7 +448,9 @@ export type Price_listScalarFieldEnum = (typeof Price_listScalarFieldEnum)[keyof
 export const Price_list_itemsScalarFieldEnum = {
   id: 'id',
   product_variant_id: 'product_variant_id',
+  product_id: 'product_id',
   price: 'price',
+  cost_price: 'cost_price',
   min_price: 'min_price',
   max_discount_percent: 'max_discount_percent',
   created_at: 'created_at',

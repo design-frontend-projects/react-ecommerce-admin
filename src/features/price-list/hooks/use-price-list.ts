@@ -73,7 +73,9 @@ const PRICE_LIST_SELECT_QUERY = `
     id,
     price_list_id,
     product_variant_id,
+    product_id,
     price,
+    cost_price,
     min_price,
     max_discount_percent,
     created_at,
@@ -279,10 +281,20 @@ export const useCreatePriceListWithItems = () => {
         throw new Error('Tenant ID could not be identified.')
       }
 
+      if (formData.is_default) {
+        await supabase
+          .from('price_list')
+          .update({ is_default: false })
+          .eq('tenant_id', tenantId)
+      }
+
       const headerPayload = {
         tenant_id: tenantId,
-        product_id: formData.product_id,
-        price: formData.price,
+        name: formData.name,
+        code: formData.code || null,
+        is_default: formData.is_default ?? false,
+        product_id: formData.product_id ? formData.product_id : null,
+        price: formData.price !== undefined && formData.price !== null ? formData.price : null,
         type: formData.type || null,
         group_id: formData.group_id ? formData.group_id : null,
         store_id: formData.store_id ? formData.store_id : null,
@@ -315,6 +327,7 @@ export const useCreatePriceListWithItems = () => {
           price_list_id: priceListId,
           product_variant_id: item.product_variant_id,
           price: item.price,
+          cost_price: item.cost_price ?? 0,
           min_price: item.min_price ?? 0,
           max_discount_percent: item.max_discount_percent ?? 0,
           created_by_user_id: userId,
@@ -337,6 +350,7 @@ export const useCreatePriceListWithItems = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
       queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
     },
   })
 }
@@ -356,9 +370,20 @@ export const useUpdatePriceListWithItems = () => {
 
       const { tenantId, userId } = getAuthTenantAndUser()
 
+      if (formData.is_default && tenantId) {
+        await supabase
+          .from('price_list')
+          .update({ is_default: false })
+          .eq('tenant_id', tenantId)
+          .neq('id', id)
+      }
+
       const headerUpdatePayload = {
-        product_id: formData.product_id,
-        price: formData.price,
+        name: formData.name,
+        code: formData.code || null,
+        is_default: formData.is_default ?? false,
+        product_id: formData.product_id ? formData.product_id : null,
+        price: formData.price !== undefined && formData.price !== null ? formData.price : null,
         type: formData.type || null,
         group_id: formData.group_id ? formData.group_id : null,
         store_id: formData.store_id ? formData.store_id : null,
@@ -419,6 +444,7 @@ export const useUpdatePriceListWithItems = () => {
             id: existingItemId,
             payload: {
               price: item.price,
+              cost_price: item.cost_price ?? 0,
               min_price: item.min_price ?? 0,
               max_discount_percent: item.max_discount_percent ?? 0,
               updated_by_user_id: userId,
@@ -430,6 +456,7 @@ export const useUpdatePriceListWithItems = () => {
             price_list_id: id,
             product_variant_id: item.product_variant_id,
             price: item.price,
+            cost_price: item.cost_price ?? 0,
             min_price: item.min_price ?? 0,
             max_discount_percent: item.max_discount_percent ?? 0,
             created_by_user_id: userId,
@@ -462,6 +489,7 @@ export const useUpdatePriceListWithItems = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
       queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
     },
   })
 }
@@ -487,6 +515,44 @@ export const useDeletePriceList = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
       queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
     },
+  })
+}
+
+export const useDefaultPriceList = () => {
+  const { authEnabled } = useAuthEnabled({ permission: 'sales.view' })
+
+  return useQuery({
+    queryKey: ['default-price-list'],
+    queryFn: async () => {
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
+        .from('price_list')
+        .select(`
+          *,
+          price_list_items (
+            id,
+            price_list_id,
+            product_variant_id,
+            product_id,
+            price,
+            cost_price,
+            min_price,
+            max_discount_percent
+          )
+        `)
+        .eq('is_default', true)
+        .eq('is_active', true)
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query.maybeSingle()
+      if (error) throw error
+      return data as PriceList | null
+    },
+    enabled: authEnabled,
   })
 }

@@ -35,17 +35,29 @@ export const columns: ColumnDef<PriceList>[] = [
     enableHiding: false,
   },
   {
-    accessorFn: (row) => row.products?.name || 'N/A',
-    id: 'product_name',
-    header: 'Product',
+    accessorFn: (row) => row.name || row.products?.name || 'Standard Price List',
+    id: 'price_list_name',
+    header: 'Price List',
     cell: ({ row }) => {
-      const product = row.original.products
+      const name = row.original.name || row.original.products?.name || 'General Price List'
+      const code = row.original.code
+      const isDefault = row.original.is_default
       return (
-        <div className='flex flex-col'>
-          <span className='font-semibold text-foreground'>{product?.name || 'Unknown Product'}</span>
-          <span className='text-xs text-muted-foreground font-mono'>
-            SKU: {product?.sku || '—'}
-          </span>
+        <div className='flex flex-col gap-0.5'>
+          <div className='flex items-center gap-2'>
+            <span className='font-semibold text-foreground'>{name}</span>
+            {isDefault && (
+              <Badge variant='default' className='text-[10px] px-1.5 py-0 bg-emerald-600 hover:bg-emerald-700 text-white'>
+                Default
+              </Badge>
+            )}
+          </div>
+          <div className='flex items-center gap-2 text-xs text-muted-foreground'>
+            {code && <span className='font-mono uppercase font-medium'>{code}</span>}
+            {row.original.products && (
+              <span>• Product: {row.original.products.name}</span>
+            )}
+          </div>
         </div>
       )
     },

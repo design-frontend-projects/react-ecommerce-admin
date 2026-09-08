@@ -71,7 +71,9 @@ export interface PriceListItemRecord {
   tenant_id?: string
   price_list_id: string
   product_variant_id: string
+  product_id?: string | null
   price: number
+  cost_price?: number | null
   min_price: number
   max_discount_percent: number
   created_at?: string
@@ -84,8 +86,11 @@ export interface PriceListItemRecord {
 export interface PriceList {
   id: string
   tenant_id: string
-  product_id: string
-  price: number
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  product_id?: string | null
+  price?: number | null
   type: PriceListType | null
   price_list_type_id?: string | null
   store_id?: string | null
@@ -112,6 +117,7 @@ export const priceListItemFormSchema = z.object({
   id: z.string().optional(),
   product_variant_id: z.string().min(1, 'Product variant is required'),
   price: z.coerce.number().min(0, 'Price must be 0 or greater'),
+  cost_price: z.coerce.number().min(0, 'Cost must be 0 or greater').default(0).optional(),
   min_price: z.coerce.number().min(0, 'Floor price must be 0 or greater').default(0),
   max_discount_percent: z.coerce
     .number()
@@ -122,15 +128,17 @@ export const priceListItemFormSchema = z.object({
   variant_name: z.string().optional().nullable(),
   variant_sku: z.string().optional(),
   regular_price: z.number().optional(),
-  cost_price: z.number().optional().nullable(),
 })
 
 export type PriceListItemFormData = z.infer<typeof priceListItemFormSchema>
 
 export const priceListFormSchema = z
   .object({
-    product_id: z.string().min(1, 'Product is required'),
-    price: z.coerce.number().min(0, 'Default price must be 0 or greater'),
+    name: z.string().min(1, 'Name is required').max(150),
+    code: z.string().max(50).optional().nullable(),
+    is_default: z.boolean().default(false),
+    product_id: z.string().optional().nullable().or(z.literal('')),
+    price: z.coerce.number().min(0, 'Default price must be 0 or greater').optional().nullable(),
     type: priceListTypesEnum.optional().nullable(),
     group_id: z.string().uuid().optional().nullable().or(z.literal('')),
     store_id: z.string().uuid().optional().nullable().or(z.literal('')),

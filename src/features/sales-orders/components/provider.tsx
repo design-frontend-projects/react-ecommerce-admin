@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { OrderListItem } from '../data/schema'
 
-export type OrderDialogType = 'create' | 'view'
+export type OrderDialogType = 'create' | 'view' | 'review'
 
 interface OrdersContextValue {
   open: OrderDialogType | null

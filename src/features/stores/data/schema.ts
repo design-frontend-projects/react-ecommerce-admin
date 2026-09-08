@@ -3,7 +3,6 @@ import { z } from 'zod'
 export const storeSchema = z.object({
   store_id: z.string().uuid().optional(),
   name: z.string().min(1, 'Store name is required').nullable(),
-  auth_user_id: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   email: z
     .string()
@@ -18,8 +17,12 @@ export const storeSchema = z.object({
   country_id: z.string().uuid().optional().nullable(),
   status: z.boolean().default(true),
   branch_id: z.string().uuid().optional().nullable(),
-  created_at: z.date().optional(),
-  updated_at: z.date().optional(),
+  store_type_id: z.string().uuid().optional().nullable(),
+  tenant_id: z.string().uuid().optional(),
+  created_by_user_id: z.string().uuid().optional().nullable(),
+  updated_by_user_id: z.string().uuid().optional().nullable(),
+  created_at: z.string().or(z.date()).optional().nullable(),
+  updated_at: z.string().or(z.date()).optional().nullable(),
 })
 
 export type Store = z.infer<typeof storeSchema>

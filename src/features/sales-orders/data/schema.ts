@@ -28,16 +28,19 @@ export type OrderAction = z.infer<typeof orderActionSchema>
 
 // ── Inputs ──
 export const orderItemInputSchema = z.object({
-  productVariantId: z.string().uuid(),
+  productVariantId: z.string().uuid('Select a product variant.'),
   qtyOrdered: z.coerce.number().positive('Quantity must be > 0.'),
   unitPrice: z.coerce.number().min(0, 'Unit price cannot be negative.'),
-  discountAmount: z.coerce.number().min(0).optional(),
-  taxAmount: z.coerce.number().min(0).optional(),
+  discountAmount: z.coerce.number().min(0).optional().default(0),
+  taxAmount: z.coerce.number().min(0).optional().default(0),
+  uomId: z.string().uuid().optional().nullable(),
 })
 
 export const createOrderInputSchema = z.object({
   storeId: z.string().uuid('Select a store.'),
-  customerId: z.coerce.number().int().optional().nullable(),
+  warehouseId: z.string().uuid().optional().nullable(),
+  customerId: z.string().uuid().optional().nullable(),
+  currency: z.string().optional().default('USD'),
   expectedDate: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
   items: z.array(orderItemInputSchema).min(1, 'Add at least one item.'),
@@ -46,35 +49,73 @@ export const createOrderInputSchema = z.object({
 export type OrderItemInput = z.infer<typeof orderItemInputSchema>
 export type CreateOrderInput = z.infer<typeof createOrderInputSchema>
 
-// ── Responses ──
-const storeRefSchema = z
-  .object({ store_id: z.string(), name: z.string().nullable() })
-  .nullable()
-
-const customerRefSchema = z
+// ── References ──
+export const storeRefSchema = z
   .object({
-    customer_id: z.number(),
-    first_name: z.string().nullable(),
-    last_name: z.string().nullable(),
+    store_id: z.string(),
+    name: z.string().nullable().optional(),
+    address: z.string().nullable().optional(),
+    phone: z.string().nullable().optional(),
+    email: z.string().nullable().optional(),
   })
   .nullable()
+  .optional()
+
+export const warehouseRefSchema = z
+  .object({
+    id: z.string(),
+    name: z.string().nullable().optional(),
+    code: z.string().nullable().optional(),
+  })
+  .nullable()
+  .optional()
+
+export const customerRefSchema = z
+  .object({
+    id: z.string().optional(),
+    customer_id: z.union([z.number(), z.string()]).optional(),
+    first_name: z.string().nullable().optional(),
+    last_name: z.string().nullable().optional(),
+    phone: z.string().nullable().optional(),
+    email: z.string().nullable().optional(),
+    code: z.string().nullable().optional(),
+    address_line1: z.string().nullable().optional(),
+    city: z.string().nullable().optional(),
+    state: z.string().nullable().optional(),
+    postal_code: z.string().nullable().optional(),
+    country: z.string().nullable().optional(),
+  })
+  .nullable()
+  .optional()
+
+export const uomRefSchema = z
+  .object({
+    id: z.string(),
+    name: z.string().nullable().optional(),
+    code: z.string().nullable().optional(),
+  })
+  .nullable()
+  .optional()
 
 export const orderListItemSchema = z.object({
   id: z.string().uuid(),
   order_number: z.string(),
   status: orderStatusSchema,
-  customer_id: z.number().nullable(),
-  store_id: z.string(),
+  customer_id: z.string().nullable().optional(),
+  store_id: z.string().nullable().optional(),
+  warehouse_id: z.string().nullable().optional(),
+  currency: z.string().nullable().optional(),
   order_date: z.string(),
-  expected_date: z.string().nullable(),
+  expected_date: z.string().nullable().optional(),
   subtotal: z.coerce.number(),
   discount_amount: z.coerce.number(),
   tax_amount: z.coerce.number(),
   total_amount: z.coerce.number(),
-  sales_invoice_id: z.string().nullable(),
-  notes: z.string().nullable(),
+  sales_invoice_id: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
   created_at: z.string(),
   stores: storeRefSchema,
+  warehouses: warehouseRefSchema,
   customers: customerRefSchema,
   _count: z.object({ sales_order_items: z.number() }).optional(),
 })
@@ -86,6 +127,7 @@ export const orderItemRowSchema = z.object({
   qty_ordered: z.coerce.number(),
   qty_reserved: z.coerce.number(),
   qty_fulfilled: z.coerce.number(),
+  uom_id: z.string().nullable().optional(),
   unit_price: z.coerce.number(),
   discount_amount: z.coerce.number(),
   tax_amount: z.coerce.number(),
@@ -94,10 +136,19 @@ export const orderItemRowSchema = z.object({
     .object({
       id: z.string(),
       sku: z.string(),
-      products: z.object({ name: z.string() }).nullable().optional(),
+      name: z.string().nullable().optional(),
+      products: z
+        .object({
+          id: z.string().optional(),
+          name: z.string(),
+          sku: z.string().optional(),
+        })
+        .nullable()
+        .optional(),
     })
     .nullable()
     .optional(),
+  uoms: uomRefSchema,
 })
 
 export const orderDetailSchema = orderListItemSchema.extend({
@@ -114,11 +165,11 @@ export const orderListResponseSchema = successEnvelope(
 export const orderDetailResponseSchema = successEnvelope(orderDetailSchema)
 
 export function customerName(
-  customer: z.infer<typeof customerRefSchema>
+  customer?: z.infer<typeof customerRefSchema>
 ): string {
   if (!customer) return 'Walk-in'
   const name = [customer.first_name, customer.last_name]
     .filter(Boolean)
     .join(' ')
-  return name || 'Walk-in'
+  return name || (customer.code ? `Customer #${customer.code}` : 'Walk-in')
 }

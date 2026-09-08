@@ -208,29 +208,39 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                         </tr>
                       </thead>
                       <tbody className='divide-y'>
-                        {variants.map((v, index) => (
-                          <tr key={v.id || index} className='bg-background'>
-                            <td className='px-4 py-3 font-medium'>
-                              {v.sku}
-                              {v.name ? ` (${v.name})` : ''}
-                            </td>
-                            <td className='px-4 py-3'>{formatPrice(v.price)}</td>
-                            <td className='px-4 py-3 text-muted-foreground'>
-                              {v.cost_price ? formatPrice(v.cost_price) : '-'}
-                            </td>
-                            <td className='px-4 py-3 text-right'>
-                              <Badge
-                                variant={
-                                  Number(v.stock_quantity) <= Number(v.min_stock || 0)
-                                    ? 'destructive'
-                                    : 'outline'
-                                }
-                              >
-                                {Number(v.stock_quantity || 0)}
-                              </Badge>
-                            </td>
-                          </tr>
-                        ))}
+                        {variants.map((v, index) => {
+                          const pli = (v as { price_list_items?: Array<{ price: number | string; cost_price?: number | string | null }> }).price_list_items
+                          const itemPrice = (pli && pli.length > 0) ? pli[0].price : v.price
+                          const costPrice = (pli && pli.length > 0 && pli[0].cost_price != null) ? pli[0].cost_price : v.cost_price
+                          const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances || []
+                          const availableStock = balances.length > 0
+                            ? balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
+                            : Number(v.stock_quantity || 0)
+
+                          return (
+                            <tr key={v.id || index} className='bg-background'>
+                              <td className='px-4 py-3 font-medium'>
+                                {v.sku}
+                                {v.name ? ` (${v.name})` : ''}
+                              </td>
+                              <td className='px-4 py-3'>{formatPrice(itemPrice)}</td>
+                              <td className='px-4 py-3 text-muted-foreground'>
+                                {costPrice ? formatPrice(costPrice) : '-'}
+                              </td>
+                              <td className='px-4 py-3 text-right'>
+                                <Badge
+                                  variant={
+                                    availableStock <= Number(v.min_stock || 0)
+                                      ? 'destructive'
+                                      : 'outline'
+                                  }
+                                >
+                                  {availableStock}
+                                </Badge>
+                              </td>
+                            </tr>
+                          )
+                        })}
                       </tbody>
                     </table>
                   </div>

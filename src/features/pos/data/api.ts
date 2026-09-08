@@ -50,7 +50,11 @@ export async function getPosProducts(): Promise<PosProduct[]> {
       base_price,
       is_active,
       has_variants,
-      product_variants ( id, sku, barcode, price, dimensions, stock_quantity, min_stock, is_active )
+      product_variants (
+        id, sku, barcode, price, dimensions, stock_quantity, min_stock, is_active,
+        price_list_items ( price, min_price, max_discount_percent ),
+        stock_balances ( qty_on_hand, qty_reserved, qty_available )
+      )
     `
     )
     .eq('is_active', true)
@@ -75,16 +79,28 @@ export async function getPosProducts(): Promise<PosProduct[]> {
       category_name: categoryName || null,
       has_variants: !!p.has_variants,
       product_variants:
-        p.product_variants?.map((variant) => ({
-          id: variant.id,
-          sku: variant.sku,
-          barcode: variant.barcode,
-          price: Number(variant.price || 0),
-          stock_quantity: Number(variant.stock_quantity || 0),
-          min_stock: Number(variant.min_stock || 0),
-          is_active: variant.is_active ?? true,
-          dimensions: variant.dimensions,
-        })) || [],
+        p.product_variants?.map((variant) => {
+          const pli = (variant as { price_list_items?: Array<{ price: number | string }> }).price_list_items
+          const resolvedPrice = (pli && pli.length > 0)
+            ? Number(pli[0].price)
+            : Number(variant.price || 0)
+
+          const balances = (variant as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances
+          const resolvedStock = (balances && balances.length > 0)
+            ? balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
+            : Number(variant.stock_quantity || 0)
+
+          return {
+            id: variant.id,
+            sku: variant.sku,
+            barcode: variant.barcode,
+            price: resolvedPrice,
+            stock_quantity: resolvedStock,
+            min_stock: Number(variant.min_stock || 0),
+            is_active: variant.is_active ?? true,
+            dimensions: variant.dimensions,
+          }
+        }) || [],
       description: p.description,
       is_active: p.is_active ? 1 : 0,
     }
