@@ -24,14 +24,6 @@ export const productVariantSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().max(100).optional().nullable(),
   name: z.string().max(200).optional().nullable(),
-  price: z.coerce.number().min(0, 'Price must be 0 or greater').optional().nullable(),
-  cost_price: z.coerce
-    .number()
-    .min(0, 'Cost must be 0 or greater')
-    .optional()
-    .nullable(),
-  stock_quantity: z.coerce.number().optional().nullable().default(0),
-  min_stock: z.coerce.number().optional().nullable().default(0),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.any().optional().nullable(),
   is_active: z.boolean().default(true),
@@ -50,15 +42,6 @@ export const variantRowSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().optional().nullable(),
   name: z.string().optional().nullable(),
-  price: z.coerce.number().min(0, 'Price must be 0 or greater').optional().nullable().default(0),
-  cost_price: z.coerce
-    .number()
-    .min(0, 'Cost must be 0 or greater')
-    .optional()
-    .nullable()
-    .default(0),
-  stock_quantity: z.coerce.number().optional().nullable().default(0),
-  min_stock: z.coerce.number().optional().nullable().default(0),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.string().optional().nullable(),
   is_active: z.boolean().default(true),
@@ -83,11 +66,6 @@ export const productSchema = z.object({
   has_variants: z.boolean().default(false),
   is_deleted: z.boolean().default(false),
   deleted_at: z.string().optional().nullable(),
-  base_price: z.coerce
-    .number()
-    .min(0, 'Price must be 0 or greater')
-    .optional()
-    .nullable(),
   has_expiration: z.boolean().default(false),
   expiration_date: z.string().optional().nullable(),
   is_marketplace: z.boolean().default(false),
@@ -129,11 +107,6 @@ export const baseProductSchema = z.object({
   product_type: productTypeEnum.default('simple'),
   product_type_id: z.string().uuid().optional().nullable().or(z.literal('')),
   tracking_mode: trackingModeEnum.default('none'),
-  base_price: z.coerce
-    .number()
-    .min(0, 'Price must be 0 or greater')
-    .optional()
-    .nullable(),
   tax_code: z.string().optional().nullable(),
   tax_classification_id: z.string().uuid().optional().nullable().or(z.literal('')),
   reorder_level: z.coerce.number().optional().nullable(),

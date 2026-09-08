@@ -45,7 +45,6 @@ const PRICE_LIST_SELECT_QUERY = `
     id,
     name,
     sku,
-    base_price,
     has_variants
   ),
   customer_groups (
@@ -85,10 +84,7 @@ const PRICE_LIST_SELECT_QUERY = `
       product_id,
       name,
       sku,
-      barcode,
-      price,
-      cost_price,
-      stock_quantity
+      barcode
     )
   )
 `
@@ -194,7 +190,6 @@ export const usePriceListOptions = () => {
           id,
           name,
           sku,
-          base_price,
           has_variants,
           product_variants (
             id,
@@ -202,9 +197,6 @@ export const usePriceListOptions = () => {
             name,
             sku,
             barcode,
-            price,
-            cost_price,
-            stock_quantity,
             is_active
           )
         `)

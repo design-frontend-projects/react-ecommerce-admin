@@ -190,8 +190,6 @@ export async function getOrder(authUserId: string, id: string) {
             id: true,
             sku: true,
             name: true,
-            price: true,
-            cost_price: true,
             products: {
               select: {
                 id: true,

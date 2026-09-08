@@ -128,10 +128,6 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
       for (const v of variants) {
         const pli = (v as { price_list_items?: Array<{ price: number | string }> }).price_list_items
         if (pli && pli.length > 0) return Number(pli[0].price)
-        if (v.price != null) return Number(v.price)
-      }
-      if (row.base_price !== null && row.base_price !== undefined) {
-        return Number(row.base_price)
       }
       return 0
     },
@@ -149,7 +145,7 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
         .map((v) => {
           const pli = (v as { price_list_items?: Array<{ price: number | string }> }).price_list_items
           if (pli && pli.length > 0) return Number(pli[0].price)
-          return v.price != null ? Number(v.price) : 0
+          return 0
         })
         .filter((p) => p > 0)
 
@@ -168,8 +164,11 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
         )
       }
 
-      const singlePrice = prices.length === 1 ? prices[0] : Number(row.original.base_price || 0)
-      return <div className='font-medium text-sm'>{formatter.format(singlePrice)}</div>
+      if (prices.length === 1) {
+        return <div className='font-medium text-sm'>{formatter.format(prices[0])}</div>
+      }
+
+      return <div className='text-muted-foreground text-sm italic'>—</div>
     },
   },
   {
@@ -180,17 +179,13 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     cell: ({ row }) => {
       const variants = row.original.product_variants || []
       let totalAvailable = 0
-      let hasBalance = false
 
       for (const v of variants) {
         const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances
         if (balances && balances.length > 0) {
-          hasBalance = true
           for (const b of balances) {
             totalAvailable += Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0)))
           }
-        } else if (!hasBalance) {
-          totalAvailable += Number(v.stock_quantity || 0)
         }
       }
 

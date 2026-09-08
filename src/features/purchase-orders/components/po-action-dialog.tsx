@@ -170,20 +170,27 @@ export function POActionDialog() {
             }
           }
 
+          const pli = (variant as { price_list_items?: Array<{ price: number | string; cost_price?: number | string | null }> }).price_list_items
+          const resolvedCost = (pli && pli.length > 0 && pli[0].cost_price != null)
+            ? Number(pli[0].cost_price)
+            : (variant as { cost_price?: number | null }).cost_price != null ? Number((variant as { cost_price?: number | null }).cost_price) : null
+          const resolvedPrice = (pli && pli.length > 0)
+            ? Number(pli[0].price)
+            : Number((variant as { price?: number }).price ?? 0)
+
+          const balances = (variant as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances
+          const resolvedStock = (balances && balances.length > 0)
+            ? balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
+            : (variant as { stock_quantity?: number }).stock_quantity !== undefined ? Number((variant as { stock_quantity?: number }).stock_quantity) : undefined
+
           return {
             id: String(variant.id),
             sku: variant.sku,
             name: variant.name ?? null,
             attributes_label: attrLabel,
-            price: Number(variant.price ?? 0),
-            cost_price:
-              variant.cost_price !== null && variant.cost_price !== undefined
-                ? Number(variant.cost_price)
-                : null,
-            stock_quantity:
-              variant.stock_quantity !== undefined
-                ? Number(variant.stock_quantity)
-                : undefined,
+            price: resolvedPrice,
+            cost_price: resolvedCost,
+            stock_quantity: resolvedStock,
           }
         })
 

@@ -50,8 +50,10 @@ interface ValuationItemRow {
 interface VariantPricingInfo {
   id: string
   sku?: string | null
-  price?: number | null
-  cost_price?: number | null
+  price_list_items?: Array<{
+    price?: number | string | null
+    cost_price?: number | string | null
+  }> | null
   products?: {
     name?: string | null
     category_id?: number | null
@@ -59,6 +61,19 @@ interface VariantPricingInfo {
       name?: string | null
     } | null
   } | null
+}
+
+interface StockBalanceRecord {
+  qty_on_hand?: number | null
+  qty_reserved?: number | null
+  qty_available?: number | null
+  avg_cost?: number | null
+  product_variant_id: string
+  store_id: string
+  stores?:
+    | { name?: string | null; store_id?: string | null }
+    | Array<{ name?: string | null; store_id?: string | null }>
+    | null
 }
 
 export function InventoryValuationPage() {
@@ -73,36 +88,33 @@ export function InventoryValuationPage() {
     queryFn: async () => {
       const { data: balances } = await supabase
         .from('stock_balances')
-        .select('qty_on_hand, qty_reserved, qty_available, product_variant_id, store_id, stores(name, store_id)')
+        .select('qty_on_hand, qty_reserved, qty_available, avg_cost, product_variant_id, store_id, stores(name, store_id)')
 
       const { data: variants } = await supabase
         .from('product_variants')
-        .select('id, sku, price, cost_price, products(name, category_id, categories(name))')
+        .select('id, sku, products(name, category_id, categories(name)), price_list_items(price, cost_price)')
 
       const variantMap = new Map(
         ((variants as VariantPricingInfo[]) || []).map((v) => [v.id, v])
       )
 
-      return (balances || []).map((b: {
-        qty_on_hand?: number | null
-        qty_reserved?: number | null
-        qty_available?: number | null
-        product_variant_id: string
-        store_id: string
-        stores?: { name?: string | null } | null
-      }): ValuationItemRow => {
+      return ((balances as unknown as StockBalanceRecord[]) || []).map((b: StockBalanceRecord): ValuationItemRow => {
         const v = variantMap.get(b.product_variant_id)
-        const costPrice = Number(v?.cost_price || 0)
-        const sellingPrice = Number(v?.price || 0)
+        const pli = v?.price_list_items?.[0]
+        const costPrice = Number(b.avg_cost ?? pli?.cost_price ?? 0)
+        const sellingPrice = Number(pli?.price ?? 0)
         const onHand = Number(b.qty_on_hand || 0)
 
         // AVCO = Cost Price, Standard = Cost Price, FIFO = Estimated Cost
-        const unitCost = costPrice > 0 ? costPrice : sellingPrice * 0.7
+        const unitCost = costPrice > 0 ? costPrice : (sellingPrice > 0 ? sellingPrice * 0.7 : 0)
+
+        const storeData = Array.isArray(b.stores) ? b.stores[0] : b.stores
+        const storeName = storeData?.name || 'Default Store'
 
         return {
           id: `${b.store_id}_${b.product_variant_id}`,
           storeId: b.store_id,
-          storeName: b.stores?.name || 'Default Store',
+          storeName,
           variantId: b.product_variant_id,
           sku: v?.sku || b.product_variant_id.slice(0, 8),
           productName: v?.products?.name || '—',

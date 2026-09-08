@@ -84,7 +84,6 @@ export function ProductBaseForm({
       product_type: 'simple',
       product_type_id: null,
       tracking_mode: 'none',
-      base_price: 0,
       tax_code: '',
       tax_classification_id: null,
       reorder_level: 0,
@@ -538,30 +537,7 @@ export function ProductBaseForm({
               <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
                 {t('products.form.pricingAndTax')}
               </h4>
-              <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
-                <FormField
-                  control={form.control}
-                  name='base_price'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('products.form.price')} *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type='number'
-                          step='0.01'
-                          min='0'
-                          placeholder='0.00'
-                          value={(field.value as number) ?? ''}
-                          onChange={(e) =>
-                            field.onChange(e.target.valueAsNumber || 0)
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
                 <FormField
                   control={form.control}
                   name='tax_code'

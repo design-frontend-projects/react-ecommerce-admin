@@ -74,3 +74,25 @@
 - **Status**: Fixed
 
 ---
+
+## [2026-09-09 01:55] - ProductVariantBrief Property 'price' and 'cost_price' Missing
+
+- **Type**: Syntax / Integration
+- **Severity**: Medium
+- **File**: `src/features/price-list/components/price-list-action-dialog.tsx:157`
+- **Agent**: antigravity-ide (@frontend-specialist)
+- **Root Cause**: Following the decoupling of the pricing and inventory modules, `price` and `cost_price` were removed from `product_variants` and transferred to `price_list_items`. The TypeScript interface `ProductVariantBrief` in `src/features/price-list/data/schema.ts` was correctly updated to exclude them, but `PriceListActionDialog` (and `PriceListViewDialog`) still accessed `v.price`, `v.cost_price`, `existing?.product_variants?.price`, and `item.product_variants?.cost_price`.
+- **Error Message**: 
+  ```
+  Property 'price' does not exist on type 'ProductVariantBrief'.
+  Property 'cost_price' does not exist on type 'ProductVariantBrief'.
+  ```
+- **Fix Applied**: 
+  1. Updated `PriceListActionDialog` to read prices and costs directly from existing `price_list_items` (`existing?.price`, `existing?.cost_price`, `item.price`, `item.cost_price`) with fallback to `currentRow.price` and `0`.
+  2. Fixed `cost_price` to default to `0` instead of `null` to align with `priceListItemFormSchema`.
+  3. Added `value={field.value ?? ''}` to the default price `<Input />` field to satisfy React `<Input />` value typing.
+  4. Updated `PriceListViewDialog` to read `item.cost_price` directly and display the cost price column appropriately.
+- **Prevention**: When removing fields during schema decoupling, run typechecks across all feature dialogs and consumer components that map joined relations to ensure no orphaned field accesses remain.
+- **Status**: Fixed
+
+---

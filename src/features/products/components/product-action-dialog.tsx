@@ -150,10 +150,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         sku: v.sku,
         barcode: v.barcode || '',
         name: v.name || '',
-        price: Number(v.price) || 0,
-        cost_price: v.cost_price ? Number(v.cost_price) : 0,
-        stock_quantity: v.stock_quantity || 0,
-        min_stock: v.min_stock || 0,
         weight: v.weight ? Number(v.weight) : null,
         dimensions: dimLabel,
         is_active: v.is_active ?? true,
@@ -177,7 +173,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       product_type: 'simple',
       product_type_id: null,
       tracking_mode: 'none',
-      base_price: 0,
       tax_code: '',
       tax_classification_id: null,
       reorder_level: 0,
@@ -200,7 +195,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   useEffect(() => {
     if (open) {
       if (activeProduct) {
-        const firstVariant = activeProduct.product_variants?.[0]
         const existingVariants = getInitialVariants(activeProduct)
         const hasExistingVariants = Boolean(
           activeProduct.has_variants === true ||
@@ -220,12 +214,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           product_type: (activeProduct.product_type as ProductType) || 'simple',
           product_type_id: activeProduct.product_type_id || null,
           tracking_mode: (activeProduct.tracking_mode as TrackingMode) || 'none',
-          base_price:
-            activeProduct.base_price !== null && activeProduct.base_price !== undefined
-              ? Number(activeProduct.base_price)
-              : firstVariant
-                ? Number(firstVariant.price)
-                : 0,
           tax_code: activeProduct.tax_code || '',
           tax_classification_id: activeProduct.tax_classification_id || null,
           reorder_level: activeProduct.reorder_level
@@ -259,7 +247,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           product_type: 'simple',
           product_type_id: null,
           tracking_mode: 'none',
-          base_price: 0,
           tax_code: '',
           tax_classification_id: null,
           reorder_level: 0,
@@ -289,7 +276,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const hasVariants = form.watch('has_variants')
   const hasExpiration = form.watch('has_expiration')
   const productType = form.watch('product_type')
-  const watchedVariants = form.watch('variants') || []
+  const rawVariants = form.watch('variants')
+  const watchedVariants = useMemo(() => rawVariants || [], [rawVariants])
 
   // Auto-seed first variant if variants enabled and list is empty
   useEffect(() => {
@@ -299,10 +287,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         sku: currentValues.sku ? `${currentValues.sku}-V1` : '',
         barcode: '',
         name: 'Default',
-        price: currentValues.base_price || 0,
-        cost_price: 0,
-        stock_quantity: 0,
-        min_stock: currentValues.reorder_level || 0,
         weight: currentValues.weight || null,
         dimensions: currentValues.dimensions || '',
         is_active: true,
@@ -316,28 +300,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const variantMetrics = useMemo(() => {
     const total = watchedVariants.length
     const activeCount = watchedVariants.filter((v) => v.is_active !== false).length
-    const prices = watchedVariants.map((v) => Number(v.price) || 0)
-    const minPrice = prices.length > 0 ? Math.min(...prices) : 0
-    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0
-    const totalStock = watchedVariants.reduce(
-      (sum, v) => sum + (Number(v.stock_quantity) || 0),
-      0
-    )
 
     return {
       total,
       activeCount,
-      minPrice,
-      maxPrice,
-      totalStock,
     }
   }, [watchedVariants])
-
-  const formatCurrency = (val: number) =>
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(val)
 
   const handleAddVariant = () => {
     const currentValues = form.getValues()
@@ -348,10 +316,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         : `SKU-V${nextIdx}`,
       barcode: '',
       name: `Variant ${nextIdx}`,
-      price: currentValues.base_price || 0,
-      cost_price: 0,
-      stock_quantity: 0,
-      min_stock: currentValues.reorder_level || 0,
       weight: currentValues.weight || null,
       dimensions: currentValues.dimensions || '',
       is_active: true,
@@ -368,10 +332,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       sku: item.sku ? `${item.sku}-COPY` : `SKU-V${nextIdx}`,
       barcode: '',
       name: item.name ? `${item.name} (Copy)` : `Variant ${nextIdx}`,
-      price: item.price || 0,
-      cost_price: item.cost_price || 0,
-      stock_quantity: item.stock_quantity || 0,
-      min_stock: item.min_stock || 0,
       weight: item.weight || null,
       dimensions: item.dimensions || '',
       is_active: item.is_active ?? true,
@@ -419,13 +379,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         sku: values.sku,
         barcode: values.barcode || null,
         name: values.name,
-        price: values.base_price || 0,
-        cost_price: null,
         is_active: values.is_active,
         weight: values.weight,
         dimensions: values.dimensions,
-        stock_quantity: 0,
-        min_stock: values.reorder_level || 0,
         uom_id: values.base_uom_id,
         attributes_label: 'Default',
       }
@@ -1216,30 +1172,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
                 {/* ── TAB 4: PRICING & TAX ────────────────────────────── */}
                 <TabsContent value='pricing' className='m-0 space-y-4'>
+                  <div className='rounded-md border border-blue-200 bg-blue-50/50 p-3 text-xs text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300'>
+                    {t('products.form.pricingNotice', 'Product pricing is managed independently through the Price List module.')}
+                  </div>
                   <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                    <FormField
-                      control={form.control}
-                      name='base_price'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t('products.form.price')} *</FormLabel>
-                          <FormControl>
-                            <Input
-                              type='number'
-                              step='0.01'
-                              min='0'
-                              placeholder='0.00'
-                              value={(field.value as number) ?? ''}
-                              onChange={(e) =>
-                                field.onChange(e.target.valueAsNumber || 0)
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
                     <FormField
                       control={form.control}
                       name='tax_code'
@@ -1407,28 +1343,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         </div>
                       </div>
 
-                      <div className='rounded-lg border bg-card p-2.5 shadow-2xs'>
-                        <span className='text-[11px] font-medium text-muted-foreground'>
-                          {t('products.form.priceRange')}
-                        </span>
-                        <div className='mt-0.5 text-sm font-semibold truncate'>
-                          {variantMetrics.total === 0
-                            ? '—'
-                            : variantMetrics.minPrice === variantMetrics.maxPrice
-                              ? formatCurrency(variantMetrics.minPrice)
-                              : `${formatCurrency(variantMetrics.minPrice)} - ${formatCurrency(variantMetrics.maxPrice)}`}
-                        </div>
-                      </div>
-
-                      <div className='rounded-lg border bg-card p-2.5 shadow-2xs'>
-                        <span className='text-[11px] font-medium text-muted-foreground'>
-                          {t('products.form.totalStock')}
-                        </span>
-                        <div className='mt-0.5 flex items-baseline gap-1.5'>
-                          <span className='text-lg font-bold'>{variantMetrics.totalStock}</span>
-                          <span className='text-[11px] text-muted-foreground'>units</span>
-                        </div>
-                      </div>
                     </div>
 
                     {/* MODE 1: Table Preview Matrix */}
@@ -1443,10 +1357,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               <TableHead>{t('products.form.variantLabel')}</TableHead>
                               <TableHead>{t('products.form.variantSku')}</TableHead>
                               <TableHead>{t('products.form.variantBarcode')}</TableHead>
-                              <TableHead>{t('products.form.variantPrice')}</TableHead>
-                              <TableHead>{t('products.form.variantCost')}</TableHead>
-                              <TableHead>{t('products.form.variantInitialStock')}</TableHead>
-                              <TableHead>{t('products.form.variantMinStock')}</TableHead>
                               <TableHead>{t('products.form.variantUom')}</TableHead>
                               <TableHead className='w-[80px] text-right'>
                                 {t('products.columns.actions')}
@@ -1513,88 +1423,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                           placeholder='Barcode'
                                           {...vField}
                                           value={vField.value || ''}
-                                        />
-                                      )}
-                                    />
-                                  </TableCell>
-
-                                  <TableCell>
-                                    <FormField
-                                      control={form.control}
-                                      name={`variants.${index}.price`}
-                                      render={({ field: vField }) => (
-                                        <Input
-                                          type='number'
-                                          step='0.01'
-                                          min='0'
-                                          className='h-8 text-xs w-24'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      )}
-                                    />
-                                  </TableCell>
-
-                                  <TableCell>
-                                    <FormField
-                                      control={form.control}
-                                      name={`variants.${index}.cost_price`}
-                                      render={({ field: vField }) => (
-                                        <Input
-                                          type='number'
-                                          step='0.01'
-                                          min='0'
-                                          className='h-8 text-xs w-24'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      )}
-                                    />
-                                  </TableCell>
-
-                                  <TableCell>
-                                    <FormField
-                                      control={form.control}
-                                      name={`variants.${index}.stock_quantity`}
-                                      render={({ field: vField }) => (
-                                        <Input
-                                          type='number'
-                                          min='0'
-                                          className='h-8 text-xs w-20'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      )}
-                                    />
-                                  </TableCell>
-
-                                  <TableCell>
-                                    <FormField
-                                      control={form.control}
-                                      name={`variants.${index}.min_stock`}
-                                      render={({ field: vField }) => (
-                                        <Input
-                                          type='number'
-                                          min='0'
-                                          className='h-8 text-xs w-20'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
                                         />
                                       )}
                                     />
@@ -1792,112 +1620,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                 />
                               </div>
 
-                              {/* Row 2: Price, Cost Price, Initial Stock, Min Stock */}
-                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
-                                <FormField
-                                  control={form.control}
-                                  name={`variants.${index}.price`}
-                                  render={({ field: vField }) => (
-                                    <FormItem>
-                                      <FormLabel className='text-xs'>
-                                        {t('products.form.variantPrice')} *
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input
-                                          type='number'
-                                          step='0.01'
-                                          min='0'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-
-                                <FormField
-                                  control={form.control}
-                                  name={`variants.${index}.cost_price`}
-                                  render={({ field: vField }) => (
-                                    <FormItem>
-                                      <FormLabel className='text-xs'>
-                                        {t('products.form.variantCost')}
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input
-                                          type='number'
-                                          step='0.01'
-                                          min='0'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-
-                                <FormField
-                                  control={form.control}
-                                  name={`variants.${index}.stock_quantity`}
-                                  render={({ field: vField }) => (
-                                    <FormItem>
-                                      <FormLabel className='text-xs'>
-                                        {t('products.form.variantInitialStock')}
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input
-                                          type='number'
-                                          min='0'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-
-                                <FormField
-                                  control={form.control}
-                                  name={`variants.${index}.min_stock`}
-                                  render={({ field: vField }) => (
-                                    <FormItem>
-                                      <FormLabel className='text-xs'>
-                                        {t('products.form.variantMinStock')}
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input
-                                          type='number'
-                                          min='0'
-                                          value={(vField.value as number) ?? ''}
-                                          onChange={(e) =>
-                                            vField.onChange(
-                                              e.target.valueAsNumber || 0
-                                            )
-                                          }
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-
-                              {/* Row 3: Unit of Measure, Weight, Dimensions */}
+                              {/* Row 2: Unit of Measure, Weight, Dimensions */}
                               <div className='grid grid-cols-1 gap-3 sm:grid-cols-3'>
                                 <FormField
                                   control={form.control}

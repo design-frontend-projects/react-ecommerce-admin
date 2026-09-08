@@ -47,8 +47,12 @@ export interface PurchaseOrder {
       product_variants?: Array<{
         id: string
         sku: string
-        price: number
-        cost_price: number | null
+        price_list_items?: Array<{
+          price: number | string
+          cost_price?: number | string | null
+        }>
+        price?: number
+        cost_price?: number | null
       }>
     } | null
   }>
@@ -81,8 +85,12 @@ export interface PurchaseOrderItem {
     product_variants?: Array<{
       id: string
       sku: string
-      price: number
-      cost_price: number | null
+      price_list_items?: Array<{
+        price: number | string
+        cost_price?: number | string | null
+      }>
+      price?: number
+      cost_price?: number | null
     }>
   } | null
 }
@@ -152,7 +160,7 @@ export const usePurchaseOrder = (id: number | string) => {
                     name,
                     base_uom_id,
                     base_uom:uoms(id, name, code),
-                    product_variants(id, sku, price, cost_price)
+                    product_variants(id, sku, price_list_items(price, cost_price))
                   )
                 )
               `

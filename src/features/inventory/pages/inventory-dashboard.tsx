@@ -36,9 +36,11 @@ const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'
 
 interface VariantProductData {
   id: string
-  price?: number | null
-  cost_price?: number | null
   sku?: string | null
+  price_list_items?: Array<{
+    price?: number | string | null
+    cost_price?: number | string | null
+  }> | null
   products?: {
     name?: string | null
     category_id?: number | null
@@ -67,12 +69,12 @@ export function InventoryDashboard() {
       // 1. Fetch stock balances
       const { data: balances } = await supabase
         .from('stock_balances')
-        .select('qty_on_hand, qty_reserved, qty_available, product_variant_id, store_id, stores(name)')
+        .select('qty_on_hand, qty_reserved, qty_available, avg_cost, product_variant_id, store_id, stores(name)')
 
       // 2. Fetch variants & prices
       const { data: variants } = await supabase
         .from('product_variants')
-        .select('id, price, cost_price, sku, products(name, category_id, categories(name))')
+        .select('id, sku, products(name, category_id, categories(name)), price_list_items(price, cost_price)')
 
       // 3. Fetch expiring batches
       const now = new Date()
@@ -116,7 +118,8 @@ export function InventoryDashboard() {
         const reserved = Number(b.qty_reserved || 0)
         const available = Number(b.qty_available || 0)
         const v = variantMap.get(b.product_variant_id)
-        const cost = Number(v?.cost_price || v?.price || 0)
+        const pli = v?.price_list_items?.[0]
+        const cost = Number(b.avg_cost ?? pli?.cost_price ?? pli?.price ?? 0)
 
         totalOnHand += onHand
         totalReserved += reserved

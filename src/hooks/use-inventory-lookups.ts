@@ -189,7 +189,7 @@ export function useVariantOptions(search?: string) {
     queryFn: async () => {
       let query = supabase
         .from('product_variants')
-        .select('id, sku, barcode, price, cost_price, products(id, name)')
+        .select('id, sku, barcode, products(id, name), price_list_items(price, cost_price)')
         .order('sku')
         .limit(50)
       if (search) {
@@ -197,7 +197,24 @@ export function useVariantOptions(search?: string) {
       }
       const { data, error } = await query
       if (error) throw error
-      return (data ?? []) as unknown as VariantOption[]
+      type VariantLookupRow = {
+        id: string
+        sku: string
+        barcode: string | null
+        products: { id?: string; name: string } | null
+        price_list_items?: Array<{ price?: number | string | null; cost_price?: number | string | null }> | null
+      }
+      return ((data ?? []) as unknown as VariantLookupRow[]).map((row) => {
+        const pli = row.price_list_items?.[0]
+        return {
+          id: row.id,
+          sku: row.sku,
+          barcode: row.barcode,
+          price: Number(pli?.price ?? 0),
+          cost_price: pli?.cost_price != null ? Number(pli.cost_price) : null,
+          products: row.products,
+        }
+      })
     },
     enabled: authEnabled,
   })

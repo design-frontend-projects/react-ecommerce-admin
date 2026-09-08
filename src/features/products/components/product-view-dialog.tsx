@@ -183,8 +183,8 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                   <p className='text-sm font-medium'>{currentRow.dimensions || 'N/A'}</p>
                 </div>
                 <div className='space-y-1'>
-                  <Label className='text-xs text-muted-foreground'>{t('products.form.price')}</Label>
-                  <p className='text-sm font-medium'>{formatPrice(currentRow.base_price)}</p>
+                  <Label className='text-xs text-muted-foreground'>{t('products.form.reorderLevel')}</Label>
+                  <p className='text-sm font-medium'>{currentRow.reorder_level ? Number(currentRow.reorder_level) : 0}</p>
                 </div>
               </div>
             </div>
@@ -210,12 +210,10 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                       <tbody className='divide-y'>
                         {variants.map((v, index) => {
                           const pli = (v as { price_list_items?: Array<{ price: number | string; cost_price?: number | string | null }> }).price_list_items
-                          const itemPrice = (pli && pli.length > 0) ? pli[0].price : v.price
-                          const costPrice = (pli && pli.length > 0 && pli[0].cost_price != null) ? pli[0].cost_price : v.cost_price
+                          const itemPrice = (pli && pli.length > 0) ? pli[0].price : null
+                          const costPrice = (pli && pli.length > 0 && pli[0].cost_price != null) ? pli[0].cost_price : null
                           const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances || []
-                          const availableStock = balances.length > 0
-                            ? balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
-                            : Number(v.stock_quantity || 0)
+                          const availableStock = balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
 
                           return (
                             <tr key={v.id || index} className='bg-background'>
@@ -223,14 +221,14 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                                 {v.sku}
                                 {v.name ? ` (${v.name})` : ''}
                               </td>
-                              <td className='px-4 py-3'>{formatPrice(itemPrice)}</td>
+                              <td className='px-4 py-3'>{itemPrice ? formatPrice(itemPrice) : '-'}</td>
                               <td className='px-4 py-3 text-muted-foreground'>
                                 {costPrice ? formatPrice(costPrice) : '-'}
                               </td>
                               <td className='px-4 py-3 text-right'>
                                 <Badge
                                   variant={
-                                    availableStock <= Number(v.min_stock || 0)
+                                    availableStock <= Number(currentRow.reorder_level || 0)
                                       ? 'destructive'
                                       : 'outline'
                                   }

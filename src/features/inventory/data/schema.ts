@@ -35,8 +35,6 @@ export interface InventoryVariantRelation {
   product_id?: string
   name?: string | null
   sku: string
-  price?: number | string | null
-  stock_quantity?: number | null
 }
 
 export type Inventory = {

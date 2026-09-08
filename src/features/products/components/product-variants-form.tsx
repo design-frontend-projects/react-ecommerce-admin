@@ -48,10 +48,6 @@ export function ProductVariantsForm({
                 sku: baseProductData?.sku ? `${baseProductData.sku}-V1` : '',
                 barcode: '',
                 name: 'Default',
-                price: baseProductData?.base_price || 0,
-                cost_price: 0,
-                stock_quantity: 0,
-                min_stock: baseProductData?.reorder_level || 0,
                 weight: baseProductData?.weight || null,
                 dimensions: baseProductData?.dimensions || '',
                 is_active: true,
@@ -98,10 +94,6 @@ export function ProductVariantsForm({
                   : '',
                 barcode: '',
                 name: `Variant ${fields.length + 1}`,
-                price: baseProductData?.base_price || 0,
-                cost_price: 0,
-                stock_quantity: 0,
-                min_stock: baseProductData?.reorder_level || 0,
                 weight: baseProductData?.weight || null,
                 dimensions: baseProductData?.dimensions || '',
                 is_active: true,
@@ -209,103 +201,6 @@ export function ProductVariantsForm({
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* Finance & Stock Row */}
-                <div className='grid grid-cols-1 gap-3 sm:grid-cols-4'>
-                  <FormField
-                    control={form.control}
-                    name={`variants.${index}.price`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='text-xs'>
-                          {t('products.form.variantPrice')} *
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            step='0.01'
-                            min='0'
-                            value={(field.value as number) ?? ''}
-                            onChange={(e) =>
-                              field.onChange(e.target.valueAsNumber || 0)
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`variants.${index}.cost_price`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='text-xs'>
-                          {t('products.form.variantCost')}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            step='0.01'
-                            min='0'
-                            value={(field.value as number) ?? ''}
-                            onChange={(e) =>
-                              field.onChange(e.target.valueAsNumber || 0)
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`variants.${index}.stock_quantity`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='text-xs'>
-                          {t('products.form.variantInitialStock')}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            min='0'
-                            value={(field.value as number) ?? ''}
-                            onChange={(e) =>
-                              field.onChange(e.target.valueAsNumber || 0)
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name={`variants.${index}.min_stock`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='text-xs'>
-                          {t('products.form.variantMinStock')}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            min='0'
-                            value={(field.value as number) ?? ''}
-                            onChange={(e) =>
-                              field.onChange(e.target.valueAsNumber || 0)
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />

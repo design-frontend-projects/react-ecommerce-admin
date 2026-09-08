@@ -273,44 +273,63 @@ export function useDashboardData() {
         }))
 
       // ─── 10. Low stock products ───
-      const { data: variantsData, error: variantsError } = await supabase
-        .from('product_variants')
+      const { data: balancesData, error: balancesError } = await supabase
+        .from('stock_balances')
         .select(
           `
-          id,
-          product_id,
-          sku,
-          stock_quantity,
-          min_stock,
-          products ( name )
+          product_variant_id,
+          qty_on_hand,
+          qty_reserved,
+          qty_available,
+          product_variants (
+            id,
+            product_id,
+            sku,
+            products (
+              name,
+              reorder_level
+            )
+          )
         `
         )
-        .order('stock_quantity', { ascending: true })
+        .order('qty_available', { ascending: true })
         .limit(200)
 
-      if (variantsError) throw variantsError
+      if (balancesError) throw balancesError
 
-      type VariantResponse = {
-        id: string
-        product_id: number
-        sku: string
-        stock_quantity: number
-        min_stock: number
-        products: { name: string } | null
+      type BalanceResponse = {
+        product_variant_id: string
+        qty_on_hand: number
+        qty_reserved: number
+        qty_available: number
+        product_variants: {
+          id: string
+          product_id: number
+          sku: string
+          products: {
+            name: string
+            reorder_level: number | null
+          } | null
+        } | null
       }
 
       const lowStockProducts = (
-        (variantsData as unknown as VariantResponse[]) || []
+        (balancesData as unknown as BalanceResponse[]) || []
       )
-        .filter((v) => v.stock_quantity <= (v.min_stock || 0))
-        .map((v) => ({
-          id: String(v.id),
-          product_id: Number(v.product_id),
-          sku: String(v.sku || ''),
-          stock_quantity: Number(v.stock_quantity) || 0,
-          min_stock: Number(v.min_stock) || 0,
-          product_name: String(v.products?.name || 'Unknown'),
-        }))
+        .map((b) => {
+          const v = b.product_variants
+          const available = Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0)))
+          const minStock = Number(v?.products?.reorder_level || 0)
+          return {
+            id: String(v?.id || b.product_variant_id),
+            product_id: Number(v?.product_id || 0),
+            sku: String(v?.sku || ''),
+            stock_quantity: available,
+            min_stock: minStock,
+            product_name: String(v?.products?.name || 'Unknown'),
+          }
+        })
+        .filter((item) => item.stock_quantity <= item.min_stock)
         .slice(0, 5) // Get the top 5 lowest stock
 
       return {

@@ -287,10 +287,6 @@ model product_variants {
   sku                  String                 @db.VarChar(100)
   barcode              String?                @db.VarChar(100)
   name                 String?                @db.VarChar(200)
-  price                Decimal?               @db.Decimal(10, 2)
-  cost_price           Decimal?               @db.Decimal(10, 2)
-  stock_quantity       Int?                   @default(0)
-  min_stock            Int?                   @default(0)
   weight               Decimal?               @db.Decimal(10, 2)
   dimensions           Json?
   is_active            Boolean?               @default(true)
@@ -325,7 +321,6 @@ model products {
   store_id               String?
   has_variants           Boolean?               @default(false)
   is_deleted             Boolean?               @default(false)
-  base_price             Decimal?               @db.Decimal(10, 2)
   has_expiration         Boolean?               @default(false)
   expiration_date        DateTime?              @db.Date
   is_marketplace         Boolean?               @default(false)

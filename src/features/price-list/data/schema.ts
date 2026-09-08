@@ -23,9 +23,6 @@ export interface ProductVariantBrief {
   name: string | null
   sku: string
   barcode?: string | null
-  price: number
-  cost_price?: number | null
-  stock_quantity?: number | null
   is_active?: boolean | null
 }
 
@@ -33,7 +30,6 @@ export interface ProductBrief {
   id: string
   name: string
   sku: string
-  base_price?: number | null
   has_variants?: boolean | null
   product_variants?: ProductVariantBrief[]
 }

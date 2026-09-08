@@ -115,23 +115,20 @@ export function PriceListActionDialog() {
 
     const variants = selectedProduct.product_variants || []
     if (variants.length > 0) {
+      const defaultPrice = Number(form.getValues('price')) || 0
       const generatedItems = variants.map((v) => ({
         product_variant_id: v.id,
         variant_name: v.name || 'Standard',
         variant_sku: v.sku,
-        regular_price: Number(v.price) || 0,
-        cost_price: v.cost_price != null ? Number(v.cost_price) : null,
-        price: Number(v.price) || Number(selectedProduct.base_price) || 0,
+        regular_price: defaultPrice,
+        cost_price: 0,
+        price: defaultPrice,
         min_price: 0,
         max_discount_percent: 0,
       }))
       replace(generatedItems)
     } else {
       replace([])
-    }
-
-    if (selectedProduct.base_price && form.getValues('price') === 0) {
-      form.setValue('price', Number(selectedProduct.base_price))
     }
   }, [selectedProductId, isOpen, isEdit, options?.products, replace, form])
 
@@ -158,9 +155,9 @@ export function PriceListActionDialog() {
               product_variant_id: v.id,
               variant_name: v.name || existing?.product_variants?.name || 'Standard',
               variant_sku: v.sku || existing?.product_variants?.sku || '',
-              regular_price: Number(v.price) || Number(existing?.product_variants?.price) || 0,
-              cost_price: v.cost_price != null ? Number(v.cost_price) : existing?.product_variants?.cost_price != null ? Number(existing.product_variants.cost_price) : null,
-              price: existing ? Number(existing.price) : Number(v.price) || Number(currentRow.price),
+              regular_price: existing ? Number(existing.price) : Number(currentRow.price || 0),
+              cost_price: existing?.cost_price != null ? Number(existing.cost_price) : 0,
+              price: existing ? Number(existing.price) : Number(currentRow.price || 0),
               min_price: existing ? Number(existing.min_price) : 0,
               max_discount_percent: existing ? Number(existing.max_discount_percent) : 0,
             }
@@ -170,8 +167,8 @@ export function PriceListActionDialog() {
             product_variant_id: item.product_variant_id,
             variant_name: item.product_variants?.name || 'Standard',
             variant_sku: item.product_variants?.sku || '',
-            regular_price: Number(item.product_variants?.price) || 0,
-            cost_price: item.product_variants?.cost_price != null ? Number(item.product_variants.cost_price) : null,
+            regular_price: Number(item.price) || 0,
+            cost_price: item.cost_price != null ? Number(item.cost_price) : 0,
             price: Number(item.price),
             min_price: Number(item.min_price),
             max_discount_percent: Number(item.max_discount_percent),
@@ -399,11 +396,7 @@ export function PriceListActionDialog() {
                       </Select>
                       {currentProduct && (
                         <FormDescription className='text-xs'>
-                          {t('priceList.form.standardBasePrice', { defaultValue: 'Standard Base Price' })}:{' '}
-                          <span className='font-semibold text-foreground'>
-                            ${Number(currentProduct.base_price || 0).toFixed(2)}
-                          </span>{' '}
-                          • {currentProduct.product_variants?.length || 0}{' '}
+                          {currentProduct.product_variants?.length || 0}{' '}
                           {t('priceList.form.variantsCount', { defaultValue: 'variants available' })}
                         </FormDescription>
                       )}
@@ -654,6 +647,7 @@ export function PriceListActionDialog() {
                             min='0'
                             className='pl-7'
                             {...field}
+                            value={field.value ?? ''}
                           />
                         </div>
                       </FormControl>

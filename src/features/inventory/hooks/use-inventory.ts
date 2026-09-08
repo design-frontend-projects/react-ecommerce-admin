@@ -64,9 +64,7 @@ export const useInventory = () => {
             id,
             product_id,
             name,
-            sku,
-            price,
-            stock_quantity
+            sku
           )
         `)
 
@@ -125,7 +123,7 @@ export const useCreateInventory = () => {
           store_id,
           tenant_id,
           products (id, name, sku, has_variants),
-          product_variants (id, product_id, name, sku, price, stock_quantity)
+          product_variants (id, product_id, name, sku)
         `)
         .maybeSingle()
 
@@ -182,7 +180,7 @@ export const useUpdateInventory = () => {
           store_id,
           tenant_id,
           products (id, name, sku, has_variants),
-          product_variants (id, product_id, name, sku, price, stock_quantity)
+          product_variants (id, product_id, name, sku)
         `)
         .maybeSingle()
 
@@ -237,7 +235,7 @@ export const useProductVariants = (productId?: string | null) => {
       if (!productId) return []
       const { data, error } = await supabase
         .from('product_variants')
-        .select('id, product_id, sku, name, price, stock_quantity, is_active')
+        .select('id, product_id, sku, name, is_active')
         .eq('product_id', productId)
         .order('sku')
 

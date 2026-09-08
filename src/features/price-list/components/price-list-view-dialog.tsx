@@ -238,7 +238,7 @@ export function PriceListViewDialog() {
                   <TableHeader className='bg-muted/50'>
                     <TableRow>
                       <TableHead>{t('priceList.table.variant', { defaultValue: 'Variant / SKU' })}</TableHead>
-                      <TableHead className='text-right'>{t('priceList.table.regularRef', { defaultValue: 'Standard Price' })}</TableHead>
+                      <TableHead className='text-right'>{t('priceList.table.costRef', { defaultValue: 'Cost Price' })}</TableHead>
                       <TableHead className='text-right'>{t('priceList.table.tierPrice', { defaultValue: 'Price List Price' })}</TableHead>
                       <TableHead className='text-right'>{t('priceList.table.floorPrice', { defaultValue: 'Min Price (Floor)' })}</TableHead>
                       <TableHead className='text-right'>{t('priceList.table.maxDiscount', { defaultValue: 'Max Discount %' })}</TableHead>
@@ -247,7 +247,7 @@ export function PriceListViewDialog() {
                   </TableHeader>
                   <TableBody>
                     {items.map((item) => {
-                      const cost = item.product_variants?.cost_price
+                      const cost = item.cost_price != null ? Number(item.cost_price) : null
                       const price = Number(item.price)
                       const marginPct =
                         cost != null && price > 0
@@ -265,7 +265,7 @@ export function PriceListViewDialog() {
                             </div>
                           </TableCell>
                           <TableCell className='text-right font-medium'>
-                            ${Number(item.product_variants?.price || 0).toFixed(2)}
+                            ${cost != null ? cost.toFixed(2) : '0.00'}
                           </TableCell>
                           <TableCell className='text-right font-bold text-primary'>
                             ${price.toFixed(2)}

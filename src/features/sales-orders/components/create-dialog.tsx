@@ -28,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
 import { createOrderInputSchema } from '../data/schema'
 import { useCreateOrder } from '../hooks/use-sales-orders'
 import {
@@ -96,15 +95,31 @@ export function OrderCreateDialog({
     const map = new Map<string, SOVariantOption[]>()
     for (const p of products) {
       const pId = String(p.id ?? p.product_id ?? '')
-      const vars: SOVariantOption[] = (p.product_variants || []).map((v) => ({
-        id: String(v.id),
-        sku: v.sku,
-        name: v.name,
-        price: Number(v.price || 0),
-        cost_price: v.cost_price ? Number(v.cost_price) : null,
-        stock_quantity: v.stock_quantity ?? 0,
-        uom_id: v.uom_id || (p.base_uom_id ? String(p.base_uom_id) : null),
-      }))
+      if (!pId) continue
+      const vars: SOVariantOption[] = (p.product_variants || []).map((v) => {
+        const pli = (v as { price_list_items?: Array<{ price: number | string; cost_price?: number | string | null }> }).price_list_items
+        const resolvedPrice = (pli && pli.length > 0)
+          ? Number(pli[0].price)
+          : Number((v as { price?: number }).price || 0)
+        const resolvedCost = (pli && pli.length > 0 && pli[0].cost_price != null)
+          ? Number(pli[0].cost_price)
+          : ((v as { cost_price?: number | null }).cost_price ? Number((v as { cost_price?: number | null }).cost_price) : null)
+
+        const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances
+        const resolvedStock = (balances && balances.length > 0)
+          ? balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
+          : Number((v as { stock_quantity?: number }).stock_quantity ?? 0)
+
+        return {
+          id: String(v.id),
+          sku: v.sku,
+          name: v.name,
+          price: resolvedPrice,
+          cost_price: resolvedCost,
+          stock_quantity: resolvedStock,
+          uom_id: v.uom_id || (p.base_uom_id ? String(p.base_uom_id) : null),
+        }
+      })
       map.set(pId, vars)
     }
     return map

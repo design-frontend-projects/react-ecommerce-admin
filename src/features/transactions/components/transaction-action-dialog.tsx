@@ -60,7 +60,7 @@ export function TransactionActionDialog({
     queryFn: async () => {
       const { data, error } = await supabase
         .from('inventory')
-        .select('*, products(id, name, base_price)')
+        .select('*, products(id, name, product_variants(price_list_items(price)))')
       if (error) throw error
       return data || []
     },
@@ -278,9 +278,11 @@ export function TransactionActionDialog({
                                   String(p.products?.id || p.product_id || p.id) === String(val)
                               )
                               if (selectedProduct) {
+                                const resolvedPrice =
+                                  selectedProduct.products?.product_variants?.[0]?.price_list_items?.[0]?.price ?? 0
                                 form.setValue(
                                   `items.${index}.unit_price`,
-                                  Number(selectedProduct.products?.base_price ?? selectedProduct.base_price ?? 0)
+                                  Number(resolvedPrice)
                                 )
                               }
                             }}

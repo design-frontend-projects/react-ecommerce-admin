@@ -309,7 +309,7 @@ export const useCreateProductWithVariants = () => {
       const productId = product.id as string
       const productTenantId = (product.tenant_id as string) || resolvedTenantId
 
-      // 2. Insert variants with zero stock — quantities go through the engine
+      // 2. Insert variants
       if (variants.length > 0) {
         const variantsWithProductId = variants.map((v) => ({
           product_id: productId,
@@ -317,10 +317,6 @@ export const useCreateProductWithVariants = () => {
           sku: v.sku,
           barcode: v.barcode || null,
           name: v.name || v.attributes_label || null,
-          price: v.price,
-          cost_price: v.cost_price ?? null,
-          stock_quantity: Number(v.stock_quantity) || 0,
-          min_stock: v.min_stock ?? 0,
           weight: v.weight ?? null,
           uom_id: v.uom_id || null,
           dimensions: v.attributes_label
@@ -375,17 +371,20 @@ export const useCreateProductWithVariants = () => {
           }
 
           if (defaultPlId && createdVariants && createdVariants.length > 0) {
-            const priceItems = createdVariants.map((created, index) => ({
-              tenant_id: productTenantId,
-              price_list_id: defaultPlId!,
-              product_variant_id: created.id as string,
-              product_id: productId,
-              price: Number(variants[index]?.price || 0),
-              cost_price: Number(variants[index]?.cost_price || 0),
-              min_price: 0,
-              max_discount_percent: 0,
-              created_by_user_id: userId,
-            }))
+            const priceItems = createdVariants.map((created, index) => {
+              const vAny = variants[index] as { price?: number; cost_price?: number } | undefined
+              return {
+                tenant_id: productTenantId,
+                price_list_id: defaultPlId!,
+                product_variant_id: created.id as string,
+                product_id: productId,
+                price: Number(vAny?.price || 0),
+                cost_price: Number(vAny?.cost_price || 0),
+                min_price: 0,
+                max_discount_percent: 0,
+                created_by_user_id: userId,
+              }
+            })
 
             await supabase
               .from('price_list_items')
@@ -399,11 +398,14 @@ export const useCreateProductWithVariants = () => {
         const storeId = (base as { store_id?: string | null }).store_id
         if (storeId && createdVariants) {
           const openingItems = createdVariants
-            .map((created, index) => ({
-              productVariantId: created.id as string,
-              qty: variants[index]?.stock_quantity ?? 0,
-              unitCost: variants[index]?.cost_price ?? undefined,
-            }))
+            .map((created, index) => {
+              const vAny = variants[index] as { stock_quantity?: number; cost_price?: number } | undefined
+              return {
+                productVariantId: created.id as string,
+                qty: vAny?.stock_quantity ?? 0,
+                unitCost: vAny?.cost_price ?? undefined,
+              }
+            })
             .filter((item) => item.qty > 0)
 
           if (openingItems.length > 0) {
@@ -528,10 +530,6 @@ export const useUpdateProductWithVariants = () => {
         sku: v.sku,
         barcode: v.barcode || null,
         name: v.name || v.attributes_label || null,
-        price: v.price,
-        cost_price: v.cost_price ?? null,
-        stock_quantity: Number(v.stock_quantity) || 0,
-        min_stock: v.min_stock ?? 0,
         weight: v.weight ?? null,
         uom_id: v.uom_id || null,
         dimensions: v.attributes_label
@@ -569,7 +567,6 @@ export const useUpdateProductWithVariants = () => {
               ...buildVariantPayload(v),
               tenant_id: productTenantId,
               created_by_user_id: userId,
-              stock_quantity: Number(v.stock_quantity) || 0,
               created_at: new Date().toISOString(),
             }))
           )
@@ -582,11 +579,14 @@ export const useUpdateProductWithVariants = () => {
         const storeId = (product as { store_id?: string | null } | null)?.store_id
         if (storeId && insertedVariants) {
           const openingItems = insertedVariants
-            .map((created, index) => ({
-              productVariantId: created.id as string,
-              qty: newToInsert[index]?.stock_quantity ?? 0,
-              unitCost: newToInsert[index]?.cost_price ?? undefined,
-            }))
+            .map((created, index) => {
+              const vAny = newToInsert[index] as { stock_quantity?: number; cost_price?: number } | undefined
+              return {
+                productVariantId: created.id as string,
+                qty: vAny?.stock_quantity ?? 0,
+                unitCost: vAny?.cost_price ?? undefined,
+              }
+            })
             .filter((item) => item.qty > 0)
 
           if (openingItems.length > 0) {
@@ -606,16 +606,22 @@ export const useUpdateProductWithVariants = () => {
 
         if (defaultPl) {
           const allVariantsToSync = [
-            ...existingToUpdate.map((v) => ({
-              variantId: v.id!,
-              price: Number(v.price || 0),
-              costPrice: Number(v.cost_price || 0),
-            })),
-            ...(insertedVariants || []).map((iv, idx) => ({
-              variantId: iv.id as string,
-              price: Number(newToInsert[idx]?.price || 0),
-              costPrice: Number(newToInsert[idx]?.cost_price || 0),
-            })),
+            ...existingToUpdate.map((v) => {
+              const vAny = v as { price?: number; cost_price?: number }
+              return {
+                variantId: v.id!,
+                price: Number(vAny.price || 0),
+                costPrice: Number(vAny.cost_price || 0),
+              }
+            }),
+            ...(insertedVariants || []).map((iv, idx) => {
+              const vAny = newToInsert[idx] as { price?: number; cost_price?: number } | undefined
+              return {
+                variantId: iv.id as string,
+                price: Number(vAny?.price || 0),
+                costPrice: Number(vAny?.cost_price || 0),
+              }
+            }),
           ].filter((item) => item.price > 0)
 
           if (allVariantsToSync.length > 0) {

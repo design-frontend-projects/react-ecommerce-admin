@@ -443,7 +443,7 @@ export type storesCreateInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -470,7 +470,7 @@ export type storesUncheckedCreateInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -545,7 +545,7 @@ export type storesCreateManyInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -891,7 +891,7 @@ export type storesCreateWithoutBranchesInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -917,7 +917,7 @@ export type storesUncheckedCreateWithoutBranchesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -988,7 +988,7 @@ export type storesCreateWithoutCitiesInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1013,7 +1013,7 @@ export type storesUncheckedCreateWithoutCitiesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1062,7 +1062,7 @@ export type storesCreateWithoutCountriesInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1087,7 +1087,7 @@ export type storesUncheckedCreateWithoutCountriesInput = {
   city_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1136,7 +1136,7 @@ export type storesCreateWithoutPrice_listInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1162,7 +1162,7 @@ export type storesUncheckedCreateWithoutPrice_listInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1248,7 +1248,7 @@ export type storesCreateWithoutStock_balancesInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1274,7 +1274,7 @@ export type storesUncheckedCreateWithoutStock_balancesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1360,7 +1360,7 @@ export type storesCreateWithoutReorder_rulesInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1386,7 +1386,7 @@ export type storesUncheckedCreateWithoutReorder_rulesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1472,7 +1472,7 @@ export type storesCreateWithoutReorder_suggestionsInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1498,7 +1498,7 @@ export type storesUncheckedCreateWithoutReorder_suggestionsInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1584,7 +1584,7 @@ export type storesCreateWithoutWarehousesInput = {
   updated_at?: Date | string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1610,7 +1610,7 @@ export type storesUncheckedCreateWithoutWarehousesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1698,7 +1698,7 @@ export type storesCreateManyBranchesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   tenant_id: string
   created_by_user_id?: string | null
@@ -1783,7 +1783,7 @@ export type storesCreateManyCitiesInput = {
   country_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string
@@ -1869,7 +1869,7 @@ export type storesCreateManyCountriesInput = {
   city_id?: string | null
   store_type_id?: string | null
   name?: string | null
-  store_id: string
+  store_id?: string
   status?: boolean | null
   branch_id?: string | null
   tenant_id: string

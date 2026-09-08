@@ -28,8 +28,6 @@ export interface StockBalanceRow extends StockBalance {
     id: string
     sku: string
     barcode?: string | null
-    price: number | string
-    cost_price: number | string | null
     products?: {
       id?: string
       product_id?: number

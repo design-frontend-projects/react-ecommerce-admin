@@ -23,8 +23,6 @@ export function useStockBalances() {
             id,
             sku,
             barcode,
-            price,
-            cost_price,
             products (
               id,
               name
@@ -117,7 +115,7 @@ export function useProductVariants(productId?: number) {
       if (!productId) return []
       const { data, error } = await supabase
         .from('product_variants')
-        .select('id, sku, price, cost_price')
+        .select('id, sku')
         .eq('product_id', productId)
         .order('sku')
 
