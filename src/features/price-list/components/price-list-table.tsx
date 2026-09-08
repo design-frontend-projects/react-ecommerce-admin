@@ -63,9 +63,9 @@ export function PriceListTable({ data }: PriceListTableProps) {
       <DataTableToolbar
         table={table}
         searchPlaceholder={t('priceList.table.filterPlaceholder', {
-          defaultValue: 'Filter by product name...',
+          defaultValue: 'Filter price lists...',
         })}
-        searchKey='product_name'
+        searchKey='price_list_name'
       />
       <div className='overflow-hidden rounded-md border bg-card'>
         <Table>

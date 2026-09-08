@@ -20,15 +20,28 @@ export interface CurrencyInput {
   is_active?: boolean
 }
 
-export const useCurrencies = () => {
-  const { authEnabled } = useAuthEnabled({ permission: 'settings.view' })
+export interface UseCurrenciesOptions {
+  onlyActive?: boolean
+  permission?: string
+}
+
+export const useCurrencies = (options?: UseCurrenciesOptions) => {
+  const { authEnabled } = useAuthEnabled(
+    options?.permission ? { permission: options.permission } : undefined
+  )
   return useQuery({
-    queryKey: ['currencies'],
+    queryKey: ['currencies', options?.onlyActive],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('currencies')
         .select('*')
-        .order('name')
+        .order('code')
+
+      if (options?.onlyActive) {
+        query = query.neq('is_active', false)
+      }
+
+      const { data, error } = await query
 
       if (error) throw error
       return data as Currency[]

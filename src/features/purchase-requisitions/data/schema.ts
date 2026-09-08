@@ -90,6 +90,7 @@ export const requisitionItemRowSchema = z.object({
   qty_requested: z.coerce.number(),
   est_unit_cost: z.coerce.number(),
   uom_id: z.string().uuid().optional().nullable(),
+  preferred_supplier_id: z.string().optional().nullable(),
   reason: z.string().nullable(),
   product_variants: z
     .object({

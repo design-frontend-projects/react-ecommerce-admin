@@ -216,6 +216,13 @@ export const columns: ColumnDef<StockBalanceRow>[] = [
   },
   {
     id: 'status',
+    accessorFn: (row) => {
+      const onHand = Number(row.qty_on_hand || 0)
+      const reorderLevel = Number(row.product_variants?.products?.reorder_level ?? 10)
+      if (onHand <= 0) return 'out_of_stock'
+      if (onHand <= reorderLevel) return 'low_stock'
+      return 'in_stock'
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Status' />
     ),

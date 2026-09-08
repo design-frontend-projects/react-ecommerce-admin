@@ -59,6 +59,7 @@ import { useSuppliers } from '@/features/suppliers/hooks/use-suppliers'
 import {
   useStoreOptions,
   useWarehouseOptions,
+  useCurrencyOptions,
 } from '@/hooks/use-inventory-lookups'
 import {
   POProductSelect,
@@ -76,17 +77,6 @@ import {
   type PRSummaryDraftData,
 } from './pr-summary-dialog'
 import type { RequisitionItemInput } from '../data/schema'
-
-const CURRENCIES = [
-  { code: 'USD', label: 'USD ($)', symbol: '$' },
-  { code: 'EUR', label: 'EUR (€)', symbol: '€' },
-  { code: 'GBP', label: 'GBP (£)', symbol: '£' },
-  { code: 'SAR', label: 'SAR (ر.س)', symbol: 'SAR' },
-  { code: 'AED', label: 'AED (د.إ)', symbol: 'AED' },
-  { code: 'EGP', label: 'EGP (ج.م)', symbol: 'EGP' },
-  { code: 'QAR', label: 'QAR (ر.ق)', symbol: 'QAR' },
-  { code: 'KWD', label: 'KWD (د.ك)', symbol: 'KWD' },
-]
 
 // ─── Schema ───────────────────────────────────────────────
 const prFormSchema = z.object({
@@ -136,6 +126,8 @@ export function PRActionDialog() {
   const { data: products } = useProducts()
   const { data: uoms = [] } = useUomOptions()
   const { data: suppliers = [] } = useSuppliers()
+  const { data: currencies = [], isLoading: isLoadingCurrencies } =
+    useCurrencyOptions()
 
   const createMutation = useCreateRequisition()
   const updateMutation = useUpdateRequisition()
@@ -143,9 +135,6 @@ export function PRActionDialog() {
   const [showLineValidation, setShowLineValidation] = useState(false)
   const [locationOpen, setLocationOpen] = useState(false)
   const [showSummaryModal, setShowSummaryModal] = useState(false)
-  const [lineItemOverrides, setLineItemOverrides] = useState<LineItem[] | null>(
-    null
-  )
 
   // Fetch full requisition with items for edit mode
   const { data: fullReq } = useRequisition(
@@ -307,7 +296,8 @@ export function PRActionDialog() {
           quantity_requested: qty,
           est_unit_cost: cost,
           subtotal: qty * cost,
-          preferred_supplier_id: item.preferred_supplier_id ?? item.suppliers?.id ?? null,
+          preferred_supplier_id:
+            item.preferred_supplier_id ?? item.suppliers?.id ?? null,
           reason: item.reason || '',
         }
       })
@@ -696,20 +686,34 @@ export function PRActionDialog() {
                       >
                         <FormControl>
                           <SelectTrigger className='h-9 w-full font-medium'>
-                            <SelectValue placeholder='Select currency' />
+                            <SelectValue
+                              placeholder={
+                                isLoadingCurrencies
+                                  ? 'Loading currencies...'
+                                  : 'Select currency'
+                              }
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {CURRENCIES.map((c) => (
-                            <SelectItem key={c.code} value={c.code}>
+                          {currencies.map((c) => (
+                            <SelectItem key={c.id || c.code} value={c.code}>
                               <span className='font-mono font-medium mr-1.5'>
                                 {c.code}
                               </span>
                               <span className='text-muted-foreground text-xs'>
-                                ({c.label})
+                                ({c.symbol ? `${c.symbol} · ` : ''}{c.name})
                               </span>
                             </SelectItem>
                           ))}
+                          {field.value &&
+                            !currencies.some((c) => c.code === field.value) && (
+                              <SelectItem key={field.value} value={field.value}>
+                                <span className='font-mono font-medium mr-1.5'>
+                                  {field.value}
+                                </span>
+                              </SelectItem>
+                            )}
                         </SelectContent>
                       </Select>
                       <FormMessage />

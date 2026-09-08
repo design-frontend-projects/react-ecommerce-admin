@@ -8,7 +8,10 @@ import {
   type PRSummaryDraftData,
 } from '@/features/purchase-requisitions/components/pr-summary-dialog'
 import { RequisitionsProvider } from '@/features/purchase-requisitions/components/provider'
-import type { RequisitionListItem } from '@/features/purchase-requisitions/data/schema'
+import {
+  createRequisitionInputSchema,
+  type RequisitionListItem,
+} from '@/features/purchase-requisitions/data/schema'
 
 // Mock useAuth
 vi.mock('@/hooks/use-auth', () => ({
@@ -201,3 +204,44 @@ describe('Purchase Requisition Summary Modal (Draft Mode)', () => {
     expect(onConfirmMock).toHaveBeenCalledTimes(1)
   })
 })
+
+describe('Purchase Requisition Currency Validation', () => {
+  const baseItem = {
+    productVariantId: '11111111-1111-1111-1111-111111111111',
+    qtyRequested: 10,
+    estUnitCost: 25.5,
+  }
+
+  test('validates requisition with valid currency code from currencies table', () => {
+    const currencies = ['USD', 'EUR', 'GBP', 'SAR', 'AED', 'EGP', 'QAR', 'KWD']
+    for (const curr of currencies) {
+      const parsed = createRequisitionInputSchema.safeParse({
+        currency: curr,
+        items: [baseItem],
+      })
+      expect(parsed.success).toBe(true)
+      if (parsed.success) {
+        expect(parsed.data.currency).toBe(curr)
+      }
+    }
+  })
+
+  test('defaults to USD when currency is omitted', () => {
+    const parsed = createRequisitionInputSchema.safeParse({
+      items: [baseItem],
+    })
+    expect(parsed.success).toBe(true)
+    if (parsed.success) {
+      expect(parsed.data.currency).toBe('USD')
+    }
+  })
+
+  test('rejects currency code longer than 3 characters', () => {
+    const parsed = createRequisitionInputSchema.safeParse({
+      currency: 'USDT',
+      items: [baseItem],
+    })
+    expect(parsed.success).toBe(false)
+  })
+})
+

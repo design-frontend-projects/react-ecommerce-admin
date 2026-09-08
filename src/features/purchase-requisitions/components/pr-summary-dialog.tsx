@@ -170,7 +170,7 @@ export function PRSummaryDialog({
           quantity: qty,
           unitCost: cost,
           subtotal: qty * cost,
-          supplierId: item.suppliers?.id,
+          supplierId: item.preferred_supplier_id ?? item.suppliers?.id,
           supplierName: item.suppliers?.name,
           reason: item.reason,
         }

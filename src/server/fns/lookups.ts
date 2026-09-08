@@ -3,6 +3,7 @@
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+import { SEED_LOOKUP_TYPES } from '@/server/seed/lookups-seed'
 
 export interface CreateLookupValueInput {
   code: string
@@ -74,12 +75,58 @@ export async function listLookupValues(
 ) {
   const tenantId = await requireTenantId(authUserId)
 
-  const lookupType = await prisma.lookup_types.findUnique({
+  let lookupType = await prisma.lookup_types.findUnique({
     where: { code: typeCode },
   })
 
   if (!lookupType) {
-    throw new ApiError(`Lookup type '${typeCode}' not found.`, 404)
+    const seedDef = SEED_LOOKUP_TYPES.find((s) => s.code === typeCode)
+    if (seedDef) {
+      lookupType = await prisma.lookup_types.upsert({
+        where: { code: seedDef.code },
+        update: {
+          name: seedDef.name,
+          description: seedDef.description ?? null,
+          is_system: seedDef.is_system,
+          sort_order: seedDef.sort_order,
+        },
+        create: {
+          code: seedDef.code,
+          name: seedDef.name,
+          description: seedDef.description ?? null,
+          is_system: seedDef.is_system,
+          sort_order: seedDef.sort_order,
+        },
+      })
+      for (const val of seedDef.values) {
+        const existingVal = await prisma.lookup_values.findFirst({
+          where: {
+            lookup_type_id: lookupType.id,
+            tenant_id: null,
+            code: val.code,
+          },
+        })
+        if (!existingVal) {
+          await prisma.lookup_values.create({
+            data: {
+              lookup_type_id: lookupType.id,
+              tenant_id: null,
+              code: val.code,
+              name: val.name,
+              name_ar: val.name_ar ?? null,
+              description: val.description ?? null,
+              color: val.color ?? null,
+              icon: val.icon ?? null,
+              is_default: val.is_default ?? false,
+              is_system: true,
+              sort_order: val.sort_order ?? 0,
+            },
+          }).catch(() => null)
+        }
+      }
+    } else {
+      throw new ApiError(`Lookup type '${typeCode}' not found.`, 404)
+    }
   }
 
   const values = await prisma.lookup_values.findMany({
