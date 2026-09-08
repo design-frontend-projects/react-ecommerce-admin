@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { type PriceListItem } from '../hooks/use-price-list'
+import type { PriceList } from '../data/schema'
 
-type PriceListDialogType = 'create' | 'edit' | 'delete' | null
+export type PriceListDialogType = 'create' | 'edit' | 'delete' | 'view' | null
 
 interface PriceListContextType {
   open: PriceListDialogType
   setOpen: (type: PriceListDialogType) => void
-  currentRow: PriceListItem | null
-  setCurrentRow: (row: PriceListItem | null) => void
+  currentRow: PriceList | null
+  setCurrentRow: (row: PriceList | null) => void
 }
 
 const PriceListContext = React.createContext<PriceListContextType | null>(null)
@@ -18,7 +18,7 @@ interface PriceListProviderProps {
 
 export function PriceListProvider({ children }: PriceListProviderProps) {
   const [open, setOpen] = useState<PriceListDialogType>(null)
-  const [currentRow, setCurrentRow] = useState<PriceListItem | null>(null)
+  const [currentRow, setCurrentRow] = useState<PriceList | null>(null)
 
   const handleSetOpen = useCallback((type: PriceListDialogType) => {
     setOpen(type)
@@ -44,6 +44,7 @@ export function PriceListProvider({ children }: PriceListProviderProps) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const usePriceListContext = () => {
   const context = React.useContext(PriceListContext)
 

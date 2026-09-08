@@ -3,6 +3,7 @@ import { useState } from 'react'
 import {
   type SortingState,
   type VisibilityState,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -21,17 +22,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { type PriceListItem } from '../hooks/use-price-list'
+import { type PriceList } from '../data/schema'
 import { columns } from './price-list-columns'
 
 interface PriceListTableProps {
-  data: PriceListItem[]
+  data: PriceList[]
 }
 
 export function PriceListTable({ data }: PriceListTableProps) {
   const { t } = useTranslation()
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
@@ -41,10 +43,12 @@ export function PriceListTable({ data }: PriceListTableProps) {
       sorting,
       rowSelection,
       columnVisibility,
+      columnFilters,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
@@ -58,10 +62,12 @@ export function PriceListTable({ data }: PriceListTableProps) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder={t('priceList.table.filterPlaceholder', { defaultValue: 'Filter...' })}
+        searchPlaceholder={t('priceList.table.filterPlaceholder', {
+          defaultValue: 'Filter by product name...',
+        })}
         searchKey='product_name'
       />
-      <div className='overflow-hidden rounded-md border'>
+      <div className='overflow-hidden rounded-md border bg-card'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -85,6 +91,7 @@ export function PriceListTable({ data }: PriceListTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className='hover:bg-muted/40 transition-colors'
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -100,8 +107,12 @@ export function PriceListTable({ data }: PriceListTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className='h-24 text-center'
-                >{t('priceList.table.noResults', { defaultValue: 'No results.' })}</TableCell>
+                  className='h-32 text-center text-muted-foreground'
+                >
+                  {t('priceList.table.noResults', {
+                    defaultValue: 'No price lists found. Create one to get started.',
+                  })}
+                </TableCell>
               </TableRow>
             )}
           </TableBody>

@@ -3066,39 +3066,77 @@
   },
   "priceList": {
     "title": "Price Lists",
-    "description": "Manage wholesale, retail, and special promotional price tiers.",
+    "description": "Manage wholesale, retail, and promotional pricing tiers and variant rules.",
     "addPriceList": "Add Price List",
     "editPriceList": "Edit Price List",
     "deletePriceList": "Delete Price List",
+    "viewDescription": "Detailed pricing tier schedule, scope restrictions, and variant overrides.",
+    "editDescription": "Modify pricing schedule, customer tier, and variant price overrides.",
+    "createDescription": "Define a new price list header and assign specific prices to product variants.",
+    "deleteTitle": "Delete Price List",
+    "deleteConfirm": "Are you sure you want to delete this price list rule? This action cannot be undone.",
+    "deleteVariantNotice": "variant price override records (price_list_items) will also be deleted.",
+    "deleteSuccess": "Price list and associated variant rules deleted successfully",
     "table": {
-      "filterPlaceholder": "Filter price lists...",
-      "noResults": "No price lists found."
+      "filterPlaceholder": "Filter by product name...",
+      "noResults": "No price lists found. Create one to get started.",
+      "variant": "Variant / SKU",
+      "regularRef": "Standard Price",
+      "tierPrice": "Price List Price",
+      "floorPrice": "Floor (Min Price)",
+      "maxDiscount": "Max Discount %",
+      "margin": "Est. Margin"
     },
     "columns": {
-      "name": "Price List Name",
-      "currency": "Currency",
-      "isDefault": "Default",
+      "product": "Product",
+      "sku": "Product SKU",
+      "type": "Pricing Type",
+      "scope": "Scope",
+      "defaultPrice": "Default List Price",
+      "variantRules": "Variant Rules",
+      "validity": "Validity Period",
+      "dateRange": "Valid Period",
       "status": "Status",
       "actions": "Actions"
     },
     "form": {
-      "name": "Price List Name",
-      "currency": "Currency",
-      "isDefault": "Set as Default",
-      "status": "Status",
-      "cancel": "Cancel",
-      "save": "Save Price List",
-      "saving": "Saving..."
+      "headerSection": "General Information",
+      "product": "Product",
+      "selectProduct": "Select product",
+      "standardBasePrice": "Standard Base Price",
+      "variantsCount": "variants available",
+      "type": "Pricing Tier / Type",
+      "selectType": "Standard / None",
+      "customerGroup": "Target Customer Group",
+      "allGroups": "All Customers (No Group Restriction)",
+      "store": "Target Store / Location",
+      "allStores": "All Stores / Global",
+      "defaultPrice": "Default List Price",
+      "applyToAll": "Apply to All Variants",
+      "appliedToAll": "Applied default price to all variants",
+      "activeStatus": "Active Status",
+      "activeHelp": "Enable or disable this pricing rule.",
+      "startDate": "Effective Start Date",
+      "endDate": "End Date (Optional)",
+      "description": "Notes & Description",
+      "descriptionPlaceholder": "Reason for price change, campaign notes, or promotional terms...",
+      "variantItemsSection": "Variant Price Overrides (price_list_items)",
+      "variantItemsHelp": "Customize price, floor price, and discount cap for each variant.",
+      "noVariantsHelp": "Select a product with variants above to configure variant-specific prices.",
+      "variantsLabel": "Variants",
+      "noVariantsForProduct": "This product has no extra variants. The header list price will be used.",
+      "selectProductFirst": "Select a product to preview and configure variant price rules.",
+      "createSuccess": "Price list created successfully",
+      "updateSuccess": "Price list updated successfully"
     },
-    "toast": {
-      "created": "Price list created successfully",
-      "updated": "Price list updated successfully",
-      "deleted": "Price list deleted successfully",
-      "error": "Failed to save price list"
+    "view": {
+      "variantBreakdown": "Variant Price Rules (price_list_items)",
+      "noItems": "No variant overrides configured. All variants adhere to the header price."
     },
-    "delete": {
-      "title": "Delete Price List",
-      "description": "Are you sure you want to delete this price list?"
+    "status": {
+      "effectiveNow": "In Effect",
+      "upcoming": "Upcoming",
+      "expired": "Expired"
     }
   },
   "promotions": {

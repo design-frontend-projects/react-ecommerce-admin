@@ -253,6 +253,7 @@ export type customer_groupsWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   customers?: Prisma.CustomersListRelationFilter
+  price_list?: Prisma.Price_listListRelationFilter
 }
 
 export type customer_groupsOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type customer_groupsOrderByWithRelationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   customers?: Prisma.customersOrderByRelationAggregateInput
+  price_list?: Prisma.price_listOrderByRelationAggregateInput
 }
 
 export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
@@ -282,6 +284,7 @@ export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
   created_by_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"customer_groups"> | string | null
   customers?: Prisma.CustomersListRelationFilter
+  price_list?: Prisma.Price_listListRelationFilter
 }, "id">
 
 export type customer_groupsOrderByWithAggregationInput = {
@@ -327,6 +330,7 @@ export type customer_groupsCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUncheckedCreateInput = {
@@ -340,6 +344,7 @@ export type customer_groupsUncheckedCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUpdateInput = {
@@ -353,6 +358,7 @@ export type customer_groupsUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsUncheckedUpdateInput = {
@@ -366,6 +372,7 @@ export type customer_groupsUncheckedUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsCreateManyInput = {
@@ -471,6 +478,22 @@ export type customer_groupsUpdateOneWithoutCustomersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.customer_groupsUpdateToOneWithWhereWithoutCustomersInput, Prisma.customer_groupsUpdateWithoutCustomersInput>, Prisma.customer_groupsUncheckedUpdateWithoutCustomersInput>
 }
 
+export type customer_groupsCreateNestedOneWithoutPrice_listInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutPrice_listInput, Prisma.customer_groupsUncheckedCreateWithoutPrice_listInput>
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutPrice_listInput
+  connect?: Prisma.customer_groupsWhereUniqueInput
+}
+
+export type customer_groupsUpdateOneWithoutPrice_listNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutPrice_listInput, Prisma.customer_groupsUncheckedCreateWithoutPrice_listInput>
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutPrice_listInput
+  upsert?: Prisma.customer_groupsUpsertWithoutPrice_listInput
+  disconnect?: Prisma.customer_groupsWhereInput | boolean
+  delete?: Prisma.customer_groupsWhereInput | boolean
+  connect?: Prisma.customer_groupsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.customer_groupsUpdateToOneWithWhereWithoutPrice_listInput, Prisma.customer_groupsUpdateWithoutPrice_listInput>, Prisma.customer_groupsUncheckedUpdateWithoutPrice_listInput>
+}
+
 export type customer_groupsCreateWithoutCustomersInput = {
   name: string
   description?: string | null
@@ -481,6 +504,7 @@ export type customer_groupsCreateWithoutCustomersInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
 }
 
 export type customer_groupsUncheckedCreateWithoutCustomersInput = {
@@ -493,6 +517,7 @@ export type customer_groupsUncheckedCreateWithoutCustomersInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
 }
 
 export type customer_groupsCreateOrConnectWithoutCustomersInput = {
@@ -521,6 +546,7 @@ export type customer_groupsUpdateWithoutCustomersInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
@@ -533,6 +559,75 @@ export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+}
+
+export type customer_groupsCreateWithoutPrice_listInput = {
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  id?: string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
+}
+
+export type customer_groupsUncheckedCreateWithoutPrice_listInput = {
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  id?: string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
+}
+
+export type customer_groupsCreateOrConnectWithoutPrice_listInput = {
+  where: Prisma.customer_groupsWhereUniqueInput
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutPrice_listInput, Prisma.customer_groupsUncheckedCreateWithoutPrice_listInput>
+}
+
+export type customer_groupsUpsertWithoutPrice_listInput = {
+  update: Prisma.XOR<Prisma.customer_groupsUpdateWithoutPrice_listInput, Prisma.customer_groupsUncheckedUpdateWithoutPrice_listInput>
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutPrice_listInput, Prisma.customer_groupsUncheckedCreateWithoutPrice_listInput>
+  where?: Prisma.customer_groupsWhereInput
+}
+
+export type customer_groupsUpdateToOneWithWhereWithoutPrice_listInput = {
+  where?: Prisma.customer_groupsWhereInput
+  data: Prisma.XOR<Prisma.customer_groupsUpdateWithoutPrice_listInput, Prisma.customer_groupsUncheckedUpdateWithoutPrice_listInput>
+}
+
+export type customer_groupsUpdateWithoutPrice_listInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
+}
+
+export type customer_groupsUncheckedUpdateWithoutPrice_listInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 
@@ -542,10 +637,12 @@ export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
 
 export type Customer_groupsCountOutputType = {
   customers: number
+  price_list: number
 }
 
 export type Customer_groupsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customers?: boolean | Customer_groupsCountOutputTypeCountCustomersArgs
+  price_list?: boolean | Customer_groupsCountOutputTypeCountPrice_listArgs
 }
 
 /**
@@ -565,6 +662,13 @@ export type Customer_groupsCountOutputTypeCountCustomersArgs<ExtArgs extends run
   where?: Prisma.customersWhereInput
 }
 
+/**
+ * Customer_groupsCountOutputType without action
+ */
+export type Customer_groupsCountOutputTypeCountPrice_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.price_listWhereInput
+}
+
 
 export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   name?: boolean
@@ -577,6 +681,7 @@ export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
+  price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_groups"]>
 
@@ -619,6 +724,7 @@ export type customer_groupsSelectScalar = {
 export type customer_groupsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "minimum_order_amount" | "discount_percentage" | "created_at" | "id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["customer_groups"]>
 export type customer_groupsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customers?: boolean | Prisma.customer_groups$customersArgs<ExtArgs>
+  price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type customer_groupsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -628,6 +734,7 @@ export type $customer_groupsPayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "customer_groups"
   objects: {
     customers: Prisma.$customersPayload<ExtArgs>[]
+    price_list: Prisma.$price_listPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     name: string
@@ -1034,6 +1141,7 @@ readonly fields: customer_groupsFieldRefs;
 export interface Prisma__customer_groupsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customers<T extends Prisma.customer_groups$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$customersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  price_list<T extends Prisma.customer_groups$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1486,6 +1594,30 @@ export type customer_groups$customersArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.CustomersScalarFieldEnum | Prisma.CustomersScalarFieldEnum[]
+}
+
+/**
+ * customer_groups.price_list
+ */
+export type customer_groups$price_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the price_list
+   */
+  select?: Prisma.price_listSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the price_list
+   */
+  omit?: Prisma.price_listOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.price_listInclude<ExtArgs> | null
+  where?: Prisma.price_listWhereInput
+  orderBy?: Prisma.price_listOrderByWithRelationInput | Prisma.price_listOrderByWithRelationInput[]
+  cursor?: Prisma.price_listWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Price_listScalarFieldEnum | Prisma.Price_listScalarFieldEnum[]
 }
 
 /**
