@@ -1,5 +1,6 @@
 import {
   MoreHorizontal,
+  Eye,
   Pencil,
   Trash2,
   PackageCheck,
@@ -38,6 +39,17 @@ export function PORowActions({ row }: PORowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(row)
+            setOpen('view')
+          }}
+        >
+          <Eye className='mr-2 h-4 w-4' />
+          View Summary
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+
         {canEdit && (
           <Can permission='purchasing.manage'>
             <DropdownMenuItem

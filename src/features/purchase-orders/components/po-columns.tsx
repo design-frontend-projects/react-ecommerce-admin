@@ -3,16 +3,29 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 import { PORowActions } from './po-row-actions'
 import { POStatusBadge } from './po-status-badge'
+import { usePOContext } from './po-provider'
+
+function POCell({ po }: { po: PurchaseOrder }) {
+  const { setOpen, setCurrentRow } = usePOContext()
+  return (
+    <button
+      type='button'
+      onClick={() => {
+        setCurrentRow(po)
+        setOpen('view')
+      }}
+      className='font-mono font-medium text-primary hover:underline cursor-pointer text-left'
+    >
+      PO-{String(po.po_id).padStart(4, '0')}
+    </button>
+  )
+}
 
 export const poColumns: ColumnDef<PurchaseOrder>[] = [
   {
     accessorKey: 'po_id',
     header: 'PO #',
-    cell: ({ row }) => (
-      <span className='font-mono font-medium'>
-        PO-{String(row.original.po_id).padStart(4, '0')}
-      </span>
-    ),
+    cell: ({ row }) => <POCell po={row.original} />,
     size: 100,
   },
   {

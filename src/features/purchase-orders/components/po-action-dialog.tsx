@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { format } from 'date-fns'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Plus, Trash2, Check, ChevronsUpDown } from 'lucide-react'
+import { Plus, Trash2, Check, ChevronsUpDown, FileText } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -38,13 +38,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
   Table,
   TableBody,
   TableCell,
@@ -62,6 +55,15 @@ import {
   type PurchaseOrderItemInput,
 } from '../hooks/use-purchase-orders'
 import { usePOContext } from './po-provider'
+import {
+  POProductVariantPicker,
+  type VariantOption,
+} from './po-product-variant-picker'
+import {
+  POSummaryDialog,
+  type POSummaryDraftData,
+} from './po-summary-dialog'
+
 
 // ─── Schema ───────────────────────────────────────────────
 const poFormSchema = z.object({
@@ -82,12 +84,6 @@ interface LineItem {
   subtotal: number
 }
 
-interface VariantOption {
-  id: string
-  sku: string
-  cost_price: number | null
-}
-
 export function POActionDialog() {
   const { open, setOpen, currentRow } = usePOContext()
   const isCreate = open === 'create'
@@ -100,6 +96,7 @@ export function POActionDialog() {
   const updateMutation = useUpdatePurchaseOrder()
   const [showLineValidation, setShowLineValidation] = useState(false)
   const [supplierOpen, setSupplierOpen] = useState(false)
+  const [showSummaryModal, setShowSummaryModal] = useState(false)
 
   // Fetch full PO with items for edit mode
   const { data: fullPO } = usePurchaseOrder(
@@ -138,27 +135,41 @@ export function POActionDialog() {
     const map = new Map<number, VariantOption[]>()
 
     for (const product of products ?? []) {
-      if (!product.product_id) continue
+      const pId = Number(product.product_id ?? product.id)
+      if (!pId) continue
 
-      const variants = (product.product_variants ?? [])
+      const variants: VariantOption[] = (product.product_variants ?? [])
         .filter((variant) => !!variant.id)
         .map((variant) => ({
           id: variant.id as string,
           sku: variant.sku,
-          cost_price: variant.cost_price ?? 0,
+          name: variant.name ?? null,
+          attributes_label: variant.attributes_label,
+          price: Number(variant.price ?? 0),
+          cost_price:
+            variant.cost_price !== null && variant.cost_price !== undefined
+              ? Number(variant.cost_price)
+              : null,
+          stock_quantity:
+            variant.stock_quantity !== undefined
+              ? Number(variant.stock_quantity)
+              : undefined,
         }))
 
-      map.set(product.product_id, variants)
+      map.set(pId, variants)
     }
 
     return map
   }, [products])
 
-  const getVariantsForProduct = (productId: number): VariantOption[] =>
-    variantsByProductId.get(productId) ?? []
+  const getVariantsForProduct = useCallback(
+    (productId: number): VariantOption[] =>
+      variantsByProductId.get(productId) ?? [],
+    [variantsByProductId]
+  )
 
   const getProductName = (productId: number): string =>
-    products?.find((product) => product.product_id === productId)?.name ??
+    products?.find((product) => Number(product.product_id ?? product.id) === productId)?.name ??
     `Product #${productId}`
 
   // Compute initial line items from PO data
@@ -193,8 +204,10 @@ export function POActionDialog() {
   const closeDialog = () => {
     setLineItemOverrides(null)
     setShowLineValidation(false)
+    setShowSummaryModal(false)
     setOpen(null)
   }
+
 
   // ─── Line item handlers ─────────────────────────────────
   const addLineItem = () => {
@@ -348,10 +361,85 @@ export function POActionDialog() {
     }
   }
 
+  const handleOpenReviewSummary = () => {
+    const values = form.getValues()
+    if (!values.supplier_id || values.supplier_id === '0') {
+      toast.error('Please select a supplier first')
+      return
+    }
+
+    const validItems = lineItems.filter((item) => item.product_id > 0)
+    if (validItems.length === 0) {
+      setShowLineValidation(true)
+      toast.error('Add at least one line item')
+      return
+    }
+
+    for (const item of validItems) {
+      const variants = getVariantsForProduct(item.product_id)
+
+      if (variants.length === 0) {
+        setShowLineValidation(true)
+        toast.error(
+          `${getProductName(item.product_id)} has no variants. Select a product that has variants.`
+        )
+        return
+      }
+
+      if (!item.product_variant_id) {
+        setShowLineValidation(true)
+        toast.error(
+          `Variant is required for ${getProductName(item.product_id)}.`
+        )
+        return
+      }
+    }
+
+    setShowSummaryModal(true)
+  }
+
+  const draftSummary = useMemo<POSummaryDraftData | null>(() => {
+    const values = form.getValues()
+    const selectedSupplier = suppliers?.find(
+      (s) => String(s.supplier_id) === values.supplier_id
+    )
+
+    const validItems = lineItems.filter((item) => item.product_id > 0)
+
+    return {
+      supplierId: values.supplier_id,
+      supplierName: selectedSupplier?.name || 'Selected Supplier',
+      orderDate: values.order_date,
+      expectedDeliveryDate: values.expected_delivery_date || undefined,
+      notes: values.notes || undefined,
+      items: validItems.map((item) => {
+        const prod = products?.find(
+          (p) => Number(p.product_id ?? p.id) === item.product_id
+        )
+        const variants = getVariantsForProduct(item.product_id)
+        const variant = variants.find((v) => v.id === item.product_variant_id)
+
+        return {
+          productId: item.product_id,
+          productName: prod?.name || `Product #${item.product_id}`,
+          productSku: prod?.sku,
+          variantId: item.product_variant_id,
+          variantSku: variant?.sku || 'Standard',
+          variantLabel: variant?.attributes_label || variant?.name || undefined,
+          quantity: item.quantity_ordered,
+          unitCost: item.unit_cost,
+          subtotal: item.subtotal,
+        }
+      }),
+      totalAmount,
+    }
+  }, [form, suppliers, lineItems, products, getVariantsForProduct, totalAmount])
+
   const isPending = createMutation.isPending || updateMutation.isPending
 
   return (
-    <Dialog open={isOpen} onOpenChange={(v) => !v && closeDialog()}>
+    <>
+      <Dialog open={isOpen} onOpenChange={(v) => !v && closeDialog()}>
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-3xl'>
         <DialogHeader>
           <DialogTitle>
@@ -500,7 +588,7 @@ export function POActionDialog() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Product</TableHead>
+                        <TableHead>Product & Variant</TableHead>
                         <TableHead className='w-24'>Qty</TableHead>
                         <TableHead className='w-28'>Unit Cost</TableHead>
                         <TableHead className='w-28 text-right'>
@@ -511,108 +599,39 @@ export function POActionDialog() {
                     </TableHeader>
                     <TableBody>
                       {lineItems.map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>
-                            <div className='flex flex-col gap-1'>
-                              <Select
-                                value={String(item.product_id)}
-                                onValueChange={(v) =>
-                                  updateLineItem(index, 'product_id', Number(v))
-                                }
-                              >
-                                <SelectTrigger className='h-9'>
-                                  <SelectValue placeholder='Select product' />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {products?.map((p) => (
-                                    <SelectItem
-                                      key={p.product_id}
-                                      value={String(p.product_id)}
-                                      disabled={
-                                        getVariantsForProduct(p.product_id ?? 0)
-                                          .length === 0
-                                      }
-                                    >
-                                      {p.name}
-                                      {getVariantsForProduct(p.product_id ?? 0)
-                                        .length === 0
-                                        ? ' (No variants)'
-                                        : ''}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-
-                              {item.product_id > 0 &&
-                                (() => {
-                                  const variants = getVariantsForProduct(
-                                    item.product_id
-                                  )
-
-                                  if (variants.length === 0) {
-                                    return (
-                                      <p className='text-xs text-destructive'>
-                                        This product has no variants and cannot
-                                        be added to a purchase order.
-                                      </p>
-                                    )
-                                  }
-
-                                  if (variants.length === 1) {
-                                    return (
-                                      <p className='text-xs text-muted-foreground'>
-                                        Variant: {variants[0].sku}{' '}
-                                        (auto-selected)
-                                      </p>
-                                    )
-                                  }
-
-                                  return (
-                                    <div className='space-y-1'>
-                                      <Select
-                                        value={
-                                          item.product_variant_id ?? undefined
-                                        }
-                                        onValueChange={(v) =>
-                                          updateLineItem(
-                                            index,
-                                            'product_variant_id',
-                                            v
-                                          )
-                                        }
-                                      >
-                                        <SelectTrigger className='h-8 text-xs'>
-                                          <SelectValue placeholder='Select variant...' />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                          {variants.map((variant) => (
-                                            <SelectItem
-                                              key={variant.id}
-                                              value={variant.id}
-                                              className='text-xs'
-                                            >
-                                              {variant.sku}
-                                            </SelectItem>
-                                          ))}
-                                        </SelectContent>
-                                      </Select>
-                                      {showLineValidation &&
-                                        !item.product_variant_id && (
-                                          <p className='text-xs text-destructive'>
-                                            Variant is required.
-                                          </p>
-                                        )}
-                                    </div>
-                                  )
-                                })()}
-                            </div>
+                        <TableRow key={index} className='align-top'>
+                          <TableCell className='min-w-[280px]'>
+                            <POProductVariantPicker
+                              productId={item.product_id}
+                              variantId={item.product_variant_id}
+                              products={products}
+                              variantsByProductId={variantsByProductId}
+                              onSelectProduct={(pId) =>
+                                updateLineItem(index, 'product_id', pId)
+                              }
+                              onSelectVariant={(vId, cost) => {
+                                const current = lineItemOverrides ?? initialLineItems
+                                const updated = [...current]
+                                const rowItem = { ...updated[index] }
+                                rowItem.product_variant_id = vId
+                                rowItem.unit_cost = cost
+                                rowItem.subtotal =
+                                  Number(rowItem.quantity_ordered) * Number(cost)
+                                updated[index] = rowItem
+                                setLineItemOverrides(updated)
+                                setShowLineValidation(false)
+                              }}
+                              showValidation={showLineValidation}
+                              disabled={isPending}
+                            />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className='pt-2'>
                             <Input
                               type='number'
                               min={1}
                               className='h-9'
                               value={item.quantity_ordered}
+                              disabled={isPending}
                               onChange={(e) =>
                                 updateLineItem(
                                   index,
@@ -622,18 +641,19 @@ export function POActionDialog() {
                               }
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className='pt-2'>
                             <Input
                               type='number'
                               min={0}
                               step={0.01}
-                              className='h-9'
+                              className='h-9 font-mono'
                               value={item.unit_cost}
                               disabled={
-                                item.product_id > 0 &&
-                                getVariantsForProduct(item.product_id).length >
-                                  0 &&
-                                !item.product_variant_id
+                                isPending ||
+                                (item.product_id > 0 &&
+                                  getVariantsForProduct(item.product_id).length >
+                                    0 &&
+                                  !item.product_variant_id)
                               }
                               onChange={(e) =>
                                 updateLineItem(
@@ -644,15 +664,16 @@ export function POActionDialog() {
                               }
                             />
                           </TableCell>
-                          <TableCell className='text-right font-medium'>
+                          <TableCell className='text-right font-mono font-medium pt-3.5'>
                             ${item.subtotal.toFixed(2)}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className='pt-2'>
                             <Button
                               type='button'
                               variant='ghost'
                               size='icon'
                               className='h-8 w-8'
+                              disabled={isPending}
                               onClick={() => removeLineItem(index)}
                             >
                               <Trash2 className='h-4 w-4 text-destructive' />
@@ -673,14 +694,14 @@ export function POActionDialog() {
               <div className='flex justify-end'>
                 <div className='text-right'>
                   <span className='text-sm text-muted-foreground'>Total: </span>
-                  <span className='text-lg font-semibold'>
+                  <span className='text-lg font-semibold font-mono'>
                     ${totalAmount.toFixed(2)}
                   </span>
                 </div>
               </div>
             </div>
 
-            <DialogFooter>
+            <DialogFooter className='flex-col-reverse sm:flex-row sm:justify-between items-center gap-2'>
               <Button
                 type='button'
                 variant='outline'
@@ -689,17 +710,43 @@ export function POActionDialog() {
               >
                 Cancel
               </Button>
-              <Button type='submit' disabled={isPending}>
-                {isPending
-                  ? 'Saving...'
-                  : isCreate
-                    ? 'Create Order'
-                    : 'Update Order'}
-              </Button>
+              <div className='flex items-center gap-2 w-full sm:w-auto justify-end'>
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={handleOpenReviewSummary}
+                  disabled={isPending}
+                  className='bg-muted/40 hover:bg-muted'
+                >
+                  <FileText className='mr-1.5 h-4 w-4 text-primary' />
+                  Review Order Summary
+                </Button>
+                <Button type='submit' disabled={isPending}>
+                  {isPending
+                    ? 'Saving...'
+                    : isCreate
+                      ? 'Create Order'
+                      : 'Update Order'}
+                </Button>
+              </div>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
+
+    {showSummaryModal && draftSummary && (
+      <POSummaryDialog
+        open={showSummaryModal}
+        onOpenChange={setShowSummaryModal}
+        draftData={draftSummary}
+        onConfirmDraftSubmit={async () => {
+          await form.handleSubmit(onSubmit)()
+          setShowSummaryModal(false)
+        }}
+        isSubmittingDraft={isPending}
+      />
+    )}
+  </>
   )
 }
