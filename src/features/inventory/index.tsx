@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
-import { Loader2 } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { Loader2, AlertCircle } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -12,27 +11,11 @@ import { InventoryDialogs } from './components/inventory-dialogs'
 import { InventoryPrimaryButtons } from './components/inventory-primary-buttons'
 import { InventoryProvider } from './components/inventory-provider'
 import { InventoryTable } from './components/inventory-table'
+import { useInventory } from './hooks/use-inventory'
 
 export function Inventory() {
   const { t } = useTranslation()
-  const {
-    data: inventory,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['inventory'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('inventory')
-        .select('*, products(name)')
-        .order('inventory_id', { ascending: false })
-
-      if (error) throw error
-      // Flatten the structure for the table if needed, or handle in columns
-      // Currently handling in columns: row.original.products?.name
-      return data
-    },
-  })
+  const { data: inventory, isLoading, error } = useInventory()
 
   return (
     <InventoryProvider>
@@ -48,20 +31,28 @@ export function Inventory() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>{t('inventory.title')}</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              {t('inventory.title', 'Inventory Management')}
+            </h2>
             <p className='text-muted-foreground'>
-              Manage your product inventory levels and locations.
+              Manage stock levels, product variants, and reorder safety thresholds.
             </p>
           </div>
           <InventoryPrimaryButtons />
         </div>
 
         {isLoading ? (
-          <div className='flex flex-1 items-center justify-center'>
+          <div className='flex flex-1 items-center justify-center min-h-64'>
             <Loader2 className='h-8 w-8 animate-spin text-primary' />
           </div>
         ) : error ? (
-          <div className='text-destructive'>Error loading inventory</div>
+          <Alert variant='destructive'>
+            <AlertCircle className='h-4 w-4' />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              {error instanceof Error ? error.message : 'Failed to load inventory records'}
+            </AlertDescription>
+          </Alert>
         ) : (
           <InventoryTable data={inventory || []} />
         )}

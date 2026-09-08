@@ -1,13 +1,11 @@
-import { useTranslation } from 'react-i18next'
 'use client'
 
-import { useQueryClient } from '@tanstack/react-query'
 import { AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
-import { supabase } from '@/lib/supabase'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { type Inventory } from '../data/schema'
+import { useDeleteInventory } from '../hooks/use-inventory'
 
 interface Props {
   open: boolean
@@ -20,54 +18,53 @@ export function InventoryDeleteDialog({
   onOpenChange,
   currentRow,
 }: Props) {
-  const { t } = useTranslation()
-  const queryClient = useQueryClient()
+  const deleteMutation = useDeleteInventory()
 
   const handleDelete = async () => {
     try {
-      const { error } = await supabase
-        .from('inventory')
-        .delete()
-        .eq('inventory_id', currentRow.inventory_id)
-
-      if (error) throw error
-
-      toast.success('Inventory item deleted successfully')
-      queryClient.invalidateQueries({ queryKey: ['inventory'] })
+      await deleteMutation.mutateAsync(currentRow.inventory_id)
+      toast.success('Inventory record deleted successfully')
       onOpenChange(false)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
-        toast.error('Failed to delete inventory item')
+        toast.error('Failed to delete inventory record')
       }
     }
   }
+
+  const productName = currentRow.products?.name || 'this product'
+  const variantDetail = currentRow.product_variants
+    ? ` (${currentRow.product_variants.name || 'Default'} - ${currentRow.product_variants.sku})`
+    : ''
 
   return (
     <ConfirmDialog
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
+      disabled={deleteMutation.isPending}
       title={
         <span className='text-destructive'>
           <AlertTriangle
             className='me-1 inline-block stroke-destructive'
             size={18}
           />{' '}
-          Delete Inventory Item
+          Delete Inventory Record
         </span>
       }
       desc={
         <div className='space-y-4'>
           <p>
-            Are you sure you want to delete the inventory for{' '}
+            Are you sure you want to delete the inventory record for{' '}
             <span className='font-bold'>
-              {currentRow.products?.name || 'this product'}
+              {productName}
+              {variantDetail}
             </span>
             ?
             <br />
-            This action will permanently remove this inventory record.
+            This action will permanently remove this stock tracking entry.
           </p>
 
           <Alert variant='destructive'>

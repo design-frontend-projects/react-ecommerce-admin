@@ -34,33 +34,81 @@ export const columns: ColumnDef<Inventory>[] = [
   {
     id: 'product_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Product Name' />
+      <DataTableColumnHeader column={column} title='Product' />
     ),
-    cell: ({ row }) => (
-      <LongText className='max-w-48 font-medium'>
-        {row.original.products?.name || 'Unknown Product'}
-      </LongText>
-    ),
+    cell: ({ row }) => {
+      const product = row.original.products
+      return (
+        <div className='flex flex-col'>
+          <LongText className='max-w-48 font-medium'>
+            {product?.name || 'Unknown Product'}
+          </LongText>
+          {product?.sku && (
+            <span className='text-xs text-muted-foreground font-mono'>
+              SKU: {product.sku}
+            </span>
+          )}
+        </div>
+      )
+    },
   },
   {
-    accessorKey: 'location',
+    id: 'variant',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Location' />
+      <DataTableColumnHeader column={column} title='Variant / SKU' />
     ),
-    cell: ({ row }) => (
-      <div className='text-sm text-muted-foreground'>
-        {row.getValue('location') || 'N/A'}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const variant = row.original.product_variants
+      if (!variant) {
+        return (
+          <Badge variant='outline' className='text-xs font-normal text-muted-foreground'>
+            Standard Product
+          </Badge>
+        )
+      }
+
+      return (
+        <div className='flex flex-col gap-0.5'>
+          <span className='font-medium text-sm'>
+            {variant.name || 'Default'}
+          </span>
+          <span className='text-xs font-mono text-muted-foreground'>
+            [{variant.sku}]
+          </span>
+        </div>
+      )
+    },
   },
   {
     accessorKey: 'quantity',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Quantity' />
+      <DataTableColumnHeader column={column} title='On-Hand Stock' />
     ),
     cell: ({ row }) => {
-      const quantity = parseInt(row.getValue('quantity'))
-      return <div className='font-medium'>{quantity}</div>
+      const quantity = Number(row.original.quantity ?? 0)
+      return (
+        <div className='font-semibold text-sm'>
+          {quantity.toLocaleString()}
+        </div>
+      )
+    },
+  },
+  {
+    id: 'thresholds',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Reorder / Max' />
+    ),
+    cell: ({ row }) => {
+      const min = row.original.reorder_point ?? row.original.min_quantity ?? row.original.reorder_level ?? 0
+      const max = row.original.max_quantity ?? row.original.max_stock_level
+      return (
+        <div className='text-xs text-muted-foreground'>
+          <span>Min: <strong className='text-foreground'>{min}</strong></span>
+          {max != null && (
+            <span className='ms-2'>Max: <strong className='text-foreground'>{max}</strong></span>
+          )}
+        </div>
+      )
     },
   },
   {
@@ -69,34 +117,39 @@ export const columns: ColumnDef<Inventory>[] = [
       <DataTableColumnHeader column={column} title='Status' />
     ),
     cell: ({ row }) => {
-      const quantity = row.original.quantity
-      const minStock = row.original.reorder_level || 0
+      const quantity = Number(row.original.quantity ?? 0)
+      const minStock = row.original.reorder_point ?? row.original.min_quantity ?? row.original.reorder_level ?? 0
+      const maxStock = row.original.max_quantity ?? row.original.max_stock_level
 
-      let status: 'default' | 'destructive' | 'secondary' | 'outline' =
-        'default'
+      let status: 'default' | 'destructive' | 'secondary' | 'outline' = 'default'
       let text = 'In Stock'
 
       if (quantity === 0) {
         status = 'destructive'
         text = 'Out of Stock'
       } else if (quantity <= minStock) {
-        status = 'secondary' // Using secondary for low stock warning
+        status = 'secondary'
         text = 'Low Stock'
+      } else if (maxStock != null && quantity > maxStock) {
+        status = 'outline'
+        text = 'Overstocked'
       }
 
       return <Badge variant={status}>{text}</Badge>
     },
   },
   {
-    accessorKey: 'last_restocked',
+    accessorKey: 'last_count_date',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Last Restocked' />
+      <DataTableColumnHeader column={column} title='Last Count / Restock' />
     ),
     cell: ({ row }) => {
-      const dateStr = row.getValue('last_restocked') as string | null
-      if (!dateStr) return <div className='text-muted-foreground'>Never</div>
+      const dateStr = row.original.last_count_date || row.original.last_restocked || row.original.updated_at
+      if (!dateStr) return <div className='text-muted-foreground text-xs'>Never</div>
       return (
-        <div className='text-sm'>{new Date(dateStr).toLocaleDateString()}</div>
+        <div className='text-xs text-muted-foreground'>
+          {new Date(dateStr).toLocaleDateString()}
+        </div>
       )
     },
   },

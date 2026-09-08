@@ -1,10 +1,11 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Loader2, Package, Layers } from 'lucide-react'
 import { toast } from 'sonner'
-import { supabase } from '@/lib/supabase'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -17,6 +18,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,10 +32,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { inventorySchema, type Inventory } from '../data/schema'
+import { inventorySchema, type Inventory, type InventoryFormValues } from '../data/schema'
+import {
+  useCreateInventory,
+  useUpdateInventory,
+  useInventoryProducts,
+  useProductVariants,
+} from '../hooks/use-inventory'
 
 interface Props {
-  currentRow?: Inventory
+  currentRow?: Inventory | null
   open: boolean
   onOpenChange: (open: boolean) => void
 }
@@ -44,79 +52,101 @@ export function InventoryActionDialog({
   onOpenChange,
 }: Props) {
   const isEdit = !!currentRow
-  const queryClient = useQueryClient()
+  const createMutation = useCreateInventory()
+  const updateMutation = useUpdateInventory()
 
-  const { data: products } = useQuery({
-    queryKey: ['products-list'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select('product_id, name')
-        .neq('is_deleted', true)
-        .order('name')
-      if (error) throw error
-      return data
+  const { data: products, isLoading: isLoadingProducts } = useInventoryProducts()
+
+  const form = useForm<InventoryFormValues>({
+    resolver: zodResolver(inventorySchema) as Resolver<InventoryFormValues>,
+    defaultValues: {
+      product_id: '',
+      product_variant_id: null,
+      quantity: 0,
+      reorder_point: 10,
+      min_quantity: 10,
+      max_quantity: 100,
+      last_count_date: new Date().toISOString(),
     },
   })
 
-  // We need to cast the default values to match the schema
-  // especially for numbers that might come as null from DB but schema expects optional number
-  const form = useForm<Inventory>({
-    resolver: zodResolver(inventorySchema) as Resolver<Inventory>,
-    defaultValues: isEdit
-      ? {
-          ...currentRow,
+  const selectedProductId = form.watch('product_id')
+  const selectedProduct = products?.find((p) => p.id === selectedProductId)
+
+  const {
+    data: variants,
+    isLoading: isLoadingVariants,
+  } = useProductVariants(selectedProductId)
+
+  // When dialog opens or currentRow changes, update form values
+  useEffect(() => {
+    if (open) {
+      if (currentRow) {
+        form.reset({
+          inventory_id: currentRow.inventory_id,
           product_id: currentRow.product_id,
-          reorder_level: currentRow.reorder_level ?? null,
-          max_stock_level: currentRow.max_stock_level ?? null,
-        }
-      : {
-          product_id: undefined,
-          quantity: 0,
-          reorder_level: null,
-          max_stock_level: null,
-          location: '',
-          last_restocked: new Date().toISOString(),
-        },
-  })
-
-  const onSubmit = async (values: Inventory) => {
-    try {
-      // Clean up values
-      const cleanValues = {
-        ...values,
-        reorder_level:
-          String(values.reorder_level) === '' ? null : values.reorder_level,
-        max_stock_level:
-          String(values.max_stock_level) === '' ? null : values.max_stock_level,
-      } as any // casting to any for supabase insertion to avoid strict type checks on optional fields if needed, or better, cast to Partial<Inventory>
-
-      if (isEdit) {
-        const { error } = await supabase
-          .from('inventory')
-          .update(cleanValues)
-          .eq('inventory_id', currentRow.inventory_id)
-
-        if (error) throw error
-        toast.success('Inventory updated successfully')
+          product_variant_id: currentRow.product_variant_id || null,
+          quantity: currentRow.quantity ?? 0,
+          reorder_point: currentRow.reorder_point ?? currentRow.reorder_level ?? 0,
+          min_quantity: currentRow.min_quantity ?? currentRow.reorder_level ?? 0,
+          max_quantity: currentRow.max_quantity ?? currentRow.max_stock_level ?? null,
+          last_count_date:
+            currentRow.last_count_date ||
+            currentRow.last_restocked ||
+            new Date().toISOString(),
+          store_id: currentRow.store_id || null,
+        })
       } else {
-        const { error } = await supabase.from('inventory').insert([cleanValues])
+        form.reset({
+          product_id: '',
+          product_variant_id: null,
+          quantity: 0,
+          reorder_point: 10,
+          min_quantity: 10,
+          max_quantity: 100,
+          last_count_date: new Date().toISOString(),
+          store_id: null,
+        })
+      }
+    }
+  }, [open, currentRow, form])
 
-        if (error) throw error
-        toast.success('Inventory created successfully')
+  const onSubmit = async (values: InventoryFormValues) => {
+    try {
+      const payload = {
+        ...values,
+        product_variant_id:
+          values.product_variant_id === 'none' || !values.product_variant_id
+            ? null
+            : values.product_variant_id,
       }
 
-      queryClient.invalidateQueries({ queryKey: ['inventory'] })
+      if (isEdit && currentRow?.inventory_id) {
+        await updateMutation.mutateAsync({
+          ...payload,
+          inventory_id: currentRow.inventory_id,
+        })
+        toast.success('Inventory updated successfully')
+      } else {
+        await createMutation.mutateAsync(payload)
+        toast.success('Inventory record created successfully')
+      }
+
       onOpenChange(false)
       form.reset()
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
-        toast.error('Something went wrong')
+        toast.error('Failed to save inventory record')
       }
     }
   }
+
+  const isSubmitting = createMutation.isPending || updateMutation.isPending
+  const hasVariants = Boolean(
+    selectedProduct?.has_variants || (variants && variants.length > 0)
+  )
 
   return (
     <Dialog
@@ -128,13 +158,14 @@ export function InventoryActionDialog({
     >
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-lg'>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit ? 'Edit Inventory' : 'Add Inventory'}
+          <DialogTitle className='flex items-center gap-2'>
+            <Package className='h-5 w-5 text-primary' />
+            {isEdit ? 'Edit Inventory Record' : 'Add Inventory Record'}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Update inventory details below.'
-              : 'Add new inventory record.'}
+              ? 'Update stock counts, reorder thresholds, and product variant assignments.'
+              : 'Track on-hand stock and safety thresholds for catalog products and variants.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -144,29 +175,51 @@ export function InventoryActionDialog({
             onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-4'
           >
+            {/* Product Selection */}
             <FormField
               control={form.control}
               name='product_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product</FormLabel>
+                  <FormLabel className='flex items-center justify-between'>
+                    <span>Product *</span>
+                    {selectedProduct?.has_variants && (
+                      <Badge variant='outline' className='text-xs font-normal'>
+                        Has Variants
+                      </Badge>
+                    )}
+                  </FormLabel>
                   <Select
-                    onValueChange={(v) => field.onChange(Number(v))}
-                    value={field.value?.toString() || ''}
-                    disabled={isEdit}
+                    disabled={isEdit || isLoadingProducts}
+                    value={field.value || ''}
+                    onValueChange={(val) => {
+                      field.onChange(val)
+                      // Reset variant when product changes
+                      form.setValue('product_variant_id', null)
+                    }}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select a product' />
+                        <SelectValue
+                          placeholder={
+                            isLoadingProducts
+                              ? 'Loading products...'
+                              : 'Select a product'
+                          }
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {products?.map((product) => (
-                        <SelectItem
-                          key={product.product_id}
-                          value={product.product_id.toString()}
-                        >
-                          {product.name}
+                        <SelectItem key={product.id} value={product.id}>
+                          <div className='flex items-center justify-between gap-2'>
+                            <span className='font-medium'>{product.name}</span>
+                            {product.sku && (
+                              <span className='text-xs text-muted-foreground'>
+                                ({product.sku})
+                              </span>
+                            )}
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -176,19 +229,104 @@ export function InventoryActionDialog({
               )}
             />
 
+            {/* Product Variant Selection */}
+            <FormField
+              control={form.control}
+              name='product_variant_id'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='flex items-center gap-1.5'>
+                    <Layers className='h-4 w-4 text-muted-foreground' />
+                    <span>Product Variant</span>
+                    {hasVariants && (
+                      <span className='text-xs text-muted-foreground font-normal'>
+                        (Recommended)
+                      </span>
+                    )}
+                  </FormLabel>
+                  <Select
+                    disabled={
+                      !selectedProductId ||
+                      isLoadingVariants ||
+                      (!hasVariants && !isEdit)
+                    }
+                    value={field.value || 'none'}
+                    onValueChange={(val) =>
+                      field.onChange(val === 'none' ? null : val)
+                    }
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={
+                            !selectedProductId
+                              ? 'Select a product first'
+                              : isLoadingVariants
+                              ? 'Loading variants...'
+                              : hasVariants
+                              ? 'Select a variant'
+                              : 'No variants (Standard product)'
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value='none'>
+                        <span className='text-muted-foreground'>
+                          -- Standard / Product Level (No Variant) --
+                        </span>
+                      </SelectItem>
+                      {variants?.map((variant) => (
+                        <SelectItem key={variant.id} value={variant.id}>
+                          <div className='flex items-center gap-2'>
+                            <span className='font-medium'>
+                              {variant.name || 'Default'}
+                            </span>
+                            <span className='text-xs text-muted-foreground font-mono'>
+                              [{variant.sku}]
+                            </span>
+                            {variant.price != null && (
+                              <span className='text-xs text-emerald-600 dark:text-emerald-400 font-semibold ms-auto'>
+                                ${Number(variant.price).toFixed(2)}
+                              </span>
+                            )}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {hasVariants ? (
+                    <FormDescription className='text-xs'>
+                      Select the specific SKU variant to track stock at the variant level.
+                    </FormDescription>
+                  ) : selectedProductId ? (
+                    <FormDescription className='text-xs text-muted-foreground'>
+                      This is a simple product with no variants defined.
+                    </FormDescription>
+                  ) : null}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Quantity */}
             <FormField
               control={form.control}
               name='quantity'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Quantity</FormLabel>
+                  <FormLabel>On-Hand Quantity *</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
-                      onChange={(e) =>
-                        field.onChange(e.target.valueAsNumber || 0)
-                      }
+                      min={0}
+                      placeholder='0'
                       value={field.value}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === '' ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -196,88 +334,85 @@ export function InventoryActionDialog({
               )}
             />
 
-            <div className='grid grid-cols-2 gap-4'>
+            {/* Thresholds: Reorder Point & Max Quantity */}
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
               <FormField
                 control={form.control}
-                name='reorder_level'
+                name='reorder_point'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reorder Level</FormLabel>
+                    <FormLabel>Reorder Point (Min)</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
+                        min={0}
+                        placeholder='e.g. 10'
+                        value={field.value ?? ''}
                         onChange={(e) => {
                           const val = e.target.value
-                          if (val === '') field.onChange(null)
-                          else field.onChange(Number(val))
+                          const num = val === '' ? null : Number(val)
+                          field.onChange(num)
+                          form.setValue('min_quantity', num)
                         }}
-                        value={field.value ?? ''}
-                        placeholder='Optional'
                       />
                     </FormControl>
+                    <FormDescription className='text-[11px]'>
+                      Triggers low stock alert.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name='max_stock_level'
+                name='max_quantity'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Max Stock</FormLabel>
+                    <FormLabel>Max Stock Capacity</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
-                        onChange={(e) => {
-                          const val = e.target.value
-                          if (val === '') field.onChange(null)
-                          else field.onChange(Number(val))
-                        }}
+                        min={0}
+                        placeholder='e.g. 100'
                         value={field.value ?? ''}
-                        placeholder='Optional'
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === '' ? null : Number(e.target.value)
+                          )
+                        }
                       />
                     </FormControl>
+                    <FormDescription className='text-[11px]'>
+                      Optional maximum ceiling.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
 
+            {/* Last Count / Restock Date */}
             <FormField
               control={form.control}
-              name='location'
+              name='last_count_date'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='e.g. Warehouse A, Aisle 3'
-                      {...field}
-                      value={field.value || ''}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='last_restocked'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Last Restocked</FormLabel>
+                  <FormLabel>Last Count / Verification Date</FormLabel>
                   <FormControl>
                     <Input
                       type='datetime-local'
-                      {...field}
                       value={
                         field.value
                           ? new Date(field.value).toISOString().slice(0, 16)
                           : ''
                       }
                       onChange={(e) =>
-                        field.onChange(new Date(e.target.value).toISOString())
+                        field.onChange(
+                          e.target.value
+                            ? new Date(e.target.value).toISOString()
+                            : null
+                        )
                       }
                     />
                   </FormControl>
@@ -288,11 +423,20 @@ export function InventoryActionDialog({
           </form>
         </Form>
 
-        <DialogFooter>
-          <Button variant='outline' onClick={() => onOpenChange(false)}>
+        <DialogFooter className='gap-2 sm:gap-0'>
+          <Button
+            variant='outline'
+            onClick={() => onOpenChange(false)}
+            disabled={isSubmitting}
+          >
             Cancel
           </Button>
-          <Button type='submit' form='inventory-form'>
+          <Button
+            type='submit'
+            form='inventory-form'
+            disabled={isSubmitting || !selectedProductId}
+          >
+            {isSubmitting && <Loader2 className='me-2 h-4 w-4 animate-spin' />}
             {isEdit ? 'Save Changes' : 'Create Inventory'}
           </Button>
         </DialogFooter>

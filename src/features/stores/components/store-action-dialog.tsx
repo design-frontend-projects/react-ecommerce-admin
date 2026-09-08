@@ -159,7 +159,7 @@ export function StoreActionDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
-      <DialogContent className='sm:max-w-[500px]'>
+      <DialogContent className='sm:max-w-125'>
         <DialogHeader>
           <DialogTitle>{isEdit ? 'Edit Store' : 'Create Store'}</DialogTitle>
           <DialogDescription>
@@ -168,7 +168,7 @@ export function StoreActionDialog() {
               : 'Add a new location to your system.'}
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className='-mr-4 h-[450px] pr-4'>
+        <ScrollArea className='-mr-4 h-112.5 pr-4'>
           <Form {...form}>
             <form
               id='store-form'
