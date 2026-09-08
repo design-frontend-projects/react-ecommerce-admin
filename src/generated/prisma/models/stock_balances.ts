@@ -332,6 +332,10 @@ export type stock_balancesWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
 }
 
 export type stock_balancesOrderByWithRelationInput = {
@@ -353,6 +357,10 @@ export type stock_balancesOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  product_variants?: Prisma.product_variantsOrderByWithRelationInput
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
+  stores?: Prisma.storesOrderByWithRelationInput
+  warehouse_locations?: Prisma.warehouse_locationsOrderByWithRelationInput
 }
 
 export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
@@ -377,6 +385,10 @@ export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
 }, "id">
 
 export type stock_balancesOrderByWithAggregationInput = {
@@ -432,10 +444,6 @@ export type stock_balancesScalarWhereWithAggregatesInput = {
 export type stock_balancesCreateInput = {
   id?: string
   tenant_id: string
-  warehouse_id?: string | null
-  location_id?: string | null
-  store_id?: string | null
-  product_variant_id: string
   condition?: $Enums.stock_condition_enum
   batch_id?: string | null
   serial_id?: string | null
@@ -448,6 +456,10 @@ export type stock_balancesCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
+  stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
 }
 
 export type stock_balancesUncheckedCreateInput = {
@@ -474,10 +486,6 @@ export type stock_balancesUncheckedCreateInput = {
 export type stock_balancesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -490,6 +498,10 @@ export type stock_balancesUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateInput = {
@@ -537,10 +549,6 @@ export type stock_balancesCreateManyInput = {
 export type stock_balancesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -574,6 +582,16 @@ export type stock_balancesUncheckedUpdateManyInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Stock_balancesListRelationFilter = {
+  every?: Prisma.stock_balancesWhereInput
+  some?: Prisma.stock_balancesWhereInput
+  none?: Prisma.stock_balancesWhereInput
+}
+
+export type stock_balancesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type stock_balancesCountOrderByAggregateInput = {
@@ -653,6 +671,782 @@ export type stock_balancesSumOrderByAggregateInput = {
   avg_cost?: Prisma.SortOrder
 }
 
+export type stock_balancesCreateNestedManyWithoutProduct_variantsInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_balancesCreateWithoutProduct_variantsInput[] | Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput[]
+  createMany?: Prisma.stock_balancesCreateManyProduct_variantsInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUncheckedCreateNestedManyWithoutProduct_variantsInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_balancesCreateWithoutProduct_variantsInput[] | Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput[]
+  createMany?: Prisma.stock_balancesCreateManyProduct_variantsInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUpdateManyWithoutProduct_variantsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_balancesCreateWithoutProduct_variantsInput[] | Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutProduct_variantsInput[]
+  createMany?: Prisma.stock_balancesCreateManyProduct_variantsInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutProduct_variantsInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.stock_balancesUpdateManyWithWhereWithoutProduct_variantsInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutProduct_variantsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput> | Prisma.stock_balancesCreateWithoutProduct_variantsInput[] | Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput | Prisma.stock_balancesCreateOrConnectWithoutProduct_variantsInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutProduct_variantsInput[]
+  createMany?: Prisma.stock_balancesCreateManyProduct_variantsInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutProduct_variantsInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutProduct_variantsInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutProduct_variantsInput | Prisma.stock_balancesUpdateManyWithWhereWithoutProduct_variantsInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutStoresInput, Prisma.stock_balancesUncheckedCreateWithoutStoresInput> | Prisma.stock_balancesCreateWithoutStoresInput[] | Prisma.stock_balancesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutStoresInput | Prisma.stock_balancesCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.stock_balancesCreateManyStoresInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUncheckedCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutStoresInput, Prisma.stock_balancesUncheckedCreateWithoutStoresInput> | Prisma.stock_balancesCreateWithoutStoresInput[] | Prisma.stock_balancesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutStoresInput | Prisma.stock_balancesCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.stock_balancesCreateManyStoresInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutStoresInput, Prisma.stock_balancesUncheckedCreateWithoutStoresInput> | Prisma.stock_balancesCreateWithoutStoresInput[] | Prisma.stock_balancesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutStoresInput | Prisma.stock_balancesCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutStoresInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.stock_balancesCreateManyStoresInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutStoresInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutStoresInput | Prisma.stock_balancesUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutStoresInput, Prisma.stock_balancesUncheckedCreateWithoutStoresInput> | Prisma.stock_balancesCreateWithoutStoresInput[] | Prisma.stock_balancesUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutStoresInput | Prisma.stock_balancesCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutStoresInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.stock_balancesCreateManyStoresInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutStoresInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutStoresInput | Prisma.stock_balancesUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput> | Prisma.stock_balancesCreateWithoutWarehousesInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput | Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehousesInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput> | Prisma.stock_balancesCreateWithoutWarehousesInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput | Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehousesInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput> | Prisma.stock_balancesCreateWithoutWarehousesInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput | Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehousesInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutWarehousesInput | Prisma.stock_balancesUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput> | Prisma.stock_balancesCreateWithoutWarehousesInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput | Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehousesInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutWarehousesInput | Prisma.stock_balancesUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesCreateNestedManyWithoutWarehouse_locationsInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_balancesCreateWithoutWarehouse_locationsInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehouse_locationsInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUncheckedCreateNestedManyWithoutWarehouse_locationsInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_balancesCreateWithoutWarehouse_locationsInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehouse_locationsInputEnvelope
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+}
+
+export type stock_balancesUpdateManyWithoutWarehouse_locationsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_balancesCreateWithoutWarehouse_locationsInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehouse_locationsInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehouse_locationsInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutWarehouse_locationsInput | Prisma.stock_balancesUpdateManyWithWhereWithoutWarehouse_locationsInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.stock_balancesCreateWithoutWarehouse_locationsInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput | Prisma.stock_balancesCreateOrConnectWithoutWarehouse_locationsInput[]
+  upsert?: Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_balancesUpsertWithWhereUniqueWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.stock_balancesCreateManyWarehouse_locationsInputEnvelope
+  set?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  disconnect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  delete?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  connect?: Prisma.stock_balancesWhereUniqueInput | Prisma.stock_balancesWhereUniqueInput[]
+  update?: Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.stock_balancesUpdateWithWhereUniqueWithoutWarehouse_locationsInput[]
+  updateMany?: Prisma.stock_balancesUpdateManyWithWhereWithoutWarehouse_locationsInput | Prisma.stock_balancesUpdateManyWithWhereWithoutWarehouse_locationsInput[]
+  deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+}
+
+export type stock_balancesCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
+  stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+}
+
+export type stock_balancesUncheckedCreateWithoutProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesCreateOrConnectWithoutProduct_variantsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput>
+}
+
+export type stock_balancesCreateManyProduct_variantsInputEnvelope = {
+  data: Prisma.stock_balancesCreateManyProduct_variantsInput | Prisma.stock_balancesCreateManyProduct_variantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_balancesUpsertWithWhereUniqueWithoutProduct_variantsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_balancesUpdateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedUpdateWithoutProduct_variantsInput>
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedCreateWithoutProduct_variantsInput>
+}
+
+export type stock_balancesUpdateWithWhereUniqueWithoutProduct_variantsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateWithoutProduct_variantsInput, Prisma.stock_balancesUncheckedUpdateWithoutProduct_variantsInput>
+}
+
+export type stock_balancesUpdateManyWithWhereWithoutProduct_variantsInput = {
+  where: Prisma.stock_balancesScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateManyMutationInput, Prisma.stock_balancesUncheckedUpdateManyWithoutProduct_variantsInput>
+}
+
+export type stock_balancesScalarWhereInput = {
+  AND?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+  OR?: Prisma.stock_balancesScalarWhereInput[]
+  NOT?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_balances"> | string
+  tenant_id?: Prisma.UuidFilter<"stock_balances"> | string
+  warehouse_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  location_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  product_variant_id?: Prisma.UuidFilter<"stock_balances"> | string
+  condition?: Prisma.Enumstock_condition_enumFilter<"stock_balances"> | $Enums.stock_condition_enum
+  batch_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  serial_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  qty_on_hand?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.DecimalNullableFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+}
+
+export type stock_balancesCreateWithoutStoresInput = {
+  id?: string
+  tenant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+}
+
+export type stock_balancesUncheckedCreateWithoutStoresInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  location_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesCreateOrConnectWithoutStoresInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutStoresInput, Prisma.stock_balancesUncheckedCreateWithoutStoresInput>
+}
+
+export type stock_balancesCreateManyStoresInputEnvelope = {
+  data: Prisma.stock_balancesCreateManyStoresInput | Prisma.stock_balancesCreateManyStoresInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_balancesUpsertWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_balancesUpdateWithoutStoresInput, Prisma.stock_balancesUncheckedUpdateWithoutStoresInput>
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutStoresInput, Prisma.stock_balancesUncheckedCreateWithoutStoresInput>
+}
+
+export type stock_balancesUpdateWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateWithoutStoresInput, Prisma.stock_balancesUncheckedUpdateWithoutStoresInput>
+}
+
+export type stock_balancesUpdateManyWithWhereWithoutStoresInput = {
+  where: Prisma.stock_balancesScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateManyMutationInput, Prisma.stock_balancesUncheckedUpdateManyWithoutStoresInput>
+}
+
+export type stock_balancesCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
+  stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+}
+
+export type stock_balancesUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput>
+}
+
+export type stock_balancesCreateManyWarehousesInputEnvelope = {
+  data: Prisma.stock_balancesCreateManyWarehousesInput | Prisma.stock_balancesCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_balancesUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_balancesUpdateWithoutWarehousesInput, Prisma.stock_balancesUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput>
+}
+
+export type stock_balancesUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateWithoutWarehousesInput, Prisma.stock_balancesUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type stock_balancesUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.stock_balancesScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateManyMutationInput, Prisma.stock_balancesUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type stock_balancesCreateWithoutWarehouse_locationsInput = {
+  id?: string
+  tenant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
+  stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+}
+
+export type stock_balancesUncheckedCreateWithoutWarehouse_locationsInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesCreateOrConnectWithoutWarehouse_locationsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput>
+}
+
+export type stock_balancesCreateManyWarehouse_locationsInputEnvelope = {
+  data: Prisma.stock_balancesCreateManyWarehouse_locationsInput | Prisma.stock_balancesCreateManyWarehouse_locationsInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_balancesUpsertWithWhereUniqueWithoutWarehouse_locationsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_balancesUpdateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedUpdateWithoutWarehouse_locationsInput>
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedCreateWithoutWarehouse_locationsInput>
+}
+
+export type stock_balancesUpdateWithWhereUniqueWithoutWarehouse_locationsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateWithoutWarehouse_locationsInput, Prisma.stock_balancesUncheckedUpdateWithoutWarehouse_locationsInput>
+}
+
+export type stock_balancesUpdateManyWithWhereWithoutWarehouse_locationsInput = {
+  where: Prisma.stock_balancesScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateManyMutationInput, Prisma.stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsInput>
+}
+
+export type stock_balancesCreateManyProduct_variantsInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+}
+
+export type stock_balancesUncheckedUpdateWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutProduct_variantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesCreateManyStoresInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  location_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+}
+
+export type stock_balancesUncheckedUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesCreateManyWarehousesInput = {
+  id?: string
+  tenant_id: string
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+}
+
+export type stock_balancesUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesCreateManyWarehouse_locationsInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_balancesUpdateWithoutWarehouse_locationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+}
+
+export type stock_balancesUncheckedUpdateWithoutWarehouse_locationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type stock_balancesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -674,6 +1468,10 @@ export type stock_balancesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
+  stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -695,6 +1493,10 @@ export type stock_balancesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
+  stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -716,6 +1518,10 @@ export type stock_balancesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
+  stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectScalar = {
@@ -740,10 +1546,33 @@ export type stock_balancesSelectScalar = {
 }
 
 export type stock_balancesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "location_id" | "store_id" | "product_variant_id" | "condition" | "batch_id" | "serial_id" | "qty_on_hand" | "qty_reserved" | "qty_available" | "avg_cost" | "last_movement_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_balances"]>
+export type stock_balancesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
+  stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
+}
+export type stock_balancesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
+  stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
+}
+export type stock_balancesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
+  warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
+  stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
+}
 
 export type $stock_balancesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_balances"
-  objects: {}
+  objects: {
+    product_variants: Prisma.$product_variantsPayload<ExtArgs>
+    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+    stores: Prisma.$storesPayload<ExtArgs> | null
+    warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1157,6 +1986,10 @@ readonly fields: stock_balancesFieldRefs;
  */
 export interface Prisma__stock_balancesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  product_variants<T extends Prisma.product_variantsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variantsDefaultArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  warehouses<T extends Prisma.stock_balances$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stores<T extends Prisma.stock_balances$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouse_locations<T extends Prisma.stock_balances$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>>): Prisma.Prisma__warehouse_locationsClient<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1221,6 +2054,10 @@ export type stock_balancesFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  /**
    * Filter, which stock_balances to fetch.
    */
   where: Prisma.stock_balancesWhereUniqueInput
@@ -1239,6 +2076,10 @@ export type stock_balancesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  /**
    * Filter, which stock_balances to fetch.
    */
   where: Prisma.stock_balancesWhereUniqueInput
@@ -1256,6 +2097,10 @@ export type stock_balancesFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the stock_balances
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
   /**
    * Filter, which stock_balances to fetch.
    */
@@ -1305,6 +2150,10 @@ export type stock_balancesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  /**
    * Filter, which stock_balances to fetch.
    */
   where?: Prisma.stock_balancesWhereInput
@@ -1352,6 +2201,10 @@ export type stock_balancesFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the stock_balances
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
   /**
    * Filter, which stock_balances to fetch.
    */
@@ -1401,6 +2254,10 @@ export type stock_balancesCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  /**
    * The data needed to create a stock_balances.
    */
   data: Prisma.XOR<Prisma.stock_balancesCreateInput, Prisma.stock_balancesUncheckedCreateInput>
@@ -1434,6 +2291,10 @@ export type stock_balancesCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.stock_balancesCreateManyInput | Prisma.stock_balancesCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1448,6 +2309,10 @@ export type stock_balancesUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the stock_balances
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
   /**
    * The data needed to update a stock_balances.
    */
@@ -1500,6 +2365,10 @@ export type stock_balancesUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many stock_balances to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1514,6 +2383,10 @@ export type stock_balancesUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the stock_balances
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
   /**
    * The filter to search for the stock_balances to update in case it exists.
    */
@@ -1541,6 +2414,10 @@ export type stock_balancesDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  /**
    * Filter which stock_balances to delete.
    */
   where: Prisma.stock_balancesWhereUniqueInput
@@ -1561,6 +2438,63 @@ export type stock_balancesDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * stock_balances.warehouses
+ */
+export type stock_balances$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+}
+
+/**
+ * stock_balances.stores
+ */
+export type stock_balances$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stores
+   */
+  select?: Prisma.storesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stores
+   */
+  omit?: Prisma.storesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.storesInclude<ExtArgs> | null
+  where?: Prisma.storesWhereInput
+}
+
+/**
+ * stock_balances.warehouse_locations
+ */
+export type stock_balances$warehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouse_locations
+   */
+  select?: Prisma.warehouse_locationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouse_locations
+   */
+  omit?: Prisma.warehouse_locationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
+  where?: Prisma.warehouse_locationsWhereInput
+}
+
+/**
  * stock_balances without action
  */
 export type stock_balancesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1572,4 +2506,8 @@ export type stock_balancesDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the stock_balances
    */
   omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
 }

@@ -283,6 +283,7 @@ model product_variants {
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
   inventory            inventory[]
+  stock_balances       stock_balances[]
 }
 
 model products {
@@ -1074,6 +1075,7 @@ model stores {
   warehouses         warehouses[]
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
+  stock_balances       stock_balances[]
 }
 
 model subscriptions {
@@ -1574,6 +1576,10 @@ model stock_balances {
   updated_at         DateTime             @default(now()) @db.Timestamptz(6)
   created_by_user_id String?              @db.Uuid
   updated_by_user_id String?              @db.Uuid
+  product_variants   product_variants     @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses         warehouses?          @relation(fields: [warehouse_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  stores             stores?              @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+  warehouse_locations warehouse_locations? @relation(fields: [location_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
 }
 
 model stock_transfers {
@@ -1974,6 +1980,7 @@ model warehouses {
   stores              stores?               @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
   reorder_rules       reorder_rules[]
   reorder_suggestions reorder_suggestions[]
+  stock_balances      stock_balances[]
 }
 
 model warehouse_locations {
@@ -1995,6 +2002,7 @@ model warehouse_locations {
   created_by_user_id String?            @db.Uuid
   updated_by_user_id String?            @db.Uuid
   warehouses         warehouses         @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stock_balances     stock_balances[]
 }
 
 model stock_by_location {

@@ -547,6 +547,7 @@ export const InventoryScalarFieldEnum = {
   tenant_id: 'tenant_id',
   updated_at: 'updated_at',
   product_id: 'product_id',
+  product_variant_id: 'product_variant_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
