@@ -11,6 +11,8 @@ import {
   Store as StoreIcon,
   Users,
   Percent,
+  Coins,
+  Radio,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -84,6 +86,8 @@ export function PriceListActionDialog() {
       type: null,
       group_id: '',
       store_id: '',
+      currency_id: '',
+      channel_id: '',
       start_date: defaultStartDate,
       end_date: '',
       is_active: true,
@@ -176,6 +180,8 @@ export function PriceListActionDialog() {
         type: currentRow.type || null,
         group_id: currentRow.group_id || '',
         store_id: currentRow.store_id || '',
+        currency_id: currentRow.currency_id || '',
+        channel_id: currentRow.channel_id || '',
         start_date: currentRow.start_date || defaultStartDate,
         end_date: currentRow.end_date || '',
         is_active: currentRow.is_active ?? true,
@@ -189,6 +195,8 @@ export function PriceListActionDialog() {
         type: null,
         group_id: '',
         store_id: '',
+        currency_id: '',
+        channel_id: '',
         start_date: defaultStartDate,
         end_date: '',
         is_active: true,
@@ -219,6 +227,8 @@ export function PriceListActionDialog() {
         ...values,
         group_id: values.group_id ? values.group_id : null,
         store_id: values.store_id ? values.store_id : null,
+        currency_id: values.currency_id ? values.currency_id : null,
+        channel_id: values.channel_id ? values.channel_id : null,
         end_date: values.end_date ? values.end_date : null,
         description: values.description ? values.description : null,
         type: values.type ? values.type : null,
@@ -454,6 +464,88 @@ export function PriceListActionDialog() {
                           {options?.stores?.map((s) => (
                             <SelectItem key={s.store_id} value={s.store_id}>
                               {s.name || s.store_id}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Currency */}
+                <FormField
+                  control={form.control}
+                  name='currency_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center gap-1.5'>
+                        <Coins className='h-3.5 w-3.5 text-muted-foreground' />
+                        {t('priceList.form.currency', { defaultValue: 'Currency' })}
+                      </FormLabel>
+                      <Select
+                        onValueChange={(val) => field.onChange(val === 'DEFAULT' ? '' : val)}
+                        value={field.value || 'DEFAULT'}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder={t('priceList.form.defaultCurrency', {
+                                defaultValue: 'Tenant Default Currency',
+                              })}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value='DEFAULT'>
+                            {t('priceList.form.defaultCurrency', {
+                              defaultValue: 'Tenant Default Currency',
+                            })}
+                          </SelectItem>
+                          {options?.currencies?.map((c) => (
+                            <SelectItem key={c.id} value={c.id}>
+                              {c.symbol} — {c.name} ({c.code})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Channel */}
+                <FormField
+                  control={form.control}
+                  name='channel_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center gap-1.5'>
+                        <Radio className='h-3.5 w-3.5 text-muted-foreground' />
+                        {t('priceList.form.channel', { defaultValue: 'Sales Channel' })}
+                      </FormLabel>
+                      <Select
+                        onValueChange={(val) => field.onChange(val === 'ALL' ? '' : val)}
+                        value={field.value || 'ALL'}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue
+                              placeholder={t('priceList.form.allChannels', {
+                                defaultValue: 'All Channels',
+                              })}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value='ALL'>
+                            {t('priceList.form.allChannels', {
+                              defaultValue: 'All Channels',
+                            })}
+                          </SelectItem>
+                          {options?.channels?.map((ch) => (
+                            <SelectItem key={ch.id} value={ch.id}>
+                              {isAr ? ch.name_ar || ch.name : ch.name}
                             </SelectItem>
                           ))}
                         </SelectContent>

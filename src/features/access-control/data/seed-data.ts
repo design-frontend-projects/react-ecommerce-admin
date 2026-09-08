@@ -456,6 +456,15 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     roles: ADMINS,
     permissions: [],
   },
+  {
+    code: 'channels',
+    name: 'Sales Channels',
+    route: '/channels',
+    moduleCode: 'lookups',
+    icon: 'channels',
+    roles: ADMINS,
+    permissions: [],
+  },
 
   // access control
   {

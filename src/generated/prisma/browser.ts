@@ -298,6 +298,11 @@ export type shipping_rates = Prisma.shipping_ratesModel
  */
 export type stores = Prisma.storesModel
 /**
+ * Model channels
+ * 
+ */
+export type channels = Prisma.channelsModel
+/**
  * Model subscriptions
  * 
  */

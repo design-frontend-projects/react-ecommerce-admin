@@ -52,6 +52,20 @@ export interface StoreBrief {
   email?: string | null
 }
 
+export interface CurrencyBrief {
+  id: string
+  name: string
+  code: string
+  symbol: string
+}
+
+export interface ChannelBrief {
+  id: string
+  code: string
+  name: string
+  name_ar?: string | null
+}
+
 export interface PriceListItemRecord {
   id: string
   tenant_id?: string
@@ -75,6 +89,8 @@ export interface PriceList {
   type: PriceListType | null
   price_list_type_id?: string | null
   store_id?: string | null
+  currency_id?: string | null
+  channel_id?: string | null
   group_id?: string | null
   start_date: string
   end_date?: string | null
@@ -87,6 +103,8 @@ export interface PriceList {
   products?: ProductBrief | null
   customer_groups?: CustomerGroupBrief | null
   stores?: StoreBrief | null
+  currencies?: CurrencyBrief | null
+  channels?: ChannelBrief | null
   price_list_items?: PriceListItemRecord[]
 }
 
@@ -116,6 +134,8 @@ export const priceListFormSchema = z
     type: priceListTypesEnum.optional().nullable(),
     group_id: z.string().uuid().optional().nullable().or(z.literal('')),
     store_id: z.string().uuid().optional().nullable().or(z.literal('')),
+    currency_id: z.string().uuid().optional().nullable().or(z.literal('')),
+    channel_id: z.string().uuid().optional().nullable().or(z.literal('')),
     start_date: z.string().min(1, 'Start date is required'),
     end_date: z.string().optional().nullable().or(z.literal('')),
     is_active: z.boolean().default(true),

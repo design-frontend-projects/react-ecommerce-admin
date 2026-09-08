@@ -200,6 +200,7 @@ export type currenciesWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
   countries?: Prisma.CountriesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
+  price_list?: Prisma.Price_listListRelationFilter
 }
 
 export type currenciesOrderByWithRelationInput = {
@@ -212,6 +213,7 @@ export type currenciesOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   countries?: Prisma.countriesOrderByRelationAggregateInput
   tenants?: Prisma.tenantsOrderByRelationAggregateInput
+  price_list?: Prisma.price_listOrderByRelationAggregateInput
 }
 
 export type currenciesWhereUniqueInput = Prisma.AtLeast<{
@@ -227,6 +229,7 @@ export type currenciesWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
   countries?: Prisma.CountriesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
+  price_list?: Prisma.Price_listListRelationFilter
 }, "id">
 
 export type currenciesOrderByWithAggregationInput = {
@@ -265,6 +268,7 @@ export type currenciesCreateInput = {
   updated_at?: Date | string | null
   countries?: Prisma.countriesCreateNestedManyWithoutCurrenciesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCurrenciesInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutCurrenciesInput
 }
 
 export type currenciesUncheckedCreateInput = {
@@ -277,6 +281,7 @@ export type currenciesUncheckedCreateInput = {
   updated_at?: Date | string | null
   countries?: Prisma.countriesUncheckedCreateNestedManyWithoutCurrenciesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCurrenciesInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCurrenciesInput
 }
 
 export type currenciesUpdateInput = {
@@ -289,6 +294,7 @@ export type currenciesUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countries?: Prisma.countriesUpdateManyWithoutCurrenciesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCurrenciesNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutCurrenciesNestedInput
 }
 
 export type currenciesUncheckedUpdateInput = {
@@ -301,6 +307,7 @@ export type currenciesUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countries?: Prisma.countriesUncheckedUpdateManyWithoutCurrenciesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCurrenciesNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCurrenciesNestedInput
 }
 
 export type currenciesCreateManyInput = {
@@ -384,6 +391,22 @@ export type currenciesUpdateOneWithoutCountriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.currenciesUpdateToOneWithWhereWithoutCountriesInput, Prisma.currenciesUpdateWithoutCountriesInput>, Prisma.currenciesUncheckedUpdateWithoutCountriesInput>
 }
 
+export type currenciesCreateNestedOneWithoutPrice_listInput = {
+  create?: Prisma.XOR<Prisma.currenciesCreateWithoutPrice_listInput, Prisma.currenciesUncheckedCreateWithoutPrice_listInput>
+  connectOrCreate?: Prisma.currenciesCreateOrConnectWithoutPrice_listInput
+  connect?: Prisma.currenciesWhereUniqueInput
+}
+
+export type currenciesUpdateOneWithoutPrice_listNestedInput = {
+  create?: Prisma.XOR<Prisma.currenciesCreateWithoutPrice_listInput, Prisma.currenciesUncheckedCreateWithoutPrice_listInput>
+  connectOrCreate?: Prisma.currenciesCreateOrConnectWithoutPrice_listInput
+  upsert?: Prisma.currenciesUpsertWithoutPrice_listInput
+  disconnect?: Prisma.currenciesWhereInput | boolean
+  delete?: Prisma.currenciesWhereInput | boolean
+  connect?: Prisma.currenciesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.currenciesUpdateToOneWithWhereWithoutPrice_listInput, Prisma.currenciesUpdateWithoutPrice_listInput>, Prisma.currenciesUncheckedUpdateWithoutPrice_listInput>
+}
+
 export type currenciesCreateNestedOneWithoutTenantsInput = {
   create?: Prisma.XOR<Prisma.currenciesCreateWithoutTenantsInput, Prisma.currenciesUncheckedCreateWithoutTenantsInput>
   connectOrCreate?: Prisma.currenciesCreateOrConnectWithoutTenantsInput
@@ -409,6 +432,7 @@ export type currenciesCreateWithoutCountriesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   tenants?: Prisma.tenantsCreateNestedManyWithoutCurrenciesInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutCurrenciesInput
 }
 
 export type currenciesUncheckedCreateWithoutCountriesInput = {
@@ -420,6 +444,7 @@ export type currenciesUncheckedCreateWithoutCountriesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCurrenciesInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCurrenciesInput
 }
 
 export type currenciesCreateOrConnectWithoutCountriesInput = {
@@ -447,6 +472,7 @@ export type currenciesUpdateWithoutCountriesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenants?: Prisma.tenantsUpdateManyWithoutCurrenciesNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutCurrenciesNestedInput
 }
 
 export type currenciesUncheckedUpdateWithoutCountriesInput = {
@@ -457,6 +483,71 @@ export type currenciesUncheckedUpdateWithoutCountriesInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCurrenciesNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCurrenciesNestedInput
+}
+
+export type currenciesCreateWithoutPrice_listInput = {
+  id?: string
+  name: string
+  code: string
+  symbol: string
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  countries?: Prisma.countriesCreateNestedManyWithoutCurrenciesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCurrenciesInput
+}
+
+export type currenciesUncheckedCreateWithoutPrice_listInput = {
+  id?: string
+  name: string
+  code: string
+  symbol: string
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  countries?: Prisma.countriesUncheckedCreateNestedManyWithoutCurrenciesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCurrenciesInput
+}
+
+export type currenciesCreateOrConnectWithoutPrice_listInput = {
+  where: Prisma.currenciesWhereUniqueInput
+  create: Prisma.XOR<Prisma.currenciesCreateWithoutPrice_listInput, Prisma.currenciesUncheckedCreateWithoutPrice_listInput>
+}
+
+export type currenciesUpsertWithoutPrice_listInput = {
+  update: Prisma.XOR<Prisma.currenciesUpdateWithoutPrice_listInput, Prisma.currenciesUncheckedUpdateWithoutPrice_listInput>
+  create: Prisma.XOR<Prisma.currenciesCreateWithoutPrice_listInput, Prisma.currenciesUncheckedCreateWithoutPrice_listInput>
+  where?: Prisma.currenciesWhereInput
+}
+
+export type currenciesUpdateToOneWithWhereWithoutPrice_listInput = {
+  where?: Prisma.currenciesWhereInput
+  data: Prisma.XOR<Prisma.currenciesUpdateWithoutPrice_listInput, Prisma.currenciesUncheckedUpdateWithoutPrice_listInput>
+}
+
+export type currenciesUpdateWithoutPrice_listInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  countries?: Prisma.countriesUpdateManyWithoutCurrenciesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCurrenciesNestedInput
+}
+
+export type currenciesUncheckedUpdateWithoutPrice_listInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  countries?: Prisma.countriesUncheckedUpdateManyWithoutCurrenciesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCurrenciesNestedInput
 }
 
@@ -469,6 +560,7 @@ export type currenciesCreateWithoutTenantsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   countries?: Prisma.countriesCreateNestedManyWithoutCurrenciesInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutCurrenciesInput
 }
 
 export type currenciesUncheckedCreateWithoutTenantsInput = {
@@ -480,6 +572,7 @@ export type currenciesUncheckedCreateWithoutTenantsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   countries?: Prisma.countriesUncheckedCreateNestedManyWithoutCurrenciesInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCurrenciesInput
 }
 
 export type currenciesCreateOrConnectWithoutTenantsInput = {
@@ -507,6 +600,7 @@ export type currenciesUpdateWithoutTenantsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countries?: Prisma.countriesUpdateManyWithoutCurrenciesNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutCurrenciesNestedInput
 }
 
 export type currenciesUncheckedUpdateWithoutTenantsInput = {
@@ -518,6 +612,7 @@ export type currenciesUncheckedUpdateWithoutTenantsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countries?: Prisma.countriesUncheckedUpdateManyWithoutCurrenciesNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCurrenciesNestedInput
 }
 
 
@@ -528,11 +623,13 @@ export type currenciesUncheckedUpdateWithoutTenantsInput = {
 export type CurrenciesCountOutputType = {
   countries: number
   tenants: number
+  price_list: number
 }
 
 export type CurrenciesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   countries?: boolean | CurrenciesCountOutputTypeCountCountriesArgs
   tenants?: boolean | CurrenciesCountOutputTypeCountTenantsArgs
+  price_list?: boolean | CurrenciesCountOutputTypeCountPrice_listArgs
 }
 
 /**
@@ -559,6 +656,13 @@ export type CurrenciesCountOutputTypeCountTenantsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.tenantsWhereInput
 }
 
+/**
+ * CurrenciesCountOutputType without action
+ */
+export type CurrenciesCountOutputTypeCountPrice_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.price_listWhereInput
+}
+
 
 export type currenciesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -570,6 +674,7 @@ export type currenciesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updated_at?: boolean
   countries?: boolean | Prisma.currencies$countriesArgs<ExtArgs>
   tenants?: boolean | Prisma.currencies$tenantsArgs<ExtArgs>
+  price_list?: boolean | Prisma.currencies$price_listArgs<ExtArgs>
   _count?: boolean | Prisma.CurrenciesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["currencies"]>
 
@@ -607,6 +712,7 @@ export type currenciesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type currenciesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   countries?: boolean | Prisma.currencies$countriesArgs<ExtArgs>
   tenants?: boolean | Prisma.currencies$tenantsArgs<ExtArgs>
+  price_list?: boolean | Prisma.currencies$price_listArgs<ExtArgs>
   _count?: boolean | Prisma.CurrenciesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type currenciesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -617,6 +723,7 @@ export type $currenciesPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     countries: Prisma.$countriesPayload<ExtArgs>[]
     tenants: Prisma.$tenantsPayload<ExtArgs>[]
+    price_list: Prisma.$price_listPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1022,6 +1129,7 @@ export interface Prisma__currenciesClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   countries<T extends Prisma.currencies$countriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.currencies$countriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenants<T extends Prisma.currencies$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.currencies$tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  price_list<T extends Prisma.currencies$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.currencies$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1496,6 +1604,30 @@ export type currencies$tenantsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.TenantsScalarFieldEnum | Prisma.TenantsScalarFieldEnum[]
+}
+
+/**
+ * currencies.price_list
+ */
+export type currencies$price_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the price_list
+   */
+  select?: Prisma.price_listSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the price_list
+   */
+  omit?: Prisma.price_listOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.price_listInclude<ExtArgs> | null
+  where?: Prisma.price_listWhereInput
+  orderBy?: Prisma.price_listOrderByWithRelationInput | Prisma.price_listOrderByWithRelationInput[]
+  cursor?: Prisma.price_listWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Price_listScalarFieldEnum | Prisma.Price_listScalarFieldEnum[]
 }
 
 /**

@@ -3616,5 +3616,54 @@
     "install": "Install App",
     "configure": "Configure",
     "uninstall": "Uninstall"
+  },
+  "channels": {
+    "title": "Sales Channels",
+    "description": "Manage and configure sales, order, and distribution channels (e.g. POS, Online Store, Mobile App, Aggregators).",
+    "loading": "Loading sales channels...",
+    "errorLoading": "Failed to load sales channels.",
+    "metrics": {
+      "total": "Total Channels",
+      "totalSubtitle": "Configured distribution endpoints",
+      "active": "Active Channels",
+      "activeSubtitle": "Ready for POS & Order capture",
+      "inactive": "Inactive Channels",
+      "inactiveSubtitle": "Disabled / archived channels"
+    },
+    "actions": {
+      "addChannel": "New Channel"
+    },
+    "fields": {
+      "code": "Channel Code",
+      "codeHelp": "Unique code used across sales, invoices, and pricing.",
+      "name": "Channel Name (EN)",
+      "nameAr": "Channel Name (AR)",
+      "description": "Description",
+      "isActive": "Active Status",
+      "isActiveHelp": "Enable this channel for selection in POS, orders, and price lists."
+    },
+    "table": {
+      "filterPlaceholder": "Filter by channel name...",
+      "noResults": "No sales channels found."
+    },
+    "dialog": {
+      "createTitle": "New Sales Channel",
+      "createDesc": "Add a new sales or distribution channel (e.g. POS, Online, App).",
+      "createBtn": "Create Channel",
+      "editTitle": "Edit Sales Channel",
+      "editDesc": "Update channel details and ordering settings.",
+      "deleteTitle": "Delete Sales Channel",
+      "deleteWarning": "Are you sure you want to delete this channel? This action cannot be undone.",
+      "confirmTypePrompt": "Type channel name to confirm deletion:",
+      "cascadeAlert": "If this channel is linked to active price lists or sales orders, deletion will be blocked by foreign key integrity."
+    },
+    "view": {
+      "subtitle": "Channel specifications and details."
+    },
+    "notifications": {
+      "createSuccess": "Sales channel created successfully.",
+      "updateSuccess": "Sales channel updated successfully.",
+      "deleteSuccess": "Sales channel deleted successfully."
+    }
   }
 }

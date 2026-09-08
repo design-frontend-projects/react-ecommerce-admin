@@ -10,6 +10,8 @@ import type {
   ProductBrief,
   CustomerGroupBrief,
   StoreBrief,
+  CurrencyBrief,
+  ChannelBrief,
 } from '../data/schema'
 
 export interface PriceListFilters {
@@ -17,6 +19,7 @@ export interface PriceListFilters {
   type?: PriceListType | 'all'
   store_id?: string | 'all'
   group_id?: string | 'all'
+  channel_id?: string | 'all'
   is_active?: boolean | 'all'
 }
 
@@ -53,6 +56,18 @@ const PRICE_LIST_SELECT_QUERY = `
   stores (
     store_id,
     name
+  ),
+  currencies (
+    id,
+    name,
+    code,
+    symbol
+  ),
+  channels (
+    id,
+    code,
+    name,
+    name_ar
   ),
   price_list_items (
     id,
@@ -105,6 +120,10 @@ export const usePriceList = (filters?: PriceListFilters) => {
 
       if (filters?.is_active !== undefined && filters.is_active !== 'all') {
         query = query.eq('is_active', filters.is_active)
+      }
+
+      if (filters?.channel_id && filters.channel_id !== 'all') {
+        query = query.eq('channel_id', filters.channel_id)
       }
 
       const { data, error } = await query.order('start_date', { ascending: false })
@@ -200,26 +219,45 @@ export const usePriceListOptions = () => {
         .select('store_id, name, phone, email')
         .order('name')
 
+      const currenciesQuery = supabase
+        .from('currencies')
+        .select('id, name, code, symbol')
+        .eq('is_active', true)
+        .order('name')
+
+      let channelsQuery = supabase
+        .from('channels')
+        .select('id, code, name, name_ar')
+        .eq('is_active', true)
+        .order('name')
+
       if (tenantId) {
         productsQuery = productsQuery.eq('tenant_id', tenantId)
         groupsQuery = groupsQuery.eq('tenant_id', tenantId)
         storesQuery = storesQuery.eq('tenant_id', tenantId)
+        channelsQuery = channelsQuery.eq('tenant_id', tenantId)
       }
 
-      const [productsRes, groupsRes, storesRes] = await Promise.all([
+      const [productsRes, groupsRes, storesRes, currenciesRes, channelsRes] = await Promise.all([
         productsQuery,
         groupsQuery,
         storesQuery,
+        currenciesQuery,
+        channelsQuery,
       ])
 
       if (productsRes.error) throw productsRes.error
       if (groupsRes.error) throw groupsRes.error
       if (storesRes.error) throw storesRes.error
+      if (currenciesRes.error) throw currenciesRes.error
+      if (channelsRes.error) throw channelsRes.error
 
       return {
         products: (productsRes.data || []) as unknown as ProductBrief[],
         customerGroups: (groupsRes.data || []) as unknown as CustomerGroupBrief[],
         stores: (storesRes.data || []) as unknown as StoreBrief[],
+        currencies: (currenciesRes.data || []) as unknown as CurrencyBrief[],
+        channels: (channelsRes.data || []) as unknown as ChannelBrief[],
       }
     },
     enabled: authEnabled,
@@ -248,6 +286,8 @@ export const useCreatePriceListWithItems = () => {
         type: formData.type || null,
         group_id: formData.group_id ? formData.group_id : null,
         store_id: formData.store_id ? formData.store_id : null,
+        currency_id: formData.currency_id ? formData.currency_id : null,
+        channel_id: formData.channel_id ? formData.channel_id : null,
         start_date: formData.start_date,
         end_date: formData.end_date ? formData.end_date : null,
         is_active: formData.is_active ?? true,
@@ -322,6 +362,8 @@ export const useUpdatePriceListWithItems = () => {
         type: formData.type || null,
         group_id: formData.group_id ? formData.group_id : null,
         store_id: formData.store_id ? formData.store_id : null,
+        currency_id: formData.currency_id ? formData.currency_id : null,
+        channel_id: formData.channel_id ? formData.channel_id : null,
         start_date: formData.start_date,
         end_date: formData.end_date ? formData.end_date : null,
         is_active: formData.is_active ?? true,

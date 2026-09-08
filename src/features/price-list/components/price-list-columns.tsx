@@ -1,7 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Users, Store as StoreIcon, Layers, Calendar, Clock } from 'lucide-react'
+import { Users, Store as StoreIcon, Layers, Calendar, Clock, Coins, Radio } from 'lucide-react'
 import {
   PRICE_LIST_TYPE_LABELS,
   type PriceList,
@@ -93,6 +93,38 @@ export const columns: ColumnDef<PriceList>[] = [
             <span className='text-[11px] text-muted-foreground'>All Stores</span>
           )}
         </div>
+      )
+    },
+  },
+  {
+    id: 'currency',
+    header: 'Currency',
+    cell: ({ row }) => {
+      const currency = row.original.currencies
+      if (!currency) {
+        return <span className='text-[11px] text-muted-foreground'>Default</span>
+      }
+      return (
+        <Badge variant='outline' className='text-[11px] gap-1 px-1.5 py-0'>
+          <Coins className='h-3 w-3 text-muted-foreground' />
+          {currency.symbol} {currency.code}
+        </Badge>
+      )
+    },
+  },
+  {
+    id: 'channel',
+    header: 'Channel',
+    cell: ({ row }) => {
+      const channel = row.original.channels
+      if (!channel) {
+        return <span className='text-[11px] text-muted-foreground'>All</span>
+      }
+      return (
+        <Badge variant='outline' className='text-[11px] gap-1 px-1.5 py-0'>
+          <Radio className='h-3 w-3 text-muted-foreground' />
+          {channel.name}
+        </Badge>
       )
     },
   },

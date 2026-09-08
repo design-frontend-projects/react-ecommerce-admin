@@ -8,6 +8,8 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
+  Coins,
+  Radio,
 } from 'lucide-react'
 import {
   Dialog,
@@ -169,6 +171,30 @@ export function PriceListViewDialog() {
                 <span className='font-medium'>
                   {currentRow.stores?.name ||
                     t('priceList.form.allStores', { defaultValue: 'All Stores / Global' })}
+                </span>
+              </div>
+
+              <div className='flex items-center gap-2'>
+                <Coins className='h-4 w-4 text-muted-foreground' />
+                <span className='text-muted-foreground'>
+                  {t('priceList.form.currency', { defaultValue: 'Currency' })}:
+                </span>
+                <span className='font-medium'>
+                  {currentRow.currencies
+                    ? `${currentRow.currencies.symbol} ${currentRow.currencies.name} (${currentRow.currencies.code})`
+                    : t('priceList.form.defaultCurrency', { defaultValue: 'Tenant Default Currency' })}
+                </span>
+              </div>
+
+              <div className='flex items-center gap-2'>
+                <Radio className='h-4 w-4 text-muted-foreground' />
+                <span className='text-muted-foreground'>
+                  {t('priceList.form.channel', { defaultValue: 'Sales Channel' })}:
+                </span>
+                <span className='font-medium'>
+                  {currentRow.channels
+                    ? (isAr ? currentRow.channels.name_ar || currentRow.channels.name : currentRow.channels.name)
+                    : t('priceList.form.allChannels', { defaultValue: 'All Channels' })}
                 </span>
               </div>
 

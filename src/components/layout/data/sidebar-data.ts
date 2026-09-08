@@ -49,6 +49,7 @@ import {
   Truck,
   MonitorDot,
   RotateCcw,
+  Radio,
 } from 'lucide-react'
 
 import { useTranslation } from 'react-i18next'
@@ -586,6 +587,12 @@ export function useSidebarData(): SidebarData {
             icon: MapPin,
             roles: ADMINS,
           },
+          {
+            title: t('sidebar.channels', { defaultValue: 'Channels' }),
+            url: '/channels',
+            icon: Radio,
+            roles: ADMINS,
+          },
         ],
       },
       {
@@ -672,6 +679,12 @@ export function useSidebarData(): SidebarData {
                 title: t('sidebar.stores'),
                 url: '/stores',
                 icon: MapPin,
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.channels', { defaultValue: 'Channels' }),
+                url: '/channels',
+                icon: Radio,
                 roles: ADMINS,
               },
             ],

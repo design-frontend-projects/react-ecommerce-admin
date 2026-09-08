@@ -55,6 +55,7 @@ import { Route as AuthenticatedCustomerCardsRouteRouteImport } from './routes/_a
 import { Route as AuthenticatedCurrenciesRouteRouteImport } from './routes/_authenticated/currencies/route'
 import { Route as AuthenticatedCountriesRouteRouteImport } from './routes/_authenticated/countries/route'
 import { Route as AuthenticatedCitiesRouteRouteImport } from './routes/_authenticated/cities/route'
+import { Route as AuthenticatedChannelsRouteRouteImport } from './routes/_authenticated/channels/route'
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
@@ -442,6 +443,12 @@ const AuthenticatedCitiesRouteRoute =
   AuthenticatedCitiesRouteRouteImport.update({
     id: '/cities',
     path: '/cities',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedChannelsRouteRoute =
+  AuthenticatedChannelsRouteRouteImport.update({
+    id: '/channels',
+    path: '/channels',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCategoriesRouteRoute =
@@ -1200,6 +1207,7 @@ export interface FileRoutesByFullPath {
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/channels': typeof AuthenticatedChannelsRouteRoute
   '/cities': typeof AuthenticatedCitiesRouteRouteWithChildren
   '/countries': typeof AuthenticatedCountriesRouteRoute
   '/currencies': typeof AuthenticatedCurrenciesRouteRoute
@@ -1377,6 +1385,7 @@ export interface FileRoutesByTo {
   '/apps': typeof AuthenticatedAppsRouteRoute
   '/branches': typeof AuthenticatedBranchesRouteRoute
   '/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/channels': typeof AuthenticatedChannelsRouteRoute
   '/countries': typeof AuthenticatedCountriesRouteRoute
   '/currencies': typeof AuthenticatedCurrenciesRouteRoute
   '/customer-cards': typeof AuthenticatedCustomerCardsRouteRoute
@@ -1555,6 +1564,7 @@ export interface FileRoutesById {
   '/_authenticated/apps': typeof AuthenticatedAppsRouteRoute
   '/_authenticated/branches': typeof AuthenticatedBranchesRouteRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRouteRoute
+  '/_authenticated/channels': typeof AuthenticatedChannelsRouteRoute
   '/_authenticated/cities': typeof AuthenticatedCitiesRouteRouteWithChildren
   '/_authenticated/countries': typeof AuthenticatedCountriesRouteRoute
   '/_authenticated/currencies': typeof AuthenticatedCurrenciesRouteRoute
@@ -1737,6 +1747,7 @@ export interface FileRouteTypes {
     | '/apps'
     | '/branches'
     | '/categories'
+    | '/channels'
     | '/cities'
     | '/countries'
     | '/currencies'
@@ -1914,6 +1925,7 @@ export interface FileRouteTypes {
     | '/apps'
     | '/branches'
     | '/categories'
+    | '/channels'
     | '/countries'
     | '/currencies'
     | '/customer-cards'
@@ -2091,6 +2103,7 @@ export interface FileRouteTypes {
     | '/_authenticated/apps'
     | '/_authenticated/branches'
     | '/_authenticated/categories'
+    | '/_authenticated/channels'
     | '/_authenticated/cities'
     | '/_authenticated/countries'
     | '/_authenticated/currencies'
@@ -2656,6 +2669,13 @@ declare module '@tanstack/react-router' {
       path: '/cities'
       fullPath: '/cities'
       preLoaderRoute: typeof AuthenticatedCitiesRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/channels': {
+      id: '/_authenticated/channels'
+      path: '/channels'
+      fullPath: '/channels'
+      preLoaderRoute: typeof AuthenticatedChannelsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/categories': {
@@ -3641,6 +3661,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppsRouteRoute: typeof AuthenticatedAppsRouteRoute
   AuthenticatedBranchesRouteRoute: typeof AuthenticatedBranchesRouteRoute
   AuthenticatedCategoriesRouteRoute: typeof AuthenticatedCategoriesRouteRoute
+  AuthenticatedChannelsRouteRoute: typeof AuthenticatedChannelsRouteRoute
   AuthenticatedCitiesRouteRoute: typeof AuthenticatedCitiesRouteRouteWithChildren
   AuthenticatedCountriesRouteRoute: typeof AuthenticatedCountriesRouteRoute
   AuthenticatedCurrenciesRouteRoute: typeof AuthenticatedCurrenciesRouteRoute
@@ -3720,6 +3741,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppsRouteRoute: AuthenticatedAppsRouteRoute,
   AuthenticatedBranchesRouteRoute: AuthenticatedBranchesRouteRoute,
   AuthenticatedCategoriesRouteRoute: AuthenticatedCategoriesRouteRoute,
+  AuthenticatedChannelsRouteRoute: AuthenticatedChannelsRouteRoute,
   AuthenticatedCitiesRouteRoute: AuthenticatedCitiesRouteRouteWithChildren,
   AuthenticatedCountriesRouteRoute: AuthenticatedCountriesRouteRoute,
   AuthenticatedCurrenciesRouteRoute: AuthenticatedCurrenciesRouteRoute,

@@ -107,6 +107,7 @@ export const ModelName = {
   shipping_methods: 'shipping_methods',
   shipping_rates: 'shipping_rates',
   stores: 'stores',
+  channels: 'channels',
   subscriptions: 'subscriptions',
   suppliers: 'suppliers',
   tax_rates: 'tax_rates',
@@ -426,6 +427,8 @@ export const Price_listScalarFieldEnum = {
   type: 'type',
   price_list_type_id: 'price_list_type_id',
   store_id: 'store_id',
+  currency_id: 'currency_id',
+  channel_id: 'channel_id',
   id: 'id',
   tenant_id: 'tenant_id',
   product_id: 'product_id',
@@ -1343,6 +1346,23 @@ export const StoresScalarFieldEnum = {
 } as const
 
 export type StoresScalarFieldEnum = (typeof StoresScalarFieldEnum)[keyof typeof StoresScalarFieldEnum]
+
+
+export const ChannelsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  code: 'code',
+  name: 'name',
+  name_ar: 'name_ar',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type ChannelsScalarFieldEnum = (typeof ChannelsScalarFieldEnum)[keyof typeof ChannelsScalarFieldEnum]
 
 
 export const SubscriptionsScalarFieldEnum = {
