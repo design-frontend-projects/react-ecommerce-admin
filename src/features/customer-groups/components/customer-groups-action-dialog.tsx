@@ -39,9 +39,16 @@ const formSchema = (t: TFunction) =>
 
 type CustomerGroupFormValues = z.infer<ReturnType<typeof formSchema>>
 
+const defaultValues: CustomerGroupFormValues = {
+  name: '',
+  description: '',
+  minimum_order_amount: 0,
+  discount_percentage: 0,
+}
+
 export function CustomerGroupsActionDialog() {
   const { t } = useTranslation()
-  const { open, setOpen, currentRow } = useCustomerGroupsContext()
+  const { open, setOpen, currentRow, setCurrentRow } = useCustomerGroupsContext()
   const createMutation = useCreateCustomerGroup()
   const updateMutation = useUpdateCustomerGroup()
 
@@ -50,31 +57,29 @@ export function CustomerGroupsActionDialog() {
 
   const form = useForm<CustomerGroupFormValues>({
     resolver: zodResolver(formSchema(t)) as Resolver<CustomerGroupFormValues>,
-    defaultValues: {
-      name: '',
-      description: '',
-      minimum_order_amount: 0,
-      discount_percentage: 0,
-    },
+    defaultValues,
   })
 
   useEffect(() => {
-    if (currentRow) {
-      form.reset({
-        name: currentRow.name,
-        description: currentRow.description || '',
-        minimum_order_amount: currentRow.minimum_order_amount || 0,
-        discount_percentage: currentRow.discount_percentage || 0,
-      })
-    } else {
-      form.reset({
-        name: '',
-        description: '',
-        minimum_order_amount: 0,
-        discount_percentage: 0,
-      })
+    if (isOpen) {
+      if (isEdit && currentRow) {
+        form.reset({
+          name: currentRow.name,
+          description: currentRow.description || '',
+          minimum_order_amount: currentRow.minimum_order_amount || 0,
+          discount_percentage: currentRow.discount_percentage || 0,
+        })
+      } else {
+        form.reset(defaultValues)
+      }
     }
-  }, [currentRow, form])
+  }, [isOpen, isEdit, currentRow, form])
+
+  const handleClose = () => {
+    setOpen(null)
+    setCurrentRow(null)
+    form.reset(defaultValues)
+  }
 
   const onSubmit = async (values: CustomerGroupFormValues) => {
     try {
@@ -88,7 +93,7 @@ export function CustomerGroupsActionDialog() {
         await createMutation.mutateAsync(values)
         toast.success(t('customerGroups.toast.created'))
       }
-      setOpen(null)
+      handleClose()
     } catch (error: unknown) {
       toast.error(t('customerGroups.toast.error'), {
         description:
@@ -100,7 +105,7 @@ export function CustomerGroupsActionDialog() {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
+    <Dialog open={isOpen} onOpenChange={(v) => !v && handleClose()}>
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[500px]'>
         <DialogHeader>
           <DialogTitle>
@@ -194,10 +199,7 @@ export function CustomerGroupsActionDialog() {
               <Button
                 type='button'
                 variant='outline'
-                onClick={() => {
-                  setOpen(null)
-                  form.reset()
-                }}
+                onClick={handleClose}
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {t('customerGroups.form.cancel')}

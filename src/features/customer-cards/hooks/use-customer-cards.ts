@@ -1,9 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import {
+  getAuthTenantAndUser,
+  resolveClientTenantId,
+  isValidUuid,
+} from '@/lib/client-tenant'
 
 export interface CustomerCard {
   id: string
   card_id?: string | number
+  tenant_id?: string
   customer_id: string
   card_type: string | null
   last_four_digits: string
@@ -14,6 +20,8 @@ export interface CustomerCard {
   is_default: boolean | null
   tokenized_id: string | null
   added_at: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
   customers?: {
     first_name: string
     last_name: string
@@ -36,22 +44,29 @@ export interface CustomerCardInput {
   billing_address?: string
   is_default?: boolean
   tokenized_id?: string
+  tenant_id?: string
 }
 
 export const useCustomerCards = () => {
   return useQuery({
     queryKey: ['customer-cards'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
         .from('customer_cards')
         .select('*, customers(first_name, last_name)')
-        .order('added_at', { ascending: false })
+
+      if (tenantId && isValidUuid(tenantId)) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query.order('added_at', { ascending: false })
 
       if (error) throw error
-      return (data || []).map((row: any) => ({
+      return (data || []).map((row: Record<string, unknown>) => ({
         ...row,
-        id: row.id,
-        card_id: row.id,
+        id: String(row.id),
+        card_id: row.id ? String(row.id) : undefined,
       })) as CustomerCard[]
     },
   })
@@ -62,9 +77,25 @@ export const useCreateCustomerCard = () => {
 
   return useMutation({
     mutationFn: async (newCard: CustomerCardInput) => {
+      const resolvedTenantId = await resolveClientTenantId(newCard.tenant_id)
+      if (!resolvedTenantId) {
+        throw new Error('Tenant ID could not be identified. Please ensure you are logged in.')
+      }
+
+      const { userId } = getAuthTenantAndUser()
+      const payload: Record<string, unknown> = {
+        ...newCard,
+        tenant_id: resolvedTenantId,
+      }
+
+      if (userId && isValidUuid(userId)) {
+        payload.created_by_user_id = userId
+        payload.updated_by_user_id = userId
+      }
+
       const { data, error } = await supabase
         .from('customer_cards')
-        .insert(newCard)
+        .insert(payload)
         .select()
         .maybeSingle()
 
@@ -85,12 +116,25 @@ export const useUpdateCustomerCard = () => {
       id,
       ...updates
     }: CustomerCardInput & { id: string | number }) => {
-      const { data, error } = await supabase
+      const { tenantId, userId } = getAuthTenantAndUser()
+      const payload: Record<string, unknown> = {
+        ...updates,
+      }
+
+      if (userId && isValidUuid(userId)) {
+        payload.updated_by_user_id = userId
+      }
+
+      let query = supabase
         .from('customer_cards')
-        .update(updates)
+        .update(payload)
         .eq('id', String(id))
-        .select()
-        .maybeSingle()
+
+      if (tenantId && isValidUuid(tenantId)) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query.select().maybeSingle()
 
       if (error) throw error
       return data
@@ -106,10 +150,13 @@ export const useDeleteCustomerCard = () => {
 
   return useMutation({
     mutationFn: async (id: string | number) => {
-      const { error } = await supabase
-        .from('customer_cards')
-        .delete()
-        .eq('id', String(id))
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase.from('customer_cards').delete().eq('id', String(id))
+      if (tenantId && isValidUuid(tenantId)) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { error } = await query
 
       if (error) throw error
     },

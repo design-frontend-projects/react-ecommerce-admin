@@ -5,11 +5,17 @@ import { useCustomerGroupsContext } from './customer-groups-provider'
 
 export function CustomerGroupsPrimaryButtons() {
   const { t } = useTranslation()
-  const { setOpen } = useCustomerGroupsContext()
+  const { setOpen, setCurrentRow } = useCustomerGroupsContext()
 
   return (
     <div className='flex gap-2'>
-      <Button onClick={() => setOpen('create')} className='space-x-1'>
+      <Button
+        onClick={() => {
+          setCurrentRow(null)
+          setOpen('create')
+        }}
+        className='space-x-1'
+      >
         <span>{t('customerGroups.addGroup')}</span> <Plus size={18} />
       </Button>
     </div>
