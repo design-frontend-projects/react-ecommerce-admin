@@ -2,9 +2,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import {
   cancelRequisition,
   createRequisition,
+  deleteRequisition,
   getRequisition,
   listRequisitions,
+  updateRequisition,
   type CreateRequisitionInput,
+  type UpdateRequisitionInput,
 } from '@/server/fns/purchase-requisitions'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
@@ -41,6 +44,28 @@ const POST = withAuth(
   }
 )
 
+const PUT = withAuth(PERMISSIONS.PURCHASING_MANAGE, async ({ request, auth }) => {
+  try {
+    const { userId } = auth
+    const { searchParams } = new URL(request.url)
+    const urlId = searchParams.get('id')
+    const body = (await request.json()) as UpdateRequisitionInput & { id?: string }
+    const id = urlId || body.id
+
+    if (!id) {
+      return Response.json(
+        { success: false, error: { message: 'Requisition id is required.' } },
+        { status: 400 }
+      )
+    }
+
+    const data = await updateRequisition(userId, id, body)
+    return Response.json({ success: true, data })
+  } catch (error) {
+    return handleRouteError(error, 'Unable to update requisition')
+  }
+})
+
 const DELETE = withAuth(
   PERMISSIONS.PURCHASING_MANAGE,
   async ({ request, auth }) => {
@@ -49,16 +74,21 @@ const DELETE = withAuth(
 
       const { searchParams } = new URL(request.url)
       const id = searchParams.get('id')
+      const permanent = searchParams.get('permanent') === 'true'
+
       if (!id) {
         return Response.json(
           { success: false, error: { message: 'Requisition id is required.' } },
           { status: 400 }
         )
       }
-      const data = await cancelRequisition(userId, id)
+
+      const data = permanent
+        ? await deleteRequisition(userId, id)
+        : await cancelRequisition(userId, id)
       return Response.json({ success: true, data })
     } catch (error) {
-      return handleRouteError(error, 'Unable to cancel requisition')
+      return handleRouteError(error, 'Unable to process requisition deletion/cancellation')
     }
   }
 )
@@ -68,6 +98,7 @@ export const Route = createFileRoute('/api/inventory/purchase-requisitions')({
     handlers: {
       GET,
       POST,
+      PUT,
       DELETE,
     },
   },

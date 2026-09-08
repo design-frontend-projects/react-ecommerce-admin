@@ -4,10 +4,12 @@ import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+import type { Prisma } from '@/generated/prisma/client'
 
 export interface RequisitionItemInput {
   productVariantId: string
   qtyRequested: number
+  uomId?: string | null
   preferredSupplierId?: string | null
   estUnitCost?: number
   reason?: string | null
@@ -16,6 +18,15 @@ export interface RequisitionItemInput {
 export interface CreateRequisitionInput {
   storeId?: string | null
   neededBy?: string | null
+  currency?: string | null
+  notes?: string | null
+  items: RequisitionItemInput[]
+}
+
+export interface UpdateRequisitionInput {
+  storeId?: string | null
+  neededBy?: string | null
+  currency?: string | null
   notes?: string | null
   items: RequisitionItemInput[]
 }
@@ -40,9 +51,41 @@ function assertItems(items: RequisitionItemInput[]): void {
 
 export async function listRequisitions(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
-  return prisma.purchase_requisitions.findMany({
+  const list = await prisma.purchase_requisitions.findMany({
     where: { tenant_id: tenantId },
+    include: {
+      stores: {
+        select: {
+          store_id: true,
+          name: true,
+        },
+      },
+      _count: {
+        select: {
+          purchase_requisition_items: true,
+        },
+      },
+      purchase_requisition_items: {
+        select: {
+          qty_requested: true,
+          est_unit_cost: true,
+        },
+      },
+    },
     orderBy: { created_at: 'desc' },
+  })
+
+  return list.map((item) => {
+    const totalAmount = (item.purchase_requisition_items || []).reduce(
+      (sum, line) =>
+        sum + Number(line.qty_requested) * Number(line.est_unit_cost || 0),
+      0
+    )
+    const { purchase_requisition_items, ...rest } = item
+    return {
+      ...rest,
+      total_amount: totalAmount,
+    }
   })
 }
 
@@ -50,16 +93,67 @@ export async function getRequisition(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const requisition = await prisma.purchase_requisitions.findFirst({
     where: { id, tenant_id: tenantId },
+    include: {
+      stores: {
+        select: {
+          store_id: true,
+          name: true,
+        },
+      },
+      branches: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      purchase_requisition_items: {
+        include: {
+          product_variants: {
+            select: {
+              id: true,
+              sku: true,
+              product_id: true,
+              dimensions: true,
+              products: {
+                select: {
+                  id: true,
+                  name: true,
+                  sku: true,
+                },
+              },
+            },
+          },
+          suppliers: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          uoms: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
+        },
+      },
+    },
   })
+
   if (!requisition) {
     throw new ApiError('Requisition not found.', 404)
   }
-  const items = await prisma.purchase_requisition_items.findMany({
-    where: { requisition_id: id },
-  })
+
+  const totalAmount = (requisition.purchase_requisition_items || []).reduce(
+    (sum, line) =>
+      sum + Number(line.qty_requested) * Number(line.est_unit_cost || 0),
+    0
+  )
+
   return {
     ...requisition,
-    purchase_requisition_items: items,
+    total_amount: totalAmount,
   }
 }
 
@@ -71,11 +165,14 @@ export async function createRequisition(
   const tenantUserId = await resolveTenantUserId(authUserId)
   assertItems(input.items)
 
-  return prisma.$transaction(async (tx: any) => {
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const created = await tx.purchase_requisitions.create({
       data: {
         tenant_id: tenantId,
         store_id: input.storeId ?? null,
+        currency: input.currency
+          ? input.currency.slice(0, 3).toUpperCase()
+          : 'USD',
         needed_by: input.neededBy ? new Date(input.neededBy) : null,
         notes: input.notes ?? null,
         requested_by: authUserId,
@@ -91,6 +188,7 @@ export async function createRequisition(
           requisition_id: created.id,
           product_variant_id: item.productVariantId,
           qty_requested: item.qtyRequested,
+          uom_id: item.uomId ?? null,
           preferred_supplier_id: item.preferredSupplierId ?? null,
           est_unit_cost: item.estUnitCost ?? 0,
           reason: item.reason ?? null,
@@ -108,6 +206,76 @@ export async function createRequisition(
       ...created,
       purchase_requisition_items: items,
     }
+  })
+}
+
+export async function updateRequisition(
+  authUserId: string,
+  id: string,
+  input: UpdateRequisitionInput
+) {
+  const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
+  await requireRequisitionStatus(tenantId, id, ['draft'])
+  assertItems(input.items)
+
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    const updated = await tx.purchase_requisitions.update({
+      where: { id },
+      data: {
+        store_id: input.storeId ?? null,
+        currency: input.currency
+          ? input.currency.slice(0, 3).toUpperCase()
+          : 'USD',
+        needed_by: input.neededBy ? new Date(input.neededBy) : null,
+        notes: input.notes ?? null,
+        updated_by_user_id: tenantUserId,
+      },
+    })
+
+    // Replace items
+    await tx.purchase_requisition_items.deleteMany({
+      where: { requisition_id: id },
+    })
+
+    if (input.items.length > 0) {
+      await tx.purchase_requisition_items.createMany({
+        data: input.items.map((item) => ({
+          requisition_id: id,
+          product_variant_id: item.productVariantId,
+          qty_requested: item.qtyRequested,
+          uom_id: item.uomId ?? null,
+          preferred_supplier_id: item.preferredSupplierId ?? null,
+          est_unit_cost: item.estUnitCost ?? 0,
+          reason: item.reason ?? null,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
+        })),
+      })
+    }
+
+    const items = await tx.purchase_requisition_items.findMany({
+      where: { requisition_id: id },
+    })
+
+    return {
+      ...updated,
+      purchase_requisition_items: items,
+    }
+  })
+}
+
+export async function deleteRequisition(authUserId: string, id: string) {
+  const tenantId = await requireTenantId(authUserId)
+  await requireRequisitionStatus(tenantId, id, ['draft', 'cancelled'])
+
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    await tx.purchase_requisition_items.deleteMany({
+      where: { requisition_id: id },
+    })
+    return tx.purchase_requisitions.delete({
+      where: { id },
+    })
   })
 }
 
@@ -196,9 +364,12 @@ export async function convertRequisition(authUserId: string, id: string) {
     throw new ApiError('Requisition not found.', 404)
   }
 
-  const { data, error } = await supabaseAdmin.rpc('convert_requisition_to_po', {
-    p_requisition_id: id,
-  })
+  const { data, error } = await supabaseAdmin.rpc(
+    'convert_requisition_to_po',
+    {
+      p_requisition_id: id,
+    }
+  )
   if (error) {
     throw rpcError(error)
   }

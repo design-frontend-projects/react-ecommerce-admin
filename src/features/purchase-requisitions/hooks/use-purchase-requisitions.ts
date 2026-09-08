@@ -6,13 +6,19 @@ import {
   actionRequisition,
   cancelRequisition,
   createRequisition,
+  deleteRequisition,
   fetchRequisition,
   fetchRequisitions,
+  updateRequisition,
 } from '../data/actions'
-import type { CreateRequisitionInput, RequisitionAction } from '../data/schema'
+import type {
+  CreateRequisitionInput,
+  UpdateRequisitionInput,
+  RequisitionAction,
+} from '../data/schema'
 
-const requisitionsKey = ['inventory', 'purchase-requisitions'] as const
-const requisitionKey = (id: string) =>
+export const requisitionsKey = ['inventory', 'purchase-requisitions'] as const
+export const requisitionKey = (id: string) =>
   ['inventory', 'purchase-requisitions', id] as const
 
 const ACTION_SUCCESS: Record<RequisitionAction, string> = {
@@ -56,6 +62,44 @@ export function useCreateRequisition() {
   })
 }
 
+export function useUpdateRequisition() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (
+      getToken,
+      { id, input }: { id: string; input: UpdateRequisitionInput }
+    ) => updateRequisition(getToken, id, input),
+    rbac: { permission: 'purchasing.manage' },
+    onSuccess: (_data, variables) => {
+      toast.success('Requisition updated.')
+      void queryClient.invalidateQueries({ queryKey: requisitionsKey })
+      void queryClient.invalidateQueries({
+        queryKey: requisitionKey(variables.id),
+      })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to update requisition', {
+        description: error.message,
+      }),
+  })
+}
+
+export function useDeleteRequisition() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => deleteRequisition(getToken, id),
+    rbac: { permission: 'purchasing.manage' },
+    onSuccess: () => {
+      toast.success('Requisition deleted successfully.')
+      void queryClient.invalidateQueries({ queryKey: requisitionsKey })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to delete requisition', {
+        description: error.message,
+      }),
+  })
+}
+
 export function useCancelRequisition() {
   const queryClient = useQueryClient()
   return useAuthMutation({
@@ -75,14 +119,20 @@ export function useCancelRequisition() {
 export function useRequisitionAction() {
   const queryClient = useQueryClient()
   return useAuthMutation({
-    mutationFn: (getToken, { id, action }: { id: string; action: RequisitionAction }) =>
-      actionRequisition(getToken, id, action),
+    mutationFn: (
+      getToken,
+      { id, action }: { id: string; action: RequisitionAction }
+    ) => actionRequisition(getToken, id, action),
     rbac: { permission: 'purchasing.manage' },
     onSuccess: (_data, variables) => {
       toast.success(ACTION_SUCCESS[variables.action])
       void queryClient.invalidateQueries({ queryKey: requisitionsKey })
+      void queryClient.invalidateQueries({
+        queryKey: requisitionKey(variables.id),
+      })
       if (variables.action === 'convert') {
         void queryClient.invalidateQueries({ queryKey: ['purchase-orders'] })
+        void queryClient.invalidateQueries({ queryKey: ['inventory', 'purchase-orders'] })
       }
     },
     onError: (error: Error) =>

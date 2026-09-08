@@ -341,6 +341,7 @@ export type suppliersWhereInput = {
   products?: Prisma.ProductsListRelationFilter
   reorder_rules?: Prisma.Reorder_rulesListRelationFilter
   reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
+  purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
 }
 
 export type suppliersOrderByWithRelationInput = {
@@ -369,6 +370,7 @@ export type suppliersOrderByWithRelationInput = {
   products?: Prisma.productsOrderByRelationAggregateInput
   reorder_rules?: Prisma.reorder_rulesOrderByRelationAggregateInput
   reorder_suggestions?: Prisma.reorder_suggestionsOrderByRelationAggregateInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsOrderByRelationAggregateInput
 }
 
 export type suppliersWhereUniqueInput = Prisma.AtLeast<{
@@ -400,6 +402,7 @@ export type suppliersWhereUniqueInput = Prisma.AtLeast<{
   products?: Prisma.ProductsListRelationFilter
   reorder_rules?: Prisma.Reorder_rulesListRelationFilter
   reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
+  purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
 }, "id">
 
 export type suppliersOrderByWithAggregationInput = {
@@ -481,6 +484,7 @@ export type suppliersCreateInput = {
   products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateInput = {
@@ -508,6 +512,7 @@ export type suppliersUncheckedCreateInput = {
   products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUpdateInput = {
@@ -535,6 +540,7 @@ export type suppliersUpdateInput = {
   products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateInput = {
@@ -562,6 +568,7 @@ export type suppliersUncheckedUpdateInput = {
   products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersCreateManyInput = {
@@ -801,6 +808,22 @@ export type suppliersUpdateOneRequiredWithoutPurchase_ordersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutPurchase_ordersInput, Prisma.suppliersUpdateWithoutPurchase_ordersInput>, Prisma.suppliersUncheckedUpdateWithoutPurchase_ordersInput>
 }
 
+export type suppliersCreateNestedOneWithoutPurchase_requisition_itemsInput = {
+  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
+  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_requisition_itemsInput
+  connect?: Prisma.suppliersWhereUniqueInput
+}
+
+export type suppliersUpdateOneWithoutPurchase_requisition_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
+  connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutPurchase_requisition_itemsInput
+  upsert?: Prisma.suppliersUpsertWithoutPurchase_requisition_itemsInput
+  disconnect?: Prisma.suppliersWhereInput | boolean
+  delete?: Prisma.suppliersWhereInput | boolean
+  connect?: Prisma.suppliersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.suppliersUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput, Prisma.suppliersUpdateWithoutPurchase_requisition_itemsInput>, Prisma.suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput>
+}
+
 export type suppliersCreateNestedOneWithoutReorder_rulesInput = {
   create?: Prisma.XOR<Prisma.suppliersCreateWithoutReorder_rulesInput, Prisma.suppliersUncheckedCreateWithoutReorder_rulesInput>
   connectOrCreate?: Prisma.suppliersCreateOrConnectWithoutReorder_rulesInput
@@ -857,6 +880,7 @@ export type suppliersCreateWithoutCitiesInput = {
   products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateWithoutCitiesInput = {
@@ -883,6 +907,7 @@ export type suppliersUncheckedCreateWithoutCitiesInput = {
   products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersCreateOrConnectWithoutCitiesInput = {
@@ -961,6 +986,7 @@ export type suppliersCreateWithoutProductsInput = {
   cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateWithoutProductsInput = {
@@ -987,6 +1013,7 @@ export type suppliersUncheckedCreateWithoutProductsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersCreateOrConnectWithoutProductsInput = {
@@ -1029,6 +1056,7 @@ export type suppliersUpdateWithoutProductsInput = {
   cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateWithoutProductsInput = {
@@ -1055,6 +1083,7 @@ export type suppliersUncheckedUpdateWithoutProductsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersCreateWithoutPurchase_ordersInput = {
@@ -1081,6 +1110,7 @@ export type suppliersCreateWithoutPurchase_ordersInput = {
   products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateWithoutPurchase_ordersInput = {
@@ -1107,6 +1137,7 @@ export type suppliersUncheckedCreateWithoutPurchase_ordersInput = {
   products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersCreateOrConnectWithoutPurchase_ordersInput = {
@@ -1149,6 +1180,7 @@ export type suppliersUpdateWithoutPurchase_ordersInput = {
   products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateWithoutPurchase_ordersInput = {
@@ -1172,6 +1204,131 @@ export type suppliersUncheckedUpdateWithoutPurchase_ordersInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
+}
+
+export type suppliersCreateWithoutPurchase_requisition_itemsInput = {
+  name: string
+  code?: string | null
+  supplier_category_id?: string | null
+  contact_person?: string | null
+  email?: string | null
+  phone?: string | null
+  tax_number?: string | null
+  payment_terms_days?: number
+  address?: string | null
+  website?: string | null
+  notes?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  is_preferred?: boolean | null
+  is_system?: boolean | null
+  id?: string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutSuppliersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
+  products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+}
+
+export type suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput = {
+  name: string
+  code?: string | null
+  supplier_category_id?: string | null
+  contact_person?: string | null
+  email?: string | null
+  phone?: string | null
+  tax_number?: string | null
+  payment_terms_days?: number
+  address?: string | null
+  website?: string | null
+  notes?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  city_id?: string | null
+  is_preferred?: boolean | null
+  is_system?: boolean | null
+  id?: string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
+  products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+}
+
+export type suppliersCreateOrConnectWithoutPurchase_requisition_itemsInput = {
+  where: Prisma.suppliersWhereUniqueInput
+  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
+}
+
+export type suppliersUpsertWithoutPurchase_requisition_itemsInput = {
+  update: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput>
+  create: Prisma.XOR<Prisma.suppliersCreateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedCreateWithoutPurchase_requisition_itemsInput>
+  where?: Prisma.suppliersWhereInput
+}
+
+export type suppliersUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput = {
+  where?: Prisma.suppliersWhereInput
+  data: Prisma.XOR<Prisma.suppliersUpdateWithoutPurchase_requisition_itemsInput, Prisma.suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput>
+}
+
+export type suppliersUpdateWithoutPurchase_requisition_itemsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payment_terms_days?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutSuppliersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
+  products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+}
+
+export type suppliersUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contact_person?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  payment_terms_days?: Prisma.IntFieldUpdateOperationsInput | number
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_preferred?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  is_system?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
   products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
@@ -1201,6 +1358,7 @@ export type suppliersCreateWithoutReorder_rulesInput = {
   cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
   products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateWithoutReorder_rulesInput = {
@@ -1227,6 +1385,7 @@ export type suppliersUncheckedCreateWithoutReorder_rulesInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
   products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersCreateOrConnectWithoutReorder_rulesInput = {
@@ -1269,6 +1428,7 @@ export type suppliersUpdateWithoutReorder_rulesInput = {
   cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
   products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateWithoutReorder_rulesInput = {
@@ -1295,6 +1455,7 @@ export type suppliersUncheckedUpdateWithoutReorder_rulesInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
   products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersCreateWithoutReorder_suggestionsInput = {
@@ -1321,6 +1482,7 @@ export type suppliersCreateWithoutReorder_suggestionsInput = {
   cities?: Prisma.citiesCreateNestedOneWithoutSuppliersInput
   products?: Prisma.productsCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersUncheckedCreateWithoutReorder_suggestionsInput = {
@@ -1347,6 +1509,7 @@ export type suppliersUncheckedCreateWithoutReorder_suggestionsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutSuppliersInput
   products?: Prisma.productsUncheckedCreateNestedManyWithoutSuppliersInput
   reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutSuppliersInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutSuppliersInput
 }
 
 export type suppliersCreateOrConnectWithoutReorder_suggestionsInput = {
@@ -1389,6 +1552,7 @@ export type suppliersUpdateWithoutReorder_suggestionsInput = {
   cities?: Prisma.citiesUpdateOneWithoutSuppliersNestedInput
   products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateWithoutReorder_suggestionsInput = {
@@ -1415,6 +1579,7 @@ export type suppliersUncheckedUpdateWithoutReorder_suggestionsInput = {
   purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutSuppliersNestedInput
   products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersCreateManyCitiesInput = {
@@ -1463,6 +1628,7 @@ export type suppliersUpdateWithoutCitiesInput = {
   products?: Prisma.productsUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateWithoutCitiesInput = {
@@ -1489,6 +1655,7 @@ export type suppliersUncheckedUpdateWithoutCitiesInput = {
   products?: Prisma.productsUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutSuppliersNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutSuppliersNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutSuppliersNestedInput
 }
 
 export type suppliersUncheckedUpdateManyWithoutCitiesInput = {
@@ -1523,6 +1690,7 @@ export type SuppliersCountOutputType = {
   products: number
   reorder_rules: number
   reorder_suggestions: number
+  purchase_requisition_items: number
 }
 
 export type SuppliersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1530,6 +1698,7 @@ export type SuppliersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   products?: boolean | SuppliersCountOutputTypeCountProductsArgs
   reorder_rules?: boolean | SuppliersCountOutputTypeCountReorder_rulesArgs
   reorder_suggestions?: boolean | SuppliersCountOutputTypeCountReorder_suggestionsArgs
+  purchase_requisition_items?: boolean | SuppliersCountOutputTypeCountPurchase_requisition_itemsArgs
 }
 
 /**
@@ -1570,6 +1739,13 @@ export type SuppliersCountOutputTypeCountReorder_suggestionsArgs<ExtArgs extends
   where?: Prisma.reorder_suggestionsWhereInput
 }
 
+/**
+ * SuppliersCountOutputType without action
+ */
+export type SuppliersCountOutputTypeCountPurchase_requisition_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.purchase_requisition_itemsWhereInput
+}
+
 
 export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   name?: boolean
@@ -1597,6 +1773,7 @@ export type suppliersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   products?: boolean | Prisma.suppliers$productsArgs<ExtArgs>
   reorder_rules?: boolean | Prisma.suppliers$reorder_rulesArgs<ExtArgs>
   reorder_suggestions?: boolean | Prisma.suppliers$reorder_suggestionsArgs<ExtArgs>
+  purchase_requisition_items?: boolean | Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs>
   _count?: boolean | Prisma.SuppliersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["suppliers"]>
 
@@ -1678,6 +1855,7 @@ export type suppliersInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   products?: boolean | Prisma.suppliers$productsArgs<ExtArgs>
   reorder_rules?: boolean | Prisma.suppliers$reorder_rulesArgs<ExtArgs>
   reorder_suggestions?: boolean | Prisma.suppliers$reorder_suggestionsArgs<ExtArgs>
+  purchase_requisition_items?: boolean | Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs>
   _count?: boolean | Prisma.SuppliersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type suppliersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1695,6 +1873,7 @@ export type $suppliersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     products: Prisma.$productsPayload<ExtArgs>[]
     reorder_rules: Prisma.$reorder_rulesPayload<ExtArgs>[]
     reorder_suggestions: Prisma.$reorder_suggestionsPayload<ExtArgs>[]
+    purchase_requisition_items: Prisma.$purchase_requisition_itemsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     name: string
@@ -2116,6 +2295,7 @@ export interface Prisma__suppliersClient<T, Null = never, ExtArgs extends runtim
   products<T extends Prisma.suppliers$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reorder_rules<T extends Prisma.suppliers$reorder_rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$reorder_rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_rulesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reorder_suggestions<T extends Prisma.suppliers$reorder_suggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$reorder_suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_suggestionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  purchase_requisition_items<T extends Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.suppliers$purchase_requisition_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_requisition_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2678,6 +2858,30 @@ export type suppliers$reorder_suggestionsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.Reorder_suggestionsScalarFieldEnum | Prisma.Reorder_suggestionsScalarFieldEnum[]
+}
+
+/**
+ * suppliers.purchase_requisition_items
+ */
+export type suppliers$purchase_requisition_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the purchase_requisition_items
+   */
+  select?: Prisma.purchase_requisition_itemsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the purchase_requisition_items
+   */
+  omit?: Prisma.purchase_requisition_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisition_itemsInclude<ExtArgs> | null
+  where?: Prisma.purchase_requisition_itemsWhereInput
+  orderBy?: Prisma.purchase_requisition_itemsOrderByWithRelationInput | Prisma.purchase_requisition_itemsOrderByWithRelationInput[]
+  cursor?: Prisma.purchase_requisition_itemsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Purchase_requisition_itemsScalarFieldEnum | Prisma.Purchase_requisition_itemsScalarFieldEnum[]
 }
 
 /**

@@ -1,11 +1,23 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+  type ReactNode,
+} from 'react'
 import type { RequisitionListItem } from '../data/schema'
 
-export type RequisitionDialogType = 'create' | 'view'
+export type RequisitionDialogType =
+  | 'create'
+  | 'edit'
+  | 'delete'
+  | 'view'
+  | null
 
 interface RequisitionsContextValue {
-  open: RequisitionDialogType | null
-  setOpen: (value: RequisitionDialogType | null) => void
+  open: RequisitionDialogType
+  setOpen: (value: RequisitionDialogType) => void
   currentRow: RequisitionListItem | null
   setCurrentRow: (row: RequisitionListItem | null) => void
 }
@@ -13,13 +25,28 @@ interface RequisitionsContextValue {
 const RequisitionsContext = createContext<RequisitionsContextValue | null>(null)
 
 export function RequisitionsProvider({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState<RequisitionDialogType | null>(null)
+  const [open, setOpen] = useState<RequisitionDialogType>(null)
   const [currentRow, setCurrentRow] = useState<RequisitionListItem | null>(null)
 
+  const handleSetOpen = useCallback((type: RequisitionDialogType) => {
+    setOpen(type)
+    if (type === null) {
+      setCurrentRow(null)
+    }
+  }, [])
+
+  const value = useMemo(
+    () => ({
+      open,
+      setOpen: handleSetOpen,
+      currentRow,
+      setCurrentRow,
+    }),
+    [open, currentRow, handleSetOpen]
+  )
+
   return (
-    <RequisitionsContext.Provider
-      value={{ open, setOpen, currentRow, setCurrentRow }}
-    >
+    <RequisitionsContext.Provider value={value}>
       {children}
     </RequisitionsContext.Provider>
   )

@@ -1998,6 +1998,7 @@ export const Purchase_requisitionsScalarFieldEnum = {
   requisition_number: 'requisition_number',
   branch_id: 'branch_id',
   store_id: 'store_id',
+  currency: 'currency',
   status: 'status',
   source: 'source',
   requested_by: 'requested_by',

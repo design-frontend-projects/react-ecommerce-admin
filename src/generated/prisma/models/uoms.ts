@@ -240,6 +240,7 @@ export type uomsWhereInput = {
   updated_by_user_id?: Prisma.UuidNullableFilter<"uoms"> | string | null
   products?: Prisma.ProductsListRelationFilter
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
+  purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
 }
 
 export type uomsOrderByWithRelationInput = {
@@ -257,6 +258,7 @@ export type uomsOrderByWithRelationInput = {
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   products?: Prisma.productsOrderByRelationAggregateInput
   purchase_order_items?: Prisma.purchase_order_itemsOrderByRelationAggregateInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsOrderByRelationAggregateInput
 }
 
 export type uomsWhereUniqueInput = Prisma.AtLeast<{
@@ -277,6 +279,7 @@ export type uomsWhereUniqueInput = Prisma.AtLeast<{
   updated_by_user_id?: Prisma.UuidNullableFilter<"uoms"> | string | null
   products?: Prisma.ProductsListRelationFilter
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
+  purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
 }, "id">
 
 export type uomsOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type uomsCreateInput = {
   updated_by_user_id?: string | null
   products?: Prisma.productsCreateNestedManyWithoutBase_uomInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
 }
 
 export type uomsUncheckedCreateInput = {
@@ -347,6 +351,7 @@ export type uomsUncheckedCreateInput = {
   updated_by_user_id?: string | null
   products?: Prisma.productsUncheckedCreateNestedManyWithoutBase_uomInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
 }
 
 export type uomsUpdateInput = {
@@ -364,6 +369,7 @@ export type uomsUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateManyWithoutBase_uomNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
 }
 
 export type uomsUncheckedUpdateInput = {
@@ -381,6 +387,7 @@ export type uomsUncheckedUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUncheckedUpdateManyWithoutBase_uomNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
 }
 
 export type uomsCreateManyInput = {
@@ -510,6 +517,22 @@ export type uomsUpdateOneWithoutPurchase_order_itemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.uomsUpdateToOneWithWhereWithoutPurchase_order_itemsInput, Prisma.uomsUpdateWithoutPurchase_order_itemsInput>, Prisma.uomsUncheckedUpdateWithoutPurchase_order_itemsInput>
 }
 
+export type uomsCreateNestedOneWithoutPurchase_requisition_itemsInput = {
+  create?: Prisma.XOR<Prisma.uomsCreateWithoutPurchase_requisition_itemsInput, Prisma.uomsUncheckedCreateWithoutPurchase_requisition_itemsInput>
+  connectOrCreate?: Prisma.uomsCreateOrConnectWithoutPurchase_requisition_itemsInput
+  connect?: Prisma.uomsWhereUniqueInput
+}
+
+export type uomsUpdateOneWithoutPurchase_requisition_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.uomsCreateWithoutPurchase_requisition_itemsInput, Prisma.uomsUncheckedCreateWithoutPurchase_requisition_itemsInput>
+  connectOrCreate?: Prisma.uomsCreateOrConnectWithoutPurchase_requisition_itemsInput
+  upsert?: Prisma.uomsUpsertWithoutPurchase_requisition_itemsInput
+  disconnect?: Prisma.uomsWhereInput | boolean
+  delete?: Prisma.uomsWhereInput | boolean
+  connect?: Prisma.uomsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.uomsUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput, Prisma.uomsUpdateWithoutPurchase_requisition_itemsInput>, Prisma.uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput>
+}
+
 export type uomsCreateWithoutProductsInput = {
   id?: string
   tenant_id: string
@@ -524,6 +547,7 @@ export type uomsCreateWithoutProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
 }
 
 export type uomsUncheckedCreateWithoutProductsInput = {
@@ -540,6 +564,7 @@ export type uomsUncheckedCreateWithoutProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
 }
 
 export type uomsCreateOrConnectWithoutProductsInput = {
@@ -572,6 +597,7 @@ export type uomsUpdateWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutProductsInput = {
@@ -588,6 +614,7 @@ export type uomsUncheckedUpdateWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
 }
 
 export type uomsCreateWithoutPurchase_order_itemsInput = {
@@ -604,6 +631,7 @@ export type uomsCreateWithoutPurchase_order_itemsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   products?: Prisma.productsCreateNestedManyWithoutBase_uomInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
 }
 
 export type uomsUncheckedCreateWithoutPurchase_order_itemsInput = {
@@ -620,6 +648,7 @@ export type uomsUncheckedCreateWithoutPurchase_order_itemsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   products?: Prisma.productsUncheckedCreateNestedManyWithoutBase_uomInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
 }
 
 export type uomsCreateOrConnectWithoutPurchase_order_itemsInput = {
@@ -652,6 +681,7 @@ export type uomsUpdateWithoutPurchase_order_itemsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateManyWithoutBase_uomNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
@@ -668,6 +698,91 @@ export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUncheckedUpdateManyWithoutBase_uomNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
+}
+
+export type uomsCreateWithoutPurchase_requisition_itemsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  uom_category?: string
+  uom_category_id?: string | null
+  is_base?: boolean
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedManyWithoutBase_uomInput
+  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
+}
+
+export type uomsUncheckedCreateWithoutPurchase_requisition_itemsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  uom_category?: string
+  uom_category_id?: string | null
+  is_base?: boolean
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsUncheckedCreateNestedManyWithoutBase_uomInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
+}
+
+export type uomsCreateOrConnectWithoutPurchase_requisition_itemsInput = {
+  where: Prisma.uomsWhereUniqueInput
+  create: Prisma.XOR<Prisma.uomsCreateWithoutPurchase_requisition_itemsInput, Prisma.uomsUncheckedCreateWithoutPurchase_requisition_itemsInput>
+}
+
+export type uomsUpsertWithoutPurchase_requisition_itemsInput = {
+  update: Prisma.XOR<Prisma.uomsUpdateWithoutPurchase_requisition_itemsInput, Prisma.uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput>
+  create: Prisma.XOR<Prisma.uomsCreateWithoutPurchase_requisition_itemsInput, Prisma.uomsUncheckedCreateWithoutPurchase_requisition_itemsInput>
+  where?: Prisma.uomsWhereInput
+}
+
+export type uomsUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput = {
+  where?: Prisma.uomsWhereInput
+  data: Prisma.XOR<Prisma.uomsUpdateWithoutPurchase_requisition_itemsInput, Prisma.uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput>
+}
+
+export type uomsUpdateWithoutPurchase_requisition_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_base?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateManyWithoutBase_uomNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
+}
+
+export type uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_base?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUncheckedUpdateManyWithoutBase_uomNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
 }
 
 
@@ -678,11 +793,13 @@ export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
 export type UomsCountOutputType = {
   products: number
   purchase_order_items: number
+  purchase_requisition_items: number
 }
 
 export type UomsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | UomsCountOutputTypeCountProductsArgs
   purchase_order_items?: boolean | UomsCountOutputTypeCountPurchase_order_itemsArgs
+  purchase_requisition_items?: boolean | UomsCountOutputTypeCountPurchase_requisition_itemsArgs
 }
 
 /**
@@ -709,6 +826,13 @@ export type UomsCountOutputTypeCountPurchase_order_itemsArgs<ExtArgs extends run
   where?: Prisma.purchase_order_itemsWhereInput
 }
 
+/**
+ * UomsCountOutputType without action
+ */
+export type UomsCountOutputTypeCountPurchase_requisition_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.purchase_requisition_itemsWhereInput
+}
+
 
 export type uomsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -725,6 +849,7 @@ export type uomsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updated_by_user_id?: boolean
   products?: boolean | Prisma.uoms$productsArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.uoms$purchase_order_itemsArgs<ExtArgs>
+  purchase_requisition_items?: boolean | Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs>
   _count?: boolean | Prisma.UomsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["uoms"]>
 
@@ -777,6 +902,7 @@ export type uomsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type uomsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.uoms$productsArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.uoms$purchase_order_itemsArgs<ExtArgs>
+  purchase_requisition_items?: boolean | Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs>
   _count?: boolean | Prisma.UomsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type uomsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -787,6 +913,7 @@ export type $uomsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     products: Prisma.$productsPayload<ExtArgs>[]
     purchase_order_items: Prisma.$purchase_order_itemsPayload<ExtArgs>[]
+    purchase_requisition_items: Prisma.$purchase_requisition_itemsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1197,6 +1324,7 @@ export interface Prisma__uomsClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   products<T extends Prisma.uoms$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   purchase_order_items<T extends Prisma.uoms$purchase_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$purchase_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  purchase_requisition_items<T extends Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_requisition_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1676,6 +1804,30 @@ export type uoms$purchase_order_itemsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.Purchase_order_itemsScalarFieldEnum | Prisma.Purchase_order_itemsScalarFieldEnum[]
+}
+
+/**
+ * uoms.purchase_requisition_items
+ */
+export type uoms$purchase_requisition_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the purchase_requisition_items
+   */
+  select?: Prisma.purchase_requisition_itemsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the purchase_requisition_items
+   */
+  omit?: Prisma.purchase_requisition_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.purchase_requisition_itemsInclude<ExtArgs> | null
+  where?: Prisma.purchase_requisition_itemsWhereInput
+  orderBy?: Prisma.purchase_requisition_itemsOrderByWithRelationInput | Prisma.purchase_requisition_itemsOrderByWithRelationInput[]
+  cursor?: Prisma.purchase_requisition_itemsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Purchase_requisition_itemsScalarFieldEnum | Prisma.Purchase_requisition_itemsScalarFieldEnum[]
 }
 
 /**

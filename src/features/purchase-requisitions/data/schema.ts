@@ -23,27 +23,31 @@ export type RequisitionAction = z.infer<typeof requisitionActionSchema>
 
 // ── Inputs ──
 export const requisitionItemInputSchema = z.object({
-  productVariantId: z.string().uuid('Select a variant.'),
+  productVariantId: z.string().min(1, 'Select a variant.'),
   qtyRequested: z.coerce.number().positive('Quantity must be > 0.'),
-  preferredSupplierId: z.coerce.number().int().positive().optional().nullable(),
+  uomId: z.string().uuid().optional().nullable(),
+  preferredSupplierId: z.string().uuid().optional().nullable(),
   estUnitCost: z.coerce
     .number()
     .min(0, 'Estimated cost cannot be negative.')
-    .optional(),
+    .optional()
+    .default(0),
   reason: z.string().optional().nullable(),
 })
 
 export const createRequisitionInputSchema = z.object({
   storeId: z.string().uuid().optional().nullable(),
+  currency: z.string().min(1).max(3).optional().nullable().default('USD'),
   neededBy: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
   items: z.array(requisitionItemInputSchema).min(1, 'Add at least one item.'),
 })
 
+export const updateRequisitionInputSchema = createRequisitionInputSchema
+
 export type RequisitionItemInput = z.infer<typeof requisitionItemInputSchema>
-export type CreateRequisitionInput = z.infer<
-  typeof createRequisitionInputSchema
->
+export type CreateRequisitionInput = z.infer<typeof createRequisitionInputSchema>
+export type UpdateRequisitionInput = z.infer<typeof updateRequisitionInputSchema>
 
 // ── Responses ──
 const storeRefSchema = z
@@ -51,7 +55,18 @@ const storeRefSchema = z
   .nullable()
 
 const supplierRefSchema = z
-  .object({ supplier_id: z.number(), name: z.string().nullable() })
+  .object({
+    id: z.string(),
+    name: z.string().nullable(),
+  })
+  .nullable()
+
+const uomRefSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    code: z.string().nullable().optional(),
+  })
   .nullable()
 
 export const requisitionListItemSchema = z.object({
@@ -59,26 +74,42 @@ export const requisitionListItemSchema = z.object({
   requisition_number: z.string(),
   status: requisitionStatusSchema,
   source: z.string(),
+  currency: z.string().nullable().optional().default('USD'),
   needed_by: z.string().nullable(),
   notes: z.string().nullable(),
   created_at: z.string(),
-  stores: storeRefSchema,
+  total_amount: z.coerce.number().optional().default(0),
+  store_id: z.string().uuid().nullable().optional(),
+  stores: storeRefSchema.optional(),
   _count: z.object({ purchase_requisition_items: z.number() }).optional(),
 })
 
 export const requisitionItemRowSchema = z.object({
   id: z.string().uuid(),
+  product_variant_id: z.string().optional().nullable(),
   qty_requested: z.coerce.number(),
   est_unit_cost: z.coerce.number(),
+  uom_id: z.string().uuid().optional().nullable(),
   reason: z.string().nullable(),
   product_variants: z
     .object({
       id: z.string(),
       sku: z.string(),
-      products: z.object({ name: z.string() }).nullable(),
+      product_id: z.string().optional().nullable(),
+      dimensions: z.any().optional().nullable(),
+      products: z
+        .object({
+          id: z.string().optional(),
+          name: z.string(),
+          sku: z.string().optional().nullable(),
+        })
+        .nullable()
+        .optional(),
     })
-    .nullable(),
-  suppliers: supplierRefSchema,
+    .nullable()
+    .optional(),
+  suppliers: supplierRefSchema.optional(),
+  uoms: uomRefSchema.optional(),
 })
 
 export const requisitionDetailSchema = requisitionListItemSchema.extend({

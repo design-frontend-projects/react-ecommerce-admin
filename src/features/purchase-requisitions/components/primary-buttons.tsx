@@ -16,7 +16,7 @@ export function RequisitionsPrimaryButtons() {
         }}
       >
         <Plus className='me-1 h-4 w-4' />
-        New requisition
+        {t('purchasing.newRequisition', 'New requisition')}
       </Button>
     </Can>
   )

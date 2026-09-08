@@ -73,6 +73,7 @@ model branches {
   tenant_users        tenant_users[]
   default_for_tenants tenants[]      @relation("tenant_default_branch")
   warehouses          warehouses[]
+  purchase_requisitions purchase_requisitions[]
 }
 
 model categories {
@@ -304,6 +305,7 @@ model product_variants {
   inventory            inventory[]
   stock_balances       stock_balances[]
   price_list_items     price_list_items[]
+  purchase_requisition_items purchase_requisition_items[]
 }
 
 model products {
@@ -1101,6 +1103,7 @@ model stores {
   reorder_suggestions  reorder_suggestions[]
   stock_balances       stock_balances[]
   price_list           price_list[]
+  purchase_requisitions purchase_requisitions[]
 }
 
 model channels {
@@ -1203,6 +1206,7 @@ model suppliers {
   products             products[]
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
+  purchase_requisition_items purchase_requisition_items[]
 }
 
 model tax_rates {
@@ -1757,6 +1761,7 @@ model purchase_requisitions {
   requisition_number          String                  @default(dbgenerated("('PR-'::text || lpad((nextval('purchase_requisitions_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
   branch_id                   String?                 @db.Uuid
   store_id                    String?                 @db.Uuid
+  currency                    String?                 @default("USD") @db.Char(3)
   status                      requisition_status_enum @default(draft)
   source                      String                  @default("manual") @db.VarChar(20)
   requested_by                String?
@@ -1769,21 +1774,28 @@ model purchase_requisitions {
   updated_at                  DateTime                @default(now()) @db.Timestamptz(6)
   created_by_user_id          String?                 @db.Uuid
   updated_by_user_id          String?                 @db.Uuid
+  branches                    branches?               @relation(fields: [branch_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  stores                      stores?                 @relation(fields: [store_id], references: [store_id], onDelete: SetNull, onUpdate: NoAction)
+  purchase_requisition_items  purchase_requisition_items[]
   reorder_suggestions         reorder_suggestions[]
 }
 
 model purchase_requisition_items {
-  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  requisition_id        String    @db.Uuid
-  product_variant_id    String    @db.Uuid
-  qty_requested         Decimal   @db.Decimal(18, 4)
-  uom_id                String?   @db.Uuid
-  preferred_supplier_id String?   @db.Uuid
-  est_unit_cost         Decimal   @default(0) @db.Decimal(18, 4)
+  id                    String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requisition_id        String                @db.Uuid
+  product_variant_id    String                @db.Uuid
+  qty_requested         Decimal               @db.Decimal(18, 4)
+  uom_id                String?               @db.Uuid
+  preferred_supplier_id String?               @db.Uuid
+  est_unit_cost         Decimal               @default(0) @db.Decimal(18, 4)
   reason                String?
-  created_at            DateTime  @default(now()) @db.Timestamptz(6)
-  created_by_user_id    String?   @db.Uuid
-  updated_by_user_id    String?   @db.Uuid
+  created_at            DateTime              @default(now()) @db.Timestamptz(6)
+  created_by_user_id    String?               @db.Uuid
+  updated_by_user_id    String?               @db.Uuid
+  purchase_requisitions purchase_requisitions @relation(fields: [requisition_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants      product_variants      @relation(fields: [product_variant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  suppliers             suppliers?            @relation(fields: [preferred_supplier_id], references: [id], onUpdate: NoAction)
+  uoms                  uoms?                 @relation(fields: [uom_id], references: [id], onUpdate: NoAction)
 }
 
 model sales_orders {
@@ -2098,6 +2110,7 @@ model uoms {
   updated_by_user_id String?    @db.Uuid
   products             products[]
   purchase_order_items purchase_order_items[]
+  purchase_requisition_items purchase_requisition_items[]
 }
 
 model unit_conversions {

@@ -1,9 +1,11 @@
 import { authorizedRequest, type TokenGetter } from '@/lib/authorized-request'
 import {
   createRequisitionInputSchema,
+  updateRequisitionInputSchema,
   requisitionDetailResponseSchema,
   requisitionListResponseSchema,
   type CreateRequisitionInput,
+  type UpdateRequisitionInput,
   type RequisitionAction,
   type RequisitionDetail,
   type RequisitionListItem,
@@ -38,6 +40,31 @@ export async function createRequisition(
     method: 'POST',
     body: JSON.stringify(body),
   })
+}
+
+export async function updateRequisition(
+  getToken: TokenGetter,
+  id: string,
+  input: UpdateRequisitionInput
+): Promise<void> {
+  const body = updateRequisitionInputSchema.parse(input)
+  await authorizedRequest(getToken, `${BASE}?id=${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+}
+
+export async function deleteRequisition(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(
+    getToken,
+    `${BASE}?id=${encodeURIComponent(id)}&permanent=true`,
+    {
+      method: 'DELETE',
+    }
+  )
 }
 
 export async function cancelRequisition(
