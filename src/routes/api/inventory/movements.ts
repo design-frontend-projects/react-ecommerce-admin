@@ -14,6 +14,7 @@ const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
     const { searchParams } = new URL(request.url)
     const filters: MovementFilters = {
       movementType: searchParams.get('movementType') ?? undefined,
+      warehouseId: searchParams.get('warehouseId') ?? undefined,
       storeId: searchParams.get('storeId') ?? undefined,
       productVariantId: searchParams.get('productVariantId') ?? undefined,
       referenceType: searchParams.get('referenceType') ?? undefined,

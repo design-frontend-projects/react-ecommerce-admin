@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ArrowRight, AlertCircle, Warehouse, Store, Package } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -13,6 +14,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,17 +29,21 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { useProducts } from '@/features/products/hooks/use-products'
+import { Badge } from '@/components/ui/badge'
+import { useAuth } from '@/hooks/use-auth'
+import {
+  useWarehouseOptions,
+  useWarehouseLocationOptions,
+  useStoreOptions,
+  useVariantOptions,
+} from '@/hooks/use-inventory-lookups'
 import {
   adjustmentSchema,
   type AdjustmentFormData,
+  stockAdjustmentReasonCodes,
 } from '../data/adjustment-schema'
 import type { StockBalanceRow } from '../data/schema'
-import {
-  useAdjustStock,
-  useStores,
-  useProductVariants,
-} from '../hooks/use-stock-balances'
+import { useAdjustStock } from '../hooks/use-stock-balances'
 
 interface Props {
   currentRow: StockBalanceRow | null
@@ -45,67 +51,107 @@ interface Props {
   onOpenChange: (open: boolean) => void
 }
 
+const REASON_LABELS: Record<string, string> = {
+  physical_audit: 'Physical Count Audit',
+  cycle_count: 'Routine Cycle Count',
+  damaged: 'Damaged Goods Write-off',
+  expired: 'Expired Stock Disposal',
+  theft_loss: 'Theft or Shrinkage',
+  received_variance: 'Receipt Discrepancy',
+  data_correction: 'Data Entry Correction',
+  other: 'Other (Specify Below)',
+}
+
 export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
-  const [selectedProductId, setSelectedProductId] = useState<number | null>(
-    null
+  const { getToken } = useAuth()
+  const adjustMutation = useAdjustStock()
+
+  const { data: warehouses = [] } = useWarehouseOptions()
+  const { data: stores = [] } = useStoreOptions()
+  const { data: variants = [] } = useVariantOptions()
+
+  const [selectedWarehouseId, setSelectedWarehouseId] = useState<string | null>(null)
+  const { data: locations = [] } = useWarehouseLocationOptions(
+    selectedWarehouseId || undefined
   )
 
-  const adjustMutation = useAdjustStock()
-  const { data: stores = [] } = useStores()
-  const { data: products = [] } = useProducts()
-  const { data: variants = [] } = useProductVariants(
-    selectedProductId ?? undefined
+  const defaultValues: AdjustmentFormData = useMemo(
+    () => ({
+      location_type: currentRow?.warehouse_id ? 'warehouse' : 'store',
+      warehouse_id: currentRow?.warehouse_id || '',
+      location_id: currentRow?.location_id || '',
+      store_id: currentRow?.store_id || '',
+      product_variant_id: currentRow?.product_variant_id || '',
+      condition: (currentRow?.condition as AdjustmentFormData['condition']) || 'good',
+      adjustment_type: 'set',
+      quantity: currentRow ? Number(currentRow.qty_on_hand) : 0,
+      unit_cost: currentRow ? Number(currentRow.avg_cost) : 0,
+      reason_code: 'physical_audit',
+      reason: '',
+      batch_id: currentRow?.batch_id || null,
+      serial_id: currentRow?.serial_id || null,
+    }),
+    [currentRow]
   )
 
   const form = useForm<AdjustmentFormData>({
     resolver: zodResolver(adjustmentSchema) as Resolver<AdjustmentFormData>,
-    defaultValues: {
-      store_id: '',
-      product_variant_id: '',
-      adjustment_type: 'set',
-      quantity: 0,
-      reason: '',
-    },
+    defaultValues,
   })
 
-  // Pre-fill when row is selected
+  // Synchronize when currentRow changes
   useEffect(() => {
-    if (currentRow && open) {
-      const pid = currentRow.product_variants?.products?.product_id
-      setSelectedProductId(pid || null)
-
+    if (open) {
+      const isWh = Boolean(currentRow?.warehouse_id)
+      setSelectedWarehouseId(currentRow?.warehouse_id || null)
       form.reset({
-        store_id: currentRow.store_id,
-        product_variant_id: currentRow.product_variant_id,
+        location_type: isWh ? 'warehouse' : 'store',
+        warehouse_id: currentRow?.warehouse_id || '',
+        location_id: currentRow?.location_id || '',
+        store_id: currentRow?.store_id || '',
+        product_variant_id: currentRow?.product_variant_id || '',
+        condition: (currentRow?.condition as AdjustmentFormData['condition']) || 'good',
         adjustment_type: 'set',
-        quantity: Number(currentRow.qty_on_hand),
+        quantity: currentRow ? Number(currentRow.qty_on_hand) : 0,
+        unit_cost: currentRow ? Number(currentRow.avg_cost) : 0,
+        reason_code: 'physical_audit',
         reason: '',
+        batch_id: currentRow?.batch_id || null,
+        serial_id: currentRow?.serial_id || null,
       })
-    } else if (!currentRow && open) {
-      setSelectedProductId(null)
-      form.reset({
-        store_id: '',
-        product_variant_id: '',
-        adjustment_type: 'set',
-        quantity: 0,
-        reason: '',
-      })
+    } else {
+      form.reset()
     }
   }, [currentRow, open, form])
 
+  const watchedType = form.watch('adjustment_type')
+  const watchedQty = Number(form.watch('quantity') || 0)
+  const watchedLocType = form.watch('location_type')
+  const currentOnHand = currentRow ? Number(currentRow.qty_on_hand) : 0
+  const currentReserved = currentRow ? Number(currentRow.qty_reserved) : 0
+
+  // Calculate projected new balance
+  const projectedOnHand =
+    watchedType === 'set' ? watchedQty : currentOnHand + watchedQty
+  const projectedDelta =
+    watchedType === 'set' ? watchedQty - currentOnHand : watchedQty
+  const projectedAvailable = Math.max(0, projectedOnHand - currentReserved)
+
   const onSubmit = (values: AdjustmentFormData) => {
-    adjustMutation.mutate(values, {
-      onSuccess: () => {
-        onOpenChange(false)
-        form.reset()
-      },
-    })
+    adjustMutation.mutate(
+      { values, getToken },
+      {
+        onSuccess: () => {
+          onOpenChange(false)
+          form.reset()
+        },
+      }
+    )
   }
 
   const productName =
-    currentRow?.product_variants?.products?.name || 'Unknown Product'
-  const sku = currentRow?.product_variants?.sku || '—'
-  const storeName = currentRow?.stores?.name || 'Unknown Store'
+    currentRow?.product_variants?.products?.name || 'Manual Stock Adjustment'
+  const sku = currentRow?.product_variants?.sku || ''
 
   return (
     <Dialog
@@ -115,46 +161,71 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
         if (!v) form.reset()
       }}
     >
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-lg'>
+      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-xl'>
         <DialogHeader>
-          <DialogTitle>Adjust Stock Balance</DialogTitle>
+          <DialogTitle className='flex items-center gap-2 text-xl font-bold'>
+            <Package className='h-5 w-5 text-primary' />
+            {currentRow ? 'Adjust Stock Balance' : 'New Stock Adjustment'}
+          </DialogTitle>
           <DialogDescription>
             {currentRow
-              ? `${productName} (${sku}) at ${storeName}`
-              : 'Select a product and store to manually adjust stock levels.'}
+              ? `${productName} (${sku})`
+              : 'Record a physical audit, write-off, or inventory adjustment.'}
           </DialogDescription>
         </DialogHeader>
 
-        {currentRow && (
-          <div className='rounded-md border bg-muted/50 p-3 text-sm'>
-            <div className='grid grid-cols-3 gap-2 text-center'>
-              <div>
-                <span className='text-xs font-bold text-muted-foreground uppercase'>
-                  On Hand
-                </span>
-                <p className='font-mono text-lg font-semibold'>
-                  {Number(currentRow?.qty_on_hand ?? 0).toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <span className='text-xs font-bold text-muted-foreground uppercase'>
-                  Reserved
-                </span>
-                <p className='font-mono text-lg font-semibold'>
-                  {Number(currentRow?.qty_reserved ?? 0).toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <span className='text-xs font-bold text-muted-foreground uppercase'>
-                  Available
-                </span>
-                <p className='font-mono text-lg font-semibold'>
-                  {Number(currentRow?.qty_available ?? 0).toLocaleString()}
-                </p>
-              </div>
+        {/* Live Calculation Preview Banner */}
+        <div className='rounded-lg border bg-muted/40 p-4'>
+          <div className='flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground'>
+            <span>Current On-Hand</span>
+            <span>Adjustment</span>
+            <span>New On-Hand</span>
+          </div>
+          <div className='mt-2 flex items-center justify-between'>
+            <div className='text-center'>
+              <span className='font-mono text-2xl font-bold text-foreground'>
+                {currentOnHand.toLocaleString()}
+              </span>
+              <p className='text-[11px] text-muted-foreground'>
+                Available: {Math.max(0, currentOnHand - currentReserved).toLocaleString()}
+              </p>
+            </div>
+            <div className='flex items-center gap-2'>
+              <ArrowRight className='h-4 w-4 text-muted-foreground' />
+              <Badge
+                variant={
+                  projectedDelta > 0
+                    ? 'default'
+                    : projectedDelta < 0
+                      ? 'destructive'
+                      : 'secondary'
+                }
+                className='font-mono text-xs'
+              >
+                {projectedDelta > 0 ? `+${projectedDelta}` : projectedDelta}
+              </Badge>
+              <ArrowRight className='h-4 w-4 text-muted-foreground' />
+            </div>
+            <div className='text-center'>
+              <span
+                className={`font-mono text-2xl font-bold ${
+                  projectedOnHand < 0 ? 'text-destructive' : 'text-primary'
+                }`}
+              >
+                {projectedOnHand.toLocaleString()}
+              </span>
+              <p className='text-[11px] text-muted-foreground'>
+                Available: {projectedAvailable.toLocaleString()}
+              </p>
             </div>
           </div>
-        )}
+          {projectedOnHand < 0 && (
+            <div className='mt-2 flex items-center gap-1.5 text-xs text-destructive'>
+              <AlertCircle className='h-4 w-4' />
+              Warning: This adjustment will result in negative stock.
+            </div>
+          )}
+        </div>
 
         <Form {...form}>
           <form
@@ -162,29 +233,46 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
             onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-4'
           >
+            {/* Location Type Selection */}
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
               <FormField
                 control={form.control}
-                name='store_id'
+                name='location_type'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Store</FormLabel>
+                    <FormLabel>Location Facility</FormLabel>
                     <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
                       disabled={!!currentRow}
+                      onValueChange={(val: 'warehouse' | 'store') => {
+                        field.onChange(val)
+                        if (val === 'warehouse') {
+                          form.setValue('store_id', '')
+                        } else {
+                          form.setValue('warehouse_id', '')
+                          form.setValue('location_id', '')
+                          setSelectedWarehouseId(null)
+                        }
+                      }}
+                      value={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select store' />
+                          <SelectValue placeholder='Select facility type' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {stores.map((s) => (
-                          <SelectItem key={s.store_id} value={s.store_id}>
-                            {s.name}
-                          </SelectItem>
-                        ))}
+                        <SelectItem value='warehouse'>
+                          <div className='flex items-center gap-2'>
+                            <Warehouse className='h-4 w-4 text-muted-foreground' />
+                            Warehouse
+                          </div>
+                        </SelectItem>
+                        <SelectItem value='store'>
+                          <div className='flex items-center gap-2'>
+                            <Store className='h-4 w-4 text-muted-foreground' />
+                            Store / Retail Unit
+                          </div>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -192,62 +280,101 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 )}
               />
 
-              <FormItem>
-                <FormLabel>Product</FormLabel>
-                <Select
-                  onValueChange={(val) => {
-                    setSelectedProductId(Number(val))
-                    form.setValue('product_variant_id', '')
-                  }}
-                  value={selectedProductId?.toString() || ''}
-                  disabled={!!currentRow}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder='Select product' />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {products?.map((p) => {
-                      const pid = p.product_id?.toString()
-                      if (!pid) return null
-                      return (
-                        <SelectItem key={pid} value={pid}>
-                          {p.name}
-                        </SelectItem>
-                      )
-                    })}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
+              {watchedLocType === 'warehouse' ? (
+                <FormField
+                  control={form.control}
+                  name='warehouse_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Warehouse</FormLabel>
+                      <Select
+                        disabled={!!currentRow}
+                        onValueChange={(val) => {
+                          field.onChange(val)
+                          setSelectedWarehouseId(val)
+                          form.setValue('location_id', '')
+                        }}
+                        value={field.value ?? ''}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder='Select warehouse' />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {warehouses.map((w) => (
+                            <SelectItem key={w.id} value={w.id}>
+                              {w.name} ({w.code})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ) : (
+                <FormField
+                  control={form.control}
+                  name='store_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Store</FormLabel>
+                      <Select
+                        disabled={!!currentRow}
+                        onValueChange={field.onChange}
+                        value={field.value ?? ''}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder='Select store' />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {stores.map((s) => (
+                            <SelectItem key={s.store_id} value={s.store_id}>
+                              {s.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+            </div>
 
+            {/* Warehouse Bin Location (if warehouse selected) */}
+            {watchedLocType === 'warehouse' && (
               <FormField
                 control={form.control}
-                name='product_variant_id'
+                name='location_id'
                 render={({ field }) => (
-                  <FormItem className='sm:col-span-2'>
-                    <FormLabel>Variant / SKU</FormLabel>
+                  <FormItem>
+                    <FormLabel>Warehouse Location / Bin (Optional)</FormLabel>
                     <Select
+                      disabled={!!currentRow || !selectedWarehouseId}
                       onValueChange={field.onChange}
-                      value={field.value}
-                      disabled={!!currentRow || !selectedProductId}
+                      value={field.value ?? ''}
                     >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue
                             placeholder={
-                              !selectedProductId
-                                ? 'Select product first'
-                                : 'Select variant'
+                              !selectedWarehouseId
+                                ? 'Select warehouse first'
+                                : locations.length === 0
+                                  ? 'No bin locations configured'
+                                  : 'Select bin location'
                             }
                           />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {variants.map((v) => (
-                          <SelectItem key={v.id} value={v.id}>
-                            {v.sku} — ${Number(v.price).toFixed(2)}
+                        {locations.map((loc) => (
+                          <SelectItem key={loc.id} value={loc.id}>
+                            {loc.code} {loc.name ? `— ${loc.name}` : ''}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -256,25 +383,42 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                   </FormItem>
                 )}
               />
-            </div>
+            )}
 
+            {/* Product Variant Picker */}
             <FormField
               control={form.control}
-              name='adjustment_type'
+              name='product_variant_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Adjustment Type</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <FormLabel>Product Variant / SKU</FormLabel>
+                  <Select
+                    disabled={!!currentRow}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select type' />
+                        <SelectValue
+                          placeholder={
+                            currentRow
+                              ? `${currentRow.product_variants?.products?.name || ''} — SKU: ${currentRow.product_variants?.sku || ''}`
+                              : 'Select variant by SKU or name'
+                          }
+                        />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value='set'>Set absolute quantity</SelectItem>
-                      <SelectItem value='offset'>
-                        Add / subtract offset
-                      </SelectItem>
+                    <SelectContent className='max-h-60'>
+                      {variants.map((v) => (
+                        <SelectItem key={v.id} value={v.id}>
+                          <div className='flex items-center gap-2'>
+                            <span className='font-mono font-medium'>{v.sku}</span>
+                            <span className='text-muted-foreground'>
+                              {v.products?.name ? `(${v.products.name})` : ''}
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -282,54 +426,162 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name='quantity'
-              render={({ field }) => {
-                const adjType = form.watch('adjustment_type')
-                return (
+            {/* Condition & Unit Cost */}
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='condition'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Stock Condition</FormLabel>
+                    <Select
+                      disabled={!!currentRow}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select condition' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value='good'>Good (Default)</SelectItem>
+                        <SelectItem value='damaged'>Damaged</SelectItem>
+                        <SelectItem value='refurbished'>Refurbished</SelectItem>
+                        <SelectItem value='returned'>Returned</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='unit_cost'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Unit Cost ($)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='number'
+                        step='0.0001'
+                        min={0}
+                        placeholder='0.00'
+                        value={field.value ?? 0}
+                        onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                      />
+                    </FormControl>
+                    <FormDescription className='text-[11px]'>
+                      Used for inventory moving average cost calculation
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Adjustment Mode & Quantity */}
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='adjustment_type'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Adjustment Mode</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select mode' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value='set'>Set Exact New Quantity</SelectItem>
+                        <SelectItem value='offset'>Add / Subtract Offset (+/-)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='quantity'
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {adjType === 'set' ? 'New Quantity' : 'Offset (+ or -)'}
+                      {watchedType === 'set' ? 'New Quantity On Hand' : 'Offset (+ or -)'}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         step='any'
-                        onChange={(e) =>
-                          field.onChange(e.target.valueAsNumber || 0)
-                        }
-                        value={field.value}
+                        placeholder={watchedType === 'set' ? 'e.g. 100' : 'e.g. -5 or +10'}
+                        value={field.value ?? 0}
+                        onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )
-              }}
-            />
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name='reason'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Reason</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='e.g. Physical count audit, damaged goods write-off...'
-                      rows={3}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Reason Code & Detailed Notes */}
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='reason_code'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Audit Reason Code</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select reason' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {stockAdjustmentReasonCodes.map((code) => (
+                          <SelectItem key={code} value={code}>
+                            {REASON_LABELS[code] || code}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='reason'
+                render={({ field }) => (
+                  <FormItem className='sm:col-span-2'>
+                    <FormLabel>Explanation & Remarks</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Document reason for adjustment, ticket #, or stocktake verification note...'
+                        rows={3}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </form>
         </Form>
 
         <DialogFooter>
-          <Button variant='outline' onClick={() => onOpenChange(false)}>
+          <Button
+            variant='outline'
+            onClick={() => onOpenChange(false)}
+            disabled={adjustMutation.isPending}
+          >
             Cancel
           </Button>
           <Button
@@ -337,7 +589,7 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
             form='adjustment-form'
             disabled={adjustMutation.isPending}
           >
-            {adjustMutation.isPending ? 'Saving...' : 'Apply Adjustment'}
+            {adjustMutation.isPending ? 'Applying Adjustment...' : 'Apply Stock Adjustment'}
           </Button>
         </DialogFooter>
       </DialogContent>

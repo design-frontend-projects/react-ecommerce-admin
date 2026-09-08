@@ -15,8 +15,8 @@ import {
   DollarSign,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -34,28 +34,28 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Can } from '@/components/rbac/Can'
-import { PRStatusBadge } from './pr-status-badge'
-import { useRequisitionsContext } from './provider'
 import {
   useRequisition,
   useRequisitionAction,
 } from '../hooks/use-purchase-requisitions'
+import { PRStatusBadge } from './pr-status-badge'
+import { useRequisitionsContext } from './provider'
 
 export interface PRSummaryDraftItem {
-  productId?: string | number
+  productId?: string | number | null
   productName: string
-  productSku?: string
+  productSku?: string | null
   variantId?: string | null
   variantSku: string
-  variantLabel?: string
+  variantLabel?: string | null
   uomId?: string | null
-  uomName?: string
-  uomCode?: string
+  uomName?: string | null
+  uomCode?: string | null
   quantity: number
   unitCost: number
   subtotal: number
   supplierId?: string | null
-  supplierName?: string
+  supplierName?: string | null
   reason?: string | null
 }
 
@@ -84,8 +84,11 @@ export function PRSummaryDialog({
   onConfirmDraftSubmit,
   isSubmittingDraft,
 }: PRSummaryDialogProps) {
-  const { open: contextOpen, setOpen: setContextOpen, currentRow } =
-    useRequisitionsContext()
+  const {
+    open: contextOpen,
+    setOpen: setContextOpen,
+    currentRow,
+  } = useRequisitionsContext()
   const requisitionAction = useRequisitionAction()
   const [copied, setCopied] = useState(false)
 
@@ -210,7 +213,7 @@ export function PRSummaryDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && handleClose()}>
-      <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-4xl md:max-w-5xl w-full'>
+      <DialogContent className='max-h-[92vh] w-full overflow-y-auto sm:max-w-4xl md:max-w-5xl'>
         <DialogHeader className='border-b pb-4'>
           <div className='flex flex-wrap items-center justify-between gap-2 pr-6'>
             <div className='flex items-center gap-3'>
@@ -218,10 +221,13 @@ export function PRSummaryDialog({
                 <FileText className='h-5 w-5' />
               </div>
               <div>
-                <DialogTitle className='text-xl font-bold flex items-center gap-2'>
+                <DialogTitle className='flex items-center gap-2 text-xl font-bold'>
                   <span>{requisitionNumber}</span>
                   <PRStatusBadge status={status} />
-                  <Badge variant='outline' className='text-xs font-normal capitalize'>
+                  <Badge
+                    variant='outline'
+                    className='text-xs font-normal capitalize'
+                  >
                     {source === 'reorder_engine' ? 'Reorder Engine' : 'Manual'}
                   </Badge>
                 </DialogTitle>
@@ -241,9 +247,9 @@ export function PRSummaryDialog({
                 onClick={copySummaryToClipboard}
               >
                 {copied ? (
-                  <Check className='h-4 w-4 mr-1 text-emerald-600' />
+                  <Check className='mr-1 h-4 w-4 text-emerald-600' />
                 ) : (
-                  <Copy className='h-4 w-4 mr-1' />
+                  <Copy className='mr-1 h-4 w-4' />
                 )}
                 {copied ? 'Copied' : 'Copy'}
               </Button>
@@ -253,7 +259,7 @@ export function PRSummaryDialog({
                 size='sm'
                 onClick={handlePrint}
               >
-                <Printer className='h-4 w-4 mr-1' />
+                <Printer className='mr-1 h-4 w-4' />
                 Print
               </Button>
             </div>
@@ -268,9 +274,7 @@ export function PRSummaryDialog({
                 <Store className='h-3.5 w-3.5' />
                 <span>Destination</span>
               </div>
-              <p className='mt-1 text-sm font-semibold truncate'>
-                {storeName}
-              </p>
+              <p className='mt-1 truncate text-sm font-semibold'>{storeName}</p>
             </div>
 
             <div className='rounded-lg border bg-card p-3 shadow-xs'>
@@ -295,12 +299,12 @@ export function PRSummaryDialog({
               </p>
             </div>
 
-            <div className='rounded-lg border bg-primary/5 border-primary/20 p-3 shadow-xs'>
+            <div className='rounded-lg border border-primary/20 bg-primary/5 p-3 shadow-xs'>
               <div className='flex items-center gap-2 text-xs font-medium text-primary'>
                 <DollarSign className='h-3.5 w-3.5' />
                 <span>Total Estimated</span>
               </div>
-              <p className='mt-1 text-base font-bold font-mono text-foreground'>
+              <p className='mt-1 font-mono text-base font-bold text-foreground'>
                 {currency} {totalAmount.toFixed(2)}
               </p>
             </div>
@@ -312,7 +316,10 @@ export function PRSummaryDialog({
               <h4 className='text-sm font-semibold tracking-tight'>
                 Procurement Items ({lineItems.length})
               </h4>
-              <Badge variant='outline' className='text-xs font-mono font-normal'>
+              <Badge
+                variant='outline'
+                className='font-mono text-xs font-normal'
+              >
                 Currency: {currency}
               </Badge>
             </div>
@@ -322,18 +329,24 @@ export function PRSummaryDialog({
                 Loading requisition details...
               </div>
             ) : lineItems.length > 0 ? (
-              <div className='rounded-md border overflow-x-auto'>
-                <Table className='min-w-[760px]'>
+              <div className='overflow-x-auto rounded-md border'>
+                <Table className='min-w-190'>
                   <TableHeader>
                     <TableRow className='bg-muted/40'>
-                      <TableHead className='min-w-[200px]'>Product</TableHead>
-                      <TableHead className='min-w-[150px]'>Variant</TableHead>
-                      <TableHead className='w-[110px] text-center'>UOM</TableHead>
-                      <TableHead className='w-[90px] text-center'>Qty</TableHead>
-                      <TableHead className='w-[110px] text-right'>Est. Cost</TableHead>
-                      <TableHead className='w-[110px] text-right pr-3'>Subtotal</TableHead>
-                      <TableHead className='min-w-[140px]'>Preferred Supplier</TableHead>
-                      <TableHead className='min-w-[120px]'>Reason</TableHead>
+                      <TableHead className='min-w-50'>Product</TableHead>
+                      <TableHead className='min-w-37.5'>Variant</TableHead>
+                      <TableHead className='w-27.5 text-center'>UOM</TableHead>
+                      <TableHead className='w-22.5 text-center'>Qty</TableHead>
+                      <TableHead className='w-27.5 text-right'>
+                        Est. Cost
+                      </TableHead>
+                      <TableHead className='w-27.5 pr-3 text-right'>
+                        Subtotal
+                      </TableHead>
+                      <TableHead className='min-w-35'>
+                        Preferred Supplier
+                      </TableHead>
+                      <TableHead className='min-w-30'>Reason</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -365,15 +378,20 @@ export function PRSummaryDialog({
 
                         <TableCell className='text-center'>
                           {item.uomCode || item.uomName ? (
-                            <Badge variant='outline' className='text-[11px] font-medium'>
+                            <Badge
+                              variant='outline'
+                              className='text-[11px] font-medium'
+                            >
                               {item.uomCode || item.uomName}
                             </Badge>
                           ) : (
-                            <span className='text-xs text-muted-foreground'>Default</span>
+                            <span className='text-xs text-muted-foreground'>
+                              Default
+                            </span>
                           )}
                         </TableCell>
 
-                        <TableCell className='text-center font-semibold font-mono'>
+                        <TableCell className='text-center font-mono font-semibold'>
                           {item.quantity}
                         </TableCell>
 
@@ -381,21 +399,26 @@ export function PRSummaryDialog({
                           {currency} {item.unitCost.toFixed(2)}
                         </TableCell>
 
-                        <TableCell className='text-right font-mono font-medium text-xs pr-3'>
+                        <TableCell className='pr-3 text-right font-mono text-xs font-medium'>
                           {currency} {item.subtotal.toFixed(2)}
                         </TableCell>
 
                         <TableCell>
                           {item.supplierName ? (
-                            <Badge variant='secondary' className='text-xs truncate max-w-[150px]'>
+                            <Badge
+                              variant='secondary'
+                              className='max-w-37.5 truncate text-xs'
+                            >
                               {item.supplierName}
                             </Badge>
                           ) : (
-                            <span className='text-xs text-muted-foreground'>—</span>
+                            <span className='text-xs text-muted-foreground'>
+                              —
+                            </span>
                           )}
                         </TableCell>
 
-                        <TableCell className='text-xs text-muted-foreground max-w-[160px] truncate'>
+                        <TableCell className='max-w-40 truncate text-xs text-muted-foreground'>
                           {item.reason || '—'}
                         </TableCell>
                       </TableRow>
@@ -411,11 +434,11 @@ export function PRSummaryDialog({
 
             {/* Total Footer */}
             <div className='flex justify-end pt-2'>
-              <div className='flex items-baseline gap-2 bg-muted/30 px-4 py-2 rounded-lg border'>
+              <div className='flex items-baseline gap-2 rounded-lg border bg-muted/30 px-4 py-2'>
                 <span className='text-xs font-medium text-muted-foreground'>
                   Grand Estimated Total:
                 </span>
-                <span className='text-lg font-bold font-mono'>
+                <span className='font-mono text-lg font-bold'>
                   {currency} {totalAmount.toFixed(2)}
                 </span>
               </div>
@@ -424,26 +447,30 @@ export function PRSummaryDialog({
 
           {/* Notes */}
           {notes ? (
-            <div className='rounded-lg bg-muted/40 p-3 border text-xs'>
-              <span className='font-semibold text-foreground'>Notes / Justification: </span>
+            <div className='rounded-lg border bg-muted/40 p-3 text-xs'>
+              <span className='font-semibold text-foreground'>
+                Notes / Justification:{' '}
+              </span>
               <span className='text-muted-foreground'>{notes}</span>
             </div>
           ) : null}
         </div>
 
-        <DialogFooter className='border-t pt-4 flex flex-col-reverse sm:flex-row sm:justify-between items-center gap-2'>
+        <DialogFooter className='flex flex-col-reverse items-center gap-2 border-t pt-4 sm:flex-row sm:justify-between'>
           <Button type='button' variant='outline' onClick={handleClose}>
             Close
           </Button>
 
-          <div className='flex flex-wrap items-center gap-2 justify-end w-full sm:w-auto'>
+          <div className='flex w-full flex-wrap items-center justify-end gap-2 sm:w-auto'>
             {isDraftMode ? (
               <Button
                 type='button'
                 onClick={onConfirmDraftSubmit}
                 disabled={isSubmittingDraft}
               >
-                {isSubmittingDraft ? 'Submitting...' : 'Confirm & Save Requisition'}
+                {isSubmittingDraft
+                  ? 'Submitting...'
+                  : 'Confirm & Save Requisition'}
               </Button>
             ) : (
               <Can permission='purchasing.manage'>

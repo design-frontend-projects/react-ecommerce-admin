@@ -1,85 +1,75 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { supabase } from '@/lib/supabase'
-import type { AdjustmentFormData } from '../data/adjustment-schema'
-import type { StockBalanceRow } from '../data/schema'
-import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuth } from '@/hooks/use-auth'
+import {
+  fetchStockBalances,
+  postStockAdjustment,
+  fetchStockBalanceMovements,
+} from '../data/actions'
+import type {
+  StockBalanceFilters,
+  StockBalancesResponse,
+  StockMovementRow,
+} from '../data/schema'
+import type { AdjustmentFormData } from '../data/adjustment-schema'
 
-// ── Query: paginated stock balances with joins ──
 export const stockBalancesQueryKey = ['stock-balances'] as const
 
-export function useStockBalances() {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
-  return useQuery<StockBalanceRow[]>({
-    queryKey: stockBalancesQueryKey,
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('stock_balances')
-        .select(
-          `
-          *,
-          product_variants (
-            id,
-            sku,
-            barcode,
-            products (
-              id,
-              name
-            )
-          ),
-          warehouses (
-            id,
-            name,
-            code
-          ),
-          stores (
-            store_id,
-            name
-          )
-        `
-        )
-        .order('updated_at', { ascending: false })
-
-      if (error) throw error
-      return (data ?? []).map((row: any) => ({
-        ...row,
-        qty_available:
-          row.qty_available !== null && row.qty_available !== undefined
-            ? Number(row.qty_available)
-            : Number(row.qty_on_hand || 0) - Number(row.qty_reserved || 0),
-      })) as StockBalanceRow[]
-    },
-    enabled: authEnabled,
+/**
+ * Hook to fetch stock balances with comprehensive server metrics, search, and filtering.
+ */
+export function useStockBalances(filters: StockBalanceFilters = {}) {
+  const query = useAuthQuery<StockBalancesResponse>({
+    queryKey: [...stockBalancesQueryKey, filters],
+    queryFn: (getToken) => fetchStockBalances(getToken, filters),
+    rbac: { permission: 'inventory.stock.view' },
+    staleTime: 30_000,
   })
+
+  return {
+    ...query,
+    stockBalances: query.data?.items ?? [],
+    metrics: query.data?.metrics,
+    total: query.data?.total ?? 0,
+  }
 }
 
-
-// ── Mutation: manual stock adjustment ──
+/**
+ * Hook to perform single-line manual stock adjustment.
+ * Gated by permission 'inventory.stock.manage'.
+ */
 export function useAdjustStock() {
   const { has } = useAuth()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (values: AdjustmentFormData) => {
-      if (!has({ permission: 'inventory.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
+    mutationFn: async ({
+      values,
+      getToken,
+    }: {
+      values: AdjustmentFormData
+      getToken?: () => Promise<string | null>
+    }) => {
+      const canManage =
+        has({ permission: 'inventory.stock.manage' }) ||
+        has({ role: 'super_admin' }) ||
+        has({ role: 'admin' })
+
+      if (!canManage) {
+        throw new Error('You do not have permission to adjust stock balances.')
       }
 
-      // Call the database function we created
-      const { data, error } = await supabase.rpc('adjust_stock_balance', {
-        p_store_id: values.store_id,
-        p_product_variant_id: values.product_variant_id,
-        p_adjustment_type: values.adjustment_type,
-        p_quantity: values.quantity,
-        p_reason: values.reason,
-      })
-
-      if (error) throw error
-      return data
+      const defaultGetToken = async () => null
+      return postStockAdjustment(getToken ?? defaultGetToken, values)
     },
     onSuccess: () => {
+      // Invalidate stock balances and related caches
       queryClient.invalidateQueries({ queryKey: stockBalancesQueryKey })
+      queryClient.invalidateQueries({ queryKey: ['inventory', 'movements'] })
+      queryClient.invalidateQueries({ queryKey: ['inventory', 'stock-by-location'] })
+      queryClient.invalidateQueries({ queryKey: ['warehouses', 'options'] })
+      queryClient.invalidateQueries({ queryKey: ['product-variants', 'options'] })
       toast.success('Stock balance adjusted successfully')
     },
     onError: (error: Error) => {
@@ -88,40 +78,20 @@ export function useAdjustStock() {
   })
 }
 
-// ── Query: all units/stores ──
-export function useStores() {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
-  return useQuery({
-    queryKey: ['stores'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('stores')
-        .select('store_id, name')
-        .order('name')
-
-      if (error) throw error
-      return data ?? []
+/**
+ * Hook to fetch movement audit ledger for a specific stock balance row.
+ */
+export function useStockBalanceMovements(
+  variantId?: string | null,
+  facility?: { warehouseId?: string | null; storeId?: string | null }
+) {
+  return useAuthQuery<StockMovementRow[]>({
+    queryKey: ['stock-balances', 'movements', variantId, facility],
+    queryFn: (getToken) => {
+      if (!variantId) return Promise.resolve([])
+      return fetchStockBalanceMovements(getToken, variantId, facility)
     },
-    enabled: authEnabled,
-  })
-}
-
-// ── Query: product variants filtered by product ──
-export function useProductVariants(productId?: number) {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.view' })
-  return useQuery({
-    queryKey: ['product-variants', productId],
-    queryFn: async () => {
-      if (!productId) return []
-      const { data, error } = await supabase
-        .from('product_variants')
-        .select('id, sku')
-        .eq('product_id', productId)
-        .order('sku')
-
-      if (error) throw error
-      return data ?? []
-    },
-    enabled: !!productId && authEnabled,
+    enabled: Boolean(variantId),
+    rbac: { permission: 'inventory.stock.view' },
   })
 }
