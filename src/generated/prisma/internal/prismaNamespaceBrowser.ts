@@ -714,7 +714,8 @@ export const Purchase_order_itemsScalarFieldEnum = {
   po_id: 'po_id',
   product_id: 'product_id',
   created_by_user_id: 'created_by_user_id',
-  updated_by_user_id: 'updated_by_user_id'
+  updated_by_user_id: 'updated_by_user_id',
+  uom_id: 'uom_id'
 } as const
 
 export type Purchase_order_itemsScalarFieldEnum = (typeof Purchase_order_itemsScalarFieldEnum)[keyof typeof Purchase_order_itemsScalarFieldEnum]

@@ -27,7 +27,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
 import {
   Table,
   TableBody,
@@ -38,18 +37,18 @@ import {
 } from '@/components/ui/table'
 import { POStatusBadge } from './po-status-badge'
 import { usePOContext } from './po-provider'
-import {
-  usePurchaseOrder,
-  type PurchaseOrder,
-} from '../hooks/use-purchase-orders'
+import { usePurchaseOrder } from '../hooks/use-purchase-orders'
 
 export interface POSummaryDraftItem {
-  productId: number
+  productId: number | string
   productName: string
   productSku?: string
   variantId: string | null
   variantSku: string
   variantLabel?: string
+  uomId?: string | null
+  uomName?: string
+  uomCode?: string
   quantity: number
   unitCost: number
   subtotal: number
@@ -81,7 +80,7 @@ export function POSummaryDialog({
   onConfirmDraftSubmit,
   isSubmittingDraft,
 }: POSummaryDialogProps) {
-  const { open: contextOpen, setOpen: setContextOpen, currentRow, setCurrentRow } = usePOContext()
+  const { open: contextOpen, setOpen: setContextOpen, currentRow } = usePOContext()
   const [copied, setCopied] = useState(false)
 
   // Is this dialog being opened in Draft review mode or in View mode from table?
@@ -133,6 +132,9 @@ export function POSummaryDialog({
           productName: item.products?.name || `Product #${item.product_id}`,
           variantId: item.product_variant_id,
           variantSku: variant?.sku || item.product_variant_id || 'Standard',
+          uomId: item.uom_id,
+          uomName: item.uoms?.name,
+          uomCode: item.uoms?.code,
           quantity: item.quantity_ordered,
           unitCost: item.unit_cost,
           subtotal: item.subtotal,
@@ -170,7 +172,7 @@ export function POSummaryDialog({
       `--- Line Items ---`,
       ...lineItems.map(
         (it, idx) =>
-          `${idx + 1}. ${it.productName} [Variant: ${it.variantSku}] | Qty: ${it.quantity} | Unit Cost: $${it.unitCost.toFixed(2)} | Subtotal: $${it.subtotal.toFixed(2)}`
+          `${idx + 1}. ${it.productName} [Variant: ${it.variantSku}]${it.uomCode || it.uomName ? ` [UOM: ${it.uomCode || it.uomName}]` : ''} | Qty: ${it.quantity} | Unit Cost: $${it.unitCost.toFixed(2)} | Subtotal: $${it.subtotal.toFixed(2)}`
       ),
       ...(notes ? [``, `Notes: ${notes}`] : []),
     ]
@@ -223,7 +225,9 @@ export function POSummaryDialog({
               </div>
 
               <div className='flex items-center gap-2'>
-                <POStatusBadge status={status as any} />
+                <POStatusBadge
+                  status={status as Parameters<typeof POStatusBadge>[0]['status']}
+                />
                 <Button
                   type='button'
                   variant='outline'
@@ -344,6 +348,7 @@ export function POSummaryDialog({
                         <TableHead className='w-12 text-center'>#</TableHead>
                         <TableHead>Product</TableHead>
                         <TableHead>Variant / SKU</TableHead>
+                        <TableHead className='w-20 text-center'>UOM</TableHead>
                         <TableHead className='w-24 text-center'>Qty</TableHead>
                         <TableHead className='w-28 text-right'>Unit Cost</TableHead>
                         <TableHead className='w-28 text-right'>Subtotal</TableHead>
@@ -353,7 +358,7 @@ export function POSummaryDialog({
                       {lineItems.length === 0 ? (
                         <TableRow>
                           <TableCell
-                            colSpan={6}
+                            colSpan={7}
                             className='py-8 text-center text-sm text-muted-foreground'
                           >
                             No line items present in this purchase order.
@@ -386,6 +391,15 @@ export function POSummaryDialog({
                                   </span>
                                 )}
                               </div>
+                            </TableCell>
+                            <TableCell className='text-center'>
+                              {item.uomCode || item.uomName ? (
+                                <Badge variant='outline' className='font-mono text-xs'>
+                                  {item.uomCode || item.uomName}
+                                </Badge>
+                              ) : (
+                                <span className='text-xs text-muted-foreground'>—</span>
+                              )}
                             </TableCell>
                             <TableCell className='text-center font-medium'>
                               {item.quantity}

@@ -4,11 +4,19 @@ import { supabase } from '@/lib/supabase'
 import { useAuthEnabled } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { useAuth } from '@/hooks/use-auth'
+import {
+  getAuthTenantAndUser,
+  resolveClientTenantId,
+  isValidUuid,
+} from '@/lib/client-tenant'
 
 // ─── Types ────────────────────────────────────────────────
 export interface PurchaseOrder {
-  po_id: number
-  supplier_id: number | null
+  id?: string
+  po_id: number | string
+  po_number?: number | null
+  supplier_id: number | string | null
+  tenant_id?: string
   order_date: string | null
   status: 'pending' | 'partial' | 'received' | 'cancelled'
   total_amount: number | null
@@ -17,14 +25,23 @@ export interface PurchaseOrder {
   created_at: string | null
   suppliers?: { name: string } | null
   purchase_order_items: Array<{
-    po_item_id: number
-    po_id: number
-    product_id: number
+    id?: string
+    po_item_id?: number | string
+    po_id: number | string
+    tenant_id?: string
+    product_id: number | string
     product_variant_id: string | null
     quantity_ordered: number
     unit_cost: number
     subtotal: number
     received_quantity: number | null
+    uom_id?: string | null
+    uoms?: {
+      id: string
+      name: string
+      code: string
+      uom_category?: string
+    } | null
     products?: {
       name: string
       product_variants?: Array<{
@@ -42,14 +59,23 @@ export interface PurchaseOrderWithItems extends PurchaseOrder {
 }
 
 export interface PurchaseOrderItem {
-  po_item_id: number
-  po_id: number
-  product_id: number
+  id?: string
+  po_item_id?: number | string
+  po_id: number | string
+  tenant_id?: string
+  product_id: number | string
   product_variant_id: string | null
   quantity_ordered: number
   unit_cost: number
   subtotal: number
   received_quantity: number
+  uom_id?: string | null
+  uoms?: {
+    id: string
+    name: string
+    code: string
+    uom_category?: string
+  } | null
   products?: {
     name: string
     product_variants?: Array<{
@@ -62,18 +88,21 @@ export interface PurchaseOrderItem {
 }
 
 export interface PurchaseOrderInput {
-  supplier_id: number
+  supplier_id: number | string
   order_date: string
   expected_delivery_date?: string | null
   notes?: string
+  tenant_id?: string
 }
 
 export interface PurchaseOrderItemInput {
-  product_id: number
+  product_id: number | string
   product_variant_id: string
   quantity_ordered: number
   unit_cost: number
   subtotal: number
+  uom_id?: string | null
+  tenant_id?: string
 }
 
 // ─── List all POs ─────────────────────────────────────────
@@ -82,44 +111,68 @@ export const usePurchaseOrders = () => {
   return useQuery({
     queryKey: ['purchase-orders'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
         .from('purchase_orders')
         .select('*, suppliers(name)')
-        .order('order_date', { ascending: false })
+
+      if (tenantId && isValidUuid(tenantId)) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query.order('order_date', { ascending: false })
 
       if (error) throw error
-      return data as PurchaseOrder[]
+      return (data || []).map((row) => ({
+        ...row,
+        po_id: row.id || row.po_id,
+      })) as PurchaseOrder[]
     },
     enabled: authEnabled,
   })
 }
 
 // ─── Single PO with items ─────────────────────────────────
-export const usePurchaseOrder = (id: number) => {
+export const usePurchaseOrder = (id: number | string) => {
   const { authEnabled } = useAuthEnabled({ permission: 'purchasing.view' })
+  const cleanId = String(id || '')
   return useQuery({
-    queryKey: ['purchase-orders', id],
+    queryKey: ['purchase-orders', cleanId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      if (!cleanId || cleanId === '0') return null
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
         .from('purchase_orders')
         .select(
           `*, suppliers(name), 
                 purchase_order_items(
                   *,
+                  uoms(id, name, code, uom_category),
                   products(
                     name,
+                    base_uom_id,
+                    base_uom:uoms(id, name, code),
                     product_variants(id, sku, price, cost_price)
                   )
                 )
               `
         )
-        .eq('po_id', id)
-        .maybeSingle()
+        .eq('id', cleanId)
+
+      if (tenantId && isValidUuid(tenantId)) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query.maybeSingle()
 
       if (error) throw error
-      return data as PurchaseOrderWithItems
+      if (!data) return null
+      return {
+        ...data,
+        po_id: data.id || data.po_id,
+      } as PurchaseOrderWithItems
     },
-    enabled: !!id && authEnabled,
+    enabled: Boolean(cleanId && cleanId !== '0') && authEnabled,
   })
 }
 
@@ -140,24 +193,67 @@ export const useCreatePurchaseOrder = () => {
         throw new Error('You do not have permission to perform this action.')
       }
 
+      const resolvedTenantId = await resolveClientTenantId(order.tenant_id)
+      if (!resolvedTenantId) {
+        throw new Error(
+          'Tenant ID could not be identified. Please ensure you are logged in.'
+        )
+      }
+
+      const { userId } = getAuthTenantAndUser()
+
       // Calculate total
       const total_amount = items.reduce((sum, item) => sum + item.subtotal, 0)
+
+      const poPayload: Record<string, unknown> = {
+        tenant_id: resolvedTenantId,
+        supplier_id: String(order.supplier_id),
+        order_date: order.order_date,
+        expected_delivery_date: order.expected_delivery_date || null,
+        notes: order.notes || null,
+        total_amount,
+        subtotal: total_amount,
+        grand_total: total_amount,
+      }
+
+      if (userId && isValidUuid(userId)) {
+        poPayload.created_by_user_id = userId
+        poPayload.updated_by_user_id = userId
+      }
 
       // Insert PO header
       const { data: po, error: poError } = await supabase
         .from('purchase_orders')
-        .insert({ ...order, total_amount })
+        .insert(poPayload)
         .select()
         .maybeSingle()
 
       if (poError) throw poError
 
+      const resolvedPoId = po.id || po.po_id
+
       // Insert line items
       if (items.length > 0) {
-        const itemsWithPoId = items.map((item) => ({
-          ...item,
-          po_id: po.po_id,
-        }))
+        const itemsWithPoId = items.map((item, index) => {
+          const itemPayload: Record<string, unknown> = {
+            tenant_id: resolvedTenantId,
+            po_id: resolvedPoId,
+            product_id: String(item.product_id),
+            product_variant_id: item.product_variant_id || null,
+            uom_id: item.uom_id || null,
+            quantity_ordered: item.quantity_ordered,
+            unit_cost: item.unit_cost,
+            subtotal: item.subtotal,
+            line_no: index + 1,
+          }
+
+          if (userId && isValidUuid(userId)) {
+            itemPayload.created_by_user_id = userId
+            itemPayload.updated_by_user_id = userId
+          }
+
+          return itemPayload
+        })
 
         const { error: itemsError } = await supabase
           .from('purchase_order_items')
@@ -185,7 +281,7 @@ export const useUpdatePurchaseOrder = () => {
       order,
       items,
     }: {
-      id: number
+      id: number | string
       order: PurchaseOrderInput
       items: PurchaseOrderItemInput[]
     }) => {
@@ -193,31 +289,82 @@ export const useUpdatePurchaseOrder = () => {
         throw new Error('You do not have permission to perform this action.')
       }
 
+      const cleanId = String(id)
+      const resolvedTenantId = await resolveClientTenantId(order.tenant_id)
+      if (!resolvedTenantId) {
+        throw new Error(
+          'Tenant ID could not be identified. Please ensure you are logged in.'
+        )
+      }
+
+      const { userId } = getAuthTenantAndUser()
       const total_amount = items.reduce((sum, item) => sum + item.subtotal, 0)
 
+      const updatePayload: Record<string, unknown> = {
+        supplier_id: String(order.supplier_id),
+        order_date: order.order_date,
+        expected_delivery_date: order.expected_delivery_date || null,
+        notes: order.notes || null,
+        total_amount,
+        subtotal: total_amount,
+        grand_total: total_amount,
+      }
+
+      if (userId && isValidUuid(userId)) {
+        updatePayload.updated_by_user_id = userId
+      }
+
       // Update PO header
-      const { data: po, error: poError } = await supabase
+      let poQuery = supabase
         .from('purchase_orders')
-        .update({ ...order, total_amount })
-        .eq('po_id', id)
+        .update(updatePayload)
+        .eq('id', cleanId)
+
+      if (resolvedTenantId && isValidUuid(resolvedTenantId)) {
+        poQuery = poQuery.eq('tenant_id', resolvedTenantId)
+      }
+
+      const { data: po, error: poError } = await poQuery
         .select()
         .maybeSingle()
 
       if (poError) throw poError
 
       // Delete existing items and re-insert
-      const { error: deleteError } = await supabase
+      let deleteQuery = supabase
         .from('purchase_order_items')
         .delete()
-        .eq('po_id', id)
+        .eq('po_id', cleanId)
+
+      if (resolvedTenantId && isValidUuid(resolvedTenantId)) {
+        deleteQuery = deleteQuery.eq('tenant_id', resolvedTenantId)
+      }
+
+      const { error: deleteError } = await deleteQuery
 
       if (deleteError) throw deleteError
 
       if (items.length > 0) {
-        const itemsWithPoId = items.map((item) => ({
-          ...item,
-          po_id: id,
-        }))
+        const itemsWithPoId = items.map((item, index) => {
+          const itemPayload: Record<string, unknown> = {
+            tenant_id: resolvedTenantId,
+            po_id: cleanId,
+            product_id: String(item.product_id),
+            product_variant_id: item.product_variant_id || null,
+            uom_id: item.uom_id || null,
+            quantity_ordered: item.quantity_ordered,
+            unit_cost: item.unit_cost,
+            subtotal: item.subtotal,
+            line_no: index + 1,
+          }
+
+          if (userId && isValidUuid(userId)) {
+            itemPayload.created_by_user_id = userId
+            itemPayload.updated_by_user_id = userId
+          }
+
+          return itemPayload
+        })
 
         const { error: itemsError } = await supabase
           .from('purchase_order_items')
@@ -231,7 +378,7 @@ export const useUpdatePurchaseOrder = () => {
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['purchase-orders'] })
       queryClient.invalidateQueries({
-        queryKey: ['purchase-orders', variables.id],
+        queryKey: ['purchase-orders', String(variables.id)],
       })
     },
   })
@@ -265,7 +412,7 @@ export const useUpdatePurchaseOrderStatus = () => {
         id,
         status,
       }: {
-        id: number
+        id: number | string
         status:
           | 'pending'
           | 'received'
@@ -302,16 +449,23 @@ export const useDeletePurchaseOrder = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: number | string) => {
       if (!has({ permission: 'purchasing.manage' })) {
         throw new Error('You do not have permission to perform this action.')
       }
 
-      // Items cascade-delete via FK
-      const { error } = await supabase
+      const cleanId = String(id)
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
         .from('purchase_orders')
         .delete()
-        .eq('po_id', id)
+        .eq('id', cleanId)
+
+      if (tenantId && isValidUuid(tenantId)) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { error } = await query
 
       if (error) throw error
     },

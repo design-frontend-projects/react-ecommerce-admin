@@ -46,7 +46,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useProducts } from '@/features/products/hooks/use-products'
+import { useUomOptions } from '@/features/products/hooks/use-product-options'
 import { useSuppliers } from '@/features/suppliers/hooks/use-suppliers'
 import {
   useCreatePurchaseOrder,
@@ -56,7 +64,8 @@ import {
 } from '../hooks/use-purchase-orders'
 import { usePOContext } from './po-provider'
 import {
-  POProductVariantPicker,
+  POProductSelect,
+  POVariantSelect,
   type VariantOption,
 } from './po-product-variant-picker'
 import {
@@ -77,8 +86,9 @@ type POFormValues = z.infer<typeof poFormSchema>
 
 // ─── Line item type ───────────────────────────────────────
 interface LineItem {
-  product_id: number
+  product_id: string
   product_variant_id: string | null
+  uom_id: string | null
   quantity_ordered: number
   unit_cost: number
   subtotal: number
@@ -92,6 +102,7 @@ export function POActionDialog() {
 
   const { data: suppliers } = useSuppliers()
   const { data: products } = useProducts()
+  const { data: uoms = [] } = useUomOptions()
   const createMutation = useCreatePurchaseOrder()
   const updateMutation = useUpdatePurchaseOrder()
   const [showLineValidation, setShowLineValidation] = useState(false)
@@ -99,15 +110,16 @@ export function POActionDialog() {
   const [showSummaryModal, setShowSummaryModal] = useState(false)
 
   // Fetch full PO with items for edit mode
+  const currentPoId = currentRow?.id || currentRow?.po_id || ''
   const { data: fullPO } = usePurchaseOrder(
-    isEdit && currentRow ? currentRow.po_id : 0
+    isEdit && currentPoId ? currentPoId : ''
   )
 
   // Compute form defaults reactively from props/data
   const formDefaults = useMemo<POFormValues>(() => {
     if (isEdit && currentRow && fullPO) {
       return {
-        supplier_id: String(currentRow.supplier_id ?? 0),
+        supplier_id: String(currentRow.supplier_id ?? ''),
         order_date: currentRow.order_date
           ? format(new Date(currentRow.order_date), 'yyyy-MM-dd')
           : format(new Date(), 'yyyy-MM-dd'),
@@ -118,7 +130,7 @@ export function POActionDialog() {
       }
     }
     return {
-      supplier_id: '0',
+      supplier_id: '',
       order_date: format(new Date(), 'yyyy-MM-dd'),
       expected_delivery_date: '',
       notes: '',
@@ -131,30 +143,49 @@ export function POActionDialog() {
     values: formDefaults,
   })
 
+  // Map variants by product id string (UUID)
   const variantsByProductId = useMemo(() => {
-    const map = new Map<number, VariantOption[]>()
+    const map = new Map<string, VariantOption[]>()
 
     for (const product of products ?? []) {
-      const pId = Number(product.product_id ?? product.id)
+      const pId = String(product.id || product.product_id || '')
       if (!pId) continue
 
       const variants: VariantOption[] = (product.product_variants ?? [])
         .filter((variant) => !!variant.id)
-        .map((variant) => ({
-          id: variant.id as string,
-          sku: variant.sku,
-          name: variant.name ?? null,
-          attributes_label: variant.attributes_label,
-          price: Number(variant.price ?? 0),
-          cost_price:
-            variant.cost_price !== null && variant.cost_price !== undefined
-              ? Number(variant.cost_price)
-              : null,
-          stock_quantity:
-            variant.stock_quantity !== undefined
-              ? Number(variant.stock_quantity)
-              : undefined,
-        }))
+        .map((variant) => {
+          let attrLabel = variant.attributes_label
+          if (!attrLabel && variant.dimensions) {
+            try {
+              const parsed =
+                typeof variant.dimensions === 'string'
+                  ? JSON.parse(variant.dimensions)
+                  : variant.dimensions
+              attrLabel = parsed?.label || undefined
+            } catch {
+              attrLabel =
+                typeof variant.dimensions === 'string'
+                  ? variant.dimensions
+                  : undefined
+            }
+          }
+
+          return {
+            id: String(variant.id),
+            sku: variant.sku,
+            name: variant.name ?? null,
+            attributes_label: attrLabel,
+            price: Number(variant.price ?? 0),
+            cost_price:
+              variant.cost_price !== null && variant.cost_price !== undefined
+                ? Number(variant.cost_price)
+                : null,
+            stock_quantity:
+              variant.stock_quantity !== undefined
+                ? Number(variant.stock_quantity)
+                : undefined,
+          }
+        })
 
       map.set(pId, variants)
     }
@@ -163,32 +194,32 @@ export function POActionDialog() {
   }, [products])
 
   const getVariantsForProduct = useCallback(
-    (productId: number): VariantOption[] =>
+    (productId: string): VariantOption[] =>
       variantsByProductId.get(productId) ?? [],
     [variantsByProductId]
   )
 
-  const getProductName = (productId: number): string =>
-    products?.find((product) => Number(product.product_id ?? product.id) === productId)?.name ??
-    `Product #${productId}`
+  const getProductName = (productId: string): string =>
+    products?.find((product) => String(product.id || product.product_id) === productId)?.name ??
+    `Product`
 
   // Compute initial line items from PO data
   const initialLineItems = useMemo<LineItem[]>(() => {
     if (isEdit && fullPO) {
-      return fullPO.purchase_order_items.map((item) => ({
-        // Keep existing variant ID, but auto-map to the only variant if exactly one exists.
-        product_id: item.product_id,
-        product_variant_id: (() => {
-          const variants = variantsByProductId.get(item.product_id) ?? []
-          return (
+      return (fullPO.purchase_order_items || []).map((item) => {
+        const prodId = String(item.product_id || '')
+        const variants = variantsByProductId.get(prodId) ?? []
+        return {
+          product_id: prodId,
+          product_variant_id:
             item.product_variant_id ??
-            (variants.length === 1 ? variants[0].id : null)
-          )
-        })(),
-        quantity_ordered: item.quantity_ordered,
-        unit_cost: item.unit_cost,
-        subtotal: item.subtotal,
-      }))
+            (variants.length === 1 ? variants[0].id : null),
+          uom_id: item.uom_id ?? null,
+          quantity_ordered: item.quantity_ordered,
+          unit_cost: item.unit_cost,
+          subtotal: item.subtotal,
+        }
+      })
     }
     return []
   }, [isEdit, fullPO, variantsByProductId])
@@ -215,8 +246,9 @@ export function POActionDialog() {
     setLineItemOverrides([
       ...current,
       {
-        product_id: 0,
+        product_id: '',
         product_variant_id: null,
+        uom_id: null,
         quantity_ordered: 1,
         unit_cost: 0,
         subtotal: 0,
@@ -241,15 +273,22 @@ export function POActionDialog() {
     const item = { ...updated[index] }
 
     if (field === 'product_id') {
-      const nextProductId = Number(value) || 0
+      const nextProductId = String(value || '')
       const variants = getVariantsForProduct(nextProductId)
+      const selectedProduct = products?.find(
+        (p) => String(p.id || p.product_id) === nextProductId
+      )
 
       item.product_id = nextProductId
       item.product_variant_id = null
+      item.uom_id =
+        selectedProduct?.base_uom_id ||
+        (selectedProduct as { base_uom?: { id?: string } })?.base_uom?.id ||
+        null
 
       if (variants.length === 1) {
         item.product_variant_id = variants[0].id
-        item.unit_cost = Number(variants[0].cost_price ?? 0)
+        item.unit_cost = Number(variants[0].cost_price ?? variants[0].price ?? 0)
       } else {
         item.unit_cost = 0
       }
@@ -260,13 +299,21 @@ export function POActionDialog() {
       return
     }
 
+    if (field === 'uom_id') {
+      item.uom_id = value ? String(value) : null
+      updated[index] = item
+      setLineItemOverrides(updated)
+      return
+    }
+
     if (field === 'product_variant_id') {
-      item.product_variant_id = value ? String(value) : null
+      const vId = value ? String(value) : null
+      item.product_variant_id = vId
       const variants = getVariantsForProduct(item.product_id)
-      const variant = variants.find((v) => v.id === item.product_variant_id)
+      const variant = variants.find((v) => v.id === vId)
 
       if (variant) {
-        item.unit_cost = Number(variant.cost_price ?? 0)
+        item.unit_cost = Number(variant.cost_price ?? variant.price ?? 0)
       } else {
         item.unit_cost = 0
       }
@@ -292,7 +339,7 @@ export function POActionDialog() {
 
   // ─── Submit ─────────────────────────────────────────────
   const onSubmit: SubmitHandler<POFormValues> = async (values) => {
-    const validItems = lineItems.filter((item) => item.product_id > 0)
+    const validItems = lineItems.filter((item) => Boolean(item.product_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
       toast.error('Add at least one line item')
@@ -322,6 +369,7 @@ export function POActionDialog() {
     const items: PurchaseOrderItemInput[] = validItems.map((item) => ({
       product_id: item.product_id,
       product_variant_id: item.product_variant_id!,
+      uom_id: item.uom_id || null,
       quantity_ordered: item.quantity_ordered,
       unit_cost: item.unit_cost,
       subtotal: item.subtotal,
@@ -331,7 +379,7 @@ export function POActionDialog() {
       if (isCreate) {
         await createMutation.mutateAsync({
           order: {
-            supplier_id: +values.supplier_id,
+            supplier_id: values.supplier_id,
             order_date: values.order_date,
             expected_delivery_date: values.expected_delivery_date || null,
             notes: values.notes || undefined,
@@ -341,9 +389,9 @@ export function POActionDialog() {
         toast.success('Purchase order created')
       } else if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.po_id,
+          id: currentRow.id || currentRow.po_id,
           order: {
-            supplier_id: +values.supplier_id,
+            supplier_id: values.supplier_id,
             order_date: values.order_date,
             expected_delivery_date: values.expected_delivery_date || null,
             notes: values.notes || undefined,
@@ -363,12 +411,12 @@ export function POActionDialog() {
 
   const handleOpenReviewSummary = () => {
     const values = form.getValues()
-    if (!values.supplier_id || values.supplier_id === '0') {
+    if (!values.supplier_id || values.supplier_id === '0' || values.supplier_id === '') {
       toast.error('Please select a supplier first')
       return
     }
 
-    const validItems = lineItems.filter((item) => item.product_id > 0)
+    const validItems = lineItems.filter((item) => Boolean(item.product_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
       toast.error('Add at least one line item')
@@ -401,10 +449,10 @@ export function POActionDialog() {
   const draftSummary = useMemo<POSummaryDraftData | null>(() => {
     const values = form.getValues()
     const selectedSupplier = suppliers?.find(
-      (s) => String(s.supplier_id) === values.supplier_id
+      (s) => String(s.id || s.supplier_id) === values.supplier_id
     )
 
-    const validItems = lineItems.filter((item) => item.product_id > 0)
+    const validItems = lineItems.filter((item) => Boolean(item.product_id))
 
     return {
       supplierId: values.supplier_id,
@@ -414,18 +462,23 @@ export function POActionDialog() {
       notes: values.notes || undefined,
       items: validItems.map((item) => {
         const prod = products?.find(
-          (p) => Number(p.product_id ?? p.id) === item.product_id
+          (p) => String(p.id || p.product_id) === item.product_id
         )
         const variants = getVariantsForProduct(item.product_id)
         const variant = variants.find((v) => v.id === item.product_variant_id)
 
+        const selectedUom = uoms.find((u) => u.id === item.uom_id)
+
         return {
           productId: item.product_id,
-          productName: prod?.name || `Product #${item.product_id}`,
+          productName: prod?.name || `Product`,
           productSku: prod?.sku,
           variantId: item.product_variant_id,
           variantSku: variant?.sku || 'Standard',
           variantLabel: variant?.attributes_label || variant?.name || undefined,
+          uomId: item.uom_id,
+          uomName: selectedUom?.name,
+          uomCode: selectedUom?.code,
           quantity: item.quantity_ordered,
           unitCost: item.unit_cost,
           subtotal: item.subtotal,
@@ -433,21 +486,21 @@ export function POActionDialog() {
       }),
       totalAmount,
     }
-  }, [form, suppliers, lineItems, products, getVariantsForProduct, totalAmount])
+  }, [form, suppliers, lineItems, products, getVariantsForProduct, uoms, totalAmount])
 
   const isPending = createMutation.isPending || updateMutation.isPending
 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={(v) => !v && closeDialog()}>
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-3xl'>
+      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-5xl md:max-w-6xl w-full'>
         <DialogHeader>
           <DialogTitle>
             {isCreate ? 'Create Purchase Order' : 'Edit Purchase Order'}
           </DialogTitle>
           <DialogDescription>
             {isCreate
-              ? 'Fill in the order details and add line items.'
+              ? 'Fill in the order details and add line items with product and variant selections.'
               : 'Update the order details and line items.'}
           </DialogDescription>
         </DialogHeader>
@@ -476,7 +529,7 @@ export function POActionDialog() {
                           >
                             {field.value && field.value !== '0'
                               ? suppliers?.find(
-                                  (s) => String(s.supplier_id) === field.value
+                                  (s) => String(s.id || s.supplier_id) === field.value
                                 )?.name
                               : 'Select supplier'}
                             <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -489,30 +542,33 @@ export function POActionDialog() {
                           <CommandList>
                             <CommandEmpty>No supplier found.</CommandEmpty>
                             <CommandGroup>
-                              {suppliers?.map((s) => (
-                                <CommandItem
-                                  value={s.name}
-                                  key={s.supplier_id}
-                                  onSelect={() => {
-                                    form.setValue(
-                                      'supplier_id',
-                                      String(s.supplier_id),
-                                      { shouldValidate: true }
-                                    )
-                                    setSupplierOpen(false)
-                                  }}
-                                >
-                                  <Check
-                                    className={cn(
-                                      'mr-2 h-4 w-4',
-                                      String(s.supplier_id) === field.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0'
-                                    )}
-                                  />
-                                  {s.name}
-                                </CommandItem>
-                              ))}
+                              {suppliers?.map((s) => {
+                                const sId = String(s.id || s.supplier_id)
+                                return (
+                                  <CommandItem
+                                    value={`${s.name} ${sId}`}
+                                    key={sId}
+                                    onSelect={() => {
+                                      form.setValue(
+                                        'supplier_id',
+                                        sId,
+                                        { shouldValidate: true }
+                                      )
+                                      setSupplierOpen(false)
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        'mr-2 h-4 w-4',
+                                        sId === field.value
+                                          ? 'opacity-100'
+                                          : 'opacity-0'
+                                      )}
+                                    />
+                                    {s.name}
+                                  </CommandItem>
+                                )
+                              })}
                             </CommandGroup>
                           </CommandList>
                         </Command>
@@ -584,103 +640,157 @@ export function POActionDialog() {
               </div>
 
               {lineItems.length > 0 ? (
-                <div className='rounded-md border'>
-                  <Table>
+                <div className='rounded-md border overflow-x-auto'>
+                  <Table className='w-full min-w-[860px]'>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Product & Variant</TableHead>
-                        <TableHead className='w-24'>Qty</TableHead>
-                        <TableHead className='w-28'>Unit Cost</TableHead>
-                        <TableHead className='w-28 text-right'>
+                        <TableHead className='min-w-[200px]'>Product</TableHead>
+                        <TableHead className='min-w-[180px]'>Variant</TableHead>
+                        <TableHead className='min-w-[140px]'>Receiving UOM</TableHead>
+                        <TableHead className='w-[100px] min-w-[100px] text-center'>Qty</TableHead>
+                        <TableHead className='w-[120px] min-w-[120px] text-right'>Unit Cost</TableHead>
+                        <TableHead className='w-[110px] min-w-[110px] text-right pr-3'>
                           Subtotal
                         </TableHead>
-                        <TableHead className='w-12' />
+                        <TableHead className='w-[48px] min-w-[48px]' />
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {lineItems.map((item, index) => (
-                        <TableRow key={index} className='align-top'>
-                          <TableCell className='min-w-[280px]'>
-                            <POProductVariantPicker
-                              productId={item.product_id}
-                              variantId={item.product_variant_id}
-                              products={products}
-                              variantsByProductId={variantsByProductId}
-                              onSelectProduct={(pId) =>
-                                updateLineItem(index, 'product_id', pId)
-                              }
-                              onSelectVariant={(vId, cost) => {
-                                const current = lineItemOverrides ?? initialLineItems
-                                const updated = [...current]
-                                const rowItem = { ...updated[index] }
-                                rowItem.product_variant_id = vId
-                                rowItem.unit_cost = cost
-                                rowItem.subtotal =
-                                  Number(rowItem.quantity_ordered) * Number(cost)
-                                updated[index] = rowItem
-                                setLineItemOverrides(updated)
-                                setShowLineValidation(false)
-                              }}
-                              showValidation={showLineValidation}
-                              disabled={isPending}
-                            />
-                          </TableCell>
-                          <TableCell className='pt-2'>
-                            <Input
-                              type='number'
-                              min={1}
-                              className='h-9'
-                              value={item.quantity_ordered}
-                              disabled={isPending}
-                              onChange={(e) =>
-                                updateLineItem(
-                                  index,
-                                  'quantity_ordered',
-                                  Number(e.target.value)
-                                )
-                              }
-                            />
-                          </TableCell>
-                          <TableCell className='pt-2'>
-                            <Input
-                              type='number'
-                              min={0}
-                              step={0.01}
-                              className='h-9 font-mono'
-                              value={item.unit_cost}
-                              disabled={
-                                isPending ||
-                                (item.product_id > 0 &&
-                                  getVariantsForProduct(item.product_id).length >
-                                    0 &&
-                                  !item.product_variant_id)
-                              }
-                              onChange={(e) =>
-                                updateLineItem(
-                                  index,
-                                  'unit_cost',
-                                  Number(e.target.value)
-                                )
-                              }
-                            />
-                          </TableCell>
-                          <TableCell className='text-right font-mono font-medium pt-3.5'>
-                            ${item.subtotal.toFixed(2)}
-                          </TableCell>
-                          <TableCell className='pt-2'>
-                            <Button
-                              type='button'
-                              variant='ghost'
-                              size='icon'
-                              className='h-8 w-8'
-                              disabled={isPending}
-                              onClick={() => removeLineItem(index)}
-                            >
-                              <Trash2 className='h-4 w-4 text-destructive' />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {lineItems.map((item, index) => {
+                        const itemVariants = getVariantsForProduct(item.product_id)
+                        return (
+                          <TableRow key={index} className='align-top'>
+                            {/* Separate Dropdown 1: Product */}
+                            <TableCell className='min-w-[200px]'>
+                              <POProductSelect
+                                productId={item.product_id}
+                                products={products}
+                                variantsByProductId={variantsByProductId}
+                                onSelectProduct={(pId) =>
+                                  updateLineItem(index, 'product_id', pId)
+                                }
+                                disabled={isPending}
+                                showValidation={showLineValidation}
+                              />
+                            </TableCell>
+
+                            {/* Separate Dropdown 2: Variant */}
+                            <TableCell className='min-w-[180px]'>
+                              <POVariantSelect
+                                productId={item.product_id}
+                                variantId={item.product_variant_id}
+                                variants={itemVariants}
+                                onSelectVariant={(vId, cost) => {
+                                  const current = lineItemOverrides ?? initialLineItems
+                                  const updated = [...current]
+                                  const rowItem = { ...updated[index] }
+                                  rowItem.product_variant_id = vId
+                                  rowItem.unit_cost = cost
+                                  rowItem.subtotal =
+                                    Number(rowItem.quantity_ordered) * Number(cost)
+                                  updated[index] = rowItem
+                                  setLineItemOverrides(updated)
+                                  setShowLineValidation(false)
+                                }}
+                                disabled={isPending}
+                                showValidation={showLineValidation}
+                              />
+                            </TableCell>
+
+                            {/* UOM Selector */}
+                            <TableCell className='min-w-[140px] pt-2'>
+                              <Select
+                                value={item.uom_id || 'none'}
+                                onValueChange={(val) =>
+                                  updateLineItem(
+                                    index,
+                                    'uom_id',
+                                    val === 'none' ? null : val
+                                  )
+                                }
+                                disabled={isPending || !item.product_id}
+                              >
+                                <SelectTrigger className='h-9 w-full'>
+                                  <SelectValue placeholder='Select UOM' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value='none'>
+                                    <span className='text-muted-foreground italic'>
+                                      Default / None
+                                    </span>
+                                  </SelectItem>
+                                  {uoms.map((uom) => (
+                                    <SelectItem key={uom.id} value={uom.id}>
+                                      {uom.name} {uom.code ? `(${uom.code})` : ''}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </TableCell>
+
+                            {/* Quantity */}
+                            <TableCell className='w-[100px] min-w-[100px] pt-2'>
+                              <Input
+                                type='number'
+                                min={1}
+                                className='h-9 w-full min-w-[75px] text-center font-semibold px-2'
+                                value={item.quantity_ordered}
+                                disabled={isPending}
+                                onChange={(e) =>
+                                  updateLineItem(
+                                    index,
+                                    'quantity_ordered',
+                                    Number(e.target.value)
+                                  )
+                                }
+                              />
+                            </TableCell>
+
+                            {/* Unit Cost */}
+                            <TableCell className='w-[120px] min-w-[120px] pt-2'>
+                              <Input
+                                type='number'
+                                min={0}
+                                step={0.01}
+                                className='h-9 w-full min-w-[95px] font-mono text-right px-2'
+                                value={item.unit_cost}
+                                disabled={
+                                  isPending ||
+                                  (!item.product_id ||
+                                    (itemVariants.length > 0 &&
+                                      !item.product_variant_id))
+                                }
+                                onChange={(e) =>
+                                  updateLineItem(
+                                    index,
+                                    'unit_cost',
+                                    Number(e.target.value)
+                                  )
+                                }
+                              />
+                            </TableCell>
+
+                            {/* Subtotal */}
+                            <TableCell className='w-[110px] min-w-[110px] text-right font-mono font-medium pt-3.5 pr-3'>
+                              ${item.subtotal.toFixed(2)}
+                            </TableCell>
+
+                            {/* Remove Item */}
+                            <TableCell className='w-[48px] min-w-[48px] pt-2 text-center'>
+                              <Button
+                                type='button'
+                                variant='ghost'
+                                size='icon'
+                                className='h-8 w-8'
+                                disabled={isPending}
+                                onClick={() => removeLineItem(index)}
+                              >
+                                <Trash2 className='h-4 w-4 text-destructive' />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
                     </TableBody>
                   </Table>
                 </div>

@@ -6,7 +6,11 @@ import {
   type POSummaryDraftData,
 } from '@/features/purchase-orders/components/po-summary-dialog'
 import { POProvider } from '@/features/purchase-orders/components/po-provider'
-import { POProductVariantPicker } from '@/features/purchase-orders/components/po-product-variant-picker'
+import {
+  POProductVariantPicker,
+  POProductSelect,
+  POVariantSelect,
+} from '@/features/purchase-orders/components/po-product-variant-picker'
 import { type Product } from '@/features/products/data/schema'
 
 // Mock useAuth
@@ -34,6 +38,9 @@ describe('Purchase Order Summary Modal & Product Variant Picker', () => {
         variantId: 'var-1',
         variantSku: 'ESP-1KG',
         variantLabel: '1kg Bag',
+        uomId: 'uom-1',
+        uomCode: 'kg',
+        uomName: 'Kilogram',
         quantity: 10,
         unitCost: 15.5,
         subtotal: 155.0,
@@ -45,6 +52,9 @@ describe('Purchase Order Summary Modal & Product Variant Picker', () => {
         variantId: 'var-2',
         variantSku: 'OAT-1L-CASE',
         variantLabel: '1L Case (12 pack)',
+        uomId: 'uom-2',
+        uomCode: 'carton',
+        uomName: 'Carton',
         quantity: 5,
         unitCost: 24.0,
         subtotal: 120.0,
@@ -82,7 +92,10 @@ describe('Purchase Order Summary Modal & Product Variant Picker', () => {
     expect(screen.getByText('Total Units')).toBeInTheDocument()
     expect(screen.getByText('$275.00')).toBeInTheDocument()
 
-    // Check line items table
+    // Check line items table and UOM
+    expect(screen.getByText('UOM')).toBeInTheDocument()
+    expect(screen.getByText('kg')).toBeInTheDocument()
+    expect(screen.getByText('carton')).toBeInTheDocument()
     expect(screen.getByText('Organic Espresso Beans')).toBeInTheDocument()
     expect(screen.getByText('ESP-1KG')).toBeInTheDocument()
     expect(screen.getByText('Oat Milk Barista Edition')).toBeInTheDocument()
@@ -162,4 +175,92 @@ describe('Purchase Order Summary Modal & Product Variant Picker', () => {
     expect(screen.getByText('SOC-ROAST-MED')).toBeInTheDocument()
     expect(screen.getByText(/Default Cost: \$12\.50/i)).toBeInTheDocument()
   })
+
+  test('POVariantSelect shows disabled state with placeholder when no product is selected', () => {
+    const onSelectVariantMock = vi.fn()
+    render(
+      <POVariantSelect
+        productId=''
+        variantId={null}
+        variants={[]}
+        onSelectVariant={onSelectVariantMock}
+      />
+    )
+
+    expect(screen.getByText('Select product first')).toBeInTheDocument()
+    const button = screen.getByRole('combobox')
+    expect(button).toBeDisabled()
+  })
+
+  test('POProductSelect and POVariantSelect operate as 2 separate dropdowns with UUIDs', () => {
+    const uuidProdId = '1796a5fa-29f1-4cd5-96bf-16f7995aab05'
+    const uuidVarId = '23b60c46-c170-4059-a574-7d8f31903be3'
+
+    const products: Product[] = [
+      {
+        id: uuidProdId,
+        product_id: uuidProdId,
+        name: 'Whole Milk',
+        sku: 'ML-01',
+        is_active: true,
+        product_type: 'simple',
+        tracking_mode: 'none',
+        is_stock_item: true,
+        reorderable: true,
+        has_variants: true,
+        is_deleted: false,
+      },
+    ]
+
+    const variantsMap = new Map([
+      [
+        uuidProdId,
+        [
+          {
+            id: uuidVarId,
+            sku: 'ML-1-V1',
+            name: '1 Litre',
+            price: 5.0,
+            cost_price: 3.5,
+            stock_quantity: 100,
+          },
+        ],
+      ],
+    ])
+
+    const onSelectProductMock = vi.fn()
+    const onSelectVariantMock = vi.fn()
+
+    const { rerender } = render(
+      <div className='flex gap-2'>
+        <POProductSelect
+          productId={uuidProdId}
+          products={products}
+          variantsByProductId={variantsMap}
+          onSelectProduct={onSelectProductMock}
+        />
+        <POVariantSelect
+          productId={uuidProdId}
+          variantId={uuidVarId}
+          variants={variantsMap.get(uuidProdId)!}
+          onSelectVariant={onSelectVariantMock}
+        />
+      </div>
+    )
+
+    // Separate Product Dropdown displays selected product name and SKU
+    expect(screen.getByText('Whole Milk')).toBeInTheDocument()
+    expect(screen.getByText('(ML-01)')).toBeInTheDocument()
+
+    // Separate Variant Dropdown displays selected variant SKU and name
+    expect(screen.getByText('ML-1-V1')).toBeInTheDocument()
+    expect(screen.getByText('(1 Litre)')).toBeInTheDocument()
+
+    // Variant Dropdown is NOT disabled when product is selected
+    const triggers = screen.getAllByRole('combobox')
+    expect(triggers).toHaveLength(2)
+    expect(triggers[0]).not.toBeDisabled()
+    expect(triggers[1]).not.toBeDisabled()
+  })
 })
+

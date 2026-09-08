@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,32 +24,35 @@ import { useBatchReceiveItems } from '../hooks/use-purchase-order-items'
 import {
   usePurchaseOrder,
   useUpdatePurchaseOrderStatus,
+  type PurchaseOrder,
 } from '../hooks/use-purchase-orders'
 import { usePOContext } from './po-provider'
 import { POStatusBadge } from './po-status-badge'
 
-export function POReceiveDialog() {
-  const { open, setOpen, currentRow } = usePOContext()
-  const isOpen = open === 'receive'
-  const poId = currentRow?.po_id ?? 0
+const getItemKey = (
+  item: { id?: string; po_item_id?: number | string },
+  index: number
+) => String(item.id || item.po_item_id || `idx_${index}`)
+
+interface POReceiveDialogContentProps {
+  currentRow: PurchaseOrder
+  onClose: () => void
+}
+
+function POReceiveDialogContent({
+  currentRow,
+  onClose,
+}: POReceiveDialogContentProps) {
+  const poId = currentRow.id || currentRow.po_id || 0
   const { data: po } = usePurchaseOrder(poId)
   const batchReceive = useBatchReceiveItems()
   const updateStatus = useUpdatePurchaseOrderStatus()
   const { data: branches } = useBranches()
 
-  const [receivedQtys, setReceivedQtys] = useState<Record<number, number>>({})
+  const [receivedQtys, setReceivedQtys] = useState<
+    Record<string, number | string>
+  >({})
   const [selectedBranchId, setSelectedBranchId] = useState<string>('')
-
-  // Initialize received quantities from existing data
-  useEffect(() => {
-    if (po?.purchase_order_items) {
-      const initial: Record<number, number> = {}
-      for (const item of po.purchase_order_items) {
-        initial[item.po_item_id] = item.received_quantity || 0
-      }
-      setReceivedQtys(initial)
-    }
-  }, [po])
 
   const handleReceive = async () => {
     if (!po) return
@@ -60,12 +63,14 @@ export function POReceiveDialog() {
     }
 
     try {
-      const items = po.purchase_order_items
-        .map((item) => {
-          const receivedQty = receivedQtys[item.po_item_id] ?? 0
+      const items = (po.purchase_order_items || [])
+        .map((item, index) => {
+          const key = getItemKey(item, index)
+          const receivedQty = Number(receivedQtys[key]) || 0
           return {
-            po_item_id: item.po_item_id,
-            variant_id: item.product_variant_id || '', // Must match the RPC requirements
+            po_item_id: item.id || item.po_item_id,
+            item_id: item.id,
+            variant_id: item.product_variant_id || '',
             qty_to_receive: receivedQty,
             unit_cost: item.unit_cost,
           }
@@ -78,18 +83,24 @@ export function POReceiveDialog() {
       }
 
       await batchReceive.mutateAsync({
-        po_id: po.po_id,
+        po_id: po.id || po.po_id,
         store_id: selectedBranchId,
         items,
       })
 
       // Determine new status
-      const allReceived = po.purchase_order_items.every(
-        (item) => (receivedQtys[item.po_item_id] ?? 0) >= item.quantity_ordered
-      )
-      const someReceived = po.purchase_order_items.some(
-        (item) => (receivedQtys[item.po_item_id] ?? 0) > 0
-      )
+      const allReceived = po.purchase_order_items.every((item, index) => {
+        const key = getItemKey(item, index)
+        const prev = Number(item.received_quantity ?? 0)
+        const now = Number(receivedQtys[key]) || 0
+        return prev + now >= item.quantity_ordered
+      })
+      const someReceived = po.purchase_order_items.some((item, index) => {
+        const key = getItemKey(item, index)
+        const prev = Number(item.received_quantity ?? 0)
+        const now = Number(receivedQtys[key]) || 0
+        return prev + now > 0
+      })
 
       let newStatus: 'received' | 'partial' | 'pending' = 'pending'
       if (allReceived) newStatus = 'received'
@@ -97,7 +108,7 @@ export function POReceiveDialog() {
 
       if (newStatus !== po.status) {
         await updateStatus.mutateAsync({
-          id: po.po_id,
+          id: po.id || po.po_id,
           status: newStatus,
         })
       }
@@ -107,7 +118,7 @@ export function POReceiveDialog() {
           ? 'All items received — order complete!'
           : 'Items partially received'
       )
-      setOpen(null)
+      onClose()
     } catch (error: unknown) {
       toast.error('Error', {
         description: (error as Error)?.message || 'Failed to receive items.',
@@ -115,66 +126,72 @@ export function POReceiveDialog() {
     }
   }
 
-  if (!currentRow) return null
-
   const poLabel = `PO-${String(currentRow.po_id).padStart(4, '0')}`
   const isPending = batchReceive.isPending || updateStatus.isPending
 
   return (
-    <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-2xl'>
-        <DialogHeader>
-          <DialogTitle className='flex items-center gap-2'>
-            Receive Items — {poLabel}
-            <POStatusBadge status={currentRow.status} />
-          </DialogTitle>
-          <DialogDescription>
-            Enter the quantity received for each item.
-            {currentRow.suppliers?.name && (
-              <>
-                {' '}
-                Supplier: <strong>{currentRow.suppliers.name}</strong>
-              </>
-            )}
-          </DialogDescription>
-        </DialogHeader>
+    <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-2xl'>
+      <DialogHeader>
+        <DialogTitle className='flex items-center gap-2'>
+          Receive Items — {poLabel}
+          <POStatusBadge status={currentRow.status} />
+        </DialogTitle>
+        <DialogDescription>
+          Enter the quantity received for each item.
+          {currentRow.suppliers?.name && (
+            <>
+              {' '}
+              Supplier: <strong>{currentRow.suppliers.name}</strong>
+            </>
+          )}
+        </DialogDescription>
+      </DialogHeader>
 
-        <div className='mb-4'>
-          <Label className='mb-2 block'>
-            Receive To Store / Branch <span className='text-red-500'>*</span>
-          </Label>
-          <select
-            className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
-            value={selectedBranchId}
-            onChange={(e) => setSelectedBranchId(e.target.value)}
-          >
-            <option value='' disabled>
-              Select a branch...
+      <div className='mb-4'>
+        <Label className='mb-2 block'>
+          Receive To Store / Branch <span className='text-red-500'>*</span>
+        </Label>
+        <select
+          className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+          value={selectedBranchId}
+          onChange={(e) => setSelectedBranchId(e.target.value)}
+        >
+          <option value='' disabled>
+            Select a branch...
+          </option>
+          {branches?.map((branch) => (
+            <option key={branch.id} value={branch.id}>
+              {branch.name}
             </option>
-            {branches?.map((branch) => (
-              <option key={branch.id} value={branch.id}>
-                {branch.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          ))}
+        </select>
+      </div>
 
-        {po?.purchase_order_items && po.purchase_order_items.length > 0 ? (
-          <div className='rounded-md border'>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead className='text-right'>Ordered</TableHead>
-                  <TableHead className='text-right'>
-                    Previously Received
-                  </TableHead>
-                  <TableHead className='text-right'>Receive Now</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {po.purchase_order_items.map((item) => (
-                  <TableRow key={item.po_item_id}>
+      {po?.purchase_order_items && po.purchase_order_items.length > 0 ? (
+        <div className='rounded-md border'>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Product</TableHead>
+                <TableHead className='w-20 text-center'>UOM</TableHead>
+                <TableHead className='text-right'>Ordered</TableHead>
+                <TableHead className='text-right'>
+                  Previously Received
+                </TableHead>
+                <TableHead className='text-right'>Receive Now</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {po.purchase_order_items.map((item, index) => {
+                const key = getItemKey(item, index)
+                const prevReceived = Number(item.received_quantity ?? 0)
+                const remainingToReceive = Math.max(
+                  0,
+                  item.quantity_ordered - prevReceived
+                )
+
+                return (
+                  <TableRow key={key}>
                     <TableCell className='font-medium'>
                       <div className='flex flex-col gap-1'>
                         <span>
@@ -190,53 +207,104 @@ export function POReceiveDialog() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className='text-right'>
+                    <TableCell className='text-center'>
+                      {item.uoms?.code ||
+                      item.uoms?.name ||
+                      (item.products as { base_uom?: { code?: string } })
+                        ?.base_uom?.code ? (
+                        <span className='inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-xs font-medium text-muted-foreground'>
+                          {item.uoms?.code ||
+                            item.uoms?.name ||
+                            (item.products as { base_uom?: { code?: string } })
+                              ?.base_uom?.code}
+                        </span>
+                      ) : (
+                        <span className='text-xs text-muted-foreground'>—</span>
+                      )}
+                    </TableCell>
+                    <TableCell className='text-right font-medium'>
                       {item.quantity_ordered}
                     </TableCell>
-                    <TableCell className='text-right'>
-                      {item.received_quantity || 0}
+                    <TableCell className='text-right text-muted-foreground'>
+                      {prevReceived}
                     </TableCell>
                     <TableCell className='text-right'>
-                      <Input
-                        type='number'
-                        min={0}
-                        max={item.quantity_ordered}
-                        className='ml-auto w-24 text-right'
-                        value={receivedQtys[item.po_item_id] ?? 0}
-                        onChange={(e) =>
-                          setReceivedQtys((prev) => ({
-                            ...prev,
-                            [item.po_item_id]: Number(e.target.value),
-                          }))
-                        }
-                      />
+                      {remainingToReceive <= 0 ? (
+                        <span className='inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-semibold text-emerald-500'>
+                          Fulfilled
+                        </span>
+                      ) : (
+                        <Input
+                          type='number'
+                          min={0}
+                          max={remainingToReceive}
+                          className='ml-auto w-24 text-right font-semibold'
+                          placeholder='0'
+                          value={receivedQtys[key] ?? ''}
+                          onChange={(e) => {
+                            const rawVal = e.target.value
+                            if (rawVal === '') {
+                              setReceivedQtys((prev) => ({
+                                ...prev,
+                                [key]: '',
+                              }))
+                              return
+                            }
+                            const num = Number(rawVal)
+                            if (isNaN(num)) return
+                            const clamped = Math.min(
+                              remainingToReceive,
+                              Math.max(0, num)
+                            )
+                            setReceivedQtys((prev) => ({
+                              ...prev,
+                              [key]: clamped,
+                            }))
+                          }}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        ) : (
-          <div className='py-8 text-center'>
-            <Label className='text-muted-foreground'>
-              No items found for this order.
-            </Label>
-          </div>
-        )}
+                )
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      ) : (
+        <div className='py-8 text-center'>
+          <Label className='text-muted-foreground'>
+            No items found for this order.
+          </Label>
+        </div>
+      )}
 
-        <DialogFooter>
-          <Button
-            variant='outline'
-            onClick={() => setOpen(null)}
-            disabled={isPending}
-          >
-            Cancel
-          </Button>
-          <Button onClick={handleReceive} disabled={isPending}>
-            {isPending ? 'Processing...' : 'Confirm Receive'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      <DialogFooter>
+        <Button variant='outline' onClick={onClose} disabled={isPending}>
+          Cancel
+        </Button>
+        <Button onClick={handleReceive} disabled={isPending}>
+          {isPending ? 'Processing...' : 'Confirm Receive'}
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  )
+}
+
+export function POReceiveDialog() {
+  const { open, setOpen, currentRow } = usePOContext()
+  const isOpen = open === 'receive'
+
+  if (!currentRow) return null
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
+      {isOpen && (
+        <POReceiveDialogContent
+          key={String(currentRow.id || currentRow.po_id)}
+          currentRow={currentRow}
+          onClose={() => setOpen(null)}
+        />
+      )}
     </Dialog>
   )
 }
