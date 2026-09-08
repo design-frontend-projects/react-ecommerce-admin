@@ -35,8 +35,8 @@ import { useCreatePriceList, useUpdatePriceList } from '../hooks/use-price-list'
 import { usePriceListContext } from './price-list-provider'
 
 const formSchema = z.object({
-  product_id: z.coerce.number().min(1, 'Product is required'),
-  group_id: z.coerce.number().optional().nullable(),
+  product_id: z.string().min(1, 'Product is required'),
+  group_id: z.string().optional().nullable(),
   price: z.coerce.number().min(0, 'Price must be positive'),
   start_date: z.string().optional().nullable(),
   end_date: z.string().optional().nullable(),
@@ -56,7 +56,7 @@ export function PriceListActionDialog() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('product_id, name')
+        .select('id, name')
         .neq('is_deleted', true)
         .order('name')
       if (error) throw error
@@ -72,7 +72,7 @@ export function PriceListActionDialog() {
       formSchema
     ) as unknown as Resolver<PriceListFormValues>,
     defaultValues: {
-      product_id: 0,
+      product_id: '',
       group_id: null,
       price: 0,
       start_date: '',
@@ -93,7 +93,7 @@ export function PriceListActionDialog() {
       })
     } else {
       form.reset({
-        product_id: 0,
+        product_id: '',
         group_id: null,
         price: 0,
         start_date: '',
@@ -107,7 +107,7 @@ export function PriceListActionDialog() {
     try {
       if (currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.price_id,
+          id: currentRow.id,
           ...values,
           group_id: values.group_id || undefined,
           start_date: values.start_date || undefined,
@@ -154,8 +154,8 @@ export function PriceListActionDialog() {
                 <FormItem>
                   <FormLabel>Product</FormLabel>
                   <Select
-                    onValueChange={(v) => field.onChange(parseInt(v))}
-                    value={field.value.toString()}
+                    onValueChange={field.onChange}
+                    value={field.value || ''}
                     disabled={isEdit}
                   >
                     <FormControl>
@@ -166,8 +166,8 @@ export function PriceListActionDialog() {
                     <SelectContent>
                       {products?.map((p) => (
                         <SelectItem
-                          key={p.product_id}
-                          value={p.product_id.toString()}
+                          key={p.id}
+                          value={p.id}
                         >
                           {p.name}
                         </SelectItem>

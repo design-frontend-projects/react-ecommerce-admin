@@ -30,9 +30,13 @@ export function PriceList() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Price List</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              {t('priceList.title', { defaultValue: 'Price List' })}
+            </h2>
             <p className='text-muted-foreground'>
-              Manage product pricing rules and history.
+              {t('priceList.description', {
+                defaultValue: 'Manage product pricing rules and history.',
+              })}
             </p>
           </div>
           <PriceListPrimaryButtons />

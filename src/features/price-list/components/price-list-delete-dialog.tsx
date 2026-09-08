@@ -23,7 +23,7 @@ export function PriceListDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.price_id)
+        await deleteMutation.mutateAsync(currentRow.id)
         toast.success('Price rule deleted successfully')
         setOpen(null)
       } catch (error: unknown) {
