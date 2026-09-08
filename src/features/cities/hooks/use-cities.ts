@@ -23,7 +23,7 @@ export const useCities = (countryId?: string, search?: string) => {
         .select(
           `
           *,
-          country:countries(name)
+          countries(name)
         `
         )
         .order('name')
@@ -39,7 +39,13 @@ export const useCities = (countryId?: string, search?: string) => {
       const { data, error } = await query
 
       if (error) throw error
-      return data as City[]
+      type RawCity = City & { country?: { name: string } }
+      const rawList = (data as RawCity[]) || []
+      const normalized: City[] = rawList.map((city) => ({
+        ...city,
+        countries: city.countries || city.country,
+      }))
+      return normalized
     },
     enabled: authEnabled,
   })

@@ -6,6 +6,7 @@ import { resolveTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 export interface OnboardingBranchInput {
   name: string
   cityId: string
+  email?: string
   address?: string
   phone?: string
 }
@@ -23,6 +24,7 @@ export interface CreatedBranch {
   id: string
   name: string
   cityId: string
+  email: string | null
   address: string | null
   phone: string | null
 }
@@ -67,6 +69,7 @@ export async function createOnboardingBranches(
         data: {
           name: branch.name,
           city_id: branch.cityId,
+          email: branch.email ?? null,
           address: branch.address ?? null,
           phone: branch.phone ?? null,
           tenant_id: tenantId,
@@ -78,6 +81,7 @@ export async function createOnboardingBranches(
           id: true,
           name: true,
           city_id: true,
+          email: true,
           address: true,
           phone: true,
         },
@@ -90,12 +94,14 @@ export async function createOnboardingBranches(
       id: string
       name: string
       city_id: string
+      email?: string | null
       address: string | null
       phone: string | null
     }) => ({
       id: b.id,
       name: b.name,
       cityId: b.city_id,
+      email: b.email ?? null,
       address: b.address,
       phone: b.phone,
     })

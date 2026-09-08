@@ -69,6 +69,17 @@ export const columns: ColumnDef<Branch>[] = [
     },
   },
   {
+    accessorKey: 'email',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Email' />
+    ),
+    cell: ({ row }) => (
+      <div className='max-w-[200px] truncate text-muted-foreground'>
+        {row.getValue('email') || '—'}
+      </div>
+    ),
+  },
+  {
     accessorKey: 'phone',
     header: 'Phone',
     cell: ({ row }) => <div>{row.getValue('phone') || '—'}</div>,

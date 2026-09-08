@@ -8,6 +8,7 @@ const POST = withAuth(null, async ({ request, auth }) => {
     branches?: Array<{
       name?: string
       cityId?: string
+      email?: string
       address?: string
       phone?: string
     }>
@@ -33,6 +34,7 @@ const POST = withAuth(null, async ({ request, auth }) => {
         branches: body.branches.map((b) => ({
           name: b.name!.trim(),
           cityId: b.cityId!.trim(),
+          email: b.email?.trim(),
           address: b.address?.trim(),
           phone: b.phone?.trim(),
         })),
