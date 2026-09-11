@@ -32,7 +32,7 @@ export function StockTransfers() {
           <div>
             <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('stockTransfers.title')}</h2>
             <p className='text-muted-foreground'>
-              Move stock between stores with a full paired-movement audit trail.
+              {t('stockTransfers.description', { defaultValue: 'Transfer stock between warehouses, stores, or branches with tracked approval workflows.' })}
             </p>
           </div>
           <TransfersPrimaryButtons />

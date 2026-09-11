@@ -2848,44 +2848,75 @@
   },
   "stockTransfers": {
     "title": "Stock Transfers",
-    "description": "Transfer stock between warehouses, branches, and retail locations.",
-    "createTransfer": "Create Transfer",
+    "description": "Transfer stock between warehouses, stores, or branches with tracked approval workflows.",
+    "createTransfer": "New Stock Transfer",
     "editTransfer": "Edit Transfer",
-    "deleteTransfer": "Delete Transfer",
+    "deleteTransfer": "Cancel Transfer",
     "table": {
       "filterPlaceholder": "Filter stock transfers...",
       "noResults": "No stock transfers found."
     },
     "columns": {
       "transferNumber": "Transfer #",
+      "referenceNo": "Reference / PO #",
       "sourceWarehouse": "Source Warehouse",
       "targetWarehouse": "Destination Warehouse",
+      "route": "Transfer Route",
+      "items": "Items",
       "transferDate": "Transfer Date",
       "status": "Status",
       "actions": "Actions"
     },
     "status": {
       "draft": "Draft",
-      "inTransit": "In Transit",
+      "approved": "Approved",
+      "picked": "Picked",
+      "in_transit": "In Transit",
       "received": "Received",
+      "completed": "Completed",
       "cancelled": "Cancelled"
     },
+    "types": {
+      "warehouse": "Warehouse → Warehouse",
+      "store": "Store → Store",
+      "branch": "Branch → Branch"
+    },
+    "conditions": {
+      "good": "Good",
+      "damaged": "Damaged",
+      "quarantine": "Quarantine",
+      "expired": "Expired",
+      "blocked": "Blocked"
+    },
     "form": {
-      "source": "Source Warehouse",
-      "destination": "Destination Warehouse",
+      "source": "Source Location",
+      "destination": "Destination Location",
+      "reference": "Reference / PO #",
       "date": "Transfer Date",
-      "notes": "Transfer Notes",
+      "notes": "Transfer Notes & Instructions",
       "items": "Transfer Items",
-      "product": "Product",
+      "product": "Product / Variant",
       "quantity": "Transfer Quantity",
+      "cost": "Unit Cost",
+      "condition": "Condition",
+      "sourceLocation": "Source Location",
+      "destLocation": "Target Location",
+      "batch": "Batch #",
+      "serial": "Serial #",
+      "advanced": "Advanced Fields",
       "cancel": "Cancel",
-      "save": "Initiate Transfer",
-      "saving": "Processing..."
+      "save": "Create Transfer",
+      "saving": "Creating Transfer..."
     },
     "toast": {
       "created": "Stock transfer initiated successfully",
       "updated": "Transfer updated successfully",
-      "deleted": "Transfer deleted successfully",
+      "approved": "Transfer approved successfully",
+      "picked": "Items picked successfully",
+      "shipped": "Transfer shipped and in-transit",
+      "received": "Transfer received and stock posted",
+      "completed": "Transfer completed successfully",
+      "cancelled": "Transfer cancelled",
       "error": "Failed to process stock transfer"
     }
   },

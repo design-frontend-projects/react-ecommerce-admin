@@ -43,12 +43,29 @@ export function TransfersTable({ data }: { data: TransferListItem[] }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
+  const statusFilterOptions = [
+    { label: 'Draft', value: 'draft' },
+    { label: 'Approved', value: 'approved' },
+    { label: 'Picked', value: 'picked' },
+    { label: 'In Transit', value: 'in_transit' },
+    { label: 'Received', value: 'received' },
+    { label: 'Completed', value: 'completed' },
+    { label: 'Cancelled', value: 'cancelled' },
+  ]
+
   return (
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder={t('stockTransfers.table.filterPlaceholder', { defaultValue: 'Filter...' })}
+        searchPlaceholder={t('stockTransfers.table.filterPlaceholder', { defaultValue: 'Filter stock transfers...' })}
         searchKey='reference_no'
+        filters={[
+          {
+            columnId: 'status',
+            title: 'Status',
+            options: statusFilterOptions,
+          },
+        ]}
       />
       <div className='overflow-hidden rounded-md border'>
         <Table>

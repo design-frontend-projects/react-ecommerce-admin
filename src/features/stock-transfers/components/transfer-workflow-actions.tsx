@@ -1,11 +1,22 @@
 import { useState } from 'react'
-import { Check, X, Truck, Package, ArrowRightCircle, Send } from 'lucide-react'
+import {
+  Check,
+  X,
+  Truck,
+  Package,
+  ArrowRightCircle,
+  CheckCheck,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { Can } from '@/components/rbac/Can'
 import {
-  useApplyTransfer,
+  useApproveTransfer,
   useCancelTransfer,
+  useCompleteTransfer,
+  usePickTransfer,
+  useReceiveTransfer,
+  useShipTransfer,
 } from '../hooks/use-stock-transfers'
 
 interface TransferWorkflowActionsProps {
@@ -16,6 +27,8 @@ interface TransferWorkflowActionsProps {
   className?: string
 }
 
+type ActionType = 'approve' | 'pick' | 'ship' | 'receive' | 'complete' | 'cancel'
+
 export function TransferWorkflowActions({
   transferId,
   status,
@@ -23,75 +36,133 @@ export function TransferWorkflowActions({
   onSuccess,
   className,
 }: TransferWorkflowActionsProps) {
-  const applyTransfer = useApplyTransfer()
+  const approveTransfer = useApproveTransfer()
+  const pickTransfer = usePickTransfer()
+  const shipTransfer = useShipTransfer()
+  const receiveTransfer = useReceiveTransfer()
+  const completeTransfer = useCompleteTransfer()
   const cancelTransfer = useCancelTransfer()
 
-  const [confirmApprove, setConfirmApprove] = useState(false)
-  const [confirmCancel, setConfirmCancel] = useState(false)
+  const [activeAction, setActiveAction] = useState<ActionType | null>(null)
 
-  const handleApprove = async () => {
+  const isPending =
+    approveTransfer.isPending ||
+    pickTransfer.isPending ||
+    shipTransfer.isPending ||
+    receiveTransfer.isPending ||
+    completeTransfer.isPending ||
+    cancelTransfer.isPending
+
+  const handleConfirmAction = async () => {
     try {
-      await applyTransfer.mutateAsync(transferId)
-      setConfirmApprove(false)
+      if (activeAction === 'approve') {
+        await approveTransfer.mutateAsync(transferId)
+      } else if (activeAction === 'pick') {
+        await pickTransfer.mutateAsync(transferId)
+      } else if (activeAction === 'ship') {
+        await shipTransfer.mutateAsync(transferId)
+      } else if (activeAction === 'receive') {
+        await receiveTransfer.mutateAsync(transferId)
+      } else if (activeAction === 'complete') {
+        await completeTransfer.mutateAsync(transferId)
+      } else if (activeAction === 'cancel') {
+        await cancelTransfer.mutateAsync(transferId)
+      }
+      setActiveAction(null)
       onSuccess?.()
     } catch {
-      setConfirmApprove(false)
+      setActiveAction(null)
     }
   }
 
-  const handleCancel = async () => {
-    try {
-      await cancelTransfer.mutateAsync(transferId)
-      setConfirmCancel(false)
-      onSuccess?.()
-    } catch {
-      setConfirmCancel(false)
-    }
-  }
-
-  const isTerminal = ['completed', 'received', 'cancelled', 'rejected'].includes(status)
-
+  const isTerminal = ['completed', 'cancelled', 'rejected'].includes(status)
   if (isTerminal) {
     return null
   }
 
+  const transferLabel = referenceNo || `TR-${transferId.slice(0, 8)}`
+
+  const getConfirmDialogDetails = () => {
+    switch (activeAction) {
+      case 'approve':
+        return {
+          title: 'Approve Stock Transfer?',
+          desc: `Approve transfer ${transferLabel} to authorize stock picking and shipping.`,
+          confirmText: 'Approve Transfer',
+          destructive: false,
+        }
+      case 'pick':
+        return {
+          title: 'Mark Stock as Picked?',
+          desc: `Confirm that all items for transfer ${transferLabel} have been picked from warehouse locations.`,
+          confirmText: 'Mark Picked',
+          destructive: false,
+        }
+      case 'ship':
+        return {
+          title: 'Ship Stock Transfer?',
+          desc: `Dispatch transfer ${transferLabel}. Status will be updated to in-transit.`,
+          confirmText: 'Ship Transfer',
+          destructive: false,
+        }
+      case 'receive':
+        return {
+          title: 'Receive & Post Stock Transfer?',
+          desc: `Receive stock transfer ${transferLabel} at the destination. This will trigger inventory balance updates and stock movements.`,
+          confirmText: 'Receive & Post Stock',
+          destructive: false,
+        }
+      case 'complete':
+        return {
+          title: 'Mark Transfer as Complete?',
+          desc: `Close out stock transfer ${transferLabel}. All reconciliation and movements are finalized.`,
+          confirmText: 'Complete Transfer',
+          destructive: false,
+        }
+      case 'cancel':
+        return {
+          title: 'Cancel Stock Transfer?',
+          desc: `Are you sure you want to cancel transfer ${transferLabel}? No items will be moved.`,
+          confirmText: 'Yes, Cancel Transfer',
+          destructive: true,
+        }
+      default:
+        return {
+          title: '',
+          desc: '',
+          confirmText: 'Confirm',
+          destructive: false,
+        }
+    }
+  }
+
+  const modalDetails = getConfirmDialogDetails()
+
   return (
     <div className={`flex items-center gap-2 flex-wrap ${className || ''}`}>
-      {/* Cancel Action */}
-      <Can permission={['inventory.stock.manage', 'inventory.transfer.cancel']}>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setConfirmCancel(true)}
-          disabled={cancelTransfer.isPending || applyTransfer.isPending}
-          className="text-destructive hover:bg-destructive/10"
-        >
-          <X className="h-4 w-4 mr-1.5" />
-          Cancel Transfer
-        </Button>
-      </Can>
-
-      {/* Progress Actions */}
-      {status === 'draft' && (
-        <Can permission={['inventory.stock.manage', 'inventory.transfer.create']}>
+      {/* Cancel Action (Available until received/completed) */}
+      {status !== 'received' && (
+        <Can permission={['inventory.stock.manage', 'inventory.transfer.cancel']}>
           <Button
+            variant="outline"
             size="sm"
-            onClick={() => setConfirmApprove(true)}
-            disabled={applyTransfer.isPending}
-            className="bg-primary text-primary-foreground"
+            onClick={() => setActiveAction('cancel')}
+            disabled={isPending}
+            className="text-destructive hover:bg-destructive/10 border-destructive/30"
           >
-            <Send className="h-4 w-4 mr-1.5" />
-            Request & Apply Transfer
+            <X className="h-4 w-4 mr-1.5" />
+            Cancel Transfer
           </Button>
         </Can>
       )}
 
-      {status === 'requested' && (
+      {/* Stage-specific primary action */}
+      {status === 'draft' && (
         <Can permission={['inventory.stock.manage', 'inventory.transfer.approve']}>
           <Button
             size="sm"
-            onClick={() => setConfirmApprove(true)}
-            disabled={applyTransfer.isPending}
+            onClick={() => setActiveAction('approve')}
+            disabled={isPending}
             className="bg-emerald-600 hover:bg-emerald-700 text-white"
           >
             <Check className="h-4 w-4 mr-1.5" />
@@ -104,8 +175,8 @@ export function TransferWorkflowActions({
         <Can permission={['inventory.stock.manage', 'inventory.transfer.pick']}>
           <Button
             size="sm"
-            onClick={() => setConfirmApprove(true)}
-            disabled={applyTransfer.isPending}
+            onClick={() => setActiveAction('pick')}
+            disabled={isPending}
             className="bg-cyan-600 hover:bg-cyan-700 text-white"
           >
             <Package className="h-4 w-4 mr-1.5" />
@@ -118,9 +189,9 @@ export function TransferWorkflowActions({
         <Can permission={['inventory.stock.manage', 'inventory.transfer.ship']}>
           <Button
             size="sm"
-            onClick={() => setConfirmApprove(true)}
-            disabled={applyTransfer.isPending}
-            className="bg-orange-600 hover:bg-orange-700 text-white"
+            onClick={() => setActiveAction('ship')}
+            disabled={isPending}
+            className="bg-amber-600 hover:bg-amber-700 text-white"
           >
             <Truck className="h-4 w-4 mr-1.5" />
             Ship Transfer
@@ -132,8 +203,8 @@ export function TransferWorkflowActions({
         <Can permission={['inventory.stock.manage', 'inventory.transfer.receive']}>
           <Button
             size="sm"
-            onClick={() => setConfirmApprove(true)}
-            disabled={applyTransfer.isPending}
+            onClick={() => setActiveAction('receive')}
+            disabled={isPending}
             className="bg-emerald-600 hover:bg-emerald-700 text-white"
           >
             <ArrowRightCircle className="h-4 w-4 mr-1.5" />
@@ -142,26 +213,33 @@ export function TransferWorkflowActions({
         </Can>
       )}
 
-      <ConfirmDialog
-        open={confirmApprove}
-        onOpenChange={setConfirmApprove}
-        title="Apply / Post this transfer?"
-        desc={`Stock movement for transfer ${referenceNo || transferId.slice(0, 8)} will be applied between stores. This action updates the inventory balances.`}
-        confirmText="Confirm"
-        isLoading={applyTransfer.isPending}
-        handleConfirm={handleApprove}
-      />
+      {status === 'received' && (
+        <Can permission={['inventory.stock.manage', 'inventory.transfer.complete']}>
+          <Button
+            size="sm"
+            onClick={() => setActiveAction('complete')}
+            disabled={isPending}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            <CheckCheck className="h-4 w-4 mr-1.5" />
+            Complete Transfer
+          </Button>
+        </Can>
+      )}
 
       <ConfirmDialog
-        open={confirmCancel}
-        onOpenChange={setConfirmCancel}
-        destructive
-        title="Cancel this transfer?"
-        desc="This transfer will be marked as cancelled and no items will be moved."
-        confirmText="Cancel Transfer"
-        isLoading={cancelTransfer.isPending}
-        handleConfirm={handleCancel}
+        open={Boolean(activeAction)}
+        onOpenChange={(open) => {
+          if (!open) setActiveAction(null)
+        }}
+        destructive={modalDetails.destructive}
+        title={modalDetails.title}
+        desc={modalDetails.desc}
+        confirmText={modalDetails.confirmText}
+        isLoading={isPending}
+        handleConfirm={handleConfirmAction}
       />
     </div>
   )
 }
+

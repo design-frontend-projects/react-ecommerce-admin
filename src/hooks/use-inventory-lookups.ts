@@ -339,3 +339,27 @@ export function useCurrencyOptions() {
   })
 }
 
+export interface BranchOption {
+  id: string
+  name: string
+}
+
+/** All active branches for selection in transfers and adjustments */
+export function useBranchOptions() {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
+  return useQuery<BranchOption[]>({
+    queryKey: ['branches', 'options'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('branches')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name')
+      if (error) throw error
+      return (data ?? []) as BranchOption[]
+    },
+    enabled: authEnabled,
+  })
+}
+
+

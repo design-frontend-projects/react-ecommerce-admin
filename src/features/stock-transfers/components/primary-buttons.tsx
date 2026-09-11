@@ -8,16 +8,18 @@ export function TransfersPrimaryButtons() {
   const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useTransfersContext()
   return (
-    <Can permission='inventory.manage'>
+    <Can permission={['inventory.stock.manage', 'inventory.manage']}>
       <Button
         onClick={() => {
           setCurrentRow(null)
           setOpen('create')
         }}
+        className="gap-1.5"
       >
-        <Plus className='me-1 h-4 w-4' />
-        New transfer
+        <Plus className='h-4 w-4' />
+        {t('stockTransfers.createTransfer', { defaultValue: 'New Transfer' })}
       </Button>
     </Can>
   )
 }
+
