@@ -6,32 +6,57 @@ const successEnvelope = <T extends z.ZodTypeAny>(schema: T) =>
 export const locationTypeSchema = z.enum(['zone', 'rack', 'shelf', 'bin'])
 export type LocationType = z.infer<typeof locationTypeSchema>
 
+// Phone validation: permits international format (e.g., +1234567890, (123) 456-7890, etc.) or empty
+const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/
+
 export const warehouseInputSchema = z.object({
   branchId: z.string().uuid().optional().nullable(),
   storeId: z.string().uuid().optional().nullable(),
   countryId: z.string().uuid().optional().nullable(),
   cityId: z.string().uuid().optional().nullable(),
   warehouseTypeId: z.string().uuid().optional().nullable(),
-  code: z.string().min(1, 'Code is required.').max(30),
-  name: z.string().min(1, 'Name is required.').max(120),
-  phone: z.string().optional().nullable(),
-  email: z.string().email('Invalid email address').optional().nullable().or(z.literal('')),
-  address: z.string().optional().nullable(),
-  notes: z.string().optional().nullable(),
-  allowNegativeStock: z.boolean().optional(),
-  isDefault: z.boolean().optional(),
-  isActive: z.boolean().optional(),
+  code: z
+    .string()
+    .min(1, 'Code is required.')
+    .max(30, 'Code cannot exceed 30 characters.')
+    .trim(),
+  name: z
+    .string()
+    .min(1, 'Name is required.')
+    .max(120, 'Name cannot exceed 120 characters.')
+    .trim(),
+  phone: z
+    .string()
+    .regex(phoneRegex, 'Invalid phone number format.')
+    .optional()
+    .nullable()
+    .or(z.literal('')),
+  email: z
+    .string()
+    .email('Invalid email address')
+    .optional()
+    .nullable()
+    .or(z.literal('')),
+  address: z.string().max(255, 'Address cannot exceed 255 characters.').optional().nullable(),
+  notes: z.string().max(1000, 'Notes cannot exceed 1000 characters.').optional().nullable(),
+  allowNegativeStock: z.boolean().optional().default(false),
+  isDefault: z.boolean().optional().default(false),
+  isActive: z.boolean().optional().default(true),
 })
 export type WarehouseInput = z.infer<typeof warehouseInputSchema>
 
 export const locationInputSchema = z.object({
   parentId: z.string().uuid().optional().nullable(),
   locationType: locationTypeSchema,
-  code: z.string().min(1, 'Code is required.').max(50),
-  name: z.string().optional().nullable(),
-  isPickable: z.boolean().optional(),
-  isReceivable: z.boolean().optional(),
-  isActive: z.boolean().optional(),
+  code: z
+    .string()
+    .min(1, 'Code is required.')
+    .max(50, 'Code cannot exceed 50 characters.')
+    .trim(),
+  name: z.string().max(100, 'Name cannot exceed 100 characters.').optional().nullable(),
+  isPickable: z.boolean().optional().default(true),
+  isReceivable: z.boolean().optional().default(true),
+  isActive: z.boolean().optional().default(true),
 })
 export type LocationInput = z.infer<typeof locationInputSchema>
 
@@ -46,12 +71,13 @@ export const warehouseListItemSchema = z.object({
   city_id: z.string().uuid().nullable().optional(),
   branch_id: z.string().uuid().nullable().optional(),
   store_id: z.string().uuid().nullable().optional(),
+  warehouse_type_id: z.string().uuid().nullable().optional(),
   phone: z.string().nullable().optional(),
   email: z.string().nullable().optional(),
   address: z.string().nullable().optional(),
   notes: z.string().nullable().optional(),
-  created_at: z.union([z.string(), z.date()]).or(z.string()).optional().nullable(),
-  updated_at: z.union([z.string(), z.date()]).or(z.string()).optional().nullable(),
+  created_at: z.union([z.string(), z.date()]).optional().nullable(),
+  updated_at: z.union([z.string(), z.date()]).optional().nullable(),
   stores: z
     .object({
       store_id: z.string().nullable().optional(),
@@ -83,8 +109,8 @@ export const warehouseListItemSchema = z.object({
     .optional(),
   _count: z
     .object({
-      warehouse_locations: z.number().optional(),
-      stock_balances: z.number().optional(),
+      warehouse_locations: z.number().optional().default(0),
+      stock_balances: z.number().optional().default(0),
     })
     .optional()
     .nullable(),
@@ -99,10 +125,10 @@ export const warehouseLocationSchema = z.object({
   code: z.string(),
   name: z.string().nullable(),
   path: z.string().nullable(),
-  is_default: z.boolean(),
-  is_active: z.boolean(),
-  is_pickable: z.boolean(),
-  is_receivable: z.boolean(),
+  is_default: z.boolean().optional().default(false),
+  is_active: z.boolean().optional().default(true),
+  is_pickable: z.boolean().optional().default(true),
+  is_receivable: z.boolean().optional().default(true),
 })
 export type WarehouseLocation = z.infer<typeof warehouseLocationSchema>
 
@@ -112,3 +138,4 @@ export const warehouseListResponseSchema = successEnvelope(
 export const locationListResponseSchema = successEnvelope(
   z.array(warehouseLocationSchema)
 )
+

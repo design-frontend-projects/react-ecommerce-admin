@@ -1,0 +1,558 @@
+- generic:
+  - generic [aria-hidden]:
+    - link:
+      - /url: "#content"
+      - text: Skip to main content
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - list:
+              - listitem:
+                - generic:
+                  - link:
+                    - /url: /
+                    - generic:
+                      - generic: ResPOS
+                      - generic: Premium Edition
+                  - button:
+                    - generic: Toggle Sidebar
+          - generic:
+            - generic:
+              - generic: General
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /
+                    - generic: Dashboard
+                - listitem:
+                  - link:
+                    - /url: /pos
+                    - generic: POS System
+                - listitem:
+                  - link:
+                    - /url: /products
+                    - generic: Products
+                - listitem:
+                  - link:
+                    - /url: /subscriptions
+                    - generic: Subscriptions
+                - listitem:
+                  - link:
+                    - /url: /customers
+                    - generic: Customers
+                - listitem:
+                  - link:
+                    - /url: /customer-groups
+                    - generic: Customer Groups
+                - listitem:
+                  - link:
+                    - /url: /customer-cards
+                    - generic: Customer Cards
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic: Settings
+            - generic:
+              - generic: Restaurant POS
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /respos
+                    - generic: POS Dashboard
+                - listitem:
+                  - link:
+                    - /url: /respos/pos
+                    - generic: Restaurant POS
+                - listitem:
+                  - link:
+                    - /url: /respos/captain
+                    - generic: Captain Station
+                - listitem:
+                  - link:
+                    - /url: /respos/kitchen
+                    - generic: Kitchen Display
+                - listitem:
+                  - link:
+                    - /url: /respos/menu
+                    - generic: Menu Management
+                - listitem:
+                  - link:
+                    - /url: /respos/floors
+                    - generic: Floors & Tables
+                - listitem:
+                  - link:
+                    - /url: /respos/reservations
+                    - generic: Reservations
+                - listitem:
+                  - link:
+                    - /url: /respos/analytics
+                    - generic: Analytics
+                - listitem:
+                  - link:
+                    - /url: /respos/shifts
+                    - generic: Shifts
+                - listitem:
+                  - link:
+                    - /url: /respos/cashier
+                    - generic: Cashier & Checkout
+                - listitem:
+                  - link:
+                    - /url: /respos/payments
+                    - generic: Payments
+                - listitem:
+                  - link:
+                    - /url: /respos/shipments
+                    - generic: Shipments
+                - listitem:
+                  - link:
+                    - /url: /orders
+                    - generic: Orders
+            - generic:
+              - generic: Inventory
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /inventory
+                    - generic: Inventory Items
+                - listitem:
+                  - link:
+                    - /url: /inventory/shipments
+                    - generic: Shipments
+                - listitem:
+                  - link:
+                    - /url: /stock-balances
+                    - generic: Stock Balances
+                - listitem:
+                  - link:
+                    - /url: /purchase-orders
+                    - generic: Purchase Orders
+                - listitem:
+                  - link:
+                    - /url: /price-list
+                    - generic: Price List
+                - listitem:
+                  - link:
+                    - /url: /promotions
+                    - generic: Promotions
+                - listitem:
+                  - link:
+                    - /url: /transactions
+                    - generic: Transactions
+                - listitem:
+                  - link:
+                    - /url: /stock-transfers
+                    - generic: Stock Transfers
+                - listitem:
+                  - link:
+                    - /url: /stock-adjustments
+                    - generic: Stock Adjustments
+                - listitem:
+                  - link:
+                    - /url: /inventory-movements
+                    - generic: Inventory Movements
+                - listitem:
+                  - link:
+                    - /url: /suppliers
+                    - generic: Suppliers
+                - listitem:
+                  - link:
+                    - /url: /stores
+                    - generic: Stores
+                - listitem:
+                  - link:
+                    - /url: /categories
+                    - generic: Categories
+                - listitem:
+                  - link:
+                    - /url: /tax-rates
+                    - generic: Tax Rates
+            - generic:
+              - generic: Lookups
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /countries
+                    - generic: Countries
+                - listitem:
+                  - link:
+                    - /url: /cities
+                    - generic: Cities
+                - listitem:
+                  - link:
+                    - /url: /currencies
+                    - generic: Currencies
+                - listitem:
+                  - link:
+                    - /url: /branches
+                    - generic: Branches
+            - generic:
+              - generic: Access Control
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /users
+                    - generic: Users & Roles
+                - listitem:
+                  - link:
+                    - /url: /access-control/roles
+                    - generic: Roles
+                - listitem:
+                  - link:
+                    - /url: /access-control/permissions
+                    - generic: Permissions
+                - listitem:
+                  - link:
+                    - /url: /access-control/screens
+                    - generic: Screens
+                - listitem:
+                  - link:
+                    - /url: /access-control/buttons
+                    - generic: Buttons
+                - listitem:
+                  - link:
+                    - /url: /access-control/audit
+                    - generic: Audit Trail
+            - generic:
+              - generic: System
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /system
+                    - generic: System Management
+                - listitem:
+                  - link:
+                    - /url: /system/audit-logs
+                    - generic: Audit Logs
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic: ‪
+                  - generic:
+                    - generic: ‪ahmed
+                    - generic: ahmedmedodev@gmail.com
+          - button
+    - generic:
+      - generic:
+        - banner:
+          - generic:
+            - button:
+              - generic: Toggle Sidebar
+            - button:
+              - generic: Search...
+              - generic:
+                - generic: ⌘
+                - text: K
+            - generic:
+              - button:
+                - generic: Switch Language
+              - button:
+                - generic: Theme
+              - button:
+                - generic: SN
+            - generic:
+              - combobox:
+                - generic: Select branch
+              - button
+              - button
+              - button:
+                - generic: Install the interface.
+              - button:
+                - generic: SN
+        - main:
+          - generic:
+            - generic:
+              - generic:
+                - heading [level=2]: Warehouses
+              - paragraph: Physical storage facilities and their zone → rack → shelf → bin locations.
+            - generic:
+              - button: New Warehouse
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - paragraph: Total Facilities
+                      - paragraph: "3"
+                      - paragraph: 0 Connected Stores
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - paragraph: Active Facilities
+                      - paragraph: "3"
+                      - paragraph: 0 Inactive
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - paragraph: Default Facilities
+                      - paragraph: "1"
+                      - paragraph: Primary fulfillment
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - paragraph: Storage Locations
+                      - paragraph: "10"
+                      - paragraph: Across all facilities
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - textbox:
+                        - /placeholder: Filter warehouses by name or code...
+                      - generic:
+                        - button: Status
+                        - button: Stock Policy
+                    - button: View
+                - button: Export CSV
+              - generic:
+                - generic:
+                  - table:
+                    - rowgroup:
+                      - row:
+                        - columnheader:
+                          - checkbox
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: Code
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: Warehouse Name
+                        - columnheader:
+                          - generic: Branch
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: Country
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: City
+                        - columnheader:
+                          - generic: Locations
+                        - columnheader:
+                          - generic: Stock Items
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: Stock Policy
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: Status
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: Created
+                        - columnheader
+                    - rowgroup:
+                      - row:
+                        - cell:
+                          - checkbox
+                        - cell:
+                          - generic: cairo-wh
+                        - cell:
+                          - generic:
+                            - generic: Cairo warehouse
+                            - generic: cairo nasr city
+                        - cell: —
+                        - cell: —
+                        - cell: —
+                        - cell:
+                          - button:
+                            - generic: "1"
+                        - cell:
+                          - generic: "0"
+                        - cell:
+                          - generic: Strict Stock
+                        - cell:
+                          - generic: Active
+                        - cell: Aug 28, 2026
+                        - cell:
+                          - button:
+                            - generic: Open menu
+                      - row:
+                        - cell:
+                          - checkbox
+                        - cell:
+                          - generic: egypt-wh
+                        - cell:
+                          - generic:
+                            - generic: Egypt Warehouse
+                            - generic: cairo egypt salam site
+                        - cell: —
+                        - cell: —
+                        - cell: —
+                        - cell:
+                          - button:
+                            - generic: "3"
+                        - cell:
+                          - generic: "6"
+                        - cell:
+                          - generic: Strict Stock
+                        - cell:
+                          - generic:
+                            - generic: Default
+                            - generic: Active
+                        - cell: Aug 22, 2026
+                        - cell:
+                          - button:
+                            - generic: Open menu
+                      - row:
+                        - cell:
+                          - checkbox
+                        - cell:
+                          - generic: suez-wh
+                        - cell:
+                          - generic:
+                            - generic: Suez warehouse
+                            - generic: suez
+                        - cell: —
+                        - cell: —
+                        - cell: —
+                        - cell:
+                          - button:
+                            - generic: "6"
+                        - cell:
+                          - generic: "0"
+                        - cell:
+                          - generic: Strict Stock
+                        - cell:
+                          - generic: Active
+                        - cell: Aug 28, 2026
+                        - cell:
+                          - button:
+                            - generic: Open menu
+              - generic:
+                - generic: 0 of 3 row(s) selected.
+                - generic:
+                  - generic:
+                    - paragraph: Rows per page
+                    - combobox:
+                      - generic: "10"
+                  - generic: "Page {{current}} of 1"
+                  - generic:
+                    - button [disabled]:
+                      - generic: Go to first page
+                    - button [disabled]:
+                      - generic: Go to previous page
+                    - button [disabled]:
+                      - generic: Go to next page
+                    - button [disabled]:
+                      - generic: Go to last page
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic:
+    - button
+  - button [ref=f1e851] [cursor=pointer]:
+    - generic [ref=f1e849]: "-"
+    - generic [ref=f1e850]: TanStack Router
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - dialog [aria-hidden]:
+    - generic:
+      - generic:
+        - generic:
+          - heading [level=2]: Create Warehouse
+          - paragraph: Physical storage facilities and their zone → rack → shelf → bin locations.
+    - generic:
+      - generic:
+        - generic:
+          - tablist:
+            - tab [selected]:
+              - generic: General
+            - tab:
+              - generic: Location & Facility
+            - tab:
+              - generic: Policies & Status
+        - generic:
+          - tabpanel:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Warehouse Code *
+                  - generic: 13/30
+                - textbox:
+                  - /placeholder: e.g. WH-MAIN-01
+                  - text: cairo-wh-COPY
+                - paragraph: Unique identifier code across facilities
+              - generic:
+                - generic:
+                  - generic: Warehouse Name *
+                  - generic: 22/120
+                - textbox:
+                  - /placeholder: e.g. Main Distribution Center
+                  - text: Cairo warehouse (Copy)
+                - paragraph: Descriptive name visible on reports & transfers
+            - generic:
+              - generic:
+                - generic: Internal Notes
+                - generic: 0/1000
+              - textbox:
+                - /placeholder: Access codes, loading bay info, operational hours...
+      - generic:
+        - button: Cancel
+        - button: Create Warehouse
+    - button:
+      - generic: Close
+  - dialog [ref=f1e1186]:
+    - generic [ref=f1e1188]:
+      - generic [ref=f1e1195]:
+        - generic [ref=f1e1196]: cairo-wh
+        - heading "Cairo warehouse" [level=2] [ref=f1e1198]
+      - generic [ref=f1e1199]:
+        - generic [ref=f1e1200]: Active
+        - generic [ref=f1e1202]: Strict Stock
+      - paragraph [ref=f1e1203]: Warehouse details for Cairo warehouse
+    - generic [ref=f1e1204]:
+      - generic [ref=f1e1205]:
+        - button "Storage Locations 1 Manage Locations →" [active] [ref=f1e1206] [cursor=pointer]:
+          - generic [ref=f1e1207]: Storage Locations
+          - generic [ref=f1e1213]: "1"
+          - generic [ref=f1e1214]: Manage Locations →
+        - generic [ref=f1e1215]:
+          - generic [ref=f1e1216]: Stock Items
+          - generic [ref=f1e1228]: "0"
+          - generic [ref=f1e1229]: Tracked balances
+      - generic [ref=f1e1230]:
+        - heading "Connected Facility" [level=4] [ref=f1e1231]
+        - paragraph [ref=f1e1233]: No branch or store linked.
+      - generic [ref=f1e1234]:
+        - heading "Geographic Location" [level=4] [ref=f1e1235]
+        - generic [ref=f1e1236]:
+          - generic [ref=f1e1237]:
+            - generic [ref=f1e1238]: Country
+            - generic [ref=f1e1242]: —
+          - generic [ref=f1e1243]:
+            - generic [ref=f1e1244]: City
+            - generic [ref=f1e1248]: —
+          - generic [ref=f1e1249]:
+            - generic [ref=f1e1250]: Street Address
+            - paragraph [ref=f1e1251]: cairo nasr city
+      - generic [ref=f1e1252]:
+        - generic [ref=f1e1253]:
+          - generic [ref=f1e1254]: Created
+          - generic [ref=f1e1257]: Aug 28, 2026
+        - generic [ref=f1e1258]:
+          - generic [ref=f1e1259]: ID
+          - button "f8ce2d23..." [ref=f1e1260] [cursor=pointer]
+    - generic [ref=f1e1264]:
+      - button "Delete" [ref=f1e1265] [cursor=pointer]
+      - generic [ref=f1e1266]:
+        - button "Manage Locations" [ref=f1e1267] [cursor=pointer]
+        - button "Edit" [ref=f1e1268] [cursor=pointer]
+    - button "Close" [ref=f1e1269] [cursor=pointer]

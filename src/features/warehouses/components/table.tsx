@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -14,7 +14,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Warehouse, Plus } from 'lucide-react'
+import {
+  Warehouse,
+  Plus,
+  Download,
+  CheckCircle2,
+  XCircle,
+  ShieldCheck,
+  ShieldAlert,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -31,22 +39,44 @@ import { useWarehousesContext } from './provider'
 
 export function WarehousesTable({ data }: { data: WarehouseListItem[] }) {
   const { t } = useTranslation()
-  const { setCurrentRow, setOpen } = useWarehousesContext()
+  const { openDetail, openLocations, openCreate, filterStatus } =
+    useWarehousesContext()
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'code', desc: false },
+  ])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  // Synchronize KPI card filter clicks with table columnFilters
+  useEffect(() => {
+    if (!filterStatus || filterStatus === 'all') {
+      setColumnFilters((prev) => prev.filter((f) => f.id !== 'status'))
+    } else if (filterStatus === 'active') {
+      setColumnFilters((prev) => [
+        ...prev.filter((f) => f.id !== 'status'),
+        { id: 'status', value: ['active'] },
+      ])
+    } else if (filterStatus === 'inactive') {
+      setColumnFilters((prev) => [
+        ...prev.filter((f) => f.id !== 'status'),
+        { id: 'status', value: ['inactive'] },
+      ])
+    }
+  }, [filterStatus])
 
   const columns = useMemo(
     () =>
       getColumns(t, {
         onOpenLocations: (warehouse) => {
-          setCurrentRow(warehouse)
-          setOpen('locations')
+          openLocations(warehouse)
+        },
+        onOpenDetail: (warehouse) => {
+          openDetail(warehouse)
         },
       }),
-    [t, setCurrentRow, setOpen]
+    [t, openLocations, openDetail]
   )
 
   const table = useReactTable({
@@ -71,16 +101,117 @@ export function WarehousesTable({ data }: { data: WarehouseListItem[] }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
+  // Export current filtered rows to CSV
+  const handleExportCsv = () => {
+    const rows = table.getFilteredRowModel().rows
+    const headers = [
+      'Code',
+      'Name',
+      'Country',
+      'City',
+      'Branch',
+      'Store',
+      'Locations',
+      'Stock Items',
+      'Policy',
+      'Status',
+    ]
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map((r) => {
+        const item = r.original
+        return [
+          `"${item.code}"`,
+          `"${item.name.replace(/"/g, '""')}"`,
+          `"${item.countries?.name ?? ''}"`,
+          `"${item.cities?.name ?? ''}"`,
+          `"${item.branches?.name ?? ''}"`,
+          `"${item.stores?.name ?? ''}"`,
+          item._count?.warehouse_locations ?? 0,
+          item._count?.stock_balances ?? 0,
+          item.allow_negative_stock ? 'Allow Negative' : 'Strict Stock',
+          item.is_active ? 'Active' : 'Inactive',
+        ].join(',')
+      }),
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute(
+      'download',
+      `warehouses-export-${new Date().toISOString().slice(0, 10)}.csv`
+    )
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const tableFilters = useMemo(
+    () => [
+      {
+        columnId: 'status',
+        title: t('warehouses.columns.status', 'Status'),
+        options: [
+          {
+            label: t('warehouses.columns.active', 'Active'),
+            value: 'active',
+            icon: CheckCircle2,
+          },
+          {
+            label: t('warehouses.columns.inactive', 'Inactive'),
+            value: 'inactive',
+            icon: XCircle,
+          },
+        ],
+      },
+      {
+        columnId: 'policy',
+        title: t('warehouses.columns.policy', 'Stock Policy'),
+        options: [
+          {
+            label: t('warehouses.columns.strictStock', 'Strict Stock'),
+            value: 'strict',
+            icon: ShieldCheck,
+          },
+          {
+            label: t('warehouses.columns.allowNegative', 'Allow Negative'),
+            value: 'allow_negative',
+            icon: ShieldAlert,
+          },
+        ],
+      },
+    ],
+    [t]
+  )
+
   return (
     <div className='flex flex-1 flex-col gap-4'>
-      <DataTableToolbar
-        table={table}
-        searchPlaceholder={t(
-          'warehouses.table.filterPlaceholder',
-          'Filter warehouses by name...'
-        )}
-        searchKey='name'
-      />
+      <div className='flex flex-wrap items-center justify-between gap-2'>
+        <div className='flex-1'>
+          <DataTableToolbar
+            table={table}
+            searchPlaceholder={t(
+              'warehouses.table.filterPlaceholder',
+              'Filter warehouses by name...'
+            )}
+            searchKey='name'
+            filters={tableFilters}
+          />
+        </div>
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={handleExportCsv}
+          className='h-8 gap-1.5 text-xs'
+        >
+          <Download className='h-3.5 w-3.5' />
+          {t('warehouses.exportCsv', 'Export CSV')}
+        </Button>
+      </div>
+
       <div className='overflow-hidden rounded-md border bg-card'>
         <Table>
           <TableHeader>
@@ -105,7 +236,8 @@ export function WarehousesTable({ data }: { data: WarehouseListItem[] }) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className='hover:bg-muted/50'
+                  onClick={() => openDetail(row.original)}
+                  className='hover:bg-muted/50 cursor-pointer transition-colors'
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -140,10 +272,7 @@ export function WarehousesTable({ data }: { data: WarehouseListItem[] }) {
                       size='sm'
                       variant='outline'
                       className='mt-2'
-                      onClick={() => {
-                        setCurrentRow(null)
-                        setOpen('create')
-                      }}
+                      onClick={openCreate}
                     >
                       <Plus className='me-1 h-4 w-4' />
                       {t('warehouses.createWarehouse', 'Create Warehouse')}
@@ -159,3 +288,4 @@ export function WarehousesTable({ data }: { data: WarehouseListItem[] }) {
     </div>
   )
 }
+

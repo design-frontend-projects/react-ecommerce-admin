@@ -1,6 +1,7 @@
 import { WarehouseActionDialog } from './warehouse-action-dialog'
 import { WarehouseDeleteDialog } from './warehouse-delete-dialog'
 import { WarehouseLocationsDialog } from './locations-dialog'
+import { WarehouseDetailSheet } from './warehouse-detail-sheet'
 import { useWarehousesContext } from './provider'
 
 export function WarehousesDialogs() {
@@ -10,6 +11,7 @@ export function WarehousesDialogs() {
     <>
       <WarehouseActionDialog />
       <WarehouseDeleteDialog />
+      <WarehouseDetailSheet />
       {currentRow && (
         <WarehouseLocationsDialog
           open={open === 'locations'}
@@ -20,3 +22,4 @@ export function WarehousesDialogs() {
     </>
   )
 }
+

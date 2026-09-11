@@ -6,18 +6,17 @@ import { useWarehousesContext } from './provider'
 
 export function WarehousesPrimaryButtons() {
   const { t } = useTranslation()
-  const { setCurrentRow, setOpen } = useWarehousesContext()
+  const { openCreate } = useWarehousesContext()
+
   return (
-    <Can permission='inventory.manage'>
-      <Button
-        onClick={() => {
-          setCurrentRow(null)
-          setOpen('create')
-        }}
-      >
-        <Plus className='me-1 h-4 w-4' />
-        {t('warehouses.addWarehouse', 'New warehouse')}
-      </Button>
-    </Can>
+    <div className='flex items-center gap-2'>
+      <Can permission='inventory.manage'>
+        <Button onClick={openCreate} className='shadow-xs'>
+          <Plus className='me-1.5 h-4 w-4' />
+          {t('warehouses.addWarehouse', 'New Warehouse')}
+        </Button>
+      </Can>
+    </div>
   )
 }
+
