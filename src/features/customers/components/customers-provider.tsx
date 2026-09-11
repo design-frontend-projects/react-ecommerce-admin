@@ -1,13 +1,16 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { type Customer } from '../hooks/use-customers'
 
-type CustomersDialogType = 'create' | 'edit' | 'delete' | null
+export type CustomersDialogType = 'create' | 'edit' | 'delete' | 'view' | null
+export type CustomerFilterStatus = 'all' | 'active' | 'inactive' | 'loyalty' | 'grouped' | null
 
 interface CustomersContextType {
   open: CustomersDialogType
   setOpen: (type: CustomersDialogType) => void
   currentRow: Customer | null
   setCurrentRow: (row: Customer | null) => void
+  filterStatus: CustomerFilterStatus
+  setFilterStatus: (status: CustomerFilterStatus) => void
 }
 
 const CustomersContext = React.createContext<CustomersContextType | null>(null)
@@ -19,6 +22,7 @@ interface CustomersProviderProps {
 export function CustomersProvider({ children }: CustomersProviderProps) {
   const [open, setOpen] = useState<CustomersDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Customer | null>(null)
+  const [filterStatus, setFilterStatus] = useState<CustomerFilterStatus>(null)
 
   const handleSetOpen = useCallback((type: CustomersDialogType) => {
     setOpen(type)
@@ -33,8 +37,10 @@ export function CustomersProvider({ children }: CustomersProviderProps) {
       setOpen: handleSetOpen,
       currentRow,
       setCurrentRow,
+      filterStatus,
+      setFilterStatus,
     }),
-    [open, currentRow, handleSetOpen]
+    [open, currentRow, filterStatus, handleSetOpen]
   )
 
   return (

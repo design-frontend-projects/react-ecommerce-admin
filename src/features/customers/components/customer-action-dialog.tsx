@@ -1,10 +1,20 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
 import { type TFunction } from 'i18next'
 import { toast } from 'sonner'
+import {
+  User,
+  MapPin,
+  ShieldCheck,
+  Wand2,
+  Calendar,
+  Sparkles,
+  Phone,
+  Mail,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -32,6 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PhoneInput } from '@/components/custom-ui/phone-input'
 import { useCities } from '@/features/cities/hooks/use-cities'
@@ -42,22 +53,34 @@ import { useCustomersContext } from './customers-provider'
 
 const getFormSchema = (t: TFunction) =>
   z.object({
-    first_name: z.string().min(1, t('customers.validation.firstNameRequired', 'First name is required')),
-    last_name: z.string().min(1, t('customers.validation.lastNameRequired', 'Last name is required')),
+    first_name: z
+      .string()
+      .min(1, t('customers.validation.firstNameRequired', 'First name is required'))
+      .max(100, 'First name must not exceed 100 characters'),
+    last_name: z
+      .string()
+      .min(1, t('customers.validation.lastNameRequired', 'Last name is required'))
+      .max(100, 'Last name must not exceed 100 characters'),
+    code: z
+      .string()
+      .max(30, 'Customer code must not exceed 30 characters')
+      .optional()
+      .or(z.literal('')),
     email: z
       .string()
+      .max(200, 'Email must not exceed 200 characters')
       .email(t('customers.validation.invalidEmail', 'Invalid email address'))
       .optional()
       .or(z.literal('')),
-    phone: z.string().optional(),
-    address_line1: z.string().optional(),
-    address_line2: z.string().optional(),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    postal_code: z.string().optional(),
-    country: z.string().optional(),
+    phone: z.string().max(50).optional(),
+    address_line1: z.string().max(200).optional(),
+    address_line2: z.string().max(200).optional(),
+    city: z.string().max(100).optional(),
+    state: z.string().max(100).optional(),
+    postal_code: z.string().max(20).optional(),
+    country: z.string().max(100).optional(),
     date_of_birth: z.string().optional(),
-    loyalty_points: z.coerce.number().optional(),
+    loyalty_points: z.coerce.number().min(0).optional(),
     is_active: z.boolean().default(true),
     group_id: z.string().optional(),
   })
@@ -71,6 +94,7 @@ export function CustomerActionDialog() {
   const updateMutation = useUpdateCustomer()
 
   const { data: countries } = useCountries()
+  const [activeTab, setActiveTab] = useState<'general' | 'address' | 'loyalty'>('general')
 
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
@@ -82,6 +106,7 @@ export function CustomerActionDialog() {
     defaultValues: {
       first_name: '',
       last_name: '',
+      code: '',
       email: '',
       phone: '',
       address_line1: '',
@@ -102,48 +127,58 @@ export function CustomerActionDialog() {
   const { data: cities } = useCities(selectedCountry?.id)
 
   useEffect(() => {
-    if (currentRow) {
-      form.reset({
-        first_name: currentRow.first_name,
-        last_name: currentRow.last_name,
-        email: currentRow.email || '',
-        phone: currentRow.phone || '',
-        address_line1: currentRow.address_line1 || '',
-        address_line2: currentRow.address_line2 || '',
-        city: currentRow.city || '',
-        state: currentRow.state || '',
-        postal_code: currentRow.postal_code || '',
-        country: currentRow.country || '',
-        date_of_birth: currentRow.date_of_birth || '',
-        loyalty_points: currentRow.loyalty_points || 0,
-        is_active: currentRow.is_active ?? true,
-        group_id: currentRow.group_id || undefined,
-      })
-    } else {
-      form.reset({
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone: '',
-        address_line1: '',
-        address_line2: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: '',
-        date_of_birth: '',
-        loyalty_points: 0,
-        is_active: true,
-        group_id: undefined,
-      })
+    if (isOpen) {
+      if (currentRow) {
+        form.reset({
+          first_name: currentRow.first_name,
+          last_name: currentRow.last_name,
+          code: currentRow.code || '',
+          email: currentRow.email || '',
+          phone: currentRow.phone || '',
+          address_line1: currentRow.address_line1 || '',
+          address_line2: currentRow.address_line2 || '',
+          city: currentRow.city || '',
+          state: currentRow.state || '',
+          postal_code: currentRow.postal_code || '',
+          country: currentRow.country || '',
+          date_of_birth: currentRow.date_of_birth ? currentRow.date_of_birth.slice(0, 10) : '',
+          loyalty_points: currentRow.loyalty_points || 0,
+          is_active: currentRow.is_active ?? true,
+          group_id: currentRow.group_id || undefined,
+        })
+      } else {
+        form.reset({
+          first_name: '',
+          last_name: '',
+          code: `CUST-${Math.floor(1000 + Math.random() * 9000)}`,
+          email: '',
+          phone: '',
+          address_line1: '',
+          address_line2: '',
+          city: '',
+          state: '',
+          postal_code: '',
+          country: '',
+          date_of_birth: '',
+          loyalty_points: 0,
+          is_active: true,
+          group_id: undefined,
+        })
+      }
+      setActiveTab('general')
     }
-  }, [currentRow, form])
+  }, [isOpen, currentRow, form])
+
+  const handleGenerateCode = () => {
+    const randomCode = `CUST-${Math.floor(1000 + Math.random() * 9000)}`
+    form.setValue('code', randomCode)
+  }
 
   const onSubmit = async (values: CustomerFormValues) => {
     try {
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.id || (currentRow as any).customer_id,
+          id: currentRow.id || (currentRow as unknown as { customer_id: string }).customer_id,
           ...values,
         })
         toast.success(t('customers.toast.updated', 'Customer updated successfully'))
@@ -164,281 +199,373 @@ export function CustomerActionDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
-        <DialogHeader>
-          <DialogTitle>
-            {isEdit
-              ? t('customers.editCustomer', 'Edit Customer')
-              : t('customers.createCustomer', 'Create Customer')}
-          </DialogTitle>
-          <DialogDescription>
-            {isEdit
-              ? t('customers.form.editDescription', 'Edit the customer details below.')
-              : t('customers.form.createDescription', 'Add a new customer to your database.')}
-          </DialogDescription>
+      <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-[620px] p-0'>
+        <DialogHeader className='p-6 pb-2'>
+          <div className='flex items-center gap-2.5'>
+            <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+              <User className='h-5 w-5' />
+            </div>
+            <div>
+              <DialogTitle>
+                {isEdit
+                  ? t('customers.editCustomer', 'Edit Customer')
+                  : t('customers.createCustomer', 'Create Customer')}
+              </DialogTitle>
+              <DialogDescription>
+                {isEdit
+                  ? t('customers.form.editDescription', 'Edit customer details, address, and tier settings.')
+                  : t('customers.form.createDescription', 'Add a new customer profile to your database.')}
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
+
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='grid gap-4 py-4'
-          >
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                name='first_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.firstName', 'First Name')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.firstNamePlaceholder', 'First Name')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name='last_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.lastName', 'Last Name')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.lastNamePlaceholder', 'Last Name')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 px-6 pb-6'>
+            <Tabs
+              value={activeTab}
+              onValueChange={(val) => setActiveTab(val as typeof activeTab)}
+              className='w-full'
+            >
+              <TabsList className='grid grid-cols-3 w-full mb-4'>
+                <TabsTrigger value='general' className='text-xs gap-1.5'>
+                  <User className='h-3.5 w-3.5' />
+                  <span>{t('customers.tabs.general', 'General')}</span>
+                </TabsTrigger>
+                <TabsTrigger value='address' className='text-xs gap-1.5'>
+                  <MapPin className='h-3.5 w-3.5' />
+                  <span>{t('customers.tabs.address', 'Address')}</span>
+                </TabsTrigger>
+                <TabsTrigger value='loyalty' className='text-xs gap-1.5'>
+                  <ShieldCheck className='h-3.5 w-3.5' />
+                  <span>{t('customers.tabs.loyalty', 'Loyalty')}</span>
+                </TabsTrigger>
+              </TabsList>
 
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.email', 'Email')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.emailPlaceholder', 'Email')}
-                        type='email'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name='phone'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.phone', 'Phone')}</FormLabel>
-                    <FormControl>
-                      <PhoneInput
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              {/* Tab 1: General & Contact */}
+              <TabsContent value='general' className='space-y-4 focus-visible:outline-none'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                  <FormField
+                    control={form.control}
+                    name='first_name'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.firstName', 'First Name')} *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t('customers.form.firstNamePlaceholder', 'John')}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='last_name'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.lastName', 'Last Name')} *</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t('customers.form.lastNamePlaceholder', 'Doe')}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-            <div className='grid grid-cols-1 gap-4'>
-              <FormField
-                name='address_line1'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.addressLine1', 'Address Line 1')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.addressLine1Placeholder', 'Address Line 1')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name='address_line2'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.addressLine2', 'Address Line 2')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.addressLine2Placeholder', 'Address Line 2')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                <FormField
+                  control={form.control}
+                  name='code'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('customers.form.code', 'Customer Code')}</FormLabel>
+                      <div className='flex gap-2'>
+                        <FormControl>
+                          <Input
+                            placeholder={t('customers.form.codePlaceholder', 'e.g. CUST-1001')}
+                            className='font-mono'
+                            {...field}
+                          />
+                        </FormControl>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          size='sm'
+                          className='gap-1 shrink-0'
+                          onClick={handleGenerateCode}
+                        >
+                          <Wand2 className='h-3.5 w-3.5' />
+                          <span>{t('customers.form.generateCode', 'Generate')}</span>
+                        </Button>
+                      </div>
+                      <FormDescription className='text-xs'>
+                        {t('customers.form.codeHint', 'Unique code used on invoices and order receipts')}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className='grid grid-cols-4 gap-4'>
-              <FormField
-                name='country'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.country', 'Country')}</FormLabel>
-                    <Select
-                      onValueChange={(value) => {
-                        field.onChange(value)
-                        form.setValue('city', '')
-                      }}
-                      defaultValue={field.value}
-                      value={field.value}
-                    >
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                  <FormField
+                    control={form.control}
+                    name='email'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.email', 'Email')}</FormLabel>
+                        <FormControl>
+                          <div className='relative'>
+                            <Mail className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
+                            <Input
+                              type='email'
+                              placeholder='customer@example.com'
+                              className='ps-9'
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='phone'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.phone', 'Phone')}</FormLabel>
+                        <FormControl>
+                          <PhoneInput
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name='date_of_birth'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('customers.form.dateOfBirth', 'Date of Birth')}</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={t('customers.form.selectCountry', 'Select Country')} />
-                        </SelectTrigger>
+                        <div className='relative'>
+                          <Calendar className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
+                          <Input
+                            type='date'
+                            className='ps-9'
+                            {...field}
+                          />
+                        </div>
                       </FormControl>
-                      <SelectContent>
-                        {countries?.map((country) => (
-                          <SelectItem key={country.id} value={country.name}>
-                            {country.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name='city'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.city', 'City')}</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
-                      disabled={!selectedCountryName || cities?.length === 0}
-                    >
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </TabsContent>
+
+              {/* Tab 2: Address & Location */}
+              <TabsContent value='address' className='space-y-4 focus-visible:outline-none'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                  <FormField
+                    control={form.control}
+                    name='country'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.country', 'Country')}</FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange(value)
+                            form.setValue('city', '')
+                          }}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={t('customers.form.selectCountry', 'Select Country')} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {countries?.map((country) => (
+                              <SelectItem key={country.id} value={country.name}>
+                                {country.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='city'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.city', 'City')}</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          disabled={!selectedCountryName || cities?.length === 0}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={t('customers.form.selectCity', 'Select City')} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {cities?.map((city) => (
+                              <SelectItem key={city.id} value={city.name}>
+                                {city.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                  <FormField
+                    control={form.control}
+                    name='state'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.state', 'State / Province')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t('customers.form.statePlaceholder', 'e.g. CA or Ontario')}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='postal_code'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('customers.form.postalCode', 'Postal / Zip Code')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t('customers.form.postalCodePlaceholder', '90210')}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name='address_line1'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('customers.form.addressLine1', 'Address Line 1')}</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={t('customers.form.selectCity', 'Select City')} />
-                        </SelectTrigger>
+                        <Input
+                          placeholder={t('customers.form.addressLine1Placeholder', 'Street address or P.O. Box')}
+                          {...field}
+                        />
                       </FormControl>
-                      <SelectContent>
-                        {cities?.map((city) => (
-                          <SelectItem key={city.id} value={city.name}>
-                            {city.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name='state'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.state', 'State')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.statePlaceholder', 'State')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                name='postal_code'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.postalCode', 'Postal Code')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t('customers.form.postalCodePlaceholder', 'Postal Code')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                <FormField
+                  control={form.control}
+                  name='address_line2'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('customers.form.addressLine2', 'Address Line 2')}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={t('customers.form.addressLine2Placeholder', 'Apartment, suite, unit, etc.')}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </TabsContent>
 
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                name='date_of_birth'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.dateOfBirth', 'Date of Birth')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='date'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              {/* Tab 3: Group & Loyalty */}
+              <TabsContent value='loyalty' className='space-y-4 focus-visible:outline-none'>
+                <CustomerGroupField form={form} />
 
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                name='loyalty_points'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('customers.form.loyaltyPoints', 'Loyalty Points')}</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        placeholder={t('customers.form.loyaltyPointsPlaceholder', 'Loyalty Points')}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                <FormField
+                  control={form.control}
+                  name='loyalty_points'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('customers.form.loyaltyPoints', 'Loyalty Rewards Points')}</FormLabel>
+                      <FormControl>
+                        <div className='relative'>
+                          <Sparkles className='absolute left-3 top-2.5 h-4 w-4 text-amber-500' />
+                          <Input
+                            type='number'
+                            min={0}
+                            placeholder='0'
+                            className='ps-9'
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormDescription className='text-xs'>
+                        {t('customers.form.pointsDesc', 'Current balance of loyalty reward points available for redemption.')}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <CustomerGroupField form={form} />
+                <FormField
+                  control={form.control}
+                  name='is_active'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-row items-start space-y-0 space-x-3 rounded-xl border bg-muted/30 p-4'>
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className='space-y-1 leading-none'>
+                        <FormLabel className='cursor-pointer font-semibold'>
+                          {t('customers.form.activeStatus', 'Active Customer Account')}
+                        </FormLabel>
+                        <FormDescription className='text-xs'>
+                          {t(
+                            'customers.form.activeDesc',
+                            'Active customers participate in the loyalty program, discounts, and order analytics.'
+                          )}
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </TabsContent>
+            </Tabs>
 
-            <FormField
-              name='is_active'
-              render={({ field }) => (
-                <FormItem className='flex flex-row items-start space-y-0 space-x-3 rounded-md border p-4'>
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className='space-y-1 leading-none'>
-                    <FormLabel>{t('customers.form.activeStatus', 'Active Status')}</FormLabel>
-                    <FormDescription>
-                      {t(
-                        'customers.form.activeDesc',
-                        'This customer will participate in the loyalty program and have analytics.'
-                      )}
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <DialogFooter>
+            <DialogFooter className='pt-3 border-t'>
               <Button
                 type='button'
                 variant='outline'
@@ -453,7 +580,7 @@ export function CustomerActionDialog() {
               >
                 {createMutation.isPending || updateMutation.isPending
                   ? t('common.saving', 'Saving...')
-                  : t('common.save', 'Save')}
+                  : t('common.save', 'Save Customer')}
               </Button>
             </DialogFooter>
           </form>
@@ -463,14 +590,7 @@ export function CustomerActionDialog() {
   )
 }
 
-// --- Customer Group Select Field ---
-
-interface CustomerGroupFieldProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: any
-}
-
-function CustomerGroupField({ form }: CustomerGroupFieldProps) {
+function CustomerGroupField({ form }: { form: any }) {
   const { t } = useTranslation()
   const { data: groups, isLoading, isError } = useCustomerGroups()
 
@@ -480,9 +600,7 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
       name='group_id'
       render={({ field }) => (
         <FormItem>
-          <div className='flex items-center justify-between'>
-            <FormLabel>{t('customers.form.group', 'Customer Group')}</FormLabel>
-          </div>
+          <FormLabel>{t('customers.form.group', 'Customer Group')}</FormLabel>
           <FormControl>
             {isLoading ? (
               <Skeleton className='h-9 w-full rounded-md' />
@@ -509,10 +627,10 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
                         value={String(groupId)}
                       >
                         <div className='flex items-center gap-2'>
-                          <span>{group.name}</span>
+                          <span className='font-medium'>{group.name}</span>
                           {group.discount_percentage != null &&
                             Number(group.discount_percentage) > 0 && (
-                              <span className='text-xs text-muted-foreground'>
+                              <span className='text-xs text-emerald-600 font-semibold'>
                                 ({Number(group.discount_percentage)}% off)
                               </span>
                             )}
@@ -528,14 +646,6 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
             <p className='text-xs text-destructive'>
               {t('customers.form.failedLoadGroups', 'Failed to load groups. Try again.')}
             </p>
-          )}
-          {!isLoading && groups?.length === 0 && (
-            <FormDescription>
-              {t(
-                'customers.form.noGroupsDefined',
-                'No groups defined yet. Click "New Group" to create one.'
-              )}
-            </FormDescription>
           )}
           <FormMessage />
         </FormItem>

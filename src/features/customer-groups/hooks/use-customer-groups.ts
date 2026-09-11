@@ -18,6 +18,7 @@ export interface CustomerGroup {
   created_at: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  enrolled_count?: number
 }
 
 export interface CustomerGroupInput {
@@ -45,18 +46,37 @@ export const useCustomerGroups = () => {
         currentTenantId ? String(currentTenantId) : undefined
       )
 
-      let query = supabase.from('customer_groups').select('*')
+      let query = supabase.from('customer_groups').select('*, customers(id)')
       if (resolvedTenantId && isValidUuid(resolvedTenantId)) {
         query = query.eq('tenant_id', resolvedTenantId)
       }
 
       const { data, error } = await query.order('name')
 
-      if (error) throw error
+      if (error) {
+        // Fallback without join if foreign key relationship differs
+        const fallback = await supabase
+          .from('customer_groups')
+          .select('*')
+          .order('name')
+        if (fallback.error) throw fallback.error
+        return (fallback.data || []).map((row: Record<string, unknown>) => ({
+          ...row,
+          id: String(row.id),
+          group_id: row.id ? String(row.id) : undefined,
+          minimum_order_amount: row.minimum_order_amount != null ? Number(row.minimum_order_amount) : 0,
+          discount_percentage: row.discount_percentage != null ? Number(row.discount_percentage) : 0,
+          enrolled_count: 0,
+        })) as CustomerGroup[]
+      }
+
       return (data || []).map((row: Record<string, unknown>) => ({
         ...row,
         id: String(row.id),
         group_id: row.id ? String(row.id) : undefined,
+        minimum_order_amount: row.minimum_order_amount != null ? Number(row.minimum_order_amount) : 0,
+        discount_percentage: row.discount_percentage != null ? Number(row.discount_percentage) : 0,
+        enrolled_count: Array.isArray(row.customers) ? row.customers.length : 0,
       })) as CustomerGroup[]
     },
   })

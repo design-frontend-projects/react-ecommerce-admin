@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { type TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { DollarSign, Percent, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -21,8 +22,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
 import {
   useCreateCustomerGroup,
   useUpdateCustomerGroup,
@@ -31,10 +35,20 @@ import { useCustomerGroupsContext } from './customer-groups-provider'
 
 const formSchema = (t: TFunction) =>
   z.object({
-    name: z.string().min(1, t('customerGroups.validation.nameRequired')),
+    name: z
+      .string()
+      .min(1, t('customerGroups.validation.nameRequired'))
+      .max(100, 'Name must not exceed 100 characters'),
     description: z.string().optional(),
-    minimum_order_amount: z.coerce.number().optional(),
-    discount_percentage: z.coerce.number().optional(),
+    minimum_order_amount: z.coerce
+      .number()
+      .min(0, 'Minimum order amount cannot be negative')
+      .optional(),
+    discount_percentage: z.coerce
+      .number()
+      .min(0, 'Discount cannot be negative')
+      .max(100, 'Discount cannot exceed 100%')
+      .optional(),
   })
 
 type CustomerGroupFormValues = z.infer<ReturnType<typeof formSchema>>
@@ -45,6 +59,8 @@ const defaultValues: CustomerGroupFormValues = {
   minimum_order_amount: 0,
   discount_percentage: 0,
 }
+
+const DISCOUNT_PRESETS = [0, 5, 10, 15, 20, 25]
 
 export function CustomerGroupsActionDialog() {
   const { t } = useTranslation()
@@ -66,8 +82,8 @@ export function CustomerGroupsActionDialog() {
         form.reset({
           name: currentRow.name,
           description: currentRow.description || '',
-          minimum_order_amount: currentRow.minimum_order_amount || 0,
-          discount_percentage: currentRow.discount_percentage || 0,
+          minimum_order_amount: Number(currentRow.minimum_order_amount) || 0,
+          discount_percentage: Number(currentRow.discount_percentage) || 0,
         })
       } else {
         form.reset(defaultValues)
@@ -106,25 +122,34 @@ export function CustomerGroupsActionDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => !v && handleClose()}>
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[500px]'>
+      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[540px]'>
         <DialogHeader>
-          <DialogTitle>
-            {isEdit
-              ? t('customerGroups.editGroup')
-              : t('customerGroups.createGroup')}
-          </DialogTitle>
-          <DialogDescription>
-            {isEdit
-              ? t('customerGroups.editGroupDesc')
-              : t('customerGroups.createGroupDesc')}
-          </DialogDescription>
+          <div className='flex items-center gap-2'>
+            <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+              <Users className='h-5 w-5' />
+            </div>
+            <div>
+              <DialogTitle>
+                {isEdit
+                  ? t('customerGroups.editGroup')
+                  : t('customerGroups.createGroup')}
+              </DialogTitle>
+              <DialogDescription>
+                {isEdit
+                  ? t('customerGroups.editGroupDesc')
+                  : t('customerGroups.createGroupDesc')}
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='grid gap-4 py-4'
+            className='space-y-4 py-2'
           >
             <FormField
+              control={form.control}
               name='name'
               render={({ field }) => (
                 <FormItem>
@@ -139,16 +164,18 @@ export function CustomerGroupsActionDialog() {
                 </FormItem>
               )}
             />
+
             <FormField
+              control={form.control}
               name='description'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t('customerGroups.form.description')}</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder={t(
-                        'customerGroups.form.placeholderDescription'
-                      )}
+                    <Textarea
+                      placeholder={t('customerGroups.form.placeholderDescription')}
+                      rows={3}
+                      className='resize-none'
                       {...field}
                     />
                   </FormControl>
@@ -156,8 +183,10 @@ export function CustomerGroupsActionDialog() {
                 </FormItem>
               )}
             />
-            <div className='grid grid-cols-2 gap-4'>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
               <FormField
+                control={form.control}
                 name='minimum_order_amount'
                 render={({ field }) => (
                   <FormItem>
@@ -165,29 +194,41 @@ export function CustomerGroupsActionDialog() {
                       {t('customerGroups.form.minOrderAmount')}
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type='number'
-                        placeholder='0.00'
-                        step='0.01'
-                        {...field}
-                      />
+                      <div className='relative'>
+                        <DollarSign className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
+                        <Input
+                          type='number'
+                          placeholder='0.00'
+                          step='0.01'
+                          className='ps-9'
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
+                control={form.control}
                 name='discount_percentage'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t('customerGroups.form.discount')}</FormLabel>
                     <FormControl>
-                      <Input
-                        type='number'
-                        placeholder='0'
-                        step='0.01'
-                        {...field}
-                      />
+                      <div className='relative'>
+                        <Percent className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
+                        <Input
+                          type='number'
+                          placeholder='0'
+                          step='0.5'
+                          min={0}
+                          max={100}
+                          className='ps-9'
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,7 +236,29 @@ export function CustomerGroupsActionDialog() {
               />
             </div>
 
-            <DialogFooter>
+            {/* Quick Discount Presets */}
+            <div className='rounded-lg border bg-muted/40 p-3 space-y-2'>
+              <div className='flex items-center justify-between text-xs text-muted-foreground font-medium'>
+                <span>{t('customerGroups.form.discountPresets')}</span>
+                <span className='text-xs text-muted-foreground'>
+                  {form.watch('discount_percentage') || 0}%
+                </span>
+              </div>
+              <div className='flex flex-wrap gap-1.5'>
+                {DISCOUNT_PRESETS.map((preset) => (
+                  <Badge
+                    key={preset}
+                    variant={form.watch('discount_percentage') === preset ? 'default' : 'outline'}
+                    className='cursor-pointer px-2.5 py-1 text-xs transition-colors hover:bg-primary/80 hover:text-primary-foreground'
+                    onClick={() => form.setValue('discount_percentage', preset)}
+                  >
+                    {preset}%
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <DialogFooter className='pt-2'>
               <Button
                 type='button'
                 variant='outline'

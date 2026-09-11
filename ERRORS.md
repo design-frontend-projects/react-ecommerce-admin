@@ -117,3 +117,25 @@
 - **Status**: Fixed
 
 ---
+
+## [2026-09-12 02:00] - Invalid i18n Import Path Causing 500 Error in Stock Counts Module
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/features/stock-counts/components/columns.tsx:3`
+- **Agent**: antigravity-ide (@frontend-specialist)
+- **Root Cause**: `columns.tsx` in `stock-counts` (and `stock-by-location`) attempted to import `i18n` from `@/i18n`. The i18n instance is configured at `@/config/i18n`. Because `@/i18n` does not exist, Vite failed to resolve the import with a 500 Internal Server Error when TanStack Router loaded the `/stock-counts` lazy route component.
+- **Error Message**: 
+  ```
+  Failed to resolve import "@/i18n" from "src/features/stock-counts/components/columns.tsx". Does the file exist?
+  GET http://localhost:5191/src/features/stock-counts/components/columns.tsx net::ERR_ABORTED 500 (Internal Server Error)
+  TypeError: Failed to fetch dynamically imported module: http://localhost:5191/src/routes/_authenticated/stock-counts/index.tsx?tsr-split=component
+  ```
+- **Fix Applied**: 
+  1. Updated import in `src/features/stock-counts/components/columns.tsx` from `@/i18n` to `@/config/i18n`.
+  2. Proactively updated identical import in `src/features/stock-by-location/components/columns.tsx` from `@/i18n` to `@/config/i18n`.
+  3. Verified both endpoints return HTTP 200 OK through the Vite dev server.
+- **Prevention**: Enforce import path standards for the i18n singleton (`@/config/i18n`) across all feature column definitions.
+- **Status**: Fixed
+
+---

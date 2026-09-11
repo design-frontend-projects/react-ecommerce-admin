@@ -1,6 +1,6 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import type { TFunction } from 'i18next'
-import i18n from '@/i18n'
+import i18n from '@/config/i18n'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
 import type { StockByLocationRow } from '../data/schema'

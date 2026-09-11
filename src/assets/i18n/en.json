@@ -1155,7 +1155,8 @@
       "discount": "Discount %",
       "cancel": "Cancel",
       "save": "Save",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "discountPresets": "Quick Presets"
     },
     "table": {
       "filterPlaceholder": "Filter groups...",
@@ -1166,7 +1167,9 @@
       "description": "Description",
       "minOrderAmount": "Min. Order Amount",
       "discount": "Discount (%)",
-      "createdAt": "Created At"
+      "createdAt": "Created At",
+      "enrolledCustomers": "Members",
+      "actions": "Actions"
     },
     "delete": {
       "title": "Are you absolutely sure?",
@@ -1187,7 +1190,18 @@
     },
     "rowActions": {
       "openMenu": "Open menu"
-    }
+    },
+    "kpis": {
+      "total": "Total Groups",
+      "totalSubtitle": "Customer segmentation tiers",
+      "avgDiscount": "Average Discount",
+      "avgDiscountSubtitle": "Across all groups",
+      "members": "Enrolled Customers",
+      "membersSubtitle": "Active group assignments",
+      "highestDiscount": "Top Tier Discount",
+      "highestDiscountSubtitle": "Maximum discount tier"
+    },
+    "deleteConfirmWarning": "Customers enrolled in this group will have their group assignment cleared."
   },
   "paymentMethods": {
     "title": "Payment Methods",
@@ -2642,7 +2656,12 @@
       "balance": "Outstanding Balance",
       "status": "Status",
       "actions": "Actions",
-      "joined": "Joined"
+      "joined": "Joined",
+      "code": "Code",
+      "loyaltyPoints": "Loyalty Points",
+      "location": "Location",
+      "cards": "Cards",
+      "viewProfile": "View Profile"
     },
     "form": {
       "name": "Full Name / Company Name",
@@ -2684,7 +2703,19 @@
       "activeDesc": "This customer will participate in the loyalty program and have analytics.",
       "noGroup": "No group",
       "failedLoadGroups": "Failed to load groups. Try again.",
-      "noGroupsDefined": "No groups defined yet. Click \"New Group\" to create one."
+      "noGroupsDefined": "No groups defined yet. Click \"New Group\" to create one.",
+      "code": "Customer Code",
+      "codePlaceholder": "e.g. CUST-1001",
+      "generateCode": "Generate",
+      "dateOfBirthPlaceholder": "YYYY-MM-DD",
+      "selectCountryPlaceholder": "Select Country...",
+      "selectCityPlaceholder": "Select City...",
+      "cardType": "Card Type",
+      "lastFour": "Last 4 Digits",
+      "expiryMonth": "Exp. Month",
+      "expiryYear": "Exp. Year",
+      "cardholderName": "Cardholder Name",
+      "isDefaultCard": "Set as Default Card"
     },
     "delete": {
       "title": "Delete Customer",
@@ -2705,6 +2736,48 @@
       "firstNameRequired": "First name is required",
       "lastNameRequired": "Last name is required",
       "invalidEmail": "Invalid email address"
+    },
+    "kpis": {
+      "total": "Total Customers",
+      "totalSubtitle": "Registered profiles",
+      "active": "Active Customers",
+      "activeSubtitle": "Active status rate",
+      "loyalty": "Loyalty Members",
+      "loyaltySubtitle": "With rewards points",
+      "grouped": "Group Members",
+      "groupedSubtitle": "Enrolled in tiers"
+    },
+    "tabs": {
+      "general": "General & Contact",
+      "address": "Address & Location",
+      "loyalty": "Group & Loyalty"
+    },
+    "sheet": {
+      "title": "Customer Profile",
+      "subtitle": "Comprehensive 360 overview of customer account details",
+      "personalInfo": "Personal Information",
+      "contactInfo": "Contact Information",
+      "addressInfo": "Address Details",
+      "groupAndLoyalty": "Membership & Loyalty",
+      "paymentCards": "Saved Payment Cards",
+      "noCards": "No payment cards on file for this customer.",
+      "addCard": "Add Payment Card",
+      "defaultCard": "Default Card",
+      "expires": "Expires",
+      "points": "Points",
+      "discount": "Discount",
+      "minOrder": "Min. Order",
+      "call": "Call",
+      "emailCustomer": "Send Email",
+      "quickView": "Quick View"
+    },
+    "filters": {
+      "all": "All Customers",
+      "active": "Active",
+      "inactive": "Inactive",
+      "allGroups": "All Groups",
+      "filterByGroup": "Filter by group",
+      "searchPlaceholder": "Search name, code, phone, email..."
     }
   },
   "purchaseOrders": {

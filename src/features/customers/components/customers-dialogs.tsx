@@ -2,12 +2,14 @@ import { CustomerGroupsActionDialog } from '@/features/customer-groups/component
 import CustomerGroupsProvider from '@/features/customer-groups/components/customer-groups-provider'
 import { CustomerActionDialog } from './customer-action-dialog'
 import { CustomerDeleteDialog } from './customer-delete-dialog'
+import { CustomerDetailSheet } from './customer-detail-sheet'
 
 export function CustomersDialogs() {
   return (
     <CustomerGroupsProvider>
       <CustomerActionDialog />
       <CustomerDeleteDialog />
+      <CustomerDetailSheet />
       <CustomerGroupsActionDialog />
     </CustomerGroupsProvider>
   )
