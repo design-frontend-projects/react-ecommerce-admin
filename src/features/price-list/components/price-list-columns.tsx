@@ -1,7 +1,17 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import i18n from '@/config/i18n'
+import type { TFunction } from 'i18next'
+import {
+  Users,
+  Store as StoreIcon,
+  Layers,
+  Calendar,
+  Clock,
+  Coins,
+  Radio,
+} from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Users, Store as StoreIcon, Layers, Calendar, Clock, Coins, Radio } from 'lucide-react'
 import {
   PRICE_LIST_TYPE_LABELS,
   type PriceList,
@@ -9,7 +19,10 @@ import {
 } from '../data/schema'
 import { PriceListRowActions } from './price-list-row-actions'
 
-export const columns: ColumnDef<PriceList>[] = [
+export const getColumns = (
+  t: TFunction = i18n.t,
+  isAr: boolean = i18n.language === 'ar'
+): ColumnDef<PriceList>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -19,7 +32,7 @@ export const columns: ColumnDef<PriceList>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t('common.selectAll', { defaultValue: 'Select all' })}
         className='translate-y-[2px]'
       />
     ),
@@ -27,7 +40,7 @@ export const columns: ColumnDef<PriceList>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t('common.selectRow', { defaultValue: 'Select row' })}
         className='translate-y-[2px]'
       />
     ),
@@ -35,11 +48,17 @@ export const columns: ColumnDef<PriceList>[] = [
     enableHiding: false,
   },
   {
-    accessorFn: (row) => row.name || row.products?.name || 'Standard Price List',
+    accessorFn: (row) =>
+      row.name ||
+      row.products?.name ||
+      t('priceList.standardPriceList', { defaultValue: 'Standard Price List' }),
     id: 'price_list_name',
-    header: 'Price List',
+    header: t('priceList.columns.priceList', { defaultValue: 'Price List' }),
     cell: ({ row }) => {
-      const name = row.original.name || row.original.products?.name || 'General Price List'
+      const name =
+        row.original.name ||
+        row.original.products?.name ||
+        t('priceList.generalPriceList', { defaultValue: 'General Price List' })
       const code = row.original.code
       const isDefault = row.original.is_default
       return (
@@ -47,15 +66,23 @@ export const columns: ColumnDef<PriceList>[] = [
           <div className='flex items-center gap-2'>
             <span className='font-semibold text-foreground'>{name}</span>
             {isDefault && (
-              <Badge variant='default' className='text-[10px] px-1.5 py-0 bg-emerald-600 hover:bg-emerald-700 text-white'>
-                Default
+              <Badge
+                variant='default'
+                className='bg-emerald-600 px-1.5 py-0 text-[10px] text-white hover:bg-emerald-700'
+              >
+                {t('common.default', { defaultValue: 'Default' })}
               </Badge>
             )}
           </div>
           <div className='flex items-center gap-2 text-xs text-muted-foreground'>
-            {code && <span className='font-mono uppercase font-medium'>{code}</span>}
+            {code && (
+              <span className='font-mono font-medium uppercase'>{code}</span>
+            )}
             {row.original.products && (
-              <span>• Product: {row.original.products.name}</span>
+              <span>
+                • {t('priceList.columns.product', { defaultValue: 'Product' })}:{' '}
+                {row.original.products.name}
+              </span>
             )}
           </div>
         </div>
@@ -64,45 +91,61 @@ export const columns: ColumnDef<PriceList>[] = [
   },
   {
     accessorKey: 'type',
-    header: 'Pricing Type',
+    header: t('priceList.columns.type', { defaultValue: 'Pricing Type' }),
     cell: ({ row }) => {
       const type = row.getValue('type') as PriceListType | null
       if (!type) {
-        return <span className='text-xs text-muted-foreground'>Standard</span>
+        return (
+          <span className='text-xs text-muted-foreground'>
+            {t('priceList.types.standard', { defaultValue: 'Standard' })}
+          </span>
+        )
       }
       const config = PRICE_LIST_TYPE_LABELS[type]
+      const label = isAr ? config?.labelAr : config?.label
       return (
-        <Badge variant='outline' className={`text-xs capitalize font-medium ${config?.color || ''}`}>
-          {config?.label || type}
+        <Badge
+          variant='outline'
+          className={`text-xs font-medium capitalize ${config?.color || ''}`}
+        >
+          {label || type}
         </Badge>
       )
     },
   },
   {
     id: 'scope',
-    header: 'Scope',
+    header: t('priceList.columns.scope', { defaultValue: 'Scope' }),
     cell: ({ row }) => {
       const group = row.original.customer_groups
       const store = row.original.stores
 
       return (
-        <div className='flex flex-col gap-1 items-start'>
+        <div className='flex flex-col items-start gap-1'>
           {group ? (
-            <Badge variant='secondary' className='text-[11px] gap-1 px-1.5 py-0'>
+            <Badge
+              variant='secondary'
+              className='gap-1 px-1.5 py-0 text-[11px]'
+            >
               <Users className='h-3 w-3 text-muted-foreground' />
               {group.name}
             </Badge>
           ) : (
-            <span className='text-[11px] text-muted-foreground'>All Groups</span>
+            <span className='text-[11px] text-muted-foreground'>
+              {t('priceList.scope.allGroups', { defaultValue: 'All Groups' })}
+            </span>
           )}
 
           {store ? (
-            <Badge variant='outline' className='text-[11px] gap-1 px-1.5 py-0'>
+            <Badge variant='outline' className='gap-1 px-1.5 py-0 text-[11px]'>
               <StoreIcon className='h-3 w-3 text-muted-foreground' />
-              {store.name || 'Store'}
+              {store.name ||
+                t('priceList.scope.store', { defaultValue: 'Store' })}
             </Badge>
           ) : (
-            <span className='text-[11px] text-muted-foreground'>All Stores</span>
+            <span className='text-[11px] text-muted-foreground'>
+              {t('priceList.scope.allStores', { defaultValue: 'All Stores' })}
+            </span>
           )}
         </div>
       )
@@ -110,14 +153,18 @@ export const columns: ColumnDef<PriceList>[] = [
   },
   {
     id: 'currency',
-    header: 'Currency',
+    header: t('priceList.columns.currency', { defaultValue: 'Currency' }),
     cell: ({ row }) => {
       const currency = row.original.currencies
       if (!currency) {
-        return <span className='text-[11px] text-muted-foreground'>Default</span>
+        return (
+          <span className='text-[11px] text-muted-foreground'>
+            {t('common.default', { defaultValue: 'Default' })}
+          </span>
+        )
       }
       return (
-        <Badge variant='outline' className='text-[11px] gap-1 px-1.5 py-0'>
+        <Badge variant='outline' className='gap-1 px-1.5 py-0 text-[11px]'>
           <Coins className='h-3 w-3 text-muted-foreground' />
           {currency.symbol} {currency.code}
         </Badge>
@@ -126,23 +173,30 @@ export const columns: ColumnDef<PriceList>[] = [
   },
   {
     id: 'channel',
-    header: 'Channel',
+    header: t('priceList.columns.channel', { defaultValue: 'Channel' }),
     cell: ({ row }) => {
       const channel = row.original.channels
       if (!channel) {
-        return <span className='text-[11px] text-muted-foreground'>All</span>
+        return (
+          <span className='text-[11px] text-muted-foreground'>
+            {t('common.all', { defaultValue: 'All' })}
+          </span>
+        )
       }
+      const channelName = isAr ? channel.name_ar || channel.name : channel.name
       return (
-        <Badge variant='outline' className='text-[11px] gap-1 px-1.5 py-0'>
+        <Badge variant='outline' className='gap-1 px-1.5 py-0 text-[11px]'>
           <Radio className='h-3 w-3 text-muted-foreground' />
-          {channel.name}
+          {channelName}
         </Badge>
       )
     },
   },
   {
     accessorKey: 'price',
-    header: 'Default Price',
+    header: t('priceList.columns.defaultPrice', {
+      defaultValue: 'Default List Price',
+    }),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('price'))
       const formatted = new Intl.NumberFormat('en-US', {
@@ -154,18 +208,28 @@ export const columns: ColumnDef<PriceList>[] = [
   },
   {
     id: 'variants_count',
-    header: 'Variant Rules',
+    header: t('priceList.columns.variantRules', {
+      defaultValue: 'Variant Rules',
+    }),
     cell: ({ row }) => {
       const items = row.original.price_list_items || []
       return (
         <div className='flex items-center gap-1'>
           <Layers className='h-3.5 w-3.5 text-muted-foreground' />
           {items.length > 0 ? (
-            <Badge variant='secondary' className='text-xs font-mono font-medium'>
-              {items.length} priced
+            <Badge
+              variant='secondary'
+              className='font-mono text-xs font-medium'
+            >
+              {items.length}{' '}
+              {t('priceList.columns.priced', { defaultValue: 'priced' })}
             </Badge>
           ) : (
-            <span className='text-xs text-muted-foreground'>Default only</span>
+            <span className='text-xs text-muted-foreground'>
+              {t('priceList.columns.defaultOnly', {
+                defaultValue: 'Default only',
+              })}
+            </span>
           )}
         </div>
       )
@@ -173,7 +237,9 @@ export const columns: ColumnDef<PriceList>[] = [
   },
   {
     id: 'validity',
-    header: 'Validity Period',
+    header: t('priceList.columns.validity', {
+      defaultValue: 'Validity Period',
+    }),
     cell: ({ row }) => {
       const start = row.original.start_date
       const end = row.original.end_date
@@ -191,24 +257,30 @@ export const columns: ColumnDef<PriceList>[] = [
 
       return (
         <div className='flex flex-col gap-0.5'>
-          <div className='flex items-center gap-1 text-xs font-mono'>
+          <div className='flex items-center gap-1 font-mono text-xs'>
             <Calendar className='h-3 w-3 text-muted-foreground' />
             <span>{start}</span>
             <span className='text-muted-foreground'>→</span>
-            <span>{end || 'Open'}</span>
+            <span>
+              {end || t('priceList.status.open', { defaultValue: 'Open' })}
+            </span>
           </div>
           <div>
             {validityStatus === 'active' ? (
-              <span className='inline-flex items-center text-[10px] text-emerald-600 dark:text-emerald-400 font-medium'>
-                ● In Effect
+              <span className='inline-flex items-center text-[10px] font-medium text-emerald-600 dark:text-emerald-400'>
+                ●{' '}
+                {t('priceList.status.effectiveNow', {
+                  defaultValue: 'In Effect',
+                })}
               </span>
             ) : validityStatus === 'upcoming' ? (
-              <span className='inline-flex items-center gap-1 text-[10px] text-amber-600 dark:text-amber-400 font-medium'>
-                <Clock className='h-2.5 w-2.5' /> Upcoming
+              <span className='inline-flex items-center gap-1 text-[10px] font-medium text-amber-600 dark:text-amber-400'>
+                <Clock className='h-2.5 w-2.5' />{' '}
+                {t('priceList.status.upcoming', { defaultValue: 'Upcoming' })}
               </span>
             ) : (
-              <span className='inline-flex items-center text-[10px] text-zinc-400 font-medium'>
-                Expired
+              <span className='inline-flex items-center text-[10px] font-medium text-zinc-400'>
+                {t('priceList.status.expired', { defaultValue: 'Expired' })}
               </span>
             )}
           </div>
@@ -218,12 +290,14 @@ export const columns: ColumnDef<PriceList>[] = [
   },
   {
     accessorKey: 'is_active',
-    header: 'Status',
+    header: t('priceList.columns.status', { defaultValue: 'Status' }),
     cell: ({ row }) => {
       const isActive = row.getValue('is_active') as boolean
       return (
         <Badge variant={isActive ? 'default' : 'secondary'}>
-          {isActive ? 'Active' : 'Inactive'}
+          {isActive
+            ? t('common.active', { defaultValue: 'Active' })
+            : t('common.inactive', { defaultValue: 'Inactive' })}
         </Badge>
       )
     },
@@ -233,3 +307,5 @@ export const columns: ColumnDef<PriceList>[] = [
     cell: ({ row }) => <PriceListRowActions row={row} />,
   },
 ]
+
+export const columns: ColumnDef<PriceList>[] = getColumns()

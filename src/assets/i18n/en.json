@@ -162,7 +162,16 @@
     "import": "Import",
     "print": "Print",
     "download": "Download",
-    "error": "Error"
+    "error": "Error",
+    "close": "Close",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "errorOccurred": "Something went wrong. Please try again.",
+    "openMenu": "Open menu",
+    "view": "View Details",
+    "default": "Default",
+    "selectAll": "Select all",
+    "selectRow": "Select row"
   },
   "installBanner": {
     "title": "Install app: Tap",
@@ -3067,6 +3076,10 @@
   "priceList": {
     "title": "Price Lists",
     "description": "Manage wholesale, retail, and promotional pricing tiers and variant rules.",
+    "errorLoading": "Error loading price list",
+    "defaultProductName": "Product",
+    "standardPriceList": "Standard Price List",
+    "generalPriceList": "General Price List",
     "addPriceList": "Add Price List",
     "editPriceList": "Edit Price List",
     "deletePriceList": "Delete Price List",
@@ -3078,30 +3091,55 @@
     "deleteVariantNotice": "variant price override records (price_list_items) will also be deleted.",
     "deleteSuccess": "Price list and associated variant rules deleted successfully",
     "table": {
-      "filterPlaceholder": "Filter by product name...",
+      "filterPlaceholder": "Filter price lists...",
       "noResults": "No price lists found. Create one to get started.",
       "variant": "Variant / SKU",
       "regularRef": "Standard Price",
+      "costRef": "Cost Price",
       "tierPrice": "Price List Price",
       "floorPrice": "Floor (Min Price)",
       "maxDiscount": "Max Discount %",
       "margin": "Est. Margin"
     },
     "columns": {
+      "priceList": "Price List",
       "product": "Product",
       "sku": "Product SKU",
       "type": "Pricing Type",
       "scope": "Scope",
+      "currency": "Currency",
+      "channel": "Channel",
       "defaultPrice": "Default List Price",
       "variantRules": "Variant Rules",
+      "priced": "priced",
+      "defaultOnly": "Default only",
       "validity": "Validity Period",
       "dateRange": "Valid Period",
       "status": "Status",
       "actions": "Actions"
     },
+    "types": {
+      "standard": "Standard",
+      "retail": "Retail",
+      "wholesale": "Wholesale",
+      "vip": "VIP",
+      "black_friday": "Black Friday",
+      "valintine_day": "Valentine's Day"
+    },
+    "scope": {
+      "allGroups": "All Groups",
+      "allStores": "All Stores",
+      "store": "Store"
+    },
     "form": {
       "headerSection": "General Information",
-      "product": "Product",
+      "name": "Price List Name",
+      "namePlaceholder": "e.g. Retail Standard 2026",
+      "code": "Code",
+      "codePlaceholder": "e.g. RETAIL_STD",
+      "isDefault": "Default Base Price List",
+      "isDefaultDesc": "Use as default fallback price list for this tenant",
+      "product": "Product (Optional)",
       "selectProduct": "Select product",
       "standardBasePrice": "Standard Base Price",
       "variantsCount": "variants available",
@@ -3111,9 +3149,14 @@
       "allGroups": "All Customers (No Group Restriction)",
       "store": "Target Store / Location",
       "allStores": "All Stores / Global",
+      "currency": "Currency",
+      "defaultCurrency": "Tenant Default Currency",
+      "channel": "Sales Channel",
+      "allChannels": "All Channels",
       "defaultPrice": "Default List Price",
       "applyToAll": "Apply to All Variants",
       "appliedToAll": "Applied default price to all variants",
+      "discountSuffix": "discount",
       "activeStatus": "Active Status",
       "activeHelp": "Enable or disable this pricing rule.",
       "startDate": "Effective Start Date",
@@ -3126,17 +3169,39 @@
       "variantsLabel": "Variants",
       "noVariantsForProduct": "This product has no extra variants. The header list price will be used.",
       "selectProductFirst": "Select a product to preview and configure variant price rules.",
+      "costPrefix": "Cost",
+      "belowCost": "Below cost",
+      "floorExceedsPrice": "Floor exceeds price",
+      "savePriceList": "Save Price List",
       "createSuccess": "Price list created successfully",
       "updateSuccess": "Price list updated successfully"
     },
     "view": {
       "variantBreakdown": "Variant Price Rules (price_list_items)",
-      "noItems": "No variant overrides configured. All variants adhere to the header price."
+      "noItems": "No variant overrides configured. All variants adhere to the header price.",
+      "noExpiration": "(No Expiration)"
     },
     "status": {
       "effectiveNow": "In Effect",
       "upcoming": "Upcoming",
-      "expired": "Expired"
+      "expired": "Expired",
+      "open": "Open"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "codeTooLong": "Code cannot exceed 50 characters",
+      "startDateRequired": "Start date is required",
+      "endDateBeforeStart": "End date cannot be earlier than start date",
+      "productVariantRequired": "Product variant is required",
+      "priceNonNegative": "Price must be 0 or greater",
+      "costNonNegative": "Cost must be 0 or greater",
+      "minPriceNonNegative": "Floor price must be 0 or greater",
+      "discountMin": "Discount must be at least 0%",
+      "discountMax": "Discount cannot exceed 100%",
+      "defaultPriceNonNegative": "Default price must be 0 or greater",
+      "noPermission": "You do not have permission to perform this action.",
+      "tenantNotFound": "Tenant ID could not be identified.",
+      "failedCreate": "Failed to create price list header."
     }
   },
   "promotions": {

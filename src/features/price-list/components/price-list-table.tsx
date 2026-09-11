@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -23,14 +23,15 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type PriceList } from '../data/schema'
-import { columns } from './price-list-columns'
+import { getColumns } from './price-list-columns'
 
 interface PriceListTableProps {
   data: PriceList[]
 }
 
 export function PriceListTable({ data }: PriceListTableProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const columns = useMemo(() => getColumns(t, i18n.language === 'ar'), [t, i18n.language])
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])

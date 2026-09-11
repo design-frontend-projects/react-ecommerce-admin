@@ -67,7 +67,7 @@ export function PriceListViewDialog() {
           <div className='flex items-center justify-between gap-2 pr-6'>
             <DialogTitle className='flex items-center gap-2 text-xl'>
               <Layers className='h-5 w-5 text-primary' />
-              {currentRow.products?.name || t('priceList.title', { defaultValue: 'Price List' })}
+              {currentRow.name || currentRow.products?.name || t('priceList.title', { defaultValue: 'Price List' })}
             </DialogTitle>
             {typeConfig && (
               <Badge variant='outline' className={typeConfig.color}>
@@ -205,7 +205,7 @@ export function PriceListViewDialog() {
                 </span>
                 <span className='font-mono font-medium'>
                   {currentRow.start_date}{' '}
-                  {currentRow.end_date ? `→ ${currentRow.end_date}` : '(No Expiration)'}
+                  {currentRow.end_date ? `→ ${currentRow.end_date}` : t('priceList.view.noExpiration', { defaultValue: '(No Expiration)' })}
                 </span>
               </div>
 
@@ -258,7 +258,7 @@ export function PriceListViewDialog() {
                         <TableRow key={item.id}>
                           <TableCell className='font-medium'>
                             <div className='flex flex-col'>
-                              <span>{item.product_variants?.name || 'Standard'}</span>
+                              <span>{item.product_variants?.name || t('priceList.types.standard', { defaultValue: 'Standard' })}</span>
                               <span className='text-xs text-muted-foreground font-mono'>
                                 {item.product_variants?.sku || '—'}
                               </span>
@@ -313,7 +313,7 @@ export function PriceListViewDialog() {
               setOpen('edit')
             }}
           >
-            {t('common.edit', { defaultValue: 'Edit Price List' })}
+            {t('priceList.editPriceList', { defaultValue: 'Edit Price List' })}
           </Button>
         </DialogFooter>
       </DialogContent>

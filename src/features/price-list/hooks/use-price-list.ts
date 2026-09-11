@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import i18n from 'i18next'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/auth-store'
 import { useAuth } from '@/hooks/use-auth'
@@ -265,12 +266,20 @@ export const useCreatePriceListWithItems = () => {
   return useMutation({
     mutationFn: async (formData: PriceListFormData) => {
       if (!has({ permission: 'sales.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
+        throw new Error(
+          i18n.t('priceList.validation.noPermission', {
+            defaultValue: 'You do not have permission to perform this action.',
+          })
+        )
       }
 
       const { tenantId, userId } = getAuthTenantAndUser()
       if (!tenantId) {
-        throw new Error('Tenant ID could not be identified.')
+        throw new Error(
+          i18n.t('priceList.validation.tenantNotFound', {
+            defaultValue: 'Tenant ID could not be identified.',
+          })
+        )
       }
 
       if (formData.is_default) {
@@ -308,7 +317,13 @@ export const useCreatePriceListWithItems = () => {
         .single()
 
       if (headerError) throw headerError
-      if (!headerData) throw new Error('Failed to create price list header.')
+      if (!headerData) {
+        throw new Error(
+          i18n.t('priceList.validation.failedCreate', {
+            defaultValue: 'Failed to create price list header.',
+          })
+        )
+      }
 
       const priceListId = headerData.id as string
 
@@ -357,7 +372,11 @@ export const useUpdatePriceListWithItems = () => {
       ...formData
     }: PriceListFormData & { id: string }) => {
       if (!has({ permission: 'sales.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
+        throw new Error(
+          i18n.t('priceList.validation.noPermission', {
+            defaultValue: 'You do not have permission to perform this action.',
+          })
+        )
       }
 
       const { tenantId, userId } = getAuthTenantAndUser()
@@ -493,7 +512,11 @@ export const useDeletePriceList = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       if (!has({ permission: 'sales.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
+        throw new Error(
+          i18n.t('priceList.validation.noPermission', {
+            defaultValue: 'You do not have permission to perform this action.',
+          })
+        )
       }
 
       // With CASCADE, deleting the price_list removes its price_list_items

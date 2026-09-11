@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm, useFieldArray, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
@@ -58,7 +58,7 @@ import {
 } from '../hooks/use-price-list'
 import { usePriceListContext } from './price-list-provider'
 import {
-  priceListFormSchema,
+  getPriceListFormSchema,
   priceListTypesEnum,
   PRICE_LIST_TYPE_LABELS,
   type PriceListFormData,
@@ -78,8 +78,10 @@ export function PriceListActionDialog() {
 
   const defaultStartDate = new Date().toISOString().split('T')[0]
 
+  const formSchema = useMemo(() => getPriceListFormSchema(t), [t])
+
   const form = useForm<PriceListFormData>({
-    resolver: zodResolver(priceListFormSchema) as unknown as Resolver<PriceListFormData>,
+    resolver: zodResolver(formSchema) as unknown as Resolver<PriceListFormData>,
     defaultValues: {
       name: '',
       code: '',
@@ -311,7 +313,12 @@ export function PriceListActionDialog() {
                         <span className='text-destructive'>*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder='e.g. Retail Standard 2026' {...field} />
+                        <Input
+                          placeholder={t('priceList.form.namePlaceholder', {
+                            defaultValue: 'e.g. Retail Standard 2026',
+                          })}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -328,7 +335,13 @@ export function PriceListActionDialog() {
                         {t('priceList.form.code', { defaultValue: 'Code' })}
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder='e.g. RETAIL_STD' {...field} value={field.value || ''} />
+                        <Input
+                          placeholder={t('priceList.form.codePlaceholder', {
+                            defaultValue: 'e.g. RETAIL_STD',
+                          })}
+                          {...field}
+                          value={field.value || ''}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -387,7 +400,7 @@ export function PriceListActionDialog() {
                               <div className='flex items-center justify-between gap-3'>
                                 <span className='font-medium'>{p.name}</span>
                                 <span className='text-xs text-muted-foreground'>
-                                  SKU: {p.sku}
+                                  {t('priceList.columns.sku', { defaultValue: 'Product SKU' })}: {p.sku}
                                 </span>
                               </div>
                             </SelectItem>
@@ -479,7 +492,9 @@ export function PriceListActionDialog() {
                           {options?.customerGroups?.map((g) => (
                             <SelectItem key={g.id} value={g.id}>
                               {g.name}
-                              {g.discount_percentage ? ` (${g.discount_percentage}% discount)` : ''}
+                              {g.discount_percentage
+                                ? ` (${g.discount_percentage}% ${t('priceList.form.discountSuffix', { defaultValue: 'discount' })})`
+                                : ''}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -818,7 +833,7 @@ export function PriceListActionDialog() {
                             <TableCell className='font-medium'>
                               <div className='flex flex-col'>
                                 <span className='text-sm font-semibold'>
-                                  {fieldItem.variant_name || 'Standard'}
+                                  {fieldItem.variant_name || t('priceList.types.standard', { defaultValue: 'Standard' })}
                                 </span>
                                 <span className='text-xs text-muted-foreground font-mono'>
                                   {fieldItem.variant_sku}
@@ -834,7 +849,7 @@ export function PriceListActionDialog() {
                                 </span>
                                 {cost != null && (
                                   <span className='text-xs text-muted-foreground'>
-                                    Cost: ${cost.toFixed(2)}
+                                    {t('priceList.form.costPrefix', { defaultValue: 'Cost' })}: ${cost.toFixed(2)}
                                   </span>
                                 )}
                               </div>
@@ -862,7 +877,9 @@ export function PriceListActionDialog() {
                                 {isBelowCost && (
                                   <div className='flex items-center gap-1 text-[11px] text-amber-600 dark:text-amber-400'>
                                     <AlertTriangle className='h-3 w-3' />
-                                    <span>Below cost (${cost?.toFixed(2)})</span>
+                                    <span>
+                                      {t('priceList.form.belowCost', { defaultValue: 'Below cost' })} (${cost?.toFixed(2)})
+                                    </span>
                                   </div>
                                 )}
                               </div>
@@ -889,7 +906,9 @@ export function PriceListActionDialog() {
                                 </div>
                                 {isFloorExceeded && (
                                   <span className='text-[10px] text-destructive'>
-                                    Floor exceeds price
+                                    {t('priceList.form.floorExceedsPrice', {
+                                      defaultValue: 'Floor exceeds price',
+                                    })}
                                   </span>
                                 )}
                               </div>
@@ -958,7 +977,7 @@ export function PriceListActionDialog() {
               <Button type='submit' disabled={isPending}>
                 {isPending
                   ? t('common.saving', { defaultValue: 'Saving...' })
-                  : t('common.save', { defaultValue: 'Save Price List' })}
+                  : t('priceList.form.savePriceList', { defaultValue: 'Save Price List' })}
               </Button>
             </DialogFooter>
           </form>

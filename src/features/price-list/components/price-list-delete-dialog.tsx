@@ -13,9 +13,11 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useDeletePriceList } from '../hooks/use-price-list'
 import { usePriceListContext } from './price-list-provider'
+import { PRICE_LIST_TYPE_LABELS, type PriceListType } from '../data/schema'
 
 export function PriceListDeleteDialog() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const isAr = i18n.language === 'ar'
   const { open, setOpen, currentRow } = usePriceListContext()
   const deleteMutation = useDeletePriceList()
 
@@ -59,9 +61,13 @@ export function PriceListDeleteDialog() {
             {currentRow && (
               <div className='rounded-md border bg-muted/40 p-3 text-sm font-medium'>
                 <span className='font-bold text-foreground'>
-                  {currentRow.products?.name || 'Product'}
+                  {currentRow.name || currentRow.products?.name || t('priceList.defaultProductName', { defaultValue: 'Product' })}
                 </span>
-                {currentRow.type && <span className='text-muted-foreground'> • {currentRow.type}</span>}
+                {currentRow.type && (
+                  <span className='text-muted-foreground'>
+                    {' '}• {isAr ? PRICE_LIST_TYPE_LABELS[currentRow.type as PriceListType]?.labelAr || currentRow.type : PRICE_LIST_TYPE_LABELS[currentRow.type as PriceListType]?.label || currentRow.type}
+                  </span>
+                )}
                 {itemsCount > 0 && (
                   <p className='text-xs text-muted-foreground mt-1'>
                     {itemsCount}{' '}

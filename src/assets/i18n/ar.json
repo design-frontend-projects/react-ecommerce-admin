@@ -162,7 +162,16 @@
     "import": "استيراد",
     "print": "طباعة",
     "download": "تنزيل",
-    "error": "خطأ"
+    "error": "خطأ",
+    "close": "إغلاق",
+    "saving": "جاري الحفظ...",
+    "deleting": "جاري الحذف...",
+    "errorOccurred": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "openMenu": "فتح القائمة",
+    "view": "عرض التفاصيل",
+    "default": "افتراضي",
+    "selectAll": "تحديد الكل",
+    "selectRow": "تحديد الصف"
   },
   "installBanner": {
     "title": "تثبيت التطبيق: اضغط على",
@@ -3067,6 +3076,10 @@
   "priceList": {
     "title": "قوائم الأسعار",
     "description": "إدارة فئات أسعار الجملة، والتجزئة، والعروض الترويجية، وقواعد أسعار المتغيرات.",
+    "errorLoading": "خطأ أثناء تحميل قائمة الأسعار",
+    "defaultProductName": "المنتج",
+    "standardPriceList": "قائمة أسعار قياسية",
+    "generalPriceList": "قائمة أسعار عامة",
     "addPriceList": "إضافة قائمة أسعار",
     "editPriceList": "تعديل قائمة الأسعار",
     "deletePriceList": "حذف قائمة الأسعار",
@@ -3078,30 +3091,55 @@
     "deleteVariantNotice": "سجلات أسعار المتغيرات المرتبطة (price_list_items) سيتم حذفها أيضًا.",
     "deleteSuccess": "تم حذف قائمة الأسعار وقواعد أسعار المتغيرات المرتبطة بنجاح",
     "table": {
-      "filterPlaceholder": "تصفية حسب اسم المنتج...",
+      "filterPlaceholder": "تصفية قوائم الأسعار...",
       "noResults": "لم يتم العثور على قوائم أسعار. أنشئ قائمة للبدء.",
       "variant": "المتغير / رمز الصنف",
       "regularRef": "السعر القياسي",
+      "costRef": "سعر التكلفة",
       "tierPrice": "سعر القائمة",
       "floorPrice": "الحد الأدنى للسعر",
       "maxDiscount": "أقصى نسبة خصم %",
       "margin": "هامش الربح التقديري"
     },
     "columns": {
+      "priceList": "قائمة الأسعار",
       "product": "المنتج",
       "sku": "رمز الصنف",
       "type": "نوع التسعير",
       "scope": "النطاق المستهدف",
+      "currency": "العملة",
+      "channel": "القناة",
       "defaultPrice": "السعر الافتراضي للقائمة",
       "variantRules": "قواعد المتغيرات",
+      "priced": "محددة السعر",
+      "defaultOnly": "السعر الافتراضي فقط",
       "validity": "فترة السريان",
       "dateRange": "فترة الصلاحية",
       "status": "الحالة",
       "actions": "الإجراءات"
     },
+    "types": {
+      "standard": "قياسي",
+      "retail": "تجزئة",
+      "wholesale": "جملة",
+      "vip": "عملاء مميزون",
+      "black_friday": "الجمعة البيضاء",
+      "valintine_day": "يوم الحب"
+    },
+    "scope": {
+      "allGroups": "جميع المجموعات",
+      "allStores": "جميع الفروع",
+      "store": "المتجر"
+    },
     "form": {
       "headerSection": "المعلومات العامة",
-      "product": "المنتج",
+      "name": "اسم قائمة الأسعار",
+      "namePlaceholder": "مثال: تجزئة قياسي 2026",
+      "code": "الرمز",
+      "codePlaceholder": "مثال: RETAIL_STD",
+      "isDefault": "قائمة الأسعار الأساسية الافتراضية",
+      "isDefaultDesc": "استخدام كقائمة أسعار احتياطية افتراضية لهذا الحساب",
+      "product": "المنتج (اختياري)",
       "selectProduct": "اختر المنتج",
       "standardBasePrice": "السعر الأساسي القياسي",
       "variantsCount": "متغيرات متوفرة",
@@ -3111,9 +3149,14 @@
       "allGroups": "جميع العملاء (بدون قيود)",
       "store": "المتجر / الفرع المستهدف",
       "allStores": "جميع المتاجر / عام",
+      "currency": "العملة",
+      "defaultCurrency": "عملة الحساب الافتراضية",
+      "channel": "قناة البيع",
+      "allChannels": "جميع القنوات",
       "defaultPrice": "السعر الافتراضي للقائمة",
       "applyToAll": "تطبيق على جميع المتغيرات",
       "appliedToAll": "تم تطبيق السعر الافتراضي على جميع المتغيرات",
+      "discountSuffix": "خصم",
       "activeStatus": "حالة التفعيل",
       "activeHelp": "تفعيل أو تعطيل قاعدة التسعير هذه.",
       "startDate": "تاريخ بدء السريان",
@@ -3126,17 +3169,39 @@
       "variantsLabel": "متغيرات",
       "noVariantsForProduct": "هذا المنتج لا يحتوي على متغيرات إضافية. سيتم استخدام السعر الافتراضي للقائمة.",
       "selectProductFirst": "اختر منتجًا لمعاينة وتهيئة قواعد أسعار المتغيرات.",
+      "costPrefix": "التكلفة",
+      "belowCost": "أقل من التكلفة",
+      "floorExceedsPrice": "الحد الأدنى يتجاوز السعر",
+      "savePriceList": "حفظ قائمة الأسعار",
       "createSuccess": "تم إنشاء قائمة الأسعار بنجاح",
       "updateSuccess": "تم تحديث قائمة الأسعار بنجاح"
     },
     "view": {
       "variantBreakdown": "قواعد أسعار المتغيرات (price_list_items)",
-      "noItems": "لا توجد أسعار مخصصة للمتغيرات. جميع المتغيرات تتبع السعر الافتراضي للقائمة."
+      "noItems": "لا توجد أسعار مخصصة للمتغيرات. جميع المتغيرات تتبع السعر الافتراضي للقائمة.",
+      "noExpiration": "(بدون انتهاء)"
     },
     "status": {
       "effectiveNow": "ساري المفعول",
       "upcoming": "قادم",
-      "expired": "منتهي الصلاحية"
+      "expired": "منتهي الصلاحية",
+      "open": "مفتوح"
+    },
+    "validation": {
+      "nameRequired": "الاسم مطلوب",
+      "codeTooLong": "لا يمكن أن يتجاوز الرمز 50 حرفًا",
+      "startDateRequired": "تاريخ البدء مطلوب",
+      "endDateBeforeStart": "لا يمكن أن يكون تاريخ الانتهاء قبل تاريخ البدء",
+      "productVariantRequired": "متغير المنتج مطلوب",
+      "priceNonNegative": "يجب أن يكون السعر 0 أو أكثر",
+      "costNonNegative": "يجب أن تكون التكلفة 0 أو أكثر",
+      "minPriceNonNegative": "يجب أن يكون الحد الأدنى للسعر 0 أو أكثر",
+      "discountMin": "يجب أن يكون الخصم 0% على الأقل",
+      "discountMax": "لا يمكن أن يتجاوز الخصم 100%",
+      "defaultPriceNonNegative": "يجب أن يكون السعر الافتراضي 0 أو أكثر",
+      "noPermission": "ليس لديك الصلاحية لتنفيذ هذا الإجراء.",
+      "tenantNotFound": "تعذر تحديد هوية الحساب (Tenant ID).",
+      "failedCreate": "فشل في إنشاء ترويسة قائمة الأسعار."
     }
   },
   "promotions": {

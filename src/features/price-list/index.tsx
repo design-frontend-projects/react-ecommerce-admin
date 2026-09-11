@@ -47,7 +47,9 @@ export function PriceList() {
             <Loader2 className='h-8 w-8 animate-spin text-primary' />
           </div>
         ) : error ? (
-          <div className='text-destructive'>Error loading price list</div>
+          <div className='text-destructive'>
+            {t('priceList.errorLoading', { defaultValue: 'Error loading price list' })}
+          </div>
         ) : (
           <PriceListTable data={items || []} />
         )}

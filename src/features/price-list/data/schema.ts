@@ -158,3 +158,131 @@ export const priceListFormSchema = z
   )
 
 export type PriceListFormData = z.infer<typeof priceListFormSchema>
+
+export const getPriceListItemFormSchema = (
+  t: (key: string, options?: { defaultValue?: string }) => string
+) =>
+  z.object({
+    id: z.string().optional(),
+    product_variant_id: z
+      .string()
+      .min(
+        1,
+        t('priceList.validation.productVariantRequired', {
+          defaultValue: 'Product variant is required',
+        })
+      ),
+    price: z.coerce
+      .number()
+      .min(
+        0,
+        t('priceList.validation.priceNonNegative', {
+          defaultValue: 'Price must be 0 or greater',
+        })
+      ),
+    cost_price: z.coerce
+      .number()
+      .min(
+        0,
+        t('priceList.validation.costNonNegative', {
+          defaultValue: 'Cost must be 0 or greater',
+        })
+      )
+      .default(0)
+      .optional(),
+    min_price: z.coerce
+      .number()
+      .min(
+        0,
+        t('priceList.validation.minPriceNonNegative', {
+          defaultValue: 'Floor price must be 0 or greater',
+        })
+      )
+      .default(0),
+    max_discount_percent: z.coerce
+      .number()
+      .min(
+        0,
+        t('priceList.validation.discountMin', {
+          defaultValue: 'Discount must be at least 0%',
+        })
+      )
+      .max(
+        100,
+        t('priceList.validation.discountMax', {
+          defaultValue: 'Discount cannot exceed 100%',
+        })
+      )
+      .default(0),
+    // UI metadata helpers (not written directly to price_list_items table)
+    variant_name: z.string().optional().nullable(),
+    variant_sku: z.string().optional(),
+    regular_price: z.number().optional(),
+  })
+
+export const getPriceListFormSchema = (
+  t: (key: string, options?: { defaultValue?: string }) => string
+) =>
+  z
+    .object({
+      name: z
+        .string()
+        .min(
+          1,
+          t('priceList.validation.nameRequired', {
+            defaultValue: 'Name is required',
+          })
+        )
+        .max(150),
+      code: z
+        .string()
+        .max(
+          50,
+          t('priceList.validation.codeTooLong', {
+            defaultValue: 'Code cannot exceed 50 characters',
+          })
+        )
+        .optional()
+        .nullable(),
+      is_default: z.boolean().default(false),
+      product_id: z.string().optional().nullable().or(z.literal('')),
+      price: z.coerce
+        .number()
+        .min(
+          0,
+          t('priceList.validation.defaultPriceNonNegative', {
+            defaultValue: 'Default price must be 0 or greater',
+          })
+        )
+        .optional()
+        .nullable(),
+      type: priceListTypesEnum.optional().nullable(),
+      group_id: z.string().uuid().optional().nullable().or(z.literal('')),
+      store_id: z.string().uuid().optional().nullable().or(z.literal('')),
+      currency_id: z.string().uuid().optional().nullable().or(z.literal('')),
+      channel_id: z.string().uuid().optional().nullable().or(z.literal('')),
+      start_date: z
+        .string()
+        .min(
+          1,
+          t('priceList.validation.startDateRequired', {
+            defaultValue: 'Start date is required',
+          })
+        ),
+      end_date: z.string().optional().nullable().or(z.literal('')),
+      is_active: z.boolean().default(true),
+      description: z.string().optional().nullable(),
+      items: z.array(getPriceListItemFormSchema(t)).default([]),
+    })
+    .refine(
+      (data) => {
+        if (!data.start_date || !data.end_date) return true
+        return new Date(data.end_date) >= new Date(data.start_date)
+      },
+      {
+        message: t('priceList.validation.endDateBeforeStart', {
+          defaultValue: 'End date cannot be earlier than start date',
+        }),
+        path: ['end_date'],
+      }
+    )
