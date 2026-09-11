@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { Row } from '@tanstack/react-table'
 import { MoreHorizontal, Edit, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -15,6 +16,7 @@ interface StoreRowActionsProps {
 }
 
 export function StoreRowActions({ row }: StoreRowActionsProps) {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useStoresContext()
 
   return (
@@ -25,7 +27,7 @@ export function StoreRowActions({ row }: StoreRowActionsProps) {
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <MoreHorizontal className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t('stores.actions.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -36,7 +38,7 @@ export function StoreRowActions({ row }: StoreRowActionsProps) {
           }}
         >
           <Edit className='mr-2 h-4 w-4' />
-          Edit
+          {t('stores.actions.edit', 'Edit')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -47,7 +49,7 @@ export function StoreRowActions({ row }: StoreRowActionsProps) {
           className='text-rose-500 focus:text-rose-500'
         >
           <Trash2 className='mr-2 h-4 w-4' />
-          Delete
+          {t('stores.actions.delete', 'Delete')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -66,8 +66,10 @@ export function StockBalances() {
               {t('stockBalances.title', 'Stock Balances')}
             </h2>
             <p className='text-sm text-muted-foreground'>
-              Multi-facility real-time inventory ledger tracking stock on hand, reserved quantities,
-              valuation, and audit movements.
+              {t(
+                'stockBalances.description',
+                'Multi-facility real-time inventory ledger tracking stock on hand, reserved quantities, valuation, and audit movements.'
+              )}
             </p>
           </div>
           <StockBalancesPrimaryButtons />
@@ -84,21 +86,36 @@ export function StockBalances() {
             className='w-full sm:w-auto'
           >
             <TabsList className='grid w-full grid-cols-4 sm:w-auto'>
-              <TabsTrigger value='all' className='flex items-center gap-1.5 text-xs'>
+              <TabsTrigger
+                value='all'
+                className='flex items-center gap-1.5 text-xs'
+              >
                 <Layers className='h-3.5 w-3.5' />
-                All ({metrics?.totalVariants ?? 0})
+                {t('stockBalances.tabs.all', 'All')} ({metrics?.totalVariants ?? 0})
               </TabsTrigger>
-              <TabsTrigger value='alerts' className='flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400'>
+              <TabsTrigger
+                value='alerts'
+                className='flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400'
+              >
                 <AlertTriangle className='h-3.5 w-3.5' />
-                Alerts ({(metrics?.lowStockCount ?? 0) + (metrics?.outOfStockCount ?? 0)})
+                {t('stockBalances.tabs.alerts', 'Alerts')} (
+                {(metrics?.lowStockCount ?? 0) +
+                  (metrics?.outOfStockCount ?? 0)}
+                )
               </TabsTrigger>
-              <TabsTrigger value='warehouses' className='flex items-center gap-1.5 text-xs'>
+              <TabsTrigger
+                value='warehouses'
+                className='flex items-center gap-1.5 text-xs'
+              >
                 <Warehouse className='h-3.5 w-3.5' />
-                Warehouses
+                {t('stockBalances.tabs.warehouses', 'Warehouses')}
               </TabsTrigger>
-              <TabsTrigger value='stores' className='flex items-center gap-1.5 text-xs'>
+              <TabsTrigger
+                value='stores'
+                className='flex items-center gap-1.5 text-xs'
+              >
                 <Store className='h-3.5 w-3.5' />
-                Stores
+                {t('stockBalances.tabs.stores', 'Stores')}
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -109,12 +126,22 @@ export function StockBalances() {
           <div className='flex flex-1 items-center justify-center py-20'>
             <div className='flex flex-col items-center gap-2'>
               <Loader2 className='h-8 w-8 animate-spin text-primary' />
-              <span className='text-sm text-muted-foreground'>Loading real-time stock balances...</span>
+              <span className='text-sm text-muted-foreground'>
+                {t(
+                  'stockBalances.loading',
+                  'Loading real-time stock balances...'
+                )}
+              </span>
             </div>
           </div>
         ) : error ? (
           <div className='rounded-lg border border-destructive/20 bg-destructive/10 p-4 text-destructive'>
-            <p className='font-semibold text-sm'>Error loading stock balances</p>
+            <p className='font-semibold text-sm'>
+              {t(
+                'stockBalances.errorLoading',
+                'Error loading stock balances'
+              )}
+            </p>
             <p className='text-xs'>{(error as Error).message}</p>
           </div>
         ) : (

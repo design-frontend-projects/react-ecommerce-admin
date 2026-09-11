@@ -1,10 +1,12 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import type { TFunction } from 'i18next'
+import i18n from '@/config/i18n'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { StoreRowActions } from './store-row-actions'
 import { StoreStatusBadge } from './store-status-badge'
 
-export const columns: ColumnDef<any>[] = [
+export const getColumns = (t: TFunction = i18n.t): ColumnDef<any>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -14,7 +16,7 @@ export const columns: ColumnDef<any>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t('stores.columns.selectAll', 'Select all')}
         className='translate-y-[2px]'
       />
     ),
@@ -22,7 +24,7 @@ export const columns: ColumnDef<any>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t('stores.columns.selectRow', 'Select row')}
         className='translate-y-[2px]'
       />
     ),
@@ -32,7 +34,10 @@ export const columns: ColumnDef<any>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader
+        column={column}
+        title={t('stores.columns.name', 'Name')}
+      />
     ),
     cell: ({ row }) => (
       <div className='max-w-[200px] truncate font-medium'>
@@ -42,7 +47,12 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     id: 'branch',
-    header: 'Branch',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('stores.columns.branch', 'Branch')}
+      />
+    ),
     cell: ({ row }) => {
       const store = row.original
       return (
@@ -54,7 +64,12 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     id: 'city',
-    header: 'City',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('stores.columns.city', 'City')}
+      />
+    ),
     cell: ({ row }) => {
       const store = row.original
       return <span className='truncate'>{store.cities?.name || '—'}</span>
@@ -62,7 +77,12 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     id: 'country',
-    header: 'Country',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('stores.columns.country', 'Country')}
+      />
+    ),
     cell: ({ row }) => {
       const store = row.original
       return (
@@ -74,13 +94,21 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     accessorKey: 'phone',
-    header: 'Phone',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('stores.columns.phone', 'Phone')}
+      />
+    ),
     cell: ({ row }) => <div>{row.getValue('phone') || '—'}</div>,
   },
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader
+        column={column}
+        title={t('stores.columns.status', 'Status')}
+      />
     ),
     cell: ({ row }) => <StoreStatusBadge status={row.getValue('status')} />,
   },
@@ -89,3 +117,5 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => <StoreRowActions row={row} />,
   },
 ]
+
+export const columns: ColumnDef<any>[] = getColumns()

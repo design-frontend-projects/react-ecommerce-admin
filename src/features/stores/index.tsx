@@ -31,11 +31,13 @@ export function Stores() {
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
             <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              Stores Management
+              {t('stores.title', 'Stores Management')}
             </h2>
             <p className='text-muted-foreground'>
-              Manage your business locations, operational status, and contact
-              details.
+              {t(
+                'stores.description',
+                'Manage your business locations, operational status, and contact details.'
+              )}
             </p>
           </div>
           <StoresPrimaryButtons />
@@ -48,7 +50,10 @@ export function Stores() {
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
             <p className='font-medium'>
-              Error loading stores. Please check your connection and try again.
+              {t(
+                'stores.errorLoading',
+                'Error loading stores. Please check your connection and try again.'
+              )}
             </p>
           </div>
         ) : (

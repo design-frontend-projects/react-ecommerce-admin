@@ -2310,8 +2310,9 @@
     }
   },
   "stores": {
-    "title": "المتاجر ومنافذ البيع",
-    "description": "إدارة المتاجر والمحلات التجارية التابعة للفروع.",
+    "title": "إدارة المتاجر",
+    "description": "إدارة مواقع فروعك، وحالتها التشغيلية، وبيانات الاتصال الخاصة بها.",
+    "errorLoading": "خطأ في تحميل المتاجر. يرجى التحقق من اتصالك والمحاولة مرة أخرى.",
     "addStore": "إضافة متجر",
     "editStore": "تعديل المتجر",
     "createStore": "إنشاء متجر",
@@ -2321,34 +2322,74 @@
       "noResults": "لم يتم العثور على متاجر."
     },
     "columns": {
-      "name": "اسم المتجر",
-      "code": "رمز المتجر",
+      "select": "تحديد",
+      "selectAll": "تحديد الكل",
+      "selectRow": "تحديد الصف",
+      "name": "الاسم",
       "branch": "الفرع",
+      "city": "المدينة",
+      "country": "الدولة",
+      "phone": "رقم الهاتف",
       "status": "الحالة",
       "actions": "الإجراءات"
     },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "actions": {
+      "openMenu": "فتح القائمة",
+      "edit": "تعديل",
+      "delete": "حذف"
+    },
     "form": {
+      "createTitle": "إنشاء متجر",
+      "editTitle": "تعديل المتجر",
+      "createDescription": "إضافة موقع تجاري جديد إلى النظام.",
+      "editDescription": "تعديل بيانات المتجر أدناه.",
       "name": "اسم المتجر",
-      "code": "رمز المتجر",
+      "namePlaceholder": "الفرع الرئيسي",
       "branch": "الفرع",
+      "selectBranch": "اختر الفرع",
+      "country": "الدولة",
+      "selectCountry": "اختر الدولة",
+      "city": "المدينة",
+      "selectCity": "اختر المدينة",
+      "selectCountryFirst": "يرجى تحديد الدولة أولاً",
       "address": "العنوان",
-      "status": "الحالة",
+      "addressPlaceholder": "عنوان الشارع",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "+1-555-0100",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "contact@store.com",
+      "latitude": "خط العرض",
+      "longitude": "خط الطول",
+      "active": "نشط",
+      "operationalStatus": "الحالة التشغيلية.",
       "cancel": "إلغاء",
-      "save": "حفظ المتجر",
+      "save": "حفظ",
       "saving": "جاري الحفظ..."
     },
     "delete": {
-      "title": "حذف المتجر",
-      "description": "هل أنت متأكد من حذف هذا المتجر؟",
+      "title": "هل أنت متأكد؟",
+      "deleteStore": "حذف المتجر",
+      "description": "لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف المتجر نهائياً",
       "cancel": "إلغاء",
       "confirm": "حذف",
       "deleting": "جاري الحذف..."
     },
     "toast": {
       "created": "تم إنشاء المتجر بنجاح",
-      "updated": "تم تحديث بيانات المتجر بنجاح",
+      "updated": "تم تحديث المتجر بنجاح",
       "deleted": "تم حذف المتجر بنجاح",
-      "error": "فشل حفظ المتجر"
+      "error": "خطأ",
+      "errorDescription": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "validation": {
+      "nameRequired": "اسم المتجر مطلوب",
+      "invalidEmail": "صيغة البريد الإلكتروني غير صالحة",
+      "cityRequired": "المدينة مطلوبة",
+      "countryRequired": "الدولة مطلوبة"
     }
   },
   "suppliers": {
@@ -2716,20 +2757,163 @@
   },
   "stockBalances": {
     "title": "أرصدة المخزون",
-    "description": "الكميات المتوفرة، والمحجوزة، وقيمة المخزون الإجمالية لكل مستودع.",
+    "description": "سجل حركة المخزون اللحظي عبر منشآت متعددة لمتابعة الكميات المتوفرة، والكميات المحجوزة، والتقييم، وحركات التدقيق.",
+    "loading": "جاري تحميل أرصدة المخزون اللحظية...",
+    "errorLoading": "خطأ في تحميل أرصدة المخزون",
+    "tabs": {
+      "all": "الكل",
+      "alerts": "التنبيهات",
+      "warehouses": "المستودعات",
+      "stores": "المتاجر"
+    },
+    "metrics": {
+      "trackedSkus": "الأصناف المتتبعة",
+      "uniqueVariants": "متغيرات فريدة",
+      "onHandUnits": "الكميات الفعلية",
+      "physicalQuantity": "الكمية الفعلية بالمخازن",
+      "reserved": "المحجوز",
+      "committedToOrders": "محجوز للطلبات",
+      "available": "المتاح",
+      "availablePercent": "{{percent}}% من المخزون الفعلي",
+      "valuation": "تقييم المخزون",
+      "movingAvgCost": "متوسط التكلفة المتحرك",
+      "stockAlerts": "تنبيهات المخزون",
+      "alertsSummary": "({{outOfStock}} نفد، {{lowStock}} منخفض)"
+    },
+    "buttons": {
+      "newAdjustment": "تسوية مخزون جديدة",
+      "readOnlyAccess": "صلاحية قراءة فقط",
+      "permissionTooltip": "يتطلب إذن inventory.stock.manage لتسوية المخزون."
+    },
     "table": {
-      "filterPlaceholder": "تصفية الأرصدة بالمنتج أو المستودع...",
-      "noResults": "لم يتم العثور على سجلات أرصدة."
+      "filterPlaceholder": "بحث برمز SKU، اسم المنتج، الباركود...",
+      "noResults": "لم يتم العثور على أرصدة مخزون",
+      "noResultsDesc": "لا توجد سجلات مخزون تطابق الفلاتر المحددة أو المستودع المختار.",
+      "conditionFilter": "حالة المخزون",
+      "statusFilter": "حالة التوفر"
+    },
+    "conditions": {
+      "good": "جيد",
+      "goodDefault": "جيد (افتراضي)",
+      "damaged": "تالف",
+      "refurbished": "مجدد",
+      "returned": "مرتجع"
+    },
+    "statuses": {
+      "inStock": "متوفر",
+      "lowStock": "مخزون منخفض",
+      "outOfStock": "نفد من المخزون"
     },
     "columns": {
-      "product": "اسم المنتج",
-      "sku": "رمز SKU",
+      "select": "تحديد",
+      "selectAll": "تحديد الكل",
+      "selectRow": "تحديد الصف",
+      "productSku": "المنتج ورمز SKU",
+      "unknownProduct": "منتج غير معروف",
+      "sku": "SKU",
+      "facility": "المنشأة والموقع",
+      "bin": "الرف",
+      "condition": "الحالة",
+      "onHand": "الكمية الفعلية",
+      "reserved": "المحجوز",
+      "available": "المتاح",
+      "avgCost": "متوسط التكلفة",
+      "totalValue": "إجمالي القيمة",
+      "status": "الحالة",
+      "lastMovement": "آخر حركة",
+      "never": "لا يوجد",
+      "actions": "الإجراءات"
+    },
+    "actions": {
+      "openMenu": "فتح القائمة",
+      "adjustStock": "تسوية المخزون",
+      "viewMovements": "عرض الحركات",
+      "copySku": "نسخ رمز SKU",
+      "copiedSku": "تم نسخ رمز SKU \"{{sku}}\" إلى الحافظة"
+    },
+    "adjustmentDialog": {
+      "adjustTitle": "تسوية رصيد المخزون",
+      "newTitle": "تسوية مخزون جديدة",
+      "adjustDesc": "{{product}} ({{sku}})",
+      "newDesc": "تسجيل جرد فعلي، شطب بضاعة، أو تعديل أرصدة المخزون.",
+      "currentOnHand": "الكمية الحالية",
+      "adjustment": "مقدار التعديل",
+      "newOnHand": "الكمية الجديدة",
+      "available": "المتاح: {{qty}}",
+      "negativeWarning": "تحذير: ستؤدي هذه التسوية إلى رصيد مخزون سالب.",
+      "facilityType": "نوع المنشأة",
+      "selectFacilityType": "اختر نوع المنشأة",
       "warehouse": "المستودع",
-      "quantityOnHand": "الكمية الفعلية بالمخزن",
-      "allocated": "الكمية المحجوزة",
-      "available": "الكمية المتاحة للبيع",
-      "unitCost": "سعر التكلفة",
-      "totalValue": "القيمة الإجمالية"
+      "storeRetail": "متجر / نقطة بيع",
+      "selectWarehouse": "اختر المستودع",
+      "selectStore": "اختر المتجر",
+      "binLocation": "موقع الرف بالمستودع (اختياري)",
+      "selectWarehouseFirst": "يرجى اختيار المستودع أولاً",
+      "noBins": "لا توجد مواقع أرفف مهيأة",
+      "selectBin": "اختر موقع الرف",
+      "productVariant": "متغير المنتج / رمز SKU",
+      "selectVariant": "اختر المتغير برمز SKU أو الاسم",
+      "condition": "حالة المخزون",
+      "selectCondition": "اختر الحالة",
+      "unitCost": "تكلفة الوحدة ($)",
+      "unitCostHelp": "تستخدم لحساب متوسط التكلفة المتحرك للمخزون",
+      "mode": "طريقة التسوية",
+      "selectMode": "اختر الطريقة",
+      "modeSet": "تحديد الكمية الإجمالية الجديدة بدقة",
+      "modeOffset": "إضافة أو طرح كمية (+/-)",
+      "newQtyOnHand": "الكمية الفعلية الجديدة",
+      "offsetQty": "فرق الكمية (+ أو -)",
+      "qtyPlaceholderSet": "مثال: 100",
+      "qtyPlaceholderOffset": "مثال: -5 أو +10",
+      "reasonCode": "رمز سبب التدقيق",
+      "selectReason": "اختر السبب",
+      "remarks": "الشرح والملاحظات",
+      "remarksPlaceholder": "دون سبب التسوية، رقم التذكرة، أو ملاحظات الجرد الفعلي...",
+      "cancel": "إلغاء",
+      "apply": "تطبيق تسوية المخزون",
+      "applying": "جاري تطبيق التسوية..."
+    },
+    "reasons": {
+      "physical_audit": "تدقيق الجرد الفعلي",
+      "cycle_count": "جرد دوري روتيني",
+      "damaged": "شطب بضاعة تالفة",
+      "expired": "التخلص من بضاعة منتهية الصلاحية",
+      "theft_loss": "فقدان أو سرقة أو عجز",
+      "received_variance": "فروقات استلام شحنة",
+      "data_correction": "تصحيح خطأ إدخال بيانات",
+      "other": "أخرى (حدد في الملاحظات أدناه)"
+    },
+    "movementsDrawer": {
+      "title": "سجل تدقيق حركات المخزون",
+      "allFacilities": "جميع المنشآت",
+      "onHand": "الكمية الفعلية",
+      "reserved": "المحجوز",
+      "available": "المتاح",
+      "auditHistory": "سجل الحركات",
+      "recordsCount": "{{count}} سجل",
+      "noMovementsTitle": "لا توجد حركات مخزون مسجلة بعد",
+      "noMovementsDesc": "ستظهر الحركات هنا بمجرد إجراء مشتريات أو تسويات أو مبيعات.",
+      "before": "قبل:",
+      "after": "بعد:",
+      "ref": "المرجع:"
+    },
+    "movementTypes": {
+      "purchase": "وارد مشتريات",
+      "sale": "منصرف مبيعات",
+      "adjustment_in": "تسوية إضافة",
+      "adjustment_out": "تسوية خصم",
+      "damage": "تالف",
+      "expired": "منتهي الصلاحية",
+      "transfer_in": "تحويل وارد",
+      "transfer_out": "تحويل صادر",
+      "opening_stock": "رصيد افتتاحي",
+      "cycle_count_in": "فائض جرد",
+      "cycle_count_out": "عجز جرد"
+    },
+    "toast": {
+      "adjusted": "تمت تسوية رصيد المخزون بنجاح",
+      "failed": "فشلت تسوية رصيد المخزون",
+      "permissionDenied": "ليس لديك صلاحية لتسوية أرصدة المخزون."
     }
   },
   "stockByLocation": {

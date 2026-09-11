@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight, AlertCircle, Warehouse, Store, Package } from 'lucide-react'
@@ -51,20 +53,22 @@ interface Props {
   onOpenChange: (open: boolean) => void
 }
 
-const REASON_LABELS: Record<string, string> = {
-  physical_audit: 'Physical Count Audit',
-  cycle_count: 'Routine Cycle Count',
-  damaged: 'Damaged Goods Write-off',
-  expired: 'Expired Stock Disposal',
-  theft_loss: 'Theft or Shrinkage',
-  received_variance: 'Receipt Discrepancy',
-  data_correction: 'Data Entry Correction',
-  other: 'Other (Specify Below)',
-}
+const getReasonLabels = (t: TFunction): Record<string, string> => ({
+  physical_audit: t('stockBalances.reasons.physical_audit', 'Physical Count Audit'),
+  cycle_count: t('stockBalances.reasons.cycle_count', 'Routine Cycle Count'),
+  damaged: t('stockBalances.reasons.damaged', 'Damaged Goods Write-off'),
+  expired: t('stockBalances.reasons.expired', 'Expired Stock Disposal'),
+  theft_loss: t('stockBalances.reasons.theft_loss', 'Theft or Shrinkage'),
+  received_variance: t('stockBalances.reasons.received_variance', 'Receipt Discrepancy'),
+  data_correction: t('stockBalances.reasons.data_correction', 'Data Entry Correction'),
+  other: t('stockBalances.reasons.other', 'Other (Specify Below)'),
+})
 
 export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
+  const { t } = useTranslation()
   const { getToken } = useAuth()
   const adjustMutation = useAdjustStock()
+  const reasonLabels = useMemo(() => getReasonLabels(t), [t])
 
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
@@ -150,7 +154,8 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
   }
 
   const productName =
-    currentRow?.product_variants?.products?.name || 'Manual Stock Adjustment'
+    currentRow?.product_variants?.products?.name ||
+    t('stockBalances.adjustmentDialog.newTitle', 'New Stock Adjustment')
   const sku = currentRow?.product_variants?.sku || ''
 
   return (
@@ -165,21 +170,26 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-xl font-bold'>
             <Package className='h-5 w-5 text-primary' />
-            {currentRow ? 'Adjust Stock Balance' : 'New Stock Adjustment'}
+            {currentRow
+              ? t('stockBalances.adjustmentDialog.adjustTitle', 'Adjust Stock Balance')
+              : t('stockBalances.adjustmentDialog.newTitle', 'New Stock Adjustment')}
           </DialogTitle>
           <DialogDescription>
             {currentRow
               ? `${productName} (${sku})`
-              : 'Record a physical audit, write-off, or inventory adjustment.'}
+              : t(
+                  'stockBalances.adjustmentDialog.newDesc',
+                  'Record a physical audit, write-off, or inventory adjustment.'
+                )}
           </DialogDescription>
         </DialogHeader>
 
         {/* Live Calculation Preview Banner */}
         <div className='rounded-lg border bg-muted/40 p-4'>
           <div className='flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground'>
-            <span>Current On-Hand</span>
-            <span>Adjustment</span>
-            <span>New On-Hand</span>
+            <span>{t('stockBalances.adjustmentDialog.currentOnHand', 'Current On-Hand')}</span>
+            <span>{t('stockBalances.adjustmentDialog.adjustment', 'Adjustment')}</span>
+            <span>{t('stockBalances.adjustmentDialog.newOnHand', 'New On-Hand')}</span>
           </div>
           <div className='mt-2 flex items-center justify-between'>
             <div className='text-center'>
@@ -187,7 +197,10 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 {currentOnHand.toLocaleString()}
               </span>
               <p className='text-[11px] text-muted-foreground'>
-                Available: {Math.max(0, currentOnHand - currentReserved).toLocaleString()}
+                {t('stockBalances.adjustmentDialog.available', {
+                  qty: Math.max(0, currentOnHand - currentReserved).toLocaleString(),
+                  defaultValue: `Available: ${Math.max(0, currentOnHand - currentReserved).toLocaleString()}`,
+                })}
               </p>
             </div>
             <div className='flex items-center gap-2'>
@@ -215,14 +228,20 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 {projectedOnHand.toLocaleString()}
               </span>
               <p className='text-[11px] text-muted-foreground'>
-                Available: {projectedAvailable.toLocaleString()}
+                {t('stockBalances.adjustmentDialog.available', {
+                  qty: projectedAvailable.toLocaleString(),
+                  defaultValue: `Available: ${projectedAvailable.toLocaleString()}`,
+                })}
               </p>
             </div>
           </div>
           {projectedOnHand < 0 && (
             <div className='mt-2 flex items-center gap-1.5 text-xs text-destructive'>
               <AlertCircle className='h-4 w-4' />
-              Warning: This adjustment will result in negative stock.
+              {t(
+                'stockBalances.adjustmentDialog.negativeWarning',
+                'Warning: This adjustment will result in negative stock.'
+              )}
             </div>
           )}
         </div>
@@ -240,7 +259,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='location_type'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Location Facility</FormLabel>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.facilityType', 'Location Facility')}
+                    </FormLabel>
                     <Select
                       disabled={!!currentRow}
                       onValueChange={(val: 'warehouse' | 'store') => {
@@ -257,20 +278,28 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select facility type' />
+                          <SelectValue
+                            placeholder={t(
+                              'stockBalances.adjustmentDialog.selectFacilityType',
+                              'Select facility type'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value='warehouse'>
                           <div className='flex items-center gap-2'>
                             <Warehouse className='h-4 w-4 text-muted-foreground' />
-                            Warehouse
+                            {t('stockBalances.adjustmentDialog.warehouse', 'Warehouse')}
                           </div>
                         </SelectItem>
                         <SelectItem value='store'>
                           <div className='flex items-center gap-2'>
                             <Store className='h-4 w-4 text-muted-foreground' />
-                            Store / Retail Unit
+                            {t(
+                              'stockBalances.adjustmentDialog.storeRetail',
+                              'Store / Retail Unit'
+                            )}
                           </div>
                         </SelectItem>
                       </SelectContent>
@@ -286,7 +315,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                   name='warehouse_id'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Warehouse</FormLabel>
+                      <FormLabel>
+                        {t('stockBalances.adjustmentDialog.warehouse', 'Warehouse')}
+                      </FormLabel>
                       <Select
                         disabled={!!currentRow}
                         onValueChange={(val) => {
@@ -298,7 +329,12 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select warehouse' />
+                            <SelectValue
+                              placeholder={t(
+                                'stockBalances.adjustmentDialog.selectWarehouse',
+                                'Select warehouse'
+                              )}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -319,7 +355,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                   name='store_id'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Store</FormLabel>
+                      <FormLabel>
+                        {t('stockBalances.adjustmentDialog.storeRetail', 'Store')}
+                      </FormLabel>
                       <Select
                         disabled={!!currentRow}
                         onValueChange={field.onChange}
@@ -327,7 +365,12 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select store' />
+                            <SelectValue
+                              placeholder={t(
+                                'stockBalances.adjustmentDialog.selectStore',
+                                'Select store'
+                              )}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -352,7 +395,12 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='location_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Warehouse Location / Bin (Optional)</FormLabel>
+                    <FormLabel>
+                      {t(
+                        'stockBalances.adjustmentDialog.binLocation',
+                        'Warehouse Location / Bin (Optional)'
+                      )}
+                    </FormLabel>
                     <Select
                       disabled={!!currentRow || !selectedWarehouseId}
                       onValueChange={field.onChange}
@@ -363,10 +411,19 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                           <SelectValue
                             placeholder={
                               !selectedWarehouseId
-                                ? 'Select warehouse first'
+                                ? t(
+                                    'stockBalances.adjustmentDialog.selectWarehouseFirst',
+                                    'Select warehouse first'
+                                  )
                                 : locations.length === 0
-                                  ? 'No bin locations configured'
-                                  : 'Select bin location'
+                                  ? t(
+                                      'stockBalances.adjustmentDialog.noBins',
+                                      'No bin locations configured'
+                                    )
+                                  : t(
+                                      'stockBalances.adjustmentDialog.selectBin',
+                                      'Select bin location'
+                                    )
                             }
                           />
                         </SelectTrigger>
@@ -391,7 +448,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
               name='product_variant_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product Variant / SKU</FormLabel>
+                  <FormLabel>
+                    {t('stockBalances.adjustmentDialog.productVariant', 'Product Variant / SKU')}
+                  </FormLabel>
                   <Select
                     disabled={!!currentRow}
                     onValueChange={field.onChange}
@@ -403,7 +462,10 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                           placeholder={
                             currentRow
                               ? `${currentRow.product_variants?.products?.name || ''} — SKU: ${currentRow.product_variants?.sku || ''}`
-                              : 'Select variant by SKU or name'
+                              : t(
+                                  'stockBalances.adjustmentDialog.selectVariant',
+                                  'Select variant by SKU or name'
+                                )
                           }
                         />
                       </SelectTrigger>
@@ -433,7 +495,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='condition'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Stock Condition</FormLabel>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.condition', 'Stock Condition')}
+                    </FormLabel>
                     <Select
                       disabled={!!currentRow}
                       onValueChange={field.onChange}
@@ -441,14 +505,27 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select condition' />
+                          <SelectValue
+                            placeholder={t(
+                              'stockBalances.adjustmentDialog.selectCondition',
+                              'Select condition'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='good'>Good (Default)</SelectItem>
-                        <SelectItem value='damaged'>Damaged</SelectItem>
-                        <SelectItem value='refurbished'>Refurbished</SelectItem>
-                        <SelectItem value='returned'>Returned</SelectItem>
+                        <SelectItem value='good'>
+                          {t('stockBalances.conditions.goodDefault', 'Good (Default)')}
+                        </SelectItem>
+                        <SelectItem value='damaged'>
+                          {t('stockBalances.conditions.damaged', 'Damaged')}
+                        </SelectItem>
+                        <SelectItem value='refurbished'>
+                          {t('stockBalances.conditions.refurbished', 'Refurbished')}
+                        </SelectItem>
+                        <SelectItem value='returned'>
+                          {t('stockBalances.conditions.returned', 'Returned')}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -461,7 +538,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='unit_cost'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Unit Cost ($)</FormLabel>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.unitCost', 'Unit Cost ($)')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -473,7 +552,10 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                       />
                     </FormControl>
                     <FormDescription className='text-[11px]'>
-                      Used for inventory moving average cost calculation
+                      {t(
+                        'stockBalances.adjustmentDialog.unitCostHelp',
+                        'Used for inventory moving average cost calculation'
+                      )}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -488,16 +570,30 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='adjustment_type'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Adjustment Mode</FormLabel>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.mode', 'Adjustment Mode')}
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select mode' />
+                          <SelectValue
+                            placeholder={t(
+                              'stockBalances.adjustmentDialog.selectMode',
+                              'Select mode'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='set'>Set Exact New Quantity</SelectItem>
-                        <SelectItem value='offset'>Add / Subtract Offset (+/-)</SelectItem>
+                        <SelectItem value='set'>
+                          {t('stockBalances.adjustmentDialog.modeSet', 'Set Exact New Quantity')}
+                        </SelectItem>
+                        <SelectItem value='offset'>
+                          {t(
+                            'stockBalances.adjustmentDialog.modeOffset',
+                            'Add / Subtract Offset (+/-)'
+                          )}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -511,13 +607,22 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {watchedType === 'set' ? 'New Quantity On Hand' : 'Offset (+ or -)'}
+                      {watchedType === 'set'
+                        ? t('stockBalances.adjustmentDialog.newQtyOnHand', 'New Quantity On Hand')
+                        : t('stockBalances.adjustmentDialog.offsetQty', 'Offset (+ or -)')}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         step='any'
-                        placeholder={watchedType === 'set' ? 'e.g. 100' : 'e.g. -5 or +10'}
+                        placeholder={
+                          watchedType === 'set'
+                            ? t('stockBalances.adjustmentDialog.qtyPlaceholderSet', 'e.g. 100')
+                            : t(
+                                'stockBalances.adjustmentDialog.qtyPlaceholderOffset',
+                                'e.g. -5 or +10'
+                              )
+                        }
                         value={field.value ?? 0}
                         onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                       />
@@ -535,17 +640,24 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='reason_code'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Audit Reason Code</FormLabel>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.reasonCode', 'Audit Reason Code')}
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select reason' />
+                          <SelectValue
+                            placeholder={t(
+                              'stockBalances.adjustmentDialog.selectReason',
+                              'Select reason'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {stockAdjustmentReasonCodes.map((code) => (
                           <SelectItem key={code} value={code}>
-                            {REASON_LABELS[code] || code}
+                            {reasonLabels[code] || code}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -560,10 +672,15 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 name='reason'
                 render={({ field }) => (
                   <FormItem className='sm:col-span-2'>
-                    <FormLabel>Explanation & Remarks</FormLabel>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.remarks', 'Explanation & Remarks')}
+                    </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder='Document reason for adjustment, ticket #, or stocktake verification note...'
+                        placeholder={t(
+                          'stockBalances.adjustmentDialog.remarksPlaceholder',
+                          'Document reason for adjustment, ticket #, or stocktake verification note...'
+                        )}
                         rows={3}
                         {...field}
                       />
@@ -582,14 +699,16 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
             onClick={() => onOpenChange(false)}
             disabled={adjustMutation.isPending}
           >
-            Cancel
+            {t('stockBalances.adjustmentDialog.cancel', 'Cancel')}
           </Button>
           <Button
             type='submit'
             form='adjustment-form'
             disabled={adjustMutation.isPending}
           >
-            {adjustMutation.isPending ? 'Applying Adjustment...' : 'Apply Stock Adjustment'}
+            {adjustMutation.isPending
+              ? t('stockBalances.adjustmentDialog.applying', 'Applying Adjustment...')
+              : t('stockBalances.adjustmentDialog.apply', 'Apply Stock Adjustment')}
           </Button>
         </DialogFooter>
       </DialogContent>

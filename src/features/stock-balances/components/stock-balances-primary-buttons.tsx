@@ -25,13 +25,22 @@ export function StockBalancesPrimaryButtons() {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant='outline' disabled className='space-x-1 cursor-not-allowed opacity-75'>
+            <Button
+              variant='outline'
+              disabled
+              className='cursor-not-allowed space-x-1 opacity-75'
+            >
               <ShieldAlert className='mr-2 h-4 w-4 text-muted-foreground' />
-              Read-Only Access
+              {t('stockBalances.buttons.readOnlyAccess', 'Read-Only Access')}
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Requires inventory.stock.manage permission to adjust inventory.</p>
+            <p>
+              {t(
+                'stockBalances.buttons.permissionTooltip',
+                'Requires inventory.stock.manage permission to adjust inventory.'
+              )}
+            </p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

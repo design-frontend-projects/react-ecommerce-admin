@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { type CellContext } from '@tanstack/react-table'
 import { MoreHorizontal, Pencil, History, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
@@ -17,6 +18,7 @@ import { useStockBalancesContext } from './stock-balances-provider'
 export function StockBalancesRowActions({
   row,
 }: CellContext<StockBalanceRow, unknown>) {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useStockBalancesContext()
   const { has } = useAuth()
   const [copied, setCopied] = useState(false)
@@ -31,7 +33,12 @@ export function StockBalancesRowActions({
     if (sku) {
       navigator.clipboard.writeText(sku)
       setCopied(true)
-      toast.success(`Copied SKU "${sku}" to clipboard`)
+      toast.success(
+        t('stockBalances.actions.copiedSku', {
+          sku,
+          defaultValue: `Copied SKU "${sku}" to clipboard`,
+        })
+      )
       setTimeout(() => setCopied(false), 2000)
     }
   }
@@ -40,7 +47,9 @@ export function StockBalancesRowActions({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' className='h-8 w-8 p-0'>
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>
+            {t('stockBalances.actions.openMenu', 'Open menu')}
+          </span>
           <MoreHorizontal className='h-4 w-4' />
         </Button>
       </DropdownMenuTrigger>
@@ -53,7 +62,7 @@ export function StockBalancesRowActions({
             }}
           >
             <Pencil className='mr-2 h-4 w-4 text-primary' />
-            Adjust Stock
+            {t('stockBalances.actions.adjustStock', 'Adjust Stock')}
           </DropdownMenuItem>
         )}
 
@@ -64,7 +73,7 @@ export function StockBalancesRowActions({
           }}
         >
           <History className='mr-2 h-4 w-4 text-muted-foreground' />
-          View Movements
+          {t('stockBalances.actions.viewMovements', 'View Movements')}
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
@@ -75,7 +84,7 @@ export function StockBalancesRowActions({
           ) : (
             <Copy className='mr-2 h-4 w-4 text-muted-foreground' />
           )}
-          Copy SKU
+          {t('stockBalances.actions.copySku', 'Copy SKU')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

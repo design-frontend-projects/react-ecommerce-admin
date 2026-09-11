@@ -2310,8 +2310,9 @@
     }
   },
   "stores": {
-    "title": "Stores",
-    "description": "Manage retail storefronts and sales points.",
+    "title": "Stores Management",
+    "description": "Manage your business locations, operational status, and contact details.",
+    "errorLoading": "Error loading stores. Please check your connection and try again.",
     "addStore": "Add Store",
     "editStore": "Edit Store",
     "createStore": "Create Store",
@@ -2321,25 +2322,58 @@
       "noResults": "No stores found."
     },
     "columns": {
-      "name": "Store Name",
-      "code": "Store Code",
+      "select": "Select",
+      "selectAll": "Select all",
+      "selectRow": "Select row",
+      "name": "Name",
       "branch": "Branch",
+      "city": "City",
+      "country": "Country",
+      "phone": "Phone",
       "status": "Status",
       "actions": "Actions"
     },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "openMenu": "Open menu",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
     "form": {
+      "createTitle": "Create Store",
+      "editTitle": "Edit Store",
+      "createDescription": "Add a new location to your system.",
+      "editDescription": "Edit the store details below.",
       "name": "Store Name",
-      "code": "Store Code",
+      "namePlaceholder": "Main Branch",
       "branch": "Branch",
+      "selectBranch": "Select a branch",
+      "country": "Country",
+      "selectCountry": "Select a country",
+      "city": "City",
+      "selectCity": "Select a city",
+      "selectCountryFirst": "Select country first",
       "address": "Address",
-      "status": "Status",
+      "addressPlaceholder": "Street address",
+      "phone": "Phone",
+      "phonePlaceholder": "+1-555-0100",
+      "email": "Email",
+      "emailPlaceholder": "contact@store.com",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "active": "Active",
+      "operationalStatus": "Operational status.",
       "cancel": "Cancel",
-      "save": "Save Store",
+      "save": "Save",
       "saving": "Saving..."
     },
     "delete": {
-      "title": "Delete Store",
-      "description": "Are you sure you want to delete this store?",
+      "title": "Are you sure?",
+      "deleteStore": "Delete Store",
+      "description": "This action cannot be undone. This will permanently delete the store",
       "cancel": "Cancel",
       "confirm": "Delete",
       "deleting": "Deleting..."
@@ -2348,7 +2382,14 @@
       "created": "Store created successfully",
       "updated": "Store updated successfully",
       "deleted": "Store deleted successfully",
-      "error": "Failed to save store"
+      "error": "Error",
+      "errorDescription": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "nameRequired": "Store name is required",
+      "invalidEmail": "Invalid email format",
+      "cityRequired": "City is required",
+      "countryRequired": "Country is required"
     }
   },
   "suppliers": {
@@ -2716,20 +2757,163 @@
   },
   "stockBalances": {
     "title": "Stock Balances",
-    "description": "Real-time stock levels, available quantities, and valuations per warehouse.",
+    "description": "Multi-facility real-time inventory ledger tracking stock on hand, reserved quantities, valuation, and audit movements.",
+    "loading": "Loading real-time stock balances...",
+    "errorLoading": "Error loading stock balances",
+    "tabs": {
+      "all": "All",
+      "alerts": "Alerts",
+      "warehouses": "Warehouses",
+      "stores": "Stores"
+    },
+    "metrics": {
+      "trackedSkus": "Tracked SKUs",
+      "uniqueVariants": "Unique variants",
+      "onHandUnits": "On Hand Units",
+      "physicalQuantity": "Physical quantity",
+      "reserved": "Reserved",
+      "committedToOrders": "Committed to orders",
+      "available": "Available",
+      "availablePercent": "{{percent}}% of physical stock",
+      "valuation": "Valuation",
+      "movingAvgCost": "Moving avg cost",
+      "stockAlerts": "Stock Alerts",
+      "alertsSummary": "({{outOfStock}} OOS, {{lowStock}} Low)"
+    },
+    "buttons": {
+      "newAdjustment": "New Stock Adjustment",
+      "readOnlyAccess": "Read-Only Access",
+      "permissionTooltip": "Requires inventory.stock.manage permission to adjust inventory."
+    },
     "table": {
-      "filterPlaceholder": "Filter balances by product or warehouse...",
-      "noResults": "No balance records found."
+      "filterPlaceholder": "Search by SKU, product name, barcode...",
+      "noResults": "No stock balances found",
+      "noResultsDesc": "No inventory records matched your filters or warehouse selection.",
+      "conditionFilter": "Condition",
+      "statusFilter": "Stock Status"
+    },
+    "conditions": {
+      "good": "Good",
+      "goodDefault": "Good (Default)",
+      "damaged": "Damaged",
+      "refurbished": "Refurbished",
+      "returned": "Returned"
+    },
+    "statuses": {
+      "inStock": "In Stock",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock"
     },
     "columns": {
-      "product": "Product Name",
+      "select": "Select",
+      "selectAll": "Select all",
+      "selectRow": "Select row",
+      "productSku": "Product & SKU",
+      "unknownProduct": "Unknown Product",
       "sku": "SKU",
+      "facility": "Facility & Location",
+      "bin": "Bin",
+      "condition": "Condition",
+      "onHand": "On Hand",
+      "reserved": "Reserved",
+      "available": "Available",
+      "avgCost": "Avg Cost",
+      "totalValue": "Total Value",
+      "status": "Status",
+      "lastMovement": "Last Movement",
+      "never": "Never",
+      "actions": "Actions"
+    },
+    "actions": {
+      "openMenu": "Open menu",
+      "adjustStock": "Adjust Stock",
+      "viewMovements": "View Movements",
+      "copySku": "Copy SKU",
+      "copiedSku": "Copied SKU \"{{sku}}\" to clipboard"
+    },
+    "adjustmentDialog": {
+      "adjustTitle": "Adjust Stock Balance",
+      "newTitle": "New Stock Adjustment",
+      "adjustDesc": "{{product}} ({{sku}})",
+      "newDesc": "Record a physical audit, write-off, or inventory adjustment.",
+      "currentOnHand": "Current On-Hand",
+      "adjustment": "Adjustment",
+      "newOnHand": "New On-Hand",
+      "available": "Available: {{qty}}",
+      "negativeWarning": "Warning: This adjustment will result in negative stock.",
+      "facilityType": "Location Facility",
+      "selectFacilityType": "Select facility type",
       "warehouse": "Warehouse",
-      "quantityOnHand": "Quantity On Hand",
-      "allocated": "Allocated / Reserved",
-      "available": "Available Quantity",
-      "unitCost": "Unit Cost",
-      "totalValue": "Total Valuation"
+      "storeRetail": "Store / Retail Unit",
+      "selectWarehouse": "Select warehouse",
+      "selectStore": "Select store",
+      "binLocation": "Warehouse Location / Bin (Optional)",
+      "selectWarehouseFirst": "Select warehouse first",
+      "noBins": "No bin locations configured",
+      "selectBin": "Select bin location",
+      "productVariant": "Product Variant / SKU",
+      "selectVariant": "Select variant by SKU or name",
+      "condition": "Stock Condition",
+      "selectCondition": "Select condition",
+      "unitCost": "Unit Cost ($)",
+      "unitCostHelp": "Used for inventory moving average cost calculation",
+      "mode": "Adjustment Mode",
+      "selectMode": "Select mode",
+      "modeSet": "Set Exact New Quantity",
+      "modeOffset": "Add / Subtract Offset (+/-)",
+      "newQtyOnHand": "New Quantity On Hand",
+      "offsetQty": "Offset (+ or -)",
+      "qtyPlaceholderSet": "e.g. 100",
+      "qtyPlaceholderOffset": "e.g. -5 or +10",
+      "reasonCode": "Audit Reason Code",
+      "selectReason": "Select reason",
+      "remarks": "Explanation & Remarks",
+      "remarksPlaceholder": "Document reason for adjustment, ticket #, or stocktake verification note...",
+      "cancel": "Cancel",
+      "apply": "Apply Stock Adjustment",
+      "applying": "Applying Adjustment..."
+    },
+    "reasons": {
+      "physical_audit": "Physical Count Audit",
+      "cycle_count": "Routine Cycle Count",
+      "damaged": "Damaged Goods Write-off",
+      "expired": "Expired Stock Disposal",
+      "theft_loss": "Theft or Shrinkage",
+      "received_variance": "Receipt Discrepancy",
+      "data_correction": "Data Entry Correction",
+      "other": "Other (Specify Below)"
+    },
+    "movementsDrawer": {
+      "title": "Movement Audit Ledger",
+      "allFacilities": "All Facilities",
+      "onHand": "On Hand",
+      "reserved": "Reserved",
+      "available": "Available",
+      "auditHistory": "Audit History",
+      "recordsCount": "{{count}} Record(s)",
+      "noMovementsTitle": "No inventory movements recorded yet",
+      "noMovementsDesc": "Movements will appear here once purchases, adjustments, or sales occur.",
+      "before": "Before:",
+      "after": "After:",
+      "ref": "Ref:"
+    },
+    "movementTypes": {
+      "purchase": "Purchase In",
+      "sale": "Sale Out",
+      "adjustment_in": "Adjustment In",
+      "adjustment_out": "Adjustment Out",
+      "damage": "Damage",
+      "expired": "Expired",
+      "transfer_in": "Transfer In",
+      "transfer_out": "Transfer Out",
+      "opening_stock": "Opening Stock",
+      "cycle_count_in": "Count Gain",
+      "cycle_count_out": "Count Loss"
+    },
+    "toast": {
+      "adjusted": "Stock balance adjusted successfully",
+      "failed": "Failed to adjust stock balance",
+      "permissionDenied": "You do not have permission to adjust stock balances."
     }
   },
   "stockByLocation": {

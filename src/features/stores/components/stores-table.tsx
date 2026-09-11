@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -21,7 +21,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { columns } from './stores-columns'
+import { getColumns } from './stores-columns'
 
 interface StoresTableProps {
   data: any[]
@@ -29,6 +29,7 @@ interface StoresTableProps {
 
 export function StoresTable({ data }: StoresTableProps) {
   const { t } = useTranslation()
+  const columns = useMemo(() => getColumns(t), [t])
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])

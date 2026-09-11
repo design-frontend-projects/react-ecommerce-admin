@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import { History, ArrowUpRight, ArrowDownRight, RefreshCw, Calendar, FileText } from 'lucide-react'
 import {
   Sheet,
@@ -18,24 +21,73 @@ interface Props {
   onOpenChange: (open: boolean) => void
 }
 
-const MOVEMENT_BADGE_VARIANTS: Record<
+const getMovementBadgeVariants = (
+  t: TFunction
+): Record<
   string,
   { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline'; colorClass: string }
-> = {
-  purchase: { label: 'Purchase In', variant: 'default', colorClass: 'bg-emerald-600 text-white hover:bg-emerald-700' },
-  sale: { label: 'Sale Out', variant: 'default', colorClass: 'bg-blue-600 text-white hover:bg-blue-700' },
-  adjustment_in: { label: 'Adjustment In', variant: 'default', colorClass: 'bg-teal-600 text-white hover:bg-teal-700' },
-  adjustment_out: { label: 'Adjustment Out', variant: 'default', colorClass: 'bg-amber-600 text-white hover:bg-amber-700' },
-  damage: { label: 'Damage', variant: 'destructive', colorClass: '' },
-  expired: { label: 'Expired', variant: 'destructive', colorClass: '' },
-  transfer_in: { label: 'Transfer In', variant: 'secondary', colorClass: 'bg-purple-600 text-white hover:bg-purple-700' },
-  transfer_out: { label: 'Transfer Out', variant: 'secondary', colorClass: 'bg-purple-700 text-white hover:bg-purple-800' },
-  opening_stock: { label: 'Opening Stock', variant: 'outline', colorClass: 'border-emerald-500 text-emerald-600' },
-  cycle_count_in: { label: 'Count Gain', variant: 'default', colorClass: 'bg-emerald-500 text-white' },
-  cycle_count_out: { label: 'Count Loss', variant: 'destructive', colorClass: '' },
-}
+> => ({
+  purchase: {
+    label: t('stockBalances.movementTypes.purchase', 'Purchase In'),
+    variant: 'default',
+    colorClass: 'bg-emerald-600 text-white hover:bg-emerald-700',
+  },
+  sale: {
+    label: t('stockBalances.movementTypes.sale', 'Sale Out'),
+    variant: 'default',
+    colorClass: 'bg-blue-600 text-white hover:bg-blue-700',
+  },
+  adjustment_in: {
+    label: t('stockBalances.movementTypes.adjustment_in', 'Adjustment In'),
+    variant: 'default',
+    colorClass: 'bg-teal-600 text-white hover:bg-teal-700',
+  },
+  adjustment_out: {
+    label: t('stockBalances.movementTypes.adjustment_out', 'Adjustment Out'),
+    variant: 'default',
+    colorClass: 'bg-amber-600 text-white hover:bg-amber-700',
+  },
+  damage: {
+    label: t('stockBalances.movementTypes.damage', 'Damage'),
+    variant: 'destructive',
+    colorClass: '',
+  },
+  expired: {
+    label: t('stockBalances.movementTypes.expired', 'Expired'),
+    variant: 'destructive',
+    colorClass: '',
+  },
+  transfer_in: {
+    label: t('stockBalances.movementTypes.transfer_in', 'Transfer In'),
+    variant: 'secondary',
+    colorClass: 'bg-purple-600 text-white hover:bg-purple-700',
+  },
+  transfer_out: {
+    label: t('stockBalances.movementTypes.transfer_out', 'Transfer Out'),
+    variant: 'secondary',
+    colorClass: 'bg-purple-700 text-white hover:bg-purple-800',
+  },
+  opening_stock: {
+    label: t('stockBalances.movementTypes.opening_stock', 'Opening Stock'),
+    variant: 'outline',
+    colorClass: 'border-emerald-500 text-emerald-600',
+  },
+  cycle_count_in: {
+    label: t('stockBalances.movementTypes.cycle_count_in', 'Count Gain'),
+    variant: 'default',
+    colorClass: 'bg-emerald-500 text-white',
+  },
+  cycle_count_out: {
+    label: t('stockBalances.movementTypes.cycle_count_out', 'Count Loss'),
+    variant: 'destructive',
+    colorClass: '',
+  },
+})
 
 export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
+  const { t } = useTranslation()
+  const movementBadgeVariants = useMemo(() => getMovementBadgeVariants(t), [t])
+
   const facility = currentRow
     ? {
         warehouseId: currentRow.warehouse_id,
@@ -48,14 +100,16 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
     facility
   )
 
-  const productName = currentRow?.product_variants?.products?.name || 'Product'
+  const productName =
+    currentRow?.product_variants?.products?.name ||
+    t('stockBalances.columns.unknownProduct', 'Product')
   const sku = currentRow?.product_variants?.sku || '—'
   const facilityName =
     currentRow?.warehouses?.name ||
     currentRow?.stores?.name ||
-    'All Facilities'
+    t('stockBalances.movementsDrawer.allFacilities', 'All Facilities')
   const locationCode = currentRow?.warehouse_locations?.code
-    ? `Bin: ${currentRow.warehouse_locations.code}`
+    ? `${t('stockBalances.columns.bin', 'Bin')}: ${currentRow.warehouse_locations.code}`
     : ''
 
   return (
@@ -64,13 +118,15 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
         <SheetHeader>
           <SheetTitle className='flex items-center gap-2 text-xl font-bold'>
             <History className='h-5 w-5 text-primary' />
-            Movement Audit Ledger
+            {t('stockBalances.movementsDrawer.title', 'Movement Audit Ledger')}
           </SheetTitle>
           <SheetDescription asChild>
             <div className='space-y-1 text-sm'>
               <div className='font-semibold text-foreground'>{productName}</div>
               <div className='flex items-center gap-2 text-xs text-muted-foreground'>
-                <span>SKU: {sku}</span>
+                <span>
+                  {t('stockBalances.columns.sku', 'SKU')}: {sku}
+                </span>
                 <span>•</span>
                 <span>
                   {facilityName} {locationCode && `(${locationCode})`}
@@ -85,7 +141,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
           <div className='mt-3 grid grid-cols-3 gap-2 rounded-lg border bg-muted/40 p-3 text-center'>
             <div>
               <span className='text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
-                On Hand
+                {t('stockBalances.movementsDrawer.onHand', 'On Hand')}
               </span>
               <p className='font-mono text-lg font-bold'>
                 {Number(currentRow.qty_on_hand).toLocaleString()}
@@ -93,7 +149,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
             </div>
             <div>
               <span className='text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
-                Reserved
+                {t('stockBalances.movementsDrawer.reserved', 'Reserved')}
               </span>
               <p className='font-mono text-lg font-bold text-muted-foreground'>
                 {Number(currentRow.qty_reserved).toLocaleString()}
@@ -101,7 +157,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
             </div>
             <div>
               <span className='text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
-                Available
+                {t('stockBalances.movementsDrawer.available', 'Available')}
               </span>
               <p className='font-mono text-lg font-bold text-primary'>
                 {Number(currentRow.qty_available ?? 0).toLocaleString()}
@@ -111,8 +167,13 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
         )}
 
         <div className='mt-4 flex items-center justify-between border-b pb-2 text-xs font-semibold uppercase text-muted-foreground'>
-          <span>Audit History</span>
-          <span>{movements.length} Record(s)</span>
+          <span>{t('stockBalances.movementsDrawer.auditHistory', 'Audit History')}</span>
+          <span>
+            {t('stockBalances.movementsDrawer.recordsCount', {
+              count: movements.length,
+              defaultValue: `${movements.length} Record(s)`,
+            })}
+          </span>
         </div>
 
         <ScrollArea className='flex-1 pe-3'>
@@ -129,9 +190,14 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
           ) : movements.length === 0 ? (
             <div className='flex flex-col items-center justify-center py-12 text-center text-muted-foreground'>
               <History className='h-10 w-10 stroke-[1.5] text-muted-foreground/40' />
-              <p className='mt-2 font-medium'>No inventory movements recorded yet</p>
+              <p className='mt-2 font-medium'>
+                {t('stockBalances.movementsDrawer.noMovementsTitle', 'No inventory movements recorded yet')}
+              </p>
               <p className='text-xs'>
-                Movements will appear here once purchases, adjustments, or sales occur.
+                {t(
+                  'stockBalances.movementsDrawer.noMovementsDesc',
+                  'Movements will appear here once purchases, adjustments, or sales occur.'
+                )}
               </p>
             </div>
           ) : (
@@ -139,7 +205,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
               {movements.map((mov) => {
                 const delta = Number(mov.quantity_delta || 0)
                 const isPositive = delta > 0
-                const badgeInfo = MOVEMENT_BADGE_VARIANTS[mov.movement_type] || {
+                const badgeInfo = movementBadgeVariants[mov.movement_type] || {
                   label: mov.movement_type.replace(/_/g, ' '),
                   variant: 'outline',
                   colorClass: '',
@@ -160,7 +226,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
                         </Badge>
                         {mov.condition && mov.condition !== 'good' && (
                           <Badge variant='outline' className='text-[10px] uppercase text-amber-600'>
-                            {mov.condition}
+                            {t(`stockBalances.conditions.${mov.condition}`, mov.condition)}
                           </Badge>
                         )}
                       </div>
@@ -181,11 +247,17 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
                     {(mov.qty_before !== null || mov.qty_after !== null) && (
                       <div className='mt-2 flex items-center justify-between text-xs text-muted-foreground'>
                         <span>
-                          Before: <strong className='font-mono text-foreground'>{Number(mov.qty_before ?? 0).toLocaleString()}</strong>
+                          {t('stockBalances.movementsDrawer.before', 'Before:')}{' '}
+                          <strong className='font-mono text-foreground'>
+                            {Number(mov.qty_before ?? 0).toLocaleString()}
+                          </strong>
                         </span>
                         <RefreshCw className='h-3 w-3 text-muted-foreground/50' />
                         <span>
-                          After: <strong className='font-mono text-foreground'>{Number(mov.qty_after ?? 0).toLocaleString()}</strong>
+                          {t('stockBalances.movementsDrawer.after', 'After:')}{' '}
+                          <strong className='font-mono text-foreground'>
+                            {Number(mov.qty_after ?? 0).toLocaleString()}
+                          </strong>
                         </span>
                       </div>
                     )}
@@ -214,7 +286,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
                       </div>
                       {mov.reference_type && (
                         <span className='font-mono text-[10px] text-muted-foreground/80'>
-                          Ref: {mov.reference_type}
+                          {t('stockBalances.movementsDrawer.ref', 'Ref:')} {mov.reference_type}
                         </span>
                       )}
                     </div>

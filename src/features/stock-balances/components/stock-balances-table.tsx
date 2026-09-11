@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -24,27 +24,41 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import type { StockBalanceRow } from '../data/schema'
-import { columns } from './stock-balances-columns'
+import { getColumns } from './stock-balances-columns'
 
 interface Props {
   data: StockBalanceRow[]
 }
 
-const CONDITION_FILTER_OPTIONS = [
-  { label: 'Good', value: 'good' },
-  { label: 'Damaged', value: 'damaged' },
-  { label: 'Refurbished', value: 'refurbished' },
-  { label: 'Returned', value: 'returned' },
-]
-
-const STATUS_FILTER_OPTIONS = [
-  { label: 'In Stock', value: 'in_stock' },
-  { label: 'Low Stock', value: 'low_stock' },
-  { label: 'Out of Stock', value: 'out_of_stock' },
-]
-
 export function StockBalancesTable({ data }: Props) {
   const { t } = useTranslation()
+  const columns = useMemo(() => getColumns(t), [t])
+
+  const conditionFilterOptions = useMemo(
+    () => [
+      { label: t('stockBalances.conditions.good', 'Good'), value: 'good' },
+      { label: t('stockBalances.conditions.damaged', 'Damaged'), value: 'damaged' },
+      {
+        label: t('stockBalances.conditions.refurbished', 'Refurbished'),
+        value: 'refurbished',
+      },
+      { label: t('stockBalances.conditions.returned', 'Returned'), value: 'returned' },
+    ],
+    [t]
+  )
+
+  const statusFilterOptions = useMemo(
+    () => [
+      { label: t('stockBalances.statuses.inStock', 'In Stock'), value: 'in_stock' },
+      { label: t('stockBalances.statuses.lowStock', 'Low Stock'), value: 'low_stock' },
+      {
+        label: t('stockBalances.statuses.outOfStock', 'Out of Stock'),
+        value: 'out_of_stock',
+      },
+    ],
+    [t]
+  )
+
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -86,13 +100,13 @@ export function StockBalancesTable({ data }: Props) {
         filters={[
           {
             columnId: 'condition',
-            title: 'Condition',
-            options: CONDITION_FILTER_OPTIONS,
+            title: t('stockBalances.table.conditionFilter', 'Condition'),
+            options: conditionFilterOptions,
           },
           {
             columnId: 'status',
-            title: 'Stock Status',
-            options: STATUS_FILTER_OPTIONS,
+            title: t('stockBalances.table.statusFilter', 'Stock Status'),
+            options: statusFilterOptions,
           },
         ]}
       />
@@ -103,7 +117,10 @@ export function StockBalancesTable({ data }: Props) {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className='py-3 text-xs font-semibold'>
+                  <TableHead
+                    key={header.id}
+                    className='py-3 text-xs font-semibold'
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -141,9 +158,14 @@ export function StockBalancesTable({ data }: Props) {
                 >
                   <div className='flex flex-col items-center justify-center gap-1'>
                     <PackageOpen className='h-8 w-8 stroke-1 text-muted-foreground/50' />
-                    <span className='font-medium text-sm'>No stock balances found</span>
+                    <span className='font-medium text-sm'>
+                      {t('stockBalances.table.noResults', 'No stock balances found')}
+                    </span>
                     <span className='text-xs text-muted-foreground/80'>
-                      No inventory records matched your filters or warehouse selection.
+                      {t(
+                        'stockBalances.table.noResultsDesc',
+                        'No inventory records matched your filters or warehouse selection.'
+                      )}
                     </span>
                   </div>
                 </TableCell>
@@ -157,3 +179,4 @@ export function StockBalancesTable({ data }: Props) {
     </div>
   )
 }
+

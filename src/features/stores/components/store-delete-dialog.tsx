@@ -24,12 +24,16 @@ export function StoreDeleteDialog() {
     if (currentRow) {
       try {
         await deleteMutation.mutateAsync(currentRow.store_id)
-        toast.success('Store deleted successfully')
+        toast.success(t('stores.toast.deleted', 'Store deleted successfully'))
         setOpen(null)
       } catch (error: any) {
-        toast.error('Error', {
+        toast.error(t('stores.toast.error', 'Error'), {
           description:
-            error.message || 'Something went wrong. Please try again.',
+            error.message ||
+            t(
+              'stores.toast.errorDescription',
+              'Something went wrong. Please try again.'
+            ),
         })
       }
     }
@@ -39,18 +43,25 @@ export function StoreDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('stores.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t('stores.delete.title', 'Are you sure?')}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the store
-            <span className='font-medium text-foreground'>
-              {currentRow?.name ? ` "${currentRow.name}"` : ''}
-            </span>
+            {t(
+              'stores.delete.description',
+              'This action cannot be undone. This will permanently delete the store'
+            )}
+            {currentRow?.name && (
+              <span className='font-medium text-foreground'>
+                {` "${currentRow.name}"`}
+              </span>
+            )}
             .
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteMutation.isPending}>
-            Cancel
+            {t('stores.delete.cancel', 'Cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
@@ -60,7 +71,9 @@ export function StoreDeleteDialog() {
             className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteMutation.isPending
+              ? t('stores.delete.deleting', 'Deleting...')
+              : t('stores.delete.confirm', 'Delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

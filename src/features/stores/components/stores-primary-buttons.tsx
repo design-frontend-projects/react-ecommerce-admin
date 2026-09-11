@@ -17,7 +17,7 @@ export function StoresPrimaryButtons() {
         size='sm'
         className='h-8'
       >
-        <Plus className='mr-2 h-4 w-4' /> Create Store
+        <Plus className='mr-2 h-4 w-4' /> {t('stores.createStore', 'Create Store')}
       </Button>
     </div>
   )

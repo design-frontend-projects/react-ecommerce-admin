@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { useForm, type SubmitHandler, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -58,6 +59,7 @@ const formSchema = z.object({
 type StoreFormValues = z.infer<typeof formSchema>
 
 export function StoreActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useStoresContext()
   const createMutation = useCreateStore()
   const updateMutation = useUpdateStore()
@@ -148,18 +150,21 @@ export function StoreActionDialog() {
           store_id: currentRow.store_id,
           ...sanitizedData,
         })
-        toast.success('Store updated successfully')
+        toast.success(t('stores.toast.updated', 'Store updated successfully'))
       } else {
         await createMutation.mutateAsync(sanitizedData)
-        toast.success('Store created successfully')
+        toast.success(t('stores.toast.created', 'Store created successfully'))
       }
       setOpen(null)
     } catch (error: any) {
-      toast.error('Error', {
+      toast.error(t('stores.toast.error', 'Error'), {
         description:
           error instanceof Error
             ? error.message
-            : 'Something went wrong. Please try again.',
+            : t(
+                'stores.toast.errorDescription',
+                'Something went wrong. Please try again.'
+              ),
       })
     }
   }
@@ -168,11 +173,15 @@ export function StoreActionDialog() {
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <DialogContent className='sm:max-w-125'>
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Store' : 'Create Store'}</DialogTitle>
+          <DialogTitle>
+            {isEdit
+              ? t('stores.form.editTitle', 'Edit Store')
+              : t('stores.form.createTitle', 'Create Store')}
+          </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Edit the store details below.'
-              : 'Add a new location to your system.'}
+              ? t('stores.form.editDescription', 'Edit the store details below.')
+              : t('stores.form.createDescription', 'Add a new location to your system.')}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className='-mr-4 h-112.5 pr-4'>
@@ -187,10 +196,13 @@ export function StoreActionDialog() {
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Store Name</FormLabel>
+                    <FormLabel>{t('stores.form.name', 'Store Name')}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Main Branch'
+                        placeholder={t(
+                          'stores.form.namePlaceholder',
+                          'Main Branch'
+                        )}
                         {...field}
                         value={field.value || ''}
                       />
@@ -204,14 +216,19 @@ export function StoreActionDialog() {
                 name='branch_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Branch</FormLabel>
+                    <FormLabel>{t('stores.form.branch', 'Branch')}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       value={field.value || ''}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select a branch' />
+                          <SelectValue
+                            placeholder={t(
+                              'stores.form.selectBranch',
+                              'Select a branch'
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -232,14 +249,21 @@ export function StoreActionDialog() {
                   name='country_id'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Country</FormLabel>
+                      <FormLabel>
+                        {t('stores.form.country', 'Country')}
+                      </FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value || ''}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select a country' />
+                            <SelectValue
+                              placeholder={t(
+                                'stores.form.selectCountry',
+                                'Select a country'
+                              )}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -262,7 +286,7 @@ export function StoreActionDialog() {
                   name='city_id'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>City</FormLabel>
+                      <FormLabel>{t('stores.form.city', 'City')}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value || ''}
@@ -273,8 +297,14 @@ export function StoreActionDialog() {
                             <SelectValue
                               placeholder={
                                 !selectedCountryId
-                                  ? 'Select country first'
-                                  : 'Select a city'
+                                  ? t(
+                                      'stores.form.selectCountryFirst',
+                                      'Select country first'
+                                    )
+                                  : t(
+                                      'stores.form.selectCity',
+                                      'Select a city'
+                                    )
                               }
                             />
                           </SelectTrigger>
@@ -297,10 +327,15 @@ export function StoreActionDialog() {
                 name='address'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>
+                      {t('stores.form.address', 'Address')}
+                    </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder='Street address'
+                        placeholder={t(
+                          'stores.form.addressPlaceholder',
+                          'Street address'
+                        )}
                         {...field}
                         value={field.value || ''}
                       />
@@ -315,10 +350,13 @@ export function StoreActionDialog() {
                   name='phone'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone</FormLabel>
+                      <FormLabel>{t('stores.form.phone', 'Phone')}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder='+1-555-0100'
+                          placeholder={t(
+                            'stores.form.phonePlaceholder',
+                            '+1-555-0100'
+                          )}
                           {...field}
                           value={field.value || ''}
                         />
@@ -332,10 +370,13 @@ export function StoreActionDialog() {
                   name='email'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t('stores.form.email', 'Email')}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder='contact@store.com'
+                          placeholder={t(
+                            'stores.form.emailPlaceholder',
+                            'contact@store.com'
+                          )}
                           {...field}
                           value={field.value || ''}
                         />
@@ -351,7 +392,9 @@ export function StoreActionDialog() {
                   name='latitude'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Latitude</FormLabel>
+                      <FormLabel>
+                        {t('stores.form.latitude', 'Latitude')}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder='0.000000'
@@ -375,7 +418,9 @@ export function StoreActionDialog() {
                   name='longitude'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Longitude</FormLabel>
+                      <FormLabel>
+                        {t('stores.form.longitude', 'Longitude')}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder='0.000000'
@@ -401,10 +446,14 @@ export function StoreActionDialog() {
                 render={({ field }) => (
                   <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                     <div className='space-y-0.5'>
-                      <FormLabel className='text-base'>Active</FormLabel>
+                      <FormLabel className='text-base'>
+                        {t('stores.form.active', 'Active')}
+                      </FormLabel>
                       <div className='text-sm text-muted-foreground'>
-                        {' '}
-                        Operational status.{' '}
+                        {t(
+                          'stores.form.operationalStatus',
+                          'Operational status.'
+                        )}
                       </div>
                     </div>
                     <FormControl>
@@ -425,7 +474,7 @@ export function StoreActionDialog() {
             onClick={() => setOpen(null)}
             disabled={createMutation.isPending || updateMutation.isPending}
           >
-            Cancel
+            {t('stores.form.cancel', 'Cancel')}
           </Button>
           <Button
             type='submit'
@@ -433,11 +482,12 @@ export function StoreActionDialog() {
             disabled={createMutation.isPending || updateMutation.isPending}
           >
             {createMutation.isPending || updateMutation.isPending
-              ? 'Saving...'
-              : 'Save'}
+              ? t('stores.form.saving', 'Saving...')
+              : t('stores.form.save', 'Save')}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   )
 }
+

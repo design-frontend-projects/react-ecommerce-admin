@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import i18n from '@/config/i18n'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuth } from '@/hooks/use-auth'
 import {
@@ -57,7 +58,12 @@ export function useAdjustStock() {
         has({ role: 'admin' })
 
       if (!canManage) {
-        throw new Error('You do not have permission to adjust stock balances.')
+        throw new Error(
+          i18n.t(
+            'stockBalances.toast.permissionDenied',
+            'You do not have permission to adjust stock balances.'
+          )
+        )
       }
 
       const defaultGetToken = async () => null
@@ -70,10 +76,15 @@ export function useAdjustStock() {
       queryClient.invalidateQueries({ queryKey: ['inventory', 'stock-by-location'] })
       queryClient.invalidateQueries({ queryKey: ['warehouses', 'options'] })
       queryClient.invalidateQueries({ queryKey: ['product-variants', 'options'] })
-      toast.success('Stock balance adjusted successfully')
+      toast.success(
+        i18n.t('stockBalances.toast.adjusted', 'Stock balance adjusted successfully')
+      )
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Failed to adjust stock balance')
+      toast.error(
+        error.message ||
+          i18n.t('stockBalances.toast.failed', 'Failed to adjust stock balance')
+      )
     },
   })
 }
