@@ -1,5 +1,26 @@
 # Error Log
 
+## [2026-09-09 02:55] - DOM Nesting Hydration Error in Stock Movement Drawer (<div> inside <p>)
+
+- **Type**: Runtime
+- **Severity**: Low
+- **File**: `src/features/stock-balances/components/stock-movement-drawer.tsx:71`
+- **Agent**: antigravity-ide
+- **Root Cause**: `SheetDescription` (via Radix `DialogPrimitive.Description`) renders a `<p>` tag by default. Nested `<div>` elements inside `SheetDescription` (used for the SKU and facility metadata flex row) violated HTML5 nesting rules, triggering React's `validateDOMNesting` warning (`In HTML, <div> cannot be a descendant of <p>`) and risking hydration mismatches.
+- **Error Message**: 
+  ```
+  In HTML, <div> cannot be a descendant of <p>.
+  This will cause a hydration error.
+  <p id="radix-_r_15_" data-slot="sheet-description" className="text-muted-foreground space-y-1 text-sm">
+    <span>
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+  ```
+- **Fix Applied**: Added `asChild` prop to `<SheetDescription>` in [stock-movement-drawer.tsx](file:///e:/web-projects/web-mobile-work-apps/inventory_marketplace/react-ecommerce-restuarant/src/features/stock-balances/components/stock-movement-drawer.tsx) so that it forwards attributes to an outer container `<div>` instead of rendering an enclosing `<p>` tag.
+- **Prevention**: Always pass `asChild` to `<DialogDescription>` or `<SheetDescription>` when wrapping structured block elements, metadata bars, or flex layouts.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-08 23:40] - Purchase Orders Tenant ID Constraint Violation (23502)
 
 - **Type**: Integration

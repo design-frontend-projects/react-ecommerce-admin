@@ -66,14 +66,16 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
             <History className='h-5 w-5 text-primary' />
             Movement Audit Ledger
           </SheetTitle>
-          <SheetDescription className='space-y-1 text-sm'>
-            <span className='font-semibold text-foreground'>{productName}</span>
-            <div className='flex items-center gap-2 text-xs text-muted-foreground'>
-              <span>SKU: {sku}</span>
-              <span>•</span>
-              <span>
-                {facilityName} {locationCode && `(${locationCode})`}
-              </span>
+          <SheetDescription asChild>
+            <div className='space-y-1 text-sm'>
+              <div className='font-semibold text-foreground'>{productName}</div>
+              <div className='flex items-center gap-2 text-xs text-muted-foreground'>
+                <span>SKU: {sku}</span>
+                <span>•</span>
+                <span>
+                  {facilityName} {locationCode && `(${locationCode})`}
+                </span>
+              </div>
             </div>
           </SheetDescription>
         </SheetHeader>
