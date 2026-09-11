@@ -53,10 +53,25 @@ function assertItems(items: TransferItemInput[]): void {
   }
 }
 
-function serializeTransfer<
+function toNumeric(val: unknown, fallback = 0): number {
+  if (val == null) return fallback
+  if (typeof val === 'number') return val
+  if (
+    typeof val === 'object' &&
+    val !== null &&
+    'toNumber' in val &&
+    typeof (val as { toNumber: () => number }).toNumber === 'function'
+  ) {
+    return (val as { toNumber: () => number }).toNumber()
+  }
+  const parsed = Number(val)
+  return isNaN(parsed) ? fallback : parsed
+}
+
+export function serializeTransfer<
   T extends {
     transfer_no?: bigint | number | string | null
-    stock_transfer_items?: Array<any>
+    stock_transfer_items?: Array<Record<string, unknown>>
   },
 >(transfer: T) {
   return {
@@ -67,9 +82,9 @@ function serializeTransfer<
       ? {
           stock_transfer_items: transfer.stock_transfer_items.map((it) => ({
             ...it,
-            qty: Number(it.qty),
-            received_qty: Number(it.received_qty ?? 0),
-            unit_cost: Number(it.unit_cost ?? 0),
+            qty: toNumeric(it.qty, 0),
+            received_qty: toNumeric(it.received_qty, 0),
+            unit_cost: it.unit_cost == null ? null : toNumeric(it.unit_cost, 0),
           })),
         }
       : {}),
