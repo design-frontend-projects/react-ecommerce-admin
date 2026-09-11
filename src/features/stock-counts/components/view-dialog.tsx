@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Badge } from '@/components/ui/badge'
@@ -32,6 +33,7 @@ export function CountViewDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   const { data: detail, isLoading } = useCount(open ? count.id : undefined)
   const countAction = useCountAction()
   const cancelCount = useCancelCount()
@@ -64,7 +66,7 @@ export function CountViewDialog({
       }))
 
     if (collected.length === 0) {
-      toast.error('Enter at least one counted quantity.')
+      toast.error(t('stockCounts.viewDialog.enterAtLeastOne', 'Enter at least one counted quantity.'))
       return
     }
     try {
@@ -109,27 +111,27 @@ export function CountViewDialog({
             <div className='flex items-center justify-between gap-3 pr-6'>
               <div className='flex items-center gap-2'>
                 <DialogTitle className='text-lg font-bold'>
-                  Count: {count.count_number}
+                  {t('stockCounts.viewDialog.count', 'Count: {{number}}', { number: count.count_number })}
                 </DialogTitle>
-                {isBlind && <Badge variant='outline'>Blind Count</Badge>}
+                {isBlind && <Badge variant='outline'>{t('stockCounts.blindCount', 'Blind Count')}</Badge>}
               </div>
               <StatusBadge status={status} />
             </div>
             <DialogDescription className='text-xs pt-1'>
-              Store / Warehouse:{' '}
+              {t('stockCounts.viewDialog.storeWarehouse', 'Store / Warehouse:')}{' '}
               <span className='font-semibold text-foreground'>
                 {current.stores?.name ?? '—'}
               </span>{' '}
               ·{' '}
               {current.warehouse_location_id
-                ? 'Specific Location'
-                : 'Full Store / Facility'}
+                ? t('stockCounts.scopeSpecificLocation', 'Specific Location')
+                : t('stockCounts.scopeFullFacility', 'Full Store / Facility')}
             </DialogDescription>
           </DialogHeader>
 
           {status === 'posted' && current.posted_adjustment_id && (
             <div className='p-2.5 rounded-md bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300'>
-              Variance posted into live ledger as Adjustment{' '}
+              {t('stockCounts.viewDialog.variancePosted', 'Variance posted into live ledger as Adjustment')}{' '}
               <strong className='font-mono'>
                 #{current.posted_adjustment_id.slice(0, 8)}
               </strong>
@@ -139,26 +141,30 @@ export function CountViewDialog({
 
           {isLoading ? (
             <p className='text-sm text-muted-foreground py-6 text-center'>
-              Loading items...
+              {t('stockCounts.viewDialog.loading', 'Loading items...')}
             </p>
           ) : status === 'draft' ? (
             <div className='p-6 text-center border rounded-lg bg-muted/20 space-y-2'>
               <p className='text-sm font-semibold text-foreground'>
-                Stock Count Ready to Start
+                {t('stockCounts.viewDialog.readyTitle', 'Stock Count Ready to Start')}
               </p>
               <p className='text-xs text-muted-foreground max-w-md mx-auto'>
-                Click "Start Counting" below to capture and freeze the snapshot of
-                expected quantities for all products in this location.
+                {t(
+                  'stockCounts.viewDialog.readyDesc',
+                  'Click "Start Counting" below to capture and freeze the snapshot of expected quantities for all products in this location.'
+                )}
               </p>
             </div>
           ) : (
             <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
               <TabsList className='grid w-full grid-cols-2 mb-2'>
                 <TabsTrigger value='sheet' className='text-xs font-semibold'>
-                  Counting Sheet ({items.length})
+                  {t('stockCounts.viewDialog.tabs.countingSheet', 'Counting Sheet ({{count}})', {
+                    count: items.length,
+                  })}
                 </TabsTrigger>
                 <TabsTrigger value='variance' className='text-xs font-semibold'>
-                  Variance & Discrepancies
+                  {t('stockCounts.viewDialog.tabs.variance', 'Variance & Discrepancies')}
                 </TabsTrigger>
               </TabsList>
 
@@ -182,7 +188,7 @@ export function CountViewDialog({
 
           {current.notes && (
             <div className='p-3 rounded-md bg-muted/30 text-xs space-y-1'>
-              <span className='font-semibold text-foreground'>Notes:</span>
+              <span className='font-semibold text-foreground'>{t('stockCounts.viewDialog.notes', 'Notes:')}</span>
               <p className='text-muted-foreground'>{current.notes}</p>
             </div>
           )}
@@ -196,7 +202,7 @@ export function CountViewDialog({
                   onClick={() => setConfirmCancel(true)}
                   disabled={cancelCount.isPending}
                 >
-                  Cancel Count
+                  {t('stockCounts.viewDialog.cancelCount', 'Cancel Count')}
                 </Button>
                 <Button
                   size='sm'
@@ -204,7 +210,9 @@ export function CountViewDialog({
                   disabled={countAction.isPending}
                   className='bg-primary'
                 >
-                  {countAction.isPending ? 'Freezing Snapshot...' : 'Start Counting'}
+                  {countAction.isPending
+                    ? t('stockCounts.viewDialog.freezingSnapshot', 'Freezing Snapshot...')
+                    : t('stockCounts.viewDialog.startCounting', 'Start Counting')}
                 </Button>
               </Can>
             ) : status === 'counting' ? (
@@ -215,7 +223,7 @@ export function CountViewDialog({
                   onClick={() => setConfirmCancel(true)}
                   disabled={cancelCount.isPending}
                 >
-                  Cancel Count
+                  {t('stockCounts.viewDialog.cancelCount', 'Cancel Count')}
                 </Button>
                 <div className='flex items-center gap-2'>
                   <Button
@@ -224,7 +232,7 @@ export function CountViewDialog({
                     onClick={() => void handleSave()}
                     disabled={countAction.isPending}
                   >
-                    Save Progress
+                    {t('stockCounts.viewDialog.saveProgress', 'Save Progress')}
                   </Button>
                   <Button
                     size='sm'
@@ -232,7 +240,7 @@ export function CountViewDialog({
                     disabled={countAction.isPending}
                     className='bg-teal-600 hover:bg-teal-700 text-white'
                   >
-                    Submit for Review
+                    {t('stockCounts.viewDialog.submitReview', 'Submit for Review')}
                   </Button>
                 </div>
               </Can>
@@ -243,7 +251,7 @@ export function CountViewDialog({
                   size='sm'
                   onClick={() => onOpenChange(false)}
                 >
-                  Close
+                  {t('stockCounts.viewDialog.close', 'Close')}
                 </Button>
                 <Button
                   size='sm'
@@ -251,7 +259,7 @@ export function CountViewDialog({
                   disabled={countAction.isPending}
                   className='bg-emerald-600 hover:bg-emerald-700 text-white'
                 >
-                  Approve & Post Variance
+                  {t('stockCounts.viewDialog.approvePost', 'Approve & Post Variance')}
                 </Button>
               </Can>
             ) : (
@@ -260,7 +268,7 @@ export function CountViewDialog({
                 size='sm'
                 onClick={() => onOpenChange(false)}
               >
-                Close
+                {t('stockCounts.viewDialog.close', 'Close')}
               </Button>
             )}
           </DialogFooter>
@@ -270,9 +278,12 @@ export function CountViewDialog({
       <ConfirmDialog
         open={confirmPost}
         onOpenChange={setConfirmPost}
-        title='Post this count variance?'
-        desc='Stock variances will be officially posted to the stock ledger via an adjustment. This updates active inventory balances.'
-        confirmText='Post Count'
+        title={t('stockCounts.viewDialog.postConfirm.title', 'Post this count variance?')}
+        desc={t(
+          'stockCounts.viewDialog.postConfirm.desc',
+          'Stock variances will be officially posted to the stock ledger via an adjustment. This updates active inventory balances.'
+        )}
+        confirmText={t('stockCounts.viewDialog.postConfirm.confirm', 'Post Count')}
         isLoading={countAction.isPending}
         handleConfirm={() => void handleAction('post')}
       />
@@ -281,9 +292,12 @@ export function CountViewDialog({
         open={confirmCancel}
         onOpenChange={setConfirmCancel}
         destructive
-        title='Cancel this count?'
-        desc='The count will be marked cancelled. No stock changes are made.'
-        confirmText='Cancel Count'
+        title={t('stockCounts.viewDialog.cancelConfirm.title', 'Cancel this count?')}
+        desc={t(
+          'stockCounts.viewDialog.cancelConfirm.desc',
+          'The count will be marked cancelled. No stock changes are made.'
+        )}
+        confirmText={t('stockCounts.viewDialog.cancelConfirm.confirm', 'Cancel Count')}
         isLoading={cancelCount.isPending}
         handleConfirm={handleCancel}
       />

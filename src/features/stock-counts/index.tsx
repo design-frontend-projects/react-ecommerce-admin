@@ -32,8 +32,10 @@ export function StockCounts() {
           <div>
             <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('stockCounts.title')}</h2>
             <p className='text-muted-foreground'>
-              Full and cycle counts: freeze a snapshot, count, review variances,
-              and post the result as an adjustment.
+              {t(
+                'stockCounts.description',
+                'Full and cycle counts: freeze a snapshot, count, review variances, and post the result as an adjustment.'
+              )}
             </p>
           </div>
           <CountsPrimaryButtons />
@@ -45,7 +47,7 @@ export function StockCounts() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading stock counts.</p>
+            <p className='font-medium'>{t('stockCounts.errorLoading', 'Error loading stock counts.')}</p>
           </div>
         ) : (
           <CountsTable data={counts ?? []} />

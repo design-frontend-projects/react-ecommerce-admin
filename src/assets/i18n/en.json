@@ -2854,18 +2854,22 @@
     "deleteTransfer": "Cancel Transfer",
     "table": {
       "filterPlaceholder": "Filter stock transfers...",
-      "noResults": "No stock transfers found."
+      "noResults": "No transfers yet."
     },
     "columns": {
       "transferNumber": "Transfer #",
       "referenceNo": "Reference / PO #",
       "sourceWarehouse": "Source Warehouse",
       "targetWarehouse": "Destination Warehouse",
-      "route": "Transfer Route",
+      "route": "Transfer Route (Origin → Target)",
       "items": "Items",
       "transferDate": "Transfer Date",
       "status": "Status",
-      "actions": "Actions"
+      "actions": "Actions",
+      "referenceOrTransfer": "Reference / Transfer #",
+      "item": "{{count}} item",
+      "items_other": "{{count}} items",
+      "dateCreated": "Date Created"
     },
     "status": {
       "draft": "Draft",
@@ -2874,7 +2878,8 @@
       "in_transit": "In Transit",
       "received": "Received",
       "completed": "Completed",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "rejected": "Rejected"
     },
     "types": {
       "warehouse": "Warehouse → Warehouse",
@@ -2909,15 +2914,158 @@
       "saving": "Creating Transfer..."
     },
     "toast": {
-      "created": "Stock transfer initiated successfully",
-      "updated": "Transfer updated successfully",
-      "approved": "Transfer approved successfully",
-      "picked": "Items picked successfully",
-      "shipped": "Transfer shipped and in-transit",
-      "received": "Transfer received and stock posted",
-      "completed": "Transfer completed successfully",
-      "cancelled": "Transfer cancelled",
+      "created": "Transfer created.",
+      "createError": "Unable to create transfer",
+      "updated": "Transfer updated.",
+      "updateError": "Unable to update transfer",
+      "approved": "Transfer approved.",
+      "approveError": "Unable to approve transfer",
+      "picked": "Transfer items picked.",
+      "pickError": "Unable to pick transfer",
+      "shipped": "Transfer shipped — in transit.",
+      "shipError": "Unable to ship transfer",
+      "received": "Transfer received. Stock balances updated.",
+      "receiveError": "Unable to receive transfer",
+      "completed": "Transfer marked complete.",
+      "completeError": "Unable to complete transfer",
+      "cancelled": "Transfer cancelled.",
+      "cancelError": "Unable to cancel transfer",
       "error": "Failed to process stock transfer"
+    },
+    "errorLoading": "Error loading transfers.",
+    "entityTypes": {
+      "warehouse": "Warehouse",
+      "store": "Store",
+      "branch": "Branch"
+    },
+    "createDialog": {
+      "routingType": "Transfer Routing Type",
+      "sourceWarehouse": "Source Warehouse",
+      "selectSourceWarehouse": "Select origin warehouse",
+      "destinationWarehouse": "Destination Warehouse",
+      "selectDestinationWarehouse": "Select target warehouse",
+      "sourceStore": "Source Store",
+      "selectSourceStore": "Select origin store",
+      "destinationStore": "Destination Store",
+      "selectDestinationStore": "Select target store",
+      "sourceBranch": "Source Branch",
+      "selectSourceBranch": "Select origin branch",
+      "destinationBranch": "Destination Branch",
+      "selectDestinationBranch": "Select target branch",
+      "referenceNo": "Reference / PO # (Optional)",
+      "referencePlaceholder": "e.g. TR-2026-001",
+      "notes": "Transfer Notes & Instructions",
+      "notesPlaceholder": "Reason, driver, or handling instructions...",
+      "itemsTitle": "Transfer Items",
+      "advancedToggle": "Advanced Fields (Condition, Locations, Batch, Serial)",
+      "productVariant": "Product Variant",
+      "selectProductVariant": "Select product / SKU",
+      "availableOnHand": "Available on hand:",
+      "qty": "Qty",
+      "unitCost": "Unit Cost ($)",
+      "condition": "Condition",
+      "sourceLocation": "Source Location",
+      "targetLocation": "Target Location",
+      "defaultLocation": "Default Location",
+      "default": "Default",
+      "batchNo": "Batch # (Optional)",
+      "batchPlaceholder": "Batch ID",
+      "serialNo": "Serial # (Optional)",
+      "serialPlaceholder": "Serial ID",
+      "addItem": "Add Another Item",
+      "lines": "Lines:",
+      "totalUnits": "Total Units:",
+      "estimatedValue": "Estimated Value:",
+      "errors": {
+        "validationFailed": "Please check the form for errors before submitting."
+      }
+    },
+    "viewDialog": {
+      "transfer": "Transfer:",
+      "from": "From:",
+      "to": "To:",
+      "itemsTitle": "Transfer Items",
+      "totalQty": "Total Qty:",
+      "received": "Received:",
+      "loading": "Loading transfer items...",
+      "columns": {
+        "productVariant": "Product / Variant",
+        "condition": "Condition",
+        "transferQty": "Transfer Qty",
+        "received": "Received",
+        "unitCost": "Unit Cost",
+        "subtotal": "Subtotal"
+      },
+      "batch": "Batch:",
+      "sn": "SN:",
+      "totalEstimatedValue": "Total Estimated Value:",
+      "notes": "Notes:",
+      "fullPage": "Full Page",
+      "close": "Close"
+    },
+    "timeline": {
+      "draft": {
+        "title": "Draft",
+        "description": "Created"
+      },
+      "approved": {
+        "title": "Approved",
+        "description": "Approved for picking"
+      },
+      "picked": {
+        "title": "Picked",
+        "description": "Stock picked"
+      },
+      "in_transit": {
+        "title": "In Transit",
+        "description": "Shipped to destination"
+      },
+      "received": {
+        "title": "Received",
+        "description": "Arrived & stock posted"
+      },
+      "completed": {
+        "title": "Completed",
+        "description": "Transfer finalized"
+      }
+    },
+    "workflow": {
+      "cancel": "Cancel Transfer",
+      "approve": "Approve Transfer",
+      "pick": "Mark Picked",
+      "ship": "Ship Transfer",
+      "receive": "Receive & Post Transfer",
+      "complete": "Complete Transfer",
+      "approveDialog": {
+        "title": "Approve Stock Transfer?",
+        "desc": "Approve transfer {{ref}} to authorize stock picking and shipping.",
+        "confirmText": "Approve Transfer"
+      },
+      "pickDialog": {
+        "title": "Mark Stock as Picked?",
+        "desc": "Confirm that all items for transfer {{ref}} have been picked from warehouse locations.",
+        "confirmText": "Mark Picked"
+      },
+      "shipDialog": {
+        "title": "Ship Stock Transfer?",
+        "desc": "Dispatch transfer {{ref}}. Status will be updated to in-transit.",
+        "confirmText": "Ship Transfer"
+      },
+      "receiveDialog": {
+        "title": "Receive & Post Stock Transfer?",
+        "desc": "Receive stock transfer {{ref}} at the destination. This will trigger inventory balance updates and stock movements.",
+        "confirmText": "Receive & Post Stock"
+      },
+      "completeDialog": {
+        "title": "Mark Transfer as Complete?",
+        "desc": "Close out stock transfer {{ref}}. All reconciliation and movements are finalized.",
+        "confirmText": "Complete Transfer"
+      },
+      "cancelDialog": {
+        "title": "Cancel Stock Transfer?",
+        "desc": "Are you sure you want to cancel transfer {{ref}}? No items will be moved.",
+        "confirmText": "Yes, Cancel Transfer"
+      }
     }
   },
   "stockAdjustments": {
@@ -2968,26 +3116,34 @@
   },
   "stockCounts": {
     "title": "Stock Counts & Audits",
-    "description": "Perform physical stock counts, cycle counting, and variance reconciliation.",
-    "createCount": "Start Stock Count",
+    "description": "Full and cycle counts: freeze a snapshot, count, review variances, and post the result as an adjustment.",
+    "createCount": "New count",
     "editCount": "Edit Count",
     "table": {
-      "filterPlaceholder": "Filter stock counts...",
-      "noResults": "No stock counts found."
+      "filterPlaceholder": "Filter...",
+      "noResults": "No stock counts yet."
     },
     "columns": {
       "countNumber": "Count #",
-      "warehouse": "Warehouse",
+      "warehouse": "Warehouse / Store",
       "countDate": "Audit Date",
       "countedBy": "Auditor",
       "status": "Status",
-      "actions": "Actions"
+      "actions": "Actions",
+      "scope": "Scope",
+      "snapshot": "Snapshot",
+      "items": "Items",
+      "created": "Created"
     },
     "status": {
       "inProgress": "In Progress",
       "completed": "Completed",
       "reconciled": "Reconciled",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "draft": "Draft",
+      "counting": "Counting",
+      "review": "Review",
+      "posted": "Posted"
     },
     "form": {
       "warehouse": "Warehouse to Audit",
@@ -2998,10 +3154,114 @@
       "saving": "Saving..."
     },
     "toast": {
-      "created": "Stock count started successfully",
+      "created": "Stock count created.",
+      "createError": "Unable to create stock count",
+      "cancelled": "Stock count cancelled.",
+      "cancelError": "Unable to cancel stock count",
       "updated": "Count updated successfully",
+      "updateError": "Unable to update stock count",
       "reconciled": "Count reconciled and stock updated",
-      "error": "Failed to save stock count"
+      "error": "Failed to save stock count",
+      "actions": {
+        "snapshot": "Counting started. Expected quantities frozen.",
+        "save": "Counts saved.",
+        "review": "Count sent to review. Variances computed.",
+        "post": "Count posted. Variances applied as an adjustment."
+      }
+    },
+    "errorLoading": "Error loading stock counts.",
+    "scopeSpecificLocation": "Specific Location",
+    "scopeWarehouseWide": "Warehouse-wide",
+    "scopeFullFacility": "Full Store / Facility",
+    "blind": "Blind",
+    "blindCount": "Blind Count",
+    "createDialog": {
+      "title": "New Stock Count",
+      "description": "Create a draft count. Starting the count freezes expected quantities for the selected warehouse / location scope.",
+      "warehouseLocation": "Warehouse / Location",
+      "selectWarehouse": "Select warehouse",
+      "specificLocation": "Specific Location (optional)",
+      "allLocations": "All warehouse locations",
+      "category": "Category (optional)",
+      "allCategories": "All categories",
+      "blindCount": "Blind count",
+      "blindCountHelp": "Hide expected quantities from counters.",
+      "notes": "Notes (optional)",
+      "cancel": "Cancel",
+      "createDraft": "Create draft",
+      "saving": "Saving...",
+      "validationError": "Please fix the stock count"
+    },
+    "viewDialog": {
+      "count": "Count: {{number}}",
+      "storeWarehouse": "Store / Warehouse:",
+      "variancePosted": "Variance posted into live ledger as Adjustment",
+      "loading": "Loading items...",
+      "readyTitle": "Stock Count Ready to Start",
+      "readyDesc": "Click \"Start Counting\" below to capture and freeze the snapshot of expected quantities for all products in this location.",
+      "tabs": {
+        "countingSheet": "Counting Sheet ({{count}})",
+        "variance": "Variance & Discrepancies"
+      },
+      "notes": "Notes:",
+      "cancelCount": "Cancel Count",
+      "startCounting": "Start Counting",
+      "freezingSnapshot": "Freezing Snapshot...",
+      "saveProgress": "Save Progress",
+      "submitReview": "Submit for Review",
+      "approvePost": "Approve & Post Variance",
+      "close": "Close",
+      "postConfirm": {
+        "title": "Post this count variance?",
+        "desc": "Stock variances will be officially posted to the stock ledger via an adjustment. This updates active inventory balances.",
+        "confirm": "Post Count"
+      },
+      "cancelConfirm": {
+        "title": "Cancel this count?",
+        "desc": "The count will be marked cancelled. No stock changes are made.",
+        "confirm": "Cancel Count"
+      },
+      "enterAtLeastOne": "Enter at least one counted quantity."
+    },
+    "sheet": {
+      "scanBarcode": "Scan barcode / SKU...",
+      "filterItems": "Filter items...",
+      "progress": "Progress:",
+      "lines": "lines",
+      "saveProgress": "Save Progress",
+      "columns": {
+        "sku": "SKU",
+        "productName": "Product Name",
+        "expected": "Expected",
+        "countedQty": "Counted Qty",
+        "status": "Status"
+      },
+      "status": {
+        "counted": "Counted",
+        "pending": "Pending"
+      }
+    },
+    "variance": {
+      "exactMatches": "Exact Matches",
+      "lines": "Lines",
+      "shrinkageMissing": "Shrinkage / Missing",
+      "surplusOverage": "Surplus / Overage",
+      "units": "Units",
+      "abacTitle": "Segregation of Duties Compliance (ABAC)",
+      "abacDesc": "To prevent fraud, the user who performed the physical counting cannot approve or post this count variance into the live stock ledger.",
+      "columns": {
+        "sku": "SKU",
+        "productName": "Product Name",
+        "expected": "Expected",
+        "counted": "Counted",
+        "variance": "Variance (Δ)",
+        "varianceType": "Variance Type"
+      },
+      "types": {
+        "exactMatch": "Exact Match",
+        "shrinkage": "Shrinkage",
+        "surplus": "Surplus"
+      }
     }
   },
   "stockBalances": {
@@ -3178,10 +3438,10 @@
   },
   "stockByLocation": {
     "title": "Stock by Location",
-    "description": "Track inventory across specific bins, racks, shelves, and zones.",
+    "description": "Bin-level stock detail. Location totals always reconcile to the warehouse balances maintained by the movement engine.",
     "table": {
-      "filterPlaceholder": "Filter by location or SKU...",
-      "noResults": "No location stock records found."
+      "filterPlaceholder": "Filter...",
+      "noResults": "No location stock yet. Stock appears here after receipts, transfers, or adjustments run through the movement engine."
     },
     "columns": {
       "warehouse": "Warehouse",
@@ -3189,7 +3449,20 @@
       "rack": "Rack / Shelf",
       "bin": "Bin Location",
       "product": "Product",
-      "quantity": "Quantity"
+      "quantity": "Quantity",
+      "location": "Location",
+      "batch": "Batch",
+      "expired": "Expired",
+      "onHand": "On hand",
+      "reserved": "Reserved",
+      "lastMovement": "Last movement"
+    },
+    "allLocations": "All locations",
+    "allWarehousesStores": "All warehouses / stores",
+    "errorLoading": "Error loading location stock.",
+    "status": {
+      "reconciled": "Reconciled",
+      "driftDetected": "Drift detected ({{count}})"
     }
   },
   "inventory": {

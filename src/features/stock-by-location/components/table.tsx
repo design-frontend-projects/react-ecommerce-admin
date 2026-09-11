@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,10 +22,11 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import type { StockByLocationRow } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 export function StockByLocationTable({ data }: { data: StockByLocationRow[] }) {
   const { t } = useTranslation()
+  const columns = useMemo(() => getColumns(t), [t])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -88,8 +89,10 @@ export function StockByLocationTable({ data }: { data: StockByLocationRow[] }) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No location stock yet. Stock appears here after receipts,
-                  transfers, or adjustments run through the movement engine.
+                  {t(
+                    'stockByLocation.table.noResults',
+                    'No location stock yet. Stock appears here after receipts, transfers, or adjustments run through the movement engine.'
+                  )}
                 </TableCell>
               </TableRow>
             )}

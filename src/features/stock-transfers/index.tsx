@@ -44,7 +44,7 @@ export function StockTransfers() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading transfers.</p>
+            <p className='font-medium'>{t('stockTransfers.errorLoading', 'Error loading transfers.')}</p>
           </div>
         ) : (
           <TransfersTable data={transfers ?? []} />

@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
@@ -17,13 +18,6 @@ import type {
 
 const countsKey = ['inventory', 'stock-counts'] as const
 const countKey = (id: string) => ['inventory', 'stock-counts', id] as const
-
-const ACTION_SUCCESS: Record<CountAction, string> = {
-  snapshot: 'Counting started. Expected quantities frozen.',
-  save: 'Counts saved.',
-  review: 'Count sent to review. Variances computed.',
-  post: 'Count posted. Variances applied as an adjustment.',
-}
 
 export function useCounts() {
   return useAuthQuery({
@@ -44,15 +38,16 @@ export function useCount(id: string | undefined) {
 
 export function useCreateCount() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
   return useAuthMutation({
     mutationFn: (getToken, input: CreateCountInput) => createCount(getToken, input),
     rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
-      toast.success('Stock count created.')
+      toast.success(t('stockCounts.toast.created', 'Stock count created.'))
       void queryClient.invalidateQueries({ queryKey: countsKey })
     },
     onError: (error: Error) =>
-      toast.error('Unable to create stock count', {
+      toast.error(t('stockCounts.toast.createError', 'Unable to create stock count'), {
         description: error.message,
       }),
   })
@@ -60,15 +55,16 @@ export function useCreateCount() {
 
 export function useCancelCount() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
   return useAuthMutation({
     mutationFn: (getToken, id: string) => cancelCount(getToken, id),
     rbac: { permission: 'inventory.manage' },
     onSuccess: () => {
-      toast.success('Stock count cancelled.')
+      toast.success(t('stockCounts.toast.cancelled', 'Stock count cancelled.'))
       void queryClient.invalidateQueries({ queryKey: countsKey })
     },
     onError: (error: Error) =>
-      toast.error('Unable to cancel stock count', {
+      toast.error(t('stockCounts.toast.cancelError', 'Unable to cancel stock count'), {
         description: error.message,
       }),
   })
@@ -76,6 +72,7 @@ export function useCancelCount() {
 
 export function useCountAction() {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
   return useAuthMutation({
     mutationFn: (
       getToken,
@@ -91,11 +88,17 @@ export function useCountAction() {
     ) => runCountAction(getToken, id, action, entries),
     rbac: { permission: 'inventory.manage' },
     onSuccess: (_data, variables) => {
-      toast.success(ACTION_SUCCESS[variables.action])
+      const actionSuccess: Record<CountAction, string> = {
+        snapshot: t('stockCounts.toast.actions.snapshot', 'Counting started. Expected quantities frozen.'),
+        save: t('stockCounts.toast.actions.save', 'Counts saved.'),
+        review: t('stockCounts.toast.actions.review', 'Count sent to review. Variances computed.'),
+        post: t('stockCounts.toast.actions.post', 'Count posted. Variances applied as an adjustment.'),
+      }
+      toast.success(actionSuccess[variables.action] ?? t('stockCounts.toast.updated', 'Count updated successfully'))
       void queryClient.invalidateQueries({ queryKey: countsKey })
     },
     onError: (error: Error) =>
-      toast.error('Unable to update stock count', {
+      toast.error(t('stockCounts.toast.updateError', 'Unable to update stock count'), {
         description: error.message,
       }),
   })

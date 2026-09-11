@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Check,
   X,
@@ -36,6 +37,7 @@ export function TransferWorkflowActions({
   onSuccess,
   className,
 }: TransferWorkflowActionsProps) {
+  const { t } = useTranslation()
   const approveTransfer = useApproveTransfer()
   const pickTransfer = usePickTransfer()
   const shipTransfer = useShipTransfer()
@@ -86,51 +88,75 @@ export function TransferWorkflowActions({
     switch (activeAction) {
       case 'approve':
         return {
-          title: 'Approve Stock Transfer?',
-          desc: `Approve transfer ${transferLabel} to authorize stock picking and shipping.`,
-          confirmText: 'Approve Transfer',
+          title: t('stockTransfers.workflow.approveDialog.title', 'Approve Stock Transfer?'),
+          desc: t(
+            'stockTransfers.workflow.approveDialog.desc',
+            'Approve transfer {{ref}} to authorize stock picking and shipping.',
+            { ref: transferLabel }
+          ),
+          confirmText: t('stockTransfers.workflow.approveDialog.confirmText', 'Approve Transfer'),
           destructive: false,
         }
       case 'pick':
         return {
-          title: 'Mark Stock as Picked?',
-          desc: `Confirm that all items for transfer ${transferLabel} have been picked from warehouse locations.`,
-          confirmText: 'Mark Picked',
+          title: t('stockTransfers.workflow.pickDialog.title', 'Mark Stock as Picked?'),
+          desc: t(
+            'stockTransfers.workflow.pickDialog.desc',
+            'Confirm that all items for transfer {{ref}} have been picked from warehouse locations.',
+            { ref: transferLabel }
+          ),
+          confirmText: t('stockTransfers.workflow.pickDialog.confirmText', 'Mark Picked'),
           destructive: false,
         }
       case 'ship':
         return {
-          title: 'Ship Stock Transfer?',
-          desc: `Dispatch transfer ${transferLabel}. Status will be updated to in-transit.`,
-          confirmText: 'Ship Transfer',
+          title: t('stockTransfers.workflow.shipDialog.title', 'Ship Stock Transfer?'),
+          desc: t(
+            'stockTransfers.workflow.shipDialog.desc',
+            'Dispatch transfer {{ref}}. Status will be updated to in-transit.',
+            { ref: transferLabel }
+          ),
+          confirmText: t('stockTransfers.workflow.shipDialog.confirmText', 'Ship Transfer'),
           destructive: false,
         }
       case 'receive':
         return {
-          title: 'Receive & Post Stock Transfer?',
-          desc: `Receive stock transfer ${transferLabel} at the destination. This will trigger inventory balance updates and stock movements.`,
-          confirmText: 'Receive & Post Stock',
+          title: t('stockTransfers.workflow.receiveDialog.title', 'Receive & Post Stock Transfer?'),
+          desc: t(
+            'stockTransfers.workflow.receiveDialog.desc',
+            'Receive stock transfer {{ref}} at the destination. This will trigger inventory balance updates and stock movements.',
+            { ref: transferLabel }
+          ),
+          confirmText: t('stockTransfers.workflow.receiveDialog.confirmText', 'Receive & Post Stock'),
           destructive: false,
         }
       case 'complete':
         return {
-          title: 'Mark Transfer as Complete?',
-          desc: `Close out stock transfer ${transferLabel}. All reconciliation and movements are finalized.`,
-          confirmText: 'Complete Transfer',
+          title: t('stockTransfers.workflow.completeDialog.title', 'Mark Transfer as Complete?'),
+          desc: t(
+            'stockTransfers.workflow.completeDialog.desc',
+            'Close out stock transfer {{ref}}. All reconciliation and movements are finalized.',
+            { ref: transferLabel }
+          ),
+          confirmText: t('stockTransfers.workflow.completeDialog.confirmText', 'Complete Transfer'),
           destructive: false,
         }
       case 'cancel':
         return {
-          title: 'Cancel Stock Transfer?',
-          desc: `Are you sure you want to cancel transfer ${transferLabel}? No items will be moved.`,
-          confirmText: 'Yes, Cancel Transfer',
+          title: t('stockTransfers.workflow.cancelDialog.title', 'Cancel Stock Transfer?'),
+          desc: t(
+            'stockTransfers.workflow.cancelDialog.desc',
+            'Are you sure you want to cancel transfer {{ref}}? No items will be moved.',
+            { ref: transferLabel }
+          ),
+          confirmText: t('stockTransfers.workflow.cancelDialog.confirmText', 'Yes, Cancel Transfer'),
           destructive: true,
         }
       default:
         return {
           title: '',
           desc: '',
-          confirmText: 'Confirm',
+          confirmText: t('common.confirm', 'Confirm'),
           destructive: false,
         }
     }
@@ -151,7 +177,7 @@ export function TransferWorkflowActions({
             className="text-destructive hover:bg-destructive/10 border-destructive/30"
           >
             <X className="h-4 w-4 mr-1.5" />
-            Cancel Transfer
+            {t('stockTransfers.workflow.cancel', 'Cancel Transfer')}
           </Button>
         </Can>
       )}
@@ -166,7 +192,7 @@ export function TransferWorkflowActions({
             className="bg-emerald-600 hover:bg-emerald-700 text-white"
           >
             <Check className="h-4 w-4 mr-1.5" />
-            Approve Transfer
+            {t('stockTransfers.workflow.approve', 'Approve Transfer')}
           </Button>
         </Can>
       )}
@@ -180,7 +206,7 @@ export function TransferWorkflowActions({
             className="bg-cyan-600 hover:bg-cyan-700 text-white"
           >
             <Package className="h-4 w-4 mr-1.5" />
-            Mark Picked
+            {t('stockTransfers.workflow.pick', 'Mark Picked')}
           </Button>
         </Can>
       )}
@@ -194,7 +220,7 @@ export function TransferWorkflowActions({
             className="bg-amber-600 hover:bg-amber-700 text-white"
           >
             <Truck className="h-4 w-4 mr-1.5" />
-            Ship Transfer
+            {t('stockTransfers.workflow.ship', 'Ship Transfer')}
           </Button>
         </Can>
       )}
@@ -208,7 +234,7 @@ export function TransferWorkflowActions({
             className="bg-emerald-600 hover:bg-emerald-700 text-white"
           >
             <ArrowRightCircle className="h-4 w-4 mr-1.5" />
-            Receive & Post Transfer
+            {t('stockTransfers.workflow.receive', 'Receive & Post Transfer')}
           </Button>
         </Can>
       )}
@@ -222,7 +248,7 @@ export function TransferWorkflowActions({
             className="bg-blue-600 hover:bg-blue-700 text-white"
           >
             <CheckCheck className="h-4 w-4 mr-1.5" />
-            Complete Transfer
+            {t('stockTransfers.workflow.complete', 'Complete Transfer')}
           </Button>
         </Can>
       )}

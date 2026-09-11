@@ -1,4 +1,6 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import type { TFunction } from 'i18next'
+import i18n from '@/i18n'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
 import type { StockByLocationRow } from '../data/schema'
@@ -7,10 +9,10 @@ function isExpired(date: string | null): boolean {
   return Boolean(date) && new Date(date as string) < new Date()
 }
 
-export const columns: ColumnDef<StockByLocationRow>[] = [
+export const getColumns = (t: TFunction = i18n.t): ColumnDef<StockByLocationRow>[] => [
   {
     id: 'warehouse',
-    header: 'Warehouse',
+    header: t('stockByLocation.columns.warehouse', 'Warehouse'),
     cell: ({ row }) =>
       row.original.warehouses
         ? `${row.original.warehouses.code} — ${row.original.warehouses.name}`
@@ -18,7 +20,7 @@ export const columns: ColumnDef<StockByLocationRow>[] = [
   },
   {
     id: 'location',
-    header: 'Location',
+    header: t('stockByLocation.columns.location', 'Location'),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
         <span className='font-mono text-xs'>
@@ -38,7 +40,7 @@ export const columns: ColumnDef<StockByLocationRow>[] = [
     id: 'product',
     accessorFn: (row) => row.product_variants?.sku ?? '',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Product' />
+      <DataTableColumnHeader column={column} title={t('stockByLocation.columns.product', 'Product')} />
     ),
     cell: ({ row }) => (
       <div>
@@ -55,13 +57,13 @@ export const columns: ColumnDef<StockByLocationRow>[] = [
   },
   {
     id: 'batch',
-    header: 'Batch',
+    header: t('stockByLocation.columns.batch', 'Batch'),
     cell: ({ row }) =>
       row.original.product_batches ? (
         <div className='flex items-center gap-2'>
           <span>{row.original.product_batches.batch_number}</span>
           {isExpired(row.original.product_batches.expiry_date) ? (
-            <Badge variant='destructive'>Expired</Badge>
+            <Badge variant='destructive'>{t('stockByLocation.columns.expired', 'Expired')}</Badge>
           ) : null}
         </div>
       ) : (
@@ -71,21 +73,23 @@ export const columns: ColumnDef<StockByLocationRow>[] = [
   {
     accessorKey: 'qty_on_hand',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='On hand' />
+      <DataTableColumnHeader column={column} title={t('stockByLocation.columns.onHand', 'On hand')} />
     ),
     cell: ({ row }) => Number(row.original.qty_on_hand),
   },
   {
     accessorKey: 'qty_reserved',
-    header: 'Reserved',
+    header: t('stockByLocation.columns.reserved', 'Reserved'),
     cell: ({ row }) => Number(row.original.qty_reserved),
   },
   {
     accessorKey: 'last_movement_at',
-    header: 'Last movement',
+    header: t('stockByLocation.columns.lastMovement', 'Last movement'),
     cell: ({ row }) =>
       row.original.last_movement_at
         ? new Date(row.original.last_movement_at).toLocaleString()
         : '—',
   },
 ]
+
+export const columns = getColumns()

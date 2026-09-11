@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,10 +22,11 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import type { CountListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 export function CountsTable({ data }: { data: CountListItem[] }) {
   const { t } = useTranslation()
+  const columns = useMemo(() => getColumns(t), [t])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -88,7 +89,7 @@ export function CountsTable({ data }: { data: CountListItem[] }) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No stock counts yet.
+                  {t('stockCounts.table.noResults', 'No stock counts yet.')}
                 </TableCell>
               </TableRow>
             )}

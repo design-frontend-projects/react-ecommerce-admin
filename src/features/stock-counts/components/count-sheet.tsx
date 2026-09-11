@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Barcode, Search, CheckCircle2, RefreshCw } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -32,6 +33,7 @@ export function CountSheet({
   onSave,
   isSaving,
 }: CountSheetProps) {
+  const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
   const [barcodeInput, setBarcodeInput] = useState('')
 
@@ -76,7 +78,7 @@ export function CountSheet({
             <form onSubmit={handleBarcodeSubmit} className="relative flex-1 max-w-xs">
               <Barcode className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Scan barcode / SKU..."
+                placeholder={t('stockCounts.sheet.scanBarcode', 'Scan barcode / SKU...')}
                 value={barcodeInput}
                 onChange={(e) => setBarcodeInput(e.target.value)}
                 className="pl-8 h-8 text-xs font-mono"
@@ -88,7 +90,7 @@ export function CountSheet({
           <div className="relative flex-1 max-w-xs">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
-              placeholder="Filter items..."
+              placeholder={t('stockCounts.sheet.filterItems', 'Filter items...')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-8 h-8 text-xs"
@@ -98,7 +100,11 @@ export function CountSheet({
 
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground font-medium">
-            Progress: <strong className="text-foreground">{totalCountedLines}/{items.length}</strong> lines
+            {t('stockCounts.sheet.progress', 'Progress:')}{' '}
+            <strong className="text-foreground">
+              {totalCountedLines}/{items.length}
+            </strong>{' '}
+            {t('stockCounts.sheet.lines', 'lines')}
           </span>
           {isCounting && (
             <Button
@@ -112,7 +118,7 @@ export function CountSheet({
               ) : (
                 <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
               )}
-              Save Progress
+              {t('stockCounts.sheet.saveProgress', 'Save Progress')}
             </Button>
           )}
         </div>
@@ -124,11 +130,11 @@ export function CountSheet({
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40">
-                <TableHead className="text-xs">SKU</TableHead>
-                <TableHead className="text-xs">Product Name</TableHead>
-                {!isBlind && <TableHead className="text-xs text-end">Expected</TableHead>}
-                <TableHead className="text-xs text-end">Counted Qty</TableHead>
-                <TableHead className="text-xs text-center">Status</TableHead>
+                <TableHead className="text-xs">{t('stockCounts.sheet.columns.sku', 'SKU')}</TableHead>
+                <TableHead className="text-xs">{t('stockCounts.sheet.columns.productName', 'Product Name')}</TableHead>
+                {!isBlind && <TableHead className="text-xs text-end">{t('stockCounts.sheet.columns.expected', 'Expected')}</TableHead>}
+                <TableHead className="text-xs text-end">{t('stockCounts.sheet.columns.countedQty', 'Counted Qty')}</TableHead>
+                <TableHead className="text-xs text-center">{t('stockCounts.sheet.columns.status', 'Status')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -171,10 +177,10 @@ export function CountSheet({
                     <TableCell className="text-center">
                       {isEntered ? (
                         <span className="inline-flex items-center text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                          <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Counted
+                          <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> {t('stockCounts.sheet.status.counted', 'Counted')}
                         </span>
                       ) : (
-                        <span className="text-[11px] text-muted-foreground">Pending</span>
+                        <span className="text-[11px] text-muted-foreground">{t('stockCounts.sheet.status.pending', 'Pending')}</span>
                       )}
                     </TableCell>
                   </TableRow>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { TrendingDown, TrendingUp, CheckCircle, ShieldAlert } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -16,6 +17,7 @@ interface VarianceReviewProps {
 }
 
 export function VarianceReview({ items }: VarianceReviewProps) {
+  const { t } = useTranslation()
   let matchedCount = 0
   let shrinkageCount = 0
   let surplusCount = 0
@@ -53,9 +55,11 @@ export function VarianceReview({ items }: VarianceReviewProps) {
               <CheckCircle className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Exact Matches</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                {t('stockCounts.variance.exactMatches', 'Exact Matches')}
+              </p>
               <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-                {matchedCount} / {items.length} Lines
+                {matchedCount} / {items.length} {t('stockCounts.variance.lines', 'Lines')}
               </p>
             </div>
           </CardContent>
@@ -67,9 +71,11 @@ export function VarianceReview({ items }: VarianceReviewProps) {
               <TrendingDown className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Shrinkage / Missing</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                {t('stockCounts.variance.shrinkageMissing', 'Shrinkage / Missing')}
+              </p>
               <p className="text-lg font-bold text-rose-700 dark:text-rose-300">
-                -{totalShrinkageUnits} Units ({shrinkageCount} Lines)
+                -{totalShrinkageUnits} {t('stockCounts.variance.units', 'Units')} ({shrinkageCount} {t('stockCounts.variance.lines', 'Lines')})
               </p>
             </div>
           </CardContent>
@@ -81,9 +87,11 @@ export function VarianceReview({ items }: VarianceReviewProps) {
               <TrendingUp className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground font-medium">Surplus / Overage</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                {t('stockCounts.variance.surplusOverage', 'Surplus / Overage')}
+              </p>
               <p className="text-lg font-bold text-blue-700 dark:text-blue-300">
-                +{totalSurplusUnits} Units ({surplusCount} Lines)
+                +{totalSurplusUnits} {t('stockCounts.variance.units', 'Units')} ({surplusCount} {t('stockCounts.variance.lines', 'Lines')})
               </p>
             </div>
           </CardContent>
@@ -95,10 +103,13 @@ export function VarianceReview({ items }: VarianceReviewProps) {
         <ShieldAlert className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
         <div>
           <p className="font-semibold text-amber-900 dark:text-amber-200">
-            Segregation of Duties Compliance (ABAC)
+            {t('stockCounts.variance.abacTitle', 'Segregation of Duties Compliance (ABAC)')}
           </p>
           <p className="text-amber-800/80 dark:text-amber-300/80">
-            To prevent fraud, the user who performed the physical counting cannot approve or post this count variance into the live stock ledger.
+            {t(
+              'stockCounts.variance.abacDesc',
+              'To prevent fraud, the user who performed the physical counting cannot approve or post this count variance into the live stock ledger.'
+            )}
           </p>
         </div>
       </div>
@@ -109,27 +120,33 @@ export function VarianceReview({ items }: VarianceReviewProps) {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40">
-                <TableHead className="text-xs">SKU</TableHead>
-                <TableHead className="text-xs">Product Name</TableHead>
-                <TableHead className="text-xs text-end">Expected</TableHead>
-                <TableHead className="text-xs text-end">Counted</TableHead>
-                <TableHead className="text-xs text-end">Variance (Δ)</TableHead>
-                <TableHead className="text-xs text-center">Variance Type</TableHead>
+                <TableHead className="text-xs">{t('stockCounts.variance.columns.sku', 'SKU')}</TableHead>
+                <TableHead className="text-xs">{t('stockCounts.variance.columns.productName', 'Product Name')}</TableHead>
+                <TableHead className="text-xs text-end">{t('stockCounts.variance.columns.expected', 'Expected')}</TableHead>
+                <TableHead className="text-xs text-end">{t('stockCounts.variance.columns.counted', 'Counted')}</TableHead>
+                <TableHead className="text-xs text-end">{t('stockCounts.variance.columns.variance', 'Variance (Δ)')}</TableHead>
+                <TableHead className="text-xs text-center">{t('stockCounts.variance.columns.varianceType', 'Variance Type')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {processedItems.map((item) => {
                 const variance = item.variance
                 let statusBadge = (
-                  <span className="text-[11px] text-muted-foreground font-medium">Exact Match</span>
+                  <span className="text-[11px] text-muted-foreground font-medium">
+                    {t('stockCounts.variance.types.exactMatch', 'Exact Match')}
+                  </span>
                 )
                 if (variance !== null && variance < 0) {
                   statusBadge = (
-                    <span className="text-[11px] text-rose-600 font-bold">Shrinkage</span>
+                    <span className="text-[11px] text-rose-600 font-bold">
+                      {t('stockCounts.variance.types.shrinkage', 'Shrinkage')}
+                    </span>
                   )
                 } else if (variance !== null && variance > 0) {
                   statusBadge = (
-                    <span className="text-[11px] text-blue-600 font-bold">Surplus</span>
+                    <span className="text-[11px] text-blue-600 font-bold">
+                      {t('stockCounts.variance.types.surplus', 'Surplus')}
+                    </span>
                   )
                 }
 

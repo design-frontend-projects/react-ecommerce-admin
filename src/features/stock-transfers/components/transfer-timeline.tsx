@@ -1,14 +1,6 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { WorkflowStepper, type WorkflowStep } from '@/components/shared/workflow-stepper'
-
-const TRANSFER_STEPS: WorkflowStep[] = [
-  { key: 'draft', title: 'Draft', description: 'Created' },
-  { key: 'approved', title: 'Approved', description: 'Approved for picking' },
-  { key: 'picked', title: 'Picked', description: 'Stock picked' },
-  { key: 'in_transit', title: 'In Transit', description: 'Shipped to destination' },
-  { key: 'received', title: 'Received', description: 'Arrived & stock posted' },
-  { key: 'completed', title: 'Completed', description: 'Transfer finalized' },
-]
 
 interface TransferTimelineProps {
   status: string
@@ -29,6 +21,7 @@ export function TransferTimeline({
   updatedAt,
   className,
 }: TransferTimelineProps) {
+  const { t } = useTranslation()
   const isCancelled = status === 'cancelled'
   const isRejected = status === 'rejected'
 
@@ -37,24 +30,43 @@ export function TransferTimeline({
     currentKey = 'draft'
   }
 
-  const steps = TRANSFER_STEPS.map((s) => {
-    if (s.key === 'draft' && createdAt) {
-      return { ...s, timestamp: new Date(createdAt).toLocaleDateString() }
-    }
-    if (s.key === 'approved' && approvedAt) {
-      return { ...s, timestamp: new Date(approvedAt).toLocaleDateString() }
-    }
-    if (s.key === 'in_transit' && shippedAt) {
-      return { ...s, timestamp: new Date(shippedAt).toLocaleDateString() }
-    }
-    if (s.key === 'received' && receivedAt) {
-      return { ...s, timestamp: new Date(receivedAt).toLocaleDateString() }
-    }
-    if (s.key === 'completed' && status === 'completed' && updatedAt) {
-      return { ...s, timestamp: new Date(updatedAt).toLocaleDateString() }
-    }
-    return s
-  })
+  const steps: WorkflowStep[] = [
+    {
+      key: 'draft',
+      title: t('stockTransfers.timeline.draft.title', 'Draft'),
+      description: t('stockTransfers.timeline.draft.description', 'Created'),
+      timestamp: createdAt ? new Date(createdAt).toLocaleDateString() : undefined,
+    },
+    {
+      key: 'approved',
+      title: t('stockTransfers.timeline.approved.title', 'Approved'),
+      description: t('stockTransfers.timeline.approved.description', 'Approved for picking'),
+      timestamp: approvedAt ? new Date(approvedAt).toLocaleDateString() : undefined,
+    },
+    {
+      key: 'picked',
+      title: t('stockTransfers.timeline.picked.title', 'Picked'),
+      description: t('stockTransfers.timeline.picked.description', 'Stock picked'),
+    },
+    {
+      key: 'in_transit',
+      title: t('stockTransfers.timeline.in_transit.title', 'In Transit'),
+      description: t('stockTransfers.timeline.in_transit.description', 'Shipped to destination'),
+      timestamp: shippedAt ? new Date(shippedAt).toLocaleDateString() : undefined,
+    },
+    {
+      key: 'received',
+      title: t('stockTransfers.timeline.received.title', 'Received'),
+      description: t('stockTransfers.timeline.received.description', 'Arrived & stock posted'),
+      timestamp: receivedAt ? new Date(receivedAt).toLocaleDateString() : undefined,
+    },
+    {
+      key: 'completed',
+      title: t('stockTransfers.timeline.completed.title', 'Completed'),
+      description: t('stockTransfers.timeline.completed.description', 'Transfer finalized'),
+      timestamp: status === 'completed' && updatedAt ? new Date(updatedAt).toLocaleDateString() : undefined,
+    },
+  ]
 
   return (
     <WorkflowStepper

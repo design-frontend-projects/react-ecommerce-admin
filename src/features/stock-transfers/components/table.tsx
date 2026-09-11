@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,12 +22,14 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import type { TransferListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 export function TransfersTable({ data }: { data: TransferListItem[] }) {
   const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,
@@ -43,26 +45,46 @@ export function TransfersTable({ data }: { data: TransferListItem[] }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
-  const statusFilterOptions = [
-    { label: 'Draft', value: 'draft' },
-    { label: 'Approved', value: 'approved' },
-    { label: 'Picked', value: 'picked' },
-    { label: 'In Transit', value: 'in_transit' },
-    { label: 'Received', value: 'received' },
-    { label: 'Completed', value: 'completed' },
-    { label: 'Cancelled', value: 'cancelled' },
-  ]
+  const statusFilterOptions = useMemo(
+    () => [
+      { label: t('stockTransfers.status.draft', 'Draft'), value: 'draft' },
+      {
+        label: t('stockTransfers.status.approved', 'Approved'),
+        value: 'approved',
+      },
+      { label: t('stockTransfers.status.picked', 'Picked'), value: 'picked' },
+      {
+        label: t('stockTransfers.status.in_transit', 'In Transit'),
+        value: 'in_transit',
+      },
+      {
+        label: t('stockTransfers.status.received', 'Received'),
+        value: 'received',
+      },
+      {
+        label: t('stockTransfers.status.completed', 'Completed'),
+        value: 'completed',
+      },
+      {
+        label: t('stockTransfers.status.cancelled', 'Cancelled'),
+        value: 'cancelled',
+      },
+    ],
+    [t]
+  )
 
   return (
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder={t('stockTransfers.table.filterPlaceholder', { defaultValue: 'Filter stock transfers...' })}
+        searchPlaceholder={t('stockTransfers.table.filterPlaceholder', {
+          defaultValue: 'Filter stock transfers...',
+        })}
         searchKey='reference_no'
         filters={[
           {
             columnId: 'status',
-            title: 'Status',
+            title: t('stockTransfers.columns.status', 'Status'),
             options: statusFilterOptions,
           },
         ]}
@@ -105,7 +127,7 @@ export function TransfersTable({ data }: { data: TransferListItem[] }) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No transfers yet.
+                  {t('stockTransfers.table.noResults', 'No transfers yet.')}
                 </TableCell>
               </TableRow>
             )}

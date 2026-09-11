@@ -68,8 +68,10 @@ export function StockByLocation() {
           <div>
             <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('stockByLocation.title')}</h2>
             <p className='text-muted-foreground'>
-              Bin-level stock detail. Location totals always reconcile to the
-              warehouse balances maintained by the movement engine.
+              {t(
+                'stockByLocation.description',
+                'Bin-level stock detail. Location totals always reconcile to the warehouse balances maintained by the movement engine.'
+              )}
             </p>
           </div>
           <div className='flex items-center gap-2'>
@@ -77,21 +79,23 @@ export function StockByLocation() {
               report.clean ? (
                 <Badge variant='default' className='gap-1'>
                   <CheckCircle2 className='h-3.5 w-3.5' />
-                  Reconciled
+                  {t('stockByLocation.status.reconciled', 'Reconciled')}
                 </Badge>
               ) : (
                 <Badge variant='destructive' className='gap-1'>
                   <TriangleAlert className='h-3.5 w-3.5' />
-                  Drift detected ({violationCount})
+                  {t('stockByLocation.status.driftDetected', 'Drift detected ({{count}})', {
+                    count: violationCount,
+                  })}
                 </Badge>
               )
             ) : null}
             <Select value={warehouseId} onValueChange={setWarehouseId}>
               <SelectTrigger className='w-56'>
-                <SelectValue placeholder='All locations' />
+                <SelectValue placeholder={t('stockByLocation.allLocations', 'All locations')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={ALL}>All warehouses / stores</SelectItem>
+                <SelectItem value={ALL}>{t('stockByLocation.allWarehousesStores', 'All warehouses / stores')}</SelectItem>
                 {locationOptions.map((loc) => (
                   <SelectItem key={loc.id} value={loc.id}>
                     {loc.name}
@@ -108,7 +112,7 @@ export function StockByLocation() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading location stock.</p>
+            <p className='font-medium'>{t('stockByLocation.errorLoading', 'Error loading location stock.')}</p>
           </div>
         ) : (
           <StockByLocationTable data={rows ?? []} />

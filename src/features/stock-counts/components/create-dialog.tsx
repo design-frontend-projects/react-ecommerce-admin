@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
@@ -58,6 +59,7 @@ export function CountCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   const [warehouseId, setWarehouseId] = useState('')
   const [warehouseLocationId, setWarehouseLocationId] = useState(ALL_LOCATIONS)
   const [categoryId, setCategoryId] = useState(ALL_CATEGORIES)
@@ -96,7 +98,7 @@ export function CountCreateDialog({
     })
 
     if (!parsed.success) {
-      toast.error('Please fix the stock count', {
+      toast.error(t('stockCounts.createDialog.validationError', 'Please fix the stock count'), {
         description: parsed.error.issues[0]?.message ?? 'Invalid input.',
       })
       return
@@ -121,19 +123,21 @@ export function CountCreateDialog({
     >
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle>New Stock Count</DialogTitle>
+          <DialogTitle>{t('stockCounts.createDialog.title', 'New Stock Count')}</DialogTitle>
           <DialogDescription>
-            Create a draft count. Starting the count freezes expected quantities
-            for the selected warehouse / location scope.
+            {t(
+              'stockCounts.createDialog.description',
+              'Create a draft count. Starting the count freezes expected quantities for the selected warehouse / location scope.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
         <div className='grid gap-4'>
           <div className='grid gap-2'>
-            <Label>Warehouse / Location</Label>
+            <Label>{t('stockCounts.createDialog.warehouseLocation', 'Warehouse / Location')}</Label>
             <Select value={warehouseId} onValueChange={setWarehouseId}>
               <SelectTrigger>
-                <SelectValue placeholder='Select warehouse' />
+                <SelectValue placeholder={t('stockCounts.createDialog.selectWarehouse', 'Select warehouse')} />
               </SelectTrigger>
               <SelectContent>
                 {locationOptions.map((loc) => (
@@ -147,13 +151,13 @@ export function CountCreateDialog({
 
           {locations.length > 0 && (
             <div className='grid gap-2'>
-              <Label>Specific Location (optional)</Label>
+              <Label>{t('stockCounts.createDialog.specificLocation', 'Specific Location (optional)')}</Label>
               <Select value={warehouseLocationId} onValueChange={setWarehouseLocationId}>
                 <SelectTrigger>
-                  <SelectValue placeholder='All warehouse locations' />
+                  <SelectValue placeholder={t('stockCounts.createDialog.allLocations', 'All warehouse locations')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={ALL_LOCATIONS}>All warehouse locations</SelectItem>
+                  <SelectItem value={ALL_LOCATIONS}>{t('stockCounts.createDialog.allLocations', 'All warehouse locations')}</SelectItem>
                   {locations.map((loc) => (
                     <SelectItem key={loc.id} value={loc.id}>
                       {loc.code} {loc.name ? `— ${loc.name}` : ''} ({loc.location_type})
@@ -165,13 +169,13 @@ export function CountCreateDialog({
           )}
 
           <div className='grid gap-2'>
-            <Label>Category (optional)</Label>
+            <Label>{t('stockCounts.createDialog.category', 'Category (optional)')}</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={ALL_CATEGORIES}>All categories</SelectItem>
+                <SelectItem value={ALL_CATEGORIES}>{t('stockCounts.createDialog.allCategories', 'All categories')}</SelectItem>
                 {categories.map((category) => (
                   <SelectItem
                     key={category.category_id}
@@ -186,16 +190,16 @@ export function CountCreateDialog({
 
           <div className='flex items-center justify-between rounded-md border p-3'>
             <div className='space-y-0.5'>
-              <Label>Blind count</Label>
+              <Label>{t('stockCounts.createDialog.blindCount', 'Blind count')}</Label>
               <p className='text-xs text-muted-foreground'>
-                Hide expected quantities from counters.
+                {t('stockCounts.createDialog.blindCountHelp', 'Hide expected quantities from counters.')}
               </p>
             </div>
             <Switch checked={isBlind} onCheckedChange={setIsBlind} />
           </div>
 
           <div className='grid gap-2'>
-            <Label>Notes (optional)</Label>
+            <Label>{t('stockCounts.createDialog.notes', 'Notes (optional)')}</Label>
             <Textarea
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
@@ -206,10 +210,12 @@ export function CountCreateDialog({
 
         <DialogFooter>
           <Button variant='outline' onClick={() => onOpenChange(false)}>
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </Button>
           <Button onClick={handleSubmit} disabled={createCount.isPending}>
-            {createCount.isPending ? 'Saving...' : 'Create draft'}
+            {createCount.isPending
+              ? t('stockCounts.createDialog.saving', 'Saving...')
+              : t('stockCounts.createDialog.createDraft', 'Create draft')}
           </Button>
         </DialogFooter>
       </DialogContent>

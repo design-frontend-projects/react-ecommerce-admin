@@ -1,5 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import type { TFunction } from 'i18next'
 import { ArrowRight, Building2, Store, Warehouse } from 'lucide-react'
+import i18n from '@/config/i18n'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { StatusBadge } from '@/components/shared/status-badge'
@@ -7,6 +9,7 @@ import type { TransferListItem } from '../data/schema'
 import { TransferRowActions } from './row-actions'
 
 function getEntityDisplay(
+  t: TFunction,
   warehouse?: { name: string | null; code?: string | null } | null,
   store?: { name: string | null } | null,
   branch?: { name: string | null } | null
@@ -15,21 +18,21 @@ function getEntityDisplay(
     return {
       name: warehouse.name,
       code: warehouse.code,
-      type: 'Warehouse',
+      type: t('stockTransfers.entityTypes.warehouse', 'Warehouse'),
       Icon: Warehouse,
     }
   }
   if (store?.name) {
     return {
       name: store.name,
-      type: 'Store',
+      type: t('stockTransfers.entityTypes.store', 'Store'),
       Icon: Store,
     }
   }
   if (branch?.name) {
     return {
       name: branch.name,
-      type: 'Branch',
+      type: t('stockTransfers.entityTypes.branch', 'Branch'),
       Icon: Building2,
     }
   }
@@ -40,11 +43,19 @@ function getEntityDisplay(
   }
 }
 
-export const columns: ColumnDef<TransferListItem>[] = [
+export const getColumns = (
+  t: TFunction = i18n.t
+): ColumnDef<TransferListItem>[] => [
   {
     accessorKey: 'reference_no',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Reference / Transfer #" />
+      <DataTableColumnHeader
+        column={column}
+        title={t(
+          'stockTransfers.columns.referenceOrTransfer',
+          'Reference / Transfer #'
+        )}
+      />
     ),
     cell: ({ row }) => (
       <div className="flex flex-col">
@@ -61,14 +72,19 @@ export const columns: ColumnDef<TransferListItem>[] = [
   },
   {
     id: 'route',
-    header: 'Transfer Route (Origin → Target)',
+    header: t(
+      'stockTransfers.columns.route',
+      'Transfer Route (Origin → Target)'
+    ),
     cell: ({ row }) => {
       const from = getEntityDisplay(
+        t,
         row.original.source_warehouse,
         row.original.from_store,
         row.original.from_branch
       )
       const to = getEntityDisplay(
+        t,
         row.original.destination_warehouse,
         row.original.to_store,
         row.original.to_branch
@@ -99,12 +115,20 @@ export const columns: ColumnDef<TransferListItem>[] = [
   },
   {
     id: 'items',
-    header: 'Items',
+    header: t('stockTransfers.columns.items', 'Items'),
     cell: ({ row }) => {
       const count = row.original._count?.stock_transfer_items ?? 0
       return (
         <Badge variant="secondary" className="font-semibold">
-          {count} {count === 1 ? 'item' : 'items'}
+          {count === 1
+            ? t('stockTransfers.columns.item', {
+                count,
+                defaultValue: '1 item',
+              })
+            : t('stockTransfers.columns.items_other', {
+                count,
+                defaultValue: `${count} items`,
+              })}
         </Badge>
       )
     },
@@ -112,7 +136,10 @@ export const columns: ColumnDef<TransferListItem>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader
+        column={column}
+        title={t('stockTransfers.columns.status', 'Status')}
+      />
     ),
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
     filterFn: (row, id, value) => value.includes(row.getValue(id)),
@@ -120,7 +147,10 @@ export const columns: ColumnDef<TransferListItem>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Date Created" />
+      <DataTableColumnHeader
+        column={column}
+        title={t('stockTransfers.columns.dateCreated', 'Date Created')}
+      />
     ),
     cell: ({ row }) => (
       <span className="text-xs text-muted-foreground">
@@ -137,5 +167,8 @@ export const columns: ColumnDef<TransferListItem>[] = [
     cell: ({ row }) => <TransferRowActions row={row.original} />,
   },
 ]
+
+export const columns = getColumns()
+
 
 

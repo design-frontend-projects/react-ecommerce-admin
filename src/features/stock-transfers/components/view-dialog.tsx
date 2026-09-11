@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from '@tanstack/react-router'
+import type { TFunction } from 'i18next'
 import { ArrowRight, ExternalLink, Building2, Store, Warehouse } from 'lucide-react'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Badge } from '@/components/ui/badge'
@@ -24,21 +26,45 @@ import { useTransfer } from '../hooks/use-stock-transfers'
 import { TransferTimeline } from './transfer-timeline'
 import { TransferWorkflowActions } from './transfer-workflow-actions'
 
-function getOriginTargetLabels(t: TransferListItem) {
-  const from = t.source_warehouse?.name
-    ? { name: t.source_warehouse.name, type: 'Warehouse', Icon: Warehouse }
-    : t.from_store?.name
-    ? { name: t.from_store.name, type: 'Store', Icon: Store }
-    : t.from_branch?.name
-    ? { name: t.from_branch.name, type: 'Branch', Icon: Building2 }
+function getOriginTargetLabels(t: TFunction, item: TransferListItem) {
+  const from = item.source_warehouse?.name
+    ? {
+        name: item.source_warehouse.name,
+        type: t('stockTransfers.entityTypes.warehouse', 'Warehouse'),
+        Icon: Warehouse,
+      }
+    : item.from_store?.name
+    ? {
+        name: item.from_store.name,
+        type: t('stockTransfers.entityTypes.store', 'Store'),
+        Icon: Store,
+      }
+    : item.from_branch?.name
+    ? {
+        name: item.from_branch.name,
+        type: t('stockTransfers.entityTypes.branch', 'Branch'),
+        Icon: Building2,
+      }
     : { name: '—', type: '', Icon: Warehouse }
 
-  const to = t.destination_warehouse?.name
-    ? { name: t.destination_warehouse.name, type: 'Warehouse', Icon: Warehouse }
-    : t.to_store?.name
-    ? { name: t.to_store.name, type: 'Store', Icon: Store }
-    : t.to_branch?.name
-    ? { name: t.to_branch.name, type: 'Branch', Icon: Building2 }
+  const to = item.destination_warehouse?.name
+    ? {
+        name: item.destination_warehouse.name,
+        type: t('stockTransfers.entityTypes.warehouse', 'Warehouse'),
+        Icon: Warehouse,
+      }
+    : item.to_store?.name
+    ? {
+        name: item.to_store.name,
+        type: t('stockTransfers.entityTypes.store', 'Store'),
+        Icon: Store,
+      }
+    : item.to_branch?.name
+    ? {
+        name: item.to_branch.name,
+        type: t('stockTransfers.entityTypes.branch', 'Branch'),
+        Icon: Building2,
+      }
     : { name: '—', type: '', Icon: Warehouse }
 
   return { from, to }
@@ -64,12 +90,13 @@ export function TransferViewDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { data: detail, isLoading } = useTransfer(
     open ? transfer.id : undefined
   )
 
-  const { from, to } = getOriginTargetLabels(transfer)
+  const { from, to } = getOriginTargetLabels(t, transfer)
 
   const items = detail?.stock_transfer_items || []
   const totalQuantity = items.reduce(
@@ -93,13 +120,16 @@ export function TransferViewDialog({
         <DialogHeader>
           <div className="flex items-center justify-between gap-3 pr-6">
             <DialogTitle className="text-lg font-bold flex items-center gap-2">
-              Transfer: {transfer.reference_no || `TR-${transfer.id.slice(0, 8)}`}
+              {t('stockTransfers.viewDialog.transfer', 'Transfer:')}{' '}
+              {transfer.reference_no || `TR-${transfer.id.slice(0, 8)}`}
             </DialogTitle>
             <StatusBadge status={transfer.status} size="sm" />
           </div>
           <DialogDescription asChild>
             <div className="flex items-center gap-2 text-xs pt-1">
-              <span className="text-muted-foreground">From:</span>
+              <span className="text-muted-foreground">
+                {t('stockTransfers.viewDialog.from', 'From:')}
+              </span>
               <span className="font-semibold text-foreground flex items-center gap-1">
                 {from.type && (
                   <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
@@ -109,7 +139,9 @@ export function TransferViewDialog({
                 {from.name}
               </span>
               <ArrowRight className="h-3 w-3 text-muted-foreground" />
-              <span className="text-muted-foreground">To:</span>
+              <span className="text-muted-foreground">
+                {t('stockTransfers.viewDialog.to', 'To:')}
+              </span>
               <span className="font-semibold text-foreground flex items-center gap-1">
                 {to.type && (
                   <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
@@ -138,13 +170,15 @@ export function TransferViewDialog({
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
             <span>
-              Transfer Items ({items.length})
+              {t('stockTransfers.viewDialog.itemsTitle', 'Transfer Items')} ({items.length})
             </span>
             <div className="flex items-center gap-3">
-              <span>Total Qty: {totalQuantity}</span>
+              <span>
+                {t('stockTransfers.viewDialog.totalQty', 'Total Qty:')} {totalQuantity}
+              </span>
               {isReceivedOrDone && (
                 <span className="text-emerald-600 font-bold">
-                  Received: {totalReceived}
+                  {t('stockTransfers.viewDialog.received', 'Received:')} {totalReceived}
                 </span>
               )}
             </div>
@@ -152,21 +186,33 @@ export function TransferViewDialog({
 
           {isLoading ? (
             <p className="text-sm text-muted-foreground py-6 text-center">
-              Loading transfer items...
+              {t('stockTransfers.viewDialog.loading', 'Loading transfer items...')}
             </p>
           ) : (
             <div className="overflow-hidden rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/40">
-                    <TableHead className="text-xs">Product / Variant</TableHead>
-                    <TableHead className="text-xs">Condition</TableHead>
-                    <TableHead className="text-xs text-end">Transfer Qty</TableHead>
+                    <TableHead className="text-xs">
+                      {t('stockTransfers.viewDialog.columns.productVariant', 'Product / Variant')}
+                    </TableHead>
+                    <TableHead className="text-xs">
+                      {t('stockTransfers.viewDialog.columns.condition', 'Condition')}
+                    </TableHead>
+                    <TableHead className="text-xs text-end">
+                      {t('stockTransfers.viewDialog.columns.transferQty', 'Transfer Qty')}
+                    </TableHead>
                     {isReceivedOrDone && (
-                      <TableHead className="text-xs text-end">Received</TableHead>
+                      <TableHead className="text-xs text-end">
+                        {t('stockTransfers.viewDialog.columns.received', 'Received')}
+                      </TableHead>
                     )}
-                    <TableHead className="text-xs text-end">Unit Cost</TableHead>
-                    <TableHead className="text-xs text-end">Subtotal</TableHead>
+                    <TableHead className="text-xs text-end">
+                      {t('stockTransfers.viewDialog.columns.unitCost', 'Unit Cost')}
+                    </TableHead>
+                    <TableHead className="text-xs text-end">
+                      {t('stockTransfers.viewDialog.columns.subtotal', 'Subtotal')}
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -190,8 +236,12 @@ export function TransferViewDialog({
                             )}
                             {(item.batch_id || item.serial_id) && (
                               <span className="text-[10px] text-muted-foreground font-mono">
-                                {item.batch_id ? `Batch: ${item.batch_id} ` : ''}
-                                {item.serial_id ? `SN: ${item.serial_id}` : ''}
+                                {item.batch_id
+                                  ? `${t('stockTransfers.viewDialog.batch', 'Batch:')} ${item.batch_id} `
+                                  : ''}
+                                {item.serial_id
+                                  ? `${t('stockTransfers.viewDialog.sn', 'SN:')} ${item.serial_id}`
+                                  : ''}
                               </span>
                             )}
                           </div>
@@ -201,7 +251,7 @@ export function TransferViewDialog({
                             variant={CONDITION_COLORS[item.condition] ?? 'secondary'}
                             className="text-[10px] capitalize px-1.5 py-0 h-4"
                           >
-                            {item.condition}
+                            {t(`stockTransfers.conditions.${item.condition}`, item.condition)}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-end font-semibold">
@@ -228,14 +278,18 @@ export function TransferViewDialog({
 
           {totalCost > 0 && (
             <div className="flex justify-end p-2.5 text-xs font-bold text-foreground bg-muted/30 rounded-md">
-              <span>Total Estimated Value: ${totalCost.toFixed(2)}</span>
+              <span>
+                {t('stockTransfers.viewDialog.totalEstimatedValue', 'Total Estimated Value:')} ${totalCost.toFixed(2)}
+              </span>
             </div>
           )}
         </div>
 
         {transfer.notes && (
           <div className="p-3 rounded-md bg-muted/40 text-xs space-y-1">
-            <span className="font-semibold text-foreground">Notes:</span>
+            <span className="font-semibold text-foreground">
+              {t('stockTransfers.viewDialog.notes', 'Notes:')}
+            </span>
             <p className="text-muted-foreground">{transfer.notes}</p>
           </div>
         )}
@@ -264,14 +318,14 @@ export function TransferViewDialog({
               className="gap-1.5"
             >
               <ExternalLink className="h-3.5 w-3.5" />
-              Full Page
+              {t('stockTransfers.viewDialog.fullPage', 'Full Page')}
             </Button>
             <Button
               variant="secondary"
               size="sm"
               onClick={() => onOpenChange(false)}
             >
-              Close
+              {t('stockTransfers.viewDialog.close', 'Close')}
             </Button>
           </div>
         </DialogFooter>
