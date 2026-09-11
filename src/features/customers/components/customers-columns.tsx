@@ -1,10 +1,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { type TFunction } from 'i18next'
+import i18n from '@/config/i18n'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type Customer } from '../hooks/use-customers'
 import { CustomerRowActions } from './customer-row-actions'
 
-export const getColumns = (t: TFunction): ColumnDef<Customer>[] => [
+export const getColumns = (t: TFunction = i18n.t): ColumnDef<Customer>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -58,5 +59,5 @@ export const getColumns = (t: TFunction): ColumnDef<Customer>[] => [
   },
 ]
 
-export const columns = getColumns((k: string) => k)
+export const columns: ColumnDef<Customer>[] = getColumns()
 

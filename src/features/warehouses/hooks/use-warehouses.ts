@@ -42,6 +42,7 @@ export function useCreateWarehouse() {
     onSuccess: () => {
       toast.success('Warehouse created.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })
+      void queryClient.invalidateQueries({ queryKey: ['warehouses'] })
     },
     onError: (error: Error) =>
       toast.error('Unable to create warehouse', { description: error.message }),
@@ -65,6 +66,7 @@ export function useUpdateWarehouse() {
     onSuccess: () => {
       toast.success('Warehouse updated.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })
+      void queryClient.invalidateQueries({ queryKey: ['warehouses'] })
     },
     onError: (error: Error) =>
       toast.error('Unable to update warehouse', { description: error.message }),
@@ -79,6 +81,7 @@ export function useDeleteWarehouse() {
     onSuccess: () => {
       toast.success('Warehouse deleted.')
       void queryClient.invalidateQueries({ queryKey: warehousesKey })
+      void queryClient.invalidateQueries({ queryKey: ['warehouses'] })
     },
     onError: (error: Error) =>
       toast.error('Unable to delete warehouse', { description: error.message }),

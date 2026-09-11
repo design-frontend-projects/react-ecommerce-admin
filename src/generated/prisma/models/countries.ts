@@ -211,6 +211,7 @@ export type countriesWhereInput = {
   stores?: Prisma.StoresListRelationFilter
   tax_rates?: Prisma.Tax_ratesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
+  warehouses?: Prisma.WarehousesListRelationFilter
 }
 
 export type countriesOrderByWithRelationInput = {
@@ -227,6 +228,7 @@ export type countriesOrderByWithRelationInput = {
   stores?: Prisma.storesOrderByRelationAggregateInput
   tax_rates?: Prisma.tax_ratesOrderByRelationAggregateInput
   tenants?: Prisma.tenantsOrderByRelationAggregateInput
+  warehouses?: Prisma.warehousesOrderByRelationAggregateInput
 }
 
 export type countriesWhereUniqueInput = Prisma.AtLeast<{
@@ -246,6 +248,7 @@ export type countriesWhereUniqueInput = Prisma.AtLeast<{
   stores?: Prisma.StoresListRelationFilter
   tax_rates?: Prisma.Tax_ratesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
+  warehouses?: Prisma.WarehousesListRelationFilter
 }, "id">
 
 export type countriesOrderByWithAggregationInput = {
@@ -289,6 +292,7 @@ export type countriesCreateInput = {
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateInput = {
@@ -304,6 +308,7 @@ export type countriesUncheckedCreateInput = {
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesUncheckedCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUpdateInput = {
@@ -319,6 +324,7 @@ export type countriesUpdateInput = {
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateInput = {
@@ -334,6 +340,7 @@ export type countriesUncheckedUpdateInput = {
   stores?: Prisma.storesUncheckedUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUncheckedUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesCreateManyInput = {
@@ -525,6 +532,22 @@ export type countriesUpdateOneWithoutTenantsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.countriesUpdateToOneWithWhereWithoutTenantsInput, Prisma.countriesUpdateWithoutTenantsInput>, Prisma.countriesUncheckedUpdateWithoutTenantsInput>
 }
 
+export type countriesCreateNestedOneWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.countriesCreateWithoutWarehousesInput, Prisma.countriesUncheckedCreateWithoutWarehousesInput>
+  connectOrCreate?: Prisma.countriesCreateOrConnectWithoutWarehousesInput
+  connect?: Prisma.countriesWhereUniqueInput
+}
+
+export type countriesUpdateOneWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.countriesCreateWithoutWarehousesInput, Prisma.countriesUncheckedCreateWithoutWarehousesInput>
+  connectOrCreate?: Prisma.countriesCreateOrConnectWithoutWarehousesInput
+  upsert?: Prisma.countriesUpsertWithoutWarehousesInput
+  disconnect?: Prisma.countriesWhereInput | boolean
+  delete?: Prisma.countriesWhereInput | boolean
+  connect?: Prisma.countriesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.countriesUpdateToOneWithWhereWithoutWarehousesInput, Prisma.countriesUpdateWithoutWarehousesInput>, Prisma.countriesUncheckedUpdateWithoutWarehousesInput>
+}
+
 export type countriesCreateWithoutCitiesInput = {
   id?: string
   name: string
@@ -537,6 +560,7 @@ export type countriesCreateWithoutCitiesInput = {
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateWithoutCitiesInput = {
@@ -551,6 +575,7 @@ export type countriesUncheckedCreateWithoutCitiesInput = {
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesUncheckedCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesCreateOrConnectWithoutCitiesInput = {
@@ -581,6 +606,7 @@ export type countriesUpdateWithoutCitiesInput = {
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateWithoutCitiesInput = {
@@ -595,6 +621,7 @@ export type countriesUncheckedUpdateWithoutCitiesInput = {
   stores?: Prisma.storesUncheckedUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUncheckedUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesCreateWithoutCurrenciesInput = {
@@ -609,6 +636,7 @@ export type countriesCreateWithoutCurrenciesInput = {
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateWithoutCurrenciesInput = {
@@ -623,6 +651,7 @@ export type countriesUncheckedCreateWithoutCurrenciesInput = {
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesUncheckedCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesCreateOrConnectWithoutCurrenciesInput = {
@@ -677,6 +706,7 @@ export type countriesCreateWithoutStoresInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateWithoutStoresInput = {
@@ -691,6 +721,7 @@ export type countriesUncheckedCreateWithoutStoresInput = {
   cities?: Prisma.citiesUncheckedCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesUncheckedCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesCreateOrConnectWithoutStoresInput = {
@@ -721,6 +752,7 @@ export type countriesUpdateWithoutStoresInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateWithoutStoresInput = {
@@ -735,6 +767,7 @@ export type countriesUncheckedUpdateWithoutStoresInput = {
   cities?: Prisma.citiesUncheckedUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUncheckedUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesCreateWithoutTax_ratesInput = {
@@ -749,6 +782,7 @@ export type countriesCreateWithoutTax_ratesInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateWithoutTax_ratesInput = {
@@ -763,6 +797,7 @@ export type countriesUncheckedCreateWithoutTax_ratesInput = {
   cities?: Prisma.citiesUncheckedCreateNestedManyWithoutCountriesInput
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCountriesInput
   tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesCreateOrConnectWithoutTax_ratesInput = {
@@ -793,6 +828,7 @@ export type countriesUpdateWithoutTax_ratesInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateWithoutTax_ratesInput = {
@@ -807,6 +843,7 @@ export type countriesUncheckedUpdateWithoutTax_ratesInput = {
   cities?: Prisma.citiesUncheckedUpdateManyWithoutCountriesNestedInput
   stores?: Prisma.storesUncheckedUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesCreateWithoutTenantsInput = {
@@ -821,6 +858,7 @@ export type countriesCreateWithoutTenantsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
   stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesUncheckedCreateWithoutTenantsInput = {
@@ -835,6 +873,7 @@ export type countriesUncheckedCreateWithoutTenantsInput = {
   cities?: Prisma.citiesUncheckedCreateNestedManyWithoutCountriesInput
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCountriesInput
   tax_rates?: Prisma.tax_ratesUncheckedCreateNestedManyWithoutCountriesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCountriesInput
 }
 
 export type countriesCreateOrConnectWithoutTenantsInput = {
@@ -865,6 +904,7 @@ export type countriesUpdateWithoutTenantsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateWithoutTenantsInput = {
@@ -879,6 +919,83 @@ export type countriesUncheckedUpdateWithoutTenantsInput = {
   cities?: Prisma.citiesUncheckedUpdateManyWithoutCountriesNestedInput
   stores?: Prisma.storesUncheckedUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUncheckedUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCountriesNestedInput
+}
+
+export type countriesCreateWithoutWarehousesInput = {
+  id?: string
+  name: string
+  code: string
+  phone_code?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  cities?: Prisma.citiesCreateNestedManyWithoutCountriesInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutCountriesInput
+  stores?: Prisma.storesCreateNestedManyWithoutCountriesInput
+  tax_rates?: Prisma.tax_ratesCreateNestedManyWithoutCountriesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCountriesInput
+}
+
+export type countriesUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  name: string
+  code: string
+  phone_code?: string | null
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  currency_id?: string | null
+  cities?: Prisma.citiesUncheckedCreateNestedManyWithoutCountriesInput
+  stores?: Prisma.storesUncheckedCreateNestedManyWithoutCountriesInput
+  tax_rates?: Prisma.tax_ratesUncheckedCreateNestedManyWithoutCountriesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCountriesInput
+}
+
+export type countriesCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.countriesWhereUniqueInput
+  create: Prisma.XOR<Prisma.countriesCreateWithoutWarehousesInput, Prisma.countriesUncheckedCreateWithoutWarehousesInput>
+}
+
+export type countriesUpsertWithoutWarehousesInput = {
+  update: Prisma.XOR<Prisma.countriesUpdateWithoutWarehousesInput, Prisma.countriesUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.countriesCreateWithoutWarehousesInput, Prisma.countriesUncheckedCreateWithoutWarehousesInput>
+  where?: Prisma.countriesWhereInput
+}
+
+export type countriesUpdateToOneWithWhereWithoutWarehousesInput = {
+  where?: Prisma.countriesWhereInput
+  data: Prisma.XOR<Prisma.countriesUpdateWithoutWarehousesInput, Prisma.countriesUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type countriesUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  phone_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cities?: Prisma.citiesUpdateManyWithoutCountriesNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutCountriesNestedInput
+  stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
+}
+
+export type countriesUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  phone_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cities?: Prisma.citiesUncheckedUpdateManyWithoutCountriesNestedInput
+  stores?: Prisma.storesUncheckedUpdateManyWithoutCountriesNestedInput
+  tax_rates?: Prisma.tax_ratesUncheckedUpdateManyWithoutCountriesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesCreateManyCurrenciesInput = {
@@ -903,6 +1020,7 @@ export type countriesUpdateWithoutCurrenciesInput = {
   stores?: Prisma.storesUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateWithoutCurrenciesInput = {
@@ -917,6 +1035,7 @@ export type countriesUncheckedUpdateWithoutCurrenciesInput = {
   stores?: Prisma.storesUncheckedUpdateManyWithoutCountriesNestedInput
   tax_rates?: Prisma.tax_ratesUncheckedUpdateManyWithoutCountriesNestedInput
   tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCountriesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCountriesNestedInput
 }
 
 export type countriesUncheckedUpdateManyWithoutCurrenciesInput = {
@@ -939,6 +1058,7 @@ export type CountriesCountOutputType = {
   stores: number
   tax_rates: number
   tenants: number
+  warehouses: number
 }
 
 export type CountriesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -946,6 +1066,7 @@ export type CountriesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   stores?: boolean | CountriesCountOutputTypeCountStoresArgs
   tax_rates?: boolean | CountriesCountOutputTypeCountTax_ratesArgs
   tenants?: boolean | CountriesCountOutputTypeCountTenantsArgs
+  warehouses?: boolean | CountriesCountOutputTypeCountWarehousesArgs
 }
 
 /**
@@ -986,6 +1107,13 @@ export type CountriesCountOutputTypeCountTenantsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.tenantsWhereInput
 }
 
+/**
+ * CountriesCountOutputType without action
+ */
+export type CountriesCountOutputTypeCountWarehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.warehousesWhereInput
+}
+
 
 export type countriesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1001,6 +1129,7 @@ export type countriesSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   stores?: boolean | Prisma.countries$storesArgs<ExtArgs>
   tax_rates?: boolean | Prisma.countries$tax_ratesArgs<ExtArgs>
   tenants?: boolean | Prisma.countries$tenantsArgs<ExtArgs>
+  warehouses?: boolean | Prisma.countries$warehousesArgs<ExtArgs>
   _count?: boolean | Prisma.CountriesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["countries"]>
 
@@ -1046,6 +1175,7 @@ export type countriesInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   stores?: boolean | Prisma.countries$storesArgs<ExtArgs>
   tax_rates?: boolean | Prisma.countries$tax_ratesArgs<ExtArgs>
   tenants?: boolean | Prisma.countries$tenantsArgs<ExtArgs>
+  warehouses?: boolean | Prisma.countries$warehousesArgs<ExtArgs>
   _count?: boolean | Prisma.CountriesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type countriesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1063,6 +1193,7 @@ export type $countriesPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     stores: Prisma.$storesPayload<ExtArgs>[]
     tax_rates: Prisma.$tax_ratesPayload<ExtArgs>[]
     tenants: Prisma.$tenantsPayload<ExtArgs>[]
+    warehouses: Prisma.$warehousesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1472,6 +1603,7 @@ export interface Prisma__countriesClient<T, Null = never, ExtArgs extends runtim
   stores<T extends Prisma.countries$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$storesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tax_rates<T extends Prisma.countries$tax_ratesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$tax_ratesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tax_ratesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenants<T extends Prisma.countries$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  warehouses<T extends Prisma.countries$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countries$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2022,6 +2154,30 @@ export type countries$tenantsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TenantsScalarFieldEnum | Prisma.TenantsScalarFieldEnum[]
+}
+
+/**
+ * countries.warehouses
+ */
+export type countries$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+  orderBy?: Prisma.warehousesOrderByWithRelationInput | Prisma.warehousesOrderByWithRelationInput[]
+  cursor?: Prisma.warehousesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WarehousesScalarFieldEnum | Prisma.WarehousesScalarFieldEnum[]
 }
 
 /**

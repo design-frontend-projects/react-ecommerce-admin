@@ -286,6 +286,7 @@ export type customer_returnsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"customer_returns"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
   items?: Prisma.Customer_return_itemsListRelationFilter
 }
 
@@ -308,6 +309,7 @@ export type customer_returnsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
   items?: Prisma.customer_return_itemsOrderByRelationAggregateInput
 }
 
@@ -333,6 +335,7 @@ export type customer_returnsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"customer_returns"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
   items?: Prisma.Customer_return_itemsListRelationFilter
 }, "id">
 
@@ -389,7 +392,6 @@ export type customer_returnsCreateInput = {
   tenant_id: string
   return_no: string
   customer_id?: string | null
-  warehouse_id: string
   store_id?: string | null
   branch_id?: string | null
   sales_invoice_id?: string | null
@@ -403,6 +405,7 @@ export type customer_returnsCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  warehouses: Prisma.warehousesCreateNestedOneWithoutCustomer_returnsInput
   items?: Prisma.customer_return_itemsCreateNestedManyWithoutCustomer_returnInput
 }
 
@@ -433,7 +436,6 @@ export type customer_returnsUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -447,6 +449,7 @@ export type customer_returnsUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutCustomer_returnsNestedInput
   items?: Prisma.customer_return_itemsUpdateManyWithoutCustomer_returnNestedInput
 }
 
@@ -498,7 +501,6 @@ export type customer_returnsUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -603,6 +605,16 @@ export type Customer_returnsScalarRelationFilter = {
   isNot?: Prisma.customer_returnsWhereInput
 }
 
+export type Customer_returnsListRelationFilter = {
+  every?: Prisma.customer_returnsWhereInput
+  some?: Prisma.customer_returnsWhereInput
+  none?: Prisma.customer_returnsWhereInput
+}
+
+export type customer_returnsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type Enumcustomer_return_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.customer_return_status_enum
 }
@@ -621,12 +633,53 @@ export type customer_returnsUpdateOneRequiredWithoutItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.customer_returnsUpdateToOneWithWhereWithoutItemsInput, Prisma.customer_returnsUpdateWithoutItemsInput>, Prisma.customer_returnsUncheckedUpdateWithoutItemsInput>
 }
 
+export type customer_returnsCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.customer_returnsCreateWithoutWarehousesInput, Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput> | Prisma.customer_returnsCreateWithoutWarehousesInput[] | Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput | Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.customer_returnsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+}
+
+export type customer_returnsUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.customer_returnsCreateWithoutWarehousesInput, Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput> | Prisma.customer_returnsCreateWithoutWarehousesInput[] | Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput | Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.customer_returnsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+}
+
+export type customer_returnsUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_returnsCreateWithoutWarehousesInput, Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput> | Prisma.customer_returnsCreateWithoutWarehousesInput[] | Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput | Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.customer_returnsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.customer_returnsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.customer_returnsCreateManyWarehousesInputEnvelope
+  set?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  disconnect?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  delete?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  connect?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  update?: Prisma.customer_returnsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.customer_returnsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.customer_returnsUpdateManyWithWhereWithoutWarehousesInput | Prisma.customer_returnsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.customer_returnsScalarWhereInput | Prisma.customer_returnsScalarWhereInput[]
+}
+
+export type customer_returnsUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_returnsCreateWithoutWarehousesInput, Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput> | Prisma.customer_returnsCreateWithoutWarehousesInput[] | Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput | Prisma.customer_returnsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.customer_returnsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.customer_returnsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.customer_returnsCreateManyWarehousesInputEnvelope
+  set?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  disconnect?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  delete?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  connect?: Prisma.customer_returnsWhereUniqueInput | Prisma.customer_returnsWhereUniqueInput[]
+  update?: Prisma.customer_returnsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.customer_returnsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.customer_returnsUpdateManyWithWhereWithoutWarehousesInput | Prisma.customer_returnsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.customer_returnsScalarWhereInput | Prisma.customer_returnsScalarWhereInput[]
+}
+
 export type customer_returnsCreateWithoutItemsInput = {
   id?: string
   tenant_id: string
   return_no: string
   customer_id?: string | null
-  warehouse_id: string
   store_id?: string | null
   branch_id?: string | null
   sales_invoice_id?: string | null
@@ -640,6 +693,7 @@ export type customer_returnsCreateWithoutItemsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  warehouses: Prisma.warehousesCreateNestedOneWithoutCustomer_returnsInput
 }
 
 export type customer_returnsUncheckedCreateWithoutItemsInput = {
@@ -684,6 +738,27 @@ export type customer_returnsUpdateWithoutItemsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumcustomer_return_status_enumFieldUpdateOperationsInput | $Enums.customer_return_status_enum
+  returned_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutCustomer_returnsNestedInput
+}
+
+export type customer_returnsUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  return_no?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -700,12 +775,165 @@ export type customer_returnsUpdateWithoutItemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type customer_returnsUncheckedUpdateWithoutItemsInput = {
+export type customer_returnsCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  return_no: string
+  customer_id?: string | null
+  store_id?: string | null
+  branch_id?: string | null
+  sales_invoice_id?: string | null
+  status?: $Enums.customer_return_status_enum
+  returned_at?: Date | string
+  reason?: string | null
+  return_reason_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  items?: Prisma.customer_return_itemsCreateNestedManyWithoutCustomer_returnInput
+}
+
+export type customer_returnsUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  return_no: string
+  customer_id?: string | null
+  store_id?: string | null
+  branch_id?: string | null
+  sales_invoice_id?: string | null
+  status?: $Enums.customer_return_status_enum
+  returned_at?: Date | string
+  reason?: string | null
+  return_reason_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  items?: Prisma.customer_return_itemsUncheckedCreateNestedManyWithoutCustomer_returnInput
+}
+
+export type customer_returnsCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.customer_returnsWhereUniqueInput
+  create: Prisma.XOR<Prisma.customer_returnsCreateWithoutWarehousesInput, Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type customer_returnsCreateManyWarehousesInputEnvelope = {
+  data: Prisma.customer_returnsCreateManyWarehousesInput | Prisma.customer_returnsCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type customer_returnsUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.customer_returnsWhereUniqueInput
+  update: Prisma.XOR<Prisma.customer_returnsUpdateWithoutWarehousesInput, Prisma.customer_returnsUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.customer_returnsCreateWithoutWarehousesInput, Prisma.customer_returnsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type customer_returnsUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.customer_returnsWhereUniqueInput
+  data: Prisma.XOR<Prisma.customer_returnsUpdateWithoutWarehousesInput, Prisma.customer_returnsUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type customer_returnsUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.customer_returnsScalarWhereInput
+  data: Prisma.XOR<Prisma.customer_returnsUpdateManyMutationInput, Prisma.customer_returnsUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type customer_returnsScalarWhereInput = {
+  AND?: Prisma.customer_returnsScalarWhereInput | Prisma.customer_returnsScalarWhereInput[]
+  OR?: Prisma.customer_returnsScalarWhereInput[]
+  NOT?: Prisma.customer_returnsScalarWhereInput | Prisma.customer_returnsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"customer_returns"> | string
+  tenant_id?: Prisma.UuidFilter<"customer_returns"> | string
+  return_no?: Prisma.StringFilter<"customer_returns"> | string
+  customer_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  warehouse_id?: Prisma.UuidFilter<"customer_returns"> | string
+  store_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  branch_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  sales_invoice_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  status?: Prisma.Enumcustomer_return_status_enumFilter<"customer_returns"> | $Enums.customer_return_status_enum
+  returned_at?: Prisma.DateTimeFilter<"customer_returns"> | Date | string
+  reason?: Prisma.StringNullableFilter<"customer_returns"> | string | null
+  return_reason_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  notes?: Prisma.StringNullableFilter<"customer_returns"> | string | null
+  created_by?: Prisma.StringNullableFilter<"customer_returns"> | string | null
+  created_at?: Prisma.DateTimeFilter<"customer_returns"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"customer_returns"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"customer_returns"> | string | null
+}
+
+export type customer_returnsCreateManyWarehousesInput = {
+  id?: string
+  tenant_id: string
+  return_no: string
+  customer_id?: string | null
+  store_id?: string | null
+  branch_id?: string | null
+  sales_invoice_id?: string | null
+  status?: $Enums.customer_return_status_enum
+  returned_at?: Date | string
+  reason?: string | null
+  return_reason_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type customer_returnsUpdateWithoutWarehousesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   return_no?: Prisma.StringFieldUpdateOperationsInput | string
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumcustomer_return_status_enumFieldUpdateOperationsInput | $Enums.customer_return_status_enum
+  returned_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  items?: Prisma.customer_return_itemsUpdateManyWithoutCustomer_returnNestedInput
+}
+
+export type customer_returnsUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  return_no?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumcustomer_return_status_enumFieldUpdateOperationsInput | $Enums.customer_return_status_enum
+  returned_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  return_reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  items?: Prisma.customer_return_itemsUncheckedUpdateManyWithoutCustomer_returnNestedInput
+}
+
+export type customer_returnsUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  return_no?: Prisma.StringFieldUpdateOperationsInput | string
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -771,6 +999,7 @@ export type customer_returnsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
   items?: boolean | Prisma.customer_returns$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_returnsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_returns"]>
@@ -794,6 +1023,7 @@ export type customer_returnsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_returns"]>
 
 export type customer_returnsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -815,6 +1045,7 @@ export type customer_returnsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_returns"]>
 
 export type customer_returnsSelectScalar = {
@@ -840,15 +1071,21 @@ export type customer_returnsSelectScalar = {
 
 export type customer_returnsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "return_no" | "customer_id" | "warehouse_id" | "store_id" | "branch_id" | "sales_invoice_id" | "status" | "returned_at" | "reason" | "return_reason_id" | "notes" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["customer_returns"]>
 export type customer_returnsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
   items?: boolean | Prisma.customer_returns$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_returnsCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type customer_returnsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type customer_returnsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type customer_returnsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
+}
+export type customer_returnsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
+}
 
 export type $customer_returnsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "customer_returns"
   objects: {
+    warehouses: Prisma.$warehousesPayload<ExtArgs>
     items: Prisma.$customer_return_itemsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1264,6 +1501,7 @@ readonly fields: customer_returnsFieldRefs;
  */
 export interface Prisma__customer_returnsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  warehouses<T extends Prisma.warehousesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehousesDefaultArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.customer_returns$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_returns$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$customer_return_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1566,6 +1804,10 @@ export type customer_returnsCreateManyAndReturnArgs<ExtArgs extends runtime.Type
    */
   data: Prisma.customer_returnsCreateManyInput | Prisma.customer_returnsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_returnsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1636,6 +1878,10 @@ export type customer_returnsUpdateManyAndReturnArgs<ExtArgs extends runtime.Type
    * Limit how many customer_returns to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.customer_returnsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

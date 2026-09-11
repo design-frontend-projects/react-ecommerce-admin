@@ -9,10 +9,16 @@ export type LocationType = z.infer<typeof locationTypeSchema>
 export const warehouseInputSchema = z.object({
   branchId: z.string().uuid().optional().nullable(),
   storeId: z.string().uuid().optional().nullable(),
+  countryId: z.string().uuid().optional().nullable(),
+  cityId: z.string().uuid().optional().nullable(),
+  warehouseTypeId: z.string().uuid().optional().nullable(),
   code: z.string().min(1, 'Code is required.').max(30),
   name: z.string().min(1, 'Name is required.').max(120),
+  phone: z.string().optional().nullable(),
+  email: z.string().email('Invalid email address').optional().nullable().or(z.literal('')),
   address: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
+  allowNegativeStock: z.boolean().optional(),
   isDefault: z.boolean().optional(),
   isActive: z.boolean().optional(),
 })
@@ -35,9 +41,17 @@ export const warehouseListItemSchema = z.object({
   name: z.string(),
   is_default: z.boolean(),
   is_active: z.boolean(),
+  allow_negative_stock: z.boolean().optional().default(false),
+  country_id: z.string().uuid().nullable().optional(),
+  city_id: z.string().uuid().nullable().optional(),
+  branch_id: z.string().uuid().nullable().optional(),
+  store_id: z.string().uuid().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  email: z.string().nullable().optional(),
   address: z.string().nullable().optional(),
   notes: z.string().nullable().optional(),
   created_at: z.union([z.string(), z.date()]).or(z.string()).optional().nullable(),
+  updated_at: z.union([z.string(), z.date()]).or(z.string()).optional().nullable(),
   stores: z
     .object({
       store_id: z.string().nullable().optional(),
@@ -52,7 +66,28 @@ export const warehouseListItemSchema = z.object({
     })
     .nullable()
     .optional(),
-  _count: z.object({ warehouse_locations: z.number() }).optional().nullable(),
+  countries: z
+    .object({
+      id: z.string(),
+      name: z.string().nullable().optional(),
+      code: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  cities: z
+    .object({
+      id: z.string(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  _count: z
+    .object({
+      warehouse_locations: z.number().optional(),
+      stock_balances: z.number().optional(),
+    })
+    .optional()
+    .nullable(),
 })
 export type WarehouseListItem = z.infer<typeof warehouseListItemSchema>
 

@@ -194,6 +194,7 @@ export type citiesWhereInput = {
   countries?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   stores?: Prisma.StoresListRelationFilter
   suppliers?: Prisma.SuppliersListRelationFilter
+  warehouses?: Prisma.WarehousesListRelationFilter
 }
 
 export type citiesOrderByWithRelationInput = {
@@ -207,6 +208,7 @@ export type citiesOrderByWithRelationInput = {
   countries?: Prisma.countriesOrderByWithRelationInput
   stores?: Prisma.storesOrderByRelationAggregateInput
   suppliers?: Prisma.suppliersOrderByRelationAggregateInput
+  warehouses?: Prisma.warehousesOrderByRelationAggregateInput
 }
 
 export type citiesWhereUniqueInput = Prisma.AtLeast<{
@@ -223,6 +225,7 @@ export type citiesWhereUniqueInput = Prisma.AtLeast<{
   countries?: Prisma.XOR<Prisma.CountriesScalarRelationFilter, Prisma.countriesWhereInput>
   stores?: Prisma.StoresListRelationFilter
   suppliers?: Prisma.SuppliersListRelationFilter
+  warehouses?: Prisma.WarehousesListRelationFilter
 }, "id">
 
 export type citiesOrderByWithAggregationInput = {
@@ -259,6 +262,7 @@ export type citiesCreateInput = {
   countries: Prisma.countriesCreateNestedOneWithoutCitiesInput
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateInput = {
@@ -271,6 +275,7 @@ export type citiesUncheckedCreateInput = {
   branches?: Prisma.branchesUncheckedCreateNestedManyWithoutCitiesInput
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUpdateInput = {
@@ -283,6 +288,7 @@ export type citiesUpdateInput = {
   countries?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateInput = {
@@ -295,6 +301,7 @@ export type citiesUncheckedUpdateInput = {
   branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateManyInput = {
@@ -458,6 +465,22 @@ export type citiesUpdateOneWithoutSuppliersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.citiesUpdateToOneWithWhereWithoutSuppliersInput, Prisma.citiesUpdateWithoutSuppliersInput>, Prisma.citiesUncheckedUpdateWithoutSuppliersInput>
 }
 
+export type citiesCreateNestedOneWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.citiesCreateWithoutWarehousesInput, Prisma.citiesUncheckedCreateWithoutWarehousesInput>
+  connectOrCreate?: Prisma.citiesCreateOrConnectWithoutWarehousesInput
+  connect?: Prisma.citiesWhereUniqueInput
+}
+
+export type citiesUpdateOneWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.citiesCreateWithoutWarehousesInput, Prisma.citiesUncheckedCreateWithoutWarehousesInput>
+  connectOrCreate?: Prisma.citiesCreateOrConnectWithoutWarehousesInput
+  upsert?: Prisma.citiesUpsertWithoutWarehousesInput
+  disconnect?: Prisma.citiesWhereInput | boolean
+  delete?: Prisma.citiesWhereInput | boolean
+  connect?: Prisma.citiesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.citiesUpdateToOneWithWhereWithoutWarehousesInput, Prisma.citiesUpdateWithoutWarehousesInput>, Prisma.citiesUncheckedUpdateWithoutWarehousesInput>
+}
+
 export type citiesCreateWithoutBranchesInput = {
   id?: string
   name: string
@@ -467,6 +490,7 @@ export type citiesCreateWithoutBranchesInput = {
   countries: Prisma.countriesCreateNestedOneWithoutCitiesInput
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutBranchesInput = {
@@ -478,6 +502,7 @@ export type citiesUncheckedCreateWithoutBranchesInput = {
   updated_at?: Date | string | null
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutBranchesInput = {
@@ -505,6 +530,7 @@ export type citiesUpdateWithoutBranchesInput = {
   countries?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutBranchesInput = {
@@ -516,6 +542,7 @@ export type citiesUncheckedUpdateWithoutBranchesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateWithoutCountriesInput = {
@@ -527,6 +554,7 @@ export type citiesCreateWithoutCountriesInput = {
   branches?: Prisma.branchesCreateNestedManyWithoutCitiesInput
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutCountriesInput = {
@@ -538,6 +566,7 @@ export type citiesUncheckedCreateWithoutCountriesInput = {
   branches?: Prisma.branchesUncheckedCreateNestedManyWithoutCitiesInput
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutCountriesInput = {
@@ -587,6 +616,7 @@ export type citiesCreateWithoutStoresInput = {
   branches?: Prisma.branchesCreateNestedManyWithoutCitiesInput
   countries: Prisma.countriesCreateNestedOneWithoutCitiesInput
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutStoresInput = {
@@ -598,6 +628,7 @@ export type citiesUncheckedCreateWithoutStoresInput = {
   updated_at?: Date | string | null
   branches?: Prisma.branchesUncheckedCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutStoresInput = {
@@ -625,6 +656,7 @@ export type citiesUpdateWithoutStoresInput = {
   branches?: Prisma.branchesUpdateManyWithoutCitiesNestedInput
   countries?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutStoresInput = {
@@ -636,6 +668,7 @@ export type citiesUncheckedUpdateWithoutStoresInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateWithoutSuppliersInput = {
@@ -647,6 +680,7 @@ export type citiesCreateWithoutSuppliersInput = {
   branches?: Prisma.branchesCreateNestedManyWithoutCitiesInput
   countries: Prisma.countriesCreateNestedOneWithoutCitiesInput
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutSuppliersInput = {
@@ -658,6 +692,7 @@ export type citiesUncheckedCreateWithoutSuppliersInput = {
   updated_at?: Date | string | null
   branches?: Prisma.branchesUncheckedCreateNestedManyWithoutCitiesInput
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutSuppliersInput = {
@@ -685,6 +720,7 @@ export type citiesUpdateWithoutSuppliersInput = {
   branches?: Prisma.branchesUpdateManyWithoutCitiesNestedInput
   countries?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutSuppliersInput = {
@@ -696,6 +732,71 @@ export type citiesUncheckedUpdateWithoutSuppliersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
+}
+
+export type citiesCreateWithoutWarehousesInput = {
+  id?: string
+  name: string
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedManyWithoutCitiesInput
+  countries: Prisma.countriesCreateNestedOneWithoutCitiesInput
+  stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
+  suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
+}
+
+export type citiesUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  name: string
+  country_id: string
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  branches?: Prisma.branchesUncheckedCreateNestedManyWithoutCitiesInput
+  stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
+  suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
+}
+
+export type citiesCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.citiesWhereUniqueInput
+  create: Prisma.XOR<Prisma.citiesCreateWithoutWarehousesInput, Prisma.citiesUncheckedCreateWithoutWarehousesInput>
+}
+
+export type citiesUpsertWithoutWarehousesInput = {
+  update: Prisma.XOR<Prisma.citiesUpdateWithoutWarehousesInput, Prisma.citiesUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.citiesCreateWithoutWarehousesInput, Prisma.citiesUncheckedCreateWithoutWarehousesInput>
+  where?: Prisma.citiesWhereInput
+}
+
+export type citiesUpdateToOneWithWhereWithoutWarehousesInput = {
+  where?: Prisma.citiesWhereInput
+  data: Prisma.XOR<Prisma.citiesUpdateWithoutWarehousesInput, Prisma.citiesUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type citiesUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateManyWithoutCitiesNestedInput
+  countries?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
+  stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
+  suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
+}
+
+export type citiesUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  country_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
+  stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
+  suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateManyCountriesInput = {
@@ -715,6 +816,7 @@ export type citiesUpdateWithoutCountriesInput = {
   branches?: Prisma.branchesUpdateManyWithoutCitiesNestedInput
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutCountriesInput = {
@@ -726,6 +828,7 @@ export type citiesUncheckedUpdateWithoutCountriesInput = {
   branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateManyWithoutCountriesInput = {
@@ -745,12 +848,14 @@ export type CitiesCountOutputType = {
   branches: number
   stores: number
   suppliers: number
+  warehouses: number
 }
 
 export type CitiesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | CitiesCountOutputTypeCountBranchesArgs
   stores?: boolean | CitiesCountOutputTypeCountStoresArgs
   suppliers?: boolean | CitiesCountOutputTypeCountSuppliersArgs
+  warehouses?: boolean | CitiesCountOutputTypeCountWarehousesArgs
 }
 
 /**
@@ -784,6 +889,13 @@ export type CitiesCountOutputTypeCountSuppliersArgs<ExtArgs extends runtime.Type
   where?: Prisma.suppliersWhereInput
 }
 
+/**
+ * CitiesCountOutputType without action
+ */
+export type CitiesCountOutputTypeCountWarehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.warehousesWhereInput
+}
+
 
 export type citiesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -796,6 +908,7 @@ export type citiesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   countries?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.cities$storesArgs<ExtArgs>
   suppliers?: boolean | Prisma.cities$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.cities$warehousesArgs<ExtArgs>
   _count?: boolean | Prisma.CitiesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cities"]>
 
@@ -834,6 +947,7 @@ export type citiesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   countries?: boolean | Prisma.countriesDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.cities$storesArgs<ExtArgs>
   suppliers?: boolean | Prisma.cities$suppliersArgs<ExtArgs>
+  warehouses?: boolean | Prisma.cities$warehousesArgs<ExtArgs>
   _count?: boolean | Prisma.CitiesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type citiesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -850,6 +964,7 @@ export type $citiesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     countries: Prisma.$countriesPayload<ExtArgs>
     stores: Prisma.$storesPayload<ExtArgs>[]
     suppliers: Prisma.$suppliersPayload<ExtArgs>[]
+    warehouses: Prisma.$warehousesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1256,6 +1371,7 @@ export interface Prisma__citiesClient<T, Null = never, ExtArgs extends runtime.T
   countries<T extends Prisma.countriesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.countriesDefaultArgs<ExtArgs>>): Prisma.Prisma__countriesClient<runtime.Types.Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.cities$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$storesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   suppliers<T extends Prisma.cities$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  warehouses<T extends Prisma.cities$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1761,6 +1877,30 @@ export type cities$suppliersArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.SuppliersScalarFieldEnum | Prisma.SuppliersScalarFieldEnum[]
+}
+
+/**
+ * cities.warehouses
+ */
+export type cities$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+  orderBy?: Prisma.warehousesOrderByWithRelationInput | Prisma.warehousesOrderByWithRelationInput[]
+  cursor?: Prisma.warehousesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WarehousesScalarFieldEnum | Prisma.WarehousesScalarFieldEnum[]
 }
 
 /**

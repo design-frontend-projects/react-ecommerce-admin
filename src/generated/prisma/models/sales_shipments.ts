@@ -238,6 +238,7 @@ export type sales_shipmentsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"sales_shipments"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
   items?: Prisma.Sales_shipment_itemsListRelationFilter
 }
 
@@ -254,6 +255,7 @@ export type sales_shipmentsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
   items?: Prisma.sales_shipment_itemsOrderByRelationAggregateInput
 }
 
@@ -273,6 +275,7 @@ export type sales_shipmentsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"sales_shipments"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesScalarRelationFilter, Prisma.warehousesWhereInput>
   items?: Prisma.Sales_shipment_itemsListRelationFilter
 }, "id">
 
@@ -316,7 +319,6 @@ export type sales_shipmentsCreateInput = {
   id?: string
   tenant_id: string
   sales_order_id?: string | null
-  warehouse_id: string
   shipment_no: string
   status?: $Enums.sales_order_status_enum
   shipped_at?: Date | string | null
@@ -325,6 +327,7 @@ export type sales_shipmentsCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  warehouses: Prisma.warehousesCreateNestedOneWithoutSales_shipmentsInput
   items?: Prisma.sales_shipment_itemsCreateNestedManyWithoutSales_shipmentInput
 }
 
@@ -348,7 +351,6 @@ export type sales_shipmentsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -357,6 +359,7 @@ export type sales_shipmentsUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutSales_shipmentsNestedInput
   items?: Prisma.sales_shipment_itemsUpdateManyWithoutSales_shipmentNestedInput
 }
 
@@ -395,7 +398,6 @@ export type sales_shipmentsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -471,6 +473,16 @@ export type Sales_shipmentsScalarRelationFilter = {
   isNot?: Prisma.sales_shipmentsWhereInput
 }
 
+export type Sales_shipmentsListRelationFilter = {
+  every?: Prisma.sales_shipmentsWhereInput
+  some?: Prisma.sales_shipmentsWhereInput
+  none?: Prisma.sales_shipmentsWhereInput
+}
+
+export type sales_shipmentsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type sales_shipmentsCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutItemsInput, Prisma.sales_shipmentsUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.sales_shipmentsCreateOrConnectWithoutItemsInput
@@ -485,11 +497,52 @@ export type sales_shipmentsUpdateOneRequiredWithoutItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.sales_shipmentsUpdateToOneWithWhereWithoutItemsInput, Prisma.sales_shipmentsUpdateWithoutItemsInput>, Prisma.sales_shipmentsUncheckedUpdateWithoutItemsInput>
 }
 
+export type sales_shipmentsCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput> | Prisma.sales_shipmentsCreateWithoutWarehousesInput[] | Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput | Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.sales_shipmentsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+}
+
+export type sales_shipmentsUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput> | Prisma.sales_shipmentsCreateWithoutWarehousesInput[] | Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput | Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.sales_shipmentsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+}
+
+export type sales_shipmentsUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput> | Prisma.sales_shipmentsCreateWithoutWarehousesInput[] | Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput | Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.sales_shipmentsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.sales_shipmentsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.sales_shipmentsCreateManyWarehousesInputEnvelope
+  set?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  disconnect?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  delete?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  connect?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  update?: Prisma.sales_shipmentsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.sales_shipmentsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.sales_shipmentsUpdateManyWithWhereWithoutWarehousesInput | Prisma.sales_shipmentsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.sales_shipmentsScalarWhereInput | Prisma.sales_shipmentsScalarWhereInput[]
+}
+
+export type sales_shipmentsUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput> | Prisma.sales_shipmentsCreateWithoutWarehousesInput[] | Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput | Prisma.sales_shipmentsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.sales_shipmentsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.sales_shipmentsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.sales_shipmentsCreateManyWarehousesInputEnvelope
+  set?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  disconnect?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  delete?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  connect?: Prisma.sales_shipmentsWhereUniqueInput | Prisma.sales_shipmentsWhereUniqueInput[]
+  update?: Prisma.sales_shipmentsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.sales_shipmentsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.sales_shipmentsUpdateManyWithWhereWithoutWarehousesInput | Prisma.sales_shipmentsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.sales_shipmentsScalarWhereInput | Prisma.sales_shipmentsScalarWhereInput[]
+}
+
 export type sales_shipmentsCreateWithoutItemsInput = {
   id?: string
   tenant_id: string
   sales_order_id?: string | null
-  warehouse_id: string
   shipment_no: string
   status?: $Enums.sales_order_status_enum
   shipped_at?: Date | string | null
@@ -498,6 +551,7 @@ export type sales_shipmentsCreateWithoutItemsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  warehouses: Prisma.warehousesCreateNestedOneWithoutSales_shipmentsInput
 }
 
 export type sales_shipmentsUncheckedCreateWithoutItemsInput = {
@@ -535,6 +589,21 @@ export type sales_shipmentsUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneRequiredWithoutSales_shipmentsNestedInput
+}
+
+export type sales_shipmentsUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
   shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
@@ -546,11 +615,128 @@ export type sales_shipmentsUpdateWithoutItemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type sales_shipmentsUncheckedUpdateWithoutItemsInput = {
+export type sales_shipmentsCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  sales_order_id?: string | null
+  shipment_no: string
+  status?: $Enums.sales_order_status_enum
+  shipped_at?: Date | string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  items?: Prisma.sales_shipment_itemsCreateNestedManyWithoutSales_shipmentInput
+}
+
+export type sales_shipmentsUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  sales_order_id?: string | null
+  shipment_no: string
+  status?: $Enums.sales_order_status_enum
+  shipped_at?: Date | string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  items?: Prisma.sales_shipment_itemsUncheckedCreateNestedManyWithoutSales_shipmentInput
+}
+
+export type sales_shipmentsCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.sales_shipmentsWhereUniqueInput
+  create: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type sales_shipmentsCreateManyWarehousesInputEnvelope = {
+  data: Prisma.sales_shipmentsCreateManyWarehousesInput | Prisma.sales_shipmentsCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type sales_shipmentsUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.sales_shipmentsWhereUniqueInput
+  update: Prisma.XOR<Prisma.sales_shipmentsUpdateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.sales_shipmentsCreateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type sales_shipmentsUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.sales_shipmentsWhereUniqueInput
+  data: Prisma.XOR<Prisma.sales_shipmentsUpdateWithoutWarehousesInput, Prisma.sales_shipmentsUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type sales_shipmentsUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.sales_shipmentsScalarWhereInput
+  data: Prisma.XOR<Prisma.sales_shipmentsUpdateManyMutationInput, Prisma.sales_shipmentsUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type sales_shipmentsScalarWhereInput = {
+  AND?: Prisma.sales_shipmentsScalarWhereInput | Prisma.sales_shipmentsScalarWhereInput[]
+  OR?: Prisma.sales_shipmentsScalarWhereInput[]
+  NOT?: Prisma.sales_shipmentsScalarWhereInput | Prisma.sales_shipmentsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"sales_shipments"> | string
+  tenant_id?: Prisma.UuidFilter<"sales_shipments"> | string
+  sales_order_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
+  warehouse_id?: Prisma.UuidFilter<"sales_shipments"> | string
+  shipment_no?: Prisma.StringFilter<"sales_shipments"> | string
+  status?: Prisma.Enumsales_order_status_enumFilter<"sales_shipments"> | $Enums.sales_order_status_enum
+  shipped_at?: Prisma.DateTimeNullableFilter<"sales_shipments"> | Date | string | null
+  created_by?: Prisma.StringNullableFilter<"sales_shipments"> | string | null
+  created_at?: Prisma.DateTimeFilter<"sales_shipments"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"sales_shipments"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"sales_shipments"> | string | null
+}
+
+export type sales_shipmentsCreateManyWarehousesInput = {
+  id?: string
+  tenant_id: string
+  sales_order_id?: string | null
+  shipment_no: string
+  status?: $Enums.sales_order_status_enum
+  shipped_at?: Date | string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type sales_shipmentsUpdateWithoutWarehousesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.StringFieldUpdateOperationsInput | string
+  shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  items?: Prisma.sales_shipment_itemsUpdateManyWithoutSales_shipmentNestedInput
+}
+
+export type sales_shipmentsUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  items?: Prisma.sales_shipment_itemsUncheckedUpdateManyWithoutSales_shipmentNestedInput
+}
+
+export type sales_shipmentsUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sales_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_no?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.Enumsales_order_status_enumFieldUpdateOperationsInput | $Enums.sales_order_status_enum
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -605,6 +791,7 @@ export type sales_shipmentsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
   items?: boolean | Prisma.sales_shipments$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.Sales_shipmentsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sales_shipments"]>
@@ -622,6 +809,7 @@ export type sales_shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sales_shipments"]>
 
 export type sales_shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -637,6 +825,7 @@ export type sales_shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sales_shipments"]>
 
 export type sales_shipmentsSelectScalar = {
@@ -656,15 +845,21 @@ export type sales_shipmentsSelectScalar = {
 
 export type sales_shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "sales_order_id" | "warehouse_id" | "shipment_no" | "status" | "shipped_at" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_shipments"]>
 export type sales_shipmentsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
   items?: boolean | Prisma.sales_shipments$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.Sales_shipmentsCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type sales_shipmentsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type sales_shipmentsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type sales_shipmentsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
+}
+export type sales_shipmentsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.warehousesDefaultArgs<ExtArgs>
+}
 
 export type $sales_shipmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "sales_shipments"
   objects: {
+    warehouses: Prisma.$warehousesPayload<ExtArgs>
     items: Prisma.$sales_shipment_itemsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1074,6 +1269,7 @@ readonly fields: sales_shipmentsFieldRefs;
  */
 export interface Prisma__sales_shipmentsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  warehouses<T extends Prisma.warehousesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehousesDefaultArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.sales_shipments$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_shipments$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_shipment_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1370,6 +1566,10 @@ export type sales_shipmentsCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.sales_shipmentsCreateManyInput | Prisma.sales_shipmentsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.sales_shipmentsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1440,6 +1640,10 @@ export type sales_shipmentsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many sales_shipments to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.sales_shipmentsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -16,7 +16,7 @@ export function WarehousesPrimaryButtons() {
         }}
       >
         <Plus className='me-1 h-4 w-4' />
-        New warehouse
+        {t('warehouses.addWarehouse', 'New warehouse')}
       </Button>
     </Can>
   )

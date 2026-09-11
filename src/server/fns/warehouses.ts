@@ -8,10 +8,16 @@ import prisma from '@/lib/prisma'
 export interface WarehouseInput {
   branchId?: string | null
   storeId?: string | null
+  countryId?: string | null
+  cityId?: string | null
+  warehouseTypeId?: string | null
   code: string
   name: string
+  phone?: string | null
+  email?: string | null
   address?: string | null
   notes?: string | null
+  allowNegativeStock?: boolean
   isDefault?: boolean
   isActive?: boolean
 }
@@ -35,7 +41,9 @@ export async function listWarehouses(authUserId: string) {
       include: {
         stores: { select: { store_id: true, name: true } },
         branches: { select: { id: true, name: true } },
-        _count: { select: { warehouse_locations: true } },
+        countries: { select: { id: true, name: true, code: true } },
+        cities: { select: { id: true, name: true } },
+        _count: { select: { warehouse_locations: true, stock_balances: true } },
       },
     })
   })
@@ -56,13 +64,27 @@ export async function createWarehouse(
         tenant_id: tenantId,
         branch_id: input.branchId ?? null,
         store_id: input.storeId ?? null,
+        country_id: input.countryId ?? null,
+        city_id: input.cityId ?? null,
+        warehouse_type_id: input.warehouseTypeId ?? null,
         code: input.code.trim(),
         name: input.name.trim(),
-        address: input.address ?? null,
-        notes: input.notes ?? null,
+        phone: input.phone?.trim() || null,
+        email: input.email?.trim() || null,
+        address: input.address?.trim() || null,
+        notes: input.notes?.trim() || null,
+        allow_negative_stock: input.allowNegativeStock ?? false,
         is_default: input.isDefault ?? false,
+        is_active: input.isActive ?? true,
         created_by_user_id: tenantUserId,
         updated_by_user_id: tenantUserId,
+      },
+      include: {
+        stores: { select: { store_id: true, name: true } },
+        branches: { select: { id: true, name: true } },
+        countries: { select: { id: true, name: true, code: true } },
+        cities: { select: { id: true, name: true } },
+        _count: { select: { warehouse_locations: true } },
       },
     })
   })
@@ -85,15 +107,40 @@ export async function updateWarehouse(
   return prisma.warehouses.update({
     where: { id },
     data: {
-      ...(input.code !== undefined ? { code: input.code } : {}),
-      ...(input.name !== undefined ? { name: input.name } : {}),
+      ...(input.code !== undefined ? { code: input.code.trim() } : {}),
+      ...(input.name !== undefined ? { name: input.name.trim() } : {}),
       ...(input.branchId !== undefined ? { branch_id: input.branchId } : {}),
       ...(input.storeId !== undefined ? { store_id: input.storeId } : {}),
-      ...(input.address !== undefined ? { address: input.address } : {}),
-      ...(input.notes !== undefined ? { notes: input.notes } : {}),
+      ...(input.countryId !== undefined ? { country_id: input.countryId } : {}),
+      ...(input.cityId !== undefined ? { city_id: input.cityId } : {}),
+      ...(input.warehouseTypeId !== undefined
+        ? { warehouse_type_id: input.warehouseTypeId }
+        : {}),
+      ...(input.phone !== undefined
+        ? { phone: input.phone?.trim() || null }
+        : {}),
+      ...(input.email !== undefined
+        ? { email: input.email?.trim() || null }
+        : {}),
+      ...(input.address !== undefined
+        ? { address: input.address?.trim() || null }
+        : {}),
+      ...(input.notes !== undefined
+        ? { notes: input.notes?.trim() || null }
+        : {}),
+      ...(input.allowNegativeStock !== undefined
+        ? { allow_negative_stock: input.allowNegativeStock }
+        : {}),
       ...(input.isDefault !== undefined ? { is_default: input.isDefault } : {}),
       ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
       updated_by_user_id: tenantUserId,
+    },
+    include: {
+      stores: { select: { store_id: true, name: true } },
+      branches: { select: { id: true, name: true } },
+      countries: { select: { id: true, name: true, code: true } },
+      cities: { select: { id: true, name: true } },
+      _count: { select: { warehouse_locations: true } },
     },
   })
 }

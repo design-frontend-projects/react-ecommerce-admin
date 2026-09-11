@@ -1,5 +1,6 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { type TFunction } from 'i18next'
+import i18n from '@/config/i18n'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
@@ -7,7 +8,7 @@ import { LongText } from '@/components/long-text'
 import { type Inventory } from '../data/schema'
 import { InventoryRowActions } from './inventory-row-actions'
 
-export const getColumns = (t: TFunction): ColumnDef<Inventory>[] => [
+export const getColumns = (t: TFunction = i18n.t): ColumnDef<Inventory>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -186,4 +187,4 @@ export const getColumns = (t: TFunction): ColumnDef<Inventory>[] => [
   },
 ]
 
-export const columns = getColumns((k: string) => k)
+export const columns: ColumnDef<Inventory>[] = getColumns()

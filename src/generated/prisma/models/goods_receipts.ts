@@ -278,6 +278,7 @@ export type goods_receiptsWhereInput = {
   supplier_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
 }
 
 export type goods_receiptsOrderByWithRelationInput = {
@@ -298,6 +299,7 @@ export type goods_receiptsOrderByWithRelationInput = {
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
 }
 
 export type goods_receiptsWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +323,7 @@ export type goods_receiptsWhereUniqueInput = Prisma.AtLeast<{
   supplier_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
 }, "id">
 
 export type goods_receiptsOrderByWithAggregationInput = {
@@ -374,7 +377,6 @@ export type goods_receiptsCreateInput = {
   tenant_id: string
   receipt_number?: string
   store_id?: string | null
-  warehouse_id?: string | null
   status?: $Enums.receipt_status_enum
   received_date?: Date | string
   notes?: string | null
@@ -387,6 +389,7 @@ export type goods_receiptsCreateInput = {
   supplier_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutGoods_receiptsInput
 }
 
 export type goods_receiptsUncheckedCreateInput = {
@@ -414,7 +417,6 @@ export type goods_receiptsUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   receipt_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreceipt_status_enumFieldUpdateOperationsInput | $Enums.receipt_status_enum
   received_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -427,6 +429,7 @@ export type goods_receiptsUpdateInput = {
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneWithoutGoods_receiptsNestedInput
 }
 
 export type goods_receiptsUncheckedUpdateInput = {
@@ -474,7 +477,6 @@ export type goods_receiptsUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   receipt_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumreceipt_status_enumFieldUpdateOperationsInput | $Enums.receipt_status_enum
   received_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -507,6 +509,16 @@ export type goods_receiptsUncheckedUpdateManyInput = {
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Goods_receiptsListRelationFilter = {
+  every?: Prisma.goods_receiptsWhereInput
+  some?: Prisma.goods_receiptsWhereInput
+  none?: Prisma.goods_receiptsWhereInput
+}
+
+export type goods_receiptsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type goods_receiptsCountOrderByAggregateInput = {
@@ -569,8 +581,213 @@ export type goods_receiptsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
+export type goods_receiptsCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.goods_receiptsCreateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput> | Prisma.goods_receiptsCreateWithoutWarehousesInput[] | Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput | Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.goods_receiptsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+}
+
+export type goods_receiptsUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.goods_receiptsCreateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput> | Prisma.goods_receiptsCreateWithoutWarehousesInput[] | Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput | Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.goods_receiptsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+}
+
+export type goods_receiptsUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.goods_receiptsCreateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput> | Prisma.goods_receiptsCreateWithoutWarehousesInput[] | Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput | Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.goods_receiptsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.goods_receiptsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.goods_receiptsCreateManyWarehousesInputEnvelope
+  set?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  disconnect?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  delete?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  connect?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  update?: Prisma.goods_receiptsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.goods_receiptsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.goods_receiptsUpdateManyWithWhereWithoutWarehousesInput | Prisma.goods_receiptsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.goods_receiptsScalarWhereInput | Prisma.goods_receiptsScalarWhereInput[]
+}
+
+export type goods_receiptsUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.goods_receiptsCreateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput> | Prisma.goods_receiptsCreateWithoutWarehousesInput[] | Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput | Prisma.goods_receiptsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.goods_receiptsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.goods_receiptsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.goods_receiptsCreateManyWarehousesInputEnvelope
+  set?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  disconnect?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  delete?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  connect?: Prisma.goods_receiptsWhereUniqueInput | Prisma.goods_receiptsWhereUniqueInput[]
+  update?: Prisma.goods_receiptsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.goods_receiptsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.goods_receiptsUpdateManyWithWhereWithoutWarehousesInput | Prisma.goods_receiptsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.goods_receiptsScalarWhereInput | Prisma.goods_receiptsScalarWhereInput[]
+}
+
 export type Enumreceipt_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.receipt_status_enum
+}
+
+export type goods_receiptsCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  receipt_number?: string
+  store_id?: string | null
+  status?: $Enums.receipt_status_enum
+  received_date?: Date | string
+  notes?: string | null
+  created_by?: string | null
+  posted_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  purchase_order_id?: string | null
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type goods_receiptsUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  receipt_number?: string
+  store_id?: string | null
+  status?: $Enums.receipt_status_enum
+  received_date?: Date | string
+  notes?: string | null
+  created_by?: string | null
+  posted_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  purchase_order_id?: string | null
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type goods_receiptsCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.goods_receiptsWhereUniqueInput
+  create: Prisma.XOR<Prisma.goods_receiptsCreateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type goods_receiptsCreateManyWarehousesInputEnvelope = {
+  data: Prisma.goods_receiptsCreateManyWarehousesInput | Prisma.goods_receiptsCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type goods_receiptsUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.goods_receiptsWhereUniqueInput
+  update: Prisma.XOR<Prisma.goods_receiptsUpdateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.goods_receiptsCreateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type goods_receiptsUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.goods_receiptsWhereUniqueInput
+  data: Prisma.XOR<Prisma.goods_receiptsUpdateWithoutWarehousesInput, Prisma.goods_receiptsUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type goods_receiptsUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.goods_receiptsScalarWhereInput
+  data: Prisma.XOR<Prisma.goods_receiptsUpdateManyMutationInput, Prisma.goods_receiptsUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type goods_receiptsScalarWhereInput = {
+  AND?: Prisma.goods_receiptsScalarWhereInput | Prisma.goods_receiptsScalarWhereInput[]
+  OR?: Prisma.goods_receiptsScalarWhereInput[]
+  NOT?: Prisma.goods_receiptsScalarWhereInput | Prisma.goods_receiptsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"goods_receipts"> | string
+  tenant_id?: Prisma.UuidFilter<"goods_receipts"> | string
+  receipt_number?: Prisma.StringFilter<"goods_receipts"> | string
+  store_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  status?: Prisma.Enumreceipt_status_enumFilter<"goods_receipts"> | $Enums.receipt_status_enum
+  received_date?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
+  notes?: Prisma.StringNullableFilter<"goods_receipts"> | string | null
+  created_by?: Prisma.StringNullableFilter<"goods_receipts"> | string | null
+  posted_by?: Prisma.StringNullableFilter<"goods_receipts"> | string | null
+  posted_at?: Prisma.DateTimeNullableFilter<"goods_receipts"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"goods_receipts"> | Date | string
+  purchase_order_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  supplier_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"goods_receipts"> | string | null
+}
+
+export type goods_receiptsCreateManyWarehousesInput = {
+  id?: string
+  tenant_id: string
+  receipt_number?: string
+  store_id?: string | null
+  status?: $Enums.receipt_status_enum
+  received_date?: Date | string
+  notes?: string | null
+  created_by?: string | null
+  posted_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  purchase_order_id?: string | null
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type goods_receiptsUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  receipt_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreceipt_status_enumFieldUpdateOperationsInput | $Enums.receipt_status_enum
+  received_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type goods_receiptsUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  receipt_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreceipt_status_enumFieldUpdateOperationsInput | $Enums.receipt_status_enum
+  received_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type goods_receiptsUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  receipt_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumreceipt_status_enumFieldUpdateOperationsInput | $Enums.receipt_status_enum
+  received_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  purchase_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -593,6 +810,7 @@ export type goods_receiptsSelect<ExtArgs extends runtime.Types.Extensions.Intern
   supplier_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.goods_receipts$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["goods_receipts"]>
 
 export type goods_receiptsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -613,6 +831,7 @@ export type goods_receiptsSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   supplier_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.goods_receipts$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["goods_receipts"]>
 
 export type goods_receiptsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -633,6 +852,7 @@ export type goods_receiptsSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   supplier_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.goods_receipts$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["goods_receipts"]>
 
 export type goods_receiptsSelectScalar = {
@@ -656,10 +876,21 @@ export type goods_receiptsSelectScalar = {
 }
 
 export type goods_receiptsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "receipt_number" | "store_id" | "warehouse_id" | "status" | "received_date" | "notes" | "created_by" | "posted_by" | "posted_at" | "created_at" | "updated_at" | "purchase_order_id" | "supplier_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["goods_receipts"]>
+export type goods_receiptsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.goods_receipts$warehousesArgs<ExtArgs>
+}
+export type goods_receiptsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.goods_receipts$warehousesArgs<ExtArgs>
+}
+export type goods_receiptsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.goods_receipts$warehousesArgs<ExtArgs>
+}
 
 export type $goods_receiptsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "goods_receipts"
-  objects: {}
+  objects: {
+    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1072,6 +1303,7 @@ readonly fields: goods_receiptsFieldRefs;
  */
 export interface Prisma__goods_receiptsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  warehouses<T extends Prisma.goods_receipts$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.goods_receipts$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1135,6 +1367,10 @@ export type goods_receiptsFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
+  /**
    * Filter, which goods_receipts to fetch.
    */
   where: Prisma.goods_receiptsWhereUniqueInput
@@ -1153,6 +1389,10 @@ export type goods_receiptsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
+  /**
    * Filter, which goods_receipts to fetch.
    */
   where: Prisma.goods_receiptsWhereUniqueInput
@@ -1170,6 +1410,10 @@ export type goods_receiptsFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the goods_receipts
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
   /**
    * Filter, which goods_receipts to fetch.
    */
@@ -1219,6 +1463,10 @@ export type goods_receiptsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
+  /**
    * Filter, which goods_receipts to fetch.
    */
   where?: Prisma.goods_receiptsWhereInput
@@ -1266,6 +1514,10 @@ export type goods_receiptsFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the goods_receipts
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
   /**
    * Filter, which goods_receipts to fetch.
    */
@@ -1315,6 +1567,10 @@ export type goods_receiptsCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
+  /**
    * The data needed to create a goods_receipts.
    */
   data: Prisma.XOR<Prisma.goods_receiptsCreateInput, Prisma.goods_receiptsUncheckedCreateInput>
@@ -1348,6 +1604,10 @@ export type goods_receiptsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.goods_receiptsCreateManyInput | Prisma.goods_receiptsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1362,6 +1622,10 @@ export type goods_receiptsUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the goods_receipts
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
   /**
    * The data needed to update a goods_receipts.
    */
@@ -1414,6 +1678,10 @@ export type goods_receiptsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many goods_receipts to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1428,6 +1696,10 @@ export type goods_receiptsUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the goods_receipts
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
   /**
    * The filter to search for the goods_receipts to update in case it exists.
    */
@@ -1455,6 +1727,10 @@ export type goods_receiptsDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
+  /**
    * Filter which goods_receipts to delete.
    */
   where: Prisma.goods_receiptsWhereUniqueInput
@@ -1475,6 +1751,25 @@ export type goods_receiptsDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * goods_receipts.warehouses
+ */
+export type goods_receipts$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+}
+
+/**
  * goods_receipts without action
  */
 export type goods_receiptsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1486,4 +1781,8 @@ export type goods_receiptsDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the goods_receipts
    */
   omit?: Prisma.goods_receiptsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receiptsInclude<ExtArgs> | null
 }

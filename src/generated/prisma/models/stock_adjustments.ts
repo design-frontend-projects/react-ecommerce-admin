@@ -270,6 +270,7 @@ export type stock_adjustmentsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
 }
 
 export type stock_adjustmentsOrderByWithRelationInput = {
@@ -289,6 +290,7 @@ export type stock_adjustmentsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
 }
 
 export type stock_adjustmentsWhereUniqueInput = Prisma.AtLeast<{
@@ -311,6 +313,7 @@ export type stock_adjustmentsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
 }, "id">
 
 export type stock_adjustmentsOrderByWithAggregationInput = {
@@ -361,7 +364,6 @@ export type stock_adjustmentsCreateInput = {
   id?: string
   tenant_id: string
   store_id?: string | null
-  warehouse_id?: string | null
   status?: $Enums.adjustment_status_enum
   type: $Enums.adjustment_type_enum
   reason?: $Enums.adjustment_reason_enum | null
@@ -374,6 +376,7 @@ export type stock_adjustmentsCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_adjustmentsInput
 }
 
 export type stock_adjustmentsUncheckedCreateInput = {
@@ -399,7 +402,6 @@ export type stock_adjustmentsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumadjustment_status_enumFieldUpdateOperationsInput | $Enums.adjustment_status_enum
   type?: Prisma.Enumadjustment_type_enumFieldUpdateOperationsInput | $Enums.adjustment_type_enum
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
@@ -412,6 +414,7 @@ export type stock_adjustmentsUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_adjustmentsNestedInput
 }
 
 export type stock_adjustmentsUncheckedUpdateInput = {
@@ -456,7 +459,6 @@ export type stock_adjustmentsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumadjustment_status_enumFieldUpdateOperationsInput | $Enums.adjustment_status_enum
   type?: Prisma.Enumadjustment_type_enumFieldUpdateOperationsInput | $Enums.adjustment_type_enum
   reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
@@ -547,6 +549,16 @@ export type stock_adjustmentsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
+export type Stock_adjustmentsListRelationFilter = {
+  every?: Prisma.stock_adjustmentsWhereInput
+  some?: Prisma.stock_adjustmentsWhereInput
+  none?: Prisma.stock_adjustmentsWhereInput
+}
+
+export type stock_adjustmentsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type Enumadjustment_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.adjustment_status_enum
 }
@@ -557,6 +569,204 @@ export type Enumadjustment_type_enumFieldUpdateOperationsInput = {
 
 export type NullableEnumadjustment_reason_enumFieldUpdateOperationsInput = {
   set?: $Enums.adjustment_reason_enum | null
+}
+
+export type stock_adjustmentsCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustmentsCreateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput> | Prisma.stock_adjustmentsCreateWithoutWarehousesInput[] | Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput | Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.stock_adjustmentsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+}
+
+export type stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustmentsCreateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput> | Prisma.stock_adjustmentsCreateWithoutWarehousesInput[] | Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput | Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.stock_adjustmentsCreateManyWarehousesInputEnvelope
+  connect?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+}
+
+export type stock_adjustmentsUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustmentsCreateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput> | Prisma.stock_adjustmentsCreateWithoutWarehousesInput[] | Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput | Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.stock_adjustmentsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.stock_adjustmentsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.stock_adjustmentsCreateManyWarehousesInputEnvelope
+  set?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  disconnect?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  delete?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  connect?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  update?: Prisma.stock_adjustmentsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.stock_adjustmentsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.stock_adjustmentsUpdateManyWithWhereWithoutWarehousesInput | Prisma.stock_adjustmentsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.stock_adjustmentsScalarWhereInput | Prisma.stock_adjustmentsScalarWhereInput[]
+}
+
+export type stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustmentsCreateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput> | Prisma.stock_adjustmentsCreateWithoutWarehousesInput[] | Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput | Prisma.stock_adjustmentsCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.stock_adjustmentsUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.stock_adjustmentsUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.stock_adjustmentsCreateManyWarehousesInputEnvelope
+  set?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  disconnect?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  delete?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  connect?: Prisma.stock_adjustmentsWhereUniqueInput | Prisma.stock_adjustmentsWhereUniqueInput[]
+  update?: Prisma.stock_adjustmentsUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.stock_adjustmentsUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.stock_adjustmentsUpdateManyWithWhereWithoutWarehousesInput | Prisma.stock_adjustmentsUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.stock_adjustmentsScalarWhereInput | Prisma.stock_adjustmentsScalarWhereInput[]
+}
+
+export type stock_adjustmentsCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  store_id?: string | null
+  status?: $Enums.adjustment_status_enum
+  type: $Enums.adjustment_type_enum
+  reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  approved_by?: string | null
+  approved_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_adjustmentsUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  store_id?: string | null
+  status?: $Enums.adjustment_status_enum
+  type: $Enums.adjustment_type_enum
+  reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  approved_by?: string | null
+  approved_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_adjustmentsCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.stock_adjustmentsWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_adjustmentsCreateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type stock_adjustmentsCreateManyWarehousesInputEnvelope = {
+  data: Prisma.stock_adjustmentsCreateManyWarehousesInput | Prisma.stock_adjustmentsCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_adjustmentsUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.stock_adjustmentsWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_adjustmentsUpdateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.stock_adjustmentsCreateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedCreateWithoutWarehousesInput>
+}
+
+export type stock_adjustmentsUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.stock_adjustmentsWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_adjustmentsUpdateWithoutWarehousesInput, Prisma.stock_adjustmentsUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type stock_adjustmentsUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.stock_adjustmentsScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_adjustmentsUpdateManyMutationInput, Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type stock_adjustmentsScalarWhereInput = {
+  AND?: Prisma.stock_adjustmentsScalarWhereInput | Prisma.stock_adjustmentsScalarWhereInput[]
+  OR?: Prisma.stock_adjustmentsScalarWhereInput[]
+  NOT?: Prisma.stock_adjustmentsScalarWhereInput | Prisma.stock_adjustmentsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_adjustments"> | string
+  tenant_id?: Prisma.UuidFilter<"stock_adjustments"> | string
+  store_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  status?: Prisma.Enumadjustment_status_enumFilter<"stock_adjustments"> | $Enums.adjustment_status_enum
+  type?: Prisma.Enumadjustment_type_enumFilter<"stock_adjustments"> | $Enums.adjustment_type_enum
+  reason?: Prisma.Enumadjustment_reason_enumNullableFilter<"stock_adjustments"> | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  notes?: Prisma.StringNullableFilter<"stock_adjustments"> | string | null
+  created_by?: Prisma.StringNullableFilter<"stock_adjustments"> | string | null
+  approved_by?: Prisma.StringNullableFilter<"stock_adjustments"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"stock_adjustments"> | Date | string | null
+  created_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"stock_adjustments"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustments"> | string | null
+}
+
+export type stock_adjustmentsCreateManyWarehousesInput = {
+  id?: string
+  tenant_id: string
+  store_id?: string | null
+  status?: $Enums.adjustment_status_enum
+  type: $Enums.adjustment_type_enum
+  reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  approved_by?: string | null
+  approved_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_adjustmentsUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumadjustment_status_enumFieldUpdateOperationsInput | $Enums.adjustment_status_enum
+  type?: Prisma.Enumadjustment_type_enumFieldUpdateOperationsInput | $Enums.adjustment_type_enum
+  reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_adjustmentsUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumadjustment_status_enumFieldUpdateOperationsInput | $Enums.adjustment_status_enum
+  type?: Prisma.Enumadjustment_type_enumFieldUpdateOperationsInput | $Enums.adjustment_type_enum
+  reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_adjustmentsUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumadjustment_status_enumFieldUpdateOperationsInput | $Enums.adjustment_status_enum
+  type?: Prisma.Enumadjustment_type_enumFieldUpdateOperationsInput | $Enums.adjustment_type_enum
+  reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -578,6 +788,7 @@ export type stock_adjustmentsSelect<ExtArgs extends runtime.Types.Extensions.Int
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.stock_adjustments$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_adjustments"]>
 
 export type stock_adjustmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -597,6 +808,7 @@ export type stock_adjustmentsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.stock_adjustments$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_adjustments"]>
 
 export type stock_adjustmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -616,6 +828,7 @@ export type stock_adjustmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  warehouses?: boolean | Prisma.stock_adjustments$warehousesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_adjustments"]>
 
 export type stock_adjustmentsSelectScalar = {
@@ -638,10 +851,21 @@ export type stock_adjustmentsSelectScalar = {
 }
 
 export type stock_adjustmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "store_id" | "warehouse_id" | "status" | "type" | "reason" | "reason_id" | "notes" | "created_by" | "approved_by" | "approved_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_adjustments"]>
+export type stock_adjustmentsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.stock_adjustments$warehousesArgs<ExtArgs>
+}
+export type stock_adjustmentsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.stock_adjustments$warehousesArgs<ExtArgs>
+}
+export type stock_adjustmentsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  warehouses?: boolean | Prisma.stock_adjustments$warehousesArgs<ExtArgs>
+}
 
 export type $stock_adjustmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_adjustments"
-  objects: {}
+  objects: {
+    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1053,6 +1277,7 @@ readonly fields: stock_adjustmentsFieldRefs;
  */
 export interface Prisma__stock_adjustmentsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  warehouses<T extends Prisma.stock_adjustments$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_adjustments$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1115,6 +1340,10 @@ export type stock_adjustmentsFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_adjustments to fetch.
    */
   where: Prisma.stock_adjustmentsWhereUniqueInput
@@ -1133,6 +1362,10 @@ export type stock_adjustmentsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_adjustments to fetch.
    */
   where: Prisma.stock_adjustmentsWhereUniqueInput
@@ -1150,6 +1383,10 @@ export type stock_adjustmentsFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the stock_adjustments
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
   /**
    * Filter, which stock_adjustments to fetch.
    */
@@ -1199,6 +1436,10 @@ export type stock_adjustmentsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_adjustments to fetch.
    */
   where?: Prisma.stock_adjustmentsWhereInput
@@ -1246,6 +1487,10 @@ export type stock_adjustmentsFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the stock_adjustments
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
   /**
    * Filter, which stock_adjustments to fetch.
    */
@@ -1295,6 +1540,10 @@ export type stock_adjustmentsCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
+  /**
    * The data needed to create a stock_adjustments.
    */
   data: Prisma.XOR<Prisma.stock_adjustmentsCreateInput, Prisma.stock_adjustmentsUncheckedCreateInput>
@@ -1328,6 +1577,10 @@ export type stock_adjustmentsCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.stock_adjustmentsCreateManyInput | Prisma.stock_adjustmentsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1342,6 +1595,10 @@ export type stock_adjustmentsUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the stock_adjustments
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
   /**
    * The data needed to update a stock_adjustments.
    */
@@ -1394,6 +1651,10 @@ export type stock_adjustmentsUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many stock_adjustments to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1408,6 +1669,10 @@ export type stock_adjustmentsUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the stock_adjustments
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
   /**
    * The filter to search for the stock_adjustments to update in case it exists.
    */
@@ -1435,6 +1700,10 @@ export type stock_adjustmentsDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
+  /**
    * Filter which stock_adjustments to delete.
    */
   where: Prisma.stock_adjustmentsWhereUniqueInput
@@ -1455,6 +1724,25 @@ export type stock_adjustmentsDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * stock_adjustments.warehouses
+ */
+export type stock_adjustments$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+}
+
+/**
  * stock_adjustments without action
  */
 export type stock_adjustmentsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1466,4 +1754,8 @@ export type stock_adjustmentsDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the stock_adjustments
    */
   omit?: Prisma.stock_adjustmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustmentsInclude<ExtArgs> | null
 }
