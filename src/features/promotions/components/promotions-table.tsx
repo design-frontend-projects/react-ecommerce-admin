@@ -37,6 +37,7 @@ export function PromotionsTable({ data }: PromotionsTableProps) {
   const table = useReactTable({
     data,
     columns,
+    getRowId: (row) => row.id || String(row.promotion_id),
     state: {
       sorting,
       rowSelection,

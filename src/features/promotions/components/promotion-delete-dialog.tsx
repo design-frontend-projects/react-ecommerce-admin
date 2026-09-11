@@ -23,7 +23,9 @@ export function PromotionDeleteDialog() {
   const onDelete = async () => {
     if (currentRow) {
       try {
-        await deleteMutation.mutateAsync(currentRow.promotion_id)
+        await deleteMutation.mutateAsync(
+          currentRow.id || String(currentRow.promotion_id)
+        )
         toast.success('Promotion deleted successfully')
         setOpen(null)
       } catch (error: unknown) {

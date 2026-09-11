@@ -12,7 +12,7 @@ export function PromotionsPrimaryButtons() {
     <div className='flex gap-2'>
       <Can permission='sales.manage'>
         <Button onClick={() => setOpen('create')} className='space-x-1'>
-          <span>Create Promotion</span> <Plus size={18} />
+          <span>{t('promotions.create', { defaultValue: 'Create Promotion' })}</span> <Plus size={18} />
         </Button>
       </Can>
     </div>

@@ -1,20 +1,23 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { resolveClientTenantId } from '@/lib/client-tenant'
 
 export type PromotionActivity = 'dine_in' | 'takeaway' | 'delivery'
 export type PromotionType = 'order_discount' | 'item_discount' | 'buy_x_get_y'
 export type PromotionScopeRole = 'target' | 'buy' | 'get'
 
 export interface PromotionScope {
-  scope_id?: number
-  promotion_id?: number
+  id?: string
+  scope_id?: number | string
+  promotion_id?: string | number
   menu_item_id?: string | null
   menu_category_id?: string | null
   scope_role: PromotionScopeRole
 }
 
 export interface Promotion {
-  promotion_id: number
+  id: string
+  promotion_id?: string | number
   name: string
   code: string
   description: string | null
@@ -33,6 +36,7 @@ export interface Promotion {
   get_discount_value: number | null
   scopes?: PromotionScope[]
   created_at: string
+  tenant_id?: string
 }
 
 export interface PromotionInput {
@@ -53,6 +57,7 @@ export interface PromotionInput {
   get_quantity?: number | null
   get_discount_value?: number | null
   scopes?: PromotionScope[]
+  tenant_id?: string
 }
 
 function splitInput(input: PromotionInput): {
@@ -64,8 +69,9 @@ function splitInput(input: PromotionInput): {
 }
 
 async function replaceScopes(
-  promotionId: number,
-  scopes: PromotionScope[]
+  promotionId: string,
+  scopes: PromotionScope[],
+  tenantId?: string | null
 ): Promise<void> {
   // Delete-then-insert: scope sets are small and this keeps updates simple
   // and correct.
@@ -85,6 +91,7 @@ async function replaceScopes(
         menu_item_id: scope.menu_item_id ?? null,
         menu_category_id: scope.menu_category_id ?? null,
         scope_role: scope.scope_role,
+        ...(tenantId ? { tenant_id: tenantId } : {}),
       }))
     )
   if (insertError) throw insertError
@@ -94,13 +101,23 @@ export const usePromotions = () => {
   return useQuery({
     queryKey: ['promotions'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const tenantId = await resolveClientTenantId()
+      let query = supabase
         .from('promotions')
         .select('*, scopes:promotion_menu_scopes(*)')
         .order('created_at', { ascending: false })
 
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query
+
       if (error) throw error
-      return data as Promotion[]
+      return (data || []).map((p: Record<string, unknown>) => ({
+        ...p,
+        promotion_id: (p.id as string) ?? (p.promotion_id as string | number),
+      })) as Promotion[]
     },
   })
 }
@@ -110,16 +127,20 @@ export const useCreatePromotion = () => {
 
   return useMutation({
     mutationFn: async (newPromotion: PromotionInput) => {
+      const tenantId = await resolveClientTenantId(newPromotion.tenant_id)
       const { row, scopes } = splitInput(newPromotion)
       const { data, error } = await supabase
         .from('promotions')
-        .insert(row)
+        .insert({
+          ...row,
+          ...(tenantId ? { tenant_id: tenantId } : {}),
+        })
         .select()
         .maybeSingle()
 
       if (error) throw error
       if (data && scopes.length > 0) {
-        await replaceScopes(data.promotion_id, scopes)
+        await replaceScopes(data.id, scopes, tenantId)
       }
       return data
     },
@@ -133,17 +154,18 @@ export const useUpdatePromotion = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, ...updates }: PromotionInput & { id: number }) => {
+    mutationFn: async ({ id, ...updates }: PromotionInput & { id: string | number }) => {
+      const stringId = String(id)
       const { row, scopes } = splitInput(updates)
       const { data, error } = await supabase
         .from('promotions')
         .update(row)
-        .eq('promotion_id', id)
+        .eq('id', stringId)
         .select()
         .maybeSingle()
 
       if (error) throw error
-      await replaceScopes(id, scopes)
+      await replaceScopes(stringId, scopes, data?.tenant_id)
       return data
     },
     onSuccess: () => {
@@ -156,11 +178,12 @@ export const useDeletePromotion = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string | number) => {
+      const stringId = String(id)
       const { error } = await supabase
         .from('promotions')
         .delete()
-        .eq('promotion_id', id)
+        .eq('id', stringId)
 
       if (error) throw error
     },

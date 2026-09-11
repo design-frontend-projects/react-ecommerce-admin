@@ -351,7 +351,7 @@ export function PromotionActionDialog() {
 
       if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
-          id: currentRow.promotion_id,
+          id: currentRow.id || String(currentRow.promotion_id),
           ...payload,
         })
         toast.success('Promotion updated successfully')
