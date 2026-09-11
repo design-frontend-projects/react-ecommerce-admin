@@ -39,7 +39,12 @@ export async function listWarehouses(authUserId: string) {
       where: { tenant_id: tenantId },
       orderBy: { created_at: 'desc' },
       include: {
-        stores: { select: { store_id: true, name: true } },
+        store_warehouses: {
+          include: {
+            stores: { select: { store_id: true, name: true } },
+          },
+          orderBy: { priority: 'asc' },
+        },
         branches: { select: { id: true, name: true } },
         countries: { select: { id: true, name: true, code: true } },
         cities: { select: { id: true, name: true } },
@@ -59,33 +64,57 @@ export async function createWarehouse(
     throw new ApiError('Code and name are required.', 400)
   }
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
-    return prisma.warehouses.create({
-      data: {
-        tenant_id: tenantId,
-        branch_id: input.branchId ?? null,
-        store_id: input.storeId ?? null,
-        country_id: input.countryId ?? null,
-        city_id: input.cityId ?? null,
-        warehouse_type_id: input.warehouseTypeId ?? null,
-        code: input.code.trim(),
-        name: input.name.trim(),
-        phone: input.phone?.trim() || null,
-        email: input.email?.trim() || null,
-        address: input.address?.trim() || null,
-        notes: input.notes?.trim() || null,
-        allow_negative_stock: input.allowNegativeStock ?? false,
-        is_default: input.isDefault ?? false,
-        is_active: input.isActive ?? true,
-        created_by_user_id: tenantUserId,
-        updated_by_user_id: tenantUserId,
-      },
-      include: {
-        stores: { select: { store_id: true, name: true } },
-        branches: { select: { id: true, name: true } },
-        countries: { select: { id: true, name: true, code: true } },
-        cities: { select: { id: true, name: true } },
-        _count: { select: { warehouse_locations: true } },
-      },
+    return prisma.$transaction(async (tx) => {
+      const warehouse = await tx.warehouses.create({
+        data: {
+          tenant_id: tenantId,
+          branch_id: input.branchId ?? null,
+          country_id: input.countryId ?? null,
+          city_id: input.cityId ?? null,
+          warehouse_type_id: input.warehouseTypeId ?? null,
+          code: input.code.trim(),
+          name: input.name.trim(),
+          phone: input.phone?.trim() || null,
+          email: input.email?.trim() || null,
+          address: input.address?.trim() || null,
+          notes: input.notes?.trim() || null,
+          allow_negative_stock: input.allowNegativeStock ?? false,
+          is_default: input.isDefault ?? false,
+          is_active: input.isActive ?? true,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
+        },
+      })
+
+      if (input.storeId) {
+        await tx.store_warehouses.create({
+          data: {
+            tenant_id: tenantId,
+            store_id: input.storeId,
+            warehouse_id: warehouse.id,
+            is_default: true,
+            priority: 1,
+            created_by_user_id: tenantUserId,
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+
+      return tx.warehouses.findUniqueOrThrow({
+        where: { id: warehouse.id },
+        include: {
+          store_warehouses: {
+            include: {
+              stores: { select: { store_id: true, name: true } },
+            },
+            orderBy: { priority: 'asc' },
+          },
+          branches: { select: { id: true, name: true } },
+          countries: { select: { id: true, name: true, code: true } },
+          cities: { select: { id: true, name: true } },
+          _count: { select: { warehouse_locations: true } },
+        },
+      })
     })
   })
 }
@@ -104,44 +133,72 @@ export async function updateWarehouse(
   if (!existing) {
     throw new ApiError('Warehouse not found.', 404)
   }
-  return prisma.warehouses.update({
-    where: { id },
-    data: {
-      ...(input.code !== undefined ? { code: input.code.trim() } : {}),
-      ...(input.name !== undefined ? { name: input.name.trim() } : {}),
-      ...(input.branchId !== undefined ? { branch_id: input.branchId } : {}),
-      ...(input.storeId !== undefined ? { store_id: input.storeId } : {}),
-      ...(input.countryId !== undefined ? { country_id: input.countryId } : {}),
-      ...(input.cityId !== undefined ? { city_id: input.cityId } : {}),
-      ...(input.warehouseTypeId !== undefined
-        ? { warehouse_type_id: input.warehouseTypeId }
-        : {}),
-      ...(input.phone !== undefined
-        ? { phone: input.phone?.trim() || null }
-        : {}),
-      ...(input.email !== undefined
-        ? { email: input.email?.trim() || null }
-        : {}),
-      ...(input.address !== undefined
-        ? { address: input.address?.trim() || null }
-        : {}),
-      ...(input.notes !== undefined
-        ? { notes: input.notes?.trim() || null }
-        : {}),
-      ...(input.allowNegativeStock !== undefined
-        ? { allow_negative_stock: input.allowNegativeStock }
-        : {}),
-      ...(input.isDefault !== undefined ? { is_default: input.isDefault } : {}),
-      ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
-      updated_by_user_id: tenantUserId,
-    },
-    include: {
-      stores: { select: { store_id: true, name: true } },
-      branches: { select: { id: true, name: true } },
-      countries: { select: { id: true, name: true, code: true } },
-      cities: { select: { id: true, name: true } },
-      _count: { select: { warehouse_locations: true } },
-    },
+  return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
+    return prisma.$transaction(async (tx) => {
+      if (input.storeId) {
+        // Link to store via store_warehouses
+        const exists = await tx.store_warehouses.findFirst({
+          where: { tenant_id: tenantId, warehouse_id: id, store_id: input.storeId },
+        })
+        if (!exists) {
+          await tx.store_warehouses.create({
+            data: {
+              tenant_id: tenantId,
+              store_id: input.storeId,
+              warehouse_id: id,
+              is_default: false,
+              priority: 1,
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+      }
+
+      return tx.warehouses.update({
+        where: { id },
+        data: {
+          ...(input.code !== undefined ? { code: input.code.trim() } : {}),
+          ...(input.name !== undefined ? { name: input.name.trim() } : {}),
+          ...(input.branchId !== undefined ? { branch_id: input.branchId } : {}),
+          ...(input.countryId !== undefined ? { country_id: input.countryId } : {}),
+          ...(input.cityId !== undefined ? { city_id: input.cityId } : {}),
+          ...(input.warehouseTypeId !== undefined
+            ? { warehouse_type_id: input.warehouseTypeId }
+            : {}),
+          ...(input.phone !== undefined
+            ? { phone: input.phone?.trim() || null }
+            : {}),
+          ...(input.email !== undefined
+            ? { email: input.email?.trim() || null }
+            : {}),
+          ...(input.address !== undefined
+            ? { address: input.address?.trim() || null }
+            : {}),
+          ...(input.notes !== undefined
+            ? { notes: input.notes?.trim() || null }
+            : {}),
+          ...(input.allowNegativeStock !== undefined
+            ? { allow_negative_stock: input.allowNegativeStock }
+            : {}),
+          ...(input.isDefault !== undefined ? { is_default: input.isDefault } : {}),
+          ...(input.isActive !== undefined ? { is_active: input.isActive } : {}),
+          updated_by_user_id: tenantUserId,
+        },
+        include: {
+          store_warehouses: {
+            include: {
+              stores: { select: { store_id: true, name: true } },
+            },
+            orderBy: { priority: 'asc' },
+          },
+          branches: { select: { id: true, name: true } },
+          countries: { select: { id: true, name: true, code: true } },
+          cities: { select: { id: true, name: true } },
+          _count: { select: { warehouse_locations: true } },
+        },
+      })
+    })
   })
 }
 

@@ -18,7 +18,9 @@ export const useStores = (search?: string) => {
     queryFn: async () => {
       let query = supabase
         .from('stores')
-        .select('*, cities(name, countries(name)), branches(name)')
+        .select(
+          '*, cities(name, countries(name)), branches(name), store_warehouses(id, is_default, priority, is_active, warehouses(id, code, name))'
+        )
         .order('name')
 
       if (tenantId && isValidUuid(tenantId)) {

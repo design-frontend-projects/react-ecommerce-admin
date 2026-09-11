@@ -78,6 +78,30 @@ export const warehouseListItemSchema = z.object({
   notes: z.string().nullable().optional(),
   created_at: z.union([z.string(), z.date()]).optional().nullable(),
   updated_at: z.union([z.string(), z.date()]).optional().nullable(),
+  store_warehouses: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        is_default: z.boolean(),
+        priority: z.number().int(),
+        allow_fulfillment: z.boolean().optional(),
+        allow_replenishment: z.boolean().optional(),
+        allow_returns: z.boolean().optional(),
+        lead_time_days: z.number().int().nullable().optional(),
+        distance_km: z.coerce.number().nullable().optional(),
+        transit_cost: z.coerce.number().nullable().optional(),
+        is_active: z.boolean().optional(),
+        stores: z
+          .object({
+            store_id: z.string(),
+            name: z.string().nullable().optional(),
+          })
+          .nullable()
+          .optional(),
+      })
+    )
+    .optional()
+    .default([]),
   stores: z
     .object({
       store_id: z.string().nullable().optional(),

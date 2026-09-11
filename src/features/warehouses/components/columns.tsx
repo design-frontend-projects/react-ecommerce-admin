@@ -126,8 +126,11 @@ export const getColumns = (
     ),
     cell: ({ row }) => {
       const branch = row.original.branches
-      const store = row.original.stores
-      if (!branch && !store) {
+      const linkedStores = row.original.store_warehouses ?? []
+      const firstStoreName = linkedStores[0]?.stores?.name ?? row.original.stores?.name
+      const totalStores = linkedStores.length
+
+      if (!branch && !firstStoreName) {
         return <span className='text-muted-foreground text-xs'>—</span>
       }
       return (
@@ -141,13 +144,18 @@ export const getColumns = (
               <span className='truncate'>{branch.name}</span>
             </span>
           )}
-          {store?.name && (
+          {firstStoreName && (
             <span
               className='inline-flex items-center gap-1 text-xs text-muted-foreground truncate'
-              title={store.name}
+              title={linkedStores.map((sw) => sw.stores?.name).filter(Boolean).join(', ') || firstStoreName}
             >
               <Store className='h-3 w-3 text-amber-500 shrink-0' />
-              <span className='truncate'>{store.name}</span>
+              <span className='truncate'>{firstStoreName}</span>
+              {totalStores > 1 && (
+                <span className='text-[10px] font-semibold text-primary/80'>
+                  +{totalStores - 1}
+                </span>
+              )}
             </span>
           )}
         </div>

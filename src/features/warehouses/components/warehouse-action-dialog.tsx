@@ -147,7 +147,11 @@ export function WarehouseActionDialog() {
           code: currentRow.code || '',
           name: currentRow.name || '',
           branchId: currentRow.branch_id || currentRow.branches?.id || '',
-          storeId: currentRow.store_id || currentRow.stores?.store_id || '',
+          storeId:
+            currentRow.store_warehouses?.[0]?.stores?.store_id ||
+            currentRow.store_id ||
+            currentRow.stores?.store_id ||
+            '',
           countryId: currentRow.country_id || currentRow.countries?.id || '',
           cityId: currentRow.city_id || currentRow.cities?.id || '',
           phone: currentRow.phone || '',
@@ -163,7 +167,11 @@ export function WarehouseActionDialog() {
           code: `${currentRow.code}-COPY`,
           name: `${currentRow.name} (Copy)`,
           branchId: currentRow.branch_id || currentRow.branches?.id || '',
-          storeId: currentRow.store_id || currentRow.stores?.store_id || '',
+          storeId:
+            currentRow.store_warehouses?.[0]?.stores?.store_id ||
+            currentRow.store_id ||
+            currentRow.stores?.store_id ||
+            '',
           countryId: currentRow.country_id || currentRow.countries?.id || '',
           cityId: currentRow.city_id || currentRow.cities?.id || '',
           phone: currentRow.phone || '',

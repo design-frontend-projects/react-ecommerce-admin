@@ -1102,7 +1102,7 @@ model stores {
   branches           branches?    @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   cities             cities?      @relation(fields: [city_id], references: [id], onUpdate: NoAction)
   countries          countries?   @relation(fields: [country_id], references: [id], onUpdate: NoAction)
-  warehouses         warehouses[]
+  store_warehouses   store_warehouses[]
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
   stock_balances       stock_balances[]
@@ -2030,7 +2030,6 @@ model warehouses {
   id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id           String                @db.Uuid
   branch_id           String?               @db.Uuid
-  store_id            String?               @db.Uuid
   country_id          String?               @db.Uuid
   city_id             String?               @db.Uuid
   warehouse_type_id   String?               @db.Uuid
@@ -2048,8 +2047,8 @@ model warehouses {
   created_by_user_id  String?               @db.Uuid
   updated_by_user_id  String?               @db.Uuid
   warehouse_locations warehouse_locations[]
+  store_warehouses    store_warehouses[]
   branches            branches?             @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stores              stores?               @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
   countries           countries?            @relation(fields: [country_id], references: [id], onUpdate: NoAction)
   cities              cities?               @relation(fields: [city_id], references: [id], onUpdate: NoAction)
   reorder_rules       reorder_rules[]
@@ -2068,9 +2067,39 @@ model warehouses {
 
   @@index([tenant_id])
   @@index([branch_id])
-  @@index([store_id])
   @@index([country_id])
   @@index([city_id])
+}
+
+model store_warehouses {
+  id                  String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id           String     @db.Uuid
+  store_id            String     @db.Uuid
+  warehouse_id        String     @db.Uuid
+  is_default          Boolean    @default(false)
+  priority            Int        @default(1)
+  allow_fulfillment   Boolean    @default(true)
+  allow_replenishment Boolean    @default(true)
+  allow_returns       Boolean    @default(true)
+  lead_time_days      Int?       @default(1)
+  distance_km         Decimal?   @db.Decimal(10, 2)
+  transit_cost        Decimal?   @db.Decimal(12, 2)
+  is_active           Boolean    @default(true)
+  notes               String?
+  created_at          DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime   @default(now()) @db.Timestamptz(6)
+  created_by_user_id  String?    @db.Uuid
+  updated_by_user_id  String?    @db.Uuid
+  stores              stores     @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+  warehouses          warehouses @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([store_id, warehouse_id], map: "store_warehouses_store_warehouse_unique")
+  @@index([tenant_id], map: "idx_store_warehouses_tenant_id")
+  @@index([store_id], map: "idx_store_warehouses_store_id")
+  @@index([warehouse_id], map: "idx_store_warehouses_warehouse_id")
+  @@index([store_id, is_default], map: "idx_store_warehouses_store_default")
+  @@index([store_id, priority], map: "idx_store_warehouses_store_priority")
+  @@index([is_active], map: "idx_store_warehouses_is_active")
 }
 
 model warehouse_locations {

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { Row } from '@tanstack/react-table'
-import { MoreHorizontal, Edit, Trash2 } from 'lucide-react'
+import { MoreHorizontal, Edit, Trash2, Warehouse } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -30,7 +30,17 @@ export function StoreRowActions({ row }: StoreRowActionsProps) {
           <span className='sr-only'>{t('stores.actions.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-[160px]'>
+      <DropdownMenuContent align='end' className='w-[190px]'>
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(row.original)
+            setOpen('warehouses')
+          }}
+        >
+          <Warehouse className='mr-2 h-4 w-4 text-primary' />
+          {t('stores.actions.manageWarehouses', 'Fulfillment Hubs')}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             setCurrentRow(row.original)

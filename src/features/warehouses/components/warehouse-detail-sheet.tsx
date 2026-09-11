@@ -189,10 +189,45 @@ export function WarehouseDetailSheet() {
                       </span>
                     </div>
                   )}
-                  {currentRow.branches?.name && currentRow.stores?.name && (
-                    <Separator />
-                  )}
-                  {currentRow.stores?.name && (
+                  {currentRow.branches?.name && (
+                    (currentRow.store_warehouses && currentRow.store_warehouses.length > 0) ||
+                    currentRow.stores?.name
+                  ) && <Separator />}
+                  {currentRow.store_warehouses && currentRow.store_warehouses.length > 0 ? (
+                    <div className='space-y-2 pt-1'>
+                      <span className='text-muted-foreground flex items-center gap-1.5 text-xs font-medium'>
+                        <Store className='h-3.5 w-3.5 text-amber-500 shrink-0' />
+                        {t('warehouses.detail.servicedStores', 'Serviced Stores')} ({currentRow.store_warehouses.length})
+                      </span>
+                      <div className='space-y-1.5'>
+                        {currentRow.store_warehouses.map((sw) => (
+                          <div
+                            key={sw.id}
+                            className='flex items-center justify-between rounded-md bg-muted/40 p-2 text-xs'
+                          >
+                            <div className='flex items-center gap-1.5'>
+                              <span className='font-medium text-foreground'>
+                                {sw.stores?.name || t('stores.unnamed', 'Unnamed Store')}
+                              </span>
+                              {sw.is_default && (
+                                <Badge variant='secondary' className='text-[9px] px-1.5 py-0'>
+                                  ★ {t('stores.warehouses.default', 'Default')}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className='flex items-center gap-2 text-muted-foreground font-mono'>
+                              <span>#{sw.priority}</span>
+                              {sw.lead_time_days ? (
+                                <span className='text-[10px] bg-background px-1.5 py-0.5 rounded border'>
+                                  {sw.lead_time_days}d
+                                </span>
+                              ) : null}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : currentRow.stores?.name ? (
                     <div className='flex items-center justify-between text-sm'>
                       <span className='text-muted-foreground flex items-center gap-1.5 text-xs'>
                         <Store className='h-3.5 w-3.5 text-amber-500 shrink-0' />
@@ -202,7 +237,7 @@ export function WarehouseDetailSheet() {
                         {currentRow.stores.name}
                       </span>
                     </div>
-                  )}
+                  ) : null}
                 </>
               ) : (
                 <p className='text-xs text-muted-foreground italic'>

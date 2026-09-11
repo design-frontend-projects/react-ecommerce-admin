@@ -151,6 +151,7 @@ export const ModelName = {
   reorder_suggestions: 'reorder_suggestions',
   app_settings: 'app_settings',
   warehouses: 'warehouses',
+  store_warehouses: 'store_warehouses',
   warehouse_locations: 'warehouse_locations',
   stock_by_location: 'stock_by_location',
   brands: 'brands',
@@ -2266,7 +2267,6 @@ export const WarehousesScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   branch_id: 'branch_id',
-  store_id: 'store_id',
   country_id: 'country_id',
   city_id: 'city_id',
   warehouse_type_id: 'warehouse_type_id',
@@ -2286,6 +2286,30 @@ export const WarehousesScalarFieldEnum = {
 } as const
 
 export type WarehousesScalarFieldEnum = (typeof WarehousesScalarFieldEnum)[keyof typeof WarehousesScalarFieldEnum]
+
+
+export const Store_warehousesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  is_default: 'is_default',
+  priority: 'priority',
+  allow_fulfillment: 'allow_fulfillment',
+  allow_replenishment: 'allow_replenishment',
+  allow_returns: 'allow_returns',
+  lead_time_days: 'lead_time_days',
+  distance_km: 'distance_km',
+  transit_cost: 'transit_cost',
+  is_active: 'is_active',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Store_warehousesScalarFieldEnum = (typeof Store_warehousesScalarFieldEnum)[keyof typeof Store_warehousesScalarFieldEnum]
 
 
 export const Warehouse_locationsScalarFieldEnum = {

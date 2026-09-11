@@ -2438,6 +2438,8 @@
       "city": "City",
       "country": "Country",
       "phone": "Phone",
+      "fulfillmentHub": "Fulfillment Hub",
+      "noHub": "Not linked",
       "status": "Status",
       "actions": "Actions"
     },
@@ -2447,8 +2449,80 @@
     },
     "actions": {
       "openMenu": "Open menu",
+      "manageWarehouses": "Fulfillment Hubs",
       "edit": "Edit",
       "delete": "Delete"
+    },
+    "warehouses": {
+      "title": "Warehouse & Supply Routing",
+      "description": "Manage fulfillment hubs, replenishment priority, and return depots for {{store}}",
+      "linkNew": "Link Warehouse",
+      "default": "Default",
+      "primaryDefault": "Primary Default Hub",
+      "setAsDefault": "Make Default",
+      "makeDefault": "Set as Default",
+      "unlink": "Unlink Warehouse",
+      "dragHint": "Higher priority hubs receive orders first",
+      "listHeader": "Routing Priority Hierarchy",
+      "kpi": {
+        "linkedCount": "Linked Warehouses",
+        "primaryDepot": "Primary Default Hub",
+        "noneAssigned": "No default assigned",
+        "avgLeadTime": "Avg Lead Time"
+      },
+      "caps": {
+        "fulfillment": "Fulfillment",
+        "replenish": "Replenishment",
+        "returns": "Returns"
+      },
+      "dialog": {
+        "linkTitle": "Link Warehouse to Store",
+        "editTitle": "Edit Warehouse Link",
+        "subtitle": "Configure fulfillment & replenishment connection",
+        "subtitleWithStore": "Configuring fulfillment & replenishment route for {{store}}",
+        "selectWarehouse": "Warehouse facility *",
+        "chooseWarehouse": "Select warehouse...",
+        "noWarehousesAvailable": "All warehouses are already linked",
+        "priority": "Fulfillment Priority",
+        "priorityHint": "1 = Primary, 2 = Secondary fallback",
+        "isDefault": "Default Hub",
+        "isDefaultHint": "Main supply source for this store",
+        "capabilities": "Operational Capabilities",
+        "allowFulfillment": "Order Fulfillment",
+        "allowFulfillmentDesc": "Can fulfill customer POS / pickup / eCommerce delivery orders",
+        "allowReplenishment": "Store Replenishment",
+        "allowReplenishmentDesc": "Can supply internal stock transfer requests and purchase orders",
+        "allowReturns": "Return Handling",
+        "allowReturnsDesc": "Can accept customer returns and damaged store stock transfers",
+        "leadTime": "Lead Time (Days)",
+        "distance": "Distance (km)",
+        "transitCost": "Transit Cost",
+        "isActive": "Link Active",
+        "isActiveHint": "Temporarily pause routing without unlinking",
+        "notes": "Operational Notes",
+        "notesPlaceholder": "Docking bay instructions, scheduled delivery windows, route caveats...",
+        "linkButton": "Link Warehouse"
+      },
+      "empty": {
+        "title": "No Warehouses Linked Yet",
+        "description": "Connecting a warehouse enables inventory lookup, automated restocking transfers, and delivery dispatch for this store.",
+        "button": "Link First Warehouse"
+      },
+      "toast": {
+        "assigned": "Warehouse linked successfully",
+        "assignError": "Unable to link warehouse",
+        "updated": "Warehouse settings updated",
+        "updateError": "Unable to update warehouse link",
+        "reordered": "Fulfillment priority updated",
+        "reorderError": "Unable to update priority",
+        "removed": "Warehouse unlinked successfully",
+        "removeError": "Unable to unlink warehouse"
+      },
+      "unlinkConfirm": {
+        "title": "Unlink Warehouse?",
+        "description": "Are you sure you want to unlink {{warehouse}} from {{store}}? Inventory queries and replenishment transfers between this pair will stop.",
+        "button": "Unlink"
+      }
     },
     "form": {
       "createTitle": "Create Store",

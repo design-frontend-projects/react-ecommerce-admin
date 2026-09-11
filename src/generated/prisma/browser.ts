@@ -518,6 +518,11 @@ export type app_settings = Prisma.app_settingsModel
  */
 export type warehouses = Prisma.warehousesModel
 /**
+ * Model store_warehouses
+ * 
+ */
+export type store_warehouses = Prisma.store_warehousesModel
+/**
  * Model warehouse_locations
  * 
  */

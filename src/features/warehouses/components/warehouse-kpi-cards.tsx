@@ -33,7 +33,10 @@ export function WarehouseKpiCards({ data }: WarehouseKpiCardsProps) {
     0
   )
   const connectedStores = new Set(
-    data.map((w) => w.store_id).filter(Boolean)
+    data.flatMap((w) => [
+      ...(w.store_warehouses?.map((sw) => sw.stores?.store_id).filter(Boolean) ?? []),
+      w.store_id,
+    ]).filter(Boolean)
   ).size
 
   const kpis: {

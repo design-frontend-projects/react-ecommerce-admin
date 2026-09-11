@@ -484,6 +484,7 @@ export const ModelName = {
   reorder_suggestions: 'reorder_suggestions',
   app_settings: 'app_settings',
   warehouses: 'warehouses',
+  store_warehouses: 'store_warehouses',
   warehouse_locations: 'warehouse_locations',
   stock_by_location: 'stock_by_location',
   brands: 'brands',
@@ -513,7 +514,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -7917,6 +7918,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    store_warehouses: {
+      payload: Prisma.$store_warehousesPayload<ExtArgs>
+      fields: Prisma.store_warehousesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.store_warehousesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.store_warehousesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>
+        }
+        findFirst: {
+          args: Prisma.store_warehousesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.store_warehousesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>
+        }
+        findMany: {
+          args: Prisma.store_warehousesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>[]
+        }
+        create: {
+          args: Prisma.store_warehousesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>
+        }
+        createMany: {
+          args: Prisma.store_warehousesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.store_warehousesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>[]
+        }
+        delete: {
+          args: Prisma.store_warehousesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>
+        }
+        update: {
+          args: Prisma.store_warehousesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>
+        }
+        deleteMany: {
+          args: Prisma.store_warehousesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.store_warehousesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.store_warehousesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>[]
+        }
+        upsert: {
+          args: Prisma.store_warehousesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$store_warehousesPayload>
+        }
+        aggregate: {
+          args: Prisma.Store_warehousesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStore_warehouses>
+        }
+        groupBy: {
+          args: Prisma.store_warehousesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Store_warehousesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.store_warehousesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Store_warehousesCountAggregateOutputType> | number
+        }
+      }
+    }
     warehouse_locations: {
       payload: Prisma.$warehouse_locationsPayload<ExtArgs>
       fields: Prisma.warehouse_locationsFieldRefs
@@ -11075,7 +11150,6 @@ export const WarehousesScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   branch_id: 'branch_id',
-  store_id: 'store_id',
   country_id: 'country_id',
   city_id: 'city_id',
   warehouse_type_id: 'warehouse_type_id',
@@ -11095,6 +11169,30 @@ export const WarehousesScalarFieldEnum = {
 } as const
 
 export type WarehousesScalarFieldEnum = (typeof WarehousesScalarFieldEnum)[keyof typeof WarehousesScalarFieldEnum]
+
+
+export const Store_warehousesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  is_default: 'is_default',
+  priority: 'priority',
+  allow_fulfillment: 'allow_fulfillment',
+  allow_replenishment: 'allow_replenishment',
+  allow_returns: 'allow_returns',
+  lead_time_days: 'lead_time_days',
+  distance_km: 'distance_km',
+  transit_cost: 'transit_cost',
+  is_active: 'is_active',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Store_warehousesScalarFieldEnum = (typeof Store_warehousesScalarFieldEnum)[keyof typeof Store_warehousesScalarFieldEnum]
 
 
 export const Warehouse_locationsScalarFieldEnum = {
@@ -12316,6 +12414,7 @@ export type GlobalOmitConfig = {
   reorder_suggestions?: Prisma.reorder_suggestionsOmit
   app_settings?: Prisma.app_settingsOmit
   warehouses?: Prisma.warehousesOmit
+  store_warehouses?: Prisma.store_warehousesOmit
   warehouse_locations?: Prisma.warehouse_locationsOmit
   stock_by_location?: Prisma.stock_by_locationOmit
   brands?: Prisma.brandsOmit
