@@ -44,6 +44,7 @@ export async function listStockByLocation(
             id: true,
             code: true,
             name: true,
+            path: true,
             location_type: true,
           },
         },

@@ -23,11 +23,9 @@ if (typeof window === 'undefined') {
     const rawClient = new PrismaClient({ adapter })
     prisma = createTenantExtendedPrisma(rawClient) as unknown as PrismaClientType
   } else {
-    // Force refresh or initialize singleton on globalThis
-    if (!(globalThis as any).prisma) {
-      const rawClient = new PrismaClient({ adapter })
-      ;(globalThis as any).prisma = createTenantExtendedPrisma(rawClient)
-    }
+    // In development, instantiate fresh client so newly generated schema models/relations are loaded immediately
+    const rawClient = new PrismaClient({ adapter })
+    ;(globalThis as any).prisma = createTenantExtendedPrisma(rawClient)
     prisma = (globalThis as any).prisma
   }
 } else {

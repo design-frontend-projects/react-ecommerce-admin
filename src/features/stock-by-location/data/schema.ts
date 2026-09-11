@@ -5,7 +5,7 @@ const successEnvelope = <T extends z.ZodTypeAny>(schema: T) =>
 
 export const stockByLocationRowSchema = z.object({
   id: z.string().uuid(),
-  store_id: z.string(),
+  store_id: z.string().nullable().optional(),
   qty_on_hand: z.coerce.number(),
   qty_reserved: z.coerce.number(),
   last_movement_at: z.string().nullable(),
@@ -13,7 +13,8 @@ export const stockByLocationRowSchema = z.object({
     .object({
       id: z.string(),
       sku: z.string(),
-      products: z.object({ name: z.string() }).nullable(),
+      barcode: z.string().nullable().optional(),
+      products: z.object({ id: z.string().optional(), name: z.string() }).nullable(),
     })
     .nullable(),
   warehouses: z
@@ -23,8 +24,9 @@ export const stockByLocationRowSchema = z.object({
     .object({
       id: z.string(),
       code: z.string(),
-      path: z.string().nullable(),
-      location_type: z.enum(['zone', 'rack', 'shelf', 'bin']),
+      name: z.string().nullable().optional(),
+      path: z.string().nullable().optional(),
+      location_type: z.string(),
     })
     .nullable(),
   stores: z

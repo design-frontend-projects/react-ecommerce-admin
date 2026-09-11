@@ -304,6 +304,7 @@ export type product_batchesWhereInput = {
   supplier_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
+  stock_by_location?: Prisma.Stock_by_locationListRelationFilter
 }
 
 export type product_batchesOrderByWithRelationInput = {
@@ -323,6 +324,7 @@ export type product_batchesOrderByWithRelationInput = {
   supplier_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  stock_by_location?: Prisma.stock_by_locationOrderByRelationAggregateInput
 }
 
 export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
@@ -345,6 +347,7 @@ export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
   supplier_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
+  stock_by_location?: Prisma.Stock_by_locationListRelationFilter
 }, "id">
 
 export type product_batchesOrderByWithAggregationInput = {
@@ -410,6 +413,7 @@ export type product_batchesCreateInput = {
   supplier_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesUncheckedCreateInput = {
@@ -429,6 +433,7 @@ export type product_batchesUncheckedCreateInput = {
   supplier_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesUpdateInput = {
@@ -448,6 +453,7 @@ export type product_batchesUpdateInput = {
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesUncheckedUpdateInput = {
@@ -467,6 +473,7 @@ export type product_batchesUncheckedUpdateInput = {
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesCreateManyInput = {
@@ -524,6 +531,11 @@ export type product_batchesUncheckedUpdateManyInput = {
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Product_batchesNullableScalarRelationFilter = {
+  is?: Prisma.product_batchesWhereInput | null
+  isNot?: Prisma.product_batchesWhereInput | null
 }
 
 export type product_batchesCountOrderByAggregateInput = {
@@ -591,10 +603,147 @@ export type product_batchesSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
+export type product_batchesCreateNestedOneWithoutStock_by_locationInput = {
+  create?: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedCreateWithoutStock_by_locationInput>
+  connectOrCreate?: Prisma.product_batchesCreateOrConnectWithoutStock_by_locationInput
+  connect?: Prisma.product_batchesWhereUniqueInput
+}
+
+export type product_batchesUpdateOneWithoutStock_by_locationNestedInput = {
+  create?: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedCreateWithoutStock_by_locationInput>
+  connectOrCreate?: Prisma.product_batchesCreateOrConnectWithoutStock_by_locationInput
+  upsert?: Prisma.product_batchesUpsertWithoutStock_by_locationInput
+  disconnect?: Prisma.product_batchesWhereInput | boolean
+  delete?: Prisma.product_batchesWhereInput | boolean
+  connect?: Prisma.product_batchesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_batchesUpdateToOneWithWhereWithoutStock_by_locationInput, Prisma.product_batchesUpdateWithoutStock_by_locationInput>, Prisma.product_batchesUncheckedUpdateWithoutStock_by_locationInput>
+}
+
 export type Enumbatch_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.batch_status_enum
 }
 
+export type product_batchesCreateWithoutStock_by_locationInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_number: string
+  manufacture_date?: Date | string | null
+  expiry_date?: Date | string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.batch_status_enum
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type product_batchesUncheckedCreateWithoutStock_by_locationInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_number: string
+  manufacture_date?: Date | string | null
+  expiry_date?: Date | string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.batch_status_enum
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type product_batchesCreateOrConnectWithoutStock_by_locationInput = {
+  where: Prisma.product_batchesWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedCreateWithoutStock_by_locationInput>
+}
+
+export type product_batchesUpsertWithoutStock_by_locationInput = {
+  update: Prisma.XOR<Prisma.product_batchesUpdateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedUpdateWithoutStock_by_locationInput>
+  create: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedCreateWithoutStock_by_locationInput>
+  where?: Prisma.product_batchesWhereInput
+}
+
+export type product_batchesUpdateToOneWithWhereWithoutStock_by_locationInput = {
+  where?: Prisma.product_batchesWhereInput
+  data: Prisma.XOR<Prisma.product_batchesUpdateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedUpdateWithoutStock_by_locationInput>
+}
+
+export type product_batchesUpdateWithoutStock_by_locationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_number?: Prisma.StringFieldUpdateOperationsInput | string
+  manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumbatch_status_enumFieldUpdateOperationsInput | $Enums.batch_status_enum
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type product_batchesUncheckedUpdateWithoutStock_by_locationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_number?: Prisma.StringFieldUpdateOperationsInput | string
+  manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumbatch_status_enumFieldUpdateOperationsInput | $Enums.batch_status_enum
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type Product_batchesCountOutputType
+ */
+
+export type Product_batchesCountOutputType = {
+  stock_by_location: number
+}
+
+export type Product_batchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_by_location?: boolean | Product_batchesCountOutputTypeCountStock_by_locationArgs
+}
+
+/**
+ * Product_batchesCountOutputType without action
+ */
+export type Product_batchesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Product_batchesCountOutputType
+   */
+  select?: Prisma.Product_batchesCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Product_batchesCountOutputType without action
+ */
+export type Product_batchesCountOutputTypeCountStock_by_locationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_by_locationWhereInput
+}
 
 
 export type product_batchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -614,6 +763,8 @@ export type product_batchesSelect<ExtArgs extends runtime.Types.Extensions.Inter
   supplier_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_by_location?: boolean | Prisma.product_batches$stock_by_locationArgs<ExtArgs>
+  _count?: boolean | Prisma.Product_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product_batches"]>
 
 export type product_batchesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -674,10 +825,18 @@ export type product_batchesSelectScalar = {
 }
 
 export type product_batchesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_number" | "manufacture_date" | "expiry_date" | "unit_cost" | "status" | "received_reference_type" | "received_reference_id" | "notes" | "created_at" | "updated_at" | "supplier_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_batches"]>
+export type product_batchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_by_location?: boolean | Prisma.product_batches$stock_by_locationArgs<ExtArgs>
+  _count?: boolean | Prisma.Product_batchesCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type product_batchesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type product_batchesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $product_batchesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "product_batches"
-  objects: {}
+  objects: {
+    stock_by_location: Prisma.$stock_by_locationPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1089,6 +1248,7 @@ readonly fields: product_batchesFieldRefs;
  */
 export interface Prisma__product_batchesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  stock_by_location<T extends Prisma.product_batches$stock_by_locationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_batches$stock_by_locationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_by_locationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1151,6 +1311,10 @@ export type product_batchesFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
+  /**
    * Filter, which product_batches to fetch.
    */
   where: Prisma.product_batchesWhereUniqueInput
@@ -1169,6 +1333,10 @@ export type product_batchesFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
+  /**
    * Filter, which product_batches to fetch.
    */
   where: Prisma.product_batchesWhereUniqueInput
@@ -1186,6 +1354,10 @@ export type product_batchesFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the product_batches
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
   /**
    * Filter, which product_batches to fetch.
    */
@@ -1235,6 +1407,10 @@ export type product_batchesFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
+  /**
    * Filter, which product_batches to fetch.
    */
   where?: Prisma.product_batchesWhereInput
@@ -1282,6 +1458,10 @@ export type product_batchesFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the product_batches
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
   /**
    * Filter, which product_batches to fetch.
    */
@@ -1331,6 +1511,10 @@ export type product_batchesCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
+  /**
    * The data needed to create a product_batches.
    */
   data: Prisma.XOR<Prisma.product_batchesCreateInput, Prisma.product_batchesUncheckedCreateInput>
@@ -1378,6 +1562,10 @@ export type product_batchesUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the product_batches
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
   /**
    * The data needed to update a product_batches.
    */
@@ -1445,6 +1633,10 @@ export type product_batchesUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
+  /**
    * The filter to search for the product_batches to update in case it exists.
    */
   where: Prisma.product_batchesWhereUniqueInput
@@ -1471,6 +1663,10 @@ export type product_batchesDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
+  /**
    * Filter which product_batches to delete.
    */
   where: Prisma.product_batchesWhereUniqueInput
@@ -1491,6 +1687,30 @@ export type product_batchesDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * product_batches.stock_by_location
+ */
+export type product_batches$stock_by_locationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_by_location
+   */
+  select?: Prisma.stock_by_locationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_by_location
+   */
+  omit?: Prisma.stock_by_locationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_by_locationInclude<ExtArgs> | null
+  where?: Prisma.stock_by_locationWhereInput
+  orderBy?: Prisma.stock_by_locationOrderByWithRelationInput | Prisma.stock_by_locationOrderByWithRelationInput[]
+  cursor?: Prisma.stock_by_locationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_by_locationScalarFieldEnum | Prisma.Stock_by_locationScalarFieldEnum[]
+}
+
+/**
  * product_batches without action
  */
 export type product_batchesDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1502,4 +1722,8 @@ export type product_batchesDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the product_batches
    */
   omit?: Prisma.product_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_batchesInclude<ExtArgs> | null
 }
