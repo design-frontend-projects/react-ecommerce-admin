@@ -3089,7 +3089,18 @@
       "remarksPlaceholder": "Document reason for adjustment, ticket #, or stocktake verification note...",
       "cancel": "Cancel",
       "apply": "Apply Stock Adjustment",
-      "applying": "Applying Adjustment..."
+      "applying": "Applying Adjustment...",
+      "loadingWarehouses": "Loading warehouses...",
+      "noWarehouses": "No active warehouses found",
+      "loadingBins": "Loading bin locations...",
+      "binHelpSelectWh": "Select a warehouse above to see available bin locations.",
+      "binHelpNone": "No specific bins configured; items will be tracked at main warehouse level.",
+      "binHelpChoose": "Optionally assign this adjustment to a specific zone, rack, shelf, or bin.",
+      "searchVariants": "Filter variants by SKU or name...",
+      "currentStockInfo": "Current Stock in {{facility}}: {{qty}} units",
+      "costInfo": "Standard Cost: {{cost}}",
+      "loadingStores": "Loading stores...",
+      "loadingVariants": "Loading variants..."
     },
     "reasons": {
       "physical_audit": "Physical Count Audit",

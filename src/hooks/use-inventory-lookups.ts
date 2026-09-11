@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useAuthEnabled, useAuthQuery } from '@/hooks/use-auth-query'
+import { authorizedRequest } from '@/lib/authorized-request'
 
 export interface StoreOption {
   store_id: string
@@ -46,10 +47,27 @@ export interface VariantOption {
 
 /** All warehouses for select inputs */
 export function useWarehouseOptions() {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
-  return useQuery<WarehouseOption[]>({
+  return useAuthQuery<WarehouseOption[]>({
     queryKey: ['warehouses', 'options'],
-    queryFn: async () => {
+    rbac: { permission: 'inventory.stock.view' },
+    queryFn: async (getToken) => {
+      try {
+        const payload = (await authorizedRequest(
+          getToken,
+          '/api/inventory/warehouses'
+        )) as { success?: boolean; data?: Array<{ id: string; name: string; code: string; is_active?: boolean }> }
+        if (payload?.data && Array.isArray(payload.data)) {
+          return payload.data
+            .filter((w) => w.is_active !== false)
+            .map((w) => ({
+              id: w.id,
+              name: w.name,
+              code: w.code,
+            }))
+        }
+      } catch (err) {
+        console.warn('API /api/inventory/warehouses fallback to Supabase:', err)
+      }
       const { data, error } = await supabase
         .from('warehouses')
         .select('id, name, code')
@@ -58,29 +76,55 @@ export function useWarehouseOptions() {
       if (error) throw error
       return (data ?? []) as WarehouseOption[]
     },
-    enabled: authEnabled,
   })
 }
 
 /** Locations inside a specific warehouse */
 export function useWarehouseLocationOptions(warehouseId?: string) {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
-  return useQuery<WarehouseLocationOption[]>({
+  return useAuthQuery<WarehouseLocationOption[]>({
     queryKey: ['warehouse-locations', 'options', warehouseId ?? 'all'],
-    queryFn: async () => {
-      let query = supabase
+    enabled: Boolean(warehouseId),
+    rbac: { permission: 'inventory.stock.view' },
+    queryFn: async (getToken) => {
+      if (!warehouseId) return []
+      try {
+        const payload = (await authorizedRequest(
+          getToken,
+          `/api/inventory/warehouses/locations?warehouseId=${encodeURIComponent(warehouseId)}`
+        )) as {
+          success?: boolean
+          data?: Array<{
+            id: string
+            warehouse_id: string
+            code: string
+            name: string | null
+            location_type: string
+            is_active?: boolean
+          }>
+        }
+        if (payload?.data && Array.isArray(payload.data)) {
+          return payload.data
+            .filter((loc) => loc.is_active !== false)
+            .map((loc) => ({
+              id: loc.id,
+              warehouse_id: loc.warehouse_id,
+              code: loc.code,
+              name: loc.name,
+              location_type: loc.location_type,
+            }))
+        }
+      } catch (err) {
+        console.warn('API /api/inventory/warehouses/locations fallback to Supabase:', err)
+      }
+      const { data, error } = await supabase
         .from('warehouse_locations')
         .select('id, warehouse_id, code, name, location_type')
         .eq('is_active', true)
+        .eq('warehouse_id', warehouseId)
         .order('code')
-      if (warehouseId) {
-        query = query.eq('warehouse_id', warehouseId)
-      }
-      const { data, error } = await query
       if (error) throw error
       return (data ?? []) as WarehouseLocationOption[]
     },
-    enabled: authEnabled,
   })
 }
 
@@ -139,11 +183,27 @@ export function useStoreOptions() {
 
 /** On-hand quantity per variant for a store (for stocktake discrepancy display). */
 export function useStoreOnHand(storeId?: string) {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
-  return useQuery<Record<string, number>>({
+  return useAuthQuery<Record<string, number>>({
     queryKey: ['stock-balances', 'on-hand', storeId ?? ''],
-    enabled: Boolean(storeId) && authEnabled,
-    queryFn: async () => {
+    enabled: Boolean(storeId),
+    rbac: { permission: 'inventory.stock.view' },
+    queryFn: async (getToken) => {
+      if (!storeId) return {}
+      try {
+        const payload = (await authorizedRequest(
+          getToken,
+          `/api/inventory/stock-balances?storeId=${encodeURIComponent(storeId)}`
+        )) as { items?: Array<{ product_variant_id: string; qty_on_hand: number | string }> }
+        if (payload?.items && Array.isArray(payload.items)) {
+          const map: Record<string, number> = {}
+          for (const row of payload.items) {
+            map[row.product_variant_id] = Number(row.qty_on_hand)
+          }
+          return map
+        }
+      } catch (err) {
+        console.warn('API /api/inventory/stock-balances fallback to Supabase:', err)
+      }
       const { data, error } = await supabase
         .from('stock_balances')
         .select('product_variant_id, qty_on_hand')
@@ -161,11 +221,27 @@ export function useStoreOnHand(storeId?: string) {
 
 /** On-hand quantity per variant for a warehouse. */
 export function useWarehouseOnHand(warehouseId?: string) {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
-  return useQuery<Record<string, number>>({
+  return useAuthQuery<Record<string, number>>({
     queryKey: ['stock-balances', 'on-hand-warehouse', warehouseId ?? ''],
-    enabled: Boolean(warehouseId) && authEnabled,
-    queryFn: async () => {
+    enabled: Boolean(warehouseId),
+    rbac: { permission: 'inventory.stock.view' },
+    queryFn: async (getToken) => {
+      if (!warehouseId) return {}
+      try {
+        const payload = (await authorizedRequest(
+          getToken,
+          `/api/inventory/stock-balances?warehouseId=${encodeURIComponent(warehouseId)}`
+        )) as { items?: Array<{ product_variant_id: string; qty_on_hand: number | string }> }
+        if (payload?.items && Array.isArray(payload.items)) {
+          const map: Record<string, number> = {}
+          for (const row of payload.items) {
+            map[row.product_variant_id] = Number(row.qty_on_hand)
+          }
+          return map
+        }
+      } catch (err) {
+        console.warn('API /api/inventory/stock-balances fallback to Supabase:', err)
+      }
       const { data, error } = await supabase
         .from('stock_balances')
         .select('product_variant_id, qty_on_hand')

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight, AlertCircle, Warehouse, Store, Package } from 'lucide-react'
+import { ArrowRight, AlertCircle, Warehouse, Store, Package, Tag, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -36,6 +36,8 @@ import { useAuth } from '@/hooks/use-auth'
 import {
   useWarehouseOptions,
   useWarehouseLocationOptions,
+  useWarehouseOnHand,
+  useStoreOnHand,
   useStoreOptions,
   useVariantOptions,
 } from '@/hooks/use-inventory-lookups'
@@ -69,15 +71,11 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
   const { getToken } = useAuth()
   const adjustMutation = useAdjustStock()
   const reasonLabels = useMemo(() => getReasonLabels(t), [t])
+  const [variantSearch, setVariantSearch] = useState('')
 
-  const { data: warehouses = [] } = useWarehouseOptions()
-  const { data: stores = [] } = useStoreOptions()
-  const { data: variants = [] } = useVariantOptions()
-
-  const [selectedWarehouseId, setSelectedWarehouseId] = useState<string | null>(null)
-  const { data: locations = [] } = useWarehouseLocationOptions(
-    selectedWarehouseId || undefined
-  )
+  const { data: warehouses = [], isLoading: isLoadingWarehouses } = useWarehouseOptions()
+  const { data: stores = [], isLoading: isLoadingStores } = useStoreOptions()
+  const { data: variants = [], isLoading: isLoadingVariants } = useVariantOptions(variantSearch)
 
   const defaultValues: AdjustmentFormData = useMemo(
     () => ({
@@ -103,11 +101,11 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
     defaultValues,
   })
 
-  // Synchronize when currentRow changes
+  // Synchronize when currentRow or open changes
   useEffect(() => {
     if (open) {
       const isWh = Boolean(currentRow?.warehouse_id)
-      setSelectedWarehouseId(currentRow?.warehouse_id || null)
+      setVariantSearch('')
       form.reset({
         location_type: isWh ? 'warehouse' : 'store',
         warehouse_id: currentRow?.warehouse_id || '',
@@ -125,14 +123,79 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
       })
     } else {
       form.reset()
+      setVariantSearch('')
     }
   }, [currentRow, open, form])
 
   const watchedType = form.watch('adjustment_type')
   const watchedQty = Number(form.watch('quantity') || 0)
   const watchedLocType = form.watch('location_type')
-  const currentOnHand = currentRow ? Number(currentRow.qty_on_hand) : 0
-  const currentReserved = currentRow ? Number(currentRow.qty_reserved) : 0
+  const watchedWarehouseId = form.watch('warehouse_id')
+  const watchedStoreId = form.watch('store_id')
+  const watchedVariantId = form.watch('product_variant_id')
+
+  const { data: locations = [], isLoading: isLoadingLocations } = useWarehouseLocationOptions(
+    watchedLocType === 'warehouse' && watchedWarehouseId ? watchedWarehouseId : undefined
+  )
+  const { data: warehouseOnHand = {} } = useWarehouseOnHand(
+    watchedLocType === 'warehouse' && watchedWarehouseId ? watchedWarehouseId : undefined
+  )
+  const { data: storeOnHand = {} } = useStoreOnHand(
+    watchedLocType === 'store' && watchedStoreId ? watchedStoreId : undefined
+  )
+
+  const selectedVariant = useMemo(
+    () => variants.find((v) => v.id === watchedVariantId),
+    [variants, watchedVariantId]
+  )
+
+  const selectedWarehouse = useMemo(
+    () => warehouses.find((w) => w.id === watchedWarehouseId),
+    [warehouses, watchedWarehouseId]
+  )
+
+  const selectedStore = useMemo(
+    () => stores.find((s) => s.store_id === watchedStoreId),
+    [stores, watchedStoreId]
+  )
+
+  // Auto-populate unit cost when a variant is selected in a New Stock Adjustment if cost is 0 or empty
+  useEffect(() => {
+    if (!currentRow && selectedVariant) {
+      const currentUnitCost = form.getValues('unit_cost')
+      if ((currentUnitCost === 0 || !currentUnitCost) && selectedVariant.cost_price != null) {
+        form.setValue('unit_cost', Number(selectedVariant.cost_price))
+      }
+    }
+  }, [selectedVariant, currentRow, form])
+
+  // Live on-hand balance resolution:
+  // If editing an existing row, use its recorded on-hand quantity.
+  // If creating a new adjustment, dynamically pull the live balance from the selected facility.
+  const currentOnHand = useMemo(() => {
+    if (currentRow) return Number(currentRow.qty_on_hand || 0)
+    if (!watchedVariantId) return 0
+    if (watchedLocType === 'warehouse' && watchedWarehouseId) {
+      return warehouseOnHand[watchedVariantId] ?? 0
+    }
+    if (watchedLocType === 'store' && watchedStoreId) {
+      return storeOnHand[watchedVariantId] ?? 0
+    }
+    return 0
+  }, [
+    currentRow,
+    watchedVariantId,
+    watchedLocType,
+    watchedWarehouseId,
+    watchedStoreId,
+    warehouseOnHand,
+    storeOnHand,
+  ])
+
+  const currentReserved = useMemo(() => {
+    if (currentRow) return Number(currentRow.qty_reserved || 0)
+    return 0
+  }, [currentRow])
 
   // Calculate projected new balance
   const projectedOnHand =
@@ -271,13 +334,12 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                         } else {
                           form.setValue('warehouse_id', '')
                           form.setValue('location_id', '')
-                          setSelectedWarehouseId(null)
                         }
                       }}
                       value={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className='w-full'>
                           <SelectValue
                             placeholder={t(
                               'stockBalances.adjustmentDialog.selectFacilityType',
@@ -322,27 +384,47 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                         disabled={!!currentRow}
                         onValueChange={(val) => {
                           field.onChange(val)
-                          setSelectedWarehouseId(val)
                           form.setValue('location_id', '')
                         }}
                         value={field.value ?? ''}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className='w-full'>
                             <SelectValue
-                              placeholder={t(
-                                'stockBalances.adjustmentDialog.selectWarehouse',
-                                'Select warehouse'
-                              )}
+                              placeholder={
+                                isLoadingWarehouses
+                                  ? t('stockBalances.adjustmentDialog.loadingWarehouses', 'Loading warehouses...')
+                                  : t(
+                                      'stockBalances.adjustmentDialog.selectWarehouse',
+                                      'Select warehouse'
+                                    )
+                              }
                             />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {warehouses.map((w) => (
-                            <SelectItem key={w.id} value={w.id}>
-                              {w.name} ({w.code})
-                            </SelectItem>
-                          ))}
+                          {warehouses.length === 0 ? (
+                            <div className='py-3 px-2 text-center text-xs text-muted-foreground'>
+                              {isLoadingWarehouses ? (
+                                <span className='inline-flex items-center gap-2'>
+                                  <Loader2 className='h-3.5 w-3.5 animate-spin' />
+                                  {t('stockBalances.adjustmentDialog.loadingWarehouses', 'Loading warehouses...')}
+                                </span>
+                              ) : (
+                                t('stockBalances.adjustmentDialog.noWarehouses', 'No active warehouses found')
+                              )}
+                            </div>
+                          ) : (
+                            warehouses.map((w) => (
+                              <SelectItem key={w.id} value={w.id}>
+                                <div className='flex items-center gap-2'>
+                                  <Warehouse className='h-4 w-4 text-muted-foreground' />
+                                  <span className='font-medium'>{w.name}</span>
+                                  <span className='font-mono text-xs text-muted-foreground'>({w.code})</span>
+                                </div>
+                              </SelectItem>
+                            ))
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -364,19 +446,26 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                         value={field.value ?? ''}
                       >
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className='w-full'>
                             <SelectValue
-                              placeholder={t(
-                                'stockBalances.adjustmentDialog.selectStore',
-                                'Select store'
-                              )}
+                              placeholder={
+                                isLoadingStores
+                                  ? t('stockBalances.adjustmentDialog.loadingStores', 'Loading stores...')
+                                  : t(
+                                      'stockBalances.adjustmentDialog.selectStore',
+                                      'Select store'
+                                    )
+                              }
                             />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {stores.map((s) => (
                             <SelectItem key={s.store_id} value={s.store_id}>
-                              {s.name}
+                              <div className='flex items-center gap-2'>
+                                <Store className='h-4 w-4 text-muted-foreground' />
+                                <span className='font-medium'>{s.name}</span>
+                              </div>
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -402,28 +491,33 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                       )}
                     </FormLabel>
                     <Select
-                      disabled={!!currentRow || !selectedWarehouseId}
+                      disabled={!!currentRow || !watchedWarehouseId}
                       onValueChange={field.onChange}
                       value={field.value ?? ''}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className='w-full'>
                           <SelectValue
                             placeholder={
-                              !selectedWarehouseId
+                              !watchedWarehouseId
                                 ? t(
                                     'stockBalances.adjustmentDialog.selectWarehouseFirst',
                                     'Select warehouse first'
                                   )
-                                : locations.length === 0
+                                : isLoadingLocations
                                   ? t(
-                                      'stockBalances.adjustmentDialog.noBins',
-                                      'No bin locations configured'
+                                      'stockBalances.adjustmentDialog.loadingBins',
+                                      'Loading bin locations...'
                                     )
-                                  : t(
-                                      'stockBalances.adjustmentDialog.selectBin',
-                                      'Select bin location'
-                                    )
+                                  : locations.length === 0
+                                    ? t(
+                                        'stockBalances.adjustmentDialog.noBins',
+                                        'No bin locations configured'
+                                      )
+                                    : t(
+                                        'stockBalances.adjustmentDialog.selectBin',
+                                        'Select bin location'
+                                      )
                             }
                           />
                         </SelectTrigger>
@@ -431,11 +525,35 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                       <SelectContent>
                         {locations.map((loc) => (
                           <SelectItem key={loc.id} value={loc.id}>
-                            {loc.code} {loc.name ? `— ${loc.name}` : ''}
+                            <div className='flex items-center gap-2'>
+                              <span className='font-mono font-medium'>{loc.code}</span>
+                              {loc.name && (
+                                <span className='text-muted-foreground'>— {loc.name}</span>
+                              )}
+                              <Badge variant='outline' className='text-[10px] uppercase ms-auto'>
+                                {loc.location_type}
+                              </Badge>
+                            </div>
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormDescription className='text-[11px]'>
+                      {!watchedWarehouseId
+                        ? t(
+                            'stockBalances.adjustmentDialog.binHelpSelectWh',
+                            'Select a warehouse above to see available bin locations.'
+                          )
+                        : locations.length === 0
+                          ? t(
+                              'stockBalances.adjustmentDialog.binHelpNone',
+                              'No specific bins configured; items will be tracked at main warehouse level.'
+                            )
+                          : t(
+                              'stockBalances.adjustmentDialog.binHelpChoose',
+                              'Optionally assign this adjustment to a specific zone, rack, shelf, or bin.'
+                            )}
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -448,24 +566,36 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
               name='product_variant_id'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    {t('stockBalances.adjustmentDialog.productVariant', 'Product Variant / SKU')}
-                  </FormLabel>
+                  <div className='flex items-center justify-between'>
+                    <FormLabel>
+                      {t('stockBalances.adjustmentDialog.productVariant', 'Product Variant / SKU')}
+                    </FormLabel>
+                    {!currentRow && (
+                      <Input
+                        value={variantSearch}
+                        onChange={(e) => setVariantSearch(e.target.value)}
+                        placeholder={t('stockBalances.adjustmentDialog.searchVariants', 'Filter variants by SKU or name...')}
+                        className='h-7 w-48 text-xs'
+                      />
+                    )}
+                  </div>
                   <Select
                     disabled={!!currentRow}
                     onValueChange={field.onChange}
                     value={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className='w-full'>
                         <SelectValue
                           placeholder={
                             currentRow
                               ? `${currentRow.product_variants?.products?.name || ''} — SKU: ${currentRow.product_variants?.sku || ''}`
-                              : t(
-                                  'stockBalances.adjustmentDialog.selectVariant',
-                                  'Select variant by SKU or name'
-                                )
+                              : isLoadingVariants
+                                ? t('stockBalances.adjustmentDialog.loadingVariants', 'Loading variants...')
+                                : t(
+                                    'stockBalances.adjustmentDialog.selectVariant',
+                                    'Select variant by SKU or name'
+                                  )
                           }
                         />
                       </SelectTrigger>
@@ -487,6 +617,41 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
                 </FormItem>
               )}
             />
+
+            {/* Product Variant Info Card (if variant selected in New Adjustment) */}
+            {selectedVariant && !currentRow && (
+              <div className='flex flex-wrap items-center justify-between rounded-md border border-border/60 bg-muted/30 px-3 py-2 text-xs'>
+                <div className='flex items-center gap-2'>
+                  <Tag className='h-3.5 w-3.5 text-primary' />
+                  <span className='font-mono font-semibold'>{selectedVariant.sku}</span>
+                  {selectedVariant.products?.name && (
+                    <span className='text-muted-foreground'>({selectedVariant.products.name})</span>
+                  )}
+                </div>
+                <div className='flex items-center gap-3'>
+                  <span className='text-muted-foreground'>
+                    {t('stockBalances.adjustmentDialog.costInfo', {
+                      cost: `$${Number(selectedVariant.cost_price ?? selectedVariant.price ?? 0).toFixed(2)}`,
+                      defaultValue: `Standard Cost: $${Number(selectedVariant.cost_price ?? selectedVariant.price ?? 0).toFixed(2)}`,
+                    })}
+                  </span>
+                  <Badge variant='secondary' className='font-mono text-[11px]'>
+                    {t('stockBalances.adjustmentDialog.currentStockInfo', {
+                      facility:
+                        watchedLocType === 'warehouse'
+                          ? selectedWarehouse?.name || 'Warehouse'
+                          : selectedStore?.name || 'Store',
+                      qty: currentOnHand.toLocaleString(),
+                      defaultValue: `${currentOnHand.toLocaleString()} in ${
+                        watchedLocType === 'warehouse'
+                          ? selectedWarehouse?.name || 'Warehouse'
+                          : selectedStore?.name || 'Store'
+                      }`,
+                    })}
+                  </Badge>
+                </div>
+              </div>
+            )}
 
             {/* Condition & Unit Cost */}
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>

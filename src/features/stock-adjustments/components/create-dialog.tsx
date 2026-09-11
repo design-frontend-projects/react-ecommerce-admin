@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Warehouse, Store } from 'lucide-react'
 import { toast } from 'sonner'
 import {
   useWarehouseOnHand,
+  useStoreOnHand,
   useWarehouseOptions,
   useStoreOptions,
   useVariantOptions,
@@ -65,7 +66,8 @@ export function AdjustmentCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
-  const [warehouseId, setWarehouseId] = useState('')
+  const [facilityType, setFacilityType] = useState<'warehouse' | 'store'>('warehouse')
+  const [facilityId, setFacilityId] = useState('')
   const [type, setType] = useState<AdjustmentType>('manual')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItem[]>([{ ...emptyItem }])
@@ -74,16 +76,14 @@ export function AdjustmentCreateDialog({
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
   const { data: variants = [] } = useVariantOptions(search)
-  const { data: onHand = {} } = useWarehouseOnHand(warehouseId || undefined)
+  const { data: whOnHand = {} } = useWarehouseOnHand(facilityType === 'warehouse' && facilityId ? facilityId : undefined)
+  const { data: stOnHand = {} } = useStoreOnHand(facilityType === 'store' && facilityId ? facilityId : undefined)
+  const onHand = facilityType === 'warehouse' ? whOnHand : stOnHand
   const createAdjustment = useCreateAdjustment()
 
-  const locationOptions =
-    warehouses.length > 0
-      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
-      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
-
   const reset = () => {
-    setWarehouseId('')
+    setFacilityType('warehouse')
+    setFacilityId('')
     setType('manual')
     setNotes('')
     setItems([{ ...emptyItem }])
@@ -106,8 +106,8 @@ export function AdjustmentCreateDialog({
 
   const handleSubmit = async () => {
     const parsed = createAdjustmentInputSchema.safeParse({
-      warehouseId: warehouseId || undefined,
-      storeId: warehouseId || undefined,
+      warehouseId: facilityType === 'warehouse' ? (facilityId || undefined) : undefined,
+      storeId: facilityType === 'store' ? (facilityId || undefined) : undefined,
       type,
       notes: notes || undefined,
       items: items
@@ -154,19 +154,62 @@ export function AdjustmentCreateDialog({
 
         <ScrollArea className='max-h-[60vh] pe-4'>
           <div className='grid gap-4'>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-3 gap-4'>
               <div className='grid gap-2'>
-                <Label>Warehouse / Location</Label>
-                <Select value={warehouseId} onValueChange={setWarehouseId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select warehouse' />
+                <Label>Facility Type</Label>
+                <Select
+                  value={facilityType}
+                  onValueChange={(val: 'warehouse' | 'store') => {
+                    setFacilityType(val)
+                    setFacilityId('')
+                  }}
+                >
+                  <SelectTrigger className='w-full'>
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {locationOptions.map((loc) => (
-                      <SelectItem key={loc.id} value={loc.id}>
-                        {loc.name}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value='warehouse'>
+                      <div className='flex items-center gap-2'>
+                        <Warehouse className='h-4 w-4 text-muted-foreground' />
+                        Warehouse
+                      </div>
+                    </SelectItem>
+                    <SelectItem value='store'>
+                      <div className='flex items-center gap-2'>
+                        <Store className='h-4 w-4 text-muted-foreground' />
+                        Store
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className='grid gap-2'>
+                <Label>{facilityType === 'warehouse' ? 'Warehouse' : 'Store'}</Label>
+                <Select value={facilityId} onValueChange={setFacilityId}>
+                  <SelectTrigger className='w-full'>
+                    <SelectValue
+                      placeholder={facilityType === 'warehouse' ? 'Select warehouse' : 'Select store'}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {facilityType === 'warehouse'
+                      ? warehouses.map((w) => (
+                          <SelectItem key={w.id} value={w.id}>
+                            <div className='flex items-center gap-2'>
+                              <Warehouse className='h-4 w-4 text-muted-foreground' />
+                              <span>{w.name}</span>
+                              <span className='font-mono text-xs text-muted-foreground'>({w.code})</span>
+                            </div>
+                          </SelectItem>
+                        ))
+                      : stores.map((s) => (
+                          <SelectItem key={s.store_id} value={s.store_id}>
+                            <div className='flex items-center gap-2'>
+                              <Store className='h-4 w-4 text-muted-foreground' />
+                              <span>{s.name}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -176,7 +219,7 @@ export function AdjustmentCreateDialog({
                   value={type}
                   onValueChange={(value) => setType(value as AdjustmentType)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className='w-full'>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
