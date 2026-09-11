@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   Clock,
   AlertTriangle,
@@ -40,6 +41,7 @@ interface ProcessedBatch extends BatchItem {
 }
 
 export function ExpiryManagementPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.auth.user)
   const [searchTerm, setSearchTerm] = useState('')
@@ -112,13 +114,16 @@ export function ExpiryManagementPage() {
   const warningCount = processedBatches.filter((b) => b.urgency === 'warning').length
   const moderateCount = processedBatches.filter((b) => b.urgency === 'moderate').length
 
-  const urgencyOptions = [
-    { value: 'expired', label: 'Already Expired (Urgent Action)' },
-    { value: 'critical', label: 'Critical (<30 Days)' },
-    { value: 'warning', label: 'Warning (31 - 60 Days)' },
-    { value: 'moderate', label: 'Moderate (61 - 90 Days)' },
-    { value: 'safe', label: 'Fresh (>90 Days)' },
-  ]
+  const urgencyOptions = useMemo(
+    () => [
+      { value: 'expired', label: t('inventory.expiryPage.urgencyOptions.expiredAction', 'Already Expired (Urgent Action)') },
+      { value: 'critical', label: t('inventory.expiryPage.urgencyOptions.critical', 'Critical (<30 Days)') },
+      { value: 'warning', label: t('inventory.expiryPage.urgencyOptions.warning', 'Warning (31 - 60 Days)') },
+      { value: 'moderate', label: t('inventory.expiryPage.urgencyOptions.moderate', 'Moderate (61 - 90 Days)') },
+      { value: 'safe', label: t('inventory.expiryPage.urgencyOptions.safe', 'Fresh (>90 Days)') },
+    ],
+    [t]
+  )
 
   return (
     <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto">
@@ -127,10 +132,10 @@ export function ExpiryManagementPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
             <Clock className="h-6 w-6 text-amber-500" />
-            Batch Expiry Management & Shelf-Life Tracker
+            {t('inventory.expiryPage.title', 'Batch Expiry Management & Shelf-Life Tracker')}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Monitor approaching expiry deadlines, prevent inventory wastage, and trigger clearance workflows.
+            {t('inventory.expiryPage.description', 'Monitor approaching expiry deadlines, prevent inventory wastage, and trigger clearance workflows.')}
           </p>
         </div>
 
@@ -142,7 +147,7 @@ export function ExpiryManagementPage() {
             className="text-xs gap-1.5"
           >
             <ArrowLeftRight className="h-3.5 w-3.5" />
-            Clearance Transfer
+            {t('inventory.expiryPage.clearanceTransfer', 'Clearance Transfer')}
           </Button>
 
           <Button
@@ -151,7 +156,7 @@ export function ExpiryManagementPage() {
             className="text-xs gap-1.5 bg-rose-600 hover:bg-rose-700 text-white"
           >
             <ClipboardList className="h-3.5 w-3.5" />
-            Write-Off Expired Stock
+            {t('inventory.expiryPage.writeOffStock', 'Write-Off Expired Stock')}
           </Button>
         </div>
       </div>
@@ -166,12 +171,12 @@ export function ExpiryManagementPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-rose-700 dark:text-rose-400 uppercase tracking-wider">
-                Expired (Immediate Action)
+                {t('inventory.expiryPage.urgency.expired', 'Expired (Immediate Action)')}
               </p>
               <p className="text-2xl font-bold text-rose-700 dark:text-rose-300 mt-1">
-                {expiredCount} Batches
+                {expiredCount} {t('inventory.expiryPage.batches', 'Batches')}
               </p>
-              <p className="text-[11px] text-muted-foreground">Requires disposal / write-off</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.expiryPage.requiresDisposal', 'Requires disposal / write-off')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-600">
               <AlertTriangle className="h-6 w-6" />
@@ -187,12 +192,12 @@ export function ExpiryManagementPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-orange-700 dark:text-orange-400 uppercase tracking-wider">
-                Critical (&lt;30 Days)
+                {t('inventory.expiryPage.urgency.critical', 'Critical (<30 Days)')}
               </p>
               <p className="text-2xl font-bold text-orange-700 dark:text-orange-300 mt-1">
-                {criticalCount} Batches
+                {criticalCount} {t('inventory.expiryPage.batches', 'Batches')}
               </p>
-              <p className="text-[11px] text-muted-foreground">FIFO clearance promotion</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.expiryPage.fifoClearance', 'FIFO clearance promotion')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-orange-500/10 text-orange-600">
               <Clock className="h-6 w-6" />
@@ -208,12 +213,12 @@ export function ExpiryManagementPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider">
-                Warning (31 - 60 Days)
+                {t('inventory.expiryPage.urgency.warning', 'Warning (31 - 60 Days)')}
               </p>
               <p className="text-2xl font-bold text-amber-700 dark:text-amber-300 mt-1">
-                {warningCount} Batches
+                {warningCount} {t('inventory.expiryPage.batches', 'Batches')}
               </p>
-              <p className="text-[11px] text-muted-foreground">Prioritize in sales orders</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.expiryPage.prioritizeSales', 'Prioritize in sales orders')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-600">
               <ShieldAlert className="h-6 w-6" />
@@ -229,12 +234,12 @@ export function ExpiryManagementPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-wider">
-                Moderate (61 - 90 Days)
+                {t('inventory.expiryPage.urgency.moderate', 'Moderate (61 - 90 Days)')}
               </p>
               <p className="text-2xl font-bold text-blue-700 dark:text-blue-300 mt-1">
-                {moderateCount} Batches
+                {moderateCount} {t('inventory.expiryPage.batches', 'Batches')}
               </p>
-              <p className="text-[11px] text-muted-foreground">Stable monitoring</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.expiryPage.stableMonitoring', 'Stable monitoring')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-600">
               <CheckCircle2 className="h-6 w-6" />
@@ -247,7 +252,7 @@ export function ExpiryManagementPage() {
       <FilterBar
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
-        searchPlaceholder="Search batch number or barcode..."
+        searchPlaceholder={t('inventory.expiryPage.filterSearch', 'Search batch number or barcode...')}
         statusOptions={urgencyOptions}
         selectedStatus={selectedUrgency}
         onStatusChange={setSelectedUrgency}
@@ -260,31 +265,31 @@ export function ExpiryManagementPage() {
       {/* Batches Table Card */}
       <Card className="shadow-xs">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base font-bold">Monitored Inventory Batches</CardTitle>
+          <CardTitle className="text-base font-bold">{t('inventory.expiryPage.monitoredBatches', 'Monitored Inventory Batches')}</CardTitle>
           <CardDescription className="text-xs">
-            Showing {filteredBatches.length} tracked batches.
+            {t('inventory.expiryPage.showingBatches', { count: filteredBatches.length, defaultValue: `Showing ${filteredBatches.length} tracked batches.` })}
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
             <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-              Loading batch shelf-life data...
+              {t('inventory.expiryPage.loadingData', 'Loading batch shelf-life data...')}
             </div>
           ) : filteredBatches.length === 0 ? (
             <div className="p-12 text-center text-sm text-muted-foreground border rounded-lg bg-muted/10">
-              No batches match the selected expiry criteria.
+              {t('inventory.expiryPage.noBatches', 'No batches match the selected expiry criteria.')}
             </div>
           ) : (
             <div className="overflow-hidden rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/40">
-                    <TableHead className="text-xs">Batch Number</TableHead>
-                    <TableHead className="text-xs">Expiry Date</TableHead>
-                    <TableHead className="text-xs text-end">Days Remaining</TableHead>
-                    <TableHead className="text-xs text-end">On-Hand Qty</TableHead>
-                    <TableHead className="text-xs text-center">Urgency Level</TableHead>
-                    <TableHead className="text-xs text-end">Quick Resolution</TableHead>
+                    <TableHead className="text-xs">{t('inventory.expiryPage.batchNumber', 'Batch Number')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.expiryPage.expiryDate', 'Expiry Date')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.expiryPage.daysRemaining', 'Days Remaining')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.expiryPage.qtyOnHand', 'On-Hand Qty')}</TableHead>
+                    <TableHead className="text-xs text-center">{t('inventory.expiryPage.urgencyLevel', 'Urgency Level')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.expiryPage.quickResolution', 'Quick Resolution')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -297,14 +302,18 @@ export function ExpiryManagementPage() {
                           {batch.batch_number || batch.id.slice(0, 8)}
                         </TableCell>
                         <TableCell className="font-medium whitespace-nowrap">
-                          {batch.expDate ? batch.expDate.toLocaleDateString() : 'No expiry set'}
+                          {batch.expDate ? batch.expDate.toLocaleDateString() : t('inventory.expiryPage.noExpirySet', 'No expiry set')}
                         </TableCell>
                         <TableCell className="text-end font-bold tabular-nums">
                           {days !== null ? (
                             days < 0 ? (
-                              <span className="text-rose-600">Expired ({Math.abs(days)}d ago)</span>
+                              <span className="text-rose-600">
+                                {t('inventory.expiryPage.expiredDaysAgo', { days: Math.abs(days), defaultValue: `Expired (${Math.abs(days)}d ago)` })}
+                              </span>
                             ) : (
-                              <span>{days} days</span>
+                              <span>
+                                {t('inventory.expiryPage.daysLeft', { days, defaultValue: `${days} days` })}
+                              </span>
                             )
                           ) : (
                             '—'
@@ -316,27 +325,27 @@ export function ExpiryManagementPage() {
                         <TableCell className="text-center">
                           {batch.urgency === 'expired' && (
                             <Badge variant="destructive" className="text-[10px] uppercase font-bold">
-                              Expired
+                              {t('inventory.expiryPage.urgency.expired', 'Expired')}
                             </Badge>
                           )}
                           {batch.urgency === 'critical' && (
                             <Badge className="bg-orange-500 text-white text-[10px] uppercase font-bold">
-                              Critical (&lt;30d)
+                              {t('inventory.expiryPage.urgency.critical', 'Critical (<30d)')}
                             </Badge>
                           )}
                           {batch.urgency === 'warning' && (
                             <Badge className="bg-amber-500 text-white text-[10px] uppercase font-bold">
-                              Warning (&lt;60d)
+                              {t('inventory.expiryPage.urgency.warning', 'Warning (<60d)')}
                             </Badge>
                           )}
                           {batch.urgency === 'moderate' && (
                             <Badge variant="outline" className="text-blue-600 border-blue-300 text-[10px]">
-                              Moderate
+                              {t('inventory.expiryPage.urgency.moderate', 'Moderate')}
                             </Badge>
                           )}
                           {batch.urgency === 'safe' && (
                             <Badge variant="outline" className="text-emerald-600 border-emerald-300 text-[10px]">
-                              Safe
+                              {t('inventory.expiryPage.urgency.safe', 'Safe')}
                             </Badge>
                           )}
                         </TableCell>
@@ -347,7 +356,7 @@ export function ExpiryManagementPage() {
                             onClick={() => navigate({ to: '/stock-adjustments' })}
                             className="h-7 text-xs text-primary hover:text-primary/80"
                           >
-                            Resolve <ArrowRight className="h-3 w-3 ml-1" />
+                            {t('inventory.expiryPage.resolve', 'Resolve')} <ArrowRight className="h-3 w-3 ml-1" />
                           </Button>
                         </TableCell>
                       </TableRow>

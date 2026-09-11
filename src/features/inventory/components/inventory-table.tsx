@@ -22,7 +22,8 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type Inventory } from '../data/schema'
-import { columns } from './inventory-columns'
+import { getColumns } from './inventory-columns'
+import { useMemo } from 'react'
 
 interface Props {
   data: Inventory[]
@@ -33,6 +34,8 @@ export function InventoryTable({ data }: Props) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,

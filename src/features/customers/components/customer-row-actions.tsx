@@ -1,5 +1,6 @@
 import { type Row } from '@tanstack/react-table'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ interface CustomerRowActionsProps<TData> {
 export function CustomerRowActions<TData>({
   row,
 }: CustomerRowActionsProps<TData>) {
+  const { t } = useTranslation()
   const customer = row.original as Customer
   const { setOpen, setCurrentRow } = useCustomersContext()
 
@@ -31,7 +33,7 @@ export function CustomerRowActions<TData>({
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <MoreHorizontal className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t('common.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -43,7 +45,7 @@ export function CustomerRowActions<TData>({
             }}
           >
             <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Edit
+            {t('common.edit', 'Edit')}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -53,7 +55,7 @@ export function CustomerRowActions<TData>({
             }}
           >
             <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Delete
+            {t('common.delete', 'Delete')}
             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
           </DropdownMenuItem>
         </Can>
@@ -61,3 +63,4 @@ export function CustomerRowActions<TData>({
     </DropdownMenu>
   )
 }
+

@@ -11,7 +11,7 @@ export function InventoryPrimaryButtons() {
     <div className='flex gap-2'>
       <Can permission='inventory.manage'>
         <Button className='space-x-1' onClick={() => setOpen('add')}>
-          <span>Add Inventory</span> <PackagePlus size={18} />
+          <span>{t('inventory.addInventory', 'Add Inventory')}</span> <PackagePlus size={18} />
         </Button>
       </Can>
     </div>

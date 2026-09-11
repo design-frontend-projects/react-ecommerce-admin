@@ -24,12 +24,12 @@ export function CustomerDeleteDialog() {
     if (currentRow) {
       try {
         await deleteMutation.mutateAsync(currentRow.id || (currentRow as any).customer_id)
-        toast.success('Customer deleted successfully')
+        toast.success(t('customers.toast.deleted', 'Customer deleted successfully'))
         setOpen(null)
       } catch (error: any) {
-        toast.error('Error', {
+        toast.error(t('customers.toast.error', 'Error'), {
           description:
-            error.message || 'Something went wrong. Please try again.',
+            error.message || t('common.errorOccurred', 'Something went wrong. Please try again.'),
         })
       }
     }
@@ -39,13 +39,12 @@ export function CustomerDeleteDialog() {
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('customers.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
+          <AlertDialogTitle>{t('customers.delete.title', 'Delete Customer')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            customer
+            {t('customers.delete.permanentWarning', 'This action cannot be undone. This will permanently delete the customer')}{' '}
             <span className='font-medium text-foreground'>
               {currentRow?.first_name
-                ? ` "${currentRow.first_name} ${currentRow.last_name}"`
+                ? `"${currentRow.first_name} ${currentRow.last_name}"`
                 : ''}
             </span>
             .
@@ -53,7 +52,7 @@ export function CustomerDeleteDialog() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteMutation.isPending}>
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
@@ -63,7 +62,9 @@ export function CustomerDeleteDialog() {
             className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteMutation.isPending
+              ? t('common.deleting', 'Deleting...')
+              : t('common.delete', 'Delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

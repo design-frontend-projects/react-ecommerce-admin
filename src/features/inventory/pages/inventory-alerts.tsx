@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   AlertTriangle,
   ShieldAlert,
@@ -46,6 +47,7 @@ interface ReorderRuleItem {
 }
 
 export function InventoryAlertsPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.auth.user)
   const [activeTab, setActiveTab] = useState('all')
@@ -58,28 +60,14 @@ export function InventoryAlertsPage() {
         .from('stock_balances')
         .select('qty_on_hand, qty_reserved, qty_available, product_variant_id, store_id, stores(name)')
 
+      // 2. Fetch variants & products & reorder rules
       const { data: variants } = await supabase
         .from('product_variants')
-        .select('id, sku, products(name, category_id, categories(name))')
+        .select('id, sku, products(id, name)')
 
-      const variantMap = new Map(
-        (variants || []).map((v: { id: string; sku: string; products: unknown }) => [
-          v.id,
-          v,
-        ])
-      )
-
-      // 2. Fetch reorder rules
-      const { data: reorderRules } = await supabase
+      const { data: rules } = await supabase
         .from('reorder_rules')
-        .select('*')
-
-      const ruleMap = new Map(
-        ((reorderRules as ReorderRuleItem[]) || []).map((r) => [
-          `${r.store_id || ''}_${r.product_variant_id}`,
-          r,
-        ])
-      )
+        .select('store_id, product_variant_id, min_qty')
 
       // 3. Fetch expiring batches
       const now = new Date()
@@ -88,80 +76,95 @@ export function InventoryAlertsPage() {
 
       const { data: batches } = await supabase
         .from('product_batches')
-        .select('id, batch_number, expiry_date, status')
+        .select('id, batch_number, expiry_date, status, product_variant_id, store_id')
 
       const oosAlerts: InventoryAlertItem[] = []
       const lowStockAlerts: InventoryAlertItem[] = []
       const expiringAlerts: InventoryAlertItem[] = []
 
+      // Map rules
+      const ruleMap = new Map<string, number>()
+      for (const r of (rules as ReorderRuleItem[]) || []) {
+        const key = `${r.store_id || 'all'}_${r.product_variant_id}`
+        ruleMap.set(key, Number(r.min_qty || 10))
+      }
+
+      // Map variants
+      const variantMap = new Map(
+        (variants || []).map((v) => [
+          v.id,
+          { sku: v.sku, name: (v.products as { name?: string })?.name || 'Unknown Product' },
+        ])
+      )
+
       for (const b of balances || []) {
         const onHand = Number(b.qty_on_hand || 0)
-        const v = variantMap.get(b.product_variant_id)
-        const rule =
-          ruleMap.get(`${b.store_id}_${b.product_variant_id}`) ||
-          ruleMap.get(`_${b.product_variant_id}`)
-        const reorderPoint = rule ? Number(rule.min_qty || 10) : 10
+        const vInfo = variantMap.get(b.product_variant_id) || {
+          sku: 'UNKNOWN',
+          name: 'Unknown Variant',
+        }
+        const storeName = (b.stores as { name?: string })?.name || 'Default Facility'
+        const ruleKey = `${b.store_id}_${b.product_variant_id}`
+        const threshold = ruleMap.get(ruleKey) || ruleMap.get(`all_${b.product_variant_id}`) || 10
 
-        const prodName = (v?.products as { name?: string })?.name || '—'
-        const storeName = (b.stores as { name?: string })?.name || 'Default Store'
-
-        if (onHand <= 0) {
+        if (onHand === 0) {
           oosAlerts.push({
-            id: `oos_${b.store_id}_${b.product_variant_id}`,
+            id: `oos-${b.product_variant_id}-${b.store_id}`,
             type: 'out_of_stock',
             severity: 'critical',
-            title: 'Out of Stock',
-            sku: v?.sku || b.product_variant_id.slice(0, 8),
-            productName: prodName,
+            title: t('inventory.status.outOfStock', 'Out of Stock'),
+            sku: vInfo.sku,
+            productName: vInfo.name,
             storeName,
             onHand: 0,
-            threshold: reorderPoint,
-            suggestedAction: 'Create Requisition / PO',
+            threshold,
+            suggestedAction: t('inventory.alertsPage.reorderNow', 'Reorder Now'),
             actionUrl: '/purchase-requisitions',
           })
-        } else if (onHand < reorderPoint) {
+        } else if (onHand <= threshold) {
           lowStockAlerts.push({
-            id: `low_${b.store_id}_${b.product_variant_id}`,
+            id: `low-${b.product_variant_id}-${b.store_id}`,
             type: 'low_stock',
             severity: 'warning',
-            title: 'Below Safety Stock',
-            sku: v?.sku || b.product_variant_id.slice(0, 8),
-            productName: prodName,
+            title: t('inventory.status.lowStock', 'Low Stock'),
+            sku: vInfo.sku,
+            productName: vInfo.name,
             storeName,
             onHand,
-            threshold: reorderPoint,
-            suggestedAction: 'Transfer Stock / Reorder',
-            actionUrl: '/stock-transfers',
+            threshold,
+            suggestedAction: t('inventory.alertsPage.reorderNow', 'Reorder Now'),
+            actionUrl: '/purchase-requisitions',
           })
         }
       }
 
+      // Expiring batches
       for (const batch of batches || []) {
         if (!batch.expiry_date) continue
         const exp = new Date(batch.expiry_date)
-        const diffDays = Math.ceil((exp.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-
-        if (diffDays <= 30) {
+        const vInfo = variantMap.get(batch.product_variant_id) || {
+          sku: 'BATCH',
+          name: 'Batch Product',
+        }
+        if (exp <= in30Days) {
           expiringAlerts.push({
-            id: `exp_${batch.id}`,
+            id: `exp-${batch.id}`,
             type: 'expiry',
-            severity: diffDays < 0 ? 'critical' : 'warning',
-            title: diffDays < 0 ? 'Batch Expired' : 'Expiring Soon',
-            sku: batch.batch_number || batch.id.slice(0, 8),
-            productName: `Batch #${batch.batch_number || batch.id.slice(0, 8)}`,
+            severity: exp < now ? 'critical' : 'warning',
+            title: exp < now ? t('inventory.expiryPage.urgency.expired', 'Expired') : t('inventory.alertsPage.expiry', 'Expiring Soon'),
+            sku: batch.batch_number || 'N/A',
+            productName: vInfo.name,
             storeName: 'Warehouse',
-            onHand: diffDays < 0 ? `Expired (${Math.abs(diffDays)}d ago)` : `${diffDays} days left`,
-            threshold: '30 Days Threshold',
-            suggestedAction: diffDays < 0 ? 'Write-off Adjustment' : 'Clearance Transfer',
-            actionUrl: diffDays < 0 ? '/stock-adjustments' : '/stock-transfers',
+            onHand: exp < now ? t('inventory.expiryPage.urgency.expired', 'Expired') : `${Math.ceil((exp.getTime() - now.getTime()) / 86400000)}d`,
+            threshold: new Date(batch.expiry_date).toLocaleDateString(),
+            suggestedAction: t('inventory.alertsPage.viewBatches', 'View Batches'),
+            actionUrl: '/inventory/expiry',
           })
         }
       }
 
-      const allAlerts = [...oosAlerts, ...lowStockAlerts, ...expiringAlerts]
-
       return {
-        allAlerts,
+        allAlerts: [...oosAlerts, ...lowStockAlerts, ...expiringAlerts],
         oosAlerts,
         lowStockAlerts,
         expiringAlerts,
@@ -185,10 +188,10 @@ export function InventoryAlertsPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
             <AlertTriangle className="h-6 w-6 text-amber-500" />
-            Inventory Alerts & Reorder Triage Center
+            {t('inventory.alertsPage.title', 'Inventory Alerts')}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Automated alerts for safety stock breaches, stockouts, and shelf-life risks.
+            {t('inventory.alertsPage.description', 'Automated alerts for safety stock breaches, stockouts, and shelf-life risks.')}
           </p>
         </div>
 
@@ -199,7 +202,7 @@ export function InventoryAlertsPage() {
           className="text-xs gap-1.5"
         >
           <RefreshCw className="h-3.5 w-3.5" />
-          Refresh Alerts
+          {t('inventory.alertsPage.refresh', 'Refresh Alerts')}
         </Button>
       </div>
 
@@ -212,12 +215,12 @@ export function InventoryAlertsPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-rose-700 dark:text-rose-400 uppercase tracking-wider">
-                Out of Stock (OOS)
+                {t('inventory.alertsPage.outOfStock', 'Out of Stock (OOS)')}
               </p>
               <p className="text-2xl font-bold text-rose-700 dark:text-rose-300">
-                {alertsData?.oosAlerts?.length || 0} SKUs
+                {alertsData?.oosAlerts?.length || 0} {t('inventory.alertsPage.sku', 'SKUs')}
               </p>
-              <p className="text-[11px] text-muted-foreground">Zero balance available</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.alertsPage.zeroBalance', 'Zero balance available')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-600">
               <TrendingDown className="h-6 w-6" />
@@ -232,12 +235,12 @@ export function InventoryAlertsPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider">
-                Below Safety Stock
+                {t('inventory.alertsPage.lowStock', 'Below Safety Stock')}
               </p>
               <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">
-                {alertsData?.lowStockAlerts?.length || 0} SKUs
+                {alertsData?.lowStockAlerts?.length || 0} {t('inventory.alertsPage.sku', 'SKUs')}
               </p>
-              <p className="text-[11px] text-muted-foreground">Breached minimum threshold</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.alertsPage.breachedMin', 'Breached minimum threshold')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-600">
               <ShieldAlert className="h-6 w-6" />
@@ -252,12 +255,12 @@ export function InventoryAlertsPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-orange-700 dark:text-orange-400 uppercase tracking-wider">
-                Batches Expiring (&lt;30d)
+                {t('inventory.alertsPage.expiry', 'Batches Expiring (<30d)')}
               </p>
               <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
-                {alertsData?.expiringAlerts?.length || 0} Batches
+                {alertsData?.expiringAlerts?.length || 0} {t('inventory.expiryPage.batches', 'Batches')}
               </p>
-              <p className="text-[11px] text-muted-foreground">Immediate clearance suggested</p>
+              <p className="text-[11px] text-muted-foreground">{t('inventory.alertsPage.immediateClearance', 'Immediate clearance suggested')}</p>
             </div>
             <div className="p-2.5 rounded-lg bg-orange-500/10 text-orange-600">
               <Clock className="h-6 w-6" />
@@ -270,50 +273,50 @@ export function InventoryAlertsPage() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4 max-w-lg mb-2">
           <TabsTrigger value="all" className="text-xs font-semibold">
-            All Alerts ({alertsData?.allAlerts?.length || 0})
+            {t('inventory.alertsPage.allAlerts', 'All Alerts')} ({alertsData?.allAlerts?.length || 0})
           </TabsTrigger>
           <TabsTrigger value="oos" className="text-xs font-semibold text-rose-600">
-            Out of Stock ({alertsData?.oosAlerts?.length || 0})
+            {t('inventory.alertsPage.outOfStock', 'Out of Stock')} ({alertsData?.oosAlerts?.length || 0})
           </TabsTrigger>
           <TabsTrigger value="low" className="text-xs font-semibold text-amber-600">
-            Low Stock ({alertsData?.lowStockAlerts?.length || 0})
+            {t('inventory.alertsPage.lowStock', 'Low Stock')} ({alertsData?.lowStockAlerts?.length || 0})
           </TabsTrigger>
           <TabsTrigger value="expiry" className="text-xs font-semibold text-orange-600">
-            Expiry ({alertsData?.expiringAlerts?.length || 0})
+            {t('inventory.alertsPage.expiry', 'Expiry')} ({alertsData?.expiringAlerts?.length || 0})
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value={activeTab} className="pt-2">
           <Card className="shadow-xs">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-bold">Active Inventory Violations</CardTitle>
+              <CardTitle className="text-base font-bold">{t('inventory.alertsPage.activeViolations', 'Active Inventory Violations')}</CardTitle>
               <CardDescription className="text-xs">
-                Items requiring attention or replenishment.
+                {t('inventory.alertsPage.itemsRequiringAttention', 'Items requiring attention or replenishment.')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               {isLoading ? (
                 <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-                  Scanning inventory triggers and safety limits...
+                  {t('inventory.alertsPage.scanning', 'Scanning inventory triggers and safety limits...')}
                 </div>
               ) : displayedAlerts.length === 0 ? (
                 <div className="p-12 text-center text-sm text-muted-foreground border rounded-lg bg-muted/10 flex flex-col items-center gap-2">
                   <CheckCircle2 className="h-8 w-8 text-emerald-500" />
-                  <p className="font-semibold text-foreground">No Active Inventory Alerts</p>
-                  <p className="text-xs">All stock levels and batches meet safety thresholds.</p>
+                  <p className="font-semibold text-foreground">{t('inventory.alertsPage.noAlertsTitle', 'No Active Inventory Alerts')}</p>
+                  <p className="text-xs">{t('inventory.alertsPage.noAlerts', 'All stock levels and batches meet safety thresholds.')}</p>
                 </div>
               ) : (
                 <div className="overflow-hidden rounded-md border">
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-muted/40">
-                        <TableHead className="text-xs">Alert Type</TableHead>
-                        <TableHead className="text-xs">SKU / Batch</TableHead>
-                        <TableHead className="text-xs">Product Name</TableHead>
-                        <TableHead className="text-xs">Store / Location</TableHead>
-                        <TableHead className="text-xs text-end">On-Hand / Status</TableHead>
-                        <TableHead className="text-xs text-end">Safety Min</TableHead>
-                        <TableHead className="text-xs text-end">Action Trigger</TableHead>
+                        <TableHead className="text-xs">{t('inventory.alertsPage.alertType', 'Alert Type')}</TableHead>
+                        <TableHead className="text-xs">{t('inventory.alertsPage.skuBatch', 'SKU / Batch')}</TableHead>
+                        <TableHead className="text-xs">{t('inventory.alertsPage.product', 'Product Name')}</TableHead>
+                        <TableHead className="text-xs">{t('inventory.alertsPage.facility', 'Store / Location')}</TableHead>
+                        <TableHead className="text-xs text-end">{t('inventory.alertsPage.onHandStatus', 'On-Hand / Status')}</TableHead>
+                        <TableHead className="text-xs text-end">{t('inventory.alertsPage.threshold', 'Safety Min')}</TableHead>
+                        <TableHead className="text-xs text-end">{t('inventory.alertsPage.action', 'Action Trigger')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>

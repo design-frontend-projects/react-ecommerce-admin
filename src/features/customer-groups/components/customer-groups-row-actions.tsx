@@ -33,7 +33,7 @@ export function CustomerGroupRowActions<TData>({
         >
           <MoreHorizontal className='h-4 w-4' />
           <span className='sr-only'>
-            {t('customerGroups.rowActions.openMenu', 'Open menu')}
+            {t('common.openMenu', 'Open menu')}
           </span>
         </Button>
       </DropdownMenuTrigger>
@@ -45,7 +45,7 @@ export function CustomerGroupRowActions<TData>({
           }}
         >
           <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          {t('customerGroups.form.save', 'Edit')}
+          {t('common.edit', 'Edit')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -55,7 +55,7 @@ export function CustomerGroupRowActions<TData>({
           }}
         >
           <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-          {t('customerGroups.delete.confirm', 'Delete')}
+          {t('common.delete', 'Delete')}
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -1,9 +1,10 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import { type TFunction } from 'i18next'
 import { Checkbox } from '@/components/ui/checkbox'
 import { type Customer } from '../hooks/use-customers'
 import { CustomerRowActions } from './customer-row-actions'
 
-export const columns: ColumnDef<Customer>[] = [
+export const getColumns = (t: TFunction): ColumnDef<Customer>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -13,7 +14,7 @@ export const columns: ColumnDef<Customer>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t('common.selectAll', 'Select all')}
         className='translate-y-[2px]'
       />
     ),
@@ -21,7 +22,7 @@ export const columns: ColumnDef<Customer>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t('common.selectRow', 'Select row')}
         className='translate-y-[2px]'
       />
     ),
@@ -31,7 +32,7 @@ export const columns: ColumnDef<Customer>[] = [
   {
     accessorFn: (row) => `${row.first_name} ${row.last_name}`,
     id: 'name',
-    header: 'Name',
+    header: t('customers.columns.name', 'Customer Name'),
     cell: ({ row }) => (
       <div className='font-medium'>{row.getValue('name')}</div>
     ),
@@ -39,15 +40,15 @@ export const columns: ColumnDef<Customer>[] = [
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: t('customers.columns.email', 'Email'),
   },
   {
     accessorKey: 'phone',
-    header: 'Phone',
+    header: t('customers.columns.phone', 'Phone'),
   },
   {
     accessorKey: 'created_at',
-    header: 'Joined',
+    header: t('customers.columns.joined', 'Joined'),
     cell: ({ row }) =>
       new Date(row.getValue('created_at')).toLocaleDateString(),
   },
@@ -56,3 +57,6 @@ export const columns: ColumnDef<Customer>[] = [
     cell: ({ row }) => <CustomerRowActions row={row} />,
   },
 ]
+
+export const columns = getColumns((k: string) => k)
+

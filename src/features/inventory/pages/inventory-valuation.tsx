@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import {
   Download,
   DollarSign,
@@ -77,6 +78,7 @@ interface StockBalanceRecord {
 }
 
 export function InventoryValuationPage() {
+  const { t } = useTranslation()
   const user = useAuthStore((state) => state.auth.user)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedWarehouse, setSelectedWarehouse] = useState('all')
@@ -217,10 +219,10 @@ export function InventoryValuationPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
             <DollarSign className="h-6 w-6 text-emerald-600" />
-            Inventory Asset Valuation Report
+            {t('inventory.valuationPage.title', 'Inventory Asset Valuation Report')}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Financial valuation of on-hand inventory across all warehouses and categories.
+            {t('inventory.valuationPage.description', 'Financial valuation of on-hand inventory across all warehouses and categories.')}
           </p>
         </div>
 
@@ -233,12 +235,12 @@ export function InventoryValuationPage() {
               onValueChange={(val: 'avco' | 'standard' | 'fifo') => setValuationMethod(val)}
             >
               <SelectTrigger className="h-8 text-xs font-semibold border-0 bg-transparent shadow-none">
-                <SelectValue placeholder="Valuation Method" />
+                <SelectValue placeholder={t('inventory.valuationPage.method', 'Valuation Method')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="avco">Weighted Average (AVCO)</SelectItem>
-                <SelectItem value="standard">Standard Cost</SelectItem>
-                <SelectItem value="fifo">FIFO Estimated</SelectItem>
+                <SelectItem value="avco">{t('inventory.valuationPage.avco', 'Weighted Average (AVCO)')}</SelectItem>
+                <SelectItem value="standard">{t('inventory.valuationPage.standard', 'Standard Cost')}</SelectItem>
+                <SelectItem value="fifo">{t('inventory.valuationPage.fifo', 'FIFO Estimated')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -251,7 +253,7 @@ export function InventoryValuationPage() {
             className="text-xs gap-1.5"
           >
             <Download className="h-3.5 w-3.5" />
-            Export Report (CSV)
+            {t('inventory.valuationPage.exportCsv', 'Export Report (CSV)')}
           </Button>
         </div>
       </div>
@@ -263,12 +265,14 @@ export function InventoryValuationPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
-                Total Asset Value
+                {t('inventory.valuationPage.totalValuation', 'Total Asset Value')}
               </p>
               <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">
                 ${totalValuation.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
-              <p className="text-[11px] text-muted-foreground">Based on {valuationMethod.toUpperCase()} method</p>
+              <p className="text-[11px] text-muted-foreground">
+                {t('inventory.valuationPage.basedOnMethod', { method: valuationMethod.toUpperCase(), defaultValue: `Based on ${valuationMethod.toUpperCase()} method` })}
+              </p>
             </div>
             <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-600">
               <DollarSign className="h-6 w-6" />
@@ -281,12 +285,14 @@ export function InventoryValuationPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Total Stock Units
+                {t('inventory.valuationPage.totalUnits', 'Total Stock Units')}
               </p>
               <p className="text-2xl font-bold text-foreground">
                 {totalUnits.toLocaleString()}
               </p>
-              <p className="text-[11px] text-muted-foreground">{filteredRows.length} Stock lines</p>
+              <p className="text-[11px] text-muted-foreground">
+                {t('inventory.valuationPage.stockLines', { count: filteredRows.length, defaultValue: `${filteredRows.length} Stock lines` })}
+              </p>
             </div>
             <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-600">
               <Boxes className="h-6 w-6" />
@@ -299,12 +305,14 @@ export function InventoryValuationPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Potential Sales Revenue
+                {t('inventory.valuationPage.potentialRevenue', 'Potential Sales Revenue')}
               </p>
               <p className="text-2xl font-bold text-foreground">
                 ${totalPotentialRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
-              <p className="text-[11px] text-muted-foreground">Gross retail realization</p>
+              <p className="text-[11px] text-muted-foreground">
+                {t('inventory.valuationPage.grossRetail', 'Gross retail realization')}
+              </p>
             </div>
             <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-600">
               <PieIcon className="h-6 w-6" />
@@ -317,12 +325,14 @@ export function InventoryValuationPage() {
           <CardContent className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Projected Gross Margin
+                {t('inventory.valuationPage.potentialMargin', 'Projected Gross Margin')}
               </p>
               <p className="text-2xl font-bold text-foreground">
                 {averageMargin.toFixed(1)}%
               </p>
-              <p className="text-[11px] text-muted-foreground">Retail markup margin</p>
+              <p className="text-[11px] text-muted-foreground">
+                {t('inventory.valuationPage.retailMarkup', 'Retail markup margin')}
+              </p>
             </div>
             <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-600">
               <Building2 className="h-6 w-6" />
@@ -335,7 +345,7 @@ export function InventoryValuationPage() {
       <FilterBar
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
-        searchPlaceholder="Filter by SKU or Product name..."
+        searchPlaceholder={t('inventory.valuationPage.filterSearch', 'Filter by SKU or Product name...')}
         warehouseOptions={warehouses}
         selectedWarehouse={selectedWarehouse}
         onWarehouseChange={setSelectedWarehouse}
@@ -349,37 +359,37 @@ export function InventoryValuationPage() {
       <Card className="shadow-xs">
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-base font-bold">Inventory Valuation Breakdown</CardTitle>
+            <CardTitle className="text-base font-bold">{t('inventory.valuationPage.breakdown', 'Inventory Valuation Breakdown')}</CardTitle>
             <CardDescription className="text-xs">
-              Detailed unit costs and total valuation by SKU and location.
+              {t('inventory.valuationPage.breakdownDesc', 'Detailed unit costs and total valuation by SKU and location.')}
             </CardDescription>
           </div>
           <Badge variant="secondary" className="text-xs font-bold">
-            {filteredRows.length} Items Listed
+            {t('inventory.valuationPage.itemsListed', { count: filteredRows.length, defaultValue: `${filteredRows.length} Items Listed` })}
           </Badge>
         </CardHeader>
         <CardContent>
           {isLoading ? (
             <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-              Computing inventory asset valuation...
+              {t('inventory.valuationPage.computing', 'Computing inventory asset valuation...')}
             </div>
           ) : filteredRows.length === 0 ? (
             <div className="p-12 text-center text-sm text-muted-foreground border rounded-lg bg-muted/10">
-              No inventory balances match the selected filters.
+              {t('inventory.valuationPage.noRecords', 'No inventory balances match the selected filters.')}
             </div>
           ) : (
             <div className="overflow-hidden rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/40">
-                    <TableHead className="text-xs">Store / Warehouse</TableHead>
-                    <TableHead className="text-xs">SKU</TableHead>
-                    <TableHead className="text-xs">Product Name</TableHead>
-                    <TableHead className="text-xs">Category</TableHead>
-                    <TableHead className="text-xs text-end">On-Hand Qty</TableHead>
-                    <TableHead className="text-xs text-end">Unit Cost</TableHead>
-                    <TableHead className="text-xs text-end">Total Valuation</TableHead>
-                    <TableHead className="text-xs text-end">% Share</TableHead>
+                    <TableHead className="text-xs">{t('inventory.valuationPage.facility', 'Store / Warehouse')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.valuationPage.sku', 'SKU')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.valuationPage.product', 'Product Name')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.valuationPage.category', 'Category')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.valuationPage.onHand', 'On-Hand Qty')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.valuationPage.cost', 'Unit Cost')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.valuationPage.totalCost', 'Total Valuation')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.valuationPage.share', '% Share')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

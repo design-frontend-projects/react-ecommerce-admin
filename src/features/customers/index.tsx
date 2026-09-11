@@ -32,7 +32,7 @@ export function Customers() {
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>{t('customers.title')}</h2>
             <p className='text-muted-foreground'>
-              Manage your customer database.
+              {t('customers.description')}
             </p>
           </div>
           <CustomersPrimaryButtons />
@@ -43,7 +43,7 @@ export function Customers() {
             <Loader2 className='h-8 w-8 animate-spin text-primary' />
           </div>
         ) : error ? (
-          <div className='text-destructive'>Error loading customers</div>
+          <div className='text-destructive'>{t('customers.errorLoading')}</div>
         ) : (
           <CustomersTable data={customers || []} />
         )}

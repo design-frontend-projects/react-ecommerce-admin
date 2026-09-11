@@ -22,7 +22,8 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type Customer } from '../hooks/use-customers'
-import { columns } from './customers-columns'
+import { getColumns } from './customers-columns'
+import { useMemo } from 'react'
 
 interface CustomersTableProps {
   data: Customer[]
@@ -33,6 +34,8 @@ export function CustomersTable({ data }: CustomersTableProps) {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,

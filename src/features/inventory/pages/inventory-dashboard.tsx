@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   Boxes,
   AlertTriangle,
@@ -59,6 +60,7 @@ interface PendingTransferRow {
 }
 
 export function InventoryDashboard() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.auth.user)
 
@@ -184,9 +186,11 @@ export function InventoryDashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Inventory Command Center</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {t('inventory.dashboard.title', 'Inventory Command Center')}
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Real-time stock valuation, warehouse distribution, movements, and alerts.
+            {t('inventory.dashboard.description', 'Real-time stock valuation, warehouse distribution, movements, and alerts.')}
           </p>
         </div>
 
@@ -199,7 +203,7 @@ export function InventoryDashboard() {
             className="text-xs gap-1.5"
           >
             <ArrowLeftRight className="h-3.5 w-3.5 text-blue-500" />
-            Transfers
+            {t('inventory.dashboard.transfers', 'Transfers')}
           </Button>
 
           <Button
@@ -209,7 +213,7 @@ export function InventoryDashboard() {
             className="text-xs gap-1.5"
           >
             <ClipboardCheck className="h-3.5 w-3.5 text-emerald-500" />
-            Adjustments
+            {t('stockBalances.buttons.newAdjustment', 'Adjustments')}
           </Button>
 
           <Button
@@ -219,7 +223,7 @@ export function InventoryDashboard() {
             className="text-xs gap-1.5"
           >
             <Clock className="h-3.5 w-3.5 text-amber-500" />
-            Expiry Tracker
+            {t('inventory.dashboard.expiry', 'Expiry Tracker')}
           </Button>
 
           <Button
@@ -229,7 +233,7 @@ export function InventoryDashboard() {
             className="text-xs gap-1.5"
           >
             <History className="h-3.5 w-3.5 text-purple-500" />
-            Stock Ledger
+            {t('inventory.dashboard.ledger', 'Stock Ledger')}
           </Button>
         </div>
       </div>
@@ -241,7 +245,7 @@ export function InventoryDashboard() {
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Total Stock Valuation
+                {t('inventory.dashboard.assetValuation', 'Total Stock Valuation')}
               </p>
               <p className="text-2xl font-bold text-foreground">
                 ${(dashboardData?.totalAssetValue || 0).toLocaleString(undefined, {
@@ -249,7 +253,7 @@ export function InventoryDashboard() {
                 })}
               </p>
               <p className="text-[11px] text-muted-foreground">
-                {(dashboardData?.totalOnHand || 0).toLocaleString()} Total Units in Hand
+                {(dashboardData?.totalOnHand || 0).toLocaleString()} {t('inventory.dashboard.totalOnHand', 'Total Units in Hand')}
               </p>
             </div>
             <div className="p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
@@ -263,7 +267,7 @@ export function InventoryDashboard() {
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Available vs Reserved
+                {t('inventory.dashboard.availableUnits', 'Available')} / {t('inventory.dashboard.reservedUnits', 'Reserved')}
               </p>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
@@ -274,7 +278,7 @@ export function InventoryDashboard() {
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground">
-                Ready for sales & fulfillment
+                {t('inventory.dashboard.availableUnits', 'Ready for sales & fulfillment')}
               </p>
             </div>
             <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
@@ -288,17 +292,19 @@ export function InventoryDashboard() {
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Low / Out of Stock
+                {t('inventory.dashboard.lowStock', 'Low Stock Items')}
               </p>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">
                   {dashboardData?.lowStockCount || 0}
                 </p>
                 <span className="text-xs text-rose-500 font-semibold">
-                  ({dashboardData?.outOfStockCount || 0} OOS)
+                  ({dashboardData?.outOfStockCount || 0} {t('inventory.status.outOfStock', 'OOS')})
                 </span>
               </div>
-              <p className="text-[11px] text-muted-foreground">Requires reorder action</p>
+              <p className="text-[11px] text-muted-foreground">
+                {t('inventory.alertsPage.suggestedAction', 'Requires reorder action')}
+              </p>
             </div>
             <div className="p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
               <AlertTriangle className="h-6 w-6" />
@@ -311,14 +317,14 @@ export function InventoryDashboard() {
           <CardContent className="p-5 flex items-center justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Batches Expiry Risk
+                {t('inventory.dashboard.expiringSoon', 'Batches Expiry Risk')}
               </p>
               <div className="flex items-baseline gap-2">
                 <p className="text-2xl font-bold text-rose-600 dark:text-rose-400">
                   {dashboardData?.expiringCount || 0}
                 </p>
                 <span className="text-xs text-muted-foreground">
-                  Expiring &lt;30d ({dashboardData?.expiredCount || 0} Expired)
+                  &lt;30d ({dashboardData?.expiredCount || 0} {t('inventory.dashboard.expired', 'Expired')})
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground">FIFO write-off / discount</p>
@@ -337,7 +343,7 @@ export function InventoryDashboard() {
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-bold flex items-center gap-2">
               <Warehouse className="h-4 w-4 text-primary" />
-              Stock Valuation by Store & Warehouse
+              {t('inventory.dashboard.warehouseDistribution', 'Stock Valuation by Store & Warehouse')}
             </CardTitle>
             <CardDescription className="text-xs">
               Total monetary inventory value held across active store locations.
@@ -370,7 +376,9 @@ export function InventoryDashboard() {
         {/* Category Breakdown (Donut/Pie) */}
         <Card className="shadow-xs">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-bold">Category Distribution</CardTitle>
+            <CardTitle className="text-base font-bold">
+              {t('inventory.dashboard.categoryBreakdown', 'Category Distribution')}
+            </CardTitle>
             <CardDescription className="text-xs">
               Valuation share by product category.
             </CardDescription>
@@ -415,7 +423,9 @@ export function InventoryDashboard() {
         <Card className="shadow-xs">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
             <div>
-              <CardTitle className="text-base font-bold">Pending Stock Transfers</CardTitle>
+              <CardTitle className="text-base font-bold">
+                {t('inventory.dashboard.pendingTransfers', 'Pending Stock Transfers')}
+              </CardTitle>
               <CardDescription className="text-xs">
                 In-transit and unapproved transfer requests.
               </CardDescription>
@@ -426,7 +436,7 @@ export function InventoryDashboard() {
               onClick={() => navigate({ to: '/stock-transfers' })}
               className="text-xs h-8"
             >
-              View All
+              {t('inventory.dashboard.viewAll', 'View All')}
             </Button>
           </CardHeader>
           <CardContent>
@@ -460,7 +470,9 @@ export function InventoryDashboard() {
         {/* Quick Inventory Tools Banner */}
         <Card className="shadow-xs bg-linear-to-br from-primary/5 via-background to-muted/30">
           <CardHeader>
-            <CardTitle className="text-base font-bold">Inventory Master Utilities</CardTitle>
+            <CardTitle className="text-base font-bold">
+              {t('inventory.dashboard.quickActions', 'Inventory Master Utilities')}
+            </CardTitle>
             <CardDescription className="text-xs">
               Access audit ledgers, valuation computations, and reorder alerts.
             </CardDescription>
@@ -476,7 +488,7 @@ export function InventoryDashboard() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
-                    Inventory Valuation (AVCO / Standard)
+                    {t('inventory.valuationPage.title', 'Inventory Valuation')}
                   </p>
                   <p className="text-[11px] text-muted-foreground">
                     Generate multi-method asset valuation reports.
@@ -496,7 +508,7 @@ export function InventoryDashboard() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
-                    Inventory Alerts Center
+                    {t('inventory.alertsPage.title', 'Inventory Alerts')}
                   </p>
                   <p className="text-[11px] text-muted-foreground">
                     Safety stock violations, OOS, and reorder breaches.
@@ -516,7 +528,7 @@ export function InventoryDashboard() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
-                    Physical Stock Counting & Audits
+                    {t('stockBalances.buttons.newAdjustment', 'Physical Stock Counting & Audits')}
                   </p>
                   <p className="text-[11px] text-muted-foreground">
                     Barcode-assisted stocktaking with variance reviews.

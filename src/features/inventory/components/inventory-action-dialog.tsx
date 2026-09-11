@@ -5,6 +5,7 @@ import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Package, Layers } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -51,6 +52,7 @@ export function InventoryActionDialog({
   open,
   onOpenChange,
 }: Props) {
+  const { t } = useTranslation()
   const isEdit = !!currentRow
   const createMutation = useCreateInventory()
   const updateMutation = useUpdateInventory()
@@ -126,10 +128,10 @@ export function InventoryActionDialog({
           ...payload,
           inventory_id: currentRow.inventory_id,
         })
-        toast.success('Inventory updated successfully')
+        toast.success(t('inventory.toast.updated', 'Inventory updated successfully'))
       } else {
         await createMutation.mutateAsync(payload)
-        toast.success('Inventory record created successfully')
+        toast.success(t('inventory.toast.created', 'Inventory record created successfully'))
       }
 
       onOpenChange(false)
@@ -138,7 +140,7 @@ export function InventoryActionDialog({
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
-        toast.error('Failed to save inventory record')
+        toast.error(t('inventory.toast.saveFailed', 'Failed to save inventory record'))
       }
     }
   }
@@ -160,12 +162,14 @@ export function InventoryActionDialog({
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2'>
             <Package className='h-5 w-5 text-primary' />
-            {isEdit ? 'Edit Inventory Record' : 'Add Inventory Record'}
+            {isEdit
+              ? t('inventory.editRecord', 'Edit Inventory Record')
+              : t('inventory.addRecord', 'Add Inventory Record')}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Update stock counts, reorder thresholds, and product variant assignments.'
-              : 'Track on-hand stock and safety thresholds for catalog products and variants.'}
+              ? t('inventory.editRecordDesc', 'Update stock counts, reorder thresholds, and product variant assignments.')
+              : t('inventory.addRecordDesc', 'Track on-hand stock and safety thresholds for catalog products and variants.')}
           </DialogDescription>
         </DialogHeader>
 
@@ -182,10 +186,10 @@ export function InventoryActionDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className='flex items-center justify-between'>
-                    <span>Product *</span>
+                    <span>{t('inventory.form.product', 'Product')} *</span>
                     {selectedProduct?.has_variants && (
                       <Badge variant='outline' className='text-xs font-normal'>
-                        Has Variants
+                        {t('inventory.form.hasVariants', 'Has Variants')}
                       </Badge>
                     )}
                   </FormLabel>
@@ -203,8 +207,8 @@ export function InventoryActionDialog({
                         <SelectValue
                           placeholder={
                             isLoadingProducts
-                              ? 'Loading products...'
-                              : 'Select a product'
+                              ? t('inventory.form.loadingProducts', 'Loading products...')
+                              : t('inventory.form.selectProduct', 'Select a product')
                           }
                         />
                       </SelectTrigger>
@@ -237,10 +241,10 @@ export function InventoryActionDialog({
                 <FormItem>
                   <FormLabel className='flex items-center gap-1.5'>
                     <Layers className='h-4 w-4 text-muted-foreground' />
-                    <span>Product Variant</span>
+                    <span>{t('inventory.form.productVariant', 'Product Variant')}</span>
                     {hasVariants && (
                       <span className='text-xs text-muted-foreground font-normal'>
-                        (Recommended)
+                        {t('inventory.form.recommended', '(Recommended)')}
                       </span>
                     )}
                   </FormLabel>
@@ -260,12 +264,12 @@ export function InventoryActionDialog({
                         <SelectValue
                           placeholder={
                             !selectedProductId
-                              ? 'Select a product first'
+                              ? t('inventory.form.selectProductFirst', 'Select a product first')
                               : isLoadingVariants
-                              ? 'Loading variants...'
+                              ? t('inventory.form.loadingVariants', 'Loading variants...')
                               : hasVariants
-                              ? 'Select a variant'
-                              : 'No variants (Standard product)'
+                              ? t('inventory.form.selectVariant', 'Select a variant')
+                              : t('inventory.form.noVariantsStandard', 'No variants (Standard product)')
                           }
                         />
                       </SelectTrigger>
@@ -273,14 +277,14 @@ export function InventoryActionDialog({
                     <SelectContent>
                       <SelectItem value='none'>
                         <span className='text-muted-foreground'>
-                          -- Standard / Product Level (No Variant) --
+                          {t('inventory.form.noVariantOption', '-- Standard / Product Level (No Variant) --')}
                         </span>
                       </SelectItem>
                       {variants?.map((variant) => (
                         <SelectItem key={variant.id} value={variant.id}>
                           <div className='flex items-center gap-2'>
                             <span className='font-medium'>
-                              {variant.name || 'Default'}
+                              {variant.name || t('common.default', 'Default')}
                             </span>
                             <span className='text-xs text-muted-foreground font-mono'>
                               [{variant.sku}]
@@ -297,11 +301,11 @@ export function InventoryActionDialog({
                   </Select>
                   {hasVariants ? (
                     <FormDescription className='text-xs'>
-                      Select the specific SKU variant to track stock at the variant level.
+                      {t('inventory.form.variantDesc', 'Select the specific SKU variant to track stock at the variant level.')}
                     </FormDescription>
                   ) : selectedProductId ? (
                     <FormDescription className='text-xs text-muted-foreground'>
-                      This is a simple product with no variants defined.
+                      {t('inventory.form.simpleProductDesc', 'This is a simple product with no variants defined.')}
                     </FormDescription>
                   ) : null}
                   <FormMessage />
@@ -315,7 +319,7 @@ export function InventoryActionDialog({
               name='quantity'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>On-Hand Quantity *</FormLabel>
+                  <FormLabel>{t('inventory.form.onHandQuantity', 'On-Hand Quantity')} *</FormLabel>
                   <FormControl>
                     <Input
                       type='number'
@@ -341,7 +345,7 @@ export function InventoryActionDialog({
                 name='reorder_point'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reorder Point (Min)</FormLabel>
+                    <FormLabel>{t('inventory.form.reorderPoint', 'Reorder Point (Min)')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -357,7 +361,7 @@ export function InventoryActionDialog({
                       />
                     </FormControl>
                     <FormDescription className='text-[11px]'>
-                      Triggers low stock alert.
+                      {t('inventory.form.reorderPointDesc', 'Triggers low stock alert.')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -369,7 +373,7 @@ export function InventoryActionDialog({
                 name='max_quantity'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Max Stock Capacity</FormLabel>
+                    <FormLabel>{t('inventory.form.maxCapacity', 'Max Stock Capacity')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -384,7 +388,7 @@ export function InventoryActionDialog({
                       />
                     </FormControl>
                     <FormDescription className='text-[11px]'>
-                      Optional maximum ceiling.
+                      {t('inventory.form.maxCapacityDesc', 'Optional maximum ceiling.')}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -398,7 +402,7 @@ export function InventoryActionDialog({
               name='last_count_date'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Count / Verification Date</FormLabel>
+                  <FormLabel>{t('inventory.form.lastCountDate', 'Last Count / Verification Date')}</FormLabel>
                   <FormControl>
                     <Input
                       type='datetime-local'
@@ -429,7 +433,7 @@ export function InventoryActionDialog({
             onClick={() => onOpenChange(false)}
             disabled={isSubmitting}
           >
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </Button>
           <Button
             type='submit'
@@ -437,7 +441,9 @@ export function InventoryActionDialog({
             disabled={isSubmitting || !selectedProductId}
           >
             {isSubmitting && <Loader2 className='me-2 h-4 w-4 animate-spin' />}
-            {isEdit ? 'Save Changes' : 'Create Inventory'}
+            {isEdit
+              ? t('common.saveChanges', 'Save Changes')
+              : t('inventory.form.createInventory', 'Create Inventory')}
           </Button>
         </DialogFooter>
       </DialogContent>

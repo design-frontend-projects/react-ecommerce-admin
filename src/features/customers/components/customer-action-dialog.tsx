@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { z } from 'zod'
-import { useForm } from 'react-hook-form'
+import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
+import { type TFunction } from 'i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -38,27 +40,32 @@ import { useCustomerGroups } from '@/features/customer-groups/hooks/use-customer
 import { useCreateCustomer, useUpdateCustomer } from '../hooks/use-customers'
 import { useCustomersContext } from './customers-provider'
 
+const getFormSchema = (t: TFunction) =>
+  z.object({
+    first_name: z.string().min(1, t('customers.validation.firstNameRequired', 'First name is required')),
+    last_name: z.string().min(1, t('customers.validation.lastNameRequired', 'Last name is required')),
+    email: z
+      .string()
+      .email(t('customers.validation.invalidEmail', 'Invalid email address'))
+      .optional()
+      .or(z.literal('')),
+    phone: z.string().optional(),
+    address_line1: z.string().optional(),
+    address_line2: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    postal_code: z.string().optional(),
+    country: z.string().optional(),
+    date_of_birth: z.string().optional(),
+    loyalty_points: z.coerce.number().optional(),
+    is_active: z.boolean().default(true),
+    group_id: z.string().optional(),
+  })
 
-const formSchema = z.object({
-  first_name: z.string().min(1, 'First name is required'),
-  last_name: z.string().min(1, 'Last name is required'),
-  email: z.email('Invalid email address').optional().or(z.literal('')),
-  phone: z.string().optional(),
-  address_line1: z.string().optional(),
-  address_line2: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  postal_code: z.string().optional(),
-  country: z.string().optional(),
-  date_of_birth: z.string().optional(),
-  loyalty_points: z.coerce.number().optional(),
-  is_active: z.boolean().default(true),
-  group_id: z.string().optional(),
-})
-
-type CustomerFormValues = z.infer<typeof formSchema>
+type CustomerFormValues = z.infer<ReturnType<typeof getFormSchema>>
 
 export function CustomerActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useCustomersContext()
   const createMutation = useCreateCustomer()
   const updateMutation = useUpdateCustomer()
@@ -68,8 +75,10 @@ export function CustomerActionDialog() {
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
 
-  const form = useForm({
-    resolver: zodResolver(formSchema),
+  const formSchema = useMemo(() => getFormSchema(t), [t])
+
+  const form = useForm<CustomerFormValues>({
+    resolver: zodResolver(formSchema) as Resolver<CustomerFormValues>,
     defaultValues: {
       first_name: '',
       last_name: '',
@@ -137,18 +146,18 @@ export function CustomerActionDialog() {
           id: currentRow.id || (currentRow as any).customer_id,
           ...values,
         })
-        toast.success('Customer updated successfully')
+        toast.success(t('customers.toast.updated', 'Customer updated successfully'))
       } else {
         await createMutation.mutateAsync(values)
-        toast.success('Customer created successfully')
+        toast.success(t('customers.toast.created', 'Customer created successfully'))
       }
       setOpen(null)
     } catch (error: unknown) {
-      toast.error('Error', {
+      toast.error(t('customers.toast.error', 'Error'), {
         description:
           error && error instanceof Error
             ? error.message
-            : 'Something went wrong. Please try again.',
+            : t('common.errorOccurred', 'Something went wrong. Please try again.'),
       })
     }
   }
@@ -158,12 +167,14 @@ export function CustomerActionDialog() {
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Edit Customer' : 'Create Customer'}
+            {isEdit
+              ? t('customers.editCustomer', 'Edit Customer')
+              : t('customers.createCustomer', 'Create Customer')}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Edit the customer details below.'
-              : 'Add a new customer to your database.'}
+              ? t('customers.form.editDescription', 'Edit the customer details below.')
+              : t('customers.form.createDescription', 'Add a new customer to your database.')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -176,9 +187,12 @@ export function CustomerActionDialog() {
                 name='first_name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>{t('customers.form.firstName', 'First Name')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='First Name' {...field} />
+                      <Input
+                        placeholder={t('customers.form.firstNamePlaceholder', 'First Name')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -188,9 +202,12 @@ export function CustomerActionDialog() {
                 name='last_name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>{t('customers.form.lastName', 'Last Name')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Last Name' {...field} />
+                      <Input
+                        placeholder={t('customers.form.lastNamePlaceholder', 'Last Name')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -203,9 +220,13 @@ export function CustomerActionDialog() {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t('customers.form.email', 'Email')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Email' type='email' {...field} />
+                      <Input
+                        placeholder={t('customers.form.emailPlaceholder', 'Email')}
+                        type='email'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -215,7 +236,7 @@ export function CustomerActionDialog() {
                 name='phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>{t('customers.form.phone', 'Phone')}</FormLabel>
                     <FormControl>
                       <PhoneInput
                         value={field.value}
@@ -233,9 +254,12 @@ export function CustomerActionDialog() {
                 name='address_line1'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address Line 1</FormLabel>
+                    <FormLabel>{t('customers.form.addressLine1', 'Address Line 1')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Address Line 1' {...field} />
+                      <Input
+                        placeholder={t('customers.form.addressLine1Placeholder', 'Address Line 1')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -245,9 +269,12 @@ export function CustomerActionDialog() {
                 name='address_line2'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address Line 2</FormLabel>
+                    <FormLabel>{t('customers.form.addressLine2', 'Address Line 2')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Address Line 2' {...field} />
+                      <Input
+                        placeholder={t('customers.form.addressLine2Placeholder', 'Address Line 2')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -260,7 +287,7 @@ export function CustomerActionDialog() {
                 name='country'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Country</FormLabel>
+                    <FormLabel>{t('customers.form.country', 'Country')}</FormLabel>
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value)
@@ -271,7 +298,7 @@ export function CustomerActionDialog() {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select Country' />
+                          <SelectValue placeholder={t('customers.form.selectCountry', 'Select Country')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -290,7 +317,7 @@ export function CustomerActionDialog() {
                 name='city'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>{t('customers.form.city', 'City')}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -299,7 +326,7 @@ export function CustomerActionDialog() {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select City' />
+                          <SelectValue placeholder={t('customers.form.selectCity', 'Select City')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -318,9 +345,12 @@ export function CustomerActionDialog() {
                 name='state'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>State</FormLabel>
+                    <FormLabel>{t('customers.form.state', 'State')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='State' {...field} />
+                      <Input
+                        placeholder={t('customers.form.statePlaceholder', 'State')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -333,9 +363,12 @@ export function CustomerActionDialog() {
                 name='postal_code'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Postal Code</FormLabel>
+                    <FormLabel>{t('customers.form.postalCode', 'Postal Code')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Postal Code' {...field} />
+                      <Input
+                        placeholder={t('customers.form.postalCodePlaceholder', 'Postal Code')}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -348,11 +381,10 @@ export function CustomerActionDialog() {
                 name='date_of_birth'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date of Birth</FormLabel>
+                    <FormLabel>{t('customers.form.dateOfBirth', 'Date of Birth')}</FormLabel>
                     <FormControl>
                       <Input
                         type='date'
-                        placeholder='Date of Birth'
                         {...field}
                       />
                     </FormControl>
@@ -367,11 +399,11 @@ export function CustomerActionDialog() {
                 name='loyalty_points'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Loyalty Points</FormLabel>
+                    <FormLabel>{t('customers.form.loyaltyPoints', 'Loyalty Points')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
-                        placeholder='Loyalty Points'
+                        placeholder={t('customers.form.loyaltyPointsPlaceholder', 'Loyalty Points')}
                         {...field}
                       />
                     </FormControl>
@@ -394,10 +426,12 @@ export function CustomerActionDialog() {
                     />
                   </FormControl>
                   <div className='space-y-1 leading-none'>
-                    <FormLabel>Active Status</FormLabel>
+                    <FormLabel>{t('customers.form.activeStatus', 'Active Status')}</FormLabel>
                     <FormDescription>
-                      This customer will participate in the loyalty program and
-                      have analytics.
+                      {t(
+                        'customers.form.activeDesc',
+                        'This customer will participate in the loyalty program and have analytics.'
+                      )}
                     </FormDescription>
                   </div>
                 </FormItem>
@@ -411,15 +445,15 @@ export function CustomerActionDialog() {
                 onClick={() => setOpen(null)}
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
-                Cancel
+                {t('common.cancel', 'Cancel')}
               </Button>
               <Button
                 type='submit'
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending
-                  ? 'Saving...'
-                  : 'Save'}
+                  ? t('common.saving', 'Saving...')
+                  : t('common.save', 'Save')}
               </Button>
             </DialogFooter>
           </form>
@@ -437,6 +471,7 @@ interface CustomerGroupFieldProps {
 }
 
 function CustomerGroupField({ form }: CustomerGroupFieldProps) {
+  const { t } = useTranslation()
   const { data: groups, isLoading, isError } = useCustomerGroups()
 
   return (
@@ -446,8 +481,7 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
       render={({ field }) => (
         <FormItem>
           <div className='flex items-center justify-between'>
-            <FormLabel>Customer Group</FormLabel>
-
+            <FormLabel>{t('customers.form.group', 'Customer Group')}</FormLabel>
           </div>
           <FormControl>
             {isLoading ? (
@@ -460,11 +494,11 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
                 }}
               >
                 <SelectTrigger className='w-full'>
-                  <SelectValue placeholder='Select a customer group' />
+                  <SelectValue placeholder={t('customers.form.selectGroup', 'Select a customer group')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value='__none__'>
-                    <span className='text-muted-foreground'>No group</span>
+                    <span className='text-muted-foreground'>{t('customers.form.noGroup', 'No group')}</span>
                   </SelectItem>
                   {groups?.map((group) => {
                     const groupId = group.id || group.group_id
@@ -492,12 +526,15 @@ function CustomerGroupField({ form }: CustomerGroupFieldProps) {
           </FormControl>
           {isError && (
             <p className='text-xs text-destructive'>
-              Failed to load groups. Try again.
+              {t('customers.form.failedLoadGroups', 'Failed to load groups. Try again.')}
             </p>
           )}
           {!isLoading && groups?.length === 0 && (
             <FormDescription>
-              No groups defined yet. Click "New Group" to create one.
+              {t(
+                'customers.form.noGroupsDefined',
+                'No groups defined yet. Click "New Group" to create one.'
+              )}
             </FormDescription>
           )}
           <FormMessage />

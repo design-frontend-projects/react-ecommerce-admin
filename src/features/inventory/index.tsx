@@ -35,7 +35,7 @@ export function Inventory() {
               {t('inventory.title', 'Inventory Management')}
             </h2>
             <p className='text-muted-foreground'>
-              Manage stock levels, product variants, and reorder safety thresholds.
+              {t('inventory.description', 'Manage stock levels, product variants, and reorder safety thresholds.')}
             </p>
           </div>
           <InventoryPrimaryButtons />
@@ -48,9 +48,9 @@ export function Inventory() {
         ) : error ? (
           <Alert variant='destructive'>
             <AlertCircle className='h-4 w-4' />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>{t('common.error', 'Error')}</AlertTitle>
             <AlertDescription>
-              {error instanceof Error ? error.message : 'Failed to load inventory records'}
+              {error instanceof Error ? error.message : t('inventory.errorLoading', 'Failed to load inventory records')}
             </AlertDescription>
           </Alert>
         ) : (

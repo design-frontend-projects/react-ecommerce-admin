@@ -14,7 +14,7 @@ export const getColumns = (t: TFunction): ColumnDef<CustomerGroup>[] => [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t('common.selectAll', 'Select all')}
         className='translate-y-[2px]'
       />
     ),
@@ -22,7 +22,7 @@ export const getColumns = (t: TFunction): ColumnDef<CustomerGroup>[] => [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t('common.selectRow', 'Select row')}
         className='translate-y-[2px]'
       />
     ),

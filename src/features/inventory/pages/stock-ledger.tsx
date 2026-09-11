@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import {
   Download,
   History,
@@ -52,6 +53,7 @@ interface StoreLookupRow {
 }
 
 export function StockLedgerPage() {
+  const { t } = useTranslation()
   const user = useAuthStore((state) => state.auth.user)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedWarehouse, setSelectedWarehouse] = useState('all')
@@ -149,16 +151,19 @@ export function StockLedgerPage() {
     label: s.name || s.store_id,
   }))
 
-  const movementTypeOptions = [
-    { value: 'opening_stock', label: 'Opening Stock' },
-    { value: 'purchase', label: 'Purchase Receipt' },
-    { value: 'sale', label: 'Sales Order' },
-    { value: 'transfer_in', label: 'Transfer In' },
-    { value: 'transfer_out', label: 'Transfer Out' },
-    { value: 'adjustment_in', label: 'Adjustment (In)' },
-    { value: 'adjustment_out', label: 'Adjustment (Out)' },
-    { value: 'damage', label: 'Damaged / Write-off' },
-  ]
+  const movementTypeOptions = useMemo(
+    () => [
+      { value: 'opening_stock', label: t('inventory.ledgerPage.movementTypes.opening_stock', 'Opening Stock') },
+      { value: 'purchase', label: t('inventory.ledgerPage.movementTypes.purchase', 'Purchase Receipt') },
+      { value: 'sale', label: t('inventory.ledgerPage.movementTypes.sale', 'Sales Order') },
+      { value: 'transfer_in', label: t('inventory.ledgerPage.movementTypes.transfer_in', 'Transfer In') },
+      { value: 'transfer_out', label: t('inventory.ledgerPage.movementTypes.transfer_out', 'Transfer Out') },
+      { value: 'adjustment_in', label: t('inventory.ledgerPage.movementTypes.adjustment_in', 'Adjustment (In)') },
+      { value: 'adjustment_out', label: t('inventory.ledgerPage.movementTypes.adjustment_out', 'Adjustment (Out)') },
+      { value: 'damage', label: t('inventory.ledgerPage.movementTypes.damage', 'Damaged / Write-off') },
+    ],
+    [t]
+  )
 
   return (
     <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto">
@@ -167,10 +172,10 @@ export function StockLedgerPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
             <History className="h-6 w-6 text-primary" />
-            Stock Ledger & Audit Movements
+            {t('inventory.ledgerPage.title', 'Stock Ledger & Audit Movements')}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Complete chronological record of all stock inflows, outflows, and running balances.
+            {t('inventory.ledgerPage.description', 'Complete chronological record of all stock inflows, outflows, and running balances.')}
           </p>
         </div>
 
@@ -182,7 +187,7 @@ export function StockLedgerPage() {
           className="gap-2 text-xs"
         >
           <Download className="h-4 w-4" />
-          Export Ledger (CSV)
+          {t('inventory.ledgerPage.exportCsv', 'Export Ledger (CSV)')}
         </Button>
       </div>
 
@@ -190,7 +195,7 @@ export function StockLedgerPage() {
       <FilterBar
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
-        searchPlaceholder="Filter by SKU, Store, or Document Reference..."
+        searchPlaceholder={t('inventory.ledgerPage.filterSearch', 'Filter by SKU, Store, or Document Reference...')}
         warehouseOptions={warehouseOptions}
         selectedWarehouse={selectedWarehouse}
         onWarehouseChange={setSelectedWarehouse}
@@ -208,36 +213,36 @@ export function StockLedgerPage() {
       <Card className="shadow-xs">
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-base font-bold">Ledger Transactions</CardTitle>
+            <CardTitle className="text-base font-bold">{t('inventory.ledgerPage.transactions', 'Ledger Transactions')}</CardTitle>
             <CardDescription className="text-xs">
-              Showing {ledgerEntries.length} movement records.
+              {t('inventory.ledgerPage.showingRecords', { count: ledgerEntries.length, defaultValue: `Showing ${ledgerEntries.length} movement records.` })}
             </CardDescription>
           </div>
           <Badge variant="secondary" className="text-xs font-semibold">
-            {ledgerEntries.length} Records
+            {t('inventory.ledgerPage.recordsCount', { count: ledgerEntries.length, defaultValue: `${ledgerEntries.length} Records` })}
           </Badge>
         </CardHeader>
         <CardContent>
           {isLoading ? (
             <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-              Loading inventory movement ledger...
+              {t('inventory.ledgerPage.loadingLedger', 'Loading inventory movement ledger...')}
             </div>
           ) : ledgerEntries.length === 0 ? (
             <div className="p-12 text-center text-sm text-muted-foreground border rounded-lg bg-muted/10">
-              No inventory ledger movements match the selected filters.
+              {t('inventory.ledgerPage.noMovements', 'No inventory ledger movements match the selected filters.')}
             </div>
           ) : (
             <div className="overflow-hidden rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/40">
-                    <TableHead className="text-xs">Date / Time</TableHead>
-                    <TableHead className="text-xs">Movement Type</TableHead>
-                    <TableHead className="text-xs">Product Variant (SKU)</TableHead>
-                    <TableHead className="text-xs">Location / Store</TableHead>
-                    <TableHead className="text-xs text-end">In (+) / Out (-)</TableHead>
-                    <TableHead className="text-xs text-end">Running Balance</TableHead>
-                    <TableHead className="text-xs">Reference</TableHead>
+                    <TableHead className="text-xs">{t('inventory.ledgerPage.date', 'Date / Time')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.ledgerPage.type', 'Movement Type')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.ledgerPage.sku', 'Product Variant (SKU)')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.ledgerPage.facility', 'Location / Store')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.ledgerPage.inOut', 'In (+) / Out (-)')}</TableHead>
+                    <TableHead className="text-xs text-end">{t('inventory.ledgerPage.runningBalance', 'Running Balance')}</TableHead>
+                    <TableHead className="text-xs">{t('inventory.ledgerPage.reference', 'Reference')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -262,7 +267,10 @@ export function StockLedgerPage() {
                             ) : (
                               <ArrowUpRight className="h-3 w-3 mr-1 inline text-rose-600" />
                             )}
-                            {row.movement_type.replace('_', ' ')}
+                            {t(
+                              `inventory.ledgerPage.movementTypes.${row.movement_type}`,
+                              row.movement_type.replace('_', ' ')
+                            )}
                           </Badge>
                         </TableCell>
                         <TableCell className="font-medium">
