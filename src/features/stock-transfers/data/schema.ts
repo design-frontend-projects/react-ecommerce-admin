@@ -25,64 +25,113 @@ export const transferStatusSchema = z.enum([
 export type TransferStatus = z.infer<typeof transferStatusSchema>
 
 // ── Inputs ──
+const optionalUuid = z.preprocess(
+  (val) => (val === '' || val === undefined ? null : val),
+  z.string().uuid('Must be a valid UUID.').nullable().optional()
+)
+
 export const transferItemInputSchema = z.object({
   productVariantId: z.string().uuid('Please select a valid variant.'),
-  sourceLocationId: z.string().uuid().optional().nullable(),
-  destinationLocationId: z.string().uuid().optional().nullable(),
+  sourceLocationId: optionalUuid,
+  destinationLocationId: optionalUuid,
   qty: z.coerce.number().positive('Quantity must be greater than zero.'),
   unitCost: z.coerce.number().min(0, 'Cost must be non-negative.').optional().default(0),
   condition: stockConditionSchema.default('good'),
-  batchId: z.string().uuid().optional().nullable(),
-  serialId: z.string().uuid().optional().nullable(),
+  batchId: optionalUuid,
+  serialId: optionalUuid,
 })
 
 export const createTransferInputSchema = z
   .object({
     transferType: z.enum(['warehouse', 'store', 'branch']).default('warehouse'),
-    sourceWarehouseId: z.string().uuid().optional().nullable(),
-    destinationWarehouseId: z.string().uuid().optional().nullable(),
-    fromStoreId: z.string().uuid().optional().nullable(),
-    toStoreId: z.string().uuid().optional().nullable(),
-    fromBranchId: z.string().uuid().optional().nullable(),
-    toBranchId: z.string().uuid().optional().nullable(),
-    referenceNo: z.string().max(50).optional().nullable(),
-    notes: z.string().optional().nullable(),
+    sourceWarehouseId: optionalUuid,
+    destinationWarehouseId: optionalUuid,
+    fromStoreId: optionalUuid,
+    toStoreId: optionalUuid,
+    fromBranchId: optionalUuid,
+    toBranchId: optionalUuid,
+    referenceNo: z.preprocess(
+      (val) => (val === '' || val === undefined ? null : val),
+      z.string().max(50).nullable().optional()
+    ),
+    notes: z.preprocess(
+      (val) => (val === '' || val === undefined ? null : val),
+      z.string().nullable().optional()
+    ),
     items: z.array(transferItemInputSchema).min(1, 'Add at least one item to transfer.'),
   })
-  .refine(
-    (value) => {
-      if (value.transferType === 'warehouse') {
-        return (
-          Boolean(value.sourceWarehouseId) &&
-          Boolean(value.destinationWarehouseId) &&
-          value.sourceWarehouseId !== value.destinationWarehouseId
-        )
+  .superRefine((value, ctx) => {
+    if (value.transferType === 'warehouse') {
+      if (!value.sourceWarehouseId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Source warehouse is required.',
+          path: ['sourceWarehouseId'],
+        })
       }
-      if (value.transferType === 'store') {
-        return (
-          Boolean(value.fromStoreId) &&
-          Boolean(value.toStoreId) &&
-          value.fromStoreId !== value.toStoreId
-        )
+      if (!value.destinationWarehouseId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Destination warehouse is required.',
+          path: ['destinationWarehouseId'],
+        })
+      } else if (
+        value.sourceWarehouseId &&
+        value.sourceWarehouseId === value.destinationWarehouseId
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Destination warehouse must differ from source warehouse.',
+          path: ['destinationWarehouseId'],
+        })
       }
-      if (value.transferType === 'branch') {
-        return (
-          Boolean(value.fromBranchId) &&
-          Boolean(value.toBranchId) &&
-          value.fromBranchId !== value.toBranchId
-        )
+    } else if (value.transferType === 'store') {
+      if (!value.fromStoreId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Source store is required.',
+          path: ['fromStoreId'],
+        })
       }
-      const source =
-        value.sourceWarehouseId || value.fromStoreId || value.fromBranchId
-      const dest =
-        value.destinationWarehouseId || value.toStoreId || value.toBranchId
-      return Boolean(source && dest && source !== dest)
-    },
-    {
-      message: 'Source and destination must be selected and cannot be the same.',
-      path: ['destinationWarehouseId'],
+      if (!value.toStoreId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Destination store is required.',
+          path: ['toStoreId'],
+        })
+      } else if (value.fromStoreId && value.fromStoreId === value.toStoreId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Destination store must differ from source store.',
+          path: ['toStoreId'],
+        })
+      }
+    } else if (value.transferType === 'branch') {
+      if (!value.fromBranchId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Source branch is required.',
+          path: ['fromBranchId'],
+        })
+      }
+      if (!value.toBranchId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Destination branch is required.',
+          path: ['toBranchId'],
+        })
+      } else if (
+        value.fromBranchId &&
+        value.fromBranchId === value.toBranchId
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Destination branch must differ from source branch.',
+          path: ['toBranchId'],
+        })
+      }
     }
-  )
+  })
 
 export const updateTransferInputSchema = z.object({
   id: z.string().uuid(),

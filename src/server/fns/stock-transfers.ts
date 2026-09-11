@@ -53,6 +53,29 @@ function assertItems(items: TransferItemInput[]): void {
   }
 }
 
+function serializeTransfer<
+  T extends {
+    transfer_no?: bigint | number | string | null
+    stock_transfer_items?: Array<any>
+  },
+>(transfer: T) {
+  return {
+    ...transfer,
+    transfer_no:
+      transfer.transfer_no != null ? transfer.transfer_no.toString() : null,
+    ...(transfer.stock_transfer_items
+      ? {
+          stock_transfer_items: transfer.stock_transfer_items.map((it) => ({
+            ...it,
+            qty: Number(it.qty),
+            received_qty: Number(it.received_qty ?? 0),
+            unit_cost: Number(it.unit_cost ?? 0),
+          })),
+        }
+      : {}),
+  }
+}
+
 export async function listTransfers(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
   const transfers = await prisma.stock_transfers.findMany({
@@ -122,6 +145,7 @@ export async function listTransfers(authUserId: string) {
 
     return {
       ...t,
+      transfer_no: t.transfer_no != null ? t.transfer_no.toString() : null,
       from_store: fromStore
         ? { store_id: fromStore.store_id, name: fromStore.name }
         : null,
@@ -245,7 +269,7 @@ export async function getTransfer(authUserId: string, id: string) {
     ? branchMap.get(transfer.to_branch_id)
     : null
 
-  return {
+  return serializeTransfer({
     ...transfer,
     from_store: fromStore
       ? { store_id: fromStore.store_id, name: fromStore.name }
@@ -263,7 +287,7 @@ export async function getTransfer(authUserId: string, id: string) {
     _count: {
       stock_transfer_items: items.length,
     },
-  }
+  })
 }
 
 export async function createTransfer(
@@ -334,10 +358,10 @@ export async function createTransfer(
       where: { stock_transfer_id: created.id },
     })
 
-    return {
+    return serializeTransfer({
       ...created,
       stock_transfer_items: items,
-    }
+    })
   })
 }
 
@@ -398,10 +422,10 @@ export async function updateTransferDraft(
     const items = await tx.stock_transfer_items.findMany({
       where: { stock_transfer_id: id },
     })
-    return {
+    return serializeTransfer({
       ...updated,
       stock_transfer_items: items,
-    }
+    })
   })
 }
 
