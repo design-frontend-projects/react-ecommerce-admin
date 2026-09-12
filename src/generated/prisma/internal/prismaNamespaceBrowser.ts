@@ -259,6 +259,7 @@ export type BranchesScalarFieldEnum = (typeof BranchesScalarFieldEnum)[keyof typ
 
 export const CategoriesScalarFieldEnum = {
   name: 'name',
+  name_ar: 'name_ar',
   description: 'description',
   created_at: 'created_at',
   is_active: 'is_active',
@@ -266,7 +267,8 @@ export const CategoriesScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   created_by_user_id: 'created_by_user_id',
-  updated_by_user_id: 'updated_by_user_id'
+  updated_by_user_id: 'updated_by_user_id',
+  parent_id: 'parent_id'
 } as const
 
 export type CategoriesScalarFieldEnum = (typeof CategoriesScalarFieldEnum)[keyof typeof CategoriesScalarFieldEnum]

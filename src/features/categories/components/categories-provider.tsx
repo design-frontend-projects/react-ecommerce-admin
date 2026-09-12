@@ -8,6 +8,8 @@ interface CategoriesContextType {
   setOpen: (type: CategoriesDialogType) => void
   currentRow: Category | null
   setCurrentRow: (row: Category | null) => void
+  presetParentId: string | null
+  setPresetParentId: (id: string | null) => void
 }
 
 const CategoriesContext = React.createContext<CategoriesContextType | null>(
@@ -21,11 +23,13 @@ interface CategoriesProviderProps {
 export function CategoriesProvider({ children }: CategoriesProviderProps) {
   const [open, setOpen] = useState<CategoriesDialogType>(null)
   const [currentRow, setCurrentRow] = useState<Category | null>(null)
+  const [presetParentId, setPresetParentId] = useState<string | null>(null)
 
   const handleSetOpen = useCallback((type: CategoriesDialogType) => {
     setOpen(type)
     if (type === null) {
       setCurrentRow(null)
+      setPresetParentId(null)
     }
   }, [])
 
@@ -35,8 +39,10 @@ export function CategoriesProvider({ children }: CategoriesProviderProps) {
       setOpen: handleSetOpen,
       currentRow,
       setCurrentRow,
+      presetParentId,
+      setPresetParentId,
     }),
-    [open, currentRow, handleSetOpen]
+    [open, currentRow, presetParentId, handleSetOpen]
   )
 
   return (

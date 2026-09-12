@@ -5,6 +5,8 @@ import { useAuthEnabled } from '@/hooks/use-auth-query'
 export interface CategoryOption {
   id: string
   name: string
+  name_ar?: string | null
+  parent_id?: string | null
 }
 
 export interface BrandOption {
@@ -46,7 +48,7 @@ export function useCategoryOptions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('categories')
-        .select('id, name')
+        .select('id, name, name_ar, parent_id')
         .eq('is_active', true)
         .order('name')
 
