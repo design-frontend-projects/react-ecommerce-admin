@@ -46,34 +46,41 @@ export function ReplenishmentPrimaryButtons() {
           <RefreshCw
             className={`me-1 h-4 w-4 ${runCheck.isPending ? 'animate-spin' : ''}`}
           />
-          Run reorder check
+          {t('replenishment.runCheck', 'Run reorder check')}
         </Button>
         <Button
           onClick={() => setConvertOpen(true)}
           disabled={selectedIds.length === 0 || convertSuggestions.isPending}
         >
           <FileInput className='me-1 h-4 w-4' />
-          Convert to requisition
+          {t('replenishment.convert', 'Convert to requisition')}
         </Button>
       </div>
       <AlertDialog open={convertOpen} onOpenChange={setConvertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Convert to requisition?</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t('replenishment.convertDialog.title', 'Convert to requisition?')}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              {selectedIds.length} selected suggestion(s) will be combined into
-              a single purchase requisition and marked as converted.
+              {t(
+                'replenishment.convertDialog.desc',
+                '{{count}} selected suggestion(s) will be combined into a single purchase requisition and marked as converted.',
+                { count: selectedIds.length }
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t('replenishment.convertDialog.cancel', 'Cancel')}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 void handleConvert()
                 setConvertOpen(false)
               }}
             >
-              Convert
+              {t('replenishment.convertDialog.confirm', 'Convert')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

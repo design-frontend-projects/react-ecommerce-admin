@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 
@@ -32,6 +33,7 @@ interface POStatusBadgeProps {
 }
 
 export function POStatusBadge({ status, className }: POStatusBadgeProps) {
+  const { t } = useTranslation()
   const config = statusConfig[status] || statusConfig.pending
 
   return (
@@ -39,7 +41,7 @@ export function POStatusBadge({ status, className }: POStatusBadgeProps) {
       variant='secondary'
       className={cn('font-medium', config.className, className)}
     >
-      {config.label}
+      {t(`purchaseOrders.status.${status}`, config.label)}
     </Badge>
   )
 }

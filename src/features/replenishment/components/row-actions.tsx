@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { MoreHorizontal, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,6 +12,7 @@ import type { SuggestionListItem } from '../data/schema'
 import { useDismissSuggestion } from '../hooks/use-replenishment'
 
 export function SuggestionRowActions({ row }: { row: SuggestionListItem }) {
+  const { t } = useTranslation()
   const dismissSuggestion = useDismissSuggestion()
 
   if (row.status !== 'open') {
@@ -28,7 +30,7 @@ export function SuggestionRowActions({ row }: { row: SuggestionListItem }) {
         <DropdownMenuContent align='end'>
           <DropdownMenuItem onClick={() => dismissSuggestion.mutate(row.id)}>
             <XCircle className='me-2 h-4 w-4' />
-            Dismiss
+            {t('replenishment.actions.dismiss', 'Dismiss')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -2,6 +2,7 @@
 
 import { InventoryActionDialog } from './inventory-action-dialog'
 import { InventoryDeleteDialog } from './inventory-delete-dialog'
+import { InventoryDetailSheet } from './inventory-detail-sheet'
 import { useInventoryContext } from './inventory-provider'
 
 export function InventoryDialogs() {
@@ -20,6 +21,8 @@ export function InventoryDialogs() {
 
       {currentRow && (
         <>
+          <InventoryDetailSheet key={`inventory-detail-${currentRow.inventory_id}`} />
+
           <InventoryActionDialog
             key={`inventory-edit-${currentRow.inventory_id}`}
             open={open === 'edit'}

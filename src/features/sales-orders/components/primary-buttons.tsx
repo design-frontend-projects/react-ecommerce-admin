@@ -16,7 +16,7 @@ export function OrdersPrimaryButtons() {
         }}
       >
         <Plus className='me-1 h-4 w-4' />
-        New sales order
+        {t('salesOrders.actions.newOrder', 'New sales order')}
       </Button>
     </Can>
   )

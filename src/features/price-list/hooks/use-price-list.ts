@@ -86,6 +86,11 @@ const PRICE_LIST_SELECT_QUERY = `
       name,
       sku,
       barcode
+    ),
+    products (
+      id,
+      name,
+      sku
     )
   )
 `
@@ -198,7 +203,11 @@ export const usePriceListOptions = () => {
             name,
             sku,
             barcode,
-            is_active
+            is_active,
+            price_list_items (
+              price,
+              cost_price
+            )
           )
         `)
         .neq('is_deleted', true)
@@ -294,7 +303,7 @@ export const useCreatePriceListWithItems = () => {
         name: formData.name,
         code: formData.code || null,
         is_default: formData.is_default ?? false,
-        product_id: formData.product_id ? formData.product_id : null,
+        product_id: formData.product_id ? formData.product_id : (formData.items?.[0]?.product_id || null),
         price: formData.price !== undefined && formData.price !== null ? formData.price : null,
         type: formData.type || null,
         group_id: formData.group_id ? formData.group_id : null,
@@ -332,6 +341,7 @@ export const useCreatePriceListWithItems = () => {
         const itemsPayload = formData.items.map((item) => ({
           tenant_id: tenantId,
           price_list_id: priceListId,
+          product_id: item.product_id || null,
           product_variant_id: item.product_variant_id,
           price: item.price,
           cost_price: item.cost_price ?? 0,
@@ -393,7 +403,7 @@ export const useUpdatePriceListWithItems = () => {
         name: formData.name,
         code: formData.code || null,
         is_default: formData.is_default ?? false,
-        product_id: formData.product_id ? formData.product_id : null,
+        product_id: formData.product_id ? formData.product_id : (formData.items?.[0]?.product_id || null),
         price: formData.price !== undefined && formData.price !== null ? formData.price : null,
         type: formData.type || null,
         group_id: formData.group_id ? formData.group_id : null,
@@ -454,6 +464,7 @@ export const useUpdatePriceListWithItems = () => {
           itemsToUpdate.push({
             id: existingItemId,
             payload: {
+              product_id: item.product_id || null,
               price: item.price,
               cost_price: item.cost_price ?? 0,
               min_price: item.min_price ?? 0,
@@ -465,6 +476,7 @@ export const useUpdatePriceListWithItems = () => {
           itemsToInsert.push({
             tenant_id: tenantId,
             price_list_id: id,
+            product_id: item.product_id || null,
             product_variant_id: item.product_variant_id,
             price: item.price,
             cost_price: item.cost_price ?? 0,

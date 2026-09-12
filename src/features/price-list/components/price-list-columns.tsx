@@ -61,6 +61,9 @@ export const getColumns = (
         t('priceList.generalPriceList', { defaultValue: 'General Price List' })
       const code = row.original.code
       const isDefault = row.original.is_default
+      const items = row.original.price_list_items || []
+      const distinctProductCount = new Set(items.map((i) => i.product_id).filter(Boolean)).size
+
       return (
         <div className='flex flex-col gap-0.5'>
           <div className='flex items-center gap-2'>
@@ -78,12 +81,16 @@ export const getColumns = (
             {code && (
               <span className='font-mono font-medium uppercase'>{code}</span>
             )}
-            {row.original.products && (
+            {distinctProductCount > 0 ? (
+              <span>
+                • {distinctProductCount} {t('priceList.columns.productsCount', { defaultValue: 'Products' })}
+              </span>
+            ) : row.original.products ? (
               <span>
                 • {t('priceList.columns.product', { defaultValue: 'Product' })}:{' '}
                 {row.original.products.name}
               </span>
-            )}
+            ) : null}
           </div>
         </div>
       )
@@ -195,34 +202,58 @@ export const getColumns = (
   {
     accessorKey: 'price',
     header: t('priceList.columns.defaultPrice', {
-      defaultValue: 'Default List Price',
+      defaultValue: 'List Price',
     }),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('price'))
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-      return <div className='font-bold text-primary'>{formatted}</div>
+      const headerPrice = row.original.price != null ? parseFloat(String(row.original.price)) : null
+      const items = row.original.price_list_items || []
+      const itemPrices = items.map((i) => parseFloat(String(i.price))).filter((p) => !isNaN(p))
+
+      const formatCurrency = (val: number) =>
+        new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(val)
+
+      if (itemPrices.length > 0) {
+        const min = Math.min(...itemPrices)
+        const max = Math.max(...itemPrices)
+        if (min === max) {
+          return <div className='font-bold text-primary font-mono'>{formatCurrency(min)}</div>
+        }
+        return (
+          <div className='font-semibold text-primary font-mono text-xs'>
+            {formatCurrency(min)} – {formatCurrency(max)}
+          </div>
+        )
+      }
+
+      if (headerPrice != null && !isNaN(headerPrice)) {
+        return <div className='font-bold text-primary font-mono'>{formatCurrency(headerPrice)}</div>
+      }
+
+      return <div className='text-xs text-muted-foreground font-mono'>—</div>
     },
   },
   {
     id: 'variants_count',
     header: t('priceList.columns.variantRules', {
-      defaultValue: 'Variant Rules',
+      defaultValue: 'Priced Items',
     }),
     cell: ({ row }) => {
       const items = row.original.price_list_items || []
+      const distinctProductCount = new Set(items.map((i) => i.product_id).filter(Boolean)).size
+
       return (
-        <div className='flex items-center gap-1'>
+        <div className='flex items-center gap-1.5'>
           <Layers className='h-3.5 w-3.5 text-muted-foreground' />
           {items.length > 0 ? (
             <Badge
               variant='secondary'
               className='font-mono text-xs font-medium'
             >
-              {items.length}{' '}
-              {t('priceList.columns.priced', { defaultValue: 'priced' })}
+              {items.length} {t('priceList.columns.itemsCount', { defaultValue: 'items' })}
+              {distinctProductCount > 1 && ` (${distinctProductCount} prods)`}
             </Badge>
           ) : (
             <span className='text-xs text-muted-foreground'>

@@ -26,10 +26,9 @@ function PurchaseOrdersContent() {
     <Main>
       <div className='mb-2 flex flex-wrap items-center justify-between gap-x-4'>
         <div>
-          <h2 className='text-2xl font-bold tracking-tight'>{t('purchaseOrders.title')}</h2>
+          <h2 className='text-2xl font-bold tracking-tight'>{t('purchaseOrders.title', 'Purchase Orders')}</h2>
           <p className='text-muted-foreground'>
-            Manage purchase orders, receive shipments, and track inventory
-            replenishment.
+            {t('purchaseOrders.description', 'Manage purchase orders, receive shipments, and track inventory replenishment.')}
           </p>
         </div>
         <POPrimaryButtons />
@@ -40,12 +39,12 @@ function PurchaseOrdersContent() {
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
         {isLoading && (
           <div className='py-12 text-center text-muted-foreground'>
-            Loading purchase orders...
+            {t('purchaseOrders.loading', 'Loading purchase orders...')}
           </div>
         )}
         {error && (
           <div className='py-12 text-center text-destructive'>
-            Failed to load purchase orders: {(error as Error).message}
+            {t('purchaseOrders.error', 'Failed to load purchase orders:')} {(error as Error).message}
           </div>
         )}
         {purchaseOrders && <POTable data={purchaseOrders} />}

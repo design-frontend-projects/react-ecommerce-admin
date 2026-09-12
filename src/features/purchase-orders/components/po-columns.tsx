@@ -21,16 +21,18 @@ function POCell({ po }: { po: PurchaseOrder }) {
   )
 }
 
-export const poColumns: ColumnDef<PurchaseOrder>[] = [
+export const getPOColumns = (
+  t: (key: string, fallback: string) => string = (_k, fallback) => fallback
+): ColumnDef<PurchaseOrder>[] => [
   {
     accessorKey: 'po_id',
-    header: 'PO #',
+    header: t('purchaseOrders.columns.poNumber', 'PO #'),
     cell: ({ row }) => <POCell po={row.original} />,
     size: 100,
   },
   {
     accessorKey: 'suppliers',
-    header: 'Supplier',
+    header: t('purchaseOrders.columns.supplier', 'Supplier'),
     cell: ({ row }) =>
       row.original.suppliers?.name || (
         <span className='text-muted-foreground'>—</span>
@@ -42,7 +44,7 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
   },
   {
     accessorKey: 'order_date',
-    header: 'Order Date',
+    header: t('purchaseOrders.columns.orderDate', 'Order Date'),
     cell: ({ row }) => {
       try {
         return format(
@@ -57,7 +59,7 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
   },
   {
     accessorKey: 'expected_delivery_date',
-    header: 'Expected Delivery',
+    header: t('purchaseOrders.columns.expectedDelivery', 'Expected Delivery'),
     cell: ({ row }) => {
       if (!row.original.expected_delivery_date) {
         return <span className='text-muted-foreground'>—</span>
@@ -74,7 +76,7 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: t('purchaseOrders.columns.status', 'Status'),
     cell: ({ row }) => <POStatusBadge status={row.original.status} />,
     filterFn: (row, _id, filterValue: string[]) => {
       if (!filterValue || filterValue.length === 0) return true
@@ -83,7 +85,7 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
   },
   {
     accessorKey: 'total_amount',
-    header: () => <div className='text-right'>Total</div>,
+    header: () => <div className='text-right'>{t('purchaseOrders.columns.total', 'Total')}</div>,
     cell: ({ row }) => (
       <div className='text-right font-medium'>
         ${Number(row.original.total_amount || 0).toFixed(2)}
@@ -96,3 +98,5 @@ export const poColumns: ColumnDef<PurchaseOrder>[] = [
     size: 50,
   },
 ]
+
+export const poColumns = getPOColumns()

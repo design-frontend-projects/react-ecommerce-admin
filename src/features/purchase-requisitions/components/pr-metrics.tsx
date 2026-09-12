@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   FileText,
   Clock,
@@ -13,6 +14,7 @@ interface PRMetricsProps {
 }
 
 export function PRMetrics({ data }: PRMetricsProps) {
+  const { t } = useTranslation()
   const metrics = useMemo(() => {
     const total = data.length
     let drafts = 0
@@ -44,7 +46,7 @@ export function PRMetrics({ data }: PRMetricsProps) {
           </div>
           <div className='min-w-0 flex-1'>
             <p className='text-xs font-medium text-muted-foreground truncate'>
-              Total Requisitions
+              {t('purchaseRequisitions.metrics.total', 'Total Requisitions')}
             </p>
             <p className='text-xl font-bold tracking-tight'>{metrics.total}</p>
           </div>
@@ -58,7 +60,7 @@ export function PRMetrics({ data }: PRMetricsProps) {
           </div>
           <div className='min-w-0 flex-1'>
             <p className='text-xs font-medium text-muted-foreground truncate'>
-              Drafts
+              {t('purchaseRequisitions.metrics.drafts', 'Drafts')}
             </p>
             <p className='text-xl font-bold tracking-tight'>{metrics.drafts}</p>
           </div>
@@ -72,7 +74,7 @@ export function PRMetrics({ data }: PRMetricsProps) {
           </div>
           <div className='min-w-0 flex-1'>
             <p className='text-xs font-medium text-muted-foreground truncate'>
-              Pending Review
+              {t('purchaseRequisitions.metrics.pendingReview', 'Pending Review')}
             </p>
             <p className='text-xl font-bold tracking-tight text-blue-600 dark:text-blue-400'>
               {metrics.submitted}
@@ -88,7 +90,7 @@ export function PRMetrics({ data }: PRMetricsProps) {
           </div>
           <div className='min-w-0 flex-1'>
             <p className='text-xs font-medium text-muted-foreground truncate'>
-              Ready to Convert
+              {t('purchaseRequisitions.metrics.readyToConvert', 'Ready to Convert')}
             </p>
             <p className='text-xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400'>
               {metrics.approved}
@@ -104,7 +106,7 @@ export function PRMetrics({ data }: PRMetricsProps) {
           </div>
           <div className='min-w-0 flex-1'>
             <p className='text-xs font-medium text-muted-foreground truncate'>
-              Converted to PO
+              {t('purchaseRequisitions.metrics.convertedToPO', 'Converted to PO')}
             </p>
             <p className='text-xl font-bold tracking-tight text-purple-600 dark:text-purple-400'>
               {metrics.converted}

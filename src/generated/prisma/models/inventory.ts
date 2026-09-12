@@ -28,7 +28,6 @@ export type AggregateInventory = {
 
 export type InventoryAvgAggregateOutputType = {
   inventory_id: number | null
-  quantity: number | null
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
@@ -36,7 +35,6 @@ export type InventoryAvgAggregateOutputType = {
 
 export type InventorySumAggregateOutputType = {
   inventory_id: number | null
-  quantity: number | null
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
@@ -44,8 +42,9 @@ export type InventorySumAggregateOutputType = {
 
 export type InventoryMinAggregateOutputType = {
   inventory_id: number | null
-  quantity: number | null
   store_id: string | null
+  warehouse_id: string | null
+  warehouse_location_id: string | null
   created_at: Date | null
   last_count_date: Date | null
   max_quantity: number | null
@@ -61,8 +60,9 @@ export type InventoryMinAggregateOutputType = {
 
 export type InventoryMaxAggregateOutputType = {
   inventory_id: number | null
-  quantity: number | null
   store_id: string | null
+  warehouse_id: string | null
+  warehouse_location_id: string | null
   created_at: Date | null
   last_count_date: Date | null
   max_quantity: number | null
@@ -78,8 +78,9 @@ export type InventoryMaxAggregateOutputType = {
 
 export type InventoryCountAggregateOutputType = {
   inventory_id: number
-  quantity: number
   store_id: number
+  warehouse_id: number
+  warehouse_location_id: number
   created_at: number
   last_count_date: number
   max_quantity: number
@@ -97,7 +98,6 @@ export type InventoryCountAggregateOutputType = {
 
 export type InventoryAvgAggregateInputType = {
   inventory_id?: true
-  quantity?: true
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
@@ -105,7 +105,6 @@ export type InventoryAvgAggregateInputType = {
 
 export type InventorySumAggregateInputType = {
   inventory_id?: true
-  quantity?: true
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
@@ -113,8 +112,9 @@ export type InventorySumAggregateInputType = {
 
 export type InventoryMinAggregateInputType = {
   inventory_id?: true
-  quantity?: true
   store_id?: true
+  warehouse_id?: true
+  warehouse_location_id?: true
   created_at?: true
   last_count_date?: true
   max_quantity?: true
@@ -130,8 +130,9 @@ export type InventoryMinAggregateInputType = {
 
 export type InventoryMaxAggregateInputType = {
   inventory_id?: true
-  quantity?: true
   store_id?: true
+  warehouse_id?: true
+  warehouse_location_id?: true
   created_at?: true
   last_count_date?: true
   max_quantity?: true
@@ -147,8 +148,9 @@ export type InventoryMaxAggregateInputType = {
 
 export type InventoryCountAggregateInputType = {
   inventory_id?: true
-  quantity?: true
   store_id?: true
+  warehouse_id?: true
+  warehouse_location_id?: true
   created_at?: true
   last_count_date?: true
   max_quantity?: true
@@ -251,8 +253,9 @@ export type inventoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type InventoryGroupByOutputType = {
   inventory_id: number
-  quantity: number | null
   store_id: string | null
+  warehouse_id: string | null
+  warehouse_location_id: string | null
   created_at: Date | null
   last_count_date: Date | null
   max_quantity: number | null
@@ -291,8 +294,9 @@ export type inventoryWhereInput = {
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   inventory_id?: Prisma.IntFilter<"inventory"> | number
-  quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   store_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
@@ -306,12 +310,16 @@ export type inventoryWhereInput = {
   updated_by_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   products?: Prisma.XOR<Prisma.ProductsNullableScalarRelationFilter, Prisma.productsWhereInput> | null
   product_variants?: Prisma.XOR<Prisma.Product_variantsNullableScalarRelationFilter, Prisma.product_variantsWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
 }
 
 export type inventoryOrderByWithRelationInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   last_count_date?: Prisma.SortOrderInput | Prisma.SortOrder
   max_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -325,6 +333,9 @@ export type inventoryOrderByWithRelationInput = {
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   products?: Prisma.productsOrderByWithRelationInput
   product_variants?: Prisma.product_variantsOrderByWithRelationInput
+  stores?: Prisma.storesOrderByWithRelationInput
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
+  warehouse_locations?: Prisma.warehouse_locationsOrderByWithRelationInput
 }
 
 export type inventoryWhereUniqueInput = Prisma.AtLeast<{
@@ -332,8 +343,9 @@ export type inventoryWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
   OR?: Prisma.inventoryWhereInput[]
   NOT?: Prisma.inventoryWhereInput | Prisma.inventoryWhereInput[]
-  quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   store_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
@@ -347,12 +359,16 @@ export type inventoryWhereUniqueInput = Prisma.AtLeast<{
   updated_by_user_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   products?: Prisma.XOR<Prisma.ProductsNullableScalarRelationFilter, Prisma.productsWhereInput> | null
   product_variants?: Prisma.XOR<Prisma.Product_variantsNullableScalarRelationFilter, Prisma.product_variantsWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
 }, "inventory_id">
 
 export type inventoryOrderByWithAggregationInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   last_count_date?: Prisma.SortOrderInput | Prisma.SortOrder
   max_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -376,8 +392,9 @@ export type inventoryScalarWhereWithAggregatesInput = {
   OR?: Prisma.inventoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.inventoryScalarWhereWithAggregatesInput | Prisma.inventoryScalarWhereWithAggregatesInput[]
   inventory_id?: Prisma.IntWithAggregatesFilter<"inventory"> | number
-  quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
@@ -392,8 +409,6 @@ export type inventoryScalarWhereWithAggregatesInput = {
 }
 
 export type inventoryCreateInput = {
-  quantity?: number | null
-  store_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -405,12 +420,16 @@ export type inventoryCreateInput = {
   updated_by_user_id?: string | null
   products?: Prisma.productsCreateNestedOneWithoutInventoryInput
   product_variants?: Prisma.product_variantsCreateNestedOneWithoutInventoryInput
+  stores?: Prisma.storesCreateNestedOneWithoutInventoryInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutInventoryInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventoryInput
 }
 
 export type inventoryUncheckedCreateInput = {
   inventory_id?: number
-  quantity?: number | null
   store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -425,8 +444,6 @@ export type inventoryUncheckedCreateInput = {
 }
 
 export type inventoryUpdateInput = {
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -438,12 +455,16 @@ export type inventoryUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateOneWithoutInventoryNestedInput
   product_variants?: Prisma.product_variantsUpdateOneWithoutInventoryNestedInput
+  stores?: Prisma.storesUpdateOneWithoutInventoryNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutInventoryNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventoryNestedInput
 }
 
 export type inventoryUncheckedUpdateInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -459,8 +480,9 @@ export type inventoryUncheckedUpdateInput = {
 
 export type inventoryCreateManyInput = {
   inventory_id?: number
-  quantity?: number | null
   store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -475,8 +497,6 @@ export type inventoryCreateManyInput = {
 }
 
 export type inventoryUpdateManyMutationInput = {
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -490,8 +510,9 @@ export type inventoryUpdateManyMutationInput = {
 
 export type inventoryUncheckedUpdateManyInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -517,8 +538,9 @@ export type inventoryOrderByRelationAggregateInput = {
 
 export type inventoryCountOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
@@ -534,7 +556,6 @@ export type inventoryCountOrderByAggregateInput = {
 
 export type inventoryAvgOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
@@ -542,8 +563,9 @@ export type inventoryAvgOrderByAggregateInput = {
 
 export type inventoryMaxOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
@@ -559,8 +581,9 @@ export type inventoryMaxOrderByAggregateInput = {
 
 export type inventoryMinOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  warehouse_location_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
@@ -576,7 +599,6 @@ export type inventoryMinOrderByAggregateInput = {
 
 export type inventorySumOrderByAggregateInput = {
   inventory_id?: Prisma.SortOrder
-  quantity?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
@@ -666,9 +688,133 @@ export type inventoryUncheckedUpdateManyWithoutProductsNestedInput = {
   deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
 }
 
+export type inventoryCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutStoresInput, Prisma.inventoryUncheckedCreateWithoutStoresInput> | Prisma.inventoryCreateWithoutStoresInput[] | Prisma.inventoryUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutStoresInput | Prisma.inventoryCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.inventoryCreateManyStoresInputEnvelope
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+}
+
+export type inventoryUncheckedCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutStoresInput, Prisma.inventoryUncheckedCreateWithoutStoresInput> | Prisma.inventoryCreateWithoutStoresInput[] | Prisma.inventoryUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutStoresInput | Prisma.inventoryCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.inventoryCreateManyStoresInputEnvelope
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+}
+
+export type inventoryUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutStoresInput, Prisma.inventoryUncheckedCreateWithoutStoresInput> | Prisma.inventoryCreateWithoutStoresInput[] | Prisma.inventoryUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutStoresInput | Prisma.inventoryCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.inventoryUpsertWithWhereUniqueWithoutStoresInput | Prisma.inventoryUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.inventoryCreateManyStoresInputEnvelope
+  set?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  disconnect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  delete?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  update?: Prisma.inventoryUpdateWithWhereUniqueWithoutStoresInput | Prisma.inventoryUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.inventoryUpdateManyWithWhereWithoutStoresInput | Prisma.inventoryUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
+}
+
+export type inventoryUncheckedUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutStoresInput, Prisma.inventoryUncheckedCreateWithoutStoresInput> | Prisma.inventoryCreateWithoutStoresInput[] | Prisma.inventoryUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutStoresInput | Prisma.inventoryCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.inventoryUpsertWithWhereUniqueWithoutStoresInput | Prisma.inventoryUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.inventoryCreateManyStoresInputEnvelope
+  set?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  disconnect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  delete?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  update?: Prisma.inventoryUpdateWithWhereUniqueWithoutStoresInput | Prisma.inventoryUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.inventoryUpdateManyWithWhereWithoutStoresInput | Prisma.inventoryUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
+}
+
+export type inventoryCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehousesInput, Prisma.inventoryUncheckedCreateWithoutWarehousesInput> | Prisma.inventoryCreateWithoutWarehousesInput[] | Prisma.inventoryUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehousesInput | Prisma.inventoryCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.inventoryCreateManyWarehousesInputEnvelope
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+}
+
+export type inventoryUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehousesInput, Prisma.inventoryUncheckedCreateWithoutWarehousesInput> | Prisma.inventoryCreateWithoutWarehousesInput[] | Prisma.inventoryUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehousesInput | Prisma.inventoryCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.inventoryCreateManyWarehousesInputEnvelope
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+}
+
+export type inventoryUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehousesInput, Prisma.inventoryUncheckedCreateWithoutWarehousesInput> | Prisma.inventoryCreateWithoutWarehousesInput[] | Prisma.inventoryUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehousesInput | Prisma.inventoryCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.inventoryUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.inventoryUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.inventoryCreateManyWarehousesInputEnvelope
+  set?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  disconnect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  delete?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  update?: Prisma.inventoryUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.inventoryUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.inventoryUpdateManyWithWhereWithoutWarehousesInput | Prisma.inventoryUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
+}
+
+export type inventoryUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehousesInput, Prisma.inventoryUncheckedCreateWithoutWarehousesInput> | Prisma.inventoryCreateWithoutWarehousesInput[] | Prisma.inventoryUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehousesInput | Prisma.inventoryCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.inventoryUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.inventoryUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.inventoryCreateManyWarehousesInputEnvelope
+  set?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  disconnect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  delete?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  update?: Prisma.inventoryUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.inventoryUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.inventoryUpdateManyWithWhereWithoutWarehousesInput | Prisma.inventoryUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
+}
+
+export type inventoryCreateNestedManyWithoutWarehouse_locationsInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.inventoryCreateWithoutWarehouse_locationsInput[] | Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput | Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.inventoryCreateManyWarehouse_locationsInputEnvelope
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+}
+
+export type inventoryUncheckedCreateNestedManyWithoutWarehouse_locationsInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.inventoryCreateWithoutWarehouse_locationsInput[] | Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput | Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.inventoryCreateManyWarehouse_locationsInputEnvelope
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+}
+
+export type inventoryUpdateManyWithoutWarehouse_locationsNestedInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.inventoryCreateWithoutWarehouse_locationsInput[] | Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput | Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput[]
+  upsert?: Prisma.inventoryUpsertWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.inventoryUpsertWithWhereUniqueWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.inventoryCreateManyWarehouse_locationsInputEnvelope
+  set?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  disconnect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  delete?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  update?: Prisma.inventoryUpdateWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.inventoryUpdateWithWhereUniqueWithoutWarehouse_locationsInput[]
+  updateMany?: Prisma.inventoryUpdateManyWithWhereWithoutWarehouse_locationsInput | Prisma.inventoryUpdateManyWithWhereWithoutWarehouse_locationsInput[]
+  deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
+}
+
+export type inventoryUncheckedUpdateManyWithoutWarehouse_locationsNestedInput = {
+  create?: Prisma.XOR<Prisma.inventoryCreateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput> | Prisma.inventoryCreateWithoutWarehouse_locationsInput[] | Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput[]
+  connectOrCreate?: Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput | Prisma.inventoryCreateOrConnectWithoutWarehouse_locationsInput[]
+  upsert?: Prisma.inventoryUpsertWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.inventoryUpsertWithWhereUniqueWithoutWarehouse_locationsInput[]
+  createMany?: Prisma.inventoryCreateManyWarehouse_locationsInputEnvelope
+  set?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  disconnect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  delete?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  connect?: Prisma.inventoryWhereUniqueInput | Prisma.inventoryWhereUniqueInput[]
+  update?: Prisma.inventoryUpdateWithWhereUniqueWithoutWarehouse_locationsInput | Prisma.inventoryUpdateWithWhereUniqueWithoutWarehouse_locationsInput[]
+  updateMany?: Prisma.inventoryUpdateManyWithWhereWithoutWarehouse_locationsInput | Prisma.inventoryUpdateManyWithWhereWithoutWarehouse_locationsInput[]
+  deleteMany?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
+}
+
 export type inventoryCreateWithoutProduct_variantsInput = {
-  quantity?: number | null
-  store_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -679,12 +825,16 @@ export type inventoryCreateWithoutProduct_variantsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   products?: Prisma.productsCreateNestedOneWithoutInventoryInput
+  stores?: Prisma.storesCreateNestedOneWithoutInventoryInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutInventoryInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventoryInput
 }
 
 export type inventoryUncheckedCreateWithoutProduct_variantsInput = {
   inventory_id?: number
-  quantity?: number | null
   store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -728,8 +878,9 @@ export type inventoryScalarWhereInput = {
   OR?: Prisma.inventoryScalarWhereInput[]
   NOT?: Prisma.inventoryScalarWhereInput | Prisma.inventoryScalarWhereInput[]
   inventory_id?: Prisma.IntFilter<"inventory"> | number
-  quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   store_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
@@ -744,8 +895,6 @@ export type inventoryScalarWhereInput = {
 }
 
 export type inventoryCreateWithoutProductsInput = {
-  quantity?: number | null
-  store_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -756,12 +905,16 @@ export type inventoryCreateWithoutProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   product_variants?: Prisma.product_variantsCreateNestedOneWithoutInventoryInput
+  stores?: Prisma.storesCreateNestedOneWithoutInventoryInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutInventoryInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventoryInput
 }
 
 export type inventoryUncheckedCreateWithoutProductsInput = {
   inventory_id?: number
-  quantity?: number | null
   store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -800,10 +953,188 @@ export type inventoryUpdateManyWithWhereWithoutProductsInput = {
   data: Prisma.XOR<Prisma.inventoryUpdateManyMutationInput, Prisma.inventoryUncheckedUpdateManyWithoutProductsInput>
 }
 
+export type inventoryCreateWithoutStoresInput = {
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedOneWithoutInventoryInput
+  product_variants?: Prisma.product_variantsCreateNestedOneWithoutInventoryInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutInventoryInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventoryInput
+}
+
+export type inventoryUncheckedCreateWithoutStoresInput = {
+  inventory_id?: number
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  product_id?: string | null
+  product_variant_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventoryCreateOrConnectWithoutStoresInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.inventoryCreateWithoutStoresInput, Prisma.inventoryUncheckedCreateWithoutStoresInput>
+}
+
+export type inventoryCreateManyStoresInputEnvelope = {
+  data: Prisma.inventoryCreateManyStoresInput | Prisma.inventoryCreateManyStoresInput[]
+  skipDuplicates?: boolean
+}
+
+export type inventoryUpsertWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.inventoryUpdateWithoutStoresInput, Prisma.inventoryUncheckedUpdateWithoutStoresInput>
+  create: Prisma.XOR<Prisma.inventoryCreateWithoutStoresInput, Prisma.inventoryUncheckedCreateWithoutStoresInput>
+}
+
+export type inventoryUpdateWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.inventoryUpdateWithoutStoresInput, Prisma.inventoryUncheckedUpdateWithoutStoresInput>
+}
+
+export type inventoryUpdateManyWithWhereWithoutStoresInput = {
+  where: Prisma.inventoryScalarWhereInput
+  data: Prisma.XOR<Prisma.inventoryUpdateManyMutationInput, Prisma.inventoryUncheckedUpdateManyWithoutStoresInput>
+}
+
+export type inventoryCreateWithoutWarehousesInput = {
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedOneWithoutInventoryInput
+  product_variants?: Prisma.product_variantsCreateNestedOneWithoutInventoryInput
+  stores?: Prisma.storesCreateNestedOneWithoutInventoryInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutInventoryInput
+}
+
+export type inventoryUncheckedCreateWithoutWarehousesInput = {
+  inventory_id?: number
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  product_id?: string | null
+  product_variant_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventoryCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.inventoryCreateWithoutWarehousesInput, Prisma.inventoryUncheckedCreateWithoutWarehousesInput>
+}
+
+export type inventoryCreateManyWarehousesInputEnvelope = {
+  data: Prisma.inventoryCreateManyWarehousesInput | Prisma.inventoryCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type inventoryUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.inventoryUpdateWithoutWarehousesInput, Prisma.inventoryUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.inventoryCreateWithoutWarehousesInput, Prisma.inventoryUncheckedCreateWithoutWarehousesInput>
+}
+
+export type inventoryUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.inventoryUpdateWithoutWarehousesInput, Prisma.inventoryUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type inventoryUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.inventoryScalarWhereInput
+  data: Prisma.XOR<Prisma.inventoryUpdateManyMutationInput, Prisma.inventoryUncheckedUpdateManyWithoutWarehousesInput>
+}
+
+export type inventoryCreateWithoutWarehouse_locationsInput = {
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedOneWithoutInventoryInput
+  product_variants?: Prisma.product_variantsCreateNestedOneWithoutInventoryInput
+  stores?: Prisma.storesCreateNestedOneWithoutInventoryInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutInventoryInput
+}
+
+export type inventoryUncheckedCreateWithoutWarehouse_locationsInput = {
+  inventory_id?: number
+  store_id?: string | null
+  warehouse_id?: string | null
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  product_id?: string | null
+  product_variant_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventoryCreateOrConnectWithoutWarehouse_locationsInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.inventoryCreateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput>
+}
+
+export type inventoryCreateManyWarehouse_locationsInputEnvelope = {
+  data: Prisma.inventoryCreateManyWarehouse_locationsInput | Prisma.inventoryCreateManyWarehouse_locationsInput[]
+  skipDuplicates?: boolean
+}
+
+export type inventoryUpsertWithWhereUniqueWithoutWarehouse_locationsInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.inventoryUpdateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedUpdateWithoutWarehouse_locationsInput>
+  create: Prisma.XOR<Prisma.inventoryCreateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedCreateWithoutWarehouse_locationsInput>
+}
+
+export type inventoryUpdateWithWhereUniqueWithoutWarehouse_locationsInput = {
+  where: Prisma.inventoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.inventoryUpdateWithoutWarehouse_locationsInput, Prisma.inventoryUncheckedUpdateWithoutWarehouse_locationsInput>
+}
+
+export type inventoryUpdateManyWithWhereWithoutWarehouse_locationsInput = {
+  where: Prisma.inventoryScalarWhereInput
+  data: Prisma.XOR<Prisma.inventoryUpdateManyMutationInput, Prisma.inventoryUncheckedUpdateManyWithoutWarehouse_locationsInput>
+}
+
 export type inventoryCreateManyProduct_variantsInput = {
   inventory_id?: number
-  quantity?: number | null
   store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -817,8 +1148,6 @@ export type inventoryCreateManyProduct_variantsInput = {
 }
 
 export type inventoryUpdateWithoutProduct_variantsInput = {
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -829,12 +1158,16 @@ export type inventoryUpdateWithoutProduct_variantsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateOneWithoutInventoryNestedInput
+  stores?: Prisma.storesUpdateOneWithoutInventoryNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutInventoryNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventoryNestedInput
 }
 
 export type inventoryUncheckedUpdateWithoutProduct_variantsInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -849,8 +1182,9 @@ export type inventoryUncheckedUpdateWithoutProduct_variantsInput = {
 
 export type inventoryUncheckedUpdateManyWithoutProduct_variantsInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -865,8 +1199,9 @@ export type inventoryUncheckedUpdateManyWithoutProduct_variantsInput = {
 
 export type inventoryCreateManyProductsInput = {
   inventory_id?: number
-  quantity?: number | null
   store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
   max_quantity?: number | null
@@ -880,8 +1215,6 @@ export type inventoryCreateManyProductsInput = {
 }
 
 export type inventoryUpdateWithoutProductsInput = {
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -892,12 +1225,16 @@ export type inventoryUpdateWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variants?: Prisma.product_variantsUpdateOneWithoutInventoryNestedInput
+  stores?: Prisma.storesUpdateOneWithoutInventoryNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutInventoryNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventoryNestedInput
 }
 
 export type inventoryUncheckedUpdateWithoutProductsInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -912,8 +1249,9 @@ export type inventoryUncheckedUpdateWithoutProductsInput = {
 
 export type inventoryUncheckedUpdateManyWithoutProductsInput = {
   inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
-  quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -926,12 +1264,214 @@ export type inventoryUncheckedUpdateManyWithoutProductsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type inventoryCreateManyStoresInput = {
+  inventory_id?: number
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  product_id?: string | null
+  product_variant_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventoryUpdateWithoutStoresInput = {
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateOneWithoutInventoryNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneWithoutInventoryNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutInventoryNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventoryNestedInput
+}
+
+export type inventoryUncheckedUpdateWithoutStoresInput = {
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type inventoryUncheckedUpdateManyWithoutStoresInput = {
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type inventoryCreateManyWarehousesInput = {
+  inventory_id?: number
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  product_id?: string | null
+  product_variant_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventoryUpdateWithoutWarehousesInput = {
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateOneWithoutInventoryNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneWithoutInventoryNestedInput
+  stores?: Prisma.storesUpdateOneWithoutInventoryNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutInventoryNestedInput
+}
+
+export type inventoryUncheckedUpdateWithoutWarehousesInput = {
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type inventoryUncheckedUpdateManyWithoutWarehousesInput = {
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type inventoryCreateManyWarehouse_locationsInput = {
+  inventory_id?: number
+  store_id?: string | null
+  warehouse_id?: string | null
+  created_at?: Date | string | null
+  last_count_date?: Date | string | null
+  max_quantity?: number | null
+  min_quantity?: number | null
+  reorder_point?: number | null
+  tenant_id: string
+  updated_at?: Date | string | null
+  product_id?: string | null
+  product_variant_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventoryUpdateWithoutWarehouse_locationsInput = {
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateOneWithoutInventoryNestedInput
+  product_variants?: Prisma.product_variantsUpdateOneWithoutInventoryNestedInput
+  stores?: Prisma.storesUpdateOneWithoutInventoryNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutInventoryNestedInput
+}
+
+export type inventoryUncheckedUpdateWithoutWarehouse_locationsInput = {
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type inventoryUncheckedUpdateManyWithoutWarehouse_locationsInput = {
+  inventory_id?: Prisma.IntFieldUpdateOperationsInput | number
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventory_id?: boolean
-  quantity?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
   max_quantity?: boolean
@@ -945,12 +1485,16 @@ export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updated_by_user_id?: boolean
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
+  stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.inventory$warehousesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.inventory$warehouse_locationsArgs<ExtArgs>
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventory_id?: boolean
-  quantity?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
   max_quantity?: boolean
@@ -964,12 +1508,16 @@ export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   updated_by_user_id?: boolean
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
+  stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.inventory$warehousesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.inventory$warehouse_locationsArgs<ExtArgs>
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   inventory_id?: boolean
-  quantity?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
   max_quantity?: boolean
@@ -983,12 +1531,16 @@ export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   updated_by_user_id?: boolean
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
+  stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.inventory$warehousesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.inventory$warehouse_locationsArgs<ExtArgs>
 }, ExtArgs["result"]["inventory"]>
 
 export type inventorySelectScalar = {
   inventory_id?: boolean
-  quantity?: boolean
   store_id?: boolean
+  warehouse_id?: boolean
+  warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
   max_quantity?: boolean
@@ -1002,18 +1554,27 @@ export type inventorySelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "quantity" | "store_id" | "created_at" | "last_count_date" | "max_quantity" | "min_quantity" | "reorder_point" | "tenant_id" | "updated_at" | "product_id" | "product_variant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory"]>
+export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "store_id" | "warehouse_id" | "warehouse_location_id" | "created_at" | "last_count_date" | "max_quantity" | "min_quantity" | "reorder_point" | "tenant_id" | "updated_at" | "product_id" | "product_variant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory"]>
 export type inventoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
+  stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.inventory$warehousesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.inventory$warehouse_locationsArgs<ExtArgs>
 }
 export type inventoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
+  stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.inventory$warehousesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.inventory$warehouse_locationsArgs<ExtArgs>
 }
 export type inventoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
+  stores?: boolean | Prisma.inventory$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.inventory$warehousesArgs<ExtArgs>
+  warehouse_locations?: boolean | Prisma.inventory$warehouse_locationsArgs<ExtArgs>
 }
 
 export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1021,11 +1582,15 @@ export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     products: Prisma.$productsPayload<ExtArgs> | null
     product_variants: Prisma.$product_variantsPayload<ExtArgs> | null
+    stores: Prisma.$storesPayload<ExtArgs> | null
+    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+    warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     inventory_id: number
-    quantity: number | null
     store_id: string | null
+    warehouse_id: string | null
+    warehouse_location_id: string | null
     created_at: Date | null
     last_count_date: Date | null
     max_quantity: number | null
@@ -1433,6 +1998,9 @@ export interface Prisma__inventoryClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   products<T extends Prisma.inventory$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory$productsArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   product_variants<T extends Prisma.inventory$product_variantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory$product_variantsArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stores<T extends Prisma.inventory$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouses<T extends Prisma.inventory$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouse_locations<T extends Prisma.inventory$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory$warehouse_locationsArgs<ExtArgs>>): Prisma.Prisma__warehouse_locationsClient<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1463,8 +2031,9 @@ export interface Prisma__inventoryClient<T, Null = never, ExtArgs extends runtim
  */
 export interface inventoryFieldRefs {
   readonly inventory_id: Prisma.FieldRef<"inventory", 'Int'>
-  readonly quantity: Prisma.FieldRef<"inventory", 'Int'>
   readonly store_id: Prisma.FieldRef<"inventory", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"inventory", 'String'>
+  readonly warehouse_location_id: Prisma.FieldRef<"inventory", 'String'>
   readonly created_at: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly last_count_date: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly max_quantity: Prisma.FieldRef<"inventory", 'Int'>
@@ -1912,6 +2481,63 @@ export type inventory$product_variantsArgs<ExtArgs extends runtime.Types.Extensi
    */
   include?: Prisma.product_variantsInclude<ExtArgs> | null
   where?: Prisma.product_variantsWhereInput
+}
+
+/**
+ * inventory.stores
+ */
+export type inventory$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stores
+   */
+  select?: Prisma.storesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stores
+   */
+  omit?: Prisma.storesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.storesInclude<ExtArgs> | null
+  where?: Prisma.storesWhereInput
+}
+
+/**
+ * inventory.warehouses
+ */
+export type inventory$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+}
+
+/**
+ * inventory.warehouse_locations
+ */
+export type inventory$warehouse_locationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouse_locations
+   */
+  select?: Prisma.warehouse_locationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouse_locations
+   */
+  omit?: Prisma.warehouse_locationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
+  where?: Prisma.warehouse_locationsWhereInput
 }
 
 /**

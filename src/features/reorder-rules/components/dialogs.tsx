@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +14,7 @@ import { useReorderRulesContext } from './provider'
 import { RuleFormDialog } from './rule-form-dialog'
 
 export function ReorderRulesDialogs() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useReorderRulesContext()
   const deleteRule = useDeleteRule()
 
@@ -36,23 +38,31 @@ export function ReorderRulesDialogs() {
           >
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Delete reorder rule?</AlertDialogTitle>
+                <AlertDialogTitle>
+                  {t('reorderRules.dialog.deleteTitle', 'Delete reorder rule?')}
+                </AlertDialogTitle>
                 <AlertDialogDescription>
-                  The rule for{' '}
-                  {currentRow.product_variants?.sku ?? 'this variant'} at{' '}
-                  {currentRow.stores?.name ?? 'this store'} will be permanently
-                  deleted. Its open suggestions are removed with it.
+                  {t(
+                    'reorderRules.dialog.deleteDesc',
+                    'The rule for {{sku}} at {{store}} will be permanently deleted. Its open suggestions are removed with it.',
+                    {
+                      sku: currentRow.product_variants?.sku ?? 'this variant',
+                      store: currentRow.stores?.name ?? 'this store',
+                    }
+                  )}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>
+                  {t('reorderRules.dialog.cancel', 'Cancel')}
+                </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={() => {
                     deleteRule.mutate(currentRow.id)
                     setOpen(null)
                   }}
                 >
-                  Delete
+                  {t('reorderRules.dialog.delete', 'Delete')}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { type ColumnDef } from '@tanstack/react-table'
+import type { TFunction } from 'i18next'
 import { Store, FileText } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
@@ -25,17 +26,20 @@ function PRCell({ req }: { req: RequisitionListItem }) {
   )
 }
 
-export const columns: ColumnDef<RequisitionListItem>[] = [
+export const getColumns = (t?: TFunction): ColumnDef<RequisitionListItem>[] => [
   {
     accessorKey: 'requisition_number',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Requisition #' />
+      <DataTableColumnHeader
+        column={column}
+        title={t ? t('purchaseRequisitions.columns.reqNumber', 'Requisition #') : 'Requisition #'}
+      />
     ),
     cell: ({ row }) => <PRCell req={row.original} />,
   },
   {
     id: 'store',
-    header: 'Destination',
+    header: t ? t('purchaseRequisitions.columns.destination', 'Destination') : 'Destination',
     cell: ({ row }) => {
       const storeName = row.original.stores?.name
       if (!storeName) {
@@ -52,7 +56,10 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader
+        column={column}
+        title={t ? t('purchaseRequisitions.columns.status', 'Status') : 'Status'}
+      />
     ),
     cell: ({ row }) => <PRStatusBadge status={row.original.status} />,
     filterFn: (row, id, value) => {
@@ -62,15 +69,15 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
   },
   {
     accessorKey: 'source',
-    header: 'Source',
+    header: t ? t('purchaseRequisitions.columns.source', 'Source') : 'Source',
     cell: ({ row }) => (
       <Badge
         variant='outline'
         className='text-[11px] font-normal capitalize'
       >
         {row.original.source === 'reorder_engine'
-          ? 'Reorder Engine'
-          : 'Manual'}
+          ? (t ? t('purchaseRequisitions.sources.reorderEngine', 'Reorder Engine') : 'Reorder Engine')
+          : (t ? t('purchaseRequisitions.sources.manual', 'Manual') : 'Manual')}
       </Badge>
     ),
   },
@@ -79,7 +86,7 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title='Est. Total'
+        title={t ? t('purchaseRequisitions.columns.totalValue', 'Est. Total') : 'Est. Total'}
         className='text-right justify-end'
       />
     ),
@@ -95,12 +102,12 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
   },
   {
     id: 'items',
-    header: 'Items',
+    header: t ? t('purchaseRequisitions.columns.items', 'Items') : 'Items',
     cell: ({ row }) => {
       const count = row.original._count?.purchase_requisition_items ?? 0
       return (
         <Badge variant='secondary' className='text-xs font-mono font-normal'>
-          {count} {count === 1 ? 'item' : 'items'}
+          {count} {count === 1 ? (t ? t('common.item', 'item') : 'item') : (t ? t('common.items', 'items') : 'items')}
         </Badge>
       )
     },
@@ -108,11 +115,14 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
   {
     accessorKey: 'needed_by',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Needed By' />
+      <DataTableColumnHeader
+        column={column}
+        title={t ? t('purchaseRequisitions.columns.neededBy', 'Needed By') : 'Needed By'}
+      />
     ),
     cell: ({ row }) => {
       if (!row.original.needed_by) {
-        return <span className='text-muted-foreground text-xs'>Flexible</span>
+        return <span className='text-muted-foreground text-xs'>{t ? t('common.flexible', 'Flexible') : 'Flexible'}</span>
       }
       try {
         return (
@@ -128,7 +138,10 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created' />
+      <DataTableColumnHeader
+        column={column}
+        title={t ? t('purchaseRequisitions.columns.date', 'Created') : 'Created'}
+      />
     ),
     cell: ({ row }) => {
       try {
@@ -152,3 +165,5 @@ export const columns: ColumnDef<RequisitionListItem>[] = [
     size: 50,
   },
 ]
+
+export const columns = getColumns()

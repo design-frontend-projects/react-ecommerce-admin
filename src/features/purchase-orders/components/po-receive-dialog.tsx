@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -43,6 +44,7 @@ function POReceiveDialogContent({
   currentRow,
   onClose,
 }: POReceiveDialogContentProps) {
+  const { t } = useTranslation()
   const poId = currentRow.id || currentRow.po_id || 0
   const { data: po } = usePurchaseOrder(poId)
   const batchReceive = useBatchReceiveItems()
@@ -58,7 +60,7 @@ function POReceiveDialogContent({
     if (!po) return
 
     if (!selectedBranchId) {
-      toast.error('Store location is required to receive inventory.')
+      toast.error(t('purchaseOrders.receiveDialog.storeRequired', 'Store location is required to receive inventory.'))
       return
     }
 
@@ -78,7 +80,7 @@ function POReceiveDialogContent({
         .filter((item) => item.qty_to_receive > 0)
 
       if (items.length === 0) {
-        toast.error('No items have a received quantity > 0.')
+        toast.error(t('purchaseOrders.receiveDialog.noItemsToReceive', 'No items have a received quantity > 0.'))
         return
       }
 
@@ -115,13 +117,13 @@ function POReceiveDialogContent({
 
       toast.success(
         allReceived
-          ? 'All items received — order complete!'
-          : 'Items partially received'
+          ? t('purchaseOrders.receiveDialog.allReceivedSuccess', 'All items received — order complete!')
+          : t('purchaseOrders.receiveDialog.partialReceivedSuccess', 'Items partially received')
       )
       onClose()
     } catch (error: unknown) {
-      toast.error('Error', {
-        description: (error as Error)?.message || 'Failed to receive items.',
+      toast.error(t('common.error', 'Error'), {
+        description: (error as Error)?.message || t('purchaseOrders.receiveDialog.failedToReceive', 'Failed to receive items.'),
       })
     }
   }
@@ -133,15 +135,15 @@ function POReceiveDialogContent({
     <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-2xl'>
       <DialogHeader>
         <DialogTitle className='flex items-center gap-2'>
-          Receive Items — {poLabel}
+          {t('purchaseOrders.receiveDialog.title', 'Receive Items')} — {poLabel}
           <POStatusBadge status={currentRow.status} />
         </DialogTitle>
         <DialogDescription>
-          Enter the quantity received for each item.
+          {t('purchaseOrders.receiveDialog.desc', 'Enter the quantity received for each item.')}
           {currentRow.suppliers?.name && (
             <>
               {' '}
-              Supplier: <strong>{currentRow.suppliers.name}</strong>
+              {t('purchaseOrders.columns.supplier', 'Supplier')}: <strong>{currentRow.suppliers.name}</strong>
             </>
           )}
         </DialogDescription>
@@ -149,7 +151,7 @@ function POReceiveDialogContent({
 
       <div className='mb-4'>
         <Label className='mb-2 block'>
-          Receive To Store / Branch <span className='text-red-500'>*</span>
+          {t('purchaseOrders.receiveDialog.receiveToStore', 'Receive To Store / Branch')} <span className='text-red-500'>*</span>
         </Label>
         <select
           className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
@@ -157,7 +159,7 @@ function POReceiveDialogContent({
           onChange={(e) => setSelectedBranchId(e.target.value)}
         >
           <option value='' disabled>
-            Select a branch...
+            {t('purchaseOrders.receiveDialog.selectBranch', 'Select a branch...')}
           </option>
           {branches?.map((branch) => (
             <option key={branch.id} value={branch.id}>
@@ -172,13 +174,13 @@ function POReceiveDialogContent({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Product</TableHead>
-                <TableHead className='w-20 text-center'>UOM</TableHead>
-                <TableHead className='text-right'>Ordered</TableHead>
+                <TableHead>{t('purchaseOrders.receiveDialog.product', 'Product')}</TableHead>
+                <TableHead className='w-20 text-center'>{t('purchaseOrders.receiveDialog.uom', 'UOM')}</TableHead>
+                <TableHead className='text-right'>{t('purchaseOrders.receiveDialog.ordered', 'Ordered')}</TableHead>
                 <TableHead className='text-right'>
-                  Previously Received
+                  {t('purchaseOrders.receiveDialog.previouslyReceived', 'Previously Received')}
                 </TableHead>
-                <TableHead className='text-right'>Receive Now</TableHead>
+                <TableHead className='text-right'>{t('purchaseOrders.receiveDialog.receiveNow', 'Receive Now')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -231,7 +233,7 @@ function POReceiveDialogContent({
                     <TableCell className='text-right'>
                       {remainingToReceive <= 0 ? (
                         <span className='inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-semibold text-emerald-500'>
-                          Fulfilled
+                          {t('purchaseOrders.receiveDialog.fulfilled', 'Fulfilled')}
                         </span>
                       ) : (
                         <Input
@@ -273,17 +275,17 @@ function POReceiveDialogContent({
       ) : (
         <div className='py-8 text-center'>
           <Label className='text-muted-foreground'>
-            No items found for this order.
+            {t('purchaseOrders.receiveDialog.noItemsFound', 'No items found for this order.')}
           </Label>
         </div>
       )}
 
       <DialogFooter>
         <Button variant='outline' onClick={onClose} disabled={isPending}>
-          Cancel
+          {t('common.cancel', 'Cancel')}
         </Button>
         <Button onClick={handleReceive} disabled={isPending}>
-          {isPending ? 'Processing...' : 'Confirm Receive'}
+          {isPending ? t('common.processing', 'Processing...') : t('purchaseOrders.receiveDialog.confirmReceive', 'Confirm Receive')}
         </Button>
       </DialogFooter>
     </DialogContent>

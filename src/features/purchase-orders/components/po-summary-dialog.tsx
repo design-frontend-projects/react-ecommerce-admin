@@ -16,6 +16,7 @@ import {
   PackageCheck,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -80,6 +81,7 @@ export function POSummaryDialog({
   onConfirmDraftSubmit,
   isSubmittingDraft,
 }: POSummaryDialogProps) {
+  const { t } = useTranslation()
   const { open: contextOpen, setOpen: setContextOpen, currentRow } = usePOContext()
   const [copied, setCopied] = useState(false)
 
@@ -103,12 +105,12 @@ export function POSummaryDialog({
 
   // Consolidate data into a uniform summary model
   const poNumber = isDraftMode
-    ? 'DRAFT PREVIEW'
+    ? t('purchaseOrders.summary.draftPreview', 'DRAFT PREVIEW')
     : `PO-${String(currentRow?.po_id || 0).padStart(4, '0')}`
 
   const status = isDraftMode ? 'pending' : fullPO?.status || currentRow?.status || 'pending'
   const supplierName = isDraftMode
-    ? draftData?.supplierName || 'Unspecified Supplier'
+    ? draftData?.supplierName || t('purchaseOrders.summary.unspecifiedSupplier', 'Unspecified Supplier')
     : fullPO?.suppliers?.name || currentRow?.suppliers?.name || '—'
 
   const orderDate = isDraftMode
@@ -180,10 +182,10 @@ export function POSummaryDialog({
     try {
       await navigator.clipboard.writeText(textLines.join('\n'))
       setCopied(true)
-      toast.success('Summary copied to clipboard')
+      toast.success(t('purchaseOrders.summary.copiedSuccess', 'Summary copied to clipboard'))
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      toast.error('Failed to copy summary')
+      toast.error(t('purchaseOrders.summary.copyFailed', 'Failed to copy summary'))
     }
   }
 
@@ -207,7 +209,7 @@ export function POSummaryDialog({
                 <div>
                   <div className='flex items-center gap-2'>
                     <DialogTitle className='text-xl font-bold tracking-tight'>
-                      Purchase Order Summary
+                      {t('purchaseOrders.summary.title', 'Purchase Order Summary')}
                     </DialogTitle>
                     <Badge
                       variant={isDraftMode ? 'outline' : 'secondary'}
@@ -218,8 +220,14 @@ export function POSummaryDialog({
                   </div>
                   <DialogDescription className='text-xs text-muted-foreground mt-0.5'>
                     {isDraftMode
-                      ? 'Review the purchase order details and line items before confirming.'
-                      : 'Complete breakdown and procurement specifications.'}
+                      ? t(
+                          'purchaseOrders.summary.draftDesc',
+                          'Review the purchase order details and line items before confirming.'
+                        )
+                      : t(
+                          'purchaseOrders.summary.viewDesc',
+                          'Complete breakdown and procurement specifications.'
+                        )}
                   </DialogDescription>
                 </div>
               </div>
@@ -240,7 +248,7 @@ export function POSummaryDialog({
                   ) : (
                     <Copy className='h-3.5 w-3.5 mr-1.5 text-muted-foreground' />
                   )}
-                  {copied ? 'Copied' : 'Copy'}
+                  {copied ? t('common.copied', 'Copied') : t('common.copy', 'Copy')}
                 </Button>
                 <Button
                   type='button'
@@ -250,7 +258,7 @@ export function POSummaryDialog({
                   onClick={handlePrint}
                 >
                   <Printer className='h-3.5 w-3.5 mr-1.5 text-muted-foreground' />
-                  Print
+                  {t('common.print', 'Print')}
                 </Button>
               </div>
             </div>
@@ -262,7 +270,7 @@ export function POSummaryDialog({
           {isLoadingPO && !isDraftMode ? (
             <div className='py-16 text-center text-sm text-muted-foreground'>
               <div className='inline-block h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent mb-2' />
-              <p>Loading purchase order details...</p>
+              <p>{t('purchaseOrders.summary.loading', 'Loading purchase order details...')}</p>
             </div>
           ) : (
             <div className='space-y-6'>
@@ -271,7 +279,7 @@ export function POSummaryDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
                     <Building2 className='h-3.5 w-3.5 text-primary' />
-                    <span>Supplier</span>
+                    <span>{t('purchaseOrders.fields.supplier', 'Supplier')}</span>
                   </div>
                   <p className='text-sm font-semibold truncate text-foreground'>
                     {supplierName}
@@ -281,7 +289,7 @@ export function POSummaryDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
                     <Calendar className='h-3.5 w-3.5 text-primary' />
-                    <span>Order Date</span>
+                    <span>{t('purchaseOrders.fields.orderDate', 'Order Date')}</span>
                   </div>
                   <p className='text-sm font-semibold text-foreground'>
                     {formatDateDisplay(orderDate)}
@@ -291,7 +299,7 @@ export function POSummaryDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
                     <Calendar className='h-3.5 w-3.5 text-amber-500' />
-                    <span>Expected Delivery</span>
+                    <span>{t('purchaseOrders.fields.expectedDelivery', 'Expected Delivery')}</span>
                   </div>
                   <p className='text-sm font-semibold text-foreground'>
                     {formatDateDisplay(expectedDeliveryDate)}
@@ -303,32 +311,32 @@ export function POSummaryDialog({
               <div className='grid grid-cols-3 gap-3 bg-muted/30 border rounded-xl p-4'>
                 <div className='flex flex-col'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center gap-1'>
-                    <Package className='h-3.5 w-3.5' /> Total Items
+                    <Package className='h-3.5 w-3.5' /> {t('purchaseOrders.summary.totalItems', 'Total Items')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-foreground'>
                     {totalItemsCount}
                   </span>
-                  <span className='text-[11px] text-muted-foreground'>Unique products</span>
+                  <span className='text-[11px] text-muted-foreground'>{t('purchaseOrders.summary.uniqueProducts', 'Unique products')}</span>
                 </div>
 
                 <div className='flex flex-col'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center gap-1'>
-                    <Boxes className='h-3.5 w-3.5' /> Total Units
+                    <Boxes className='h-3.5 w-3.5' /> {t('purchaseOrders.summary.totalUnits', 'Total Units')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-foreground'>
                     {totalQuantity}
                   </span>
-                  <span className='text-[11px] text-muted-foreground'>Ordered units</span>
+                  <span className='text-[11px] text-muted-foreground'>{t('purchaseOrders.summary.orderedUnits', 'Ordered units')}</span>
                 </div>
 
                 <div className='flex flex-col text-right sm:text-left'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center sm:justify-start justify-end gap-1'>
-                    <DollarSign className='h-3.5 w-3.5 text-primary' /> Total Cost
+                    <DollarSign className='h-3.5 w-3.5 text-primary' /> {t('purchaseOrders.summary.totalCost', 'Total Cost')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-primary'>
                     ${totalAmount.toFixed(2)}
                   </span>
-                  <span className='text-[11px] text-muted-foreground'>Estimated expenditure</span>
+                  <span className='text-[11px] text-muted-foreground'>{t('purchaseOrders.summary.estimatedExpenditure', 'Estimated expenditure')}</span>
                 </div>
               </div>
 
@@ -337,7 +345,7 @@ export function POSummaryDialog({
                 <div className='flex items-center justify-between'>
                   <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase flex items-center gap-1.5'>
                     <Layers className='h-3.5 w-3.5 text-primary' />
-                    Line Items Breakdown ({lineItems.length})
+                    {t('purchaseOrders.summary.lineItemsBreakdown', 'Line Items Breakdown')} ({lineItems.length})
                   </h4>
                 </div>
 
@@ -346,12 +354,12 @@ export function POSummaryDialog({
                     <TableHeader className='bg-muted/50'>
                       <TableRow>
                         <TableHead className='w-12 text-center'>#</TableHead>
-                        <TableHead>Product</TableHead>
-                        <TableHead>Variant / SKU</TableHead>
-                        <TableHead className='w-20 text-center'>UOM</TableHead>
-                        <TableHead className='w-24 text-center'>Qty</TableHead>
-                        <TableHead className='w-28 text-right'>Unit Cost</TableHead>
-                        <TableHead className='w-28 text-right'>Subtotal</TableHead>
+                        <TableHead>{t('purchaseOrders.lineItems.product', 'Product')}</TableHead>
+                        <TableHead>{t('purchaseOrders.summary.variantSku', 'Variant / SKU')}</TableHead>
+                        <TableHead className='w-20 text-center'>{t('purchaseOrders.lineItems.uom', 'UOM')}</TableHead>
+                        <TableHead className='w-24 text-center'>{t('purchaseOrders.lineItems.qty', 'Qty')}</TableHead>
+                        <TableHead className='w-28 text-right'>{t('purchaseOrders.lineItems.unitCost', 'Unit Cost')}</TableHead>
+                        <TableHead className='w-28 text-right'>{t('purchaseOrders.lineItems.subtotal', 'Subtotal')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -361,7 +369,7 @@ export function POSummaryDialog({
                             colSpan={7}
                             className='py-8 text-center text-sm text-muted-foreground'
                           >
-                            No line items present in this purchase order.
+                            {t('purchaseOrders.summary.noItemsPresent', 'No line items present in this purchase order.')}
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -423,7 +431,7 @@ export function POSummaryDialog({
                 <div className='rounded-lg border bg-muted/20 p-4 space-y-1.5'>
                   <h4 className='text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5'>
                     <FileText className='h-3.5 w-3.5 text-muted-foreground' />
-                    Notes & Instructions
+                    {t('purchaseOrders.summary.notesAndInstructions', 'Notes & Instructions')}
                   </h4>
                   <p className='text-sm text-foreground whitespace-pre-wrap'>
                     {notes}
@@ -447,7 +455,7 @@ export function POSummaryDialog({
                   disabled={isSubmittingDraft}
                 >
                   <ArrowLeft className='mr-1.5 h-4 w-4' />
-                  Back to Edit
+                  {t('purchaseOrders.summary.backToEdit', 'Back to Edit')}
                 </Button>
 
                 <Button
@@ -456,7 +464,9 @@ export function POSummaryDialog({
                   onClick={() => onConfirmDraftSubmit?.()}
                   disabled={isSubmittingDraft}
                 >
-                  {isSubmittingDraft ? 'Saving Order...' : 'Confirm & Create Order'}
+                  {isSubmittingDraft
+                    ? t('purchaseOrders.summary.savingOrder', 'Saving Order...')
+                    : t('purchaseOrders.summary.confirmCreate', 'Confirm & Create Order')}
                 </Button>
               </>
             ) : (
@@ -467,7 +477,7 @@ export function POSummaryDialog({
                   size='sm'
                   onClick={handleClose}
                 >
-                  Close
+                  {t('common.close', 'Close')}
                 </Button>
 
                 <div className='flex items-center gap-2'>
@@ -484,7 +494,7 @@ export function POSummaryDialog({
                         }}
                       >
                         <PackageCheck className='mr-1.5 h-4 w-4' />
-                        Receive
+                        {t('purchaseOrders.actions.receive', 'Receive')}
                       </Button>
                     )}
 
@@ -498,7 +508,7 @@ export function POSummaryDialog({
                       }}
                     >
                       <Pencil className='mr-1.5 h-4 w-4' />
-                      Edit Order
+                      {t('purchaseOrders.actions.editOrder', 'Edit Order')}
                     </Button>
                   )}
                 </div>

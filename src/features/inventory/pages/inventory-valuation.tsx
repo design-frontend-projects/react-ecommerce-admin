@@ -33,8 +33,11 @@ import { useAuthStore } from '@/stores/auth-store'
 
 interface ValuationItemRow {
   id: string
-  storeId: string
+  storeId?: string | null
   storeName: string
+  warehouseId?: string | null
+  warehouseName?: string | null
+  warehouseCode?: string | null
   variantId: string
   sku: string
   productName: string
@@ -70,10 +73,15 @@ interface StockBalanceRecord {
   qty_available?: number | null
   avg_cost?: number | null
   product_variant_id: string
-  store_id: string
+  store_id?: string | null
+  warehouse_id?: string | null
   stores?:
     | { name?: string | null; store_id?: string | null }
     | Array<{ name?: string | null; store_id?: string | null }>
+    | null
+  warehouses?:
+    | { name?: string | null; code?: string | null; id?: string | null }
+    | Array<{ name?: string | null; code?: string | null; id?: string | null }>
     | null
 }
 
@@ -90,7 +98,7 @@ export function InventoryValuationPage() {
     queryFn: async () => {
       const { data: balances } = await supabase
         .from('stock_balances')
-        .select('qty_on_hand, qty_reserved, qty_available, avg_cost, product_variant_id, store_id, stores(name, store_id)')
+        .select('qty_on_hand, qty_reserved, qty_available, avg_cost, product_variant_id, store_id, stores(name, store_id), warehouse_id, warehouses(name, code, id)')
 
       const { data: variants } = await supabase
         .from('product_variants')
@@ -112,11 +120,17 @@ export function InventoryValuationPage() {
 
         const storeData = Array.isArray(b.stores) ? b.stores[0] : b.stores
         const storeName = storeData?.name || 'Default Store'
+        const whData = Array.isArray(b.warehouses) ? b.warehouses[0] : b.warehouses
+        const warehouseName = whData?.name || whData?.code || null
+        const warehouseCode = whData?.code || null
 
         return {
-          id: `${b.store_id}_${b.product_variant_id}`,
+          id: `${b.warehouse_id || b.store_id || 'general'}_${b.product_variant_id}`,
           storeId: b.store_id,
           storeName,
+          warehouseId: b.warehouse_id,
+          warehouseName,
+          warehouseCode,
           variantId: b.product_variant_id,
           sku: v?.sku || b.product_variant_id.slice(0, 8),
           productName: v?.products?.name || '—',
@@ -145,7 +159,9 @@ export function InventoryValuationPage() {
         item.productName.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchWarehouse =
-        selectedWarehouse === 'all' || item.storeId === selectedWarehouse
+        selectedWarehouse === 'all' ||
+        item.warehouseId === selectedWarehouse ||
+        item.storeId === selectedWarehouse
 
       return matchSearch && matchWarehouse
     })
@@ -169,7 +185,15 @@ export function InventoryValuationPage() {
     const seen = new Set<string>()
     const list: Array<{ value: string; label: string }> = []
     for (const row of rawValuation) {
-      if (!seen.has(row.storeId)) {
+      if (row.warehouseId && !seen.has(row.warehouseId)) {
+        seen.add(row.warehouseId)
+        list.push({
+          value: row.warehouseId,
+          label: row.warehouseCode
+            ? `${row.warehouseName} [${row.warehouseCode}]`
+            : row.warehouseName || 'Warehouse',
+        })
+      } else if (row.storeId && !seen.has(row.storeId)) {
         seen.add(row.storeId)
         list.push({ value: row.storeId, label: row.storeName })
       }

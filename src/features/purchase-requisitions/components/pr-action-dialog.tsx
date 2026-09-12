@@ -5,6 +5,7 @@ import { useForm, useWatch, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Trash2, Check, ChevronsUpDown, FileText, Store } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -116,6 +117,7 @@ interface LineItem {
 }
 
 export function PRActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = useRequisitionsContext()
   const isCreate = open === 'create'
   const isEdit = open === 'edit'
@@ -443,7 +445,7 @@ export function PRActionDialog() {
     const validItems = lineItems.filter((item) => Boolean(item.product_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
-      toast.error('Add at least one line item')
+      toast.error(t('purchaseRequisitions.validation.atLeastOneItem', 'Add at least one line item'))
       return
     }
 
@@ -452,7 +454,7 @@ export function PRActionDialog() {
       if (variants.length === 0) {
         setShowLineValidation(true)
         toast.error(
-          `${getProductName(item.product_id)} has no variants configured.`
+          `${getProductName(item.product_id)} ${t('purchaseRequisitions.validation.noVariants', 'has no variants configured.')}`
         )
         return
       }
@@ -460,7 +462,7 @@ export function PRActionDialog() {
       if (!item.product_variant_id) {
         setShowLineValidation(true)
         toast.error(
-          `Variant selection is required for ${getProductName(item.product_id)}.`
+          `${t('purchaseRequisitions.validation.variantRequired', 'Variant selection is required for')} ${getProductName(item.product_id)}.`
         )
         return
       }
@@ -507,7 +509,7 @@ export function PRActionDialog() {
     const validItems = lineItems.filter((item) => Boolean(item.product_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
-      toast.error('Add at least one line item before reviewing summary')
+      toast.error(t('purchaseRequisitions.validation.atLeastOneItemReview', 'Add at least one line item before reviewing summary'))
       return
     }
 
@@ -515,7 +517,7 @@ export function PRActionDialog() {
       if (!item.product_variant_id) {
         setShowLineValidation(true)
         toast.error(
-          `Variant is required for ${getProductName(item.product_id)}.`
+          `${t('purchaseRequisitions.validation.variantRequired', 'Variant is required for')} ${getProductName(item.product_id)}.`
         )
         return
       }
@@ -586,13 +588,13 @@ export function PRActionDialog() {
           <DialogHeader>
             <DialogTitle>
               {isCreate
-                ? 'Create Purchase Requisition'
-                : 'Edit Purchase Requisition'}
+                ? t('purchaseRequisitions.form.createTitle', 'Create Purchase Requisition')
+                : t('purchaseRequisitions.form.editTitle', 'Edit Purchase Requisition')}
             </DialogTitle>
             <DialogDescription>
               {isCreate
-                ? 'Specify procurement details, currency, receiving destination, and line items with product & variant search.'
-                : 'Update the draft purchase requisition and requested line items.'}
+                ? t('purchaseRequisitions.form.createDesc', 'Specify procurement details, currency, receiving destination, and line items with product & variant search.')
+                : t('purchaseRequisitions.form.editDesc', 'Update the draft purchase requisition and requested line items.')}
             </DialogDescription>
           </DialogHeader>
 
@@ -606,7 +608,7 @@ export function PRActionDialog() {
                   name='store_id'
                   render={({ field }) => (
                     <FormItem className='flex flex-col pt-2'>
-                      <FormLabel>Destination Store / Warehouse</FormLabel>
+                      <FormLabel>{t('purchaseRequisitions.form.store', 'Destination Store / Warehouse')}</FormLabel>
                       <Popover
                         open={locationOpen}
                         onOpenChange={setLocationOpen}
@@ -627,8 +629,8 @@ export function PRActionDialog() {
                                   {field.value
                                     ? locationOptions.find(
                                         (loc) => loc.id === field.value
-                                      )?.name || 'Selected location'
-                                    : 'Select store or warehouse...'}
+                                      )?.name || t('purchaseRequisitions.form.selectedLocation', 'Selected location')
+                                    : t('purchaseRequisitions.form.selectStore', 'Select store or warehouse...')}
                                 </span>
                               </div>
                               <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -637,9 +639,9 @@ export function PRActionDialog() {
                         </PopoverTrigger>
                         <PopoverContent className='w-[320px] p-0' align='start'>
                           <Command>
-                            <CommandInput placeholder='Search store or warehouse...' />
+                            <CommandInput placeholder={t('purchaseRequisitions.form.searchStore', 'Search store or warehouse...')} />
                             <CommandList>
-                              <CommandEmpty>No location found.</CommandEmpty>
+                              <CommandEmpty>{t('purchaseRequisitions.form.noLocationFound', 'No location found.')}</CommandEmpty>
                               <CommandGroup>
                                 {locationOptions.map((loc) => (
                                   <CommandItem
@@ -679,7 +681,7 @@ export function PRActionDialog() {
                   name='currency'
                   render={({ field }) => (
                     <FormItem className='pt-2'>
-                      <FormLabel>Currency</FormLabel>
+                      <FormLabel>{t('purchaseRequisitions.form.currency', 'Currency')}</FormLabel>
                       <Select
                         value={field.value || 'USD'}
                         onValueChange={field.onChange}
@@ -689,8 +691,8 @@ export function PRActionDialog() {
                             <SelectValue
                               placeholder={
                                 isLoadingCurrencies
-                                  ? 'Loading currencies...'
-                                  : 'Select currency'
+                                  ? t('purchaseRequisitions.form.loadingCurrencies', 'Loading currencies...')
+                                  : t('purchaseRequisitions.form.selectCurrency', 'Select currency')
                               }
                             />
                           </SelectTrigger>
@@ -727,7 +729,7 @@ export function PRActionDialog() {
                   name='needed_by'
                   render={({ field }) => (
                     <FormItem className='pt-2'>
-                      <FormLabel>Needed By Date</FormLabel>
+                      <FormLabel>{t('purchaseRequisitions.form.neededBy', 'Needed By Date')}</FormLabel>
                       <FormControl>
                         <Input type='date' className='h-9' {...field} />
                       </FormControl>
@@ -742,10 +744,10 @@ export function PRActionDialog() {
                   name='notes'
                   render={({ field }) => (
                     <FormItem className='sm:col-span-3'>
-                      <FormLabel>Notes / Justification</FormLabel>
+                      <FormLabel>{t('purchaseRequisitions.form.notes', 'Notes / Justification')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder='Reason for requisition, target department, or project notes...'
+                          placeholder={t('purchaseRequisitions.form.notesPlaceholder', 'Reason for requisition, target department, or project notes...')}
                           className='resize-none'
                           rows={2}
                           {...field}
@@ -762,11 +764,10 @@ export function PRActionDialog() {
                 <div className='flex items-center justify-between'>
                   <div>
                     <h4 className='text-sm font-semibold tracking-tight'>
-                      Requested Line Items
+                      {t('purchaseRequisitions.form.items', 'Requested Line Items')}
                     </h4>
                     <p className='text-xs text-muted-foreground'>
-                      Select product, variant, requested UOM, and enter expected
-                      costs.
+                      {t('purchaseRequisitions.form.itemsSubtitle', 'Select product, variant, requested UOM, and enter expected costs.')}
                     </p>
                   </div>
                   <Button
@@ -776,7 +777,7 @@ export function PRActionDialog() {
                     onClick={addLineItem}
                   >
                     <Plus className='mr-1 h-4 w-4' />
-                    Add Item
+                    {t('purchaseRequisitions.form.addItem', 'Add Item')}
                   </Button>
                 </div>
 
@@ -785,14 +786,14 @@ export function PRActionDialog() {
                     <Table className='w-full min-w-[940px]'>
                       <TableHeader>
                         <TableRow className='bg-muted/40'>
-                          <TableHead className='min-w-[190px]'>Product</TableHead>
-                          <TableHead className='min-w-[170px]'>Variant</TableHead>
-                          <TableHead className='min-w-[130px]'>UOM</TableHead>
-                          <TableHead className='w-[90px] text-center'>Qty</TableHead>
-                          <TableHead className='w-[110px] text-right'>Est. Cost</TableHead>
-                          <TableHead className='w-[110px] text-right pr-2'>Subtotal</TableHead>
-                          <TableHead className='min-w-[150px]'>Preferred Supplier</TableHead>
-                          <TableHead className='min-w-[130px]'>Reason / Remark</TableHead>
+                          <TableHead className='min-w-[190px]'>{t('purchaseRequisitions.form.product', 'Product')}</TableHead>
+                          <TableHead className='min-w-[170px]'>{t('purchaseRequisitions.form.variant', 'Variant')}</TableHead>
+                          <TableHead className='min-w-[130px]'>{t('purchaseRequisitions.form.uom', 'UOM')}</TableHead>
+                          <TableHead className='w-[90px] text-center'>{t('purchaseRequisitions.form.quantity', 'Qty')}</TableHead>
+                          <TableHead className='w-[110px] text-right'>{t('purchaseRequisitions.form.estCost', 'Est. Cost')}</TableHead>
+                          <TableHead className='w-[110px] text-right pr-2'>{t('purchaseRequisitions.form.subtotal', 'Subtotal')}</TableHead>
+                          <TableHead className='min-w-[150px]'>{t('purchaseRequisitions.form.supplier', 'Preferred Supplier')}</TableHead>
+                          <TableHead className='min-w-[130px]'>{t('purchaseRequisitions.form.reason', 'Reason / Remark')}</TableHead>
                           <TableHead className='w-[44px]' />
                         </TableRow>
                       </TableHeader>
@@ -856,12 +857,12 @@ export function PRActionDialog() {
                                   disabled={isPending || !item.product_id}
                                 >
                                   <SelectTrigger className='h-9 w-full text-xs'>
-                                    <SelectValue placeholder='Select UOM' />
+                                    <SelectValue placeholder={t('purchaseRequisitions.form.selectUom', 'Select UOM')} />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value='none'>
                                       <span className='text-muted-foreground italic text-xs'>
-                                        Default / None
+                                        {t('purchaseRequisitions.form.defaultNone', 'Default / None')}
                                       </span>
                                     </SelectItem>
                                     {uoms.map((uom) => (
@@ -939,12 +940,12 @@ export function PRActionDialog() {
                                   disabled={isPending}
                                 >
                                   <SelectTrigger className='h-9 w-full text-xs'>
-                                    <SelectValue placeholder='Supplier' />
+                                    <SelectValue placeholder={t('purchaseRequisitions.form.supplierPlaceholder', 'Supplier')} />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value='none'>
                                       <span className='text-muted-foreground italic text-xs'>
-                                        No preferred supplier
+                                        {t('purchaseRequisitions.form.noPreferredSupplier', 'No preferred supplier')}
                                       </span>
                                     </SelectItem>
                                     {suppliers.map((sup) => (
@@ -964,7 +965,7 @@ export function PRActionDialog() {
                               <TableCell className='min-w-[130px] pt-2'>
                                 <Input
                                   type='text'
-                                  placeholder='Reason/remark'
+                                  placeholder={t('purchaseRequisitions.form.reasonPlaceholder', 'Reason/remark')}
                                   className='h-9 text-xs px-2'
                                   value={item.reason}
                                   disabled={isPending}
@@ -999,7 +1000,7 @@ export function PRActionDialog() {
                   </div>
                 ) : (
                   <div className='rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground'>
-                    No line items added. Click &quot;Add Item&quot; to begin.
+                    {t('purchaseRequisitions.form.noLineItems', 'No line items added. Click "Add Item" to begin.')}
                   </div>
                 )}
 
@@ -1007,7 +1008,7 @@ export function PRActionDialog() {
                 <div className='flex justify-end pt-1'>
                   <div className='flex items-baseline gap-2 bg-muted/40 px-4 py-2 rounded-lg border'>
                     <span className='text-xs font-medium text-muted-foreground'>
-                      Estimated Total:
+                      {t('purchaseRequisitions.form.estimatedTotal', 'Estimated Total:')}
                     </span>
                     <span className='text-lg font-bold font-mono'>
                       {selectedCurrency} {totalAmount.toFixed(2)}
@@ -1023,7 +1024,7 @@ export function PRActionDialog() {
                   onClick={closeDialog}
                   disabled={isPending}
                 >
-                  Cancel
+                  {t('purchaseRequisitions.form.cancel', 'Cancel')}
                 </Button>
                 <div className='flex items-center gap-2 w-full sm:w-auto justify-end'>
                   <Button
@@ -1034,14 +1035,14 @@ export function PRActionDialog() {
                     className='bg-muted/40 hover:bg-muted'
                   >
                     <FileText className='mr-1.5 h-4 w-4 text-primary' />
-                    Review Summary
+                    {t('purchaseRequisitions.actions.reviewSummary', 'Review Summary')}
                   </Button>
                   <Button type='submit' disabled={isPending}>
                     {isPending
-                      ? 'Saving...'
+                      ? t('purchaseRequisitions.form.saving', 'Saving...')
                       : isCreate
-                        ? 'Create Requisition'
-                        : 'Update Requisition'}
+                        ? t('purchaseRequisitions.actions.createRequisition', 'Create Requisition')
+                        : t('purchaseRequisitions.actions.updateRequisition', 'Update Requisition')}
                   </Button>
                 </div>
               </DialogFooter>

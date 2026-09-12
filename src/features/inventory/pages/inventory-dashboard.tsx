@@ -68,10 +68,10 @@ export function InventoryDashboard() {
   const { data: dashboardData } = useQuery({
     queryKey: ['inventory-dashboard-metrics', user?.id],
     queryFn: async () => {
-      // 1. Fetch stock balances
+      // 1. Fetch stock balances with warehouse data
       const { data: balances } = await supabase
         .from('stock_balances')
-        .select('qty_on_hand, qty_reserved, qty_available, avg_cost, product_variant_id, store_id, stores(name)')
+        .select('qty_on_hand, qty_reserved, qty_available, avg_cost, product_variant_id, store_id, stores(name), warehouse_id, warehouses(name, code)')
 
       // 2. Fetch variants & prices
       const { data: variants } = await supabase
@@ -134,12 +134,13 @@ export function InventoryDashboard() {
           lowStockCount++
         }
 
-        const storeName = (b.stores as { name?: string })?.name || 'Default Store'
-        if (!warehouseMap[storeName]) {
-          warehouseMap[storeName] = { name: storeName, value: 0, units: 0 }
+        const wh = b.warehouses as { name?: string; code?: string } | null
+        const whName = wh?.name || wh?.code || (b.stores as { name?: string })?.name || 'Default Warehouse'
+        if (!warehouseMap[whName]) {
+          warehouseMap[whName] = { name: whName, value: 0, units: 0 }
         }
-        warehouseMap[storeName].value += onHand * cost
-        warehouseMap[storeName].units += onHand
+        warehouseMap[whName].value += onHand * cost
+        warehouseMap[whName].units += onHand
 
         const catName = v?.products?.categories?.name || 'Uncategorized'
         categoryMap[catName] = (categoryMap[catName] || 0) + onHand * cost

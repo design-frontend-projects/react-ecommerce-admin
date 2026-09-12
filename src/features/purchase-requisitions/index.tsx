@@ -44,11 +44,13 @@ function PurchaseRequisitionsContent() {
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
             <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              {t('purchaseRequisitions.title')}
+              {t('purchaseRequisitions.title', 'Purchase Requisitions')}
             </h2>
             <p className='text-muted-foreground'>
-              Draft → submit → approve → convert to purchase order, whether
-              raised manually or by the reorder engine.
+              {t(
+                'purchaseRequisitions.description',
+                'Draft → submit → approve → convert to purchase order, whether raised manually or by the reorder engine.'
+              )}
             </p>
           </div>
           <RequisitionsPrimaryButtons />
@@ -64,7 +66,7 @@ function PurchaseRequisitionsContent() {
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-destructive/20 bg-destructive/5 p-8 text-destructive'>
             <p className='font-medium'>
-              Failed to load requisitions: {(error as Error).message}
+              {t('purchaseRequisitions.errorLoading', 'Failed to load requisitions')}: {(error as Error).message}
             </p>
           </div>
         ) : (

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Check, ChevronsUpDown, Package, Layers, Box } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -53,6 +54,7 @@ export function SOProductSelect({
   disabled,
   showValidation,
 }: SOProductSelectProps) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const selectedProduct = products.find((p) => {
@@ -87,7 +89,7 @@ export function SOProductSelect({
                 )}
               </span>
             ) : (
-              <span>Select product...</span>
+              <span>{t('salesOrders.picker.selectProduct', 'Select product...')}</span>
             )}
           </div>
           <ChevronsUpDown className='ml-1.5 h-3.5 w-3.5 shrink-0 opacity-50' />
@@ -95,9 +97,9 @@ export function SOProductSelect({
       </PopoverTrigger>
       <PopoverContent className='w-[320px] sm:w-[380px] p-0' align='start'>
         <Command>
-          <CommandInput placeholder='Search product by name or SKU...' />
+          <CommandInput placeholder={t('salesOrders.picker.searchProduct', 'Search product by name or SKU...')} />
           <CommandList className='max-h-60'>
-            <CommandEmpty>No product found.</CommandEmpty>
+            <CommandEmpty>{t('salesOrders.picker.noProduct', 'No product found.')}</CommandEmpty>
             <CommandGroup>
               {products.map((p) => {
                 const pId = String(p.id ?? p.product_id ?? '')
@@ -144,15 +146,15 @@ export function SOProductSelect({
                     <div className='shrink-0 text-right'>
                       {pVariants.length === 0 ? (
                         <Badge variant='outline' className='text-[10px] text-muted-foreground'>
-                          0 variants
+                          {t('salesOrders.picker.zeroVariants', '0 variants')}
                         </Badge>
                       ) : pVariants.length === 1 ? (
                         <Badge variant='secondary' className='text-[10px]'>
-                          1 variant
+                          {t('salesOrders.picker.oneVariant', '1 variant')}
                         </Badge>
                       ) : (
                         <Badge variant='outline' className='text-[10px] text-primary border-primary/30'>
-                          {pVariants.length} variants
+                          {t('salesOrders.picker.variantsCount', '{{count}} variants', { count: pVariants.length })}
                         </Badge>
                       )}
                     </div>
@@ -185,6 +187,7 @@ export function SOVariantSelect({
   disabled,
   showValidation,
 }: SOVariantSelectProps) {
+  const { t } = useTranslation()
   const selectedVariant = variants.find((v) => v.id === variantId)
   const hasNoProduct = !productId
   const hasNoVariants = !hasNoProduct && variants.length === 0
@@ -195,7 +198,7 @@ export function SOVariantSelect({
         <SelectTrigger className='h-9 text-xs w-full bg-muted/30 text-muted-foreground cursor-not-allowed'>
           <div className='flex items-center gap-1.5 truncate'>
             <Layers className='h-3.5 w-3.5 shrink-0 text-muted-foreground' />
-            <span>Select product first</span>
+            <span>{t('salesOrders.picker.selectProductFirst', 'Select product first')}</span>
           </div>
         </SelectTrigger>
       </Select>
@@ -206,7 +209,7 @@ export function SOVariantSelect({
     return (
       <div className='h-9 px-3 rounded-md border border-amber-300/60 bg-amber-500/10 text-xs text-amber-700 dark:text-amber-400 flex items-center gap-1.5'>
         <Box className='h-3.5 w-3.5 shrink-0' />
-        <span className='truncate'>No variants found</span>
+        <span className='truncate'>{t('salesOrders.picker.noVariants', 'No variants found')}</span>
       </div>
     )
   }
@@ -229,7 +232,7 @@ export function SOVariantSelect({
           showValidation && !variantId && 'border-destructive ring-1 ring-destructive/30'
         )}
       >
-        <SelectValue placeholder='Select variant...'>
+        <SelectValue placeholder={t('salesOrders.picker.selectVariant', 'Select variant...')}>
           {selectedVariant ? (
             <div className='flex items-center justify-between w-full gap-2 pr-1'>
               <div className='flex items-center gap-1.5 truncate'>
@@ -246,7 +249,7 @@ export function SOVariantSelect({
               <div className='flex items-center gap-1.5 shrink-0'>
                 {selectedVariant.stock_quantity !== undefined && (
                   <span className='text-[11px] text-muted-foreground'>
-                    Stock: {selectedVariant.stock_quantity}
+                    {t('salesOrders.picker.stockCount', 'Stock: {{count}}', { count: selectedVariant.stock_quantity })}
                   </span>
                 )}
                 <span className='font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400'>
@@ -255,7 +258,7 @@ export function SOVariantSelect({
               </div>
             </div>
           ) : (
-            'Select variant...'
+            t('salesOrders.picker.selectVariant', 'Select variant...')
           )}
         </SelectValue>
       </SelectTrigger>
@@ -276,7 +279,7 @@ export function SOVariantSelect({
                 </div>
                 {v.stock_quantity !== undefined && (
                   <span className='text-[11px] text-muted-foreground'>
-                    In stock: {v.stock_quantity} units
+                    {t('salesOrders.picker.inStockCount', 'In stock: {{count}} units', { count: v.stock_quantity })}
                   </span>
                 )}
               </div>

@@ -77,6 +77,7 @@ export interface PriceListItemRecord {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   product_variants?: ProductVariantBrief | null
+  products?: ProductBrief | null
 }
 
 export interface PriceList {
@@ -111,6 +112,7 @@ export interface PriceList {
 
 export const priceListItemFormSchema = z.object({
   id: z.string().optional(),
+  product_id: z.string().min(1, 'Product is required'),
   product_variant_id: z.string().min(1, 'Product variant is required'),
   price: z.coerce.number().min(0, 'Price must be 0 or greater'),
   cost_price: z.coerce.number().min(0, 'Cost must be 0 or greater').default(0).optional(),
@@ -121,6 +123,8 @@ export const priceListItemFormSchema = z.object({
     .max(100, 'Discount cannot exceed 100%')
     .default(0),
   // UI metadata helpers (not written directly to price_list_items table)
+  product_name: z.string().optional().nullable(),
+  product_sku: z.string().optional().nullable(),
   variant_name: z.string().optional().nullable(),
   variant_sku: z.string().optional(),
   regular_price: z.number().optional(),
@@ -156,6 +160,16 @@ export const priceListFormSchema = z
       path: ['end_date'],
     }
   )
+  .refine(
+    (data) => {
+      const variantIds = data.items.map((i) => i.product_variant_id).filter(Boolean)
+      return new Set(variantIds).size === variantIds.length
+    },
+    {
+      message: 'Duplicate product variants are not allowed in the same price list',
+      path: ['items'],
+    }
+  )
 
 export type PriceListFormData = z.infer<typeof priceListFormSchema>
 
@@ -164,6 +178,14 @@ export const getPriceListItemFormSchema = (
 ) =>
   z.object({
     id: z.string().optional(),
+    product_id: z
+      .string()
+      .min(
+        1,
+        t('priceList.validation.productRequired', {
+          defaultValue: 'Product is required',
+        })
+      ),
     product_variant_id: z
       .string()
       .min(
@@ -215,6 +237,8 @@ export const getPriceListItemFormSchema = (
       )
       .default(0),
     // UI metadata helpers (not written directly to price_list_items table)
+    product_name: z.string().optional().nullable(),
+    product_sku: z.string().optional().nullable(),
     variant_name: z.string().optional().nullable(),
     variant_sku: z.string().optional(),
     regular_price: z.number().optional(),
@@ -284,5 +308,17 @@ export const getPriceListFormSchema = (
           defaultValue: 'End date cannot be earlier than start date',
         }),
         path: ['end_date'],
+      }
+    )
+    .refine(
+      (data) => {
+        const variantIds = data.items.map((i) => i.product_variant_id).filter(Boolean)
+        return new Set(variantIds).size === variantIds.length
+      },
+      {
+        message: t('priceList.validation.duplicateVariantError', {
+          defaultValue: 'Duplicate product variants are not allowed in the same price list',
+        }),
+        path: ['items'],
       }
     )

@@ -42,6 +42,9 @@ export function PriceListDeleteDialog() {
   }
 
   const itemsCount = currentRow?.price_list_items?.length || 0
+  const distinctProductCount = new Set(
+    (currentRow?.price_list_items || []).map((i) => i.product_id).filter(Boolean)
+  ).size
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
@@ -61,7 +64,7 @@ export function PriceListDeleteDialog() {
             {currentRow && (
               <div className='rounded-md border bg-muted/40 p-3 text-sm font-medium'>
                 <span className='font-bold text-foreground'>
-                  {currentRow.name || currentRow.products?.name || t('priceList.defaultProductName', { defaultValue: 'Product' })}
+                  {currentRow.name || currentRow.products?.name || t('priceList.standardPriceList', { defaultValue: 'Price List' })}
                 </span>
                 {currentRow.type && (
                   <span className='text-muted-foreground'>
@@ -72,8 +75,9 @@ export function PriceListDeleteDialog() {
                   <p className='text-xs text-muted-foreground mt-1'>
                     {itemsCount}{' '}
                     {t('priceList.deleteVariantNotice', {
-                      defaultValue: 'variant price override records (price_list_items) will also be deleted.',
+                      defaultValue: 'item price override records (price_list_items) will also be deleted.',
                     })}
+                    {distinctProductCount > 1 && ` (${distinctProductCount} products)`}
                   </p>
                 )}
               </div>

@@ -64,10 +64,13 @@ export function SalesOrders() {
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
             <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-              {t('salesOrders.title', { defaultValue: 'Sales Orders' })}
+              {t('salesOrders.title', 'Sales Orders')}
             </h2>
             <p className='text-muted-foreground text-sm'>
-              Order-to-fulfillment pipeline: draft, reserve inventory, pick & pack, dispatch, invoice, and print.
+              {t(
+                'salesOrders.description',
+                'Order-to-fulfillment pipeline: draft, reserve inventory, pick & pack, dispatch, invoice, and print.'
+              )}
             </p>
           </div>
           <OrdersPrimaryButtons />
@@ -79,7 +82,9 @@ export function SalesOrders() {
             {/* Total Orders */}
             <div className='rounded-xl border bg-card/60 p-4 shadow-xs space-y-1.5'>
               <div className='flex items-center justify-between'>
-                <span className='text-xs font-semibold text-muted-foreground'>Total Orders</span>
+                <span className='text-xs font-semibold text-muted-foreground'>
+                  {t('salesOrders.kpis.totalOrders', 'Total Orders')}
+                </span>
                 <div className='p-1.5 rounded-md bg-primary/10 text-primary'>
                   <Receipt className='h-4 w-4' />
                 </div>
@@ -87,13 +92,17 @@ export function SalesOrders() {
               <p className='text-2xl font-bold tracking-tight text-foreground'>
                 {stats.totalOrders}
               </p>
-              <p className='text-[11px] text-muted-foreground'>Recorded sales orders</p>
+              <p className='text-[11px] text-muted-foreground'>
+                {t('salesOrders.kpis.totalOrdersDesc', 'Recorded sales orders')}
+              </p>
             </div>
 
             {/* Pending / Draft */}
             <div className='rounded-xl border bg-card/60 p-4 shadow-xs space-y-1.5'>
               <div className='flex items-center justify-between'>
-                <span className='text-xs font-semibold text-muted-foreground'>Pending / Draft</span>
+                <span className='text-xs font-semibold text-muted-foreground'>
+                  {t('salesOrders.kpis.pendingDraft', 'Pending / Draft')}
+                </span>
                 <div className='p-1.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400'>
                   <Clock className='h-4 w-4' />
                 </div>
@@ -101,13 +110,17 @@ export function SalesOrders() {
               <p className='text-2xl font-bold tracking-tight text-foreground'>
                 {stats.pendingDraft}
               </p>
-              <p className='text-[11px] text-muted-foreground'>Awaiting fulfillment</p>
+              <p className='text-[11px] text-muted-foreground'>
+                {t('salesOrders.kpis.pendingDraftDesc', 'Awaiting fulfillment')}
+              </p>
             </div>
 
             {/* In Fulfillment */}
             <div className='rounded-xl border bg-card/60 p-4 shadow-xs space-y-1.5'>
               <div className='flex items-center justify-between'>
-                <span className='text-xs font-semibold text-muted-foreground'>In Fulfillment</span>
+                <span className='text-xs font-semibold text-muted-foreground'>
+                  {t('salesOrders.kpis.inFulfillment', 'In Fulfillment')}
+                </span>
                 <div className='p-1.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400'>
                   <Truck className='h-4 w-4' />
                 </div>
@@ -115,13 +128,17 @@ export function SalesOrders() {
               <p className='text-2xl font-bold tracking-tight text-foreground'>
                 {stats.inFulfillment}
               </p>
-              <p className='text-[11px] text-muted-foreground'>Picking, packed & transit</p>
+              <p className='text-[11px] text-muted-foreground'>
+                {t('salesOrders.kpis.inFulfillmentDesc', 'Picking, packed & transit')}
+              </p>
             </div>
 
             {/* Completed */}
             <div className='rounded-xl border bg-card/60 p-4 shadow-xs space-y-1.5'>
               <div className='flex items-center justify-between'>
-                <span className='text-xs font-semibold text-muted-foreground'>Completed</span>
+                <span className='text-xs font-semibold text-muted-foreground'>
+                  {t('salesOrders.kpis.completed', 'Completed')}
+                </span>
                 <div className='p-1.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'>
                   <CheckCircle2 className='h-4 w-4' />
                 </div>
@@ -129,13 +146,17 @@ export function SalesOrders() {
               <p className='text-2xl font-bold tracking-tight text-foreground'>
                 {stats.completed}
               </p>
-              <p className='text-[11px] text-muted-foreground'>Delivered & invoiced</p>
+              <p className='text-[11px] text-muted-foreground'>
+                {t('salesOrders.kpis.completedDesc', 'Delivered & invoiced')}
+              </p>
             </div>
 
             {/* Total Value */}
             <div className='rounded-xl border bg-card/60 p-4 shadow-xs space-y-1.5 col-span-2 sm:col-span-1'>
               <div className='flex items-center justify-between'>
-                <span className='text-xs font-semibold text-muted-foreground'>Total Pipeline</span>
+                <span className='text-xs font-semibold text-muted-foreground'>
+                  {t('salesOrders.kpis.totalPipeline', 'Total Pipeline')}
+                </span>
                 <div className='p-1.5 rounded-md bg-primary/10 text-primary'>
                   <DollarSign className='h-4 w-4' />
                 </div>
@@ -143,7 +164,9 @@ export function SalesOrders() {
               <p className='text-2xl font-mono font-bold tracking-tight text-primary'>
                 ${stats.totalRevenue.toFixed(2)}
               </p>
-              <p className='text-[11px] text-muted-foreground'>Active order value</p>
+              <p className='text-[11px] text-muted-foreground'>
+                {t('salesOrders.kpis.totalPipelineDesc', 'Active order value')}
+              </p>
             </div>
           </div>
         )}
@@ -155,7 +178,9 @@ export function SalesOrders() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 dark:bg-rose-950/30 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading sales orders.</p>
+            <p className='font-medium'>
+              {t('salesOrders.errorLoading', 'Error loading sales orders.')}
+            </p>
           </div>
         ) : (
           <OrdersTable data={orders} />

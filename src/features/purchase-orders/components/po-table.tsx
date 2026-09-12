@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   type ColumnFiltersState,
   type SortingState,
@@ -28,17 +29,20 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { type PurchaseOrder } from '../hooks/use-purchase-orders'
-import { poColumns } from './po-columns'
+import { getPOColumns } from './po-columns'
 
 interface POTableProps {
   data: PurchaseOrder[]
 }
 
 export function POTable({ data }: POTableProps) {
+  const { t } = useTranslation()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [statusFilter, setStatusFilter] = useState<string>('all')
+
+  const columns = useMemo(() => getPOColumns(t), [t])
 
   const filteredData =
     statusFilter === 'all'
@@ -47,7 +51,7 @@ export function POTable({ data }: POTableProps) {
 
   const table = useReactTable({
     data: filteredData,
-    columns: poColumns,
+    columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -72,7 +76,7 @@ export function POTable({ data }: POTableProps) {
       {/* Filters */}
       <div className='flex flex-wrap items-center gap-3'>
         <Input
-          placeholder='Search by supplier...'
+          placeholder={t('purchaseOrders.searchBySupplier', 'Search by supplier...')}
           value={
             (table.getColumn('suppliers')?.getFilterValue() as string) ?? ''
           }
@@ -83,14 +87,14 @@ export function POTable({ data }: POTableProps) {
         />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className='w-[150px]'>
-            <SelectValue placeholder='Status' />
+            <SelectValue placeholder={t('purchaseOrders.columns.status', 'Status')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value='all'>All Statuses</SelectItem>
-            <SelectItem value='pending'>Pending</SelectItem>
-            <SelectItem value='partial'>Partial</SelectItem>
-            <SelectItem value='received'>Received</SelectItem>
-            <SelectItem value='cancelled'>Cancelled</SelectItem>
+            <SelectItem value='all'>{t('purchaseOrders.allStatuses', 'All Statuses')}</SelectItem>
+            <SelectItem value='pending'>{t('purchaseOrders.status.pending', 'Pending')}</SelectItem>
+            <SelectItem value='partial'>{t('purchaseOrders.status.partial', 'Partial')}</SelectItem>
+            <SelectItem value='received'>{t('purchaseOrders.status.received', 'Received')}</SelectItem>
+            <SelectItem value='cancelled'>{t('purchaseOrders.status.cancelled', 'Cancelled')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -131,10 +135,10 @@ export function POTable({ data }: POTableProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={poColumns.length}
+                  colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No purchase orders found.
+                  {t('purchaseOrders.noOrdersFound', 'No purchase orders found.')}
                 </TableCell>
               </TableRow>
             )}
@@ -145,7 +149,7 @@ export function POTable({ data }: POTableProps) {
       {/* Pagination */}
       <div className='flex items-center justify-between'>
         <p className='text-sm text-muted-foreground'>
-          {table.getFilteredRowModel().rows.length} purchase order(s)
+          {t('purchaseOrders.orderCount', '{{count}} purchase order(s)', { count: table.getFilteredRowModel().rows.length })}
         </p>
         <div className='flex items-center space-x-2'>
           <Button
@@ -154,7 +158,7 @@ export function POTable({ data }: POTableProps) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            {t('common.previous', 'Previous')}
           </Button>
           <Button
             variant='outline'
@@ -162,7 +166,7 @@ export function POTable({ data }: POTableProps) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            {t('common.next', 'Next')}
           </Button>
         </div>
       </div>

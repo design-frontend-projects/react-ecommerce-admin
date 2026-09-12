@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,16 +22,18 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import type { OrderListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 export function OrdersTable({ data }: { data: OrderListItem[] }) {
   const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
+  const tableColumns = useMemo(() => getColumns(t), [t])
+
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumns,
     state: { sorting, columnVisibility },
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
@@ -47,7 +49,7 @@ export function OrdersTable({ data }: { data: OrderListItem[] }) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder={t('salesOrders.table.filterPlaceholder', { defaultValue: 'Filter...' })}
+        searchPlaceholder={t('salesOrders.table.filterPlaceholder', 'Filter by order number...')}
         searchKey='order_number'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -85,10 +87,10 @@ export function OrdersTable({ data }: { data: OrderListItem[] }) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={tableColumns.length}
                   className='h-24 text-center'
                 >
-                  No sales orders yet.
+                  {t('salesOrders.table.noOrders', 'No sales orders yet.')}
                 </TableCell>
               </TableRow>
             )}

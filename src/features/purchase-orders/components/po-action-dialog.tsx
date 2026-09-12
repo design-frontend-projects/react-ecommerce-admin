@@ -5,6 +5,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Trash2, Check, ChevronsUpDown, FileText } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -95,6 +96,7 @@ interface LineItem {
 }
 
 export function POActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = usePOContext()
   const isCreate = open === 'create'
   const isEdit = open === 'edit'
@@ -349,7 +351,7 @@ export function POActionDialog() {
     const validItems = lineItems.filter((item) => Boolean(item.product_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
-      toast.error('Add at least one line item')
+      toast.error(t('purchaseOrders.validation.atLeastOneItem', 'Add at least one line item'))
       return
     }
 
@@ -359,7 +361,7 @@ export function POActionDialog() {
       if (variants.length === 0) {
         setShowLineValidation(true)
         toast.error(
-          `${getProductName(item.product_id)} has no variants. Select a product that has variants.`
+          `${getProductName(item.product_id)} ${t('purchaseOrders.validation.noVariants', 'has no variants. Select a product that has variants.')}`
         )
         return
       }
@@ -367,7 +369,7 @@ export function POActionDialog() {
       if (!item.product_variant_id) {
         setShowLineValidation(true)
         toast.error(
-          `Variant is required for ${getProductName(item.product_id)}.`
+          `${t('purchaseOrders.validation.variantRequired', 'Variant is required for')} ${getProductName(item.product_id)}.`
         )
         return
       }
@@ -393,7 +395,7 @@ export function POActionDialog() {
           },
           items,
         })
-        toast.success('Purchase order created')
+        toast.success(t('purchaseOrders.messages.created', 'Purchase order created'))
       } else if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
           id: currentRow.id || currentRow.po_id,
@@ -405,13 +407,13 @@ export function POActionDialog() {
           },
           items,
         })
-        toast.success('Purchase order updated')
+        toast.success(t('purchaseOrders.messages.updated', 'Purchase order updated'))
       }
       closeDialog()
     } catch (error: unknown) {
-      toast.error('Error', {
+      toast.error(t('common.error', 'Error'), {
         description:
-          (error as Error)?.message || 'Failed to save purchase order.',
+          (error as Error)?.message || t('purchaseOrders.messages.saveFailed', 'Failed to save purchase order.'),
       })
     }
   }
@@ -419,14 +421,14 @@ export function POActionDialog() {
   const handleOpenReviewSummary = () => {
     const values = form.getValues()
     if (!values.supplier_id || values.supplier_id === '0' || values.supplier_id === '') {
-      toast.error('Please select a supplier first')
+      toast.error(t('purchaseOrders.validation.selectSupplierFirst', 'Please select a supplier first'))
       return
     }
 
     const validItems = lineItems.filter((item) => Boolean(item.product_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
-      toast.error('Add at least one line item')
+      toast.error(t('purchaseOrders.validation.atLeastOneItem', 'Add at least one line item'))
       return
     }
 
@@ -436,7 +438,7 @@ export function POActionDialog() {
       if (variants.length === 0) {
         setShowLineValidation(true)
         toast.error(
-          `${getProductName(item.product_id)} has no variants. Select a product that has variants.`
+          `${getProductName(item.product_id)} ${t('purchaseOrders.validation.noVariants', 'has no variants. Select a product that has variants.')}`
         )
         return
       }
@@ -444,7 +446,7 @@ export function POActionDialog() {
       if (!item.product_variant_id) {
         setShowLineValidation(true)
         toast.error(
-          `Variant is required for ${getProductName(item.product_id)}.`
+          `${t('purchaseOrders.validation.variantRequired', 'Variant is required for')} ${getProductName(item.product_id)}.`
         )
         return
       }
@@ -503,12 +505,20 @@ export function POActionDialog() {
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-5xl md:max-w-6xl w-full'>
         <DialogHeader>
           <DialogTitle>
-            {isCreate ? 'Create Purchase Order' : 'Edit Purchase Order'}
+            {isCreate
+              ? t('purchaseOrders.dialog.createTitle', 'Create Purchase Order')
+              : t('purchaseOrders.dialog.editTitle', 'Edit Purchase Order')}
           </DialogTitle>
           <DialogDescription>
             {isCreate
-              ? 'Fill in the order details and add line items with product and variant selections.'
-              : 'Update the order details and line items.'}
+              ? t(
+                  'purchaseOrders.dialog.createDesc',
+                  'Fill in the order details and add line items with product and variant selections.'
+                )
+              : t(
+                  'purchaseOrders.dialog.editDesc',
+                  'Update the order details and line items.'
+                )}
           </DialogDescription>
         </DialogHeader>
 
@@ -521,7 +531,7 @@ export function POActionDialog() {
                 name='supplier_id'
                 render={({ field }) => (
                   <FormItem className='flex flex-col pt-2'>
-                    <FormLabel>Supplier</FormLabel>
+                    <FormLabel>{t('purchaseOrders.fields.supplier', 'Supplier')}</FormLabel>
                     <Popover open={supplierOpen} onOpenChange={setSupplierOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -538,16 +548,16 @@ export function POActionDialog() {
                               ? suppliers?.find(
                                   (s) => String(s.id || s.supplier_id) === field.value
                                 )?.name
-                              : 'Select supplier'}
+                              : t('purchaseOrders.placeholders.selectSupplier', 'Select supplier')}
                             <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className='w-[--radix-popover-trigger-width] p-0'>
                         <Command>
-                          <CommandInput placeholder='Search supplier...' />
+                          <CommandInput placeholder={t('purchaseOrders.placeholders.searchSupplier', 'Search supplier...')} />
                           <CommandList>
-                            <CommandEmpty>No supplier found.</CommandEmpty>
+                            <CommandEmpty>{t('purchaseOrders.emptySupplier', 'No supplier found.')}</CommandEmpty>
                             <CommandGroup>
                               {suppliers?.map((s) => {
                                 const sId = String(s.id || s.supplier_id)
@@ -590,7 +600,7 @@ export function POActionDialog() {
                 name='order_date'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Order Date</FormLabel>
+                    <FormLabel>{t('purchaseOrders.fields.orderDate', 'Order Date')}</FormLabel>
                     <FormControl>
                       <Input type='date' {...field} />
                     </FormControl>
@@ -603,7 +613,7 @@ export function POActionDialog() {
                 name='expected_delivery_date'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Expected Delivery</FormLabel>
+                    <FormLabel>{t('purchaseOrders.fields.expectedDelivery', 'Expected Delivery')}</FormLabel>
                     <FormControl>
                       <Input type='date' {...field} />
                     </FormControl>
@@ -616,10 +626,10 @@ export function POActionDialog() {
                 name='notes'
                 render={({ field }) => (
                   <FormItem className='sm:col-span-2'>
-                    <FormLabel>Notes</FormLabel>
+                    <FormLabel>{t('purchaseOrders.fields.notes', 'Notes')}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder='Optional notes...'
+                        placeholder={t('purchaseOrders.placeholders.notes', 'Optional notes...')}
                         className='resize-none'
                         rows={2}
                         {...field}
@@ -634,7 +644,7 @@ export function POActionDialog() {
             {/* Line Items */}
             <div className='space-y-3'>
               <div className='flex items-center justify-between'>
-                <h4 className='text-sm font-medium'>Line Items</h4>
+                <h4 className='text-sm font-medium'>{t('purchaseOrders.lineItems.title', 'Line Items')}</h4>
                 <Button
                   type='button'
                   variant='outline'
@@ -642,7 +652,7 @@ export function POActionDialog() {
                   onClick={addLineItem}
                 >
                   <Plus className='mr-1 h-4 w-4' />
-                  Add Item
+                  {t('purchaseOrders.lineItems.addItem', 'Add Item')}
                 </Button>
               </div>
 
@@ -651,13 +661,13 @@ export function POActionDialog() {
                   <Table className='w-full min-w-[860px]'>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className='min-w-[200px]'>Product</TableHead>
-                        <TableHead className='min-w-[180px]'>Variant</TableHead>
-                        <TableHead className='min-w-[140px]'>Receiving UOM</TableHead>
-                        <TableHead className='w-[100px] min-w-[100px] text-center'>Qty</TableHead>
-                        <TableHead className='w-[120px] min-w-[120px] text-right'>Unit Cost</TableHead>
+                        <TableHead className='min-w-[200px]'>{t('purchaseOrders.lineItems.product', 'Product')}</TableHead>
+                        <TableHead className='min-w-[180px]'>{t('purchaseOrders.lineItems.variant', 'Variant')}</TableHead>
+                        <TableHead className='min-w-[140px]'>{t('purchaseOrders.lineItems.receivingUom', 'Receiving UOM')}</TableHead>
+                        <TableHead className='w-[100px] min-w-[100px] text-center'>{t('purchaseOrders.lineItems.qty', 'Qty')}</TableHead>
+                        <TableHead className='w-[120px] min-w-[120px] text-right'>{t('purchaseOrders.lineItems.unitCost', 'Unit Cost')}</TableHead>
                         <TableHead className='w-[110px] min-w-[110px] text-right pr-3'>
-                          Subtotal
+                          {t('purchaseOrders.lineItems.subtotal', 'Subtotal')}
                         </TableHead>
                         <TableHead className='w-[48px] min-w-[48px]' />
                       </TableRow>
@@ -674,7 +684,7 @@ export function POActionDialog() {
                                 products={products}
                                 variantsByProductId={variantsByProductId}
                                 onSelectProduct={(pId) =>
-                                  updateLineItem(index, 'product_id', pId)
+                                   updateLineItem(index, 'product_id', pId)
                                 }
                                 disabled={isPending}
                                 showValidation={showLineValidation}
@@ -718,12 +728,12 @@ export function POActionDialog() {
                                 disabled={isPending || !item.product_id}
                               >
                                 <SelectTrigger className='h-9 w-full'>
-                                  <SelectValue placeholder='Select UOM' />
+                                  <SelectValue placeholder={t('purchaseOrders.placeholders.selectUom', 'Select UOM')} />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value='none'>
                                     <span className='text-muted-foreground italic'>
-                                      Default / None
+                                      {t('purchaseOrders.uomNone', 'Default / None')}
                                     </span>
                                   </SelectItem>
                                   {uoms.map((uom) => (
@@ -803,14 +813,14 @@ export function POActionDialog() {
                 </div>
               ) : (
                 <div className='rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground'>
-                  No line items. Click &quot;Add Item&quot; to begin.
+                  {t('purchaseOrders.lineItems.noItems', 'No line items. Click "Add Item" to begin.')}
                 </div>
               )}
 
               {/* Total */}
               <div className='flex justify-end'>
                 <div className='text-right'>
-                  <span className='text-sm text-muted-foreground'>Total: </span>
+                  <span className='text-sm text-muted-foreground'>{t('purchaseOrders.lineItems.total', 'Total')}: </span>
                   <span className='text-lg font-semibold font-mono'>
                     ${totalAmount.toFixed(2)}
                   </span>
@@ -825,7 +835,7 @@ export function POActionDialog() {
                 onClick={closeDialog}
                 disabled={isPending}
               >
-                Cancel
+                {t('common.cancel', 'Cancel')}
               </Button>
               <div className='flex items-center gap-2 w-full sm:w-auto justify-end'>
                 <Button
@@ -836,14 +846,14 @@ export function POActionDialog() {
                   className='bg-muted/40 hover:bg-muted'
                 >
                   <FileText className='mr-1.5 h-4 w-4 text-primary' />
-                  Review Order Summary
+                  {t('purchaseOrders.dialog.reviewSummary', 'Review Order Summary')}
                 </Button>
                 <Button type='submit' disabled={isPending}>
                   {isPending
-                    ? 'Saving...'
+                    ? t('common.saving', 'Saving...')
                     : isCreate
-                      ? 'Create Order'
-                      : 'Update Order'}
+                      ? t('purchaseOrders.actions.createOrder', 'Create Order')
+                      : t('purchaseOrders.actions.updateOrder', 'Update Order')}
                 </Button>
               </div>
             </DialogFooter>

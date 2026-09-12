@@ -15,6 +15,7 @@ import {
   DollarSign,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -84,6 +85,7 @@ export function PRSummaryDialog({
   onConfirmDraftSubmit,
   isSubmittingDraft,
 }: PRSummaryDialogProps) {
+  const { t } = useTranslation()
   const {
     open: contextOpen,
     setOpen: setContextOpen,
@@ -110,7 +112,7 @@ export function PRSummaryDialog({
   const { data: detail, isLoading: isLoadingDetail } = useRequisition(reqId)
 
   const requisitionNumber = isDraftMode
-    ? 'DRAFT PREVIEW'
+    ? t('purchaseRequisitions.summary.draftBadge', 'DRAFT PREVIEW')
     : currentRow?.requisition_number || 'PR-000000'
 
   const status = isDraftMode
@@ -124,8 +126,8 @@ export function PRSummaryDialog({
     : detail?.currency || currentRow?.currency || 'USD'
 
   const storeName = isDraftMode
-    ? draftData?.storeName || 'No store / location specified'
-    : detail?.stores?.name || currentRow?.stores?.name || 'No store specified'
+    ? draftData?.storeName || t('purchaseRequisitions.summary.noStoreSpecified', 'No store / location specified')
+    : detail?.stores?.name || currentRow?.stores?.name || t('purchaseRequisitions.summary.noStoreSpecified', 'No store specified')
 
   const neededBy = isDraftMode
     ? draftData?.neededBy
@@ -203,7 +205,7 @@ export function PRSummaryDialog({
 
     navigator.clipboard.writeText(text)
     setCopied(true)
-    toast.success('Requisition summary copied to clipboard')
+    toast.success(t('purchaseRequisitions.summary.copiedSuccess', 'Requisition summary copied to clipboard'))
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -228,13 +230,21 @@ export function PRSummaryDialog({
                     variant='outline'
                     className='text-xs font-normal capitalize'
                   >
-                    {source === 'reorder_engine' ? 'Reorder Engine' : 'Manual'}
+                    {source === 'reorder_engine'
+                      ? t('purchaseRequisitions.sources.reorderEngine', 'Reorder Engine')
+                      : t('purchaseRequisitions.sources.manual', 'Manual')}
                   </Badge>
                 </DialogTitle>
                 <DialogDescription className='mt-0.5'>
                   {isDraftMode
-                    ? 'Review the requisition details and items before submission.'
-                    : 'Requisition summary and itemized procurement request.'}
+                    ? t(
+                        'purchaseRequisitions.summary.draftDesc',
+                        'Review the requisition details and items before submission.'
+                      )
+                    : t(
+                        'purchaseRequisitions.summary.viewDesc',
+                        'Requisition summary and itemized procurement request.'
+                      )}
                 </DialogDescription>
               </div>
             </div>
@@ -251,7 +261,7 @@ export function PRSummaryDialog({
                 ) : (
                   <Copy className='mr-1 h-4 w-4' />
                 )}
-                {copied ? 'Copied' : 'Copy'}
+                {copied ? t('common.copied', 'Copied') : t('common.copy', 'Copy')}
               </Button>
               <Button
                 type='button'
@@ -260,7 +270,7 @@ export function PRSummaryDialog({
                 onClick={handlePrint}
               >
                 <Printer className='mr-1 h-4 w-4' />
-                Print
+                {t('common.print', 'Print')}
               </Button>
             </div>
           </div>
@@ -272,7 +282,7 @@ export function PRSummaryDialog({
             <div className='rounded-lg border bg-card p-3 shadow-xs'>
               <div className='flex items-center gap-2 text-xs font-medium text-muted-foreground'>
                 <Store className='h-3.5 w-3.5' />
-                <span>Destination</span>
+                <span>{t('purchaseRequisitions.columns.destination', 'Destination')}</span>
               </div>
               <p className='mt-1 truncate text-sm font-semibold'>{storeName}</p>
             </div>
@@ -280,29 +290,29 @@ export function PRSummaryDialog({
             <div className='rounded-lg border bg-card p-3 shadow-xs'>
               <div className='flex items-center gap-2 text-xs font-medium text-muted-foreground'>
                 <Calendar className='h-3.5 w-3.5' />
-                <span>Needed By</span>
+                <span>{t('purchaseRequisitions.columns.neededBy', 'Needed By')}</span>
               </div>
               <p className='mt-1 text-sm font-semibold'>
                 {neededBy
                   ? format(new Date(neededBy), 'MMM dd, yyyy')
-                  : 'Flexible'}
+                  : t('common.flexible', 'Flexible')}
               </p>
             </div>
 
             <div className='rounded-lg border bg-card p-3 shadow-xs'>
               <div className='flex items-center gap-2 text-xs font-medium text-muted-foreground'>
                 <FileText className='h-3.5 w-3.5' />
-                <span>Line Items</span>
+                <span>{t('purchaseRequisitions.columns.items', 'Line Items')}</span>
               </div>
               <p className='mt-1 text-sm font-semibold'>
-                {lineItems.length} item{lineItems.length === 1 ? '' : 's'}
+                {lineItems.length} {lineItems.length === 1 ? t('common.item', 'item') : t('common.items', 'items')}
               </p>
             </div>
 
             <div className='rounded-lg border border-primary/20 bg-primary/5 p-3 shadow-xs'>
               <div className='flex items-center gap-2 text-xs font-medium text-primary'>
                 <DollarSign className='h-3.5 w-3.5' />
-                <span>Total Estimated</span>
+                <span>{t('purchaseRequisitions.summary.estTotal', 'Total Estimated')}</span>
               </div>
               <p className='mt-1 font-mono text-base font-bold text-foreground'>
                 {currency} {totalAmount.toFixed(2)}
@@ -314,39 +324,39 @@ export function PRSummaryDialog({
           <div className='space-y-2'>
             <div className='flex items-center justify-between'>
               <h4 className='text-sm font-semibold tracking-tight'>
-                Procurement Items ({lineItems.length})
+                {t('purchaseRequisitions.summary.itemsTitle', 'Procurement Items')} ({lineItems.length})
               </h4>
               <Badge
                 variant='outline'
                 className='font-mono text-xs font-normal'
               >
-                Currency: {currency}
+                {t('purchaseRequisitions.form.currency', 'Currency')}: {currency}
               </Badge>
             </div>
 
             {isLoadingDetail && !isDraftMode ? (
               <div className='rounded-md border p-8 text-center text-sm text-muted-foreground'>
-                Loading requisition details...
+                {t('purchaseRequisitions.summary.loading', 'Loading requisition details...')}
               </div>
             ) : lineItems.length > 0 ? (
               <div className='overflow-x-auto rounded-md border'>
                 <Table className='min-w-190'>
                   <TableHeader>
                     <TableRow className='bg-muted/40'>
-                      <TableHead className='min-w-50'>Product</TableHead>
-                      <TableHead className='min-w-37.5'>Variant</TableHead>
-                      <TableHead className='w-27.5 text-center'>UOM</TableHead>
-                      <TableHead className='w-22.5 text-center'>Qty</TableHead>
+                      <TableHead className='min-w-50'>{t('purchaseRequisitions.form.product', 'Product')}</TableHead>
+                      <TableHead className='min-w-37.5'>{t('purchaseRequisitions.form.variant', 'Variant')}</TableHead>
+                      <TableHead className='w-27.5 text-center'>{t('purchaseRequisitions.columns.uom', 'UOM')}</TableHead>
+                      <TableHead className='w-22.5 text-center'>{t('purchaseRequisitions.form.quantity', 'Qty')}</TableHead>
                       <TableHead className='w-27.5 text-right'>
-                        Est. Cost
+                        {t('purchaseRequisitions.form.estCost', 'Est. Cost')}
                       </TableHead>
                       <TableHead className='w-27.5 pr-3 text-right'>
-                        Subtotal
+                        {t('purchaseRequisitions.form.subtotal', 'Subtotal')}
                       </TableHead>
                       <TableHead className='min-w-35'>
-                        Preferred Supplier
+                        {t('purchaseRequisitions.form.supplier', 'Preferred Supplier')}
                       </TableHead>
-                      <TableHead className='min-w-30'>Reason</TableHead>
+                      <TableHead className='min-w-30'>{t('purchaseRequisitions.form.reason', 'Reason')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -386,7 +396,7 @@ export function PRSummaryDialog({
                             </Badge>
                           ) : (
                             <span className='text-xs text-muted-foreground'>
-                              Default
+                              {t('common.default', 'Default')}
                             </span>
                           )}
                         </TableCell>
@@ -428,7 +438,7 @@ export function PRSummaryDialog({
               </div>
             ) : (
               <div className='rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground'>
-                No items in this requisition.
+                {t('purchaseRequisitions.summary.noItems', 'No items in this requisition.')}
               </div>
             )}
 
@@ -436,7 +446,7 @@ export function PRSummaryDialog({
             <div className='flex justify-end pt-2'>
               <div className='flex items-baseline gap-2 rounded-lg border bg-muted/30 px-4 py-2'>
                 <span className='text-xs font-medium text-muted-foreground'>
-                  Grand Estimated Total:
+                  {t('purchaseRequisitions.summary.grandEstTotal', 'Grand Estimated Total')}:
                 </span>
                 <span className='font-mono text-lg font-bold'>
                   {currency} {totalAmount.toFixed(2)}
@@ -449,7 +459,7 @@ export function PRSummaryDialog({
           {notes ? (
             <div className='rounded-lg border bg-muted/40 p-3 text-xs'>
               <span className='font-semibold text-foreground'>
-                Notes / Justification:{' '}
+                {t('purchaseRequisitions.summary.notes', 'Notes / Justification')}:{' '}
               </span>
               <span className='text-muted-foreground'>{notes}</span>
             </div>
@@ -458,7 +468,7 @@ export function PRSummaryDialog({
 
         <DialogFooter className='flex flex-col-reverse items-center gap-2 border-t pt-4 sm:flex-row sm:justify-between'>
           <Button type='button' variant='outline' onClick={handleClose}>
-            Close
+            {t('common.close', 'Close')}
           </Button>
 
           <div className='flex w-full flex-wrap items-center justify-end gap-2 sm:w-auto'>
@@ -469,8 +479,8 @@ export function PRSummaryDialog({
                 disabled={isSubmittingDraft}
               >
                 {isSubmittingDraft
-                  ? 'Submitting...'
-                  : 'Confirm & Save Requisition'}
+                  ? t('purchaseRequisitions.form.saving', 'Submitting...')
+                  : t('purchaseRequisitions.summary.confirmAndSave', 'Confirm & Save Requisition')}
               </Button>
             ) : (
               <Can permission='purchasing.manage'>
@@ -486,7 +496,7 @@ export function PRSummaryDialog({
                       }}
                     >
                       <Pencil className='mr-1.5 h-3.5 w-3.5' />
-                      Edit
+                      {t('purchaseRequisitions.actions.edit', 'Edit')}
                     </Button>
                     <Button
                       type='button'
@@ -502,7 +512,7 @@ export function PRSummaryDialog({
                       }}
                     >
                       <Send className='mr-1.5 h-3.5 w-3.5' />
-                      Submit for Approval
+                      {t('purchaseRequisitions.actions.submit', 'Submit for Approval')}
                     </Button>
                   </>
                 ) : null}
@@ -524,7 +534,7 @@ export function PRSummaryDialog({
                       }}
                     >
                       <XCircle className='mr-1.5 h-3.5 w-3.5' />
-                      Reject
+                      {t('purchaseRequisitions.actions.reject', 'Reject')}
                     </Button>
                     <Button
                       type='button'
@@ -541,7 +551,7 @@ export function PRSummaryDialog({
                       }}
                     >
                       <CheckCircle className='mr-1.5 h-3.5 w-3.5' />
-                      Approve Requisition
+                      {t('purchaseRequisitions.actions.approve', 'Approve Requisition')}
                     </Button>
                   </>
                 ) : null}
@@ -562,7 +572,7 @@ export function PRSummaryDialog({
                     }}
                   >
                     <ArrowRightCircle className='mr-1.5 h-3.5 w-3.5' />
-                    Convert to Purchase Order
+                    {t('purchaseRequisitions.actions.convertToPO', 'Convert to Purchase Order')}
                   </Button>
                 ) : null}
               </Can>

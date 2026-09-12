@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type ColumnFiltersState,
   type SortingState,
@@ -12,6 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -30,13 +31,15 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table'
 import type { RequisitionListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 interface RequisitionsTableProps {
   data: RequisitionListItem[]
 }
 
 export function RequisitionsTable({ data }: RequisitionsTableProps) {
+  const { t } = useTranslation()
+  const tableColumns = useMemo(() => getColumns(t), [t])
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'created_at', desc: true },
   ])
@@ -51,7 +54,7 @@ export function RequisitionsTable({ data }: RequisitionsTableProps) {
 
   const table = useReactTable({
     data: filteredData,
-    columns,
+    columns: tableColumns,
     state: {
       sorting,
       columnFilters,
@@ -79,7 +82,7 @@ export function RequisitionsTable({ data }: RequisitionsTableProps) {
       <div className='flex flex-wrap items-center justify-between gap-3'>
         <div className='flex flex-wrap items-center gap-3'>
           <Input
-            placeholder='Search requisition number...'
+            placeholder={t('purchaseRequisitions.table.searchPlaceholder', 'Search requisition number...')}
             value={
               (table
                 .getColumn('requisition_number')
@@ -94,22 +97,25 @@ export function RequisitionsTable({ data }: RequisitionsTableProps) {
           />
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className='h-9 w-[160px]'>
-              <SelectValue placeholder='All Statuses' />
+              <SelectValue placeholder={t('purchaseRequisitions.table.allStatuses', 'All Statuses')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='all'>All Statuses</SelectItem>
-              <SelectItem value='draft'>Draft</SelectItem>
-              <SelectItem value='submitted'>Submitted</SelectItem>
-              <SelectItem value='approved'>Approved</SelectItem>
-              <SelectItem value='rejected'>Rejected</SelectItem>
-              <SelectItem value='converted'>Converted to PO</SelectItem>
-              <SelectItem value='cancelled'>Cancelled</SelectItem>
+              <SelectItem value='all'>{t('purchaseRequisitions.table.allStatuses', 'All Statuses')}</SelectItem>
+              <SelectItem value='draft'>{t('purchaseRequisitions.status.draft', 'Draft')}</SelectItem>
+              <SelectItem value='submitted'>{t('purchaseRequisitions.status.submitted', 'Submitted')}</SelectItem>
+              <SelectItem value='approved'>{t('purchaseRequisitions.status.approved', 'Approved')}</SelectItem>
+              <SelectItem value='rejected'>{t('purchaseRequisitions.status.rejected', 'Rejected')}</SelectItem>
+              <SelectItem value='converted'>{t('purchaseRequisitions.status.converted', 'Converted to PO')}</SelectItem>
+              <SelectItem value='cancelled'>{t('purchaseRequisitions.status.cancelled', 'Cancelled')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className='text-xs text-muted-foreground'>
-          Showing {filteredData.length} of {data.length} requisition(s)
+          {t('purchaseRequisitions.table.showingCount', 'Showing {{filtered}} of {{total}} requisition(s)', {
+            filtered: filteredData.length,
+            total: data.length,
+          })}
         </div>
       </div>
 
@@ -149,10 +155,10 @@ export function RequisitionsTable({ data }: RequisitionsTableProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={tableColumns.length}
                   className='h-24 text-center text-sm text-muted-foreground'
                 >
-                  No purchase requisitions found.
+                  {t('purchaseRequisitions.table.noResults', 'No purchase requisitions found.')}
                 </TableCell>
               </TableRow>
             )}

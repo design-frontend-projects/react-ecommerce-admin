@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import type { RequisitionStatus } from '../data/schema'
@@ -44,18 +45,21 @@ interface PRStatusBadgeProps {
 }
 
 export function PRStatusBadge({ status, className }: PRStatusBadgeProps) {
+  const { t } = useTranslation()
   const config =
     statusConfig[status as RequisitionStatus] || {
       label: status,
       className: 'bg-muted text-muted-foreground',
     }
 
+  const translatedLabel = t(`purchaseRequisitions.status.${status}`, config.label)
+
   return (
     <Badge
       variant='secondary'
       className={cn('font-medium capitalize text-xs', config.className, className)}
     >
-      {config.label}
+      {translatedLabel}
     </Badge>
   )
 }

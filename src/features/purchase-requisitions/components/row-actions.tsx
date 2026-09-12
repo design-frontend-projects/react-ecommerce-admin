@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ArrowRightCircle,
   Check,
@@ -28,6 +29,7 @@ import {
 import { useRequisitionsContext } from './provider'
 
 export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useRequisitionsContext()
   const requisitionAction = useRequisitionAction()
   const cancelRequisition = useCancelRequisition()
@@ -52,7 +54,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
+            <span className='sr-only'>{t('common.openMenu', 'Open menu')}</span>
             <MoreHorizontal className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
@@ -64,7 +66,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
             }}
           >
             <Eye className='mr-2 h-4 w-4' />
-            View Summary
+            {t('purchaseRequisitions.actions.viewSummary', 'View Summary')}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
 
@@ -78,7 +80,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                   }}
                 >
                   <Pencil className='mr-2 h-4 w-4' />
-                  Edit Requisition
+                  {t('purchaseRequisitions.actions.edit', 'Edit Requisition')}
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
@@ -88,7 +90,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                   }
                 >
                   <Send className='mr-2 h-4 w-4' />
-                  Submit for Approval
+                  {t('purchaseRequisitions.actions.submit', 'Submit for Approval')}
                 </DropdownMenuItem>
               </>
             )}
@@ -102,7 +104,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                   }
                 >
                   <Check className='mr-2 h-4 w-4 text-emerald-600' />
-                  Approve
+                  {t('purchaseRequisitions.actions.approve', 'Approve')}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   disabled={requisitionAction.isPending}
@@ -111,7 +113,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                   }
                 >
                   <X className='mr-2 h-4 w-4 text-rose-600' />
-                  Reject
+                  {t('purchaseRequisitions.actions.reject', 'Reject')}
                 </DropdownMenuItem>
               </>
             )}
@@ -122,7 +124,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                 onClick={() => setConfirmConvert(true)}
               >
                 <ArrowRightCircle className='mr-2 h-4 w-4 text-purple-600' />
-                Convert to PO
+                {t('purchaseRequisitions.actions.convertToPO', 'Convert to PO')}
               </DropdownMenuItem>
             )}
 
@@ -133,7 +135,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                 onClick={() => cancelRequisition.mutate(row.id)}
               >
                 <XCircle className='mr-2 h-4 w-4' />
-                Cancel Requisition
+                {t('purchaseRequisitions.actions.cancel', 'Cancel Requisition')}
               </DropdownMenuItem>
             )}
 
@@ -148,7 +150,7 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
                   }}
                 >
                   <Trash2 className='mr-2 h-4 w-4' />
-                  Delete
+                  {t('purchaseRequisitions.actions.delete', 'Delete')}
                 </DropdownMenuItem>
               </>
             )}
@@ -159,10 +161,14 @@ export function RequisitionRowActions({ row }: { row: RequisitionListItem }) {
       <ConfirmDialog
         open={confirmConvert}
         onOpenChange={setConfirmConvert}
-        title='Convert to Purchase Order?'
-        desc={`A draft purchase order will be created from ${row.requisition_number} and the requisition will be marked converted. This cannot be undone.`}
-        confirmText='Convert to PO'
-        cancelBtnText='Cancel'
+        title={t('purchaseRequisitions.actions.confirmConvertTitle', 'Convert to Purchase Order?')}
+        desc={t(
+          'purchaseRequisitions.actions.confirmConvertDesc',
+          'A draft purchase order will be created from {{reqNumber}} and the requisition will be marked converted. This cannot be undone.',
+          { reqNumber: row.requisition_number }
+        )}
+        confirmText={t('purchaseRequisitions.actions.convertToPO', 'Convert to PO')}
+        cancelBtnText={t('common.cancel', 'Cancel')}
         isLoading={requisitionAction.isPending}
         handleConfirm={handleConvert}
       />

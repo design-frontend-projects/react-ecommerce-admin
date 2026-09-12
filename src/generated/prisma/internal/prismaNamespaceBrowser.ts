@@ -544,8 +544,9 @@ export type Product_typesScalarFieldEnum = (typeof Product_typesScalarFieldEnum)
 
 export const InventoryScalarFieldEnum = {
   inventory_id: 'inventory_id',
-  quantity: 'quantity',
   store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  warehouse_location_id: 'warehouse_location_id',
   created_at: 'created_at',
   last_count_date: 'last_count_date',
   max_quantity: 'max_quantity',

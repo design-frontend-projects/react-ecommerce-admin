@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,12 +22,14 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table'
 import type { RuleListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 export function ReorderRulesTable({ data }: { data: RuleListItem[] }) {
   const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,
@@ -83,7 +85,7 @@ export function ReorderRulesTable({ data }: { data: RuleListItem[] }) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No reorder rules yet.
+                  {t('reorderRules.table.noRules', 'No reorder rules yet.')}
                 </TableCell>
               </TableRow>
             )}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,6 +12,7 @@ import type { RuleListItem } from '../data/schema'
 import { useReorderRulesContext } from './provider'
 
 export function RuleRowActions({ row }: { row: RuleListItem }) {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useReorderRulesContext()
 
   return (
@@ -29,7 +31,7 @@ export function RuleRowActions({ row }: { row: RuleListItem }) {
             }}
           >
             <Pencil className='me-2 h-4 w-4' />
-            Edit
+            {t('reorderRules.actions.edit', 'Edit')}
           </DropdownMenuItem>
           <DropdownMenuItem
             className='text-rose-600'
@@ -39,7 +41,7 @@ export function RuleRowActions({ row }: { row: RuleListItem }) {
             }}
           >
             <Trash2 className='me-2 h-4 w-4' />
-            Delete
+            {t('reorderRules.actions.delete', 'Delete')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

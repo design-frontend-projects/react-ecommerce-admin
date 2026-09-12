@@ -30,10 +30,14 @@ export function ReorderRules() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('reorderRules.title')}</h2>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
+              {t('reorderRules.title', 'Reorder Rules')}
+            </h2>
             <p className='text-muted-foreground'>
-              Per-variant, per-store replenishment thresholds that drive the
-              reorder check.
+              {t(
+                'reorderRules.description',
+                'Per-variant, per-store replenishment thresholds that drive the reorder check.'
+              )}
             </p>
           </div>
           <ReorderRulesPrimaryButtons />
@@ -45,7 +49,9 @@ export function ReorderRules() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading reorder rules.</p>
+            <p className='font-medium'>
+              {t('reorderRules.errorLoading', 'Error loading reorder rules.')}
+            </p>
           </div>
         ) : (
           <ReorderRulesTable data={rules ?? []} />

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Plus, Trash2, Building2, Warehouse, User, Calendar, FileText, Eye, CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import {
   useStoreOptions,
   useCustomerOptions,
@@ -70,6 +71,7 @@ export function OrderCreateDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   const [storeId, setStoreId] = useState('')
   const [warehouseId, setWarehouseId] = useState('')
   const [customerId, setCustomerId] = useState(WALK_IN)
@@ -202,8 +204,8 @@ export function OrderCreateDialog({
         const q = Number(i.qty) || 0
         const p = Number(i.unitPrice) || 0
         const d = Number(i.discountAmount) || 0
-        const t = Number(i.taxAmount) || 0
-        const lineTotal = Math.max(0, q * p - d + t)
+        const tax = Number(i.taxAmount) || 0
+        const lineTotal = Math.max(0, q * p - d + tax)
 
         return {
           productId: i.productId,
@@ -218,13 +220,13 @@ export function OrderCreateDialog({
           quantity: q,
           unitPrice: p,
           discountAmount: d,
-          taxAmount: t,
+          taxAmount: tax,
           subtotal: lineTotal,
         }
       })
 
     if (compiledItems.length === 0) {
-      toast.error('Please add at least one line item with valid product and quantity.')
+      toast.error(t('salesOrders.createDialog.itemRequiredError', 'Please add at least one line item with valid product and quantity.'))
       return null
     }
 
@@ -236,7 +238,7 @@ export function OrderCreateDialog({
       warehouseId: warehouseId || null,
       customerName: selectedCust
         ? [selectedCust.first_name, selectedCust.last_name].filter(Boolean).join(' ')
-        : 'Walk-in Customer',
+        : t('salesOrders.form.walkInCustomer', 'Walk-in Customer'),
       customerId: customerId === WALK_IN ? null : customerId,
       customerPhone: selectedCust?.phone,
       customerCode: selectedCust?.code,
@@ -254,7 +256,7 @@ export function OrderCreateDialog({
 
   const handleOpenReview = () => {
     if (!storeId) {
-      toast.error('Please select a store first.')
+      toast.error(t('salesOrders.createDialog.selectStoreFirst', 'Please select a store first.'))
       return
     }
     const draft = buildDraftData()
@@ -286,7 +288,7 @@ export function OrderCreateDialog({
     })
 
     if (!parsed.success) {
-      toast.error('Please fix the sales order form', {
+      toast.error(t('salesOrders.createDialog.fixFormError', 'Please fix the sales order form'), {
         description: parsed.error.issues[0]?.message ?? 'Invalid input.',
       })
       return
@@ -314,10 +316,10 @@ export function OrderCreateDialog({
           <DialogHeader className='p-6 pb-4 border-b bg-muted/20'>
             <DialogTitle className='text-xl font-bold flex items-center gap-2'>
               <FileText className='h-5 w-5 text-primary' />
-              New Sales Order
+              {t('salesOrders.createDialog.title', 'New Sales Order')}
             </DialogTitle>
             <DialogDescription className='text-xs text-muted-foreground'>
-              Create a sales order draft with real customer, fulfillment location, and line items.
+              {t('salesOrders.createDialog.desc', 'Create a sales order draft with real customer, fulfillment location, and line items.')}
             </DialogDescription>
           </DialogHeader>
 
@@ -328,11 +330,11 @@ export function OrderCreateDialog({
                 {/* Store Select */}
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold flex items-center gap-1.5'>
-                    <Building2 className='h-3.5 w-3.5 text-primary' /> Store *
+                    <Building2 className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.store', 'Store *')}
                   </Label>
                   <Select value={storeId} onValueChange={setStoreId}>
                     <SelectTrigger className='h-9 text-xs sm:text-sm'>
-                      <SelectValue placeholder='Select store...' />
+                      <SelectValue placeholder={t('salesOrders.form.selectStore', 'Select store...')} />
                     </SelectTrigger>
                     <SelectContent>
                       {stores.map((store) => (
@@ -347,11 +349,11 @@ export function OrderCreateDialog({
                 {/* Warehouse Location Select */}
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold flex items-center gap-1.5'>
-                    <Warehouse className='h-3.5 w-3.5 text-primary' /> Fulfillment Warehouse
+                    <Warehouse className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.warehouse', 'Fulfillment Warehouse')}
                   </Label>
                   <Select value={warehouseId} onValueChange={setWarehouseId}>
                     <SelectTrigger className='h-9 text-xs sm:text-sm'>
-                      <SelectValue placeholder='Default warehouse...' />
+                      <SelectValue placeholder={t('salesOrders.form.defaultWarehouse', 'Default warehouse...')} />
                     </SelectTrigger>
                     <SelectContent>
                       {warehouses.map((wh) => (
@@ -366,14 +368,14 @@ export function OrderCreateDialog({
                 {/* Customer Select */}
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold flex items-center gap-1.5'>
-                    <User className='h-3.5 w-3.5 text-primary' /> Customer
+                    <User className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.customer', 'Customer')}
                   </Label>
                   <Select value={customerId} onValueChange={setCustomerId}>
                     <SelectTrigger className='h-9 text-xs sm:text-sm'>
-                      <SelectValue placeholder='Select customer...' />
+                      <SelectValue placeholder={t('salesOrders.form.selectCustomer', 'Select customer...')} />
                     </SelectTrigger>
                     <SelectContent className='max-h-60'>
-                      <SelectItem value={WALK_IN}>Walk-in Customer</SelectItem>
+                      <SelectItem value={WALK_IN}>{t('salesOrders.form.walkInCustomer', 'Walk-in Customer')}</SelectItem>
                       {customers.map((c) => {
                         const name = [c.first_name, c.last_name].filter(Boolean).join(' ')
                         return (
@@ -395,10 +397,10 @@ export function OrderCreateDialog({
 
                 {/* Currency Select */}
                 <div className='space-y-1.5'>
-                  <Label className='text-xs font-semibold'>Currency</Label>
+                  <Label className='text-xs font-semibold'>{t('salesOrders.form.currency', 'Currency')}</Label>
                   <Select value={currency} onValueChange={setCurrency}>
                     <SelectTrigger className='h-9 text-xs sm:text-sm'>
-                      <SelectValue placeholder='Currency' />
+                      <SelectValue placeholder={t('salesOrders.form.currency', 'Currency')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value='USD'>USD ($)</SelectItem>
@@ -422,7 +424,7 @@ export function OrderCreateDialog({
               <div className='grid grid-cols-1 sm:grid-cols-3 gap-3.5'>
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold flex items-center gap-1.5'>
-                    <Calendar className='h-3.5 w-3.5 text-primary' /> Expected Delivery Date
+                    <Calendar className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.expectedDate', 'Expected Delivery Date')}
                   </Label>
                   <Input
                     type='date'
@@ -433,11 +435,11 @@ export function OrderCreateDialog({
                 </div>
 
                 <div className='space-y-1.5 sm:col-span-2'>
-                  <Label className='text-xs font-semibold'>Order Notes & Instructions</Label>
+                  <Label className='text-xs font-semibold'>{t('salesOrders.form.notes', 'Order Notes & Instructions')}</Label>
                   <Input
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder='Special shipping remarks, delivery instructions, or PO ref...'
+                    placeholder={t('salesOrders.form.notesPlaceholder', 'Special shipping remarks, delivery instructions, or PO ref...')}
                     className='h-9 text-xs sm:text-sm'
                   />
                 </div>
@@ -447,7 +449,7 @@ export function OrderCreateDialog({
               <div className='space-y-3 pt-2'>
                 <div className='flex items-center justify-between border-b pb-2'>
                   <h3 className='text-xs font-bold uppercase tracking-wider text-muted-foreground'>
-                    Line Items ({items.length})
+                    {t('salesOrders.form.lineItems', 'Line Items')} ({items.length})
                   </h3>
                   <Button
                     type='button'
@@ -456,7 +458,7 @@ export function OrderCreateDialog({
                     className='h-8 text-xs'
                     onClick={() => setItems((prev) => [...prev, { ...emptyItem }])}
                   >
-                    <Plus className='mr-1 h-3.5 w-3.5' /> Add Item
+                    <Plus className='mr-1 h-3.5 w-3.5' /> {t('salesOrders.form.addItem', 'Add Item')}
                   </Button>
                 </div>
 
@@ -469,8 +471,8 @@ export function OrderCreateDialog({
                     const q = Number(item.qty) || 0
                     const p = Number(item.unitPrice) || 0
                     const d = Number(item.discountAmount) || 0
-                    const t = Number(item.taxAmount) || 0
-                    const lineTotal = Math.max(0, q * p - d + t)
+                    const tax = Number(item.taxAmount) || 0
+                    const lineTotal = Math.max(0, q * p - d + tax)
 
                     return (
                       <div
@@ -481,7 +483,7 @@ export function OrderCreateDialog({
                           {/* Product Picker */}
                           <div className='sm:col-span-4 space-y-1'>
                             <Label className='text-[11px] text-muted-foreground'>
-                              Product #{index + 1}
+                              {t('salesOrders.form.product', 'Product')} #{index + 1}
                             </Label>
                             <SOProductSelect
                               productId={item.productId}
@@ -494,7 +496,7 @@ export function OrderCreateDialog({
                           {/* Variant Picker */}
                           <div className='sm:col-span-4 space-y-1'>
                             <Label className='text-[11px] text-muted-foreground'>
-                              Variant / SKU
+                              {t('salesOrders.form.variantSku', 'Variant / SKU')}
                             </Label>
                             <SOVariantSelect
                               productId={item.productId}
@@ -509,14 +511,14 @@ export function OrderCreateDialog({
                           {/* UOM Selector */}
                           <div className='sm:col-span-3 space-y-1'>
                             <Label className='text-[11px] text-muted-foreground'>
-                              UOM
+                              {t('salesOrders.itemsTable.uom', 'UOM')}
                             </Label>
                             <Select
                               value={item.uomId || ''}
                               onValueChange={(val) => updateItem(index, { uomId: val })}
                             >
                               <SelectTrigger className='h-9 text-xs'>
-                                <SelectValue placeholder='Unit...' />
+                                <SelectValue placeholder={t('salesOrders.form.selectUnit', 'Unit...')} />
                               </SelectTrigger>
                               <SelectContent>
                                 {uoms.map((u) => (
@@ -552,7 +554,7 @@ export function OrderCreateDialog({
                         {/* Quantity, Price, Discount, Tax & Line Total Row */}
                         <div className='grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 border-t border-dashed'>
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>Quantity</Label>
+                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.qty', 'Quantity')}</Label>
                             <Input
                               type='number'
                               step='any'
@@ -565,7 +567,7 @@ export function OrderCreateDialog({
                           </div>
 
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>Unit Price ($)</Label>
+                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.unitPrice', 'Unit Price ($)')}</Label>
                             <Input
                               type='number'
                               step='any'
@@ -578,7 +580,7 @@ export function OrderCreateDialog({
                           </div>
 
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>Discount ($)</Label>
+                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.discount', 'Discount ($)')}</Label>
                             <Input
                               type='number'
                               step='any'
@@ -591,7 +593,7 @@ export function OrderCreateDialog({
                           </div>
 
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>Tax ($)</Label>
+                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.tax', 'Tax ($)')}</Label>
                             <Input
                               type='number'
                               step='any'
@@ -604,7 +606,7 @@ export function OrderCreateDialog({
                           </div>
 
                           <div className='col-span-2 sm:col-span-1 space-y-1 flex flex-col justify-end text-right sm:pr-1'>
-                            <Label className='text-[10px] text-muted-foreground'>Line Total</Label>
+                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.lineTotal', 'Line Total')}</Label>
                             <span className='font-mono font-bold text-sm text-foreground leading-8'>
                               ${lineTotal.toFixed(2)}
                             </span>
@@ -619,14 +621,14 @@ export function OrderCreateDialog({
                 <div className='flex justify-end pt-3'>
                   <div className='w-full sm:w-72 rounded-lg border bg-muted/20 p-3.5 space-y-1.5'>
                     <div className='flex justify-between text-xs text-muted-foreground'>
-                      <span>Subtotal:</span>
+                      <span>{t('salesOrders.viewDialog.subtotal', 'Subtotal:')}</span>
                       <span className='font-mono font-medium text-foreground'>
                         ${subtotal.toFixed(2)}
                       </span>
                     </div>
                     {totalDiscount > 0 && (
                       <div className='flex justify-between text-xs text-rose-600'>
-                        <span>Discount:</span>
+                        <span>{t('salesOrders.viewDialog.discount', 'Discount:')}</span>
                         <span className='font-mono font-medium'>
                           -${totalDiscount.toFixed(2)}
                         </span>
@@ -634,14 +636,14 @@ export function OrderCreateDialog({
                     )}
                     {totalTax > 0 && (
                       <div className='flex justify-between text-xs text-muted-foreground'>
-                        <span>Tax:</span>
+                        <span>{t('salesOrders.viewDialog.tax', 'Tax:')}</span>
                         <span className='font-mono font-medium text-foreground'>
                           +${totalTax.toFixed(2)}
                         </span>
                       </div>
                     )}
                     <div className='border-t pt-1.5 flex justify-between items-baseline font-bold text-sm'>
-                      <span>Grand Total:</span>
+                      <span>{t('salesOrders.viewDialog.grandTotal', 'Grand Total:')}</span>
                       <span className='font-mono text-base text-primary'>
                         ${grandTotal.toFixed(2)}
                       </span>
@@ -660,7 +662,7 @@ export function OrderCreateDialog({
               size='sm'
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('common.cancel', 'Cancel')}
             </Button>
 
             <div className='flex items-center gap-2'>
@@ -671,7 +673,7 @@ export function OrderCreateDialog({
                 onClick={handleOpenReview}
               >
                 <Eye className='mr-1.5 h-4 w-4' />
-                Review & Print Draft
+                {t('salesOrders.createDialog.reviewDraft', 'Review & Print Draft')}
               </Button>
 
               <Button
@@ -681,7 +683,7 @@ export function OrderCreateDialog({
                 disabled={createOrder.isPending}
               >
                 <CheckCircle2 className='mr-1.5 h-4 w-4' />
-                {createOrder.isPending ? 'Creating Order...' : 'Create Draft'}
+                {createOrder.isPending ? t('salesOrders.createDialog.creatingOrder', 'Creating Order...') : t('salesOrders.createDialog.createDraft', 'Create Draft')}
               </Button>
             </div>
           </DialogFooter>

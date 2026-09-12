@@ -1,4 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table'
+import { type TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
+import i18n from '@/config/i18n'
 import {
   FileText,
   Clock,
@@ -66,12 +69,14 @@ export const STATUS_CONFIG: Record<
 }
 
 export function OrderStatusBadge({ status }: { status: OrderStatus }) {
+  const { t } = useTranslation()
   const config = STATUS_CONFIG[status] ?? {
     label: status,
     className: 'border-border bg-muted text-muted-foreground',
     icon: Clock,
   }
   const Icon = config.icon
+  const label = t(`salesOrders.status.${status}`, config.label)
 
   return (
     <Badge
@@ -79,16 +84,16 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
       className={`capitalize font-medium flex items-center gap-1.5 px-2 py-0.5 text-xs w-fit ${config.className}`}
     >
       <Icon className='h-3 w-3 shrink-0' />
-      <span>{config.label}</span>
+      <span>{label}</span>
     </Badge>
   )
 }
 
-export const columns: ColumnDef<OrderListItem>[] = [
+export const getColumns = (t: TFunction = i18n.t): ColumnDef<OrderListItem>[] => [
   {
     accessorKey: 'order_number',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Order #' />
+      <DataTableColumnHeader column={column} title={t('salesOrders.columns.orderNumber', 'Order #')} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -104,7 +109,7 @@ export const columns: ColumnDef<OrderListItem>[] = [
   {
     id: 'customer',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Customer' />
+      <DataTableColumnHeader column={column} title={t('salesOrders.columns.customer', 'Customer')} />
     ),
     cell: ({ row }) => {
       const cust = row.original.customers
@@ -125,7 +130,7 @@ export const columns: ColumnDef<OrderListItem>[] = [
   },
   {
     id: 'store_warehouse',
-    header: 'Store / Location',
+    header: t('salesOrders.columns.storeLocation', 'Store / Location'),
     cell: ({ row }) => {
       const storeName = row.original.stores?.name
       const whName = row.original.warehouses?.name
@@ -148,7 +153,7 @@ export const columns: ColumnDef<OrderListItem>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t('salesOrders.columns.status', 'Status')} />
     ),
     cell: ({ row }) => <OrderStatusBadge status={row.original.status} />,
     filterFn: (row, id, value) => value.includes(row.getValue(id)),
@@ -156,7 +161,7 @@ export const columns: ColumnDef<OrderListItem>[] = [
   {
     accessorKey: 'order_date',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Ordered Date' />
+      <DataTableColumnHeader column={column} title={t('salesOrders.columns.orderDate', 'Ordered Date')} />
     ),
     cell: ({ row }) => (
       <div className='flex flex-col text-xs'>
@@ -169,7 +174,8 @@ export const columns: ColumnDef<OrderListItem>[] = [
         </span>
         {row.original.expected_date && (
           <span className='text-[11px] text-muted-foreground'>
-            Exp: {new Date(row.original.expected_date).toLocaleDateString(undefined, {
+            {t('salesOrders.columns.expectedDateAbbr', 'Exp:')}{' '}
+            {new Date(row.original.expected_date).toLocaleDateString(undefined, {
               month: 'short',
               day: 'numeric',
             })}
@@ -181,10 +187,9 @@ export const columns: ColumnDef<OrderListItem>[] = [
   {
     accessorKey: 'total_amount',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Total Amount' />
+      <DataTableColumnHeader column={column} title={t('salesOrders.columns.totalAmount', 'Total Amount')} />
     ),
     cell: ({ row }) => {
-      const curr = row.original.currency || 'USD'
       return (
         <div className='flex flex-col'>
           <span className='font-mono font-bold text-sm text-foreground tabular-nums'>
@@ -192,7 +197,7 @@ export const columns: ColumnDef<OrderListItem>[] = [
           </span>
           {row.original.discount_amount > 0 && (
             <span className='text-[11px] text-rose-600 font-mono'>
-              -${row.original.discount_amount.toFixed(2)} disc
+              -${row.original.discount_amount.toFixed(2)} {t('salesOrders.columns.discountAbbr', 'disc')}
             </span>
           )}
         </div>
@@ -202,13 +207,17 @@ export const columns: ColumnDef<OrderListItem>[] = [
   {
     id: 'items',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Items' />
+      <DataTableColumnHeader column={column} title={t('salesOrders.columns.items', 'Items')} />
     ),
     cell: ({ row }) => {
       const count = row.original._count?.sales_order_items ?? 0
+      const label =
+        count === 1
+          ? t('salesOrders.columns.itemCount', '{{count}} item', { count })
+          : t('salesOrders.columns.itemCount_other', '{{count}} items', { count })
       return (
         <Badge variant='outline' className='font-mono text-xs font-semibold'>
-          {count} {count === 1 ? 'item' : 'items'}
+          {label}
         </Badge>
       )
     },
@@ -218,3 +227,6 @@ export const columns: ColumnDef<OrderListItem>[] = [
     cell: ({ row }) => <OrderRowActions row={row.original} />,
   },
 ]
+
+export const columns: ColumnDef<OrderListItem>[] = getColumns()
+

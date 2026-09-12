@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import {
   useStoreOptions,
   useVariantOptions,
@@ -40,6 +41,7 @@ function RuleFormDialogBody({
   rule: RuleListItem | null
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   const isEdit = Boolean(rule)
   const [search, setSearch] = useState('')
   const [productVariantId, setProductVariantId] = useState(
@@ -116,9 +118,12 @@ function RuleFormDialogBody({
       isActive,
     })
     if (!parsed.success) {
-      toast.error('Please fix the reorder rule', {
-        description: parsed.error.issues[0]?.message ?? 'Invalid input.',
-      })
+      toast.error(
+        t('reorderRules.form.fixRule', 'Please fix the reorder rule'),
+        {
+          description: parsed.error.issues[0]?.message ?? 'Invalid input.',
+        }
+      )
       return
     }
     try {
@@ -139,12 +144,20 @@ function RuleFormDialogBody({
     <DialogContent className='sm:max-w-lg'>
       <DialogHeader>
         <DialogTitle>
-          {isEdit ? 'Edit Reorder Rule' : 'New Reorder Rule'}
+          {isEdit
+            ? t('reorderRules.dialog.editTitle', 'Edit Reorder Rule')
+            : t('reorderRules.dialog.createTitle', 'New Reorder Rule')}
         </DialogTitle>
         <DialogDescription>
-          One rule per variant and store. The reorder check suggests
-          replenishment when available + on-order stock falls to the reorder
-          point plus safety stock.
+          {isEdit
+            ? t(
+                'reorderRules.dialog.editDesc',
+                'Update replenishment parameters and thresholds.'
+              )
+            : t(
+                'reorderRules.dialog.createDesc',
+                'One rule per variant and store. The reorder check suggests replenishment when available + on-order stock falls to the reorder point plus safety stock.'
+              )}
         </DialogDescription>
       </DialogHeader>
 
@@ -152,11 +165,11 @@ function RuleFormDialogBody({
         <div className='grid gap-4'>
           <div className='grid gap-2'>
             <div className='flex items-center justify-between'>
-              <Label>Product variant</Label>
+              <Label>{t('reorderRules.form.variant', 'Product variant')}</Label>
               <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder='Search SKU...'
+                placeholder={t('reorderRules.form.searchVariant', 'Search SKU...')}
                 className='h-8 w-40'
               />
             </div>
@@ -165,7 +178,12 @@ function RuleFormDialogBody({
               onValueChange={setProductVariantId}
             >
               <SelectTrigger>
-                <SelectValue placeholder='Select variant' />
+                <SelectValue
+                  placeholder={t(
+                    'reorderRules.form.selectVariant',
+                    'Select variant'
+                  )}
+                />
               </SelectTrigger>
               <SelectContent>
                 {variantOptions.map((variant) => (
@@ -181,10 +199,12 @@ function RuleFormDialogBody({
           </div>
 
           <div className='grid gap-2'>
-            <Label>Store</Label>
+            <Label>{t('reorderRules.form.store', 'Store')}</Label>
             <Select value={storeId} onValueChange={setStoreId}>
               <SelectTrigger>
-                <SelectValue placeholder='Select store' />
+                <SelectValue
+                  placeholder={t('reorderRules.form.selectStore', 'Select store')}
+                />
               </SelectTrigger>
               <SelectContent>
                 {stores.map((store) => (
@@ -198,7 +218,9 @@ function RuleFormDialogBody({
 
           <div className='grid grid-cols-2 gap-4'>
             <div className='grid gap-2'>
-              <Label>Reorder point</Label>
+              <Label>
+                {t('reorderRules.form.reorderPoint', 'Reorder point')}
+              </Label>
               <Input
                 type='number'
                 step='any'
@@ -208,7 +230,9 @@ function RuleFormDialogBody({
               />
             </div>
             <div className='grid gap-2'>
-              <Label>Safety stock (optional)</Label>
+              <Label>
+                {t('reorderRules.form.safetyStock', 'Safety stock (optional)')}
+              </Label>
               <Input
                 type='number'
                 step='any'
@@ -221,7 +245,7 @@ function RuleFormDialogBody({
 
           <div className='grid grid-cols-2 gap-4'>
             <div className='grid gap-2'>
-              <Label>Min qty (optional)</Label>
+              <Label>{t('reorderRules.form.minQty', 'Min qty (optional)')}</Label>
               <Input
                 type='number'
                 step='any'
@@ -230,7 +254,7 @@ function RuleFormDialogBody({
               />
             </div>
             <div className='grid gap-2'>
-              <Label>Max qty (optional)</Label>
+              <Label>{t('reorderRules.form.maxQty', 'Max qty (optional)')}</Label>
               <Input
                 type='number'
                 step='any'
@@ -242,7 +266,9 @@ function RuleFormDialogBody({
 
           <div className='grid grid-cols-2 gap-4'>
             <div className='grid gap-2'>
-              <Label>Reorder qty (optional)</Label>
+              <Label>
+                {t('reorderRules.form.reorderQty', 'Reorder qty (optional)')}
+              </Label>
               <Input
                 type='number'
                 step='any'
@@ -251,7 +277,7 @@ function RuleFormDialogBody({
               />
             </div>
             <div className='grid gap-2'>
-              <Label>EOQ (optional)</Label>
+              <Label>{t('reorderRules.form.eoq', 'EOQ (optional)')}</Label>
               <Input
                 type='number'
                 step='any'
@@ -263,7 +289,9 @@ function RuleFormDialogBody({
 
           <div className='grid grid-cols-2 gap-4'>
             <div className='grid gap-2'>
-              <Label>Lead time days (optional)</Label>
+              <Label>
+                {t('reorderRules.form.leadTime', 'Lead time days (optional)')}
+              </Label>
               <Input
                 type='number'
                 step='1'
@@ -273,13 +301,25 @@ function RuleFormDialogBody({
               />
             </div>
             <div className='grid gap-2'>
-              <Label>Preferred supplier (optional)</Label>
+              <Label>
+                {t(
+                  'reorderRules.form.supplier',
+                  'Preferred supplier (optional)'
+                )}
+              </Label>
               <Select value={supplierId} onValueChange={setSupplierId}>
                 <SelectTrigger>
-                  <SelectValue placeholder='No supplier' />
+                  <SelectValue
+                    placeholder={t(
+                      'reorderRules.form.selectSupplier',
+                      'No supplier'
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={NONE}>No supplier</SelectItem>
+                  <SelectItem value={NONE}>
+                    {t('reorderRules.form.selectSupplier', 'No supplier')}
+                  </SelectItem>
                   {suppliers.map((supplier) => (
                     <SelectItem
                       key={supplier.id ?? supplier.supplier_id}
@@ -296,7 +336,7 @@ function RuleFormDialogBody({
           {isEdit ? (
             <div className='flex items-center gap-2'>
               <Switch checked={isActive} onCheckedChange={setIsActive} />
-              <Label>Active</Label>
+              <Label>{t('reorderRules.columns.active', 'Active')}</Label>
             </div>
           ) : null}
         </div>
@@ -304,10 +344,14 @@ function RuleFormDialogBody({
 
       <DialogFooter>
         <Button variant='outline' onClick={() => onOpenChange(false)}>
-          Cancel
+          {t('reorderRules.dialog.cancel', 'Cancel')}
         </Button>
         <Button onClick={handleSubmit} disabled={pending}>
-          {pending ? 'Saving...' : isEdit ? 'Save changes' : 'Create rule'}
+          {pending
+            ? t('reorderRules.dialog.saving', 'Saving...')
+            : isEdit
+              ? t('reorderRules.dialog.save', 'Save changes')
+              : t('reorderRules.dialog.createTitle', 'Create rule')}
         </Button>
       </DialogFooter>
     </DialogContent>

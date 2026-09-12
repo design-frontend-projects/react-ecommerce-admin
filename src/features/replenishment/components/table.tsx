@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/data-table'
 import type { SuggestionListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 import { useReplenishmentContext } from './provider'
 
 export function ReplenishmentTable({ data }: { data: SuggestionListItem[] }) {
@@ -30,6 +30,8 @@ export function ReplenishmentTable({ data }: { data: SuggestionListItem[] }) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
   const { rowSelection, setRowSelection } = useReplenishmentContext()
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,
@@ -91,8 +93,10 @@ export function ReplenishmentTable({ data }: { data: SuggestionListItem[] }) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No suggestions yet. Run the reorder check to evaluate your
-                  reorder rules.
+                  {t(
+                    'replenishment.table.noSuggestions',
+                    'No suggestions yet. Run the reorder check to evaluate your reorder rules.'
+                  )}
                 </TableCell>
               </TableRow>
             )}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import {
   FileText,
   Printer,
@@ -98,6 +99,7 @@ export function SalesOrderReviewDialog({
   onConfirmDraftSubmit,
   isSubmittingDraft,
 }: SalesOrderReviewDialogProps) {
+  const { t } = useTranslation()
   const { open: contextOpen, setOpen: setContextOpen, currentRow } = useOrdersContext()
   const [copied, setCopied] = useState(false)
 
@@ -127,15 +129,15 @@ export function SalesOrderReviewDialog({
     : (fullOrder?.status || currentRow?.status || 'draft') as OrderStatus
 
   const storeName = isDraftMode
-    ? draftData?.storeName || 'Primary Store'
-    : fullOrder?.stores?.name || currentRow?.stores?.name || 'Primary Store'
+    ? draftData?.storeName || t('salesOrders.reviewDialog.primaryStore', 'Primary Store')
+    : fullOrder?.stores?.name || currentRow?.stores?.name || t('salesOrders.reviewDialog.primaryStore', 'Primary Store')
 
   const warehouseName = isDraftMode
-    ? draftData?.warehouseName || 'Standard Warehouse'
-    : fullOrder?.warehouses?.name || currentRow?.warehouses?.name || 'Standard Warehouse'
+    ? draftData?.warehouseName || t('salesOrders.reviewDialog.standardWarehouse', 'Standard Warehouse')
+    : fullOrder?.warehouses?.name || currentRow?.warehouses?.name || t('salesOrders.reviewDialog.standardWarehouse', 'Standard Warehouse')
 
   const custDisplayName = isDraftMode
-    ? draftData?.customerName || 'Walk-in Customer'
+    ? draftData?.customerName || t('salesOrders.reviewDialog.walkInCustomer', 'Walk-in Customer')
     : customerName(fullOrder?.customers || currentRow?.customers)
 
   const custPhone = isDraftMode
@@ -243,10 +245,10 @@ export function SalesOrderReviewDialog({
     try {
       await navigator.clipboard.writeText(textLines.join('\n'))
       setCopied(true)
-      toast.success('Sales order summary copied to clipboard')
+      toast.success(t('salesOrders.reviewDialog.copiedSuccess', 'Sales order summary copied to clipboard'))
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      toast.error('Failed to copy summary')
+      toast.error(t('salesOrders.reviewDialog.copiedError', 'Failed to copy summary'))
     }
   }
 
@@ -270,7 +272,7 @@ export function SalesOrderReviewDialog({
                 <div>
                   <div className='flex items-center gap-2'>
                     <DialogTitle className='text-xl font-bold tracking-tight'>
-                      Sales Order Review & Print
+                      {t('salesOrders.reviewDialog.title', 'Sales Order Review & Print')}
                     </DialogTitle>
                     <Badge
                       variant={isDraftMode ? 'outline' : 'secondary'}
@@ -281,8 +283,8 @@ export function SalesOrderReviewDialog({
                   </div>
                   <DialogDescription className='text-xs text-muted-foreground mt-0.5'>
                     {isDraftMode
-                      ? 'Review the order specifications and commercial breakdown before finalizing.'
-                      : 'Commercial sales order invoice, specifications, and fulfillment record.'}
+                      ? t('salesOrders.reviewDialog.draftDesc', 'Review the order specifications and commercial breakdown before finalizing.')
+                      : t('salesOrders.reviewDialog.savedDesc', 'Commercial sales order invoice, specifications, and fulfillment record.')}
                   </DialogDescription>
                 </div>
               </div>
@@ -301,7 +303,7 @@ export function SalesOrderReviewDialog({
                   ) : (
                     <Copy className='h-3.5 w-3.5 mr-1.5 text-muted-foreground' />
                   )}
-                  {copied ? 'Copied' : 'Copy'}
+                  {copied ? t('common.copied', 'Copied') : t('common.copy', 'Copy')}
                 </Button>
                 <Button
                   type='button'
@@ -311,7 +313,7 @@ export function SalesOrderReviewDialog({
                   onClick={handlePrint}
                 >
                   <Printer className='h-3.5 w-3.5 mr-1.5 text-muted-foreground' />
-                  Print
+                  {t('common.print', 'Print')}
                 </Button>
               </div>
             </div>
@@ -323,7 +325,7 @@ export function SalesOrderReviewDialog({
           {isLoadingOrder && !isDraftMode ? (
             <div className='py-16 text-center text-sm text-muted-foreground'>
               <div className='inline-block h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent mb-2' />
-              <p>Loading sales order details...</p>
+              <p>{t('salesOrders.reviewDialog.loadingDetails', 'Loading sales order details...')}</p>
             </div>
           ) : (
             <div data-print-content className='space-y-6 text-foreground'>
@@ -332,25 +334,25 @@ export function SalesOrderReviewDialog({
                 <div className='flex justify-between items-start'>
                   <div>
                     <h1 className='text-2xl font-bold tracking-tight text-black'>
-                      SALES ORDER / CONFIRMATION
+                      {t('salesOrders.reviewDialog.printTitle', 'SALES ORDER / CONFIRMATION')}
                     </h1>
                     <p className='text-xs text-gray-500 font-mono mt-0.5'>
-                      Order Reference: {orderNumber}
+                      {t('salesOrders.reviewDialog.orderReference', 'Order Reference:')} {orderNumber}
                     </p>
                     <p className='text-xs text-gray-600 mt-1'>
-                      Issued by: {storeName}
+                      {t('salesOrders.reviewDialog.issuedBy', 'Issued by:')} {storeName}
                     </p>
                   </div>
                   <div className='text-right'>
                     <div className='inline-block px-2.5 py-1 rounded bg-gray-100 text-xs font-bold uppercase tracking-wider text-gray-800 border'>
-                      Status: {status}
+                      {t('salesOrders.columns.status', 'Status')}: {status}
                     </div>
                     <p className='text-xs text-gray-600 mt-2'>
-                      Date: {formatDateDisplay(orderDate)}
+                      {t('salesOrders.columns.orderDate', 'Date')}: {formatDateDisplay(orderDate)}
                     </p>
                     {expectedDate && (
                       <p className='text-xs text-gray-600'>
-                        Expected Delivery: {formatDateDisplay(expectedDate)}
+                        {t('salesOrders.reviewDialog.expectedDelivery', 'Expected Delivery:')} {formatDateDisplay(expectedDate)}
                       </p>
                     )}
                   </div>
@@ -363,7 +365,7 @@ export function SalesOrderReviewDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1 print:border-gray-300 print:bg-white'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium print:text-gray-500'>
                     <User className='h-3.5 w-3.5 text-primary print:text-black' />
-                    <span>Customer</span>
+                    <span>{t('salesOrders.form.customer', 'Customer')}</span>
                   </div>
                   <p className='text-sm font-semibold truncate text-foreground print:text-black'>
                     {custDisplayName}
@@ -387,13 +389,13 @@ export function SalesOrderReviewDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1 print:border-gray-300 print:bg-white'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium print:text-gray-500'>
                     <Building2 className='h-3.5 w-3.5 text-primary print:text-black' />
-                    <span>Store / Sales Channel</span>
+                    <span>{t('salesOrders.reviewDialog.storeChannel', 'Store / Sales Channel')}</span>
                   </div>
                   <p className='text-sm font-semibold truncate text-foreground print:text-black'>
                     {storeName}
                   </p>
                   <p className='text-xs text-muted-foreground print:text-gray-600'>
-                    Currency: <span className='font-mono font-medium'>{currency}</span>
+                    {t('salesOrders.form.currency', 'Currency')}: <span className='font-mono font-medium'>{currency}</span>
                   </p>
                 </div>
 
@@ -401,13 +403,13 @@ export function SalesOrderReviewDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1 print:border-gray-300 print:bg-white'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium print:text-gray-500'>
                     <Warehouse className='h-3.5 w-3.5 text-primary print:text-black' />
-                    <span>Fulfillment Location</span>
+                    <span>{t('salesOrders.reviewDialog.fulfillmentLocation', 'Fulfillment Location')}</span>
                   </div>
                   <p className='text-sm font-semibold truncate text-foreground print:text-black'>
                     {warehouseName}
                   </p>
                   <p className='text-xs text-muted-foreground print:text-gray-600'>
-                    Stock dispatch origin
+                    {t('salesOrders.reviewDialog.stockDispatchOrigin', 'Stock dispatch origin')}
                   </p>
                 </div>
 
@@ -415,14 +417,14 @@ export function SalesOrderReviewDialog({
                 <div className='rounded-lg border bg-card p-3.5 space-y-1 print:border-gray-300 print:bg-white'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium print:text-gray-500'>
                     <Calendar className='h-3.5 w-3.5 text-primary print:text-black' />
-                    <span>Order Date</span>
+                    <span>{t('salesOrders.columns.orderDate', 'Order Date')}</span>
                   </div>
                   <p className='text-sm font-semibold text-foreground print:text-black'>
                     {formatDateDisplay(orderDate)}
                   </p>
                   {expectedDate && (
                     <p className='text-xs text-muted-foreground print:text-gray-600'>
-                      Est. Delivery: {formatDateDisplay(expectedDate)}
+                      {t('salesOrders.reviewDialog.estDelivery', 'Est. Delivery:')} {formatDateDisplay(expectedDate)}
                     </p>
                   )}
                 </div>
@@ -432,44 +434,44 @@ export function SalesOrderReviewDialog({
               <div className='grid grid-cols-2 sm:grid-cols-4 gap-3 bg-muted/30 border rounded-xl p-4 print:hidden'>
                 <div className='flex flex-col'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center gap-1'>
-                    <Package className='h-3.5 w-3.5' /> Line Items
+                    <Package className='h-3.5 w-3.5' /> {t('salesOrders.reviewDialog.lineItems', 'Line Items')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-foreground'>
                     {totalItemsCount}
                   </span>
-                  <span className='text-[11px] text-muted-foreground'>Distinct products</span>
+                  <span className='text-[11px] text-muted-foreground'>{t('salesOrders.reviewDialog.distinctProducts', 'Distinct products')}</span>
                 </div>
 
                 <div className='flex flex-col'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center gap-1'>
-                    <Boxes className='h-3.5 w-3.5' /> Total Units
+                    <Boxes className='h-3.5 w-3.5' /> {t('salesOrders.reviewDialog.totalUnits', 'Total Units')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-foreground'>
                     {totalQuantity}
                   </span>
-                  <span className='text-[11px] text-muted-foreground'>Ordered quantity</span>
+                  <span className='text-[11px] text-muted-foreground'>{t('salesOrders.reviewDialog.orderedQuantity', 'Ordered quantity')}</span>
                 </div>
 
                 <div className='flex flex-col'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center gap-1'>
-                    <Receipt className='h-3.5 w-3.5' /> Subtotal
+                    <Receipt className='h-3.5 w-3.5' /> {t('salesOrders.viewDialog.subtotal', 'Subtotal')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-foreground'>
                     ${subtotal.toFixed(2)}
                   </span>
                   <span className='text-[11px] text-muted-foreground'>
-                    {discountAmount > 0 ? `-$${discountAmount.toFixed(2)} discounts` : 'Before tax/discounts'}
+                    {discountAmount > 0 ? `-$${discountAmount.toFixed(2)} ${t('salesOrders.reviewDialog.discounts', 'discounts')}` : t('salesOrders.reviewDialog.beforeTax', 'Before tax/discounts')}
                   </span>
                 </div>
 
                 <div className='flex flex-col text-right sm:text-left'>
                   <span className='text-xs text-muted-foreground font-medium flex items-center sm:justify-start justify-end gap-1'>
-                    <DollarSign className='h-3.5 w-3.5 text-primary' /> Grand Total
+                    <DollarSign className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.viewDialog.grandTotal', 'Grand Total')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-primary'>
                     ${totalAmount.toFixed(2)}
                   </span>
-                  <span className='text-[11px] text-muted-foreground'>Net invoice payable</span>
+                  <span className='text-[11px] text-muted-foreground'>{t('salesOrders.reviewDialog.netInvoicePayable', 'Net invoice payable')}</span>
                 </div>
               </div>
 
@@ -478,7 +480,7 @@ export function SalesOrderReviewDialog({
                 <div className='flex items-center justify-between print:mb-2'>
                   <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase flex items-center gap-1.5 print:text-black'>
                     <Layers className='h-3.5 w-3.5 text-primary print:text-black' />
-                    Ordered Items Breakdown ({lineItems.length})
+                    {t('salesOrders.reviewDialog.orderedItemsBreakdown', 'Ordered Items Breakdown')} ({lineItems.length})
                   </h4>
                 </div>
 
@@ -487,18 +489,18 @@ export function SalesOrderReviewDialog({
                     <TableHeader className='bg-muted/50 print:bg-gray-100'>
                       <TableRow className='print:border-b-gray-300'>
                         <TableHead className='w-12 text-center font-bold text-xs print:text-black'>#</TableHead>
-                        <TableHead className='font-bold text-xs print:text-black'>Product</TableHead>
-                        <TableHead className='font-bold text-xs print:text-black'>Variant / SKU</TableHead>
-                        <TableHead className='w-20 text-center font-bold text-xs print:text-black'>UOM</TableHead>
-                        <TableHead className='w-20 text-center font-bold text-xs print:text-black'>Qty</TableHead>
-                        <TableHead className='w-24 text-right font-bold text-xs print:text-black'>Unit Price</TableHead>
+                        <TableHead className='font-bold text-xs print:text-black'>{t('salesOrders.reviewDialog.product', 'Product')}</TableHead>
+                        <TableHead className='font-bold text-xs print:text-black'>{t('salesOrders.reviewDialog.variantSku', 'Variant / SKU')}</TableHead>
+                        <TableHead className='w-20 text-center font-bold text-xs print:text-black'>{t('salesOrders.itemsTable.uom', 'UOM')}</TableHead>
+                        <TableHead className='w-20 text-center font-bold text-xs print:text-black'>{t('salesOrders.reviewDialog.qty', 'Qty')}</TableHead>
+                        <TableHead className='w-24 text-right font-bold text-xs print:text-black'>{t('salesOrders.itemsTable.unitPrice', 'Unit Price')}</TableHead>
                         {discountAmount > 0 && (
-                          <TableHead className='w-20 text-right font-bold text-xs print:text-black'>Disc</TableHead>
+                          <TableHead className='w-20 text-right font-bold text-xs print:text-black'>{t('salesOrders.reviewDialog.disc', 'Disc')}</TableHead>
                         )}
                         {taxAmount > 0 && (
-                          <TableHead className='w-20 text-right font-bold text-xs print:text-black'>Tax</TableHead>
+                          <TableHead className='w-20 text-right font-bold text-xs print:text-black'>{t('salesOrders.itemsTable.tax', 'Tax')}</TableHead>
                         )}
-                        <TableHead className='w-28 text-right font-bold text-xs print:text-black'>Line Total</TableHead>
+                        <TableHead className='w-28 text-right font-bold text-xs print:text-black'>{t('salesOrders.itemsTable.lineTotal', 'Line Total')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -508,7 +510,7 @@ export function SalesOrderReviewDialog({
                             colSpan={8}
                             className='py-8 text-center text-sm text-muted-foreground'
                           >
-                            No line items present in this sales order.
+                            {t('salesOrders.reviewDialog.noItems', 'No line items present in this sales order.')}
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -583,7 +585,7 @@ export function SalesOrderReviewDialog({
                     <div className='rounded-lg border bg-muted/20 p-4 space-y-1 print:border-gray-300 print:bg-white'>
                       <h4 className='text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5 print:text-black'>
                         <FileText className='h-3.5 w-3.5' />
-                        Notes & Special Instructions
+                        {t('salesOrders.reviewDialog.notesTitle', 'Notes & Special Instructions')}
                       </h4>
                       <p className='text-sm text-foreground whitespace-pre-wrap print:text-black'>
                         {notes}
@@ -591,7 +593,7 @@ export function SalesOrderReviewDialog({
                     </div>
                   ) : (
                     <div className='p-3 border border-dashed rounded-lg text-xs text-muted-foreground print:border-gray-200'>
-                      Standard commercial sales order. Terms subject to agreement.
+                      {t('salesOrders.reviewDialog.standardTerms', 'Standard commercial sales order. Terms subject to agreement.')}
                     </div>
                   )}
                 </div>
@@ -599,23 +601,23 @@ export function SalesOrderReviewDialog({
                 {/* Financial Summary Box */}
                 <div className='w-full sm:w-80 rounded-lg border bg-card p-4 space-y-2.5 print:border-gray-300 print:bg-white'>
                   <div className='flex justify-between text-sm'>
-                    <span className='text-muted-foreground print:text-gray-600'>Subtotal</span>
+                    <span className='text-muted-foreground print:text-gray-600'>{t('salesOrders.viewDialog.subtotal', 'Subtotal')}</span>
                     <span className='font-mono font-medium print:text-black'>${subtotal.toFixed(2)}</span>
                   </div>
                   {discountAmount > 0 && (
                     <div className='flex justify-between text-sm text-rose-600 print:text-black'>
-                      <span>Discount Total</span>
+                      <span>{t('salesOrders.reviewDialog.discountTotal', 'Discount Total')}</span>
                       <span className='font-mono font-medium'>-${discountAmount.toFixed(2)}</span>
                     </div>
                   )}
                   {taxAmount > 0 && (
                     <div className='flex justify-between text-sm text-muted-foreground print:text-gray-600'>
-                      <span>Tax Amount</span>
+                      <span>{t('salesOrders.reviewDialog.taxAmount', 'Tax Amount')}</span>
                       <span className='font-mono font-medium print:text-black'>+${taxAmount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className='border-t pt-2 flex justify-between items-baseline print:border-t-gray-400'>
-                    <span className='text-base font-bold print:text-black'>Total Payable</span>
+                    <span className='text-base font-bold print:text-black'>{t('salesOrders.reviewDialog.totalPayable', 'Total Payable')}</span>
                     <span className='font-mono text-xl font-extrabold text-primary print:text-black'>
                       ${totalAmount.toFixed(2)} <span className='text-xs font-normal text-muted-foreground'>{currency}</span>
                     </span>
@@ -627,14 +629,14 @@ export function SalesOrderReviewDialog({
               <div className='hidden print:grid grid-cols-2 gap-12 pt-16 mt-12 border-t border-gray-300'>
                 <div>
                   <div className='border-t border-black pt-2'>
-                    <p className='font-bold text-xs text-black'>Prepared By / Sales Representative</p>
-                    <p className='text-[10px] text-gray-500 mt-0.5'>Signature & Stamp</p>
+                    <p className='font-bold text-xs text-black'>{t('salesOrders.reviewDialog.preparedBy', 'Prepared By / Sales Representative')}</p>
+                    <p className='text-[10px] text-gray-500 mt-0.5'>{t('salesOrders.reviewDialog.signatureStamp', 'Signature & Stamp')}</p>
                   </div>
                 </div>
                 <div>
                   <div className='border-t border-black pt-2'>
-                    <p className='font-bold text-xs text-black'>Customer Acceptance / Authorized Recipient</p>
-                    <p className='text-[10px] text-gray-500 mt-0.5'>Signature & Date</p>
+                    <p className='font-bold text-xs text-black'>{t('salesOrders.reviewDialog.customerAcceptance', 'Customer Acceptance / Authorized Recipient')}</p>
+                    <p className='text-[10px] text-gray-500 mt-0.5'>{t('salesOrders.reviewDialog.signatureDate', 'Signature & Date')}</p>
                   </div>
                 </div>
               </div>
@@ -655,7 +657,7 @@ export function SalesOrderReviewDialog({
                   disabled={isSubmittingDraft}
                 >
                   <ArrowLeft className='mr-1.5 h-4 w-4' />
-                  Back to Edit
+                  {t('salesOrders.reviewDialog.backToEdit', 'Back to Edit')}
                 </Button>
 
                 <Button
@@ -665,7 +667,7 @@ export function SalesOrderReviewDialog({
                   disabled={isSubmittingDraft}
                 >
                   <CheckCircle2 className='mr-1.5 h-4 w-4' />
-                  {isSubmittingDraft ? 'Saving Order...' : 'Confirm & Create Order'}
+                  {isSubmittingDraft ? t('salesOrders.reviewDialog.savingOrder', 'Saving Order...') : t('salesOrders.reviewDialog.confirmAndCreate', 'Confirm & Create Order')}
                 </Button>
               </>
             ) : (
@@ -676,7 +678,7 @@ export function SalesOrderReviewDialog({
                   size='sm'
                   onClick={handleClose}
                 >
-                  Close
+                  {t('common.close', 'Close')}
                 </Button>
 
                 <div className='flex items-center gap-2'>
@@ -687,7 +689,7 @@ export function SalesOrderReviewDialog({
                     onClick={handlePrint}
                   >
                     <Printer className='mr-1.5 h-4 w-4' />
-                    Print Order
+                    {t('salesOrders.reviewDialog.printOrder', 'Print Order')}
                   </Button>
                 </div>
               </>

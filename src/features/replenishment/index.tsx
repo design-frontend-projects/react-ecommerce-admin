@@ -29,10 +29,14 @@ export function Replenishment() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('replenishment.title')}</h2>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
+              {t('replenishment.title', 'Replenishment')}
+            </h2>
             <p className='text-muted-foreground'>
-              Reorder suggestions from the replenishment engine. Convert open
-              suggestions into purchase requisitions.
+              {t(
+                'replenishment.description',
+                'Reorder suggestions from the replenishment engine. Convert open suggestions into purchase requisitions.'
+              )}
             </p>
           </div>
           <ReplenishmentPrimaryButtons />
@@ -44,7 +48,9 @@ export function Replenishment() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading suggestions.</p>
+            <p className='font-medium'>
+              {t('replenishment.errorLoading', 'Error loading suggestions.')}
+            </p>
           </div>
         ) : (
           <ReplenishmentTable data={suggestions ?? []} />

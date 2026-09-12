@@ -1,6 +1,93 @@
 # Error Log
 
-## [2026-09-09 02:55] - DOM Nesting Hydration Error in Stock Movement Drawer (<div> inside <p>)
+## [2026-09-12 03:45] - React Hook Order Violation in PriceListViewDialog (Early Return Before useMemo)
+
+- **Type**: Runtime
+- **Severity**: High
+- **File**: `src/features/price-list/components/price-list-view-dialog.tsx:49`
+- **Agent**: @frontend-specialist
+- **Root Cause**: `PriceListViewDialog` contained an early return `if (!currentRow) return null` placed after `useState` but before three `useMemo` hooks (`distinctProductCount`, `priceRange`, `filteredItems`). When the dialog was closed (`currentRow === null`), only 15 hooks ran before returning null. When a user clicked "View", `currentRow` was set, causing React on the next render to execute beyond the early return into hook 16 (`useMemo`), violating the Rules of Hooks: "Rendered more hooks than during the previous render".
+- **Error Message**: 
+  ```
+  React has detected a change in the order of Hooks called by PriceListViewDialog.
+  Error: Rendered more hooks than during the previous render.
+      at PriceListViewDialog (price-list-view-dialog.tsx:69:32)
+  ```
+- **Fix Applied**: Extracted the dialog presentation and data computation into an inner component `PriceListViewDialogContent`. The outer `PriceListViewDialog` only calls `usePriceListContext` unconditionally and renders `<Dialog open={isOpen}>` with `<PriceListViewDialogContent>` conditionally mounted only when `isOpen && currentRow`. This guarantees that hooks inside the content component run only while mounted and in an invariant order.
+- **Prevention**: Never place early returns before hook declarations in React components. For complex dialogs/sheets with conditional data, encapsulate the content into a dedicated subcomponent that mounts conditionally inside the dialog container.
+- **Status**: Fixed
+
+---
+
+## [2026-09-12 03:35] - TypeError: t is not a function in OrderCreateDialog (Local Variable Shadowing)
+
+- **Type**: Logic
+- **Severity**: Critical
+- **File**: `src/features/sales-orders/components/create-dialog.tsx:474`
+- **Agent**: antigravity-ide
+- **Root Cause**: Inside `items.map((item, index) => { ... })`, the line calculation extracted `taxAmount` as `const t = Number(item.taxAmount) || 0`. This local variable shadowed the outer `t` function returned by `useTranslation()`. When JSX rendered translation keys like `{t('salesOrders.form.product', 'Product')}`, JavaScript attempted to invoke the numeric variable `t` (value `0`) as a function, throwing `TypeError: t is not a function`.
+- **Error Message**: 
+  ```
+  TypeError: t is not a function
+      at create-dialog.tsx:486:32
+      at Array.map (<anonymous>)
+      at OrderCreateDialog (create-dialog.tsx:466:26)
+  ```
+- **Fix Applied**: 
+  1. Renamed local variable `t` to `tax` in line 474 and line 207 of `src/features/sales-orders/components/create-dialog.tsx`.
+  2. Verified across the entire repository that no other file uses `const t =` or shadows the translation function.
+  3. Ran test suite to confirm 49/49 test files passed.
+- **Prevention**: Never use single-letter variable `t` for mathematical variables or calculations in React components that consume `useTranslation()`. Use descriptive names such as `tax` or `taxAmt`.
+- **Status**: Fixed
+
+---
+
+## [2026-09-12 03:30] - SyntaxError: The requested module '/src/config/i18n.ts' does not provide an export named 'useTranslation'
+
+- **Type**: Agent
+- **Severity**: High
+- **File**: `src/config/i18n.ts:38`
+- **Agent**: antigravity-ide
+- **Root Cause**: `useTranslation` was re-exported from `src/config/i18n.ts` and imported as `import { useTranslation } from '@/config/i18n'`. Vite dev server's ESM dependency optimizer treats pre-bundled packages and local files differently during HMR, causing Vite to fail resolving named exports of pre-bundled hooks from a local file, causing `SyntaxError` and leaving `t` as `undefined` (`TypeError: t is not a function`).
+- **Error Message**: 
+  ```
+  SyntaxError: The requested module '/src/config/i18n.ts' does not provide an export named 'useTranslation'
+  TypeError: t is not a function
+      at src/features/sales-orders/components/create-dialog.tsx
+  ```
+- **Fix Applied**: 
+  1. Standardized all 33 files across `sales-orders`, `purchase-orders`, `purchase-requisitions`, `reorder-rules`, and `replenishment` to import directly from canonical package: `import { useTranslation } from 'react-i18next'`.
+  2. Removed named re-exports from `src/config/i18n.ts`.
+  3. Verified all 49 test suites (278 tests) pass cleanly.
+- **Prevention**: Always import React hooks directly from their respective npm packages (e.g., `'react-i18next'`) instead of re-exporting them through local utility or config files.
+- **Status**: Fixed
+
+---
+
+## [2026-09-12 03:05] - TanStack Table Faceted Filter TypeError (Cannot read properties of undefined reading 'length')
+
+- **Type**: Runtime
+- **Severity**: High
+- **File**: `src/features/inventory/components/inventory-columns.tsx:281`
+- **Agent**: antigravity-ide
+- **Root Cause**: The `status` column in `inventory-columns.tsx` was configured with only `id: 'status'` but lacked an `accessorFn` or `accessorKey`. When `DataTableFacetedFilter` invoked `column.getFacetedUniqueValues()`, TanStack Table called `row.getUniqueValues('status')`, which returned `undefined` because `column.accessorFn` was not defined. In `@tanstack/react-table`, `for (let j = 0; j < values.length; j++)` failed trying to read `.length` on `undefined`, triggering React's route ErrorBoundary on `/inventory`.
+- **Error Message**: 
+  ```
+  TypeError: Cannot read properties of undefined (reading 'length')
+      at @tanstack_react-table.js:2807:34
+      at Object._getFacetedUniqueValues (@tanstack_react-table.js:76:14)
+      at column.getFacetedUniqueValues (@tanstack_react-table.js:492:21)
+      at DataTableFacetedFilter (faceted-filter.tsx:14:28)
+  ```
+- **Fix Applied**: 
+  1. Added `accessorFn: (row) => getInventoryStatus(row)` and `filterFn` to column `id: 'status'` in `inventory-columns.tsx`.
+  2. Updated `warehouse` and `product_name` columns in `inventory-columns.tsx` to provide safe string returns and multi-select `filterFn`.
+  3. Aligned `statusFilterOptions` and KPI card filter state in `inventory-table.tsx` with standardized machine keys (`'in_stock'`, `'low_stock'`, `'out_of_stock'`, `'overstocked'`).
+  4. Wrapped `column?.getFacetedUniqueValues()` with defensive `try/catch` in `src/components/data-table/faceted-filter.tsx` to prevent cascading app crashes if any future table column ever lacks an accessor.
+- **Prevention**: Every table column supplied to `DataTableToolbar`'s `filters` prop MUST have a concrete `accessorFn` or `accessorKey` and a multi-select `filterFn`.
+- **Status**: Fixed
+
+---
 
 - **Type**: Runtime
 - **Severity**: Low

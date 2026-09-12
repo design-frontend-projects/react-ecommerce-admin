@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Check, ChevronsUpDown, Package, Layers, AlertCircle, Box } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -53,6 +54,7 @@ export function POProductSelect({
   disabled,
   showValidation,
 }: POProductSelectProps) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const selectedProduct = products.find((p) => {
@@ -87,7 +89,7 @@ export function POProductSelect({
                 )}
               </span>
             ) : (
-              <span>Select product...</span>
+              <span>{t('purchaseOrders.variantPicker.selectProduct', 'Select product...')}</span>
             )}
           </div>
           <ChevronsUpDown className='ml-1.5 h-3.5 w-3.5 shrink-0 opacity-50' />
@@ -95,9 +97,9 @@ export function POProductSelect({
       </PopoverTrigger>
       <PopoverContent className='w-[320px] sm:w-[380px] p-0' align='start'>
         <Command>
-          <CommandInput placeholder='Search product by name or SKU...' />
+          <CommandInput placeholder={t('purchaseOrders.variantPicker.searchPlaceholder', 'Search product by name or SKU...')} />
           <CommandList className='max-h-60'>
-            <CommandEmpty>No product found.</CommandEmpty>
+            <CommandEmpty>{t('purchaseOrders.variantPicker.noProductFound', 'No product found.')}</CommandEmpty>
             <CommandGroup>
               {products.map((p) => {
                 const pId = String(p.id ?? p.product_id ?? '')
@@ -147,15 +149,15 @@ export function POProductSelect({
                     <div className='shrink-0 text-right'>
                       {pVariants.length === 0 ? (
                         <Badge variant='outline' className='text-[10px] text-muted-foreground'>
-                          0 variants
+                          {t('purchaseOrders.variantPicker.zeroVariants', '0 variants')}
                         </Badge>
                       ) : pVariants.length === 1 ? (
                         <Badge variant='secondary' className='text-[10px]'>
-                          1 variant
+                          {t('purchaseOrders.variantPicker.oneVariant', '1 variant')}
                         </Badge>
                       ) : (
                         <Badge variant='outline' className='text-[10px] text-primary border-primary/30'>
-                          {pVariants.length} variants
+                          {t('purchaseOrders.variantPicker.countVariants', '{{count}} variants', { count: pVariants.length })}
                         </Badge>
                       )}
                     </div>
@@ -188,6 +190,7 @@ export function POVariantSelect({
   disabled,
   showValidation,
 }: POVariantSelectProps) {
+  const { t } = useTranslation()
   const selectedVariant = variants.find((v) => v.id === variantId)
   const hasNoProduct = !productId || productId === '0' || productId === 0
   const hasNoVariants = !hasNoProduct && variants.length === 0
@@ -198,7 +201,7 @@ export function POVariantSelect({
         <SelectTrigger className='h-9 text-xs w-full bg-muted/30 text-muted-foreground cursor-not-allowed'>
           <div className='flex items-center gap-1.5 truncate'>
             <Layers className='h-3.5 w-3.5 shrink-0 text-muted-foreground' />
-            <span>Select product first</span>
+            <span>{t('purchaseOrders.variantPicker.selectProductFirst', 'Select product first')}</span>
           </div>
         </SelectTrigger>
       </Select>
@@ -209,7 +212,7 @@ export function POVariantSelect({
     return (
       <div className='flex items-center gap-1 text-xs text-destructive bg-destructive/10 px-2 py-1.5 rounded h-9 border border-destructive/20'>
         <AlertCircle className='h-3.5 w-3.5 shrink-0' />
-        <span className='truncate text-[11px] font-medium'>No variants configured</span>
+        <span className='truncate text-[11px] font-medium'>{t('purchaseOrders.variantPicker.noVariantsConfigured', 'No variants configured')}</span>
       </div>
     )
   }
@@ -246,7 +249,7 @@ export function POVariantSelect({
               )}
             </span>
           ) : (
-            <SelectValue placeholder='Select variant...' />
+            <SelectValue placeholder={t('purchaseOrders.variantPicker.selectVariant', 'Select variant...')} />
           )}
         </div>
       </SelectTrigger>
@@ -270,11 +273,11 @@ export function POVariantSelect({
                 {variant.stock_quantity !== undefined && (
                   <span className='flex items-center gap-0.5'>
                     <Box className='h-3 w-3' />
-                    {variant.stock_quantity} in stock
+                    {t('purchaseOrders.variantPicker.inStock', '{{count}} in stock', { count: variant.stock_quantity })}
                   </span>
                 )}
                 <span className='font-medium text-foreground font-mono'>
-                  Cost: ${Number(variant.cost_price ?? variant.price ?? 0).toFixed(2)}
+                  {t('purchaseOrders.variantPicker.cost', 'Cost:')} ${Number(variant.cost_price ?? variant.price ?? 0).toFixed(2)}
                 </span>
               </div>
             </div>
@@ -307,6 +310,7 @@ export function POProductVariantPicker({
   showValidation,
   disabled,
 }: POProductVariantPickerProps) {
+  const { t } = useTranslation()
   const pIdStr = productId ? String(productId) : ''
 
   const variants =
@@ -342,7 +346,7 @@ export function POProductVariantPicker({
         <div className='flex flex-wrap items-center gap-2 text-xs bg-muted/50 px-2 py-1 rounded border'>
           <div className='flex items-center gap-1 text-muted-foreground'>
             <Layers className='h-3 w-3 shrink-0' />
-            <span>Variant:</span>
+            <span>{t('purchaseOrders.variantPicker.variant', 'Variant:')}</span>
           </div>
           <span className='font-mono font-medium text-foreground'>
             {variants[0].sku}
@@ -353,7 +357,7 @@ export function POProductVariantPicker({
             </span>
           )}
           <span className='text-muted-foreground ml-auto'>
-            Default Cost: ${Number(variants[0].cost_price ?? variants[0].price ?? 0).toFixed(2)}
+            {t('purchaseOrders.variantPicker.defaultCost', 'Default Cost:')} ${Number(variants[0].cost_price ?? variants[0].price ?? 0).toFixed(2)}
           </span>
         </div>
       ) : productId ? (

@@ -16,7 +16,7 @@ export function ReorderRulesPrimaryButtons() {
         }}
       >
         <Plus className='me-1 h-4 w-4' />
-        New rule
+        {t('reorderRules.newRule', 'New rule')}
       </Button>
     </Can>
   )

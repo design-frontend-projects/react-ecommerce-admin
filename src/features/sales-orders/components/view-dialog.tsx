@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Printer, Warehouse, Building2, User } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -42,6 +43,7 @@ const STEPS: OrderStatus[] = [
 ]
 
 function StatusStepper({ status }: { status: OrderStatus }) {
+  const { t } = useTranslation()
   const currentIndex = STEPS.indexOf(status)
   return (
     <div className='flex flex-wrap items-center gap-1'>
@@ -76,7 +78,7 @@ function StatusStepper({ status }: { status: OrderStatus }) {
                       : 'text-muted-foreground'
                 )}
               >
-                {step}
+                {t(`salesOrders.status.${step}`, step)}
               </span>
             </div>
           </div>
@@ -93,91 +95,93 @@ interface ActionButton {
   confirm?: { title: string; desc: string; destructive?: boolean }
 }
 
-const STATUS_ACTIONS: Partial<Record<OrderStatus, ActionButton[]>> = {
-  draft: [
-    {
-      action: 'confirm',
-      label: 'Confirm',
-      confirm: {
-        title: 'Confirm this order?',
-        desc: 'Stock will be reserved for every line item.',
+function getStatusActions(t: (key: string, fallback: string) => string): Partial<Record<OrderStatus, ActionButton[]>> {
+  return {
+    draft: [
+      {
+        action: 'confirm',
+        label: t('salesOrders.actions.confirm', 'Confirm'),
+        confirm: {
+          title: t('salesOrders.dialogs.confirmTitle', 'Confirm this order?'),
+          desc: t('salesOrders.dialogs.confirmDesc', 'Stock will be reserved for every line item.'),
+        },
       },
-    },
-    {
-      action: 'cancel',
-      label: 'Cancel',
-      variant: 'outline',
-      confirm: {
-        title: 'Cancel this order?',
-        desc: 'The order will be marked cancelled.',
-        destructive: true,
+      {
+        action: 'cancel',
+        label: t('salesOrders.actions.cancel', 'Cancel'),
+        variant: 'outline',
+        confirm: {
+          title: t('salesOrders.dialogs.cancelTitle', 'Cancel this order?'),
+          desc: t('salesOrders.dialogs.cancelDesc', 'The order will be marked cancelled.'),
+          destructive: true,
+        },
       },
-    },
-  ],
-  confirmed: [
-    { action: 'picking', label: 'Start picking' },
-    {
-      action: 'fulfill',
-      label: 'Fulfill all',
-      confirm: {
-        title: 'Fulfill this order?',
-        desc: 'Remaining reserved stock will physically leave the store.',
+    ],
+    confirmed: [
+      { action: 'picking', label: t('salesOrders.actions.startPicking', 'Start picking') },
+      {
+        action: 'fulfill',
+        label: t('salesOrders.actions.fulfillAll', 'Fulfill all'),
+        confirm: {
+          title: t('salesOrders.dialogs.fulfillTitle', 'Fulfill this order?'),
+          desc: t('salesOrders.dialogs.fulfillDesc', 'Remaining reserved stock will physically leave the store.'),
+        },
       },
-    },
-    {
-      action: 'cancel',
-      label: 'Cancel',
-      variant: 'outline',
-      confirm: {
-        title: 'Cancel this order?',
-        desc: 'Active reservations will be released back to stock.',
-        destructive: true,
+      {
+        action: 'cancel',
+        label: t('salesOrders.actions.cancel', 'Cancel'),
+        variant: 'outline',
+        confirm: {
+          title: t('salesOrders.dialogs.cancelTitle', 'Cancel this order?'),
+          desc: t('salesOrders.dialogs.cancelDesc', 'Active reservations will be released back to stock.'),
+          destructive: true,
+        },
       },
-    },
-  ],
-  picking: [
-    { action: 'packed', label: 'Mark packed' },
-    {
-      action: 'fulfill',
-      label: 'Fulfill all',
-      confirm: {
-        title: 'Fulfill this order?',
-        desc: 'Remaining reserved stock will physically leave the store.',
+    ],
+    picking: [
+      { action: 'packed', label: t('salesOrders.actions.markPacked', 'Mark packed') },
+      {
+        action: 'fulfill',
+        label: t('salesOrders.actions.fulfillAll', 'Fulfill all'),
+        confirm: {
+          title: t('salesOrders.dialogs.fulfillTitle', 'Fulfill this order?'),
+          desc: t('salesOrders.dialogs.fulfillDesc', 'Remaining reserved stock will physically leave the store.'),
+        },
       },
-    },
-    {
-      action: 'cancel',
-      label: 'Cancel',
-      variant: 'outline',
-      confirm: {
-        title: 'Cancel this order?',
-        desc: 'Active reservations will be released back to stock.',
-        destructive: true,
+      {
+        action: 'cancel',
+        label: t('salesOrders.actions.cancel', 'Cancel'),
+        variant: 'outline',
+        confirm: {
+          title: t('salesOrders.dialogs.cancelTitle', 'Cancel this order?'),
+          desc: t('salesOrders.dialogs.cancelDesc', 'Active reservations will be released back to stock.'),
+          destructive: true,
+        },
       },
-    },
-  ],
-  packed: [
-    {
-      action: 'fulfill',
-      label: 'Fulfill all',
-      confirm: {
-        title: 'Fulfill this order?',
-        desc: 'Remaining reserved stock will physically leave the store.',
+    ],
+    packed: [
+      {
+        action: 'fulfill',
+        label: t('salesOrders.actions.fulfillAll', 'Fulfill all'),
+        confirm: {
+          title: t('salesOrders.dialogs.fulfillTitle', 'Fulfill this order?'),
+          desc: t('salesOrders.dialogs.fulfillDesc', 'Remaining reserved stock will physically leave the store.'),
+        },
       },
-    },
-    {
-      action: 'cancel',
-      label: 'Cancel',
-      variant: 'outline',
-      confirm: {
-        title: 'Cancel this order?',
-        desc: 'Active reservations will be released back to stock.',
-        destructive: true,
+      {
+        action: 'cancel',
+        label: t('salesOrders.actions.cancel', 'Cancel'),
+        variant: 'outline',
+        confirm: {
+          title: t('salesOrders.dialogs.cancelTitle', 'Cancel this order?'),
+          desc: t('salesOrders.dialogs.cancelDesc', 'Active reservations will be released back to stock.'),
+          destructive: true,
+        },
       },
-    },
-  ],
-  delivered: [{ action: 'invoice', label: 'Create invoice' }],
-  invoiced: [{ action: 'complete', label: 'Mark completed' }],
+    ],
+    delivered: [{ action: 'invoice', label: t('salesOrders.actions.createInvoice', 'Create invoice') }],
+    invoiced: [{ action: 'complete', label: t('salesOrders.actions.markCompleted', 'Mark completed') }],
+  }
 }
 
 export function OrderViewDialog({
@@ -189,6 +193,7 @@ export function OrderViewDialog({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const { t } = useTranslation()
   const { setOpen, setCurrentRow } = useOrdersContext()
   const { data: detail, isLoading } = useOrder(open ? order.id : undefined)
   const orderAction = useOrderAction()
@@ -197,7 +202,7 @@ export function OrderViewDialog({
   )
 
   const current = detail ?? order
-  const actions = STATUS_ACTIONS[current.status] ?? []
+  const actions = getStatusActions(t)[current.status] ?? []
 
   const runAction = async (action: OrderAction) => {
     try {
@@ -225,7 +230,7 @@ export function OrderViewDialog({
                   {order.order_number}
                   {current.status === 'cancelled' ? (
                     <Badge variant='destructive' className='capitalize'>
-                      cancelled
+                      {t('salesOrders.status.cancelled', 'cancelled')}
                     </Badge>
                   ) : (
                     <OrderStatusBadge status={current.status} />
@@ -241,7 +246,7 @@ export function OrderViewDialog({
                 onClick={handleOpenPrint}
               >
                 <Printer className='mr-1.5 h-3.5 w-3.5 text-primary' />
-                Review & Print
+                {t('salesOrders.viewDialog.reviewAndPrint', 'Review & Print')}
               </Button>
             </div>
             <DialogDescription className='flex flex-wrap items-center gap-2 text-xs'>
@@ -272,13 +277,13 @@ export function OrderViewDialog({
 
           <div className='grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-3 bg-muted/20 p-3.5 rounded-lg border'>
             <div>
-              <span className='text-xs text-muted-foreground block'>Ordered:</span>
+              <span className='text-xs text-muted-foreground block'>{t('salesOrders.viewDialog.ordered', 'Ordered:')}</span>
               <span className='font-medium'>
                 {new Date(current.order_date).toLocaleDateString()}
               </span>
             </div>
             <div>
-              <span className='text-xs text-muted-foreground block'>Expected:</span>
+              <span className='text-xs text-muted-foreground block'>{t('salesOrders.viewDialog.expected', 'Expected:')}</span>
               <span className='font-medium'>
                 {current.expected_date
                   ? new Date(current.expected_date).toLocaleDateString()
@@ -286,25 +291,25 @@ export function OrderViewDialog({
               </span>
             </div>
             <div>
-              <span className='text-xs text-muted-foreground block'>Subtotal:</span>
+              <span className='text-xs text-muted-foreground block'>{t('salesOrders.viewDialog.subtotal', 'Subtotal:')}</span>
               <span className='tabular-nums font-mono'>
                 ${current.subtotal.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className='text-xs text-muted-foreground block'>Discount:</span>
+              <span className='text-xs text-muted-foreground block'>{t('salesOrders.viewDialog.discount', 'Discount:')}</span>
               <span className='tabular-nums font-mono text-rose-600'>
                 -${current.discount_amount.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className='text-xs text-muted-foreground block'>Tax:</span>
+              <span className='text-xs text-muted-foreground block'>{t('salesOrders.viewDialog.tax', 'Tax:')}</span>
               <span className='tabular-nums font-mono'>
                 +${current.tax_amount.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className='text-xs text-muted-foreground block'>Total:</span>
+              <span className='text-xs text-muted-foreground block'>{t('salesOrders.viewDialog.total', 'Total:')}</span>
               <span className='font-bold tabular-nums font-mono text-primary text-base'>
                 ${current.total_amount.toFixed(2)} {current.currency || 'USD'}
               </span>
@@ -312,19 +317,19 @@ export function OrderViewDialog({
           </div>
 
           {isLoading ? (
-            <p className='text-sm text-muted-foreground py-4 text-center'>Loading items...</p>
+            <p className='text-sm text-muted-foreground py-4 text-center'>{t('salesOrders.viewDialog.loadingItems', 'Loading items...')}</p>
           ) : (
             <div className='overflow-hidden rounded-md border'>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Product / SKU</TableHead>
-                    <TableHead className='w-16 text-center'>UOM</TableHead>
-                    <TableHead className='text-end'>Ordered</TableHead>
-                    <TableHead className='text-end'>Reserved</TableHead>
-                    <TableHead className='text-end'>Fulfilled</TableHead>
-                    <TableHead className='text-end'>Unit Price</TableHead>
-                    <TableHead className='text-end'>Line Total</TableHead>
+                    <TableHead>{t('salesOrders.itemsTable.productSku', 'Product / SKU')}</TableHead>
+                    <TableHead className='w-16 text-center'>{t('salesOrders.itemsTable.uom', 'UOM')}</TableHead>
+                    <TableHead className='text-end'>{t('salesOrders.itemsTable.ordered', 'Ordered')}</TableHead>
+                    <TableHead className='text-end'>{t('salesOrders.itemsTable.reserved', 'Reserved')}</TableHead>
+                    <TableHead className='text-end'>{t('salesOrders.itemsTable.fulfilled', 'Fulfilled')}</TableHead>
+                    <TableHead className='text-end'>{t('salesOrders.itemsTable.unitPrice', 'Unit Price')}</TableHead>
+                    <TableHead className='text-end'>{t('salesOrders.itemsTable.lineTotal', 'Line Total')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -367,14 +372,14 @@ export function OrderViewDialog({
 
           {current.notes ? (
             <div className='p-3 rounded-md bg-muted/20 border text-xs text-muted-foreground'>
-              <span className='font-semibold text-foreground mr-1'>Notes:</span>
+              <span className='font-semibold text-foreground mr-1'>{t('salesOrders.viewDialog.notes', 'Notes:')}</span>
               {current.notes}
             </div>
           ) : null}
 
           <DialogFooter className='flex-row items-center justify-between sm:justify-between w-full'>
             <Button variant='outline' size='sm' onClick={() => onOpenChange(false)}>
-              Close
+              {t('common.close', 'Close')}
             </Button>
 
             {actions.length > 0 && (

@@ -58,7 +58,7 @@ export function InventoryAlertsPage() {
       // 1. Fetch balances with low stock
       const { data: balances } = await supabase
         .from('stock_balances')
-        .select('qty_on_hand, qty_reserved, qty_available, product_variant_id, store_id, stores(name)')
+        .select('qty_on_hand, qty_reserved, qty_available, product_variant_id, store_id, stores(name), warehouse_id, warehouses(name, code)')
 
       // 2. Fetch variants & products & reorder rules
       const { data: variants } = await supabase
@@ -103,7 +103,12 @@ export function InventoryAlertsPage() {
           sku: 'UNKNOWN',
           name: 'Unknown Variant',
         }
-        const storeName = (b.stores as { name?: string })?.name || 'Default Facility'
+        const wh = b.warehouses as { name?: string; code?: string } | null
+        const storeName = wh
+          ? wh.code
+            ? `${wh.name} [${wh.code}]`
+            : wh.name || 'Warehouse'
+          : (b.stores as { name?: string })?.name || 'Default Facility'
         const ruleKey = `${b.store_id}_${b.product_variant_id}`
         const threshold = ruleMap.get(ruleKey) || ruleMap.get(`all_${b.product_variant_id}`) || 10
 

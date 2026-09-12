@@ -1,6 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { type Row } from '@tanstack/react-table'
-import { Trash2, Edit } from 'lucide-react'
+import { Trash2, Edit, Eye } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,13 +17,17 @@ import { useInventoryContext } from './inventory-provider'
 
 interface InventoryRowActionsProps<TData> {
   row: Row<TData>
+  onOpenDetail?: (item: Inventory) => void
 }
 
 export function InventoryRowActions<TData>({
   row,
+  onOpenDetail,
 }: InventoryRowActionsProps<TData>) {
   const { t } = useTranslation()
-  const { setOpen, setCurrentRow } = useInventoryContext()
+  const { setOpen, setCurrentRow, openDetail } = useInventoryContext()
+
+  const item = row.original as Inventory
 
   return (
     <DropdownMenu modal={false}>
@@ -36,15 +40,31 @@ export function InventoryRowActions<TData>({
           <span className='sr-only'>{t('common.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-[160px]'>
+      <DropdownMenuContent align='end' className='w-[170px]'>
+        <DropdownMenuItem
+          onClick={() => {
+            if (onOpenDetail) {
+              onOpenDetail(item)
+            } else {
+              openDetail(item)
+            }
+          }}
+        >
+          {t('common.viewDetails', 'View Details')}
+          <DropdownMenuShortcut>
+            <Eye size={16} />
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
+
         <Can permission='inventory.manage'>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              setCurrentRow(row.original as Inventory)
+              setCurrentRow(item)
               setOpen('edit')
             }}
           >
-            {t('common.edit', 'Edit')}
+            {t('common.edit', 'Edit Settings')}
             <DropdownMenuShortcut>
               <Edit size={16} />
             </DropdownMenuShortcut>
@@ -52,10 +72,10 @@ export function InventoryRowActions<TData>({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              setCurrentRow(row.original as Inventory)
+              setCurrentRow(item)
               setOpen('delete')
             }}
-            className='text-red-500!'
+            className='text-destructive focus:text-destructive'
           >
             {t('common.delete', 'Delete')}
             <DropdownMenuShortcut>

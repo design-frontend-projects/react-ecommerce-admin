@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Eye, Printer } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import type { OrderListItem } from '../data/schema'
 import { useOrdersContext } from './provider'
 
 export function OrderRowActions({ row }: { row: OrderListItem }) {
+  const { t } = useTranslation()
   const { setCurrentRow, setOpen } = useOrdersContext()
 
   return (
@@ -13,14 +15,14 @@ export function OrderRowActions({ row }: { row: OrderListItem }) {
         variant='outline'
         size='sm'
         className='h-8 text-xs px-2.5'
-        title='Review Order & Print'
+        title={t('salesOrders.actions.reviewAndPrint', 'Review Order & Print')}
         onClick={() => {
           setCurrentRow(row)
           setOpen('review')
         }}
       >
         <Printer className='mr-1 h-3.5 w-3.5 text-primary' />
-        Print
+        {t('salesOrders.actions.print', 'Print')}
       </Button>
 
       {/* View Workflow & Actions */}
@@ -28,14 +30,14 @@ export function OrderRowActions({ row }: { row: OrderListItem }) {
         variant='ghost'
         size='sm'
         className='h-8 text-xs px-2.5'
-        title='View Status Workflow'
+        title={t('salesOrders.actions.viewWorkflow', 'View Status Workflow')}
         onClick={() => {
           setCurrentRow(row)
           setOpen('view')
         }}
       >
         <Eye className='mr-1 h-3.5 w-3.5 text-muted-foreground' />
-        Workflow
+        {t('salesOrders.actions.workflow', 'Workflow')}
       </Button>
     </div>
   )
