@@ -23,8 +23,16 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
   const { t } = useTranslation()
   if (!currentRow) return null
 
-  const categoryName = currentRow.categories?.name || 'N/A'
-  const brandName = currentRow.brands?.name || 'N/A'
+  const categoryName = currentRow.categories
+    ? currentRow.categories.name_ar
+      ? `${currentRow.categories.name} (${currentRow.categories.name_ar})`
+      : currentRow.categories.name
+    : 'N/A'
+  const brandName = currentRow.brands
+    ? currentRow.brands.name_ar
+      ? `${currentRow.brands.name} (${currentRow.brands.name_ar})`
+      : currentRow.brands.name
+    : 'N/A'
   const uomName = currentRow.base_uom ? `${currentRow.base_uom.name} (${currentRow.base_uom.code})` : 'N/A'
   const supplierName = currentRow.suppliers?.name || 'N/A'
 

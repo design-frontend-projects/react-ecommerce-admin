@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import { useAuthEnabled } from '@/hooks/use-auth-query'
+import type { SearchableOption } from '@/components/custom-ui/searchable-select'
 
 export interface CategoryOption {
   id: string
@@ -12,6 +14,7 @@ export interface CategoryOption {
 export interface BrandOption {
   id: string
   name: string
+  name_ar?: string | null
   code?: string | null
 }
 
@@ -60,6 +63,44 @@ export function useCategoryOptions() {
 }
 
 /**
+ * Format category options into SearchableOption with parent path/description and Arabic names.
+ */
+export function formatCategorySearchableOptions(
+  categories: CategoryOption[]
+): SearchableOption[] {
+  const map = new Map<string, CategoryOption>()
+  categories.forEach((c) => map.set(c.id, c))
+
+  return categories.map((cat) => {
+    let description: string | undefined = undefined
+    if (cat.parent_id && map.has(cat.parent_id)) {
+      const parent = map.get(cat.parent_id)!
+      const parentAr = parent.name_ar ? ` (${parent.name_ar})` : ''
+      description = `${parent.name}${parentAr} › ${cat.name}`
+    }
+
+    return {
+      id: cat.id,
+      name: cat.name,
+      name_ar: cat.name_ar,
+      description,
+    }
+  })
+}
+
+/**
+ * Hook that returns category options formatted for SearchableSelect comboboxes.
+ */
+export function useCategorySearchOptions() {
+  const query = useCategoryOptions()
+  const options = useMemo(
+    () => formatCategorySearchableOptions(query.data ?? []),
+    [query.data]
+  )
+  return { ...query, options }
+}
+
+/**
  * Hook to fetch active brands for product form dropdowns.
  */
 export function useBrandOptions() {
@@ -69,7 +110,7 @@ export function useBrandOptions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('brands')
-        .select('id, name, code')
+        .select('id, name, name_ar, code')
         .eq('is_active', true)
         .order('name')
 

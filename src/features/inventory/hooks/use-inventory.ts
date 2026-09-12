@@ -1,12 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/auth-store'
+import { supabase } from '@/lib/supabase'
 import {
   type Inventory,
   type InventoryFormValues,
   type InventoryWarehouseRelation,
   type InventoryLocationRelation,
   type InventoryStoreRelation,
+  type InventoryVariantRelation,
+  type InventoryProductRelation,
 } from '../data/schema'
 
 export interface InventoryInput {
@@ -49,9 +51,7 @@ export const useInventory = () => {
       const { tenantId } = getAuthTenantAndUser()
 
       // 1. Fetch inventory records with relationships
-      let query = supabase
-        .from('inventory')
-        .select(`
+      let query = supabase.from('inventory').select(`
           inventory_id,
           product_id,
           product_variant_id,
@@ -105,16 +105,17 @@ export const useInventory = () => {
         query = query.eq('tenant_id', tenantId)
       }
 
-      const { data: inventoryData, error: inventoryError } = await query.order('inventory_id', {
-        ascending: false,
-      })
+      const { data: inventoryData, error: inventoryError } = await query.order(
+        'inventory_id',
+        {
+          ascending: false,
+        }
+      )
 
       if (inventoryError) throw inventoryError
 
       // 2. Fetch stock_balances to aggregate real-time quantities
-      let sbQuery = supabase
-        .from('stock_balances')
-        .select(`
+      let sbQuery = supabase.from('stock_balances').select(`
           id,
           product_variant_id,
           warehouse_id,
@@ -148,7 +149,8 @@ export const useInventory = () => {
         last_movement_at?: string | null
       }
 
-      const balances = (stockBalances as unknown as RawStockBalanceItem[] | null) || []
+      const balances =
+        (stockBalances as unknown as RawStockBalanceItem[] | null) || []
 
       // 3. Merge aggregated stock balance quantities into each inventory item
       return (inventoryData || []).map((rawItem: unknown) => {
@@ -185,10 +187,14 @@ export const useInventory = () => {
 
         // Calculate weighted average cost or default to first available
         const totalValue = matchingBalances.reduce(
-          (sum, b) => sum + Number(b.qty_on_hand || 0) * Number(b.avg_cost || 0),
+          (sum, b) =>
+            sum + Number(b.qty_on_hand || 0) * Number(b.avg_cost || 0),
           0
         )
-        const avg_cost = qty_on_hand > 0 ? totalValue / qty_on_hand : Number(matchingBalances[0]?.avg_cost ?? 0)
+        const avg_cost =
+          qty_on_hand > 0
+            ? totalValue / qty_on_hand
+            : Number(matchingBalances[0]?.avg_cost ?? 0)
 
         const condition = matchingBalances[0]?.condition ?? 'good'
 
@@ -203,8 +209,10 @@ export const useInventory = () => {
           quantity: qty_on_hand,
           reorder_level: item.reorder_point ?? item.min_quantity ?? 0,
           max_stock_level: item.max_quantity ?? null,
-          last_restocked: item.last_count_date ?? item.updated_at ?? item.created_at,
-          location: item.warehouse_locations?.code || item.warehouses?.code || null,
+          last_restocked:
+            item.last_count_date ?? item.updated_at ?? item.created_at,
+          location:
+            item.warehouse_locations?.code || item.warehouses?.code || null,
         } as Inventory
       })
     },
@@ -236,7 +244,8 @@ export const useCreateInventory = () => {
       const { data, error } = await supabase
         .from('inventory')
         .insert(payload)
-        .select(`
+        .select(
+          `
           inventory_id,
           product_id,
           product_variant_id,
@@ -253,7 +262,8 @@ export const useCreateInventory = () => {
           stores (store_id, name),
           warehouses (id, name, code),
           warehouse_locations (id, name, code, location_type, path)
-        `)
+        `
+        )
         .maybeSingle()
 
       if (error) throw error
@@ -302,7 +312,8 @@ export const useUpdateInventory = () => {
         .from('inventory')
         .update(payload)
         .eq('inventory_id', inventory_id)
-        .select(`
+        .select(
+          `
           inventory_id,
           product_id,
           product_variant_id,
@@ -319,7 +330,8 @@ export const useUpdateInventory = () => {
           stores (store_id, name),
           warehouses (id, name, code),
           warehouse_locations (id, name, code, location_type, path)
-        `)
+        `
+        )
         .maybeSingle()
 
       if (error) throw error
@@ -361,7 +373,7 @@ export const useInventoryProducts = () => {
         .order('name')
 
       if (error) throw error
-      return data || []
+      return (data || []) as InventoryProductRelation[]
     },
   })
 }
@@ -373,12 +385,48 @@ export const useProductVariants = (productId?: string | null) => {
       if (!productId) return []
       const { data, error } = await supabase
         .from('product_variants')
-        .select('id, product_id, sku, name, is_active, price')
+        .select(
+          'id, product_id, sku, name, barcode, dimensions, weight, is_active, price'
+        )
         .eq('product_id', productId)
         .order('sku')
 
       if (error) throw error
-      return data || []
+
+      return ((data || []) as unknown as Array<Record<string, unknown>>).map(
+        (v) => {
+          let dimLabel = ''
+          if (typeof v.dimensions === 'string') {
+            try {
+              const parsed = JSON.parse(v.dimensions)
+              dimLabel = parsed?.label || v.dimensions
+            } catch {
+              dimLabel = v.dimensions
+            }
+          } else if (
+            v.dimensions &&
+            typeof v.dimensions === 'object' &&
+            'label' in (v.dimensions as Record<string, unknown>)
+          ) {
+            dimLabel = String(
+              (v.dimensions as Record<string, unknown>).label || ''
+            )
+          }
+
+          return {
+            id: String(v.id),
+            product_id: v.product_id ? String(v.product_id) : undefined,
+            sku: String(v.sku || ''),
+            name: v.name ? String(v.name) : null,
+            barcode: v.barcode ? String(v.barcode) : null,
+            dimensions: v.dimensions,
+            weight: v.weight ? Number(v.weight) : null,
+            is_active: v.is_active !== false,
+            price: v.price != null ? Number(v.price) : null,
+            attributes_label: dimLabel || (v.name ? String(v.name) : ''),
+          } as InventoryVariantRelation
+        }
+      )
     },
     enabled: !!productId,
   })
@@ -411,13 +459,21 @@ export const useWarehouseLocations = (warehouseId?: string | null) => {
     queryKey: ['inventory-warehouse-locations', warehouseId],
     queryFn: async () => {
       if (!warehouseId) return []
-      const { data, error } = await supabase
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
         .from('warehouse_locations')
-        .select('id, code, name, location_type, path, is_pickable, is_receivable')
+        .select(
+          'id, code, name, location_type, path, is_pickable, is_receivable, is_default'
+        )
         .eq('warehouse_id', warehouseId)
         .eq('is_active', true)
         .order('code')
 
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query
       if (error) throw error
       return (data || []) as InventoryLocationRelation[]
     },
@@ -430,10 +486,7 @@ export const useStores = () => {
     queryKey: ['inventory-stores-list'],
     queryFn: async () => {
       const { tenantId } = getAuthTenantAndUser()
-      let query = supabase
-        .from('stores')
-        .select('store_id, name')
-        .order('name')
+      let query = supabase.from('stores').select('store_id, name').order('name')
 
       if (tenantId) {
         query = query.eq('tenant_id', tenantId)
@@ -453,22 +506,25 @@ export const useStoreWarehouses = (storeId?: string | null) => {
       if (!storeId) return []
       const { data, error } = await supabase
         .from('store_warehouses')
-        .select(`
+        .select(
+          `
           id,
           store_id,
           warehouse_id,
           is_default,
           priority,
           allow_fulfillment,
+          is_active,
           warehouses (
             id,
             name,
             code,
-            is_active
+            is_active,
+            is_default
           )
-        `)
+        `
+        )
         .eq('store_id', storeId)
-        .eq('is_active', true)
         .order('priority', { ascending: true })
 
       if (error) throw error
@@ -488,7 +544,8 @@ export const useStockBalancesForProduct = (
       if (!variantId) return []
       let query = supabase
         .from('stock_balances')
-        .select(`
+        .select(
+          `
           id,
           product_variant_id,
           warehouse_id,
@@ -502,7 +559,8 @@ export const useStockBalancesForProduct = (
           last_movement_at,
           warehouses (id, name, code),
           warehouse_locations (id, name, code, location_type, path)
-        `)
+        `
+        )
         .eq('product_variant_id', variantId)
 
       if (warehouseId) {

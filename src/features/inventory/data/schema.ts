@@ -3,10 +3,10 @@ import { z } from 'zod'
 export const inventorySchema = z.object({
   inventory_id: z.number().optional(),
   product_id: z.string().min(1, 'Product is required'),
-  product_variant_id: z.string().optional().nullable(),
-  store_id: z.string().uuid().optional().nullable(),
-  warehouse_id: z.string().uuid().optional().nullable(),
-  warehouse_location_id: z.string().uuid().optional().nullable(),
+  product_variant_id: z.string().optional().nullable().or(z.literal('none')),
+  store_id: z.string().optional().nullable().or(z.literal('')).or(z.literal('none')),
+  warehouse_id: z.string().optional().nullable().or(z.literal('')).or(z.literal('none')),
+  warehouse_location_id: z.string().optional().nullable().or(z.literal('')).or(z.literal('none')),
   reorder_point: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
   min_quantity: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
   max_quantity: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
@@ -34,7 +34,12 @@ export interface InventoryVariantRelation {
   product_id?: string
   name?: string | null
   sku: string
+  barcode?: string | null
   price?: number | null
+  dimensions?: unknown
+  weight?: number | null
+  is_active?: boolean
+  attributes_label?: string
 }
 
 export interface InventoryWarehouseRelation {
@@ -53,6 +58,7 @@ export interface InventoryLocationRelation {
   path?: string | null
   is_pickable?: boolean
   is_receivable?: boolean
+  is_default?: boolean
 }
 
 export interface InventoryStoreRelation {

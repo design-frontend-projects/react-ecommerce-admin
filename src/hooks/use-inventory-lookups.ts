@@ -90,16 +90,77 @@ export interface StoreWarehouseOption {
   priority: number
   allow_fulfillment: boolean
   allow_negative_stock?: boolean
+  is_active?: boolean
+  notes?: string | null
 }
 
-/** Warehouses linked to a specific store via store_warehouses table */
+/** Warehouses linked to a specific store via store_warehouses table, branch, or stock balances */
 export function useStoreWarehouses(storeId?: string | null) {
   return useAuthQuery<StoreWarehouseOption[]>({
     queryKey: ['store-warehouses', 'options', storeId ?? 'none'],
     enabled: Boolean(storeId),
     rbac: { permission: 'inventory.stock.view' },
-    queryFn: async () => {
+    queryFn: async (getToken) => {
       if (!storeId) return []
+
+      // 1. Primary: Server API query returning all related warehouses
+      try {
+        const payload = (await authorizedRequest(
+          getToken,
+          `/api/inventory/store-warehouses?storeId=${encodeURIComponent(storeId)}`
+        )) as {
+          success?: boolean
+          data?: Array<{
+            id: string
+            warehouse_id: string
+            is_default?: boolean
+            priority?: number
+            allow_fulfillment?: boolean
+            is_active?: boolean
+            notes?: string | null
+            warehouses?: {
+              id: string
+              name: string
+              code: string
+              is_active?: boolean
+              allow_negative_stock?: boolean
+            } | null
+          }>
+        }
+
+        if (payload?.success && Array.isArray(payload.data)) {
+          const results: StoreWarehouseOption[] = []
+          const seenWhIds = new Set<string>()
+
+          for (const item of payload.data) {
+            const wh = item.warehouses
+            const whId = wh?.id || item.warehouse_id
+            if (whId && !seenWhIds.has(whId)) {
+              seenWhIds.add(whId)
+              results.push({
+                id: whId,
+                name: wh?.name || 'Warehouse',
+                code: wh?.code || '',
+                is_default: Boolean(item.is_default),
+                priority: Number(item.priority ?? 1),
+                allow_fulfillment: item.allow_fulfillment !== false,
+                allow_negative_stock: Boolean(wh?.allow_negative_stock),
+                is_active: wh?.is_active ?? item.is_active ?? true,
+                notes: item.notes || null,
+              })
+            }
+          }
+
+          if (results.length > 0) {
+            return results
+          }
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('API /api/inventory/store-warehouses fallback to Supabase:', err)
+      }
+
+      // 2. Supabase Fallback: query without restrictive is_active filter
       const { data, error } = await supabase
         .from('store_warehouses')
         .select(`
@@ -109,6 +170,7 @@ export function useStoreWarehouses(storeId?: string | null) {
           is_default,
           priority,
           allow_fulfillment,
+          is_active,
           warehouses (
             id,
             name,
@@ -118,11 +180,16 @@ export function useStoreWarehouses(storeId?: string | null) {
           )
         `)
         .eq('store_id', storeId)
-        .eq('is_active', true)
         .order('priority', { ascending: true })
 
-      if (error) throw error
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.warn('Supabase store_warehouses query failed:', error)
+      }
+
       const results: StoreWarehouseOption[] = []
+      const seenWhIds = new Set<string>()
+
       interface RawStoreWarehouseRow {
         id: string
         store_id: string
@@ -130,6 +197,7 @@ export function useStoreWarehouses(storeId?: string | null) {
         is_default?: boolean
         priority?: number
         allow_fulfillment?: boolean
+        is_active?: boolean
         warehouses?: {
           id: string
           name: string
@@ -138,19 +206,64 @@ export function useStoreWarehouses(storeId?: string | null) {
           allow_negative_stock?: boolean
         } | null
       }
+
       for (const row of (data ?? []) as unknown as RawStoreWarehouseRow[]) {
-        if (row.warehouses && row.warehouses.is_active !== false) {
-          results.push({
-            id: row.warehouses.id,
-            name: row.warehouses.name,
-            code: row.warehouses.code,
-            is_default: Boolean(row.is_default),
-            priority: Number(row.priority ?? 1),
-            allow_fulfillment: row.allow_fulfillment !== false,
-            allow_negative_stock: Boolean(row.warehouses.allow_negative_stock),
-          })
+        if (row.warehouses) {
+          const whId = row.warehouses.id
+          if (!seenWhIds.has(whId)) {
+            seenWhIds.add(whId)
+            results.push({
+              id: whId,
+              name: row.warehouses.name,
+              code: row.warehouses.code,
+              is_default: Boolean(row.is_default),
+              priority: Number(row.priority ?? 1),
+              allow_fulfillment: row.allow_fulfillment !== false,
+              allow_negative_stock: Boolean(row.warehouses.allow_negative_stock),
+              is_active: row.warehouses.is_active ?? row.is_active ?? true,
+            })
+          }
         }
       }
+
+      // Branch fallback if direct links returned nothing
+      if (results.length === 0) {
+        const { data: storeData } = await supabase
+          .from('stores')
+          .select('branch_id')
+          .eq('store_id', storeId)
+          .maybeSingle()
+
+        if (storeData?.branch_id) {
+          const { data: branchWhs } = await supabase
+            .from('warehouses')
+            .select('id, name, code, is_active, allow_negative_stock')
+            .eq('branch_id', storeData.branch_id)
+
+          for (const bw of (branchWhs ?? []) as Array<{
+            id: string
+            name: string
+            code: string
+            is_active?: boolean
+            allow_negative_stock?: boolean
+          }>) {
+            if (!seenWhIds.has(bw.id)) {
+              seenWhIds.add(bw.id)
+              results.push({
+                id: bw.id,
+                name: bw.name,
+                code: bw.code,
+                is_default: results.length === 0,
+                priority: results.length + 1,
+                allow_fulfillment: true,
+                allow_negative_stock: Boolean(bw.allow_negative_stock),
+                is_active: bw.is_active ?? true,
+              })
+            }
+          }
+        }
+      }
+
       return results
     },
   })

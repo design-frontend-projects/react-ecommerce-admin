@@ -75,6 +75,7 @@ import { LookupSelect } from '@/features/lookups/components/lookup-select'
 import {
   useBrandOptions,
   useCategoryOptions,
+  formatCategorySearchableOptions,
   useSupplierOptions,
   useUomOptions,
   useProductTypeOptions,
@@ -125,6 +126,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   // Options queries
   const { data: categories = [] } = useCategoryOptions()
+  const categoryOptions = useMemo(
+    () => formatCategorySearchableOptions(categories),
+    [categories]
+  )
   const { data: brands = [] } = useBrandOptions()
   const { data: uoms = [] } = useUomOptions()
   const { data: suppliers = [] } = useSupplierOptions()
@@ -676,28 +681,24 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       control={form.control}
                       name='category_id'
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className='flex flex-col'>
                           <FormLabel>{t('products.form.category')}</FormLabel>
-                          <Select
-                            onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
-                            value={field.value || 'none'}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder={t('products.form.selectCategory')} />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value='none' className='text-muted-foreground italic'>
-                                -- {t('common.none', 'None')} --
-                              </SelectItem>
-                              {categories.map((cat) => (
-                                <SelectItem key={cat.id} value={cat.id}>
-                                  {cat.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <FormControl>
+                            <SearchableSelect
+                              value={field.value}
+                              onChange={(val) => field.onChange(val)}
+                              options={categoryOptions}
+                              placeholder={t('products.form.selectCategory')}
+                              searchPlaceholder={t('products.form.searchCategory', {
+                                defaultValue: 'Search category (English or العربية)...',
+                              })}
+                              emptyText={t('products.form.noCategoryFound', {
+                                defaultValue: 'No category found.',
+                              })}
+                              allowNone={true}
+                              noneLabel={`-- ${t('common.none', 'None')} --`}
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}

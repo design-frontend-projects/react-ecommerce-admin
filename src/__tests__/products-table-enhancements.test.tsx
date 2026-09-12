@@ -262,5 +262,89 @@ describe('Products Table Enhancements', () => {
       await userEvent.click(screen.getByText('Samsung'))
       expect(onChange).toHaveBeenCalledWith('b-2')
     })
+    it('renders bilingual options with Arabic and English names and filters correctly', async () => {
+      const onChange = vi.fn()
+      const options = [
+        { id: 'cat-1', name: 'Hot Beverages', name_ar: 'المشروبات الساخنة', description: 'Root Category' },
+        { id: 'cat-2', name: 'Cold Beverages', name_ar: 'المشروبات الباردة', description: 'Root Category' },
+        { id: 'cat-3', name: 'Espresso', name_ar: 'إسبريسو', description: 'Hot Beverages › Espresso' },
+      ]
+
+      const { SearchableSelect } = await import(
+        '@/components/custom-ui/searchable-select'
+      )
+
+      const { rerender } = render(
+        <SearchableSelect
+          value={null}
+          onChange={onChange}
+          options={options}
+          placeholder='Select category'
+          searchPlaceholder='Search category...'
+        />
+      )
+
+      const trigger = screen.getByRole('combobox')
+      expect(trigger).toHaveTextContent('Select category')
+
+      await userEvent.click(trigger)
+
+      // Verify both English and Arabic names are rendered
+      expect(screen.getByText('Hot Beverages')).toBeInTheDocument()
+      expect(screen.getByText('المشروبات الساخنة')).toBeInTheDocument()
+      expect(screen.getByText('Cold Beverages')).toBeInTheDocument()
+      expect(screen.getByText('المشروبات الباردة')).toBeInTheDocument()
+      expect(screen.getByText('Espresso')).toBeInTheDocument()
+      expect(screen.getByText('إسبريسو')).toBeInTheDocument()
+
+      // Filter by Arabic name
+      const searchInput = screen.getByPlaceholderText('Search category...')
+      await userEvent.type(searchInput, 'إسبريسو')
+      expect(screen.getByText('Espresso')).toBeInTheDocument()
+      expect(screen.queryByText('Cold Beverages')).not.toBeInTheDocument()
+
+      // Select the filtered option
+      await userEvent.click(screen.getByText('Espresso'))
+      expect(onChange).toHaveBeenCalledWith('cat-3')
+
+      // Rerender with selected value to verify trigger displays both names
+      rerender(
+        <SearchableSelect
+          value='cat-3'
+          onChange={onChange}
+          options={options}
+          placeholder='Select category'
+          searchPlaceholder='Search category...'
+        />
+      )
+
+      expect(screen.getByRole('combobox')).toHaveTextContent('Espresso')
+      expect(screen.getByRole('combobox')).toHaveTextContent('إسبريسو')
+    })
+
+    it('formatCategorySearchableOptions formats categories with hierarchy and Arabic names', async () => {
+      const { formatCategorySearchableOptions } = await import(
+        '@/features/products/hooks/use-product-options'
+      )
+
+      const rawCategories = [
+        { id: 'c-1', name: 'Beverages', name_ar: 'المشروبات', parent_id: null },
+        { id: 'c-2', name: 'Coffee', name_ar: 'قهوة', parent_id: 'c-1' },
+      ]
+
+      const formatted = formatCategorySearchableOptions(rawCategories)
+      expect(formatted).toHaveLength(2)
+      expect(formatted[0]).toEqual({
+        id: 'c-1',
+        name: 'Beverages',
+        name_ar: 'المشروبات',
+        description: undefined,
+      })
+      expect(formatted[1].id).toBe('c-2')
+      expect(formatted[1].name).toBe('Coffee')
+      expect(formatted[1].name_ar).toBe('قهوة')
+      expect(formatted[1].description).toContain('Beverages')
+      expect(formatted[1].description).toContain('المشروبات')
+    })
   })
 })

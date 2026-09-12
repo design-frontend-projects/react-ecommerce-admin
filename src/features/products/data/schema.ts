@@ -88,8 +88,8 @@ export const productSchema = z.object({
 export type Product = z.infer<typeof productSchema> & {
   // Legacy / convenience aliases
   product_id?: string | number
-  categories?: { id?: string; name: string } | null
-  brands?: { id?: string; name: string; code?: string | null } | null
+  categories?: { id?: string; name: string; name_ar?: string | null } | null
+  brands?: { id?: string; name: string; name_ar?: string | null; code?: string | null } | null
   base_uom?: { id?: string; name: string; code?: string } | null
   suppliers?: { id?: string; name: string; code?: string | null } | null
   product_types?: { id?: string; name: string; name_ar?: string | null; code?: string | null; icon?: string | null; color?: string | null } | null

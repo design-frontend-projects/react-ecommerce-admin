@@ -27,7 +27,7 @@ export function useStoreWarehouses(storeId: string | undefined) {
     queryKey: storeWarehousesKey(storeId ?? ''),
     queryFn: (getToken) => fetchStoreWarehouses(getToken, storeId as string),
     enabled: Boolean(storeId),
-    rbac: { permission: 'inventory.view' },
+    rbac: { permission: 'inventory.stock.view' },
   })
 }
 
@@ -36,7 +36,7 @@ export function useWarehouseStores(warehouseId: string | undefined) {
     queryKey: warehouseStoresKey(warehouseId ?? ''),
     queryFn: (getToken) => fetchWarehouseStores(getToken, warehouseId as string),
     enabled: Boolean(warehouseId),
-    rbac: { permission: 'inventory.view' },
+    rbac: { permission: 'inventory.stock.view' },
   })
 }
 

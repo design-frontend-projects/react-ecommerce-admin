@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 export const storeWarehouseItemSchema = z.object({
-  id: z.string().uuid(),
-  tenant_id: z.string().uuid(),
-  store_id: z.string().uuid(),
-  warehouse_id: z.string().uuid(),
+  id: z.string(),
+  tenant_id: z.string(),
+  store_id: z.string(),
+  warehouse_id: z.string(),
   is_default: z.boolean(),
   priority: z.number().int(),
   allow_fulfillment: z.boolean().default(true),

@@ -19,8 +19,10 @@ import {
 export interface SearchableOption {
   id: string
   name: string
+  name_ar?: string | null
   code?: string | null
   description?: string | null
+  badge?: string | null
 }
 
 export interface SearchableSelectProps {
@@ -69,25 +71,37 @@ export function SearchableSelect({
             className
           )}
         >
-          <span className='truncate'>
+          <div className='flex items-center justify-between gap-2 w-full min-w-0 pr-1'>
             {selectedOption ? (
               <>
-                <span className='font-medium text-foreground'>{selectedOption.name}</span>
-                {selectedOption.code && (
-                  <span className='ml-1 text-muted-foreground font-mono text-[11px]'>
-                    ({selectedOption.code})
+                <div className='flex items-center gap-1.5 truncate'>
+                  <span className='font-medium text-foreground truncate'>
+                    {selectedOption.name}
+                  </span>
+                  {selectedOption.code && (
+                    <span className='text-muted-foreground font-mono text-[11px] shrink-0'>
+                      ({selectedOption.code})
+                    </span>
+                  )}
+                </div>
+                {selectedOption.name_ar && (
+                  <span
+                    dir='rtl'
+                    className='text-xs text-muted-foreground font-medium shrink-0 max-w-[45%] truncate font-sans'
+                  >
+                    {selectedOption.name_ar}
                   </span>
                 )}
               </>
             ) : (
-              placeholder
+              <span className='truncate text-muted-foreground'>{placeholder}</span>
             )}
-          </span>
+          </div>
           <ChevronsUpDown className='ml-1.5 h-3.5 w-3.5 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='w-[--radix-popover-trigger-width] min-w-[240px] p-0'
+        className='w-[--radix-popover-trigger-width] min-w-[280px] p-0'
         align='start'
       >
         <Command>
@@ -117,29 +131,62 @@ export function SearchableSelect({
               )}
               {options.map((opt) => {
                 const isSelected = opt.id === value
+                const searchValue = `${opt.name} ${opt.name_ar || ''} ${opt.code || ''} ${opt.description || ''}`
                 return (
                   <CommandItem
                     key={opt.id}
-                    value={`${opt.name} ${opt.code || ''} ${opt.description || ''}`}
+                    value={searchValue}
                     onSelect={() => {
                       onChange(opt.id)
                       setOpen(false)
                     }}
-                    className='text-xs'
+                    className='text-xs py-2 cursor-pointer'
                   >
                     <Check
                       className={cn(
-                        'mr-2 h-3.5 w-3.5',
-                        isSelected ? 'opacity-100' : 'opacity-0'
+                        'mr-2 h-3.5 w-3.5 shrink-0',
+                        isSelected ? 'opacity-100 text-primary' : 'opacity-0'
                       )}
                     />
-                    <div className='flex items-center gap-1.5 truncate'>
-                      <span className={cn(isSelected && 'font-semibold text-primary')}>
-                        {opt.name}
-                      </span>
-                      {opt.code && (
-                        <span className='text-[10px] text-muted-foreground font-mono'>
-                          ({opt.code})
+                    <div className='flex items-center justify-between gap-2 w-full min-w-0'>
+                      <div className='flex flex-col min-w-0 truncate'>
+                        <div className='flex items-center gap-1.5 truncate'>
+                          <span
+                            className={cn(
+                              'truncate',
+                              isSelected ? 'font-semibold text-primary' : 'font-medium'
+                            )}
+                          >
+                            {opt.name}
+                          </span>
+                          {opt.code && (
+                            <span className='text-[10px] text-muted-foreground font-mono shrink-0'>
+                              ({opt.code})
+                            </span>
+                          )}
+                          {opt.badge && (
+                            <span className='text-[10px] px-1 py-0.5 rounded bg-muted text-muted-foreground shrink-0'>
+                              {opt.badge}
+                            </span>
+                          )}
+                        </div>
+                        {opt.description && (
+                          <span className='text-[11px] text-muted-foreground/75 truncate'>
+                            {opt.description}
+                          </span>
+                        )}
+                      </div>
+                      {opt.name_ar && (
+                        <span
+                          dir='rtl'
+                          className={cn(
+                            'text-xs shrink-0 max-w-[45%] truncate font-sans',
+                            isSelected
+                              ? 'font-semibold text-primary'
+                              : 'text-muted-foreground'
+                          )}
+                        >
+                          {opt.name_ar}
                         </span>
                       )}
                     </div>

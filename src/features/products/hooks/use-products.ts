@@ -59,7 +59,7 @@ export const useProducts = () => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name), brands(id, name, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
@@ -82,7 +82,7 @@ export const useProduct = (id?: string | number | null) => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name), brands(id, name, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .eq('id', productId)
         .maybeSingle()
