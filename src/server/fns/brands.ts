@@ -1,11 +1,12 @@
 'use server'
 
 import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
+import { resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface CreateBrandInput {
   name: string
+  nameAr?: string | null
   code?: string | null
   logoUrl?: string | null
   description?: string | null
@@ -20,24 +21,21 @@ function assertName(name: unknown): asserts name is string {
   }
 }
 
-export async function listBrands(authUserId: string) {
-  const tenantId = await requireTenantId(authUserId)
+export async function listBrands(_authUserId?: string) {
   return prisma.brands.findMany({
-    where: { tenant_id: tenantId },
     orderBy: { name: 'asc' },
     include: { _count: { select: { products: true } } },
   })
 }
 
 export async function createBrand(authUserId: string, input: CreateBrandInput) {
-  const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
   assertName(input.name)
 
   return prisma.brands.create({
     data: {
-      tenant_id: tenantId,
       name: input.name.trim(),
+      name_ar: input.nameAr?.trim() || null,
       code: input.code?.trim() || null,
       logo_url: input.logoUrl?.trim() || null,
       description: input.description?.trim() || null,
@@ -53,10 +51,9 @@ export async function updateBrand(
   id: string,
   input: UpdateBrandInput
 ) {
-  const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
-  const existing = await prisma.brands.findFirst({
-    where: { id, tenant_id: tenantId },
+  const existing = await prisma.brands.findUnique({
+    where: { id },
     select: { id: true },
   })
   if (!existing) {
@@ -69,6 +66,9 @@ export async function updateBrand(
 
   const data = {
     ...(input.name !== undefined ? { name: input.name.trim() } : {}),
+    ...(input.nameAr !== undefined
+      ? { name_ar: input.nameAr?.trim() || null }
+      : {}),
     ...(input.code !== undefined ? { code: input.code?.trim() || null } : {}),
     ...(input.logoUrl !== undefined
       ? { logo_url: input.logoUrl?.trim() || null }
@@ -86,10 +86,9 @@ export async function updateBrand(
   return prisma.brands.update({ where: { id }, data })
 }
 
-export async function deleteBrand(authUserId: string, id: string) {
-  const tenantId = await requireTenantId(authUserId)
-  const existing = (await prisma.brands.findFirst({
-    where: { id, tenant_id: tenantId },
+export async function deleteBrand(_authUserId: string, id: string) {
+  const existing = (await prisma.brands.findUnique({
+    where: { id },
     select: { id: true, _count: { select: { products: true } } },
   })) as { id: string; _count: { products: number } } | null
   if (!existing) {
@@ -103,3 +102,4 @@ export async function deleteBrand(authUserId: string, id: string) {
   }
   return prisma.brands.delete({ where: { id } })
 }
+

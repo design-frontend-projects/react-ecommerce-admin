@@ -2210,8 +2210,8 @@ model stock_by_location {
 
 model brands {
   id                 String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id          String     @db.Uuid
-  name               String     @db.VarChar(120)
+  name               String     @unique(map: "uq_brands_name") @db.VarChar(120)
+  name_ar            String?    @db.VarChar(120)
   code               String?    @db.VarChar(30)
   logo_url           String?
   description        String?
@@ -2221,6 +2221,8 @@ model brands {
   created_by_user_id String?    @db.Uuid
   updated_by_user_id String?    @db.Uuid
   products           products[]
+
+  @@index([code], map: "idx_brands_code")
 }
 
 model uoms {

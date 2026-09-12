@@ -1,11 +1,47 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { type TFunction } from 'i18next'
+import { AlertTriangle, CheckCircle2, XCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { LongText } from '@/components/long-text'
 import { type Product } from '../data/schema'
 import { ProductRowActions } from './product-row-actions'
+
+export function computeTotalStock(product: Product): number {
+  const variants = product.product_variants || []
+  let totalAvailable = 0
+
+  for (const v of variants) {
+    const balances = (v as {
+      stock_balances?: Array<{
+        qty_available?: number | string
+        qty_on_hand?: number | string
+        qty_reserved?: number | string
+      }>
+    }).stock_balances
+    if (balances && balances.length > 0) {
+      for (const b of balances) {
+        totalAvailable += Number(
+          b.qty_available ??
+            (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
+        )
+      }
+    }
+  }
+
+  return totalAvailable
+}
+
+export function getStockStatus(
+  product: Product
+): 'in_stock' | 'low_stock' | 'out_of_stock' {
+  const stock = computeTotalStock(product)
+  const reorderLevel = Number(product.reorder_level) || 0
+  if (stock <= 0) return 'out_of_stock'
+  if (reorderLevel > 0 && stock <= reorderLevel) return 'low_stock'
+  return 'in_stock'
+}
 
 export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
   {
@@ -35,7 +71,10 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.name')} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.name', { defaultValue: 'Product Name' })}
+      />
     ),
     cell: ({ row }) => (
       <div className='flex flex-col gap-0.5'>
@@ -53,7 +92,10 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
   {
     accessorKey: 'sku',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.sku')} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.sku', { defaultValue: 'SKU' })}
+      />
     ),
     cell: ({ row }) => (
       <div className='font-mono text-xs font-medium'>{row.getValue('sku')}</div>
@@ -63,7 +105,10 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     id: 'category',
     accessorFn: (row) => row.categories?.name || '',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.category')} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.category', { defaultValue: 'Category' })}
+      />
     ),
     cell: ({ row }) => {
       const categoryName = row.original.categories?.name
@@ -73,12 +118,18 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
         </div>
       )
     },
+    filterFn: (row, id, value: string[]) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     id: 'brand',
     accessorFn: (row) => row.brands?.name || '',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.brand')} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.brand', { defaultValue: 'Brand' })}
+      />
     ),
     cell: ({ row }) => {
       const brandName = row.original.brands?.name
@@ -88,11 +139,17 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
         </div>
       )
     },
+    filterFn: (row, id, value: string[]) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: 'product_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.productType')} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.productType', { defaultValue: 'Type' })}
+      />
     ),
     cell: ({ row }) => {
       const pType = (row.getValue('product_type') as string) || 'simple'
@@ -101,7 +158,7 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
       return (
         <div className='flex flex-col gap-1 items-start'>
           <Badge variant='outline' className='text-xs font-normal capitalize'>
-            {t(key, pType)}
+            {t(key, { defaultValue: pType })}
           </Badge>
           {macroType && (
             <span
@@ -120,101 +177,165 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
         </div>
       )
     },
-  },
-  {
-    id: 'price',
-    accessorFn: (row) => {
-      const variants = row.product_variants || []
-      for (const v of variants) {
-        const pli = (v as { price_list_items?: Array<{ price: number | string }> }).price_list_items
-        if (pli && pli.length > 0) return Number(pli[0].price)
-      }
-      return 0
-    },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.price')} />
-    ),
-    cell: ({ row }) => {
-      const variants = row.original.product_variants || []
-      const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      })
-
-      const prices = variants
-        .map((v) => {
-          const pli = (v as { price_list_items?: Array<{ price: number | string }> }).price_list_items
-          if (pli && pli.length > 0) return Number(pli[0].price)
-          return 0
-        })
-        .filter((p) => p > 0)
-
-      if (prices.length > 1) {
-        const minPrice = Math.min(...prices)
-        const maxPrice = Math.max(...prices)
-
-        if (minPrice === maxPrice) {
-          return <div className='font-medium text-sm'>{formatter.format(minPrice)}</div>
-        }
-
-        return (
-          <div className='font-medium text-sm'>
-            {formatter.format(minPrice)} - {formatter.format(maxPrice)}
-          </div>
-        )
-      }
-
-      if (prices.length === 1) {
-        return <div className='font-medium text-sm'>{formatter.format(prices[0])}</div>
-      }
-
-      return <div className='text-muted-foreground text-sm italic'>—</div>
+    filterFn: (row, id, value: string[]) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
     id: 'stock',
+    accessorFn: (row) => computeTotalStock(row),
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.stock', { defaultValue: 'Stock' })} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.stock', { defaultValue: 'Stock' })}
+      />
     ),
+    sortingFn: 'basic',
     cell: ({ row }) => {
-      const variants = row.original.product_variants || []
-      let totalAvailable = 0
+      const totalAvailable = Number(row.getValue('stock') || 0)
+      const reorderLevel = Number(row.original.reorder_level) || 0
+      const isLowStock = reorderLevel > 0 && totalAvailable > 0 && totalAvailable <= reorderLevel
 
-      for (const v of variants) {
-        const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances
-        if (balances && balances.length > 0) {
-          for (const b of balances) {
-            totalAvailable += Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0)))
-          }
-        }
+      if (totalAvailable <= 0) {
+        return (
+          <div className='flex flex-col items-start gap-0.5'>
+            <Badge
+              variant='outline'
+              className='text-xs gap-1 border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-400 font-medium'
+            >
+              <XCircle className='h-3 w-3' />
+              {t('products.stockStatus.outOfStock', { defaultValue: 'Out of stock' })}
+            </Badge>
+          </div>
+        )
+      }
+
+      if (isLowStock) {
+        return (
+          <div className='flex flex-col items-start gap-0.5'>
+            <Badge
+              variant='outline'
+              className='text-xs gap-1 border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400 font-medium'
+            >
+              <AlertTriangle className='h-3 w-3' />
+              {totalAvailable} {t('products.stockStatus.lowStockSuffix', { defaultValue: 'left (Low)' })}
+            </Badge>
+            <span className='text-[10px] text-muted-foreground font-mono'>
+              {t('products.reorderAt', { defaultValue: 'Reorder:' })} {reorderLevel}
+            </span>
+          </div>
+        )
       }
 
       return (
-        <Badge
-          variant={totalAvailable > 0 ? 'outline' : 'secondary'}
-          className={`text-xs ${totalAvailable > 0 ? 'text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400' : 'text-muted-foreground'}`}
-        >
-          {totalAvailable > 0 ? `${totalAvailable} in stock` : 'Out of stock'}
-        </Badge>
+        <div className='flex flex-col items-start gap-0.5'>
+          <Badge
+            variant='outline'
+            className='text-xs gap-1 border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-medium'
+          >
+            <CheckCircle2 className='h-3 w-3' />
+            {totalAvailable} {t('products.stockStatus.inStockSuffix', { defaultValue: 'in stock' })}
+          </Badge>
+          {reorderLevel > 0 && (
+            <span className='text-[10px] text-muted-foreground font-mono'>
+              {t('products.reorderAt', { defaultValue: 'Reorder:' })} {reorderLevel}
+            </span>
+          )}
+        </div>
       )
     },
+  },
+  {
+    id: 'stock_status',
+    accessorFn: (row) => getStockStatus(row),
+    filterFn: (row, id, value: string[]) => {
+      return value.includes(row.getValue(id))
+    },
+    enableHiding: true,
   },
   {
     accessorKey: 'is_active',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t('products.columns.status')} />
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.status', { defaultValue: 'Status' })}
+      />
     ),
+    filterFn: (row, id, value: string[]) => {
+      return value.includes(String(row.getValue(id)))
+    },
     cell: ({ row }) => {
-      const isActive = row.getValue('is_active')
+      const isActive = Boolean(row.getValue('is_active'))
       return (
-        <Badge variant={isActive ? 'default' : 'secondary'}>
-          {isActive ? t('common.active') : t('common.inactive')}
+        <Badge
+          variant={isActive ? 'default' : 'secondary'}
+          className={
+            isActive
+              ? 'bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-600'
+              : 'text-muted-foreground'
+          }
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full mr-1.5 ${
+              isActive ? 'bg-white' : 'bg-muted-foreground'
+            }`}
+          />
+          {isActive
+            ? t('common.active', { defaultValue: 'Active' })
+            : t('common.inactive', { defaultValue: 'Inactive' })}
         </Badge>
       )
     },
   },
   {
+    id: 'base_uom',
+    accessorFn: (row) => row.base_uom?.name || row.base_uom?.code || '',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.uom', { defaultValue: 'Base UOM' })}
+      />
+    ),
+    cell: ({ row }) => (
+      <span className='text-xs text-muted-foreground'>
+        {row.original.base_uom?.name || row.original.base_uom?.code || '—'}
+      </span>
+    ),
+    enableHiding: true,
+  },
+  {
+    accessorKey: 'created_at',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.createdAt', { defaultValue: 'Created' })}
+      />
+    ),
+    sortingFn: 'datetime',
+    cell: ({ row }) => {
+      const rawDate = row.getValue('created_at') as string | undefined
+      if (!rawDate) return <span className='text-xs text-muted-foreground'>—</span>
+      try {
+        const d = new Date(rawDate)
+        return (
+          <span className='text-xs text-muted-foreground font-mono'>
+            {d.toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </span>
+        )
+      } catch {
+        return <span className='text-xs text-muted-foreground'>—</span>
+      }
+    },
+    enableHiding: true,
+  },
+  {
     id: 'actions',
     cell: ProductRowActions,
+    enableSorting: false,
+    enableHiding: false,
   },
 ]

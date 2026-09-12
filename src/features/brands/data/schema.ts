@@ -5,6 +5,7 @@ const successEnvelope = <T extends z.ZodTypeAny>(schema: T) =>
 
 export const brandInputSchema = z.object({
   name: z.string().min(1, 'Name is required.').max(120),
+  nameAr: z.string().max(120).optional().nullable(),
   code: z.string().optional().nullable(),
   logoUrl: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
@@ -15,6 +16,7 @@ export type BrandInput = z.infer<typeof brandInputSchema>
 export const brandListItemSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
+  name_ar: z.string().nullable().optional(),
   code: z.string().nullable(),
   logo_url: z.string().nullable(),
   description: z.string().nullable(),

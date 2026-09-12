@@ -11343,8 +11343,8 @@ export type Stock_by_locationScalarFieldEnum = (typeof Stock_by_locationScalarFi
 
 export const BrandsScalarFieldEnum = {
   id: 'id',
-  tenant_id: 'tenant_id',
   name: 'name',
+  name_ar: 'name_ar',
   code: 'code',
   logo_url: 'logo_url',
   description: 'description',

@@ -32,6 +32,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
+import { SearchableSelect } from '@/components/custom-ui/searchable-select'
 import { LookupSelect } from '@/features/lookups/components/lookup-select'
 import { useProductWizardStore } from '../context/product-wizard-store'
 import {
@@ -339,27 +340,22 @@ export function ProductBaseForm({
                 control={form.control}
                 name='brand_id'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='flex flex-col'>
                     <FormLabel>{t('products.form.brand')}</FormLabel>
-                    <Select
-                      onValueChange={(val) => field.onChange(val || null)}
-                      value={field.value || ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder={t('products.form.selectBrand')}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {brands.map((b) => (
-                          <SelectItem key={b.id} value={b.id}>
-                            {b.name} {b.code ? `(${b.code})` : ''}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <SearchableSelect
+                        value={field.value}
+                        onChange={(val) => field.onChange(val)}
+                        options={brands}
+                        placeholder={t('products.form.selectBrand')}
+                        searchPlaceholder={t('products.form.searchBrand', {
+                          defaultValue: 'Search brand...',
+                        })}
+                        emptyText={t('products.form.noBrandFound', {
+                          defaultValue: 'No brand found.',
+                        })}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -399,27 +395,22 @@ export function ProductBaseForm({
                 control={form.control}
                 name='supplier_id'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='flex flex-col'>
                     <FormLabel>{t('products.form.supplier')}</FormLabel>
-                    <Select
-                      onValueChange={(val) => field.onChange(val || null)}
-                      value={field.value || ''}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder={t('products.form.selectSupplier')}
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {suppliers.map((s) => (
-                          <SelectItem key={s.id} value={s.id}>
-                            {s.name} {s.code ? `(${s.code})` : ''}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <SearchableSelect
+                        value={field.value}
+                        onChange={(val) => field.onChange(val)}
+                        options={suppliers}
+                        placeholder={t('products.form.selectSupplier')}
+                        searchPlaceholder={t('products.form.searchSupplier', {
+                          defaultValue: 'Search supplier...',
+                        })}
+                        emptyText={t('products.form.noSupplierFound', {
+                          defaultValue: 'No supplier found.',
+                        })}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
