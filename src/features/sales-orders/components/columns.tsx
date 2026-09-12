@@ -12,6 +12,7 @@ import {
   XCircle,
   Warehouse,
   Building2,
+  Globe,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/data-table'
@@ -144,6 +145,12 @@ export const getColumns = (t: TFunction = i18n.t): ColumnDef<OrderListItem>[] =>
             <span className='flex items-center gap-1 text-muted-foreground text-[11px]'>
               <Warehouse className='h-3 w-3 text-muted-foreground' />
               {whName}
+            </span>
+          )}
+          {row.original.channels?.name && (
+            <span className='flex items-center gap-1 text-primary text-[11px] font-medium'>
+              <Globe className='h-3 w-3 text-primary' />
+              {row.original.channels.name}
             </span>
           )}
         </div>

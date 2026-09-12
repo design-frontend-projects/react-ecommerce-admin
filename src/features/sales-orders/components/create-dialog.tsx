@@ -1,11 +1,31 @@
-import { useState, useMemo } from 'react'
-import { Plus, Trash2, Building2, Warehouse, User, Calendar, FileText, Eye, CheckCircle2 } from 'lucide-react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
+import {
+  Plus,
+  Trash2,
+  Building2,
+  Warehouse,
+  User,
+  Calendar,
+  FileText,
+  Eye,
+  CheckCircle2,
+  Loader2,
+  Globe,
+  AlertCircle,
+  Edit,
+} from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { cn } from '@/lib/utils'
+import { supabase } from '@/lib/supabase'
+import { resolveVariantPrice } from '@/services/pricing/price-resolver'
+import { useSettingsStore } from '@/features/settings/data/store'
 import {
   useStoreOptions,
   useCustomerOptions,
   useWarehouseOptions,
+  useChannelOptions,
+  useStoreWarehouses,
 } from '@/hooks/use-inventory-lookups'
 import { useProducts } from '@/features/products/hooks/use-products'
 import { useUomOptions } from '@/features/products/hooks/use-product-options'
@@ -29,12 +49,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { createOrderInputSchema } from '../data/schema'
-import { useCreateOrder } from '../hooks/use-sales-orders'
+import { createOrderInputSchema, type OrderListItem } from '../data/schema'
+import { useCreateOrder, useUpdateOrder, useOrder } from '../hooks/use-sales-orders'
+import { getAvailableStock } from '../utils/variant-stock'
 import {
   SOProductSelect,
   SOVariantSelect,
   type SOVariantOption,
+  type SOVariantStockBalance,
 } from './so-product-variant-picker'
 import {
   SalesOrderReviewDialog,
@@ -50,6 +72,9 @@ interface LineItemState {
   unitPrice: string
   discountAmount: string
   taxAmount: string
+  priceListName?: string | null
+  priceSource?: 'customer_group' | 'channel' | 'store' | 'default' | 'fallback' | null
+  isResolvingPrice?: boolean
 }
 
 const emptyItem: LineItemState = {
@@ -60,6 +85,9 @@ const emptyItem: LineItemState = {
   unitPrice: '',
   discountAmount: '0',
   taxAmount: '0',
+  priceListName: null,
+  priceSource: null,
+  isResolvingPrice: false,
 }
 
 const WALK_IN = 'walk-in'
@@ -67,15 +95,19 @@ const WALK_IN = 'walk-in'
 export function OrderCreateDialog({
   open,
   onOpenChange,
+  orderToEdit,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
+  orderToEdit?: OrderListItem | null
 }) {
   const { t } = useTranslation()
+  const tenantFavoriteCurrency = useSettingsStore((s) => s.localization?.currency)
   const [storeId, setStoreId] = useState('')
   const [warehouseId, setWarehouseId] = useState('')
+  const [channelId, setChannelId] = useState('')
   const [customerId, setCustomerId] = useState(WALK_IN)
-  const [currency, setCurrency] = useState('USD')
+  const [userSelectedCurrency, setUserSelectedCurrency] = useState<string | null>(null)
   const [expectedDate, setExpectedDate] = useState('')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItemState[]>([{ ...emptyItem }])
@@ -86,18 +118,113 @@ export function OrderCreateDialog({
 
   const { data: stores = [] } = useStoreOptions()
   const { data: warehouses = [] } = useWarehouseOptions()
+  const { data: storeWarehouses = [] } = useStoreWarehouses(storeId)
+  const { data: channels = [] } = useChannelOptions()
   const { data: customers = [] } = useCustomerOptions()
   const { data: products = [] } = useProducts()
   const { data: uoms = [] } = useUomOptions()
-  const { data: currencies = [] } = useCurrencies()
+  const { data: currencies = [] } = useCurrencies({ onlyActive: true })
   const createOrder = useCreateOrder()
+  const updateOrder = useUpdateOrder()
+  const isSubmitting = createOrder.isPending || updateOrder.isPending
+  const { data: orderDetail } = useOrder(orderToEdit?.id)
+
+  // 3. Store-Dependent Warehouses: Filter fulfillment warehouses to only those linked to store
+  const availableWarehouses = useMemo(() => {
+    if (!storeId) return []
+    if (storeWarehouses.length > 0) {
+      return storeWarehouses
+    }
+    // Fallback if no store-warehouse mappings are defined yet in DB
+    return warehouses
+  }, [storeId, storeWarehouses, warehouses])
+
+  // Derive effective warehouse (picks explicit warehouse if valid, else default linked warehouse)
+  const effectiveWarehouseId = useMemo(() => {
+    if (!storeId) return ''
+    if (warehouseId && availableWarehouses.some((w) => w.id === warehouseId)) {
+      return warehouseId
+    }
+    const defaultWh =
+      availableWarehouses.find((w) => Boolean(w.is_default)) ||
+      availableWarehouses[0]
+    return defaultWh?.id || ''
+  }, [storeId, warehouseId, availableWarehouses])
+
+  // Populate form if in edit mode
+  useEffect(() => {
+    if (!open) return
+
+    if (orderToEdit) {
+      const current = orderDetail ?? orderToEdit
+      const orderStoreId = current.store_id || current.stores?.store_id || ''
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setStoreId(orderStoreId)
+      setWarehouseId(current.warehouse_id || current.warehouses?.id || '')
+      setChannelId(current.channel_id || current.channels?.id || '')
+      setCustomerId(current.customer_id || current.customers?.id || WALK_IN)
+      setUserSelectedCurrency(current.currency || null)
+      setExpectedDate(current.expected_date ? current.expected_date.slice(0, 10) : '')
+      setNotes(current.notes || '')
+
+      if (orderDetail?.sales_order_items && orderDetail.sales_order_items.length > 0) {
+        setItems(
+          orderDetail.sales_order_items.map((it) => ({
+            productId: it.product_variants?.products?.id || null,
+            productVariantId: it.product_variant_id,
+            uomId: it.uom_id || '',
+            qty: String(it.qty_ordered),
+            unitPrice: String(it.unit_price),
+            discountAmount: String(it.discount_amount || '0'),
+            taxAmount: String(it.tax_amount || '0'),
+            priceListName: null,
+            priceSource: 'fallback' as const,
+            isResolvingPrice: false,
+          }))
+        )
+      }
+    }
+  }, [open, orderToEdit, orderDetail])
+
+  // 1. Currency Resolution: Read exclusively from available active currencies in the currencies table
+  const activeCurrencies = useMemo(() => {
+    return (currencies || []).filter((c) => c.is_active !== false)
+  }, [currencies])
+
+  // Initial favorite/default currency:
+  // First check the tenant favourite currency configured in settings table (app_settings),
+  // then fall back to the first available active currency in currencies table, or 'USD'
+  const preferredDefaultCurrency = useMemo(() => {
+    if (tenantFavoriteCurrency && activeCurrencies.some((c) => c.code === tenantFavoriteCurrency)) {
+      return tenantFavoriteCurrency
+    }
+    if (activeCurrencies.length > 0) {
+      return activeCurrencies[0].code
+    }
+    return 'USD'
+  }, [tenantFavoriteCurrency, activeCurrencies])
+
+  const currency = userSelectedCurrency ?? preferredDefaultCurrency
+  const setCurrency = (val: string | null) => setUserSelectedCurrency(val)
+
+  const selectedCurrencyObj = useMemo(() => {
+    return activeCurrencies.find((c) => c.code === currency) ?? null
+  }, [activeCurrencies, currency])
+
+  const currencySymbol = selectedCurrencyObj?.symbol || currency || '$'
+
+  const selectedCustomer = useMemo(() => {
+    if (!customerId || customerId === WALK_IN) return null
+    return customers.find((c) => c.id === customerId) ?? null
+  }, [customers, customerId])
+
+  const customerGroupId = selectedCustomer?.group_id ?? null
 
   // Map product variants by product ID for quick lookups
   const variantsByProductId = useMemo(() => {
     const map = new Map<string, SOVariantOption[]>()
     for (const p of products) {
-      const pId = String(p.id ?? p.product_id ?? '')
-      if (!pId) continue
+      const pId = String(p.id)
       const vars: SOVariantOption[] = (p.product_variants || []).map((v) => {
         const pli = (v as { price_list_items?: Array<{ price: number | string; cost_price?: number | string | null }> }).price_list_items
         const resolvedPrice = (pli && pli.length > 0)
@@ -107,7 +234,7 @@ export function OrderCreateDialog({
           ? Number(pli[0].cost_price)
           : ((v as { cost_price?: number | null }).cost_price ? Number((v as { cost_price?: number | null }).cost_price) : null)
 
-        const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances
+        const balances = (v as { stock_balances?: SOVariantStockBalance[] }).stock_balances
         const resolvedStock = (balances && balances.length > 0)
           ? balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
           : Number((v as { stock_quantity?: number }).stock_quantity ?? 0)
@@ -120,6 +247,7 @@ export function OrderCreateDialog({
           cost_price: resolvedCost,
           stock_quantity: resolvedStock,
           uom_id: v.uom_id || (p.base_uom_id ? String(p.base_uom_id) : null),
+          stock_balances: balances,
         }
       })
       map.set(pId, vars)
@@ -130,8 +258,9 @@ export function OrderCreateDialog({
   const reset = () => {
     setStoreId('')
     setWarehouseId('')
+    setChannelId('')
     setCustomerId(WALK_IN)
-    setCurrency('USD')
+    setUserSelectedCurrency(null)
     setExpectedDate('')
     setNotes('')
     setItems([{ ...emptyItem }])
@@ -145,30 +274,135 @@ export function OrderCreateDialog({
     )
   }
 
-  const handleSelectProduct = (index: number, pId: string) => {
+  // 2. Dynamic Price Checking: Query price_list_items table to get the cascading correct price
+  const resolvePriceForVariant = useCallback(
+    async (variantId: string, fallbackPrice: number) => {
+      try {
+        const res = await resolveVariantPrice(supabase, {
+          variantId,
+          storeId: storeId || null,
+          customerGroupId: customerGroupId || null,
+          channelId: channelId || null,
+          currencyId: selectedCurrencyObj?.id || null,
+          fallbackPrice,
+        })
+        return {
+          price: res.price,
+          priceListName: res.priceListName,
+          source: res.source,
+        }
+      } catch {
+        return {
+          price: fallbackPrice,
+          priceListName: null,
+          source: 'fallback' as const,
+        }
+      }
+    },
+    [storeId, customerGroupId, channelId, selectedCurrencyObj]
+  )
+
+  const handleSelectProduct = async (index: number, pId: string) => {
     const pVariants = variantsByProductId.get(pId) ?? []
     const firstVariant = pVariants[0]
 
+    if (!firstVariant) {
+      updateItem(index, {
+        productId: pId,
+        productVariantId: '',
+        unitPrice: '0',
+        uomId: '',
+        priceListName: null,
+        priceSource: 'fallback',
+        isResolvingPrice: false,
+      })
+      return
+    }
+
     updateItem(index, {
       productId: pId,
-      productVariantId: firstVariant?.id ?? '',
-      unitPrice: firstVariant ? String(firstVariant.price) : '',
-      uomId: firstVariant?.uom_id ?? null,
+      productVariantId: firstVariant.id,
+      uomId: firstVariant.uom_id ?? '',
+      isResolvingPrice: true,
+    })
+
+    const fallbackPrice = firstVariant.price ?? 0
+    const resolved = await resolvePriceForVariant(firstVariant.id, fallbackPrice)
+
+    updateItem(index, {
+      unitPrice: String(resolved.price),
+      priceListName: resolved.priceListName,
+      priceSource: resolved.source,
+      isResolvingPrice: false,
     })
   }
 
-  const handleSelectVariant = (
+  const handleSelectVariant = async (
     index: number,
     variantId: string,
-    price: number,
+    variantPrice?: number,
     uomId?: string | null
   ) => {
     updateItem(index, {
       productVariantId: variantId,
-      unitPrice: String(price),
-      ...(uomId ? { uomId } : {}),
+      ...(uomId !== undefined ? { uomId: uomId ?? '' } : {}),
+      isResolvingPrice: true,
+    })
+
+    const fallbackPrice = variantPrice ?? 0
+    const resolved = await resolvePriceForVariant(variantId, fallbackPrice)
+
+    updateItem(index, {
+      unitPrice: String(resolved.price),
+      priceListName: resolved.priceListName,
+      priceSource: resolved.source,
+      isResolvingPrice: false,
     })
   }
+
+  // Keep a ref to latest items to re-evaluate prices safely when context changes
+  const itemsRef = useRef(items)
+  useEffect(() => {
+    itemsRef.current = items
+  }, [items])
+
+  // Re-check prices from price_list_items when store, customer, or currency changes
+  useEffect(() => {
+    let isMounted = true
+    const currentItems = itemsRef.current
+    const itemsWithVariants = currentItems.filter((i) => i.productVariantId)
+    if (itemsWithVariants.length === 0) return
+
+    const reevaluatePrices = async () => {
+      const updated = await Promise.all(
+        currentItems.map(async (item) => {
+          if (!item.productVariantId) return item
+          const pVariants = item.productId ? variantsByProductId.get(item.productId) : []
+          const variant = pVariants?.find((v) => v.id === item.productVariantId)
+          const fallback = variant?.price ?? (Number(item.unitPrice) || 0)
+
+          const res = await resolvePriceForVariant(item.productVariantId, fallback)
+          return {
+            ...item,
+            unitPrice: String(res.price),
+            priceListName: res.priceListName,
+            priceSource: res.source,
+            isResolvingPrice: false,
+          }
+        })
+      )
+
+      if (isMounted) {
+        setItems(updated)
+      }
+    }
+
+    void reevaluatePrices()
+
+    return () => {
+      isMounted = false
+    }
+  }, [resolvePriceForVariant, variantsByProductId])
 
   // Live order calculations
   const subtotal = items.reduce((sum, item) => {
@@ -192,6 +426,7 @@ export function OrderCreateDialog({
     const selectedStore = stores.find((s) => s.store_id === storeId)
     const selectedWh = warehouses.find((w) => w.id === warehouseId)
     const selectedCust = customers.find((c) => c.id === customerId)
+    const selectedChannel = channels.find((c) => c.id === channelId)
 
     const compiledItems: SalesOrderDraftItem[] = items
       .filter((i) => i.productVariantId && Number(i.qty) > 0)
@@ -230,12 +465,34 @@ export function OrderCreateDialog({
       return null
     }
 
+    // Check if any items exceed available stock
+    for (const i of items) {
+      if (i.productVariantId && Number(i.qty) > 0) {
+        const variantList = i.productId ? variantsByProductId.get(i.productId) : []
+        const variant = variantList?.find((v) => v.id === i.productVariantId)
+        if (variant) {
+          const availableStock = getAvailableStock(variant, effectiveWarehouseId, storeId)
+          if (Number(i.qty) > availableStock) {
+            toast.error(
+              t(
+                'salesOrders.createDialog.stockExceededBlock',
+                'One or more line items exceed the available stock in the selected warehouse.'
+              )
+            )
+            return null
+          }
+        }
+      }
+    }
+
     return {
-      orderNumber: 'DRAFT-PREVIEW',
+      orderNumber: orderToEdit?.order_number || 'DRAFT-PREVIEW',
       storeName: selectedStore?.name || 'Store',
       storeId,
       warehouseName: selectedWh?.name,
-      warehouseId: warehouseId || null,
+      warehouseId: effectiveWarehouseId || null,
+      channelName: selectedChannel?.name || null,
+      channelId: channelId || null,
       customerName: selectedCust
         ? [selectedCust.first_name, selectedCust.last_name].filter(Boolean).join(' ')
         : t('salesOrders.form.walkInCustomer', 'Walk-in Customer'),
@@ -254,6 +511,49 @@ export function OrderCreateDialog({
     }
   }
 
+  const handleAddItem = () => {
+    const lastItem = items[items.length - 1]
+    if (lastItem) {
+      const hasProduct = Boolean(lastItem.productId)
+      const hasVariant = Boolean(lastItem.productVariantId)
+      const hasQty = Number(lastItem.qty) > 0
+
+      if (!hasProduct || !hasVariant || !hasQty) {
+        toast.error(
+          t(
+            'salesOrders.createDialog.completeCurrentRowFirst',
+            'Please complete the current row first before adding a new item.'
+          )
+        )
+        return
+      }
+
+      const itemVariants = lastItem.productId
+        ? variantsByProductId.get(lastItem.productId) ?? []
+        : []
+      const selectedVariant = itemVariants.find(
+        (v) => v.id === lastItem.productVariantId
+      )
+      if (selectedVariant) {
+        const availableStock = getAvailableStock(
+          selectedVariant,
+          effectiveWarehouseId,
+          storeId
+        )
+        if (Number(lastItem.qty) > availableStock) {
+          toast.error(
+            t(
+              'salesOrders.createDialog.rowStockExceededToast',
+              'The quantity entered exceeds available stock. Please adjust quantity before adding more items.'
+            )
+          )
+          return
+        }
+      }
+    }
+    setItems((prev) => [...prev, { ...emptyItem }])
+  }
+
   const handleOpenReview = () => {
     if (!storeId) {
       toast.error(t('salesOrders.createDialog.selectStoreFirst', 'Please select a store first.'))
@@ -266,6 +566,26 @@ export function OrderCreateDialog({
   }
 
   const handleExecuteCreate = async () => {
+    // Check if any items exceed available stock
+    for (const item of items) {
+      if (item.productVariantId && Number(item.qty) > 0) {
+        const variantList = item.productId ? variantsByProductId.get(item.productId) : []
+        const variant = variantList?.find((v) => v.id === item.productVariantId)
+        if (variant) {
+          const availableStock = getAvailableStock(variant, effectiveWarehouseId, storeId)
+          if (Number(item.qty) > availableStock) {
+            toast.error(
+              t(
+                'salesOrders.createDialog.stockExceededBlock',
+                'One or more line items exceed the available stock in the selected warehouse.'
+              )
+            )
+            return
+          }
+        }
+      }
+    }
+
     const validItems = items
       .filter((item) => item.productVariantId && Number(item.qty) > 0)
       .map((item) => ({
@@ -279,7 +599,8 @@ export function OrderCreateDialog({
 
     const parsed = createOrderInputSchema.safeParse({
       storeId,
-      warehouseId: warehouseId || undefined,
+      warehouseId: effectiveWarehouseId || undefined,
+      channelId: channelId || undefined,
       customerId: customerId === WALK_IN ? undefined : customerId,
       currency,
       expectedDate: expectedDate || undefined,
@@ -295,7 +616,11 @@ export function OrderCreateDialog({
     }
 
     try {
-      await createOrder.mutateAsync(parsed.data)
+      if (orderToEdit?.id) {
+        await updateOrder.mutateAsync({ id: orderToEdit.id, input: parsed.data })
+      } else {
+        await createOrder.mutateAsync(parsed.data)
+      }
       reset()
       onOpenChange(false)
     } catch {
@@ -315,18 +640,27 @@ export function OrderCreateDialog({
         <DialogContent className='sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden'>
           <DialogHeader className='p-6 pb-4 border-b bg-muted/20'>
             <DialogTitle className='text-xl font-bold flex items-center gap-2'>
-              <FileText className='h-5 w-5 text-primary' />
-              {t('salesOrders.createDialog.title', 'New Sales Order')}
+              {orderToEdit ? <Edit className='h-5 w-5 text-primary' /> : <FileText className='h-5 w-5 text-primary' />}
+              {orderToEdit
+                ? t('salesOrders.createDialog.editTitle', 'Edit Sales Order')
+                : t('salesOrders.createDialog.title', 'New Sales Order')}
+              {orderToEdit?.order_number && (
+                <span className='font-mono text-sm font-normal text-muted-foreground'>
+                  #{orderToEdit.order_number}
+                </span>
+              )}
             </DialogTitle>
             <DialogDescription className='text-xs text-muted-foreground'>
-              {t('salesOrders.createDialog.desc', 'Create a sales order draft with real customer, fulfillment location, and line items.')}
+              {orderToEdit
+                ? t('salesOrders.createDialog.editDesc', 'Update sales order items, quantities, or fulfillment details.')
+                : t('salesOrders.createDialog.desc', 'Create a sales order draft with real customer, fulfillment location, and line items.')}
             </DialogDescription>
           </DialogHeader>
 
           <ScrollArea className='flex-1 p-6'>
             <div className='space-y-6'>
-              {/* Header Configuration: Store, Warehouse, Customer, Currency */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5'>
+              {/* Header Configuration: Store, Sales Channel, Warehouse, Customer, Currency */}
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5'>
                 {/* Store Select */}
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold flex items-center gap-1.5'>
@@ -346,23 +680,72 @@ export function OrderCreateDialog({
                   </Select>
                 </div>
 
-                {/* Warehouse Location Select */}
+                {/* Sales Channel Select */}
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold flex items-center gap-1.5'>
-                    <Warehouse className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.warehouse', 'Fulfillment Warehouse')}
+                    <Globe className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.channel', 'Sales Channel')}
                   </Label>
-                  <Select value={warehouseId} onValueChange={setWarehouseId}>
+                  <Select value={channelId || 'direct'} onValueChange={(val) => setChannelId(val === 'direct' ? '' : val)}>
                     <SelectTrigger className='h-9 text-xs sm:text-sm'>
-                      <SelectValue placeholder={t('salesOrders.form.defaultWarehouse', 'Default warehouse...')} />
+                      <SelectValue placeholder={t('salesOrders.form.selectChannel', 'Direct / None')} />
                     </SelectTrigger>
-                    <SelectContent>
-                      {warehouses.map((wh) => (
-                        <SelectItem key={wh.id} value={wh.id}>
-                          {wh.name} {wh.code ? `(${wh.code})` : ''}
+                    <SelectContent className='max-h-60'>
+                      <SelectItem value='direct'>{t('salesOrders.form.directChannel', 'Direct / In-Store')}</SelectItem>
+                      {channels.map((ch) => (
+                        <SelectItem key={ch.id} value={ch.id}>
+                          <div className='flex items-center gap-1.5'>
+                            <span>{ch.name}</span>
+                            {ch.code && (
+                              <span className='text-[11px] text-muted-foreground'>({ch.code})</span>
+                            )}
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                </div>
+
+                {/* Warehouse Location Select (Filtered by Store) */}
+                <div className='space-y-1.5'>
+                  <Label className='text-xs font-semibold flex items-center gap-1.5'>
+                    <Warehouse className='h-3.5 w-3.5 text-primary' /> {t('salesOrders.form.warehouse', 'Fulfillment Warehouse')}
+                  </Label>
+                  <Select
+                    value={effectiveWarehouseId}
+                    onValueChange={setWarehouseId}
+                    disabled={!storeId || availableWarehouses.length === 0}
+                  >
+                    <SelectTrigger className='h-9 text-xs sm:text-sm'>
+                      <SelectValue
+                        placeholder={
+                          !storeId
+                            ? t('salesOrders.createDialog.selectStoreFirst', 'Select store first...')
+                            : t('salesOrders.form.defaultWarehouse', 'Default warehouse...')
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableWarehouses.map((wh) => (
+                        <SelectItem key={wh.id} value={wh.id}>
+                          <div className='flex items-center gap-1.5'>
+                            <span>
+                              {wh.name} {wh.code ? `(${wh.code})` : ''}
+                            </span>
+                            {Boolean(wh.is_default) && (
+                              <span className='text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-medium'>
+                                Default
+                              </span>
+                            )}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {storeId && availableWarehouses.length === 0 && (
+                    <p className='text-[10px] text-amber-600 font-medium'>
+                      {t('salesOrders.createDialog.noLinkedWarehouses', 'No warehouses linked to this store')}
+                    </p>
+                  )}
                 </div>
 
                 {/* Customer Select */}
@@ -398,23 +781,30 @@ export function OrderCreateDialog({
                 {/* Currency Select */}
                 <div className='space-y-1.5'>
                   <Label className='text-xs font-semibold'>{t('salesOrders.form.currency', 'Currency')}</Label>
-                  <Select value={currency} onValueChange={setCurrency}>
+                  <Select
+                    value={currency}
+                    onValueChange={(val) => {
+                      setCurrency(val)
+                    }}
+                  >
                     <SelectTrigger className='h-9 text-xs sm:text-sm'>
                       <SelectValue placeholder={t('salesOrders.form.currency', 'Currency')} />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value='USD'>USD ($)</SelectItem>
-                      <SelectItem value='EUR'>EUR (€)</SelectItem>
-                      <SelectItem value='GBP'>GBP (£)</SelectItem>
-                      <SelectItem value='SAR'>SAR (﷼)</SelectItem>
-                      <SelectItem value='AED'>AED (د.إ)</SelectItem>
-                      {currencies
-                        .filter((c) => !['USD', 'EUR', 'GBP', 'SAR', 'AED'].includes(c.code))
-                        .map((c) => (
+                    <SelectContent className='max-h-60'>
+                      {activeCurrencies.length === 0 ? (
+                        <SelectItem value={currency}>{currency}</SelectItem>
+                      ) : (
+                        activeCurrencies.map((c) => (
                           <SelectItem key={c.id} value={c.code}>
-                            {c.code} {c.symbol ? `(${c.symbol})` : ''}
+                            <div className='flex items-center gap-1.5'>
+                              <span className='font-mono font-medium'>{c.code}</span>
+                              <span className='text-xs text-muted-foreground'>
+                                ({c.symbol ? `${c.symbol} · ` : ''}{c.name})
+                              </span>
+                            </div>
                           </SelectItem>
-                        ))}
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
@@ -456,7 +846,7 @@ export function OrderCreateDialog({
                     variant='outline'
                     size='sm'
                     className='h-8 text-xs'
-                    onClick={() => setItems((prev) => [...prev, { ...emptyItem }])}
+                    onClick={handleAddItem}
                   >
                     <Plus className='mr-1 h-3.5 w-3.5' /> {t('salesOrders.form.addItem', 'Add Item')}
                   </Button>
@@ -467,6 +857,16 @@ export function OrderCreateDialog({
                     const itemVariants = item.productId
                       ? variantsByProductId.get(item.productId) ?? []
                       : []
+                    const selectedVariant = itemVariants.find(
+                      (v) => v.id === item.productVariantId
+                    )
+                    const availableStock = selectedVariant
+                      ? getAvailableStock(selectedVariant, effectiveWarehouseId, storeId)
+                      : null
+                    const qtyNum = Number(item.qty) || 0
+                    const isStockExceeded =
+                      selectedVariant != null &&
+                      Boolean(item.qty && qtyNum > (availableStock ?? 0))
 
                     const q = Number(item.qty) || 0
                     const p = Number(item.unitPrice) || 0
@@ -502,6 +902,7 @@ export function OrderCreateDialog({
                               productId={item.productId}
                               variantId={item.productVariantId}
                               variants={itemVariants}
+                              currencySymbol={currencySymbol}
                               onSelectVariant={(vId, price, uomId) =>
                                 handleSelectVariant(index, vId, price, uomId)
                               }
@@ -554,20 +955,57 @@ export function OrderCreateDialog({
                         {/* Quantity, Price, Discount, Tax & Line Total Row */}
                         <div className='grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 border-t border-dashed'>
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.qty', 'Quantity')}</Label>
+                            <div className='flex items-center justify-between'>
+                              <Label className='text-[10px] text-muted-foreground'>
+                                {t('salesOrders.itemsTable.qty', 'Quantity')}
+                              </Label>
+                              {selectedVariant && availableStock != null && (
+                                <span
+                                  className={cn(
+                                    'text-[9px] font-mono px-1 rounded',
+                                    isStockExceeded
+                                      ? 'text-destructive bg-destructive/10 font-bold'
+                                      : 'text-muted-foreground bg-muted'
+                                  )}
+                                  title={t('salesOrders.itemsTable.availableTooltip', 'Available stock for fulfillment')}
+                                >
+                                  {t('salesOrders.itemsTable.available', 'Avail')}: {availableStock}
+                                </span>
+                              )}
+                            </div>
                             <Input
                               type='number'
                               step='any'
                               min='0.001'
                               value={item.qty}
                               onChange={(e) => updateItem(index, { qty: e.target.value })}
-                              className='h-8 text-xs'
+                              className={cn(
+                                'h-8 text-xs',
+                                isStockExceeded && 'border-destructive focus-visible:ring-destructive text-destructive font-semibold'
+                              )}
                               placeholder='Qty'
                             />
+                            {isStockExceeded && (
+                              <div className='flex items-center gap-1 text-[10px] text-destructive font-medium leading-tight mt-1 animate-in fade-in-50'>
+                                <AlertCircle className='h-3 w-3 shrink-0' />
+                                <span>
+                                  {t('salesOrders.itemsTable.stockExceeded', 'Exceeds stock (only {{count}} avail.)', {
+                                    count: availableStock ?? 0,
+                                  })}
+                                </span>
+                              </div>
+                            )}
                           </div>
 
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.unitPrice', 'Unit Price ($)')}</Label>
+                            <div className='flex items-center justify-between'>
+                              <Label className='text-[10px] text-muted-foreground'>
+                                {t('salesOrders.itemsTable.unitPrice', 'Unit Price ({{symbol}})', { symbol: currencySymbol })}
+                              </Label>
+                              {item.isResolvingPrice && (
+                                <Loader2 className='h-2.5 w-2.5 animate-spin text-primary' />
+                              )}
+                            </div>
                             <Input
                               type='number'
                               step='any'
@@ -577,10 +1015,20 @@ export function OrderCreateDialog({
                               className='h-8 text-xs'
                               placeholder='Price'
                             />
+                            {item.priceListName && !item.isResolvingPrice && (
+                              <span
+                                className='text-[9px] text-emerald-600 dark:text-emerald-400 font-medium truncate block leading-tight'
+                                title={item.priceListName}
+                              >
+                                ✓ {item.priceListName}
+                              </span>
+                            )}
                           </div>
 
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.discount', 'Discount ($)')}</Label>
+                            <Label className='text-[10px] text-muted-foreground'>
+                              {t('salesOrders.itemsTable.discount', 'Discount ({{symbol}})', { symbol: currencySymbol })}
+                            </Label>
                             <Input
                               type='number'
                               step='any'
@@ -593,7 +1041,9 @@ export function OrderCreateDialog({
                           </div>
 
                           <div className='space-y-1'>
-                            <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.tax', 'Tax ($)')}</Label>
+                            <Label className='text-[10px] text-muted-foreground'>
+                              {t('salesOrders.itemsTable.tax', 'Tax ({{symbol}})', { symbol: currencySymbol })}
+                            </Label>
                             <Input
                               type='number'
                               step='any'
@@ -608,7 +1058,7 @@ export function OrderCreateDialog({
                           <div className='col-span-2 sm:col-span-1 space-y-1 flex flex-col justify-end text-right sm:pr-1'>
                             <Label className='text-[10px] text-muted-foreground'>{t('salesOrders.itemsTable.lineTotal', 'Line Total')}</Label>
                             <span className='font-mono font-bold text-sm text-foreground leading-8'>
-                              ${lineTotal.toFixed(2)}
+                              {currencySymbol}{lineTotal.toFixed(2)}
                             </span>
                           </div>
                         </div>
@@ -623,14 +1073,14 @@ export function OrderCreateDialog({
                     <div className='flex justify-between text-xs text-muted-foreground'>
                       <span>{t('salesOrders.viewDialog.subtotal', 'Subtotal:')}</span>
                       <span className='font-mono font-medium text-foreground'>
-                        ${subtotal.toFixed(2)}
+                        {currencySymbol}{subtotal.toFixed(2)}
                       </span>
                     </div>
                     {totalDiscount > 0 && (
                       <div className='flex justify-between text-xs text-rose-600'>
                         <span>{t('salesOrders.viewDialog.discount', 'Discount:')}</span>
                         <span className='font-mono font-medium'>
-                          -${totalDiscount.toFixed(2)}
+                          -{currencySymbol}{totalDiscount.toFixed(2)}
                         </span>
                       </div>
                     )}
@@ -638,14 +1088,14 @@ export function OrderCreateDialog({
                       <div className='flex justify-between text-xs text-muted-foreground'>
                         <span>{t('salesOrders.viewDialog.tax', 'Tax:')}</span>
                         <span className='font-mono font-medium text-foreground'>
-                          +${totalTax.toFixed(2)}
+                          +{currencySymbol}{totalTax.toFixed(2)}
                         </span>
                       </div>
                     )}
                     <div className='border-t pt-1.5 flex justify-between items-baseline font-bold text-sm'>
                       <span>{t('salesOrders.viewDialog.grandTotal', 'Grand Total:')}</span>
                       <span className='font-mono text-base text-primary'>
-                        ${grandTotal.toFixed(2)}
+                        {currencySymbol}{grandTotal.toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -680,10 +1130,12 @@ export function OrderCreateDialog({
                 type='button'
                 size='sm'
                 onClick={handleExecuteCreate}
-                disabled={createOrder.isPending}
+                disabled={isSubmitting}
               >
                 <CheckCircle2 className='mr-1.5 h-4 w-4' />
-                {createOrder.isPending ? t('salesOrders.createDialog.creatingOrder', 'Creating Order...') : t('salesOrders.createDialog.createDraft', 'Create Draft')}
+                {isSubmitting
+                  ? (orderToEdit ? t('salesOrders.createDialog.updatingOrder', 'Updating Order...') : t('salesOrders.createDialog.creatingOrder', 'Creating Order...'))
+                  : (orderToEdit ? t('salesOrders.createDialog.updateOrder', 'Update Order') : t('salesOrders.createDialog.createDraft', 'Create Draft'))}
               </Button>
             </div>
           </DialogFooter>
@@ -696,7 +1148,7 @@ export function OrderCreateDialog({
           draftData={draftData}
           open={reviewOpen}
           onOpenChange={setReviewOpen}
-          isSubmittingDraft={createOrder.isPending}
+          isSubmittingDraft={isSubmitting}
           onConfirmDraftSubmit={async () => {
             await handleExecuteCreate()
             setReviewOpen(false)

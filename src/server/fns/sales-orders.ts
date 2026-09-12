@@ -18,6 +18,7 @@ export interface CreateOrderInput {
   storeId: string
   warehouseId?: string | null
   customerId?: string | null
+  channelId?: string | null
   currency?: string | null
   expectedDate?: string | null
   notes?: string | null
@@ -68,9 +69,12 @@ export async function listOrders(authUserId: string) {
   const warehouseIds = Array.from(
     new Set(orders.map((o) => o.warehouse_id).filter(Boolean) as string[])
   )
+  const channelIds = Array.from(
+    new Set(orders.map((o) => o.channel_id).filter(Boolean) as string[])
+  )
   const orderIds = orders.map((o) => o.id)
 
-  const [customers, stores, warehouses, itemCounts] = await Promise.all([
+  const [customers, stores, warehouses, channels, itemCounts] = await Promise.all([
     customerIds.length > 0
       ? prisma.customers.findMany({
           where: { id: { in: customerIds } },
@@ -96,6 +100,12 @@ export async function listOrders(authUserId: string) {
           select: { id: true, name: true, code: true },
         })
       : [],
+    channelIds.length > 0
+      ? prisma.channels.findMany({
+          where: { id: { in: channelIds } },
+          select: { id: true, name: true, code: true },
+        })
+      : [],
     prisma.sales_order_items.groupBy({
       by: ['sales_order_id'],
       where: { sales_order_id: { in: orderIds } },
@@ -106,6 +116,7 @@ export async function listOrders(authUserId: string) {
   const customerMap = new Map(customers.map((c) => [c.id, c]))
   const storeMap = new Map(stores.map((s) => [s.store_id, s]))
   const warehouseMap = new Map(warehouses.map((w) => [w.id, w]))
+  const channelMap = new Map(channels.map((ch) => [ch.id, ch]))
   const countMap = new Map(
     itemCounts.map((c) => [c.sales_order_id, c._count.id])
   )
@@ -118,6 +129,9 @@ export async function listOrders(authUserId: string) {
     stores: order.store_id ? storeMap.get(order.store_id) ?? null : null,
     warehouses: order.warehouse_id
       ? warehouseMap.get(order.warehouse_id) ?? null
+      : null,
+    channels: order.channel_id
+      ? channelMap.get(order.channel_id) ?? null
       : null,
     _count: {
       sales_order_items: countMap.get(order.id) ?? 0,
@@ -146,7 +160,7 @@ export async function getOrder(authUserId: string, id: string) {
     new Set(items.map((i) => i.uom_id).filter(Boolean) as string[])
   )
 
-  const [customer, store, warehouse, variants, uoms] = await Promise.all([
+  const [customer, store, warehouse, channel, variants, uoms] = await Promise.all([
     order.customer_id
       ? prisma.customers.findFirst({
           where: { id: order.customer_id },
@@ -180,6 +194,12 @@ export async function getOrder(authUserId: string, id: string) {
     order.warehouse_id
       ? prisma.warehouses.findFirst({
           where: { id: order.warehouse_id },
+          select: { id: true, name: true, code: true },
+        })
+      : null,
+    order.channel_id
+      ? prisma.channels.findFirst({
+          where: { id: order.channel_id },
           select: { id: true, name: true, code: true },
         })
       : null,
@@ -239,6 +259,7 @@ export async function getOrder(authUserId: string, id: string) {
     customers: customer,
     stores: store,
     warehouses: warehouse,
+    channels: channel,
     sales_order_items: enrichedItems,
   }
 }
@@ -276,13 +297,14 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
   )
   const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
 
-  return prisma.$transaction(async (tx: any) => {
+  return prisma.$transaction(async (tx) => {
     const order = await tx.sales_orders.create({
       data: {
         tenant_id: tenantId,
         store_id: input.storeId,
         warehouse_id: input.warehouseId ?? null,
         customer_id: input.customerId ?? null,
+        channel_id: input.channelId ?? null,
         currency: input.currency ?? 'USD',
         expected_date: input.expectedDate ? new Date(input.expectedDate) : null,
         notes: input.notes ?? null,
@@ -310,6 +332,92 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
     }
 
     return getOrder(authUserId, order.id)
+  })
+}
+
+export async function updateOrder(
+  authUserId: string,
+  id: string,
+  input: CreateOrderInput
+) {
+  const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
+
+  const existing = await prisma.sales_orders.findFirst({
+    where: { id, tenant_id: tenantId },
+  })
+  if (!existing) {
+    throw new ApiError('Sales order not found.', 404)
+  }
+  if (existing.status !== 'draft') {
+    throw new ApiError('Only draft sales orders can be updated.', 400)
+  }
+
+  if (!input.storeId) {
+    throw new ApiError('A store is required.', 400)
+  }
+  assertItems(input.items)
+
+  const lines = input.items.map((item, index) => {
+    const discount = item.discountAmount ?? 0
+    const tax = item.taxAmount ?? 0
+    return {
+      product_variant_id: item.productVariantId,
+      line_no: index + 1,
+      qty_ordered: item.qtyOrdered,
+      unit_price: item.unitPrice,
+      discount_amount: discount,
+      tax_amount: tax,
+      line_total: item.qtyOrdered * item.unitPrice - discount + tax,
+      uom_id: item.uomId ?? null,
+    }
+  })
+  const subtotal = lines.reduce(
+    (sum, line) => sum + line.qty_ordered * line.unit_price,
+    0
+  )
+  const discountAmount = lines.reduce(
+    (sum, line) => sum + line.discount_amount,
+    0
+  )
+  const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
+
+  return prisma.$transaction(async (tx) => {
+    await tx.sales_orders.update({
+      where: { id },
+      data: {
+        store_id: input.storeId,
+        warehouse_id: input.warehouseId ?? null,
+        customer_id: input.customerId ?? null,
+        channel_id: input.channelId ?? null,
+        currency: input.currency ?? 'USD',
+        expected_date: input.expectedDate ? new Date(input.expectedDate) : null,
+        notes: input.notes ?? null,
+        subtotal,
+        discount_amount: discountAmount,
+        tax_amount: taxAmount,
+        total_amount: subtotal - discountAmount + taxAmount,
+        updated_by_user_id: tenantUserId,
+      },
+    })
+
+    await tx.sales_order_items.deleteMany({
+      where: { sales_order_id: id, tenant_id: tenantId },
+    })
+
+    if (lines.length > 0) {
+      await tx.sales_order_items.createMany({
+        data: lines.map((l) => ({
+          sales_order_id: id,
+          tenant_id: tenantId,
+          ...l,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
+        })),
+      })
+    }
+
+    return getOrder(authUserId, id)
   })
 }
 

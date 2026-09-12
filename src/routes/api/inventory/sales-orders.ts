@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
   createOrder,
+  updateOrder,
   getOrder,
   listOrders,
   type CreateOrderInput,
@@ -35,11 +36,32 @@ const POST = withAuth(PERMISSIONS.SALES_MANAGE, async ({ request, auth }) => {
   }
 })
 
+const PUT = withAuth(PERMISSIONS.SALES_MANAGE, async ({ request, auth }) => {
+  try {
+    const { userId } = auth
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    if (!id) {
+      return Response.json(
+        { success: false, error: 'Order ID is required.' },
+        { status: 400 }
+      )
+    }
+
+    const body = (await request.json()) as CreateOrderInput
+    const data = await updateOrder(userId, id, body)
+    return Response.json({ success: true, data })
+  } catch (error) {
+    return handleRouteError(error, 'Unable to update sales order')
+  }
+})
+
 export const Route = createFileRoute('/api/inventory/sales-orders')({
   server: {
     handlers: {
       GET,
       POST,
+      PUT,
     },
   },
 })

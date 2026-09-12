@@ -12,6 +12,7 @@ export interface WarehouseOption {
   id: string
   name: string
   code: string
+  is_default?: boolean
 }
 
 export interface WarehouseLocationOption {
@@ -34,6 +35,7 @@ export interface CustomerOption {
   last_name: string
   phone?: string | null
   code?: string | null
+  group_id?: string | null
 }
 
 export interface VariantOption {
@@ -66,6 +68,7 @@ export function useWarehouseOptions() {
             }))
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.warn('API /api/inventory/warehouses fallback to Supabase:', err)
       }
       const { data, error } = await supabase
@@ -75,6 +78,80 @@ export function useWarehouseOptions() {
         .order('name')
       if (error) throw error
       return (data ?? []) as WarehouseOption[]
+    },
+  })
+}
+
+export interface StoreWarehouseOption {
+  id: string
+  name: string
+  code: string
+  is_default: boolean
+  priority: number
+  allow_fulfillment: boolean
+  allow_negative_stock?: boolean
+}
+
+/** Warehouses linked to a specific store via store_warehouses table */
+export function useStoreWarehouses(storeId?: string | null) {
+  return useAuthQuery<StoreWarehouseOption[]>({
+    queryKey: ['store-warehouses', 'options', storeId ?? 'none'],
+    enabled: Boolean(storeId),
+    rbac: { permission: 'inventory.stock.view' },
+    queryFn: async () => {
+      if (!storeId) return []
+      const { data, error } = await supabase
+        .from('store_warehouses')
+        .select(`
+          id,
+          store_id,
+          warehouse_id,
+          is_default,
+          priority,
+          allow_fulfillment,
+          warehouses (
+            id,
+            name,
+            code,
+            is_active,
+            allow_negative_stock
+          )
+        `)
+        .eq('store_id', storeId)
+        .eq('is_active', true)
+        .order('priority', { ascending: true })
+
+      if (error) throw error
+      const results: StoreWarehouseOption[] = []
+      interface RawStoreWarehouseRow {
+        id: string
+        store_id: string
+        warehouse_id: string
+        is_default?: boolean
+        priority?: number
+        allow_fulfillment?: boolean
+        warehouses?: {
+          id: string
+          name: string
+          code: string
+          is_active?: boolean
+          allow_negative_stock?: boolean
+        } | null
+      }
+      for (const row of (data ?? []) as unknown as RawStoreWarehouseRow[]) {
+        if (row.warehouses && row.warehouses.is_active !== false) {
+          results.push({
+            id: row.warehouses.id,
+            name: row.warehouses.name,
+            code: row.warehouses.code,
+            is_default: Boolean(row.is_default),
+            priority: Number(row.priority ?? 1),
+            allow_fulfillment: row.allow_fulfillment !== false,
+            allow_negative_stock: Boolean(row.warehouses.allow_negative_stock),
+          })
+        }
+      }
+      return results
     },
   })
 }
@@ -114,6 +191,7 @@ export function useWarehouseLocationOptions(warehouseId?: string) {
             }))
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.warn('API /api/inventory/warehouses/locations fallback to Supabase:', err)
       }
       const { data, error } = await supabase
@@ -154,7 +232,7 @@ export function useCustomerOptions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('customers')
-        .select('id, first_name, last_name, phone')
+        .select('id, first_name, last_name, phone, code, group_id')
         .eq('is_active', true)
         .order('first_name')
       if (error) throw error
@@ -202,6 +280,7 @@ export function useStoreOnHand(storeId?: string) {
           return map
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.warn('API /api/inventory/stock-balances fallback to Supabase:', err)
       }
       const { data, error } = await supabase
@@ -240,6 +319,7 @@ export function useWarehouseOnHand(warehouseId?: string) {
           return map
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.warn('API /api/inventory/stock-balances fallback to Supabase:', err)
       }
       const { data, error } = await supabase
@@ -361,5 +441,32 @@ export function useBranchOptions() {
     enabled: authEnabled,
   })
 }
+
+export interface ChannelOption {
+  id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  is_active?: boolean
+}
+
+/** All active sales channels for selection in sales orders */
+export function useChannelOptions() {
+  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
+  return useQuery<ChannelOption[]>({
+    queryKey: ['channels', 'options'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('channels')
+        .select('id, code, name, name_ar, is_active')
+        .eq('is_active', true)
+        .order('name')
+      if (error) throw error
+      return (data ?? []) as ChannelOption[]
+    },
+    enabled: authEnabled,
+  })
+}
+
 
 

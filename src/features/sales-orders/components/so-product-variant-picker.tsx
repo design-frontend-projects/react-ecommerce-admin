@@ -26,6 +26,14 @@ import {
 } from '@/components/ui/select'
 import type { Product } from '@/features/products/data/schema'
 
+export interface SOVariantStockBalance {
+  warehouse_id?: string | null
+  store_id?: string | null
+  qty_on_hand?: number | string
+  qty_reserved?: number | string
+  qty_available?: number | string | null
+}
+
 export interface SOVariantOption {
   id: string
   sku: string
@@ -34,6 +42,7 @@ export interface SOVariantOption {
   cost_price?: number | null
   stock_quantity?: number
   uom_id?: string | null
+  stock_balances?: SOVariantStockBalance[]
 }
 
 // ─── 1. Searchable Product Dropdown (Combobox) ──────────────────
@@ -177,6 +186,7 @@ export interface SOVariantSelectProps {
   onSelectVariant: (variantId: string, price: number, uomId?: string | null) => void
   disabled?: boolean
   showValidation?: boolean
+  currencySymbol?: string
 }
 
 export function SOVariantSelect({
@@ -186,6 +196,7 @@ export function SOVariantSelect({
   onSelectVariant,
   disabled,
   showValidation,
+  currencySymbol = '$',
 }: SOVariantSelectProps) {
   const { t } = useTranslation()
   const selectedVariant = variants.find((v) => v.id === variantId)
@@ -253,7 +264,7 @@ export function SOVariantSelect({
                   </span>
                 )}
                 <span className='font-mono text-xs font-semibold text-emerald-600 dark:text-emerald-400'>
-                  ${selectedVariant.price.toFixed(2)}
+                  {currencySymbol}{selectedVariant.price.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -284,7 +295,7 @@ export function SOVariantSelect({
                 )}
               </div>
               <span className='font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0'>
-                ${v.price.toFixed(2)}
+                {currencySymbol}{v.price.toFixed(2)}
               </span>
             </div>
           </SelectItem>

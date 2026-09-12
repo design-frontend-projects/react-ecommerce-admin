@@ -32,6 +32,8 @@ describe('Sales Order Review Dialog & Schemas', () => {
     storeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     warehouseName: 'Central Logistics Hub',
     warehouseId: '4fa85f64-5717-4562-b3fc-2c963f66afa6',
+    channelName: 'Online Web Store',
+    channelId: '2fa85f64-5717-4562-b3fc-2c963f66afa6',
     customerName: 'Sarah Connor',
     customerId: '5fa85f64-5717-4562-b3fc-2c963f66afa6',
     customerPhone: '+1-555-0199',
@@ -64,10 +66,11 @@ describe('Sales Order Review Dialog & Schemas', () => {
     totalAmount: 73.5,
   }
 
-  test('validates createOrderInputSchema with UUID customerId, storeId, and items', () => {
+  test('validates createOrderInputSchema with UUID customerId, storeId, channelId, and items', () => {
     const valid = createOrderInputSchema.safeParse({
       storeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
       customerId: '5fa85f64-5717-4562-b3fc-2c963f66afa6',
+      channelId: '2fa85f64-5717-4562-b3fc-2c963f66afa6',
       warehouseId: '4fa85f64-5717-4562-b3fc-2c963f66afa6',
       currency: 'USD',
       items: [
@@ -116,6 +119,7 @@ describe('Sales Order Review Dialog & Schemas', () => {
     // Checks customer info
     expect(screen.getByText('Sarah Connor')).toBeDefined()
     expect(screen.getByText('Downtown Flagship')).toBeDefined()
+    expect(screen.getAllByText('Online Web Store').length).toBeGreaterThan(0)
     expect(screen.getByText('Central Logistics Hub')).toBeDefined()
 
     // Checks item details

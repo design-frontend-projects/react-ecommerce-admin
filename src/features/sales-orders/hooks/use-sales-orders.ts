@@ -4,6 +4,7 @@ import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   createOrder,
+  updateOrder,
   fetchOrder,
   fetchOrders,
   runOrderAction,
@@ -51,6 +52,26 @@ export function useCreateOrder() {
     },
     onError: (error: Error) =>
       toast.error('Unable to create sales order', {
+        description: error.message,
+      }),
+  })
+}
+
+export function useUpdateOrder() {
+  const queryClient = useQueryClient()
+  return useAuthMutation({
+    mutationFn: (
+      getToken,
+      { id, input }: { id: string; input: CreateOrderInput }
+    ) => updateOrder(getToken, id, input),
+    rbac: { permission: 'sales.manage' },
+    onSuccess: (_data, variables) => {
+      toast.success('Sales order updated.')
+      void queryClient.invalidateQueries({ queryKey: ordersKey })
+      void queryClient.invalidateQueries({ queryKey: orderKey(variables.id) })
+    },
+    onError: (error: Error) =>
+      toast.error('Unable to update sales order', {
         description: error.message,
       }),
   })

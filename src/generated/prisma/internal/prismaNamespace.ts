@@ -10926,6 +10926,7 @@ export const Sales_ordersScalarFieldEnum = {
   branch_id: 'branch_id',
   store_id: 'store_id',
   warehouse_id: 'warehouse_id',
+  channel_id: 'channel_id',
   currency: 'currency',
   status: 'status',
   order_date: 'order_date',

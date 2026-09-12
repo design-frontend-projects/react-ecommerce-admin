@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Printer, Warehouse, Building2, User } from 'lucide-react'
+import { Printer, Warehouse, Building2, User, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
@@ -259,6 +259,15 @@ export function OrderViewDialog({
                 <User className='h-3 w-3 text-muted-foreground' />
                 {customerName(current.customers)}
               </span>
+              {current.channels?.name && (
+                <>
+                  <span>·</span>
+                  <span className='flex items-center gap-1 text-primary font-medium'>
+                    <Globe className='h-3 w-3' />
+                    {current.channels.name}
+                  </span>
+                </>
+              )}
               {current.warehouses?.name && (
                 <>
                   <span>·</span>

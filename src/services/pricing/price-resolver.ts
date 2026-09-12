@@ -9,6 +9,7 @@ export interface PriceResolutionContext {
   customerGroupId?: string | null
   currencyId?: string | null
   quantity?: number
+  fallbackPrice?: number
 }
 
 export interface ResolvedPrice {
@@ -57,7 +58,7 @@ export function resolvePriceFromListItems(
 ): ResolvedPrice {
   if (!items || items.length === 0) {
     return {
-      price: 0,
+      price: context.fallbackPrice ?? 0,
       minPrice: 0,
       costPrice: 0,
       maxDiscountPercent: 0,
@@ -72,7 +73,7 @@ export function resolvePriceFromListItems(
 
   // Filter only items from active price lists within validity dates
   const activeItems = items.filter((item) => {
-    const pl = item.price_list
+    const pl = Array.isArray(item.price_list) ? item.price_list[0] : item.price_list
     if (!pl) return true // if joined list omitted, consider item valid
     if (pl.is_active === false) return false
     if (pl.start_date && pl.start_date > now) return false
@@ -83,13 +84,27 @@ export function resolvePriceFromListItems(
     return true
   })
 
-  const candidates = activeItems.length > 0 ? activeItems : items
+  if (activeItems.length === 0) {
+    return {
+      price: context.fallbackPrice ?? 0,
+      minPrice: 0,
+      costPrice: 0,
+      maxDiscountPercent: 0,
+      priceListId: null,
+      priceListName: null,
+      priceListType: null,
+      source: 'fallback',
+    }
+  }
+
+  const candidates = activeItems
 
   // Priority 1: Specific customer group match
   if (context.customerGroupId) {
-    const groupMatch = candidates.find(
-      (i) => i.price_list?.group_id === context.customerGroupId
-    )
+    const groupMatch = candidates.find((i) => {
+      const pl = Array.isArray(i.price_list) ? i.price_list[0] : i.price_list
+      return pl?.group_id === context.customerGroupId
+    })
     if (groupMatch) {
       return formatResolvedPrice(groupMatch, 'customer_group')
     }
@@ -97,9 +112,10 @@ export function resolvePriceFromListItems(
 
   // Priority 2: Specific sales channel match
   if (context.channelId) {
-    const channelMatch = candidates.find(
-      (i) => i.price_list?.channel_id === context.channelId
-    )
+    const channelMatch = candidates.find((i) => {
+      const pl = Array.isArray(i.price_list) ? i.price_list[0] : i.price_list
+      return pl?.channel_id === context.channelId
+    })
     if (channelMatch) {
       return formatResolvedPrice(channelMatch, 'channel')
     }
@@ -107,16 +123,20 @@ export function resolvePriceFromListItems(
 
   // Priority 3: Specific store match
   if (context.storeId) {
-    const storeMatch = candidates.find(
-      (i) => i.price_list?.store_id === context.storeId
-    )
+    const storeMatch = candidates.find((i) => {
+      const pl = Array.isArray(i.price_list) ? i.price_list[0] : i.price_list
+      return pl?.store_id === context.storeId
+    })
     if (storeMatch) {
       return formatResolvedPrice(storeMatch, 'store')
     }
   }
 
   // Priority 4: Default price list
-  const defaultMatch = candidates.find((i) => i.price_list?.is_default === true)
+  const defaultMatch = candidates.find((i) => {
+    const pl = Array.isArray(i.price_list) ? i.price_list[0] : i.price_list
+    return pl?.is_default === true
+  })
   if (defaultMatch) {
     return formatResolvedPrice(defaultMatch, 'default')
   }
@@ -129,14 +149,15 @@ function formatResolvedPrice(
   item: PriceListItemWithList,
   source: ResolvedPrice['source']
 ): ResolvedPrice {
+  const pl = Array.isArray(item.price_list) ? item.price_list[0] : item.price_list
   return {
     price: Number(item.price || 0),
     minPrice: Number(item.min_price || 0),
     costPrice: Number(item.cost_price || 0),
     maxDiscountPercent: Number(item.max_discount_percent || 0),
     priceListId: item.price_list_id,
-    priceListName: item.price_list?.name || item.price_list?.code || null,
-    priceListType: item.price_list?.type || null,
+    priceListName: pl?.name || pl?.code || null,
+    priceListType: pl?.type || null,
     source,
   }
 }
@@ -148,6 +169,20 @@ export async function resolveVariantPrice(
   supabase: SupabaseClient,
   context: PriceResolutionContext
 ): Promise<ResolvedPrice> {
+  const variantId = context.variantId || context.productVariantId
+  if (!variantId) {
+    return {
+      price: context.fallbackPrice ?? 0,
+      minPrice: 0,
+      costPrice: 0,
+      maxDiscountPercent: 0,
+      priceListId: null,
+      priceListName: null,
+      priceListType: null,
+      source: 'fallback',
+    }
+  }
+
   let query = supabase
     .from('price_list_items')
     .select(`
@@ -159,7 +194,7 @@ export async function resolveVariantPrice(
       cost_price,
       min_price,
       max_discount_percent,
-      price_list:price_list_id (
+      price_list:price_list (
         id,
         name,
         code,
@@ -174,7 +209,7 @@ export async function resolveVariantPrice(
         end_date
       )
     `)
-    .eq('product_variant_id', context.variantId)
+    .eq('product_variant_id', variantId)
 
   if (context.tenantId) {
     query = query.eq('tenant_id', context.tenantId)
@@ -184,7 +219,7 @@ export async function resolveVariantPrice(
 
   if (error || !data || data.length === 0) {
     return {
-      price: 0,
+      price: context.fallbackPrice ?? 0,
       minPrice: 0,
       costPrice: 0,
       maxDiscountPercent: 0,
@@ -195,5 +230,14 @@ export async function resolveVariantPrice(
     }
   }
 
-  return resolvePriceFromListItems(data as unknown as PriceListItemWithList[], context)
+  const normalized = (data as unknown as Record<string, unknown>[]).map((item) => ({
+    ...item,
+    price_list: Array.isArray(item.price_list) ? item.price_list[0] : item.price_list,
+  })) as PriceListItemWithList[]
+
+  const resolved = resolvePriceFromListItems(normalized, context)
+  if (resolved.source === 'fallback' && resolved.price === 0 && context.fallbackPrice) {
+    resolved.price = context.fallbackPrice
+  }
+  return resolved
 }

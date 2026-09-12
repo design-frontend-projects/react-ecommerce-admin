@@ -40,6 +40,18 @@ export async function createOrder(
   })
 }
 
+export async function updateOrder(
+  getToken: TokenGetter,
+  id: string,
+  input: CreateOrderInput
+): Promise<void> {
+  const body = createOrderInputSchema.parse(input)
+  await authorizedRequest(getToken, `${BASE}?id=${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+}
+
 export async function runOrderAction(
   getToken: TokenGetter,
   id: string,

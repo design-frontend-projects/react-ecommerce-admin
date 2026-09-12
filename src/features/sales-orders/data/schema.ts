@@ -40,6 +40,7 @@ export const createOrderInputSchema = z.object({
   storeId: z.string().uuid('Select a store.'),
   warehouseId: z.string().uuid().optional().nullable(),
   customerId: z.string().uuid().optional().nullable(),
+  channelId: z.string().uuid().optional().nullable(),
   currency: z.string().optional().default('USD'),
   expectedDate: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
@@ -52,7 +53,8 @@ export type CreateOrderInput = z.infer<typeof createOrderInputSchema>
 // ── References ──
 export const storeRefSchema = z
   .object({
-    store_id: z.string(),
+    id: z.string().optional(),
+    store_id: z.string().optional(),
     name: z.string().nullable().optional(),
     address: z.string().nullable().optional(),
     phone: z.string().nullable().optional(),
@@ -62,6 +64,15 @@ export const storeRefSchema = z
   .optional()
 
 export const warehouseRefSchema = z
+  .object({
+    id: z.string(),
+    name: z.string().nullable().optional(),
+    code: z.string().nullable().optional(),
+  })
+  .nullable()
+  .optional()
+
+export const channelRefSchema = z
   .object({
     id: z.string(),
     name: z.string().nullable().optional(),
@@ -104,6 +115,7 @@ export const orderListItemSchema = z.object({
   customer_id: z.string().nullable().optional(),
   store_id: z.string().nullable().optional(),
   warehouse_id: z.string().nullable().optional(),
+  channel_id: z.string().nullable().optional(),
   currency: z.string().nullable().optional(),
   order_date: z.string(),
   expected_date: z.string().nullable().optional(),
@@ -116,6 +128,7 @@ export const orderListItemSchema = z.object({
   created_at: z.string(),
   stores: storeRefSchema,
   warehouses: warehouseRefSchema,
+  channels: channelRefSchema,
   customers: customerRefSchema,
   _count: z.object({ sales_order_items: z.number() }).optional(),
 })

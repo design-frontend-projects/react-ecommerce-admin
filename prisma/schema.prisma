@@ -1141,6 +1141,7 @@ model channels {
   updated_by_user_id String?          @db.Uuid
   price_list         price_list[]
   sales_invoices     sales_invoices[]
+  sales_orders       sales_orders[]
 
   @@unique([tenant_id, code])
   @@index([tenant_id])
@@ -1831,6 +1832,7 @@ model sales_orders {
   branch_id        String?                 @db.Uuid
   store_id         String?                 @db.Uuid
   warehouse_id     String?                 @db.Uuid
+  channel_id       String?                 @db.Uuid
   currency         String?                 @default("USD") @db.Char(3)
   status           sales_order_status_enum @default(draft)
   order_date       DateTime                @default(now()) @db.Timestamptz(6)
@@ -1849,6 +1851,7 @@ model sales_orders {
   created_by_user_id String?               @db.Uuid
   updated_by_user_id String?               @db.Uuid
   warehouses         warehouses?           @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
+  channels           channels?             @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
 }
 
 model sales_order_items {

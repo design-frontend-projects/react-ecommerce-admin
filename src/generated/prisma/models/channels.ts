@@ -232,6 +232,7 @@ export type channelsWhereInput = {
   updated_by_user_id?: Prisma.UuidNullableFilter<"channels"> | string | null
   price_list?: Prisma.Price_listListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
+  sales_orders?: Prisma.Sales_ordersListRelationFilter
 }
 
 export type channelsOrderByWithRelationInput = {
@@ -248,6 +249,7 @@ export type channelsOrderByWithRelationInput = {
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list?: Prisma.price_listOrderByRelationAggregateInput
   sales_invoices?: Prisma.sales_invoicesOrderByRelationAggregateInput
+  sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
 }
 
 export type channelsWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type channelsWhereUniqueInput = Prisma.AtLeast<{
   updated_by_user_id?: Prisma.UuidNullableFilter<"channels"> | string | null
   price_list?: Prisma.Price_listListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
+  sales_orders?: Prisma.Sales_ordersListRelationFilter
 }, "id" | "tenant_id_code">
 
 export type channelsOrderByWithAggregationInput = {
@@ -318,6 +321,7 @@ export type channelsCreateInput = {
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateInput = {
@@ -334,6 +338,7 @@ export type channelsUncheckedCreateInput = {
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUpdateInput = {
@@ -350,6 +355,7 @@ export type channelsUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateInput = {
@@ -366,6 +372,7 @@ export type channelsUncheckedUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsCreateManyInput = {
@@ -494,6 +501,22 @@ export type channelsUpdateOneWithoutSales_invoicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutSales_invoicesInput, Prisma.channelsUpdateWithoutSales_invoicesInput>, Prisma.channelsUncheckedUpdateWithoutSales_invoicesInput>
 }
 
+export type channelsCreateNestedOneWithoutSales_ordersInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutSales_ordersInput, Prisma.channelsUncheckedCreateWithoutSales_ordersInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutSales_ordersInput
+  connect?: Prisma.channelsWhereUniqueInput
+}
+
+export type channelsUpdateOneWithoutSales_ordersNestedInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutSales_ordersInput, Prisma.channelsUncheckedCreateWithoutSales_ordersInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutSales_ordersInput
+  upsert?: Prisma.channelsUpsertWithoutSales_ordersInput
+  disconnect?: Prisma.channelsWhereInput | boolean
+  delete?: Prisma.channelsWhereInput | boolean
+  connect?: Prisma.channelsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutSales_ordersInput, Prisma.channelsUpdateWithoutSales_ordersInput>, Prisma.channelsUncheckedUpdateWithoutSales_ordersInput>
+}
+
 export type channelsCreateWithoutPrice_listInput = {
   id?: string
   tenant_id: string
@@ -507,6 +530,7 @@ export type channelsCreateWithoutPrice_listInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateWithoutPrice_listInput = {
@@ -522,6 +546,7 @@ export type channelsUncheckedCreateWithoutPrice_listInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsCreateOrConnectWithoutPrice_listInput = {
@@ -553,6 +578,7 @@ export type channelsUpdateWithoutPrice_listInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateWithoutPrice_listInput = {
@@ -568,6 +594,7 @@ export type channelsUncheckedUpdateWithoutPrice_listInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsCreateWithoutSales_invoicesInput = {
@@ -583,6 +610,7 @@ export type channelsCreateWithoutSales_invoicesInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateWithoutSales_invoicesInput = {
@@ -598,6 +626,7 @@ export type channelsUncheckedCreateWithoutSales_invoicesInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsCreateOrConnectWithoutSales_invoicesInput = {
@@ -629,6 +658,7 @@ export type channelsUpdateWithoutSales_invoicesInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateWithoutSales_invoicesInput = {
@@ -644,6 +674,87 @@ export type channelsUncheckedUpdateWithoutSales_invoicesInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsCreateWithoutSales_ordersInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsUncheckedCreateWithoutSales_ordersInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsCreateOrConnectWithoutSales_ordersInput = {
+  where: Prisma.channelsWhereUniqueInput
+  create: Prisma.XOR<Prisma.channelsCreateWithoutSales_ordersInput, Prisma.channelsUncheckedCreateWithoutSales_ordersInput>
+}
+
+export type channelsUpsertWithoutSales_ordersInput = {
+  update: Prisma.XOR<Prisma.channelsUpdateWithoutSales_ordersInput, Prisma.channelsUncheckedUpdateWithoutSales_ordersInput>
+  create: Prisma.XOR<Prisma.channelsCreateWithoutSales_ordersInput, Prisma.channelsUncheckedCreateWithoutSales_ordersInput>
+  where?: Prisma.channelsWhereInput
+}
+
+export type channelsUpdateToOneWithWhereWithoutSales_ordersInput = {
+  where?: Prisma.channelsWhereInput
+  data: Prisma.XOR<Prisma.channelsUpdateWithoutSales_ordersInput, Prisma.channelsUncheckedUpdateWithoutSales_ordersInput>
+}
+
+export type channelsUpdateWithoutSales_ordersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsUncheckedUpdateWithoutSales_ordersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 
@@ -654,11 +765,13 @@ export type channelsUncheckedUpdateWithoutSales_invoicesInput = {
 export type ChannelsCountOutputType = {
   price_list: number
   sales_invoices: number
+  sales_orders: number
 }
 
 export type ChannelsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | ChannelsCountOutputTypeCountPrice_listArgs
   sales_invoices?: boolean | ChannelsCountOutputTypeCountSales_invoicesArgs
+  sales_orders?: boolean | ChannelsCountOutputTypeCountSales_ordersArgs
 }
 
 /**
@@ -685,6 +798,13 @@ export type ChannelsCountOutputTypeCountSales_invoicesArgs<ExtArgs extends runti
   where?: Prisma.sales_invoicesWhereInput
 }
 
+/**
+ * ChannelsCountOutputType without action
+ */
+export type ChannelsCountOutputTypeCountSales_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.sales_ordersWhereInput
+}
+
 
 export type channelsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -700,6 +820,7 @@ export type channelsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updated_by_user_id?: boolean
   price_list?: boolean | Prisma.channels$price_listArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.channels$sales_invoicesArgs<ExtArgs>
+  sales_orders?: boolean | Prisma.channels$sales_ordersArgs<ExtArgs>
   _count?: boolean | Prisma.ChannelsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["channels"]>
 
@@ -749,6 +870,7 @@ export type channelsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type channelsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | Prisma.channels$price_listArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.channels$sales_invoicesArgs<ExtArgs>
+  sales_orders?: boolean | Prisma.channels$sales_ordersArgs<ExtArgs>
   _count?: boolean | Prisma.ChannelsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type channelsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -759,6 +881,7 @@ export type $channelsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     price_list: Prisma.$price_listPayload<ExtArgs>[]
     sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
+    sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1168,6 +1291,7 @@ export interface Prisma__channelsClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   price_list<T extends Prisma.channels$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_invoices<T extends Prisma.channels$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$sales_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sales_orders<T extends Prisma.channels$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1646,6 +1770,30 @@ export type channels$sales_invoicesArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.Sales_invoicesScalarFieldEnum | Prisma.Sales_invoicesScalarFieldEnum[]
+}
+
+/**
+ * channels.sales_orders
+ */
+export type channels$sales_ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the sales_orders
+   */
+  select?: Prisma.sales_ordersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the sales_orders
+   */
+  omit?: Prisma.sales_ordersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.sales_ordersInclude<ExtArgs> | null
+  where?: Prisma.sales_ordersWhereInput
+  orderBy?: Prisma.sales_ordersOrderByWithRelationInput | Prisma.sales_ordersOrderByWithRelationInput[]
+  cursor?: Prisma.sales_ordersWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Sales_ordersScalarFieldEnum | Prisma.Sales_ordersScalarFieldEnum[]
 }
 
 /**
