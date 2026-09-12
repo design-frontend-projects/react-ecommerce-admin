@@ -231,6 +231,7 @@ export type channelsWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"channels"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"channels"> | string | null
   price_list?: Prisma.Price_listListRelationFilter
+  price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
 }
@@ -248,6 +249,7 @@ export type channelsOrderByWithRelationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   price_list?: Prisma.price_listOrderByRelationAggregateInput
+  price_list_assignments?: Prisma.price_list_assignmentsOrderByRelationAggregateInput
   sales_invoices?: Prisma.sales_invoicesOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
 }
@@ -269,6 +271,7 @@ export type channelsWhereUniqueInput = Prisma.AtLeast<{
   created_by_user_id?: Prisma.UuidNullableFilter<"channels"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"channels"> | string | null
   price_list?: Prisma.Price_listListRelationFilter
+  price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
 }, "id" | "tenant_id_code">
@@ -320,6 +323,7 @@ export type channelsCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
 }
@@ -337,6 +341,7 @@ export type channelsUncheckedCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
 }
@@ -354,6 +359,7 @@ export type channelsUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
 }
@@ -371,6 +377,7 @@ export type channelsUncheckedUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
 }
@@ -485,6 +492,22 @@ export type channelsUpdateOneWithoutPrice_listNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutPrice_listInput, Prisma.channelsUpdateWithoutPrice_listInput>, Prisma.channelsUncheckedUpdateWithoutPrice_listInput>
 }
 
+export type channelsCreateNestedOneWithoutPrice_list_assignmentsInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutPrice_list_assignmentsInput, Prisma.channelsUncheckedCreateWithoutPrice_list_assignmentsInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutPrice_list_assignmentsInput
+  connect?: Prisma.channelsWhereUniqueInput
+}
+
+export type channelsUpdateOneWithoutPrice_list_assignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutPrice_list_assignmentsInput, Prisma.channelsUncheckedCreateWithoutPrice_list_assignmentsInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutPrice_list_assignmentsInput
+  upsert?: Prisma.channelsUpsertWithoutPrice_list_assignmentsInput
+  disconnect?: Prisma.channelsWhereInput | boolean
+  delete?: Prisma.channelsWhereInput | boolean
+  connect?: Prisma.channelsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutPrice_list_assignmentsInput, Prisma.channelsUpdateWithoutPrice_list_assignmentsInput>, Prisma.channelsUncheckedUpdateWithoutPrice_list_assignmentsInput>
+}
+
 export type channelsCreateNestedOneWithoutSales_invoicesInput = {
   create?: Prisma.XOR<Prisma.channelsCreateWithoutSales_invoicesInput, Prisma.channelsUncheckedCreateWithoutSales_invoicesInput>
   connectOrCreate?: Prisma.channelsCreateOrConnectWithoutSales_invoicesInput
@@ -529,6 +552,7 @@ export type channelsCreateWithoutPrice_listInput = {
   updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
 }
@@ -545,6 +569,7 @@ export type channelsUncheckedCreateWithoutPrice_listInput = {
   updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
 }
@@ -577,6 +602,7 @@ export type channelsUpdateWithoutPrice_listInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
 }
@@ -593,6 +619,91 @@ export type channelsUncheckedUpdateWithoutPrice_listInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsCreateWithoutPrice_list_assignmentsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsUncheckedCreateWithoutPrice_list_assignmentsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsCreateOrConnectWithoutPrice_list_assignmentsInput = {
+  where: Prisma.channelsWhereUniqueInput
+  create: Prisma.XOR<Prisma.channelsCreateWithoutPrice_list_assignmentsInput, Prisma.channelsUncheckedCreateWithoutPrice_list_assignmentsInput>
+}
+
+export type channelsUpsertWithoutPrice_list_assignmentsInput = {
+  update: Prisma.XOR<Prisma.channelsUpdateWithoutPrice_list_assignmentsInput, Prisma.channelsUncheckedUpdateWithoutPrice_list_assignmentsInput>
+  create: Prisma.XOR<Prisma.channelsCreateWithoutPrice_list_assignmentsInput, Prisma.channelsUncheckedCreateWithoutPrice_list_assignmentsInput>
+  where?: Prisma.channelsWhereInput
+}
+
+export type channelsUpdateToOneWithWhereWithoutPrice_list_assignmentsInput = {
+  where?: Prisma.channelsWhereInput
+  data: Prisma.XOR<Prisma.channelsUpdateWithoutPrice_list_assignmentsInput, Prisma.channelsUncheckedUpdateWithoutPrice_list_assignmentsInput>
+}
+
+export type channelsUpdateWithoutPrice_list_assignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsUncheckedUpdateWithoutPrice_list_assignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
 }
@@ -610,6 +721,7 @@ export type channelsCreateWithoutSales_invoicesInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
 }
 
@@ -626,6 +738,7 @@ export type channelsUncheckedCreateWithoutSales_invoicesInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
 }
 
@@ -658,6 +771,7 @@ export type channelsUpdateWithoutSales_invoicesInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
 }
 
@@ -674,6 +788,7 @@ export type channelsUncheckedUpdateWithoutSales_invoicesInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
@@ -690,6 +805,7 @@ export type channelsCreateWithoutSales_ordersInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
 }
 
@@ -706,6 +822,7 @@ export type channelsUncheckedCreateWithoutSales_ordersInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
 }
 
@@ -738,6 +855,7 @@ export type channelsUpdateWithoutSales_ordersInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
 }
 
@@ -754,6 +872,7 @@ export type channelsUncheckedUpdateWithoutSales_ordersInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
@@ -764,12 +883,14 @@ export type channelsUncheckedUpdateWithoutSales_ordersInput = {
 
 export type ChannelsCountOutputType = {
   price_list: number
+  price_list_assignments: number
   sales_invoices: number
   sales_orders: number
 }
 
 export type ChannelsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | ChannelsCountOutputTypeCountPrice_listArgs
+  price_list_assignments?: boolean | ChannelsCountOutputTypeCountPrice_list_assignmentsArgs
   sales_invoices?: boolean | ChannelsCountOutputTypeCountSales_invoicesArgs
   sales_orders?: boolean | ChannelsCountOutputTypeCountSales_ordersArgs
 }
@@ -789,6 +910,13 @@ export type ChannelsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
  */
 export type ChannelsCountOutputTypeCountPrice_listArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.price_listWhereInput
+}
+
+/**
+ * ChannelsCountOutputType without action
+ */
+export type ChannelsCountOutputTypeCountPrice_list_assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.price_list_assignmentsWhereInput
 }
 
 /**
@@ -819,6 +947,7 @@ export type channelsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   price_list?: boolean | Prisma.channels$price_listArgs<ExtArgs>
+  price_list_assignments?: boolean | Prisma.channels$price_list_assignmentsArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.channels$sales_invoicesArgs<ExtArgs>
   sales_orders?: boolean | Prisma.channels$sales_ordersArgs<ExtArgs>
   _count?: boolean | Prisma.ChannelsCountOutputTypeDefaultArgs<ExtArgs>
@@ -869,6 +998,7 @@ export type channelsSelectScalar = {
 export type channelsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "code" | "name" | "name_ar" | "description" | "is_active" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["channels"]>
 export type channelsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list?: boolean | Prisma.channels$price_listArgs<ExtArgs>
+  price_list_assignments?: boolean | Prisma.channels$price_list_assignmentsArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.channels$sales_invoicesArgs<ExtArgs>
   sales_orders?: boolean | Prisma.channels$sales_ordersArgs<ExtArgs>
   _count?: boolean | Prisma.ChannelsCountOutputTypeDefaultArgs<ExtArgs>
@@ -880,6 +1010,7 @@ export type $channelsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "channels"
   objects: {
     price_list: Prisma.$price_listPayload<ExtArgs>[]
+    price_list_assignments: Prisma.$price_list_assignmentsPayload<ExtArgs>[]
     sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
   }
@@ -1290,6 +1421,7 @@ readonly fields: channelsFieldRefs;
 export interface Prisma__channelsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   price_list<T extends Prisma.channels$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  price_list_assignments<T extends Prisma.channels$price_list_assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$price_list_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_invoices<T extends Prisma.channels$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$sales_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.channels$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1746,6 +1878,30 @@ export type channels$price_listArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.Price_listScalarFieldEnum | Prisma.Price_listScalarFieldEnum[]
+}
+
+/**
+ * channels.price_list_assignments
+ */
+export type channels$price_list_assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the price_list_assignments
+   */
+  select?: Prisma.price_list_assignmentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the price_list_assignments
+   */
+  omit?: Prisma.price_list_assignmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.price_list_assignmentsInclude<ExtArgs> | null
+  where?: Prisma.price_list_assignmentsWhereInput
+  orderBy?: Prisma.price_list_assignmentsOrderByWithRelationInput | Prisma.price_list_assignmentsOrderByWithRelationInput[]
+  cursor?: Prisma.price_list_assignmentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Price_list_assignmentsScalarFieldEnum | Prisma.Price_list_assignmentsScalarFieldEnum[]
 }
 
 /**

@@ -400,6 +400,7 @@ export const ModelName = {
   pos_terminals: 'pos_terminals',
   price_list: 'price_list',
   price_list_items: 'price_list_items',
+  price_list_assignments: 'price_list_assignments',
   product_variants: 'product_variants',
   products: 'products',
   product_types: 'product_types',
@@ -514,7 +515,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "transaction_details" | "transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1699,6 +1700,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.price_list_itemsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Price_list_itemsCountAggregateOutputType> | number
+        }
+      }
+    }
+    price_list_assignments: {
+      payload: Prisma.$price_list_assignmentsPayload<ExtArgs>
+      fields: Prisma.price_list_assignmentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.price_list_assignmentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.price_list_assignmentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>
+        }
+        findFirst: {
+          args: Prisma.price_list_assignmentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.price_list_assignmentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>
+        }
+        findMany: {
+          args: Prisma.price_list_assignmentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>[]
+        }
+        create: {
+          args: Prisma.price_list_assignmentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>
+        }
+        createMany: {
+          args: Prisma.price_list_assignmentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.price_list_assignmentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>[]
+        }
+        delete: {
+          args: Prisma.price_list_assignmentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>
+        }
+        update: {
+          args: Prisma.price_list_assignmentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.price_list_assignmentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.price_list_assignmentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.price_list_assignmentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.price_list_assignmentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$price_list_assignmentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Price_list_assignmentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePrice_list_assignments>
+        }
+        groupBy: {
+          args: Prisma.price_list_assignmentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Price_list_assignmentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.price_list_assignmentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Price_list_assignmentsCountAggregateOutputType> | number
         }
       }
     }
@@ -9348,6 +9423,30 @@ export const Price_list_itemsScalarFieldEnum = {
 export type Price_list_itemsScalarFieldEnum = (typeof Price_list_itemsScalarFieldEnum)[keyof typeof Price_list_itemsScalarFieldEnum]
 
 
+export const Price_list_assignmentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  price_list_id: 'price_list_id',
+  store_id: 'store_id',
+  channel_id: 'channel_id',
+  customer_group_id: 'customer_group_id',
+  assignment_type: 'assignment_type',
+  priority: 'priority',
+  is_default: 'is_default',
+  is_active: 'is_active',
+  valid_from: 'valid_from',
+  valid_to: 'valid_to',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_at: 'updated_at',
+  updated_by_user_id: 'updated_by_user_id',
+  deleted_at: 'deleted_at',
+  deleted_by_user_id: 'deleted_by_user_id'
+} as const
+
+export type Price_list_assignmentsScalarFieldEnum = (typeof Price_list_assignmentsScalarFieldEnum)[keyof typeof Price_list_assignmentsScalarFieldEnum]
+
+
 export const Product_variantsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
@@ -11635,6 +11734,20 @@ export type ListEnumprice_list_typesFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'price_list_assignment_type'
+ */
+export type Enumprice_list_assignment_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'price_list_assignment_type'>
+    
+
+
+/**
+ * Reference to a field of type 'price_list_assignment_type[]'
+ */
+export type ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'price_list_assignment_type[]'>
+    
+
+
+/**
  * Reference to a field of type 'tracking_mode_enum'
  */
 export type Enumtracking_mode_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'tracking_mode_enum'>
@@ -12332,6 +12445,7 @@ export type GlobalOmitConfig = {
   pos_terminals?: Prisma.pos_terminalsOmit
   price_list?: Prisma.price_listOmit
   price_list_items?: Prisma.price_list_itemsOmit
+  price_list_assignments?: Prisma.price_list_assignmentsOmit
   product_variants?: Prisma.product_variantsOmit
   products?: Prisma.productsOmit
   product_types?: Prisma.product_typesOmit

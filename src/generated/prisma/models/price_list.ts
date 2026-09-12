@@ -350,6 +350,7 @@ export type price_listWhereInput = {
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   channels?: Prisma.XOR<Prisma.ChannelsNullableScalarRelationFilter, Prisma.channelsWhereInput> | null
   price_list_items?: Prisma.Price_list_itemsListRelationFilter
+  price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
 }
 
 export type price_listOrderByWithRelationInput = {
@@ -380,6 +381,7 @@ export type price_listOrderByWithRelationInput = {
   currencies?: Prisma.currenciesOrderByWithRelationInput
   channels?: Prisma.channelsOrderByWithRelationInput
   price_list_items?: Prisma.price_list_itemsOrderByRelationAggregateInput
+  price_list_assignments?: Prisma.price_list_assignmentsOrderByRelationAggregateInput
 }
 
 export type price_listWhereUniqueInput = Prisma.AtLeast<{
@@ -413,6 +415,7 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   channels?: Prisma.XOR<Prisma.ChannelsNullableScalarRelationFilter, Prisma.channelsWhereInput> | null
   price_list_items?: Prisma.Price_list_itemsListRelationFilter
+  price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
 }, "id">
 
 export type price_listOrderByWithAggregationInput = {
@@ -494,6 +497,7 @@ export type price_listCreateInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateInput = {
@@ -519,6 +523,7 @@ export type price_listUncheckedCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUpdateInput = {
@@ -544,6 +549,7 @@ export type price_listUpdateInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateInput = {
@@ -569,6 +575,7 @@ export type price_listUncheckedUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listCreateManyInput = {
@@ -835,6 +842,20 @@ export type price_listUpdateOneRequiredWithoutPrice_list_itemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.price_listUpdateToOneWithWhereWithoutPrice_list_itemsInput, Prisma.price_listUpdateWithoutPrice_list_itemsInput>, Prisma.price_listUncheckedUpdateWithoutPrice_list_itemsInput>
 }
 
+export type price_listCreateNestedOneWithoutPrice_list_assignmentsInput = {
+  create?: Prisma.XOR<Prisma.price_listCreateWithoutPrice_list_assignmentsInput, Prisma.price_listUncheckedCreateWithoutPrice_list_assignmentsInput>
+  connectOrCreate?: Prisma.price_listCreateOrConnectWithoutPrice_list_assignmentsInput
+  connect?: Prisma.price_listWhereUniqueInput
+}
+
+export type price_listUpdateOneRequiredWithoutPrice_list_assignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.price_listCreateWithoutPrice_list_assignmentsInput, Prisma.price_listUncheckedCreateWithoutPrice_list_assignmentsInput>
+  connectOrCreate?: Prisma.price_listCreateOrConnectWithoutPrice_list_assignmentsInput
+  upsert?: Prisma.price_listUpsertWithoutPrice_list_assignmentsInput
+  connect?: Prisma.price_listWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.price_listUpdateToOneWithWhereWithoutPrice_list_assignmentsInput, Prisma.price_listUpdateWithoutPrice_list_assignmentsInput>, Prisma.price_listUncheckedUpdateWithoutPrice_list_assignmentsInput>
+}
+
 export type price_listCreateNestedManyWithoutProductsInput = {
   create?: Prisma.XOR<Prisma.price_listCreateWithoutProductsInput, Prisma.price_listUncheckedCreateWithoutProductsInput> | Prisma.price_listCreateWithoutProductsInput[] | Prisma.price_listUncheckedCreateWithoutProductsInput[]
   connectOrCreate?: Prisma.price_listCreateOrConnectWithoutProductsInput | Prisma.price_listCreateOrConnectWithoutProductsInput[]
@@ -983,6 +1004,7 @@ export type price_listCreateWithoutCurrenciesInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateWithoutCurrenciesInput = {
@@ -1007,6 +1029,7 @@ export type price_listUncheckedCreateWithoutCurrenciesInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listCreateOrConnectWithoutCurrenciesInput = {
@@ -1084,6 +1107,7 @@ export type price_listCreateWithoutCustomer_groupsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateWithoutCustomer_groupsInput = {
@@ -1108,6 +1132,7 @@ export type price_listUncheckedCreateWithoutCustomer_groupsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listCreateOrConnectWithoutCustomer_groupsInput = {
@@ -1158,6 +1183,7 @@ export type price_listCreateWithoutPrice_list_itemsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateWithoutPrice_list_itemsInput = {
@@ -1182,6 +1208,7 @@ export type price_listUncheckedCreateWithoutPrice_list_itemsInput = {
   updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listCreateOrConnectWithoutPrice_list_itemsInput = {
@@ -1222,6 +1249,7 @@ export type price_listUpdateWithoutPrice_list_itemsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
@@ -1246,6 +1274,123 @@ export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
+}
+
+export type price_listCreateWithoutPrice_list_assignmentsInput = {
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Date | string
+  end_date?: Date | string | null
+  is_active?: boolean | null
+  description?: string | null
+  type?: $Enums.price_list_types | null
+  price_list_type_id?: string | null
+  id?: string
+  tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
+  stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
+  channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+}
+
+export type price_listUncheckedCreateWithoutPrice_list_assignmentsInput = {
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Date | string
+  end_date?: Date | string | null
+  is_active?: boolean | null
+  description?: string | null
+  type?: $Enums.price_list_types | null
+  price_list_type_id?: string | null
+  store_id?: string | null
+  currency_id?: string | null
+  channel_id?: string | null
+  id?: string
+  tenant_id: string
+  product_id?: string | null
+  group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+}
+
+export type price_listCreateOrConnectWithoutPrice_list_assignmentsInput = {
+  where: Prisma.price_listWhereUniqueInput
+  create: Prisma.XOR<Prisma.price_listCreateWithoutPrice_list_assignmentsInput, Prisma.price_listUncheckedCreateWithoutPrice_list_assignmentsInput>
+}
+
+export type price_listUpsertWithoutPrice_list_assignmentsInput = {
+  update: Prisma.XOR<Prisma.price_listUpdateWithoutPrice_list_assignmentsInput, Prisma.price_listUncheckedUpdateWithoutPrice_list_assignmentsInput>
+  create: Prisma.XOR<Prisma.price_listCreateWithoutPrice_list_assignmentsInput, Prisma.price_listUncheckedCreateWithoutPrice_list_assignmentsInput>
+  where?: Prisma.price_listWhereInput
+}
+
+export type price_listUpdateToOneWithWhereWithoutPrice_list_assignmentsInput = {
+  where?: Prisma.price_listWhereInput
+  data: Prisma.XOR<Prisma.price_listUpdateWithoutPrice_list_assignmentsInput, Prisma.price_listUncheckedUpdateWithoutPrice_list_assignmentsInput>
+}
+
+export type price_listUpdateWithoutPrice_list_assignmentsInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
+  price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
+  customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
+  stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+}
+
+export type price_listUncheckedUpdateWithoutPrice_list_assignmentsInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
+  price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listCreateWithoutProductsInput = {
@@ -1270,6 +1415,7 @@ export type price_listCreateWithoutProductsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateWithoutProductsInput = {
@@ -1294,6 +1440,7 @@ export type price_listUncheckedCreateWithoutProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listCreateOrConnectWithoutProductsInput = {
@@ -1344,6 +1491,7 @@ export type price_listCreateWithoutStoresInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateWithoutStoresInput = {
@@ -1368,6 +1516,7 @@ export type price_listUncheckedCreateWithoutStoresInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listCreateOrConnectWithoutStoresInput = {
@@ -1418,6 +1567,7 @@ export type price_listCreateWithoutChannelsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listUncheckedCreateWithoutChannelsInput = {
@@ -1442,6 +1592,7 @@ export type price_listUncheckedCreateWithoutChannelsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
 }
 
 export type price_listCreateOrConnectWithoutChannelsInput = {
@@ -1515,6 +1666,7 @@ export type price_listUpdateWithoutCurrenciesInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateWithoutCurrenciesInput = {
@@ -1539,6 +1691,7 @@ export type price_listUncheckedUpdateWithoutCurrenciesInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutCurrenciesInput = {
@@ -1609,6 +1762,7 @@ export type price_listUpdateWithoutCustomer_groupsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
@@ -1633,6 +1787,7 @@ export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutCustomer_groupsInput = {
@@ -1703,6 +1858,7 @@ export type price_listUpdateWithoutProductsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateWithoutProductsInput = {
@@ -1727,6 +1883,7 @@ export type price_listUncheckedUpdateWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutProductsInput = {
@@ -1797,6 +1954,7 @@ export type price_listUpdateWithoutStoresInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateWithoutStoresInput = {
@@ -1821,6 +1979,7 @@ export type price_listUncheckedUpdateWithoutStoresInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutStoresInput = {
@@ -1891,6 +2050,7 @@ export type price_listUpdateWithoutChannelsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateWithoutChannelsInput = {
@@ -1915,6 +2075,7 @@ export type price_listUncheckedUpdateWithoutChannelsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
 }
 
 export type price_listUncheckedUpdateManyWithoutChannelsInput = {
@@ -1947,10 +2108,12 @@ export type price_listUncheckedUpdateManyWithoutChannelsInput = {
 
 export type Price_listCountOutputType = {
   price_list_items: number
+  price_list_assignments: number
 }
 
 export type Price_listCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   price_list_items?: boolean | Price_listCountOutputTypeCountPrice_list_itemsArgs
+  price_list_assignments?: boolean | Price_listCountOutputTypeCountPrice_list_assignmentsArgs
 }
 
 /**
@@ -1968,6 +2131,13 @@ export type Price_listCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.E
  */
 export type Price_listCountOutputTypeCountPrice_list_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.price_list_itemsWhereInput
+}
+
+/**
+ * Price_listCountOutputType without action
+ */
+export type Price_listCountOutputTypeCountPrice_list_assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.price_list_assignmentsWhereInput
 }
 
 
@@ -1999,6 +2169,7 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
   price_list_items?: boolean | Prisma.price_list$price_list_itemsArgs<ExtArgs>
+  price_list_assignments?: boolean | Prisma.price_list$price_list_assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.Price_listCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["price_list"]>
 
@@ -2092,6 +2263,7 @@ export type price_listInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
   price_list_items?: boolean | Prisma.price_list$price_list_itemsArgs<ExtArgs>
+  price_list_assignments?: boolean | Prisma.price_list$price_list_assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.Price_listCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type price_listIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2118,6 +2290,7 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     currencies: Prisma.$currenciesPayload<ExtArgs> | null
     channels: Prisma.$channelsPayload<ExtArgs> | null
     price_list_items: Prisma.$price_list_itemsPayload<ExtArgs>[]
+    price_list_assignments: Prisma.$price_list_assignmentsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     name: string | null
@@ -2541,6 +2714,7 @@ export interface Prisma__price_listClient<T, Null = never, ExtArgs extends runti
   currencies<T extends Prisma.price_list$currenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$currenciesArgs<ExtArgs>>): Prisma.Prisma__currenciesClient<runtime.Types.Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   channels<T extends Prisma.price_list$channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$channelsArgs<ExtArgs>>): Prisma.Prisma__channelsClient<runtime.Types.Result.GetResult<Prisma.$channelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   price_list_items<T extends Prisma.price_list$price_list_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$price_list_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  price_list_assignments<T extends Prisma.price_list$price_list_assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$price_list_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3108,6 +3282,30 @@ export type price_list$price_list_itemsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.Price_list_itemsScalarFieldEnum | Prisma.Price_list_itemsScalarFieldEnum[]
+}
+
+/**
+ * price_list.price_list_assignments
+ */
+export type price_list$price_list_assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the price_list_assignments
+   */
+  select?: Prisma.price_list_assignmentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the price_list_assignments
+   */
+  omit?: Prisma.price_list_assignmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.price_list_assignmentsInclude<ExtArgs> | null
+  where?: Prisma.price_list_assignmentsWhereInput
+  orderBy?: Prisma.price_list_assignmentsOrderByWithRelationInput | Prisma.price_list_assignmentsOrderByWithRelationInput[]
+  cursor?: Prisma.price_list_assignmentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Price_list_assignmentsScalarFieldEnum | Prisma.Price_list_assignmentsScalarFieldEnum[]
 }
 
 /**

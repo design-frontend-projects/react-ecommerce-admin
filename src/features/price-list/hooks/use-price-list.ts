@@ -92,6 +92,33 @@ const PRICE_LIST_SELECT_QUERY = `
       name,
       sku
     )
+  ),
+  price_list_assignments (
+    id,
+    tenant_id,
+    price_list_id,
+    store_id,
+    channel_id,
+    customer_group_id,
+    assignment_type,
+    priority,
+    is_default,
+    is_active,
+    valid_from,
+    valid_to,
+    stores (
+      store_id,
+      name
+    ),
+    channels (
+      id,
+      code,
+      name
+    ),
+    customer_groups (
+      id,
+      name
+    )
   )
 `
 
@@ -362,11 +389,77 @@ export const useCreatePriceListWithItems = () => {
         }
       }
 
+      // 3. Insert price_list_assignments
+      const storeIds = Array.from(
+        new Set([
+          ...(formData.assigned_store_ids || []),
+          ...(formData.store_id ? [formData.store_id] : []),
+        ])
+      )
+
+      const assignmentsPayload: Record<string, unknown>[] = []
+
+      if (storeIds.length > 0) {
+        for (const sId of storeIds) {
+          assignmentsPayload.push({
+            tenant_id: tenantId,
+            price_list_id: priceListId,
+            store_id: sId,
+            channel_id: formData.channel_id || null,
+            customer_group_id: formData.group_id || null,
+            assignment_type:
+              formData.channel_id && formData.group_id
+                ? 'STORE_CHANNEL_CUSTOMER_GROUP'
+                : formData.channel_id
+                ? 'STORE_CHANNEL'
+                : formData.group_id
+                ? 'STORE_CUSTOMER_GROUP'
+                : 'STORE',
+            priority: formData.priority ?? 100,
+            is_default: formData.is_default ?? false,
+            is_active: formData.is_active ?? true,
+            valid_from: formData.start_date,
+            valid_to: formData.end_date || null,
+            created_by_user_id: userId,
+            updated_by_user_id: userId,
+          })
+        }
+      } else if (formData.channel_id || formData.group_id || formData.is_default) {
+        assignmentsPayload.push({
+          tenant_id: tenantId,
+          price_list_id: priceListId,
+          store_id: null,
+          channel_id: formData.channel_id || null,
+          customer_group_id: formData.group_id || null,
+          assignment_type:
+            formData.channel_id && formData.group_id
+              ? 'CHANNEL_CUSTOMER_GROUP'
+              : formData.channel_id
+              ? 'CHANNEL'
+              : formData.group_id
+              ? 'CUSTOMER_GROUP'
+              : 'GLOBAL',
+          priority: formData.priority ?? 100,
+          is_default: formData.is_default ?? false,
+          is_active: formData.is_active ?? true,
+          valid_from: formData.start_date,
+          valid_to: formData.end_date || null,
+          created_by_user_id: userId,
+          updated_by_user_id: userId,
+        })
+      }
+
+      if (assignmentsPayload.length > 0) {
+        await supabase.from('price_list_assignments').insert(assignmentsPayload)
+      }
+
       return headerData
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
       queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['price-list-assignments'] })
+      queryClient.invalidateQueries({ queryKey: ['store-price-lists'] })
       queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
     },
   })
@@ -507,12 +600,240 @@ export const useUpdatePriceListWithItems = () => {
         if (insertError) throw insertError
       }
 
+      // 3. Reconcile price_list_assignments
+      const storeIds = Array.from(
+        new Set([
+          ...(formData.assigned_store_ids || []),
+          ...(formData.store_id ? [formData.store_id] : []),
+        ])
+      )
+
+      await supabase
+        .from('price_list_assignments')
+        .delete()
+        .eq('price_list_id', id)
+
+      const updateAssignmentsPayload: Record<string, unknown>[] = []
+
+      if (storeIds.length > 0) {
+        for (const sId of storeIds) {
+          updateAssignmentsPayload.push({
+            tenant_id: tenantId,
+            price_list_id: id,
+            store_id: sId,
+            channel_id: formData.channel_id || null,
+            customer_group_id: formData.group_id || null,
+            assignment_type:
+              formData.channel_id && formData.group_id
+                ? 'STORE_CHANNEL_CUSTOMER_GROUP'
+                : formData.channel_id
+                ? 'STORE_CHANNEL'
+                : formData.group_id
+                ? 'STORE_CUSTOMER_GROUP'
+                : 'STORE',
+            priority: formData.priority ?? 100,
+            is_default: formData.is_default ?? false,
+            is_active: formData.is_active ?? true,
+            valid_from: formData.start_date,
+            valid_to: formData.end_date || null,
+            created_by_user_id: userId,
+            updated_by_user_id: userId,
+          })
+        }
+      } else if (formData.channel_id || formData.group_id || formData.is_default) {
+        updateAssignmentsPayload.push({
+          tenant_id: tenantId,
+          price_list_id: id,
+          store_id: null,
+          channel_id: formData.channel_id || null,
+          customer_group_id: formData.group_id || null,
+          assignment_type:
+            formData.channel_id && formData.group_id
+              ? 'CHANNEL_CUSTOMER_GROUP'
+              : formData.channel_id
+              ? 'CHANNEL'
+              : formData.group_id
+              ? 'CUSTOMER_GROUP'
+              : 'GLOBAL',
+          priority: formData.priority ?? 100,
+          is_default: formData.is_default ?? false,
+          is_active: formData.is_active ?? true,
+          valid_from: formData.start_date,
+          valid_to: formData.end_date || null,
+          created_by_user_id: userId,
+          updated_by_user_id: userId,
+        })
+      }
+
+      if (updateAssignmentsPayload.length > 0) {
+        await supabase.from('price_list_assignments').insert(updateAssignmentsPayload)
+      }
+
       return { id }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
       queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['price-list-assignments'] })
+      queryClient.invalidateQueries({ queryKey: ['store-price-lists'] })
       queryClient.invalidateQueries({ queryKey: ['default-price-list'] })
+    },
+  })
+}
+
+export const useStorePriceLists = (storeId?: string | null) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'sales.view' })
+
+  return useQuery({
+    queryKey: ['store-price-lists', storeId],
+    queryFn: async () => {
+      if (!storeId) return []
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
+        .from('price_list_assignments')
+        .select(`
+          id,
+          tenant_id,
+          price_list_id,
+          store_id,
+          channel_id,
+          customer_group_id,
+          assignment_type,
+          priority,
+          is_default,
+          is_active,
+          valid_from,
+          valid_to,
+          price_list:price_list (
+            id,
+            name,
+            code,
+            type,
+            currency_id,
+            is_default,
+            is_active
+          )
+        `)
+        .eq('store_id', storeId)
+        .eq('is_active', true)
+        .order('priority', { ascending: true })
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query
+      if (error) throw error
+      return data || []
+    },
+    enabled: Boolean(storeId) && authEnabled,
+  })
+}
+
+export const useAssignStorePriceList = () => {
+  const queryClient = useQueryClient()
+  const { has } = useAuth()
+
+  return useMutation({
+    mutationFn: async ({
+      storeId,
+      priceListId,
+      priority = 100,
+      isDefault = false,
+      channelId,
+      customerGroupId,
+      validFrom,
+      validTo,
+    }: {
+      storeId: string
+      priceListId: string
+      priority?: number
+      isDefault?: boolean
+      channelId?: string | null
+      customerGroupId?: string | null
+      validFrom?: string | null
+      validTo?: string | null
+    }) => {
+      if (!has({ permission: 'sales.manage' })) {
+        throw new Error(
+          i18n.t('priceList.validation.noPermission', {
+            defaultValue: 'You do not have permission to perform this action.',
+          })
+        )
+      }
+      const { tenantId, userId } = getAuthTenantAndUser()
+      if (!tenantId) throw new Error('Tenant context missing')
+
+      const { data, error } = await supabase
+        .from('price_list_assignments')
+        .insert({
+          tenant_id: tenantId,
+          price_list_id: priceListId,
+          store_id: storeId,
+          channel_id: channelId || null,
+          customer_group_id: customerGroupId || null,
+          assignment_type:
+            channelId && customerGroupId
+              ? 'STORE_CHANNEL_CUSTOMER_GROUP'
+              : channelId
+              ? 'STORE_CHANNEL'
+              : customerGroupId
+              ? 'STORE_CUSTOMER_GROUP'
+              : 'STORE',
+          priority,
+          is_default: isDefault,
+          is_active: true,
+          valid_from: validFrom || null,
+          valid_to: validTo || null,
+          created_by_user_id: userId,
+          updated_by_user_id: userId,
+        })
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    onSuccess: (_, vars) => {
+      queryClient.invalidateQueries({ queryKey: ['store-price-lists', vars.storeId] })
+      queryClient.invalidateQueries({ queryKey: ['price-list'] })
+      queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['price-list-assignments'] })
+    },
+  })
+}
+
+export const useRemoveStorePriceList = () => {
+  const queryClient = useQueryClient()
+  const { has } = useAuth()
+
+  return useMutation({
+    mutationFn: async ({
+      assignmentId,
+      storeId,
+    }: {
+      assignmentId: string
+      storeId: string
+    }) => {
+      if (!has({ permission: 'sales.manage' })) {
+        throw new Error(
+          i18n.t('priceList.validation.noPermission', {
+            defaultValue: 'You do not have permission to perform this action.',
+          })
+        )
+      }
+      const { error } = await supabase
+        .from('price_list_assignments')
+        .delete()
+        .eq('id', assignmentId)
+
+      if (error) throw error
+    },
+    onSuccess: (_, vars) => {
+      queryClient.invalidateQueries({ queryKey: ['store-price-lists', vars.storeId] })
+      queryClient.invalidateQueries({ queryKey: ['price-list'] })
+      queryClient.invalidateQueries({ queryKey: ['price-lists'] })
+      queryClient.invalidateQueries({ queryKey: ['price-list-assignments'] })
     },
   })
 }

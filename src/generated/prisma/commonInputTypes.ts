@@ -408,6 +408,23 @@ export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDecimalFilter<$PrismaModel>
 }
 
+export type Enumprice_list_assignment_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.price_list_assignment_type | Prisma.Enumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumprice_list_assignment_typeFilter<$PrismaModel> | $Enums.price_list_assignment_type
+}
+
+export type Enumprice_list_assignment_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.price_list_assignment_type | Prisma.Enumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumprice_list_assignment_typeWithAggregatesFilter<$PrismaModel> | $Enums.price_list_assignment_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumprice_list_assignment_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumprice_list_assignment_typeFilter<$PrismaModel>
+}
+
 export type Enumtracking_mode_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.tracking_mode_enum | Prisma.Enumtracking_mode_enumFieldRefInput<$PrismaModel>
   in?: $Enums.tracking_mode_enum[] | Prisma.ListEnumtracking_mode_enumFieldRefInput<$PrismaModel>
@@ -1540,6 +1557,23 @@ export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedDecimalFilter<$PrismaModel>
   _min?: Prisma.NestedDecimalFilter<$PrismaModel>
   _max?: Prisma.NestedDecimalFilter<$PrismaModel>
+}
+
+export type NestedEnumprice_list_assignment_typeFilter<$PrismaModel = never> = {
+  equals?: $Enums.price_list_assignment_type | Prisma.Enumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumprice_list_assignment_typeFilter<$PrismaModel> | $Enums.price_list_assignment_type
+}
+
+export type NestedEnumprice_list_assignment_typeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.price_list_assignment_type | Prisma.Enumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  in?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.price_list_assignment_type[] | Prisma.ListEnumprice_list_assignment_typeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumprice_list_assignment_typeWithAggregatesFilter<$PrismaModel> | $Enums.price_list_assignment_type
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumprice_list_assignment_typeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumprice_list_assignment_typeFilter<$PrismaModel>
 }
 
 export type NestedEnumtracking_mode_enumFilter<$PrismaModel = never> = {

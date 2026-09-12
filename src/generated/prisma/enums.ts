@@ -147,6 +147,20 @@ export const price_list_types = {
 export type price_list_types = (typeof price_list_types)[keyof typeof price_list_types]
 
 
+export const price_list_assignment_type = {
+  STORE: 'STORE',
+  CHANNEL: 'CHANNEL',
+  CUSTOMER_GROUP: 'CUSTOMER_GROUP',
+  STORE_CHANNEL: 'STORE_CHANNEL',
+  STORE_CUSTOMER_GROUP: 'STORE_CUSTOMER_GROUP',
+  CHANNEL_CUSTOMER_GROUP: 'CHANNEL_CUSTOMER_GROUP',
+  STORE_CHANNEL_CUSTOMER_GROUP: 'STORE_CHANNEL_CUSTOMER_GROUP',
+  GLOBAL: 'GLOBAL'
+} as const
+
+export type price_list_assignment_type = (typeof price_list_assignment_type)[keyof typeof price_list_assignment_type]
+
+
 export const record_status = {
   active: 'active',
   inactive: 'inactive',

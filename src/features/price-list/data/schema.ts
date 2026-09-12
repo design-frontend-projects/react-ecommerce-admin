@@ -80,6 +80,24 @@ export interface PriceListItemRecord {
   products?: ProductBrief | null
 }
 
+export interface PriceListAssignmentBrief {
+  id: string
+  tenant_id?: string
+  price_list_id: string
+  store_id?: string | null
+  channel_id?: string | null
+  customer_group_id?: string | null
+  assignment_type: string
+  priority: number
+  is_default: boolean
+  is_active: boolean
+  valid_from?: string | null
+  valid_to?: string | null
+  stores?: StoreBrief | null
+  channels?: ChannelBrief | null
+  customer_groups?: CustomerGroupBrief | null
+}
+
 export interface PriceList {
   id: string
   tenant_id: string
@@ -108,6 +126,7 @@ export interface PriceList {
   currencies?: CurrencyBrief | null
   channels?: ChannelBrief | null
   price_list_items?: PriceListItemRecord[]
+  price_list_assignments?: PriceListAssignmentBrief[]
 }
 
 export const priceListItemFormSchema = z.object({
@@ -142,6 +161,8 @@ export const priceListFormSchema = z
     type: priceListTypesEnum.optional().nullable(),
     group_id: z.string().uuid().optional().nullable().or(z.literal('')),
     store_id: z.string().uuid().optional().nullable().or(z.literal('')),
+    assigned_store_ids: z.array(z.string().uuid()).default([]),
+    priority: z.coerce.number().min(0, 'Priority must be 0 or greater').default(100),
     currency_id: z.string().uuid().optional().nullable().or(z.literal('')),
     channel_id: z.string().uuid().optional().nullable().or(z.literal('')),
     start_date: z.string().min(1, 'Start date is required'),
@@ -283,6 +304,8 @@ export const getPriceListFormSchema = (
       type: priceListTypesEnum.optional().nullable(),
       group_id: z.string().uuid().optional().nullable().or(z.literal('')),
       store_id: z.string().uuid().optional().nullable().or(z.literal('')),
+      assigned_store_ids: z.array(z.string().uuid()).default([]),
+      priority: z.coerce.number().min(0).default(100),
       currency_id: z.string().uuid().optional().nullable().or(z.literal('')),
       channel_id: z.string().uuid().optional().nullable().or(z.literal('')),
       start_date: z

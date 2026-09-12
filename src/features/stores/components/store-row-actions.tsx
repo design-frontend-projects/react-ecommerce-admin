@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { Row } from '@tanstack/react-table'
-import { MoreHorizontal, Edit, Trash2, Warehouse } from 'lucide-react'
+import { MoreHorizontal, Edit, Trash2, Warehouse, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -31,6 +31,15 @@ export function StoreRowActions({ row }: StoreRowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[190px]'>
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(row.original)
+            setOpen('priceLists')
+          }}
+        >
+          <Layers className='mr-2 h-4 w-4 text-primary' />
+          {t('stores.actions.managePriceLists', 'Assigned Price Lists')}
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
             setCurrentRow(row.original)

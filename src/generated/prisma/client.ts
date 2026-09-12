@@ -122,6 +122,11 @@ export type price_list = Prisma.price_listModel
  */
 export type price_list_items = Prisma.price_list_itemsModel
 /**
+ * Model price_list_assignments
+ * 
+ */
+export type price_list_assignments = Prisma.price_list_assignmentsModel
+/**
  * Model product_variants
  * 
  */

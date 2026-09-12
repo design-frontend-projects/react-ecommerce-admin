@@ -18,7 +18,9 @@ import {
   PackagePlus,
   Package,
   Search,
+  Check,
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -100,6 +102,8 @@ export function PriceListActionDialog() {
       type: null,
       group_id: '',
       store_id: '',
+      assigned_store_ids: [],
+      priority: 100,
       currency_id: '',
       channel_id: '',
       start_date: defaultStartDate,
@@ -152,6 +156,17 @@ export function PriceListActionDialog() {
         }
       })
 
+      const existingAssignments = currentRow.price_list_assignments || []
+      const initialStoreIds = existingAssignments
+        .map((a) => a.store_id)
+        .filter((id): id is string => Boolean(id))
+
+      if (initialStoreIds.length === 0 && currentRow.store_id) {
+        initialStoreIds.push(currentRow.store_id)
+      }
+
+      const initialPriority = existingAssignments[0]?.priority ?? 100
+
       form.reset({
         name: currentRow.name || '',
         code: currentRow.code || '',
@@ -161,6 +176,8 @@ export function PriceListActionDialog() {
         type: currentRow.type || null,
         group_id: currentRow.group_id || '',
         store_id: currentRow.store_id || '',
+        assigned_store_ids: initialStoreIds,
+        priority: initialPriority,
         currency_id: currentRow.currency_id || '',
         channel_id: currentRow.channel_id || '',
         start_date: currentRow.start_date || defaultStartDate,
@@ -179,6 +196,8 @@ export function PriceListActionDialog() {
         type: null,
         group_id: '',
         store_id: '',
+        assigned_store_ids: [],
+        priority: 100,
         currency_id: '',
         channel_id: '',
         start_date: defaultStartDate,
@@ -655,42 +674,114 @@ export function PriceListActionDialog() {
                   )}
                 />
 
-                {/* Store / Outlet */}
+                {/* Assigned Stores (Multi-Store Assignment Scope) */}
                 <FormField
                   control={form.control}
-                  name='store_id'
+                  name='assigned_store_ids'
+                  render={({ field }) => {
+                    const selectedStores = field.value || []
+                    const isAllStores = selectedStores.length === 0
+
+                    return (
+                      <FormItem className='col-span-1 md:col-span-2 rounded-lg border border-border/60 p-3 bg-muted/20'>
+                        <div className='flex items-center justify-between'>
+                          <FormLabel className='flex items-center gap-1.5 font-medium'>
+                            <StoreIcon className='h-3.5 w-3.5 text-primary' />
+                            {t('priceList.form.assignedStores', { defaultValue: 'Assigned Stores / Outlets' })}
+                          </FormLabel>
+                          <span className='text-xs font-medium text-muted-foreground'>
+                            {isAllStores
+                              ? t('priceList.form.allStoresActive', { defaultValue: '🌐 All Stores (Global Scope)' })
+                              : `${selectedStores.length} store(s) assigned`}
+                          </span>
+                        </div>
+                        <div className='flex flex-wrap gap-1.5 pt-2'>
+                          <Badge
+                            variant={isAllStores ? 'default' : 'outline'}
+                            className='cursor-pointer text-xs font-normal py-1 px-2.5 transition-all select-none'
+                            onClick={() => {
+                              field.onChange([])
+                              form.setValue('store_id', '')
+                            }}
+                          >
+                            {t('priceList.form.allStoresGlobal', { defaultValue: 'All Stores (Global)' })}
+                          </Badge>
+                          {options?.stores?.map((s) => {
+                            const isSelected = selectedStores.includes(s.store_id)
+                            return (
+                              <Badge
+                                key={s.store_id}
+                                variant={isSelected ? 'default' : 'outline'}
+                                className={cn(
+                                  'cursor-pointer text-xs font-normal py-1 px-2.5 transition-all select-none flex items-center gap-1',
+                                  isSelected && 'bg-primary text-primary-foreground font-medium'
+                                )}
+                                onClick={() => {
+                                  let next: string[]
+                                  if (isSelected) {
+                                    next = selectedStores.filter((id) => id !== s.store_id)
+                                  } else {
+                                    next = [...selectedStores, s.store_id]
+                                  }
+                                  field.onChange(next)
+                                  form.setValue('store_id', next[0] || '')
+                                }}
+                              >
+                                {s.name || s.store_id}
+                                {isSelected && <Check className='h-3 w-3' />}
+                              </Badge>
+                            )
+                          })}
+                        </div>
+                        <FormDescription className='text-[11px] pt-1 text-muted-foreground'>
+                          {t('priceList.form.multiStoreHelp', {
+                            defaultValue:
+                              'Assign one or multiple stores to this price list without duplicating items. When none selected, applies to all stores.',
+                          })}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )
+                  }}
+                />
+
+                {/* Resolution Priority */}
+                <FormField
+                  control={form.control}
+                  name='priority'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className='flex items-center gap-1.5'>
-                        <StoreIcon className='h-3.5 w-3.5 text-muted-foreground' />
-                        {t('priceList.form.store', { defaultValue: 'Target Store / Location' })}
+                        <Layers className='h-3.5 w-3.5 text-muted-foreground' />
+                        {t('priceList.form.priority', { defaultValue: 'Resolution Priority' })}
                       </FormLabel>
-                      <Select
-                        onValueChange={(val) => field.onChange(val === 'ALL' ? '' : val)}
-                        value={field.value || 'ALL'}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder={t('priceList.form.allStores', {
-                                defaultValue: 'All Stores / Global',
-                              })}
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value='ALL'>
-                            {t('priceList.form.allStores', {
-                              defaultValue: 'All Stores / Global',
-                            })}
-                          </SelectItem>
-                          {options?.stores?.map((s) => (
-                            <SelectItem key={s.store_id} value={s.store_id}>
-                              {s.name || s.store_id}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <FormControl>
+                        <div className='flex items-center gap-2'>
+                          <Input
+                            type='number'
+                            min={0}
+                            max={999}
+                            {...field}
+                            value={field.value ?? 100}
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                            className='h-9 w-28 font-mono'
+                          />
+                          <Badge variant='outline' className='text-[11px] font-normal'>
+                            {(field.value ?? 100) <= 15
+                              ? '⚡ High (Promo/Flash)'
+                              : (field.value ?? 100) <= 35
+                              ? '⭐ VIP Tier'
+                              : (field.value ?? 100) <= 70
+                              ? '🏢 Wholesale/B2B'
+                              : '🏷️ Standard (100)'}
+                          </Badge>
+                        </div>
+                      </FormControl>
+                      <FormDescription className='text-[11px]'>
+                        {t('priceList.form.priorityDescription', {
+                          defaultValue: 'Lower number = higher priority. e.g. Priority 10 Promo overrides Priority 100 Retail.',
+                        })}
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

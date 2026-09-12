@@ -67,6 +67,7 @@ export const ModelName = {
   pos_terminals: 'pos_terminals',
   price_list: 'price_list',
   price_list_items: 'price_list_items',
+  price_list_assignments: 'price_list_assignments',
   product_variants: 'product_variants',
   products: 'products',
   product_types: 'product_types',
@@ -463,6 +464,30 @@ export const Price_list_itemsScalarFieldEnum = {
 } as const
 
 export type Price_list_itemsScalarFieldEnum = (typeof Price_list_itemsScalarFieldEnum)[keyof typeof Price_list_itemsScalarFieldEnum]
+
+
+export const Price_list_assignmentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  price_list_id: 'price_list_id',
+  store_id: 'store_id',
+  channel_id: 'channel_id',
+  customer_group_id: 'customer_group_id',
+  assignment_type: 'assignment_type',
+  priority: 'priority',
+  is_default: 'is_default',
+  is_active: 'is_active',
+  valid_from: 'valid_from',
+  valid_to: 'valid_to',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_at: 'updated_at',
+  updated_by_user_id: 'updated_by_user_id',
+  deleted_at: 'deleted_at',
+  deleted_by_user_id: 'deleted_by_user_id'
+} as const
+
+export type Price_list_assignmentsScalarFieldEnum = (typeof Price_list_assignmentsScalarFieldEnum)[keyof typeof Price_list_assignmentsScalarFieldEnum]
 
 
 export const Product_variantsScalarFieldEnum = {

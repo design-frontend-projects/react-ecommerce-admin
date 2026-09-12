@@ -204,15 +204,34 @@ function PriceListViewDialogContent({
               </span>
             </div>
 
-            <div className='flex items-center gap-2'>
-              <StoreIcon className='h-4 w-4 text-muted-foreground' />
-              <span className='text-muted-foreground'>
-                {t('priceList.form.store', { defaultValue: 'Target Store' })}:
+            <div className='flex items-start gap-2 col-span-1 sm:col-span-2'>
+              <StoreIcon className='h-4 w-4 text-muted-foreground mt-0.5' />
+              <span className='text-muted-foreground whitespace-nowrap'>
+                {t('priceList.form.assignedStores', { defaultValue: 'Assigned Stores' })}:
               </span>
-              <span className='font-medium'>
-                {currentRow.stores?.name ||
-                  t('priceList.form.allStores', { defaultValue: 'All Stores / Global' })}
-              </span>
+              <div className='flex flex-wrap gap-1.5'>
+                {currentRow.price_list_assignments &&
+                currentRow.price_list_assignments.filter((a) => a.stores?.name).length > 0 ? (
+                  currentRow.price_list_assignments
+                    .filter((a) => a.stores?.name)
+                    .map((a) => (
+                      <Badge key={a.id} variant='secondary' className='text-xs font-normal'>
+                        {a.stores?.name}
+                        {a.priority != null && (
+                          <span className='opacity-60 ml-1 text-[10px]'>(P:{a.priority})</span>
+                        )}
+                      </Badge>
+                    ))
+                ) : currentRow.stores?.name ? (
+                  <Badge variant='secondary' className='text-xs font-normal'>
+                    {currentRow.stores.name}
+                  </Badge>
+                ) : (
+                  <Badge variant='outline' className='text-xs font-normal'>
+                    {t('priceList.form.allStoresGlobal', { defaultValue: 'All Stores (Global)' })}
+                  </Badge>
+                )}
+              </div>
             </div>
 
             <div className='flex items-center gap-2'>

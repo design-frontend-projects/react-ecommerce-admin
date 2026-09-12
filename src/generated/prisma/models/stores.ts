@@ -325,6 +325,7 @@ export type storesWhereInput = {
   stock_balances?: Prisma.Stock_balancesListRelationFilter
   stock_by_location?: Prisma.Stock_by_locationListRelationFilter
   price_list?: Prisma.Price_listListRelationFilter
+  price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   purchase_requisitions?: Prisma.Purchase_requisitionsListRelationFilter
   inventory?: Prisma.InventoryListRelationFilter
 }
@@ -356,6 +357,7 @@ export type storesOrderByWithRelationInput = {
   stock_balances?: Prisma.stock_balancesOrderByRelationAggregateInput
   stock_by_location?: Prisma.stock_by_locationOrderByRelationAggregateInput
   price_list?: Prisma.price_listOrderByRelationAggregateInput
+  price_list_assignments?: Prisma.price_list_assignmentsOrderByRelationAggregateInput
   purchase_requisitions?: Prisma.purchase_requisitionsOrderByRelationAggregateInput
   inventory?: Prisma.inventoryOrderByRelationAggregateInput
 }
@@ -390,6 +392,7 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
   stock_balances?: Prisma.Stock_balancesListRelationFilter
   stock_by_location?: Prisma.Stock_by_locationListRelationFilter
   price_list?: Prisma.Price_listListRelationFilter
+  price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   purchase_requisitions?: Prisma.Purchase_requisitionsListRelationFilter
   inventory?: Prisma.InventoryListRelationFilter
 }, "store_id">
@@ -466,6 +469,7 @@ export type storesCreateInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -494,6 +498,7 @@ export type storesUncheckedCreateInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -522,6 +527,7 @@ export type storesUpdateInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -550,6 +556,7 @@ export type storesUncheckedUpdateInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -843,6 +850,22 @@ export type storesUpdateOneWithoutPrice_listNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.storesUpdateToOneWithWhereWithoutPrice_listInput, Prisma.storesUpdateWithoutPrice_listInput>, Prisma.storesUncheckedUpdateWithoutPrice_listInput>
 }
 
+export type storesCreateNestedOneWithoutPrice_list_assignmentsInput = {
+  create?: Prisma.XOR<Prisma.storesCreateWithoutPrice_list_assignmentsInput, Prisma.storesUncheckedCreateWithoutPrice_list_assignmentsInput>
+  connectOrCreate?: Prisma.storesCreateOrConnectWithoutPrice_list_assignmentsInput
+  connect?: Prisma.storesWhereUniqueInput
+}
+
+export type storesUpdateOneWithoutPrice_list_assignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.storesCreateWithoutPrice_list_assignmentsInput, Prisma.storesUncheckedCreateWithoutPrice_list_assignmentsInput>
+  connectOrCreate?: Prisma.storesCreateOrConnectWithoutPrice_list_assignmentsInput
+  upsert?: Prisma.storesUpsertWithoutPrice_list_assignmentsInput
+  disconnect?: Prisma.storesWhereInput | boolean
+  delete?: Prisma.storesWhereInput | boolean
+  connect?: Prisma.storesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.storesUpdateToOneWithWhereWithoutPrice_list_assignmentsInput, Prisma.storesUpdateWithoutPrice_list_assignmentsInput>, Prisma.storesUncheckedUpdateWithoutPrice_list_assignmentsInput>
+}
+
 export type storesCreateNestedOneWithoutInventoryInput = {
   create?: Prisma.XOR<Prisma.storesCreateWithoutInventoryInput, Prisma.storesUncheckedCreateWithoutInventoryInput>
   connectOrCreate?: Prisma.storesCreateOrConnectWithoutInventoryInput
@@ -976,6 +999,7 @@ export type storesCreateWithoutBranchesInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1003,6 +1027,7 @@ export type storesUncheckedCreateWithoutBranchesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1079,6 +1104,7 @@ export type storesCreateWithoutCitiesInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1106,6 +1132,7 @@ export type storesUncheckedCreateWithoutCitiesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1159,6 +1186,7 @@ export type storesCreateWithoutCountriesInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1186,6 +1214,7 @@ export type storesUncheckedCreateWithoutCountriesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1239,6 +1268,7 @@ export type storesCreateWithoutPrice_listInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutStoresInput
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1266,6 +1296,7 @@ export type storesUncheckedCreateWithoutPrice_listInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutStoresInput
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1309,6 +1340,7 @@ export type storesUpdateWithoutPrice_listInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutStoresNestedInput
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -1336,6 +1368,135 @@ export type storesUncheckedUpdateWithoutPrice_listInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutStoresNestedInput
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
+  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
+}
+
+export type storesCreateWithoutPrice_list_assignmentsInput = {
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  store_type_id?: string | null
+  name?: string | null
+  store_id?: string
+  status?: boolean | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
+  cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
+  countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
+  store_warehouses?: Prisma.store_warehousesCreateNestedManyWithoutStoresInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutStoresInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutStoresInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
+  inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
+}
+
+export type storesUncheckedCreateWithoutPrice_list_assignmentsInput = {
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  city_id?: string | null
+  country_id?: string | null
+  store_type_id?: string | null
+  name?: string | null
+  store_id?: string
+  status?: boolean | null
+  branch_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  store_warehouses?: Prisma.store_warehousesUncheckedCreateNestedManyWithoutStoresInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutStoresInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutStoresInput
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
+  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
+}
+
+export type storesCreateOrConnectWithoutPrice_list_assignmentsInput = {
+  where: Prisma.storesWhereUniqueInput
+  create: Prisma.XOR<Prisma.storesCreateWithoutPrice_list_assignmentsInput, Prisma.storesUncheckedCreateWithoutPrice_list_assignmentsInput>
+}
+
+export type storesUpsertWithoutPrice_list_assignmentsInput = {
+  update: Prisma.XOR<Prisma.storesUpdateWithoutPrice_list_assignmentsInput, Prisma.storesUncheckedUpdateWithoutPrice_list_assignmentsInput>
+  create: Prisma.XOR<Prisma.storesCreateWithoutPrice_list_assignmentsInput, Prisma.storesUncheckedCreateWithoutPrice_list_assignmentsInput>
+  where?: Prisma.storesWhereInput
+}
+
+export type storesUpdateToOneWithWhereWithoutPrice_list_assignmentsInput = {
+  where?: Prisma.storesWhereInput
+  data: Prisma.XOR<Prisma.storesUpdateWithoutPrice_list_assignmentsInput, Prisma.storesUncheckedUpdateWithoutPrice_list_assignmentsInput>
+}
+
+export type storesUpdateWithoutPrice_list_assignmentsInput = {
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
+  store_warehouses?: Prisma.store_warehousesUpdateManyWithoutStoresNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutStoresNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutStoresNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
+  inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
+}
+
+export type storesUncheckedUpdateWithoutPrice_list_assignmentsInput = {
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_warehouses?: Prisma.store_warehousesUncheckedUpdateManyWithoutStoresNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutStoresNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutStoresNestedInput
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -1364,6 +1525,7 @@ export type storesCreateWithoutInventoryInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
 }
 
@@ -1391,6 +1553,7 @@ export type storesUncheckedCreateWithoutInventoryInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
 }
 
@@ -1434,6 +1597,7 @@ export type storesUpdateWithoutInventoryInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
 }
 
@@ -1461,6 +1625,7 @@ export type storesUncheckedUpdateWithoutInventoryInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
 }
 
@@ -1487,6 +1652,7 @@ export type storesCreateWithoutStock_balancesInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1514,6 +1680,7 @@ export type storesUncheckedCreateWithoutStock_balancesInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1557,6 +1724,7 @@ export type storesUpdateWithoutStock_balancesInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -1584,6 +1752,7 @@ export type storesUncheckedUpdateWithoutStock_balancesInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -1612,6 +1781,7 @@ export type storesCreateWithoutPurchase_requisitionsInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
 
@@ -1639,6 +1809,7 @@ export type storesUncheckedCreateWithoutPurchase_requisitionsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
 
@@ -1682,6 +1853,7 @@ export type storesUpdateWithoutPurchase_requisitionsInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
 
@@ -1709,6 +1881,7 @@ export type storesUncheckedUpdateWithoutPurchase_requisitionsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
 
@@ -1735,6 +1908,7 @@ export type storesCreateWithoutReorder_rulesInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1762,6 +1936,7 @@ export type storesUncheckedCreateWithoutReorder_rulesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1805,6 +1980,7 @@ export type storesUpdateWithoutReorder_rulesInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -1832,6 +2008,7 @@ export type storesUncheckedUpdateWithoutReorder_rulesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -1859,6 +2036,7 @@ export type storesCreateWithoutReorder_suggestionsInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -1886,6 +2064,7 @@ export type storesUncheckedCreateWithoutReorder_suggestionsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -1929,6 +2108,7 @@ export type storesUpdateWithoutReorder_suggestionsInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -1956,6 +2136,7 @@ export type storesUncheckedUpdateWithoutReorder_suggestionsInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -1983,6 +2164,7 @@ export type storesCreateWithoutStore_warehousesInput = {
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -2010,6 +2192,7 @@ export type storesUncheckedCreateWithoutStore_warehousesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -2053,6 +2236,7 @@ export type storesUpdateWithoutStore_warehousesInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -2080,6 +2264,7 @@ export type storesUncheckedUpdateWithoutStore_warehousesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -2107,6 +2292,7 @@ export type storesCreateWithoutStock_by_locationInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutStoresInput
   stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutStoresInput
 }
@@ -2134,6 +2320,7 @@ export type storesUncheckedCreateWithoutStock_by_locationInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutStoresInput
   stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
   inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutStoresInput
 }
@@ -2177,6 +2364,7 @@ export type storesUpdateWithoutStock_by_locationInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutStoresNestedInput
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -2204,6 +2392,7 @@ export type storesUncheckedUpdateWithoutStock_by_locationInput = {
   reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutStoresNestedInput
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -2250,6 +2439,7 @@ export type storesUpdateWithoutBranchesInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -2277,6 +2467,7 @@ export type storesUncheckedUpdateWithoutBranchesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -2342,6 +2533,7 @@ export type storesUpdateWithoutCitiesInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -2369,6 +2561,7 @@ export type storesUncheckedUpdateWithoutCitiesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -2434,6 +2627,7 @@ export type storesUpdateWithoutCountriesInput = {
   stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutStoresNestedInput
 }
@@ -2461,6 +2655,7 @@ export type storesUncheckedUpdateWithoutCountriesInput = {
   stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inventory?: Prisma.inventoryUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -2496,6 +2691,7 @@ export type StoresCountOutputType = {
   stock_balances: number
   stock_by_location: number
   price_list: number
+  price_list_assignments: number
   purchase_requisitions: number
   inventory: number
 }
@@ -2507,6 +2703,7 @@ export type StoresCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   stock_balances?: boolean | StoresCountOutputTypeCountStock_balancesArgs
   stock_by_location?: boolean | StoresCountOutputTypeCountStock_by_locationArgs
   price_list?: boolean | StoresCountOutputTypeCountPrice_listArgs
+  price_list_assignments?: boolean | StoresCountOutputTypeCountPrice_list_assignmentsArgs
   purchase_requisitions?: boolean | StoresCountOutputTypeCountPurchase_requisitionsArgs
   inventory?: boolean | StoresCountOutputTypeCountInventoryArgs
 }
@@ -2566,6 +2763,13 @@ export type StoresCountOutputTypeCountPrice_listArgs<ExtArgs extends runtime.Typ
 /**
  * StoresCountOutputType without action
  */
+export type StoresCountOutputTypeCountPrice_list_assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.price_list_assignmentsWhereInput
+}
+
+/**
+ * StoresCountOutputType without action
+ */
 export type StoresCountOutputTypeCountPurchase_requisitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.purchase_requisitionsWhereInput
 }
@@ -2605,6 +2809,7 @@ export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   stock_balances?: boolean | Prisma.stores$stock_balancesArgs<ExtArgs>
   stock_by_location?: boolean | Prisma.stores$stock_by_locationArgs<ExtArgs>
   price_list?: boolean | Prisma.stores$price_listArgs<ExtArgs>
+  price_list_assignments?: boolean | Prisma.stores$price_list_assignmentsArgs<ExtArgs>
   purchase_requisitions?: boolean | Prisma.stores$purchase_requisitionsArgs<ExtArgs>
   inventory?: boolean | Prisma.stores$inventoryArgs<ExtArgs>
   _count?: boolean | Prisma.StoresCountOutputTypeDefaultArgs<ExtArgs>
@@ -2687,6 +2892,7 @@ export type storesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   stock_balances?: boolean | Prisma.stores$stock_balancesArgs<ExtArgs>
   stock_by_location?: boolean | Prisma.stores$stock_by_locationArgs<ExtArgs>
   price_list?: boolean | Prisma.stores$price_listArgs<ExtArgs>
+  price_list_assignments?: boolean | Prisma.stores$price_list_assignmentsArgs<ExtArgs>
   purchase_requisitions?: boolean | Prisma.stores$purchase_requisitionsArgs<ExtArgs>
   inventory?: boolean | Prisma.stores$inventoryArgs<ExtArgs>
   _count?: boolean | Prisma.StoresCountOutputTypeDefaultArgs<ExtArgs>
@@ -2714,6 +2920,7 @@ export type $storesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     stock_balances: Prisma.$stock_balancesPayload<ExtArgs>[]
     stock_by_location: Prisma.$stock_by_locationPayload<ExtArgs>[]
     price_list: Prisma.$price_listPayload<ExtArgs>[]
+    price_list_assignments: Prisma.$price_list_assignmentsPayload<ExtArgs>[]
     purchase_requisitions: Prisma.$purchase_requisitionsPayload<ExtArgs>[]
     inventory: Prisma.$inventoryPayload<ExtArgs>[]
   }
@@ -3138,6 +3345,7 @@ export interface Prisma__storesClient<T, Null = never, ExtArgs extends runtime.T
   stock_balances<T extends Prisma.stores$stock_balancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$stock_balancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_balancesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_by_location<T extends Prisma.stores$stock_by_locationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$stock_by_locationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_by_locationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   price_list<T extends Prisma.stores$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  price_list_assignments<T extends Prisma.stores$price_list_assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$price_list_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   purchase_requisitions<T extends Prisma.stores$purchase_requisitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$purchase_requisitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_requisitionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory<T extends Prisma.stores$inventoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -3785,6 +3993,30 @@ export type stores$price_listArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.Price_listScalarFieldEnum | Prisma.Price_listScalarFieldEnum[]
+}
+
+/**
+ * stores.price_list_assignments
+ */
+export type stores$price_list_assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the price_list_assignments
+   */
+  select?: Prisma.price_list_assignmentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the price_list_assignments
+   */
+  omit?: Prisma.price_list_assignmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.price_list_assignmentsInclude<ExtArgs> | null
+  where?: Prisma.price_list_assignmentsWhereInput
+  orderBy?: Prisma.price_list_assignmentsOrderByWithRelationInput | Prisma.price_list_assignmentsOrderByWithRelationInput[]
+  cursor?: Prisma.price_list_assignmentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Price_list_assignmentsScalarFieldEnum | Prisma.Price_list_assignmentsScalarFieldEnum[]
 }
 
 /**
