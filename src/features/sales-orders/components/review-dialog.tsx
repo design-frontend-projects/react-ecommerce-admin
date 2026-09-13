@@ -72,6 +72,7 @@ export interface SalesOrderDraftData {
   warehouseId?: string | null
   channelName?: string | null
   channelId?: string | null
+  priceListName?: string | null
   customerName?: string
   customerId?: string | null
   customerPhone?: string | null
@@ -411,6 +412,11 @@ export function SalesOrderReviewDialog({
                     <p className='text-xs text-primary font-medium flex items-center gap-1 print:text-gray-700'>
                       <Globe className='h-3 w-3 print:hidden' />
                       <span>{channelName}</span>
+                      {draftData?.priceListName && (
+                        <span className='text-[11px] text-muted-foreground font-normal'>
+                          ({draftData.priceListName})
+                        </span>
+                      )}
                     </p>
                   )}
                   <p className='text-xs text-muted-foreground print:text-gray-600'>

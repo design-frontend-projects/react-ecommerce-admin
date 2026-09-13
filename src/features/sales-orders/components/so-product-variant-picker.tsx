@@ -53,6 +53,8 @@ export interface SOVariantOption {
   qty_available?: number
   uom_id?: string | null
   stock_balances?: SOVariantStockBalance[]
+  priceListName?: string | null
+  priceSource?: string | null
 }
 
 // ─── 1. Searchable Product Dropdown (Combobox) ──────────────────
@@ -349,9 +351,19 @@ export function SOVariantSelect({
                     </span>
                   )}
                 </span>
-                <span className='font-mono text-xs font-semibold text-foreground'>
-                  {currencySymbol}{selectedVariant.price.toFixed(2)}
-                </span>
+                <div className='flex items-center gap-1 shrink-0'>
+                  <span className='font-mono text-xs font-semibold text-foreground'>
+                    {currencySymbol}{selectedVariant.price.toFixed(2)}
+                  </span>
+                  {selectedVariant.priceListName && (
+                    <span
+                      className='text-[9px] font-medium text-emerald-600 dark:text-emerald-400 hidden sm:inline truncate max-w-[100px]'
+                      title={selectedVariant.priceListName}
+                    >
+                      ({selectedVariant.priceListName})
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           ) : (
@@ -415,9 +427,19 @@ export function SOVariantSelect({
                     )}
                   </div>
                 </div>
-                <span className='font-mono text-xs font-bold text-foreground shrink-0'>
-                  {currencySymbol}{v.price.toFixed(2)}
-                </span>
+                <div className='flex flex-col items-end shrink-0'>
+                  <span className='font-mono text-xs font-bold text-foreground'>
+                    {currencySymbol}{v.price.toFixed(2)}
+                  </span>
+                  {v.priceListName && (
+                    <span
+                      className='text-[9px] font-medium text-emerald-600 dark:text-emerald-400 max-w-[110px] truncate'
+                      title={v.priceListName}
+                    >
+                      {v.priceListName}
+                    </span>
+                  )}
+                </div>
               </div>
             </SelectItem>
           )

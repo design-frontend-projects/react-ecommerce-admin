@@ -514,19 +514,20 @@ export interface CurrencyOption {
   id: string
   code: string
   name: string
+  name_ar?: string | null
   symbol: string
   is_active?: boolean | null
 }
 
 const DEFAULT_FALLBACK_CURRENCIES: CurrencyOption[] = [
-  { id: 'usd', code: 'USD', name: 'US Dollar', symbol: '$', is_active: true },
-  { id: 'eur', code: 'EUR', name: 'Euro', symbol: '€', is_active: true },
-  { id: 'gbp', code: 'GBP', name: 'British Pound', symbol: '£', is_active: true },
-  { id: 'sar', code: 'SAR', name: 'Saudi Riyal', symbol: 'ر.س', is_active: true },
-  { id: 'aed', code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', is_active: true },
-  { id: 'egp', code: 'EGP', name: 'Egyptian Pound', symbol: 'ج.م', is_active: true },
-  { id: 'qar', code: 'QAR', name: 'Qatari Riyal', symbol: 'ر.ق', is_active: true },
-  { id: 'kwd', code: 'KWD', name: 'Kuwaiti Dinar', symbol: 'د.ك', is_active: true },
+  { id: 'usd', code: 'USD', name: 'US Dollar', name_ar: 'دولار أمريكي', symbol: '$', is_active: true },
+  { id: 'eur', code: 'EUR', name: 'Euro', name_ar: 'يورو', symbol: '€', is_active: true },
+  { id: 'gbp', code: 'GBP', name: 'British Pound', name_ar: 'جنيه إسترليني', symbol: '£', is_active: true },
+  { id: 'sar', code: 'SAR', name: 'Saudi Riyal', name_ar: 'ريال سعودي', symbol: 'ر.س', is_active: true },
+  { id: 'aed', code: 'AED', name: 'UAE Dirham', name_ar: 'درهم إماراتي', symbol: 'د.إ', is_active: true },
+  { id: 'egp', code: 'EGP', name: 'Egyptian Pound', name_ar: 'جنيه مصري', symbol: 'ج.م', is_active: true },
+  { id: 'qar', code: 'QAR', name: 'Qatari Riyal', name_ar: 'ريال قطري', symbol: 'ر.ق', is_active: true },
+  { id: 'kwd', code: 'KWD', name: 'Kuwaiti Dinar', name_ar: 'دينار كويتي', symbol: 'د.ك', is_active: true },
 ]
 
 /** All active currencies from the real currencies table for transaction forms */
@@ -537,7 +538,7 @@ export function useCurrencyOptions() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('currencies')
-        .select('id, code, name, symbol, is_active')
+        .select('id, code, name, name_ar, symbol, is_active')
         .neq('is_active', false)
         .order('code')
 

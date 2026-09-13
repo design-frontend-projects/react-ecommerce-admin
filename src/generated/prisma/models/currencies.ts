@@ -27,6 +27,7 @@ export type AggregateCurrencies = {
 export type CurrenciesMinAggregateOutputType = {
   id: string | null
   name: string | null
+  name_ar: string | null
   code: string | null
   symbol: string | null
   is_active: boolean | null
@@ -37,6 +38,7 @@ export type CurrenciesMinAggregateOutputType = {
 export type CurrenciesMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  name_ar: string | null
   code: string | null
   symbol: string | null
   is_active: boolean | null
@@ -47,6 +49,7 @@ export type CurrenciesMaxAggregateOutputType = {
 export type CurrenciesCountAggregateOutputType = {
   id: number
   name: number
+  name_ar: number
   code: number
   symbol: number
   is_active: number
@@ -59,6 +62,7 @@ export type CurrenciesCountAggregateOutputType = {
 export type CurrenciesMinAggregateInputType = {
   id?: true
   name?: true
+  name_ar?: true
   code?: true
   symbol?: true
   is_active?: true
@@ -69,6 +73,7 @@ export type CurrenciesMinAggregateInputType = {
 export type CurrenciesMaxAggregateInputType = {
   id?: true
   name?: true
+  name_ar?: true
   code?: true
   symbol?: true
   is_active?: true
@@ -79,6 +84,7 @@ export type CurrenciesMaxAggregateInputType = {
 export type CurrenciesCountAggregateInputType = {
   id?: true
   name?: true
+  name_ar?: true
   code?: true
   symbol?: true
   is_active?: true
@@ -162,6 +168,7 @@ export type currenciesGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type CurrenciesGroupByOutputType = {
   id: string
   name: string
+  name_ar: string | null
   code: string
   symbol: string
   is_active: boolean | null
@@ -193,6 +200,7 @@ export type currenciesWhereInput = {
   NOT?: Prisma.currenciesWhereInput | Prisma.currenciesWhereInput[]
   id?: Prisma.UuidFilter<"currencies"> | string
   name?: Prisma.StringFilter<"currencies"> | string
+  name_ar?: Prisma.StringNullableFilter<"currencies"> | string | null
   code?: Prisma.StringFilter<"currencies"> | string
   symbol?: Prisma.StringFilter<"currencies"> | string
   is_active?: Prisma.BoolNullableFilter<"currencies"> | boolean | null
@@ -206,6 +214,7 @@ export type currenciesWhereInput = {
 export type currenciesOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  name_ar?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   symbol?: Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -218,11 +227,12 @@ export type currenciesOrderByWithRelationInput = {
 
 export type currenciesWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  code?: string
   AND?: Prisma.currenciesWhereInput | Prisma.currenciesWhereInput[]
   OR?: Prisma.currenciesWhereInput[]
   NOT?: Prisma.currenciesWhereInput | Prisma.currenciesWhereInput[]
   name?: Prisma.StringFilter<"currencies"> | string
-  code?: Prisma.StringFilter<"currencies"> | string
+  name_ar?: Prisma.StringNullableFilter<"currencies"> | string | null
   symbol?: Prisma.StringFilter<"currencies"> | string
   is_active?: Prisma.BoolNullableFilter<"currencies"> | boolean | null
   created_at?: Prisma.DateTimeNullableFilter<"currencies"> | Date | string | null
@@ -230,11 +240,12 @@ export type currenciesWhereUniqueInput = Prisma.AtLeast<{
   countries?: Prisma.CountriesListRelationFilter
   tenants?: Prisma.TenantsListRelationFilter
   price_list?: Prisma.Price_listListRelationFilter
-}, "id">
+}, "id" | "code">
 
 export type currenciesOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  name_ar?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   symbol?: Prisma.SortOrder
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -251,6 +262,7 @@ export type currenciesScalarWhereWithAggregatesInput = {
   NOT?: Prisma.currenciesScalarWhereWithAggregatesInput | Prisma.currenciesScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"currencies"> | string
   name?: Prisma.StringWithAggregatesFilter<"currencies"> | string
+  name_ar?: Prisma.StringNullableWithAggregatesFilter<"currencies"> | string | null
   code?: Prisma.StringWithAggregatesFilter<"currencies"> | string
   symbol?: Prisma.StringWithAggregatesFilter<"currencies"> | string
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"currencies"> | boolean | null
@@ -261,6 +273,7 @@ export type currenciesScalarWhereWithAggregatesInput = {
 export type currenciesCreateInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -274,6 +287,7 @@ export type currenciesCreateInput = {
 export type currenciesUncheckedCreateInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -287,6 +301,7 @@ export type currenciesUncheckedCreateInput = {
 export type currenciesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -300,6 +315,7 @@ export type currenciesUpdateInput = {
 export type currenciesUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -313,6 +329,7 @@ export type currenciesUncheckedUpdateInput = {
 export type currenciesCreateManyInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -323,6 +340,7 @@ export type currenciesCreateManyInput = {
 export type currenciesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -333,6 +351,7 @@ export type currenciesUpdateManyMutationInput = {
 export type currenciesUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -348,6 +367,7 @@ export type CurrenciesNullableScalarRelationFilter = {
 export type currenciesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  name_ar?: Prisma.SortOrder
   code?: Prisma.SortOrder
   symbol?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
@@ -358,6 +378,7 @@ export type currenciesCountOrderByAggregateInput = {
 export type currenciesMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  name_ar?: Prisma.SortOrder
   code?: Prisma.SortOrder
   symbol?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
@@ -368,6 +389,7 @@ export type currenciesMaxOrderByAggregateInput = {
 export type currenciesMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  name_ar?: Prisma.SortOrder
   code?: Prisma.SortOrder
   symbol?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
@@ -426,6 +448,7 @@ export type currenciesUpdateOneWithoutTenantsNestedInput = {
 export type currenciesCreateWithoutCountriesInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -438,6 +461,7 @@ export type currenciesCreateWithoutCountriesInput = {
 export type currenciesUncheckedCreateWithoutCountriesInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -466,6 +490,7 @@ export type currenciesUpdateToOneWithWhereWithoutCountriesInput = {
 export type currenciesUpdateWithoutCountriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -478,6 +503,7 @@ export type currenciesUpdateWithoutCountriesInput = {
 export type currenciesUncheckedUpdateWithoutCountriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -490,6 +516,7 @@ export type currenciesUncheckedUpdateWithoutCountriesInput = {
 export type currenciesCreateWithoutPrice_listInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -502,6 +529,7 @@ export type currenciesCreateWithoutPrice_listInput = {
 export type currenciesUncheckedCreateWithoutPrice_listInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -530,6 +558,7 @@ export type currenciesUpdateToOneWithWhereWithoutPrice_listInput = {
 export type currenciesUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -542,6 +571,7 @@ export type currenciesUpdateWithoutPrice_listInput = {
 export type currenciesUncheckedUpdateWithoutPrice_listInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -554,6 +584,7 @@ export type currenciesUncheckedUpdateWithoutPrice_listInput = {
 export type currenciesCreateWithoutTenantsInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -566,6 +597,7 @@ export type currenciesCreateWithoutTenantsInput = {
 export type currenciesUncheckedCreateWithoutTenantsInput = {
   id?: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean | null
@@ -594,6 +626,7 @@ export type currenciesUpdateToOneWithWhereWithoutTenantsInput = {
 export type currenciesUpdateWithoutTenantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -606,6 +639,7 @@ export type currenciesUpdateWithoutTenantsInput = {
 export type currenciesUncheckedUpdateWithoutTenantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   symbol?: Prisma.StringFieldUpdateOperationsInput | string
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -667,6 +701,7 @@ export type CurrenciesCountOutputTypeCountPrice_listArgs<ExtArgs extends runtime
 export type currenciesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  name_ar?: boolean
   code?: boolean
   symbol?: boolean
   is_active?: boolean
@@ -681,6 +716,7 @@ export type currenciesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type currenciesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  name_ar?: boolean
   code?: boolean
   symbol?: boolean
   is_active?: boolean
@@ -691,6 +727,7 @@ export type currenciesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type currenciesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  name_ar?: boolean
   code?: boolean
   symbol?: boolean
   is_active?: boolean
@@ -701,6 +738,7 @@ export type currenciesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type currenciesSelectScalar = {
   id?: boolean
   name?: boolean
+  name_ar?: boolean
   code?: boolean
   symbol?: boolean
   is_active?: boolean
@@ -708,7 +746,7 @@ export type currenciesSelectScalar = {
   updated_at?: boolean
 }
 
-export type currenciesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "symbol" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["currencies"]>
+export type currenciesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "name_ar" | "code" | "symbol" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["currencies"]>
 export type currenciesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   countries?: boolean | Prisma.currencies$countriesArgs<ExtArgs>
   tenants?: boolean | Prisma.currencies$tenantsArgs<ExtArgs>
@@ -728,6 +766,7 @@ export type $currenciesPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    name_ar: string | null
     code: string
     symbol: string
     is_active: boolean | null
@@ -1161,6 +1200,7 @@ export interface Prisma__currenciesClient<T, Null = never, ExtArgs extends runti
 export interface currenciesFieldRefs {
   readonly id: Prisma.FieldRef<"currencies", 'String'>
   readonly name: Prisma.FieldRef<"currencies", 'String'>
+  readonly name_ar: Prisma.FieldRef<"currencies", 'String'>
   readonly code: Prisma.FieldRef<"currencies", 'String'>
   readonly symbol: Prisma.FieldRef<"currencies", 'String'>
   readonly is_active: Prisma.FieldRef<"currencies", 'Boolean'>

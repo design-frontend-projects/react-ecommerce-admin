@@ -27,6 +27,7 @@ import { useCurrenciesContext } from './currencies-provider'
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }),
+  name_ar: z.string().optional().nullable(),
   code: z
     .string()
     .min(1, { message: 'Code is required.' })
@@ -34,7 +35,7 @@ const formSchema = z.object({
   symbol: z
     .string()
     .min(1, { message: 'Symbol is required.' })
-    .max(5, { message: 'Symbol must be at most 5 characters.' }),
+    .max(10, { message: 'Symbol must be at most 10 characters.' }),
   is_active: z.boolean(),
 })
 
@@ -53,12 +54,14 @@ export function CurrencyActionDialog() {
       isEdit && currentRow
         ? {
             name: currentRow.name,
+            name_ar: currentRow.name_ar || '',
             code: currentRow.code,
             symbol: currentRow.symbol,
             is_active: currentRow.is_active,
           }
         : {
             name: '',
+            name_ar: '',
             code: '',
             symbol: '',
             is_active: true,
@@ -100,7 +103,7 @@ export function CurrencyActionDialog() {
               : 'Fill in the details to add a new currency.'}
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className='-mr-4 h-[300px] pr-4'>
+        <ScrollArea className='-mr-4 h-[340px] pr-4'>
           <Form {...form}>
             <form
               id='currency-form'
@@ -115,6 +118,24 @@ export function CurrencyActionDialog() {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input placeholder='US Dollar' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='name_ar'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Arabic Name (الاسم بالعربية)</FormLabel>
+                    <FormControl>
+                      <Input
+                        dir='rtl'
+                        placeholder='دولار أمريكي'
+                        value={field.value || ''}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/use-auth'
 export interface Currency {
   id: string
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active: boolean
@@ -15,6 +16,7 @@ export interface Currency {
 
 export interface CurrencyInput {
   name: string
+  name_ar?: string | null
   code: string
   symbol: string
   is_active?: boolean

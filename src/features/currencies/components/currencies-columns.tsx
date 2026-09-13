@@ -43,6 +43,20 @@ export const columns: ColumnDef<Currency>[] = [
     ),
   },
   {
+    accessorKey: 'name_ar',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Arabic Name' />
+    ),
+    cell: ({ row }) => {
+      const nameAr = row.getValue('name_ar') as string | undefined | null
+      return (
+        <div dir='rtl' className='max-w-[150px] truncate font-medium text-muted-foreground sm:max-w-[200px] md:max-w-none'>
+          {nameAr || '—'}
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: 'code',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Code' />

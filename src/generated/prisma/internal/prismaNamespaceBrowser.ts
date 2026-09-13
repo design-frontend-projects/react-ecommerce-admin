@@ -303,6 +303,7 @@ export type CountriesScalarFieldEnum = (typeof CountriesScalarFieldEnum)[keyof t
 export const CurrenciesScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  name_ar: 'name_ar',
   code: 'code',
   symbol: 'symbol',
   is_active: 'is_active',

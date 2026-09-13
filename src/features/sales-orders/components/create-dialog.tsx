@@ -3,6 +3,8 @@ import { resolveVariantPrice } from '@/services/pricing/price-resolver'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AlertCircle,
+  ArrowLeft,
+  ArrowRight,
   Building2,
   Calendar,
   CheckCircle2,
@@ -16,6 +18,9 @@ import {
   Percent,
   Plus,
   Receipt,
+  RefreshCw,
+  Sparkles,
+  Tag,
   Trash2,
   User,
   Warehouse,
@@ -69,6 +74,10 @@ import {
   getVariantStockSummary,
 } from '../utils/variant-stock'
 import { useWarehouseStockBalances } from '../hooks/use-warehouse-stock'
+import {
+  useChannelPriceLists,
+  type ChannelPriceListRecord,
+} from '../hooks/use-channel-price-lists'
 import {
   SalesOrderReviewDialog,
   type SalesOrderDraftData,
@@ -139,6 +148,9 @@ export function OrderCreateDialog({
   const [expectedDate, setExpectedDate] = useState('')
   const [notes, setNotes] = useState('')
   const [items, setItems] = useState<LineItemState[]>([{ ...emptyItem }])
+
+  // Step navigation: 'setup' (Order Context & Channel Pricing) -> 'items' (Products & Pricing)
+  const [activeStep, setActiveStep] = useState<'setup' | 'items'>('setup')
 
   // Review Draft State
   const [reviewOpen, setReviewOpen] = useState(false)
@@ -345,6 +357,7 @@ export function OrderCreateDialog({
     if (!open) return
 
     if (orderToEdit) {
+      setActiveStep('items')
       const current = orderDetail ?? orderToEdit
       const orderStoreId = current.store_id || current.stores?.store_id || ''
       setStoreId(orderStoreId)
@@ -413,13 +426,37 @@ export function OrderCreateDialog({
 
   const customerGroupId = selectedCustomer?.group_id ?? null
 
-  // 3. Variant Stock & Pricing: Contextual stock per store / fulfillment warehouse
+  // Channel-to-Price-List Resolution Engine
+  const {
+    allPriceLists = [],
+    channelRelatedPriceLists,
+    storeFallbackPriceLists,
+    bestMatchedPriceList,
+    activePriceList,
+    selectedPriceListId,
+    setSelectedPriceListId,
+    variantPriceMap,
+    isLoading: isLoadingPriceLists,
+    refetch: refetchPriceLists,
+    hasChannelSpecificPriceList,
+  } = useChannelPriceLists({
+    channelId: channelId || null,
+    storeId: storeId || null,
+    customerGroupId,
+    currencyId: selectedCurrencyObj?.id || null,
+    enabled: open,
+  })
+
+  // 3. Variant Stock & Pricing: Contextual stock per store / fulfillment warehouse & Channel Price List
   const variantsByProductId = useMemo(() => {
     const map = new Map<string, SOVariantOption[]>()
 
     for (const p of allProducts) {
       const pId = String(p.id ?? p.product_id ?? '')
       const vars: SOVariantOption[] = (p.product_variants || []).map((v) => {
+        const vIdStr = String(v.id)
+        const channelPricing = variantPriceMap.get(vIdStr)
+
         const pli = (
           v as {
             price_list_items?: Array<{
@@ -428,16 +465,22 @@ export function OrderCreateDialog({
             }>
           }
         ).price_list_items
+
         const resolvedPrice =
-          pli && pli.length > 0
-            ? Number(pli[0].price)
-            : Number((v as { price?: number }).price || 0)
+          channelPricing?.price !== undefined
+            ? channelPricing.price
+            : pli && pli.length > 0
+              ? Number(pli[0].price)
+              : Number((v as { price?: number }).price || 0)
+
         const resolvedCost =
-          pli && pli.length > 0 && pli[0].cost_price != null
-            ? Number(pli[0].cost_price)
-            : (v as { cost_price?: number | null }).cost_price
-              ? Number((v as { cost_price?: number | null }).cost_price)
-              : null
+          channelPricing?.costPrice !== undefined && channelPricing.costPrice !== null
+            ? channelPricing.costPrice
+            : pli && pli.length > 0 && pli[0].cost_price != null
+              ? Number(pli[0].cost_price)
+              : (v as { cost_price?: number | null }).cost_price
+                ? Number((v as { cost_price?: number | null }).cost_price)
+                : null
 
         const rawBalances =
           (v as { stock_balances?: SOVariantStockBalance[] }).stock_balances || []
@@ -483,12 +526,26 @@ export function OrderCreateDialog({
           qty_available: Math.max(0, stockSummary.available),
           uom_id: v.uom_id || (p.base_uom_id ? String(p.base_uom_id) : null),
           stock_balances: balances,
+          priceListName:
+            channelPricing?.priceListName || activePriceList?.name || null,
+          priceSource:
+            channelPricing?.source || (channelId ? 'channel' : 'store'),
         }
       })
       map.set(pId, vars)
     }
     return map
-  }, [allProducts, storeId, effectiveWarehouseId, availableWarehouses, liveStockBalances, variantStockMap])
+  }, [
+    allProducts,
+    storeId,
+    effectiveWarehouseId,
+    availableWarehouses,
+    liveStockBalances,
+    variantStockMap,
+    variantPriceMap,
+    activePriceList?.name,
+    channelId,
+  ])
 
   const reset = () => {
     setStoreId('')
@@ -502,6 +559,7 @@ export function OrderCreateDialog({
     setDraftData(null)
     setReviewOpen(false)
     setStockLocationsTarget(null)
+    setActiveStep('setup')
   }
 
   const updateItem = (index: number, patch: Partial<LineItemState>) => {
@@ -510,9 +568,19 @@ export function OrderCreateDialog({
     )
   }
 
-  // Dynamic Price Checking from price_list_items
+  // Dynamic Price Checking from precomputed channel map or fallback to price_list_items
   const resolvePriceForVariant = useCallback(
     async (variantId: string, fallbackPrice: number) => {
+      // Fast synchronous resolution from active channel price list map
+      const precomputed = variantPriceMap.get(variantId)
+      if (precomputed) {
+        return {
+          price: precomputed.price,
+          priceListName: precomputed.priceListName,
+          source: precomputed.source,
+        }
+      }
+
       try {
         const res = await resolveVariantPrice(supabase, {
           variantId,
@@ -535,7 +603,7 @@ export function OrderCreateDialog({
         }
       }
     },
-    [storeId, customerGroupId, channelId, selectedCurrencyObj]
+    [variantPriceMap, storeId, customerGroupId, channelId, selectedCurrencyObj]
   )
 
   // 5. Automatic Tax Calculation helper
@@ -702,6 +770,82 @@ export function OrderCreateDialog({
     const next = Math.max(1, current + delta)
     handleQtyChange(index, String(next))
   }
+
+  // Manual / Explicit Price Refresh function for line items
+  const refreshLineItemPrices = useCallback(
+    (targetPriceList?: ChannelPriceListRecord | null) => {
+      const plToUse =
+        targetPriceList !== undefined ? targetPriceList : activePriceList
+      let updatedCount = 0
+
+      setItems((prev) =>
+        prev.map((item) => {
+          if (!item.productVariantId) return item
+          const pricing = variantPriceMap.get(item.productVariantId)
+          if (!pricing) return item
+
+          const product = item.productId
+            ? allProducts.find(
+                (p) => String(p.id ?? p.product_id) === item.productId
+              )
+            : null
+          const taxRes = extractTaxRate(product, taxRates)
+          const newPrice = pricing.price
+          const currentQty = Number(item.qty) || 1
+          const currentDiscount = Number(item.discountAmount) || 0
+          const autoTax =
+            taxRes.taxRate > 0
+              ? calculateLineTaxAmount(
+                  currentQty,
+                  newPrice,
+                  currentDiscount,
+                  taxRes.taxRate
+                )
+              : Number(item.taxAmount || 0)
+
+          if (Number(item.unitPrice) !== newPrice) {
+            updatedCount++
+          }
+
+          return {
+            ...item,
+            unitPrice: String(newPrice),
+            taxAmount: String(autoTax),
+            priceListName: pricing.priceListName || plToUse?.name || null,
+            priceSource: pricing.source,
+          }
+        })
+      )
+
+      if (updatedCount > 0) {
+        toast.info(
+          t(
+            'salesOrders.pricing.pricesRefreshed',
+            'Refreshed {{count}} item price(s) according to "{{priceList}}"',
+            {
+              count: updatedCount,
+              priceList:
+                plToUse?.name ||
+                t('salesOrders.pricing.activePriceList', 'Active Price List'),
+            }
+          )
+        )
+      } else {
+        toast.success(
+          t(
+            'salesOrders.pricing.pricesUpToDate',
+            'All product prices are up to date for "{{priceList}}"',
+            {
+              priceList:
+                plToUse?.name ||
+                t('salesOrders.pricing.activePriceList', 'Active Price List'),
+            }
+          )
+        )
+      }
+    },
+    [activePriceList, variantPriceMap, allProducts, taxRates, t]
+  )
 
   // Keep a ref to latest items to re-evaluate prices safely when store/customer/currency changes
   const itemsRef = useRef(items)
@@ -879,6 +1023,7 @@ export function OrderCreateDialog({
       warehouseId: effectiveWarehouseId || null,
       channelName: selectedChannel?.name || null,
       channelId: channelId || null,
+      priceListName: activePriceList?.name || null,
       customerName: selectedCust
         ? [selectedCust.first_name, selectedCust.last_name]
             .filter(Boolean)
@@ -1129,11 +1274,99 @@ export function OrderCreateDialog({
             </div>
           </DialogHeader>
 
+          {/* Visual Workflow Steps (Step 1: Setup & Channel Pricing -> Step 2: Products & Line Items) */}
+          <div className='flex flex-wrap items-center justify-between gap-2 border-b bg-muted/40 px-4 sm:px-6 py-2.5'>
+            <div className='flex items-center gap-2 sm:gap-3'>
+              <button
+                type='button'
+                onClick={() => setActiveStep('setup')}
+                className={cn(
+                  'flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer',
+                  activeStep === 'setup'
+                    ? 'bg-primary text-primary-foreground shadow-xs'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                )}
+              >
+                <span
+                  className={cn(
+                    'flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold',
+                    activeStep === 'setup'
+                      ? 'bg-primary-foreground text-primary'
+                      : 'bg-muted-foreground/20'
+                  )}
+                >
+                  1
+                </span>
+                <span>{t('salesOrders.steps.setup', '1. Setup & Channel Pricing')}</span>
+              </button>
+
+              <ArrowRight className='h-3.5 w-3.5 text-muted-foreground/50' />
+
+              <button
+                type='button'
+                onClick={() => {
+                  if (!storeId) {
+                    toast.error(
+                      t(
+                        'salesOrders.createDialog.selectStoreFirst',
+                        'Please select a store first.'
+                      )
+                    )
+                    return
+                  }
+                  setActiveStep('items')
+                }}
+                className={cn(
+                  'flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer',
+                  activeStep === 'items'
+                    ? 'bg-primary text-primary-foreground shadow-xs'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                  !storeId && 'opacity-50 cursor-not-allowed'
+                )}
+              >
+                <span
+                  className={cn(
+                    'flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold',
+                    activeStep === 'items'
+                      ? 'bg-primary-foreground text-primary'
+                      : 'bg-muted-foreground/20'
+                  )}
+                >
+                  2
+                </span>
+                <div className='flex items-center gap-1.5'>
+                  <span>{t('salesOrders.steps.products', '2. Products & Line Items')}</span>
+                  {items.filter((i) => i.productVariantId).length > 0 && (
+                    <Badge variant='secondary' className='h-4 px-1 text-[10px] font-mono'>
+                      {items.filter((i) => i.productVariantId).length}
+                    </Badge>
+                  )}
+                </div>
+              </button>
+            </div>
+
+            {/* Quick Price List indicator in Step Bar */}
+            {activePriceList && (
+              <div className='flex items-center gap-1.5 text-xs text-muted-foreground'>
+                <Tag className='h-3.5 w-3.5 text-primary shrink-0' />
+                <span className='font-medium text-foreground truncate max-w-[220px]'>
+                  {activePriceList.name}
+                </span>
+                {hasChannelSpecificPriceList && (
+                  <Badge variant='outline' className='h-4 border-emerald-500/30 bg-emerald-500/10 text-[9px] font-mono text-emerald-600 dark:text-emerald-400'>
+                    {t('salesOrders.pricing.channelMatchedShort', 'Channel')}
+                  </Badge>
+                )}
+              </div>
+            )}
+          </div>
+
           {/* Body Content - Reliable, Bounded Smooth Scroll Container */}
           <div className='min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain p-4 sm:p-6'>
-            <div className='space-y-6'>
-              {/* Order Context Card (Store, Fulfillment Warehouse, Customer, Channel, Currency, Date) */}
-              <div className='space-y-4 rounded-xl border bg-card/60 p-4 shadow-xs'>
+            {activeStep === 'setup' ? (
+              <div className='space-y-6 animate-in fade-in-50 duration-200'>
+                {/* Order Context Card (Store, Fulfillment Warehouse, Customer, Channel, Currency, Date, Price List) */}
+                <div className='space-y-4 rounded-xl border bg-card/60 p-4 shadow-xs'>
                 <div className='flex items-center justify-between border-b pb-2'>
                   <span className='flex items-center gap-1.5 text-xs font-bold tracking-wider text-muted-foreground uppercase'>
                     <Building2 className='h-3.5 w-3.5 text-primary' />
@@ -1452,6 +1685,320 @@ export function OrderCreateDialog({
                       className='h-9 text-xs sm:text-sm'
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* 7. Dynamic Channel Pricing & Price List Strategy Card */}
+              <div className='space-y-3.5 rounded-xl border bg-card/60 p-4 shadow-xs'>
+                <div className='flex flex-wrap items-center justify-between gap-2 border-b pb-2'>
+                  <div className='flex items-center gap-2'>
+                    <Tag className='h-4 w-4 text-primary' />
+                    <span className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                      {t(
+                        'salesOrders.pricing.sectionTitle',
+                        'Channel Pricing & Price List Strategy'
+                      )}
+                    </span>
+                  </div>
+                  {hasChannelSpecificPriceList ? (
+                    <Badge
+                      variant='outline'
+                      className='border-emerald-500/30 bg-emerald-500/10 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400'
+                    >
+                      <Sparkles className='mr-1 h-3 w-3' />
+                      {t(
+                        'salesOrders.pricing.channelAssigned',
+                        'Channel Price List Linked'
+                      )}
+                    </Badge>
+                  ) : activePriceList ? (
+                    <Badge
+                      variant='secondary'
+                      className='text-[10px] font-medium'
+                    >
+                      {activePriceList.is_default
+                        ? t(
+                            'salesOrders.pricing.defaultStorePriceList',
+                            'Default Store Price List'
+                          )
+                        : t(
+                            'salesOrders.pricing.customPriceList',
+                            'Custom Price List'
+                          )}
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant='outline'
+                      className='text-[10px] text-muted-foreground'
+                    >
+                      {t(
+                        'salesOrders.pricing.catalogFallback',
+                        'Standard Catalog Base Price'
+                      )}
+                    </Badge>
+                  )}
+                </div>
+
+                <div className='grid grid-cols-1 items-center gap-4 md:grid-cols-12'>
+                  <div className='space-y-1.5 md:col-span-7'>
+                    <Label className='flex items-center gap-1.5 text-xs font-semibold text-foreground'>
+                      <span>
+                        {t(
+                          'salesOrders.pricing.selectPriceList',
+                          'Active Price List'
+                        )}
+                      </span>
+                      {isLoadingPriceLists && (
+                        <Loader2 className='h-3 w-3 animate-spin text-muted-foreground' />
+                      )}
+                    </Label>
+                    <Select
+                      value={selectedPriceListId || activePriceList?.id || '__catalog__'}
+                      onValueChange={(val) => {
+                        setSelectedPriceListId(val === '__catalog__' ? null : val)
+                      }}
+                    >
+                      <SelectTrigger className='h-9 text-xs font-medium sm:text-sm'>
+                        <SelectValue
+                          placeholder={t(
+                            'salesOrders.pricing.selectPriceListPlaceholder',
+                            'Choose price list...'
+                          )}
+                        />
+                      </SelectTrigger>
+                      <SelectContent className='max-h-64'>
+                        <SelectItem value='__catalog__'>
+                          <div className='flex items-center gap-2'>
+                            <span>
+                              {t(
+                                'salesOrders.pricing.standardCatalog',
+                                'Standard Catalog Base Prices (No Price List)'
+                              )}
+                            </span>
+                          </div>
+                        </SelectItem>
+                        {allPriceLists.map((pl) => {
+                          const isChannelLinked =
+                            channelId &&
+                            (pl.channel_id === channelId ||
+                              (pl.price_list_assignments || []).some(
+                                (a) =>
+                                  a.channel_id === channelId &&
+                                  a.is_active !== false
+                              ))
+                          return (
+                            <SelectItem key={pl.id} value={pl.id}>
+                              <div className='flex w-full items-center justify-between gap-3'>
+                                <span className='font-medium'>{pl.name}</span>
+                                <div className='flex items-center gap-1.5'>
+                                  {isChannelLinked && (
+                                    <Badge
+                                      variant='outline'
+                                      className='h-4 border-emerald-500/40 bg-emerald-500/10 px-1 text-[9px] text-emerald-600 dark:text-emerald-400'
+                                    >
+                                      Channel
+                                    </Badge>
+                                  )}
+                                  {Boolean(pl.is_default) && (
+                                    <Badge
+                                      variant='secondary'
+                                      className='h-4 px-1 text-[9px]'
+                                    >
+                                      Default
+                                    </Badge>
+                                  )}
+                                </div>
+                              </div>
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectContent>
+                    </Select>
+                    <p className='text-[11px] text-muted-foreground'>
+                      {hasChannelSpecificPriceList
+                        ? t(
+                            'salesOrders.pricing.channelHelpMatched',
+                            'Using prices specifically configured for the selected sales channel.'
+                          )
+                        : channelId
+                          ? t(
+                              'salesOrders.pricing.channelHelpNoMatch',
+                              'No exclusive price list found for this channel. Falling back to store or general price lists.'
+                            )
+                          : t(
+                              'salesOrders.pricing.channelHelpDefault',
+                              'Direct in-store sales order using standard store pricing.'
+                            )}
+                    </p>
+                  </div>
+
+                  <div className='space-y-1.5 rounded-lg border border-dashed border-primary/20 bg-muted/30 p-3 text-xs md:col-span-5'>
+                    <div className='flex items-center justify-between'>
+                      <span className='text-muted-foreground'>
+                        {t(
+                          'salesOrders.pricing.variantsMapped',
+                          'Configured Variants'
+                        )}
+                        :
+                      </span>
+                      <span className='font-mono font-semibold text-foreground'>
+                        {variantPriceMap.size}
+                      </span>
+                    </div>
+                    <div className='flex items-center justify-between'>
+                      <span className='text-muted-foreground'>
+                        {t(
+                          'salesOrders.pricing.activeCurrency',
+                          'Pricing Currency'
+                        )}
+                        :
+                      </span>
+                      <span className='font-mono font-semibold text-primary'>
+                        {currency} ({currencySymbol})
+                      </span>
+                    </div>
+                    <div className='flex items-center justify-between'>
+                      <span className='text-muted-foreground'>
+                        {t(
+                          'salesOrders.pricing.targetChannel',
+                          'Target Channel'
+                        )}
+                        :
+                      </span>
+                      <span className='max-w-[140px] truncate font-medium text-foreground'>
+                        {channelId
+                          ? channels.find((c) => c.id === channelId)?.name ||
+                            'Channel'
+                          : t(
+                              'salesOrders.form.directChannel',
+                              'Direct / In-Store'
+                            )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 1 Completion / Continue Callout */}
+              <div className='flex flex-col items-center justify-between gap-3 rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 via-primary/10 to-transparent p-4 shadow-xs sm:flex-row'>
+                <div className='space-y-0.5 text-center sm:text-left'>
+                  <h4 className='text-sm font-semibold text-foreground'>
+                    {t(
+                      'salesOrders.steps.readyForProducts',
+                      'Ready to add products?'
+                    )}
+                  </h4>
+                  <p className='text-xs text-muted-foreground'>
+                    {storeId
+                      ? t(
+                          'salesOrders.steps.readyDesc',
+                          'Store and pricing context configured. Proceed to select products, variants, and quantities.'
+                        )
+                      : t(
+                          'salesOrders.steps.selectStoreFirstDesc',
+                          'Please select a store above to view available warehouse inventory and start adding products.'
+                        )}
+                  </p>
+                </div>
+                <Button
+                  type='button'
+                  size='sm'
+                  disabled={!storeId}
+                  onClick={() => setActiveStep('items')}
+                  className='shrink-0 gap-1.5 font-semibold shadow-xs'
+                >
+                  <span>
+                    {t(
+                      'salesOrders.steps.continueToItems',
+                      'Continue to Products'
+                    )}
+                  </span>
+                  <ArrowRight className='h-4 w-4' />
+                </Button>
+              </div>
+            </div>
+          ) : (
+            /* Step 2: Products & Line Items */
+            <div className='space-y-6 animate-in fade-in-50 duration-200'>
+              {/* Active Channel Pricing Bar */}
+              <div className='flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/25 bg-primary/5 p-3.5 shadow-2xs'>
+                <div className='flex flex-wrap items-center gap-2 text-xs sm:gap-3'>
+                  <div className='flex items-center gap-1.5 font-medium text-foreground'>
+                    <Globe className='h-4 w-4 text-primary' />
+                    <span className='font-semibold'>
+                      {channelId
+                        ? channels.find((c) => c.id === channelId)?.name ||
+                          t('salesOrders.form.channel', 'Channel')
+                        : t(
+                            'salesOrders.form.directChannel',
+                            'Direct / In-Store'
+                          )}
+                    </span>
+                  </div>
+
+                  <span className='text-muted-foreground/50'>•</span>
+
+                  <div className='flex items-center gap-1.5 text-muted-foreground'>
+                    <Tag className='h-3.5 w-3.5 text-primary/80' />
+                    <span className='font-medium text-foreground'>
+                      {activePriceList?.name ||
+                        t(
+                          'salesOrders.pricing.standardCatalog',
+                          'Catalog Base Prices'
+                        )}
+                    </span>
+                    {hasChannelSpecificPriceList && (
+                      <Badge
+                        variant='outline'
+                        className='h-4 border-emerald-500/30 bg-emerald-500/10 px-1 font-mono text-[9px] text-emerald-600 dark:text-emerald-400'
+                      >
+                        {t(
+                          'salesOrders.pricing.channelMatchedShort',
+                          'Channel'
+                        )}
+                      </Badge>
+                    )}
+                  </div>
+
+                  <span className='text-muted-foreground/50'>•</span>
+
+                  <div className='flex items-center gap-1 text-muted-foreground'>
+                    <Building2 className='h-3.5 w-3.5' />
+                    <span>
+                      {stores.find((s) => s.store_id === storeId)?.name ||
+                        'Store'}
+                    </span>
+                    {effectiveWarehouseName && (
+                      <span>({effectiveWarehouseName})</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className='ml-auto flex items-center gap-2'>
+                  <Button
+                    type='button'
+                    variant='outline'
+                    size='sm'
+                    className='h-8 gap-1.5 border-primary/30 text-xs text-primary hover:bg-primary/10'
+                    onClick={() => refreshLineItemPrices()}
+                    disabled={items.filter((i) => i.productVariantId).length === 0}
+                  >
+                    <RefreshCw className='h-3.5 w-3.5' />
+                    <span>
+                      {t('salesOrders.pricing.refreshPrices', 'Refresh Prices')}
+                    </span>
+                  </Button>
+
+                  <Button
+                    type='button'
+                    variant='ghost'
+                    size='sm'
+                    className='h-8 gap-1 text-xs text-muted-foreground hover:text-foreground'
+                    onClick={() => setActiveStep('setup')}
+                  >
+                    <ArrowLeft className='h-3.5 w-3.5' />
+                    <span>{t('salesOrders.steps.editSetup', 'Edit Setup')}</span>
+                  </Button>
                 </div>
               </div>
 
@@ -2111,71 +2658,107 @@ export function OrderCreateDialog({
                 </div>
               </div>
             </div>
-          </div>
+          )}
+        </div>
 
-          {/* Footer Actions */}
-          <DialogFooter className='w-full shrink-0 flex-row items-center justify-between border-t bg-muted/20 p-4 sm:justify-between'>
-            <Button
-              type='button'
-              variant='outline'
-              size='sm'
-              onClick={() => onOpenChange(false)}
-            >
-              {t('common.cancel', 'Cancel')}
-            </Button>
-
-            <div className='flex items-center gap-2'>
+        {/* Footer Actions */}
+        <DialogFooter className='w-full shrink-0 flex-row items-center justify-between border-t bg-muted/20 p-4 sm:justify-between'>
+          {activeStep === 'setup' ? (
+            <>
               <Button
                 type='button'
                 variant='outline'
                 size='sm'
-                onClick={handleOpenReview}
-                className='border-primary/30 text-primary hover:bg-primary/10'
+                onClick={() => onOpenChange(false)}
               >
-                <Eye className='mr-1.5 h-4 w-4' />
-                {t(
-                  'salesOrders.createDialog.reviewDraft',
-                  'Review & Print Draft'
-                )}
+                {t('common.cancel', 'Cancel')}
               </Button>
 
               <Button
                 type='button'
                 size='sm'
-                onClick={handleExecuteCreate}
-                disabled={isSubmitting || !storeId}
-                className='font-semibold shadow-xs'
+                onClick={() => setActiveStep('items')}
+                disabled={!storeId}
+                className='gap-1.5 font-semibold shadow-xs'
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className='mr-1.5 h-4 w-4 animate-spin' />
-                    {orderToEdit
-                      ? t(
-                          'salesOrders.createDialog.updatingOrder',
-                          'Updating Order...'
-                        )
-                      : t(
-                          'salesOrders.createDialog.creatingOrder',
-                          'Creating Order...'
-                        )}
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 className='mr-1.5 h-4 w-4' />
-                    {orderToEdit
-                      ? t(
-                          'salesOrders.createDialog.updateOrder',
-                          'Update Order'
-                        )
-                      : t(
-                          'salesOrders.createDialog.createDraft',
-                          'Create Draft'
-                        )}
-                  </>
-                )}
+                <span>
+                  {t(
+                    'salesOrders.steps.continueToItems',
+                    'Continue to Products'
+                  )}
+                </span>
+                <ArrowRight className='h-4 w-4' />
               </Button>
-            </div>
-          </DialogFooter>
+            </>
+          ) : (
+            <>
+              <Button
+                type='button'
+                variant='outline'
+                size='sm'
+                onClick={() => setActiveStep('setup')}
+                className='gap-1.5'
+              >
+                <ArrowLeft className='h-4 w-4' />
+                <span>
+                  {t('salesOrders.steps.backToSetup', 'Back to Setup')}
+                </span>
+              </Button>
+
+              <div className='flex items-center gap-2'>
+                <Button
+                  type='button'
+                  variant='outline'
+                  size='sm'
+                  onClick={handleOpenReview}
+                  className='border-primary/30 text-primary hover:bg-primary/10'
+                >
+                  <Eye className='mr-1.5 h-4 w-4' />
+                  {t(
+                    'salesOrders.createDialog.reviewDraft',
+                    'Review & Print Draft'
+                  )}
+                </Button>
+
+                <Button
+                  type='button'
+                  size='sm'
+                  onClick={handleExecuteCreate}
+                  disabled={isSubmitting || !storeId}
+                  className='font-semibold shadow-xs'
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className='mr-1.5 h-4 w-4 animate-spin' />
+                      {orderToEdit
+                        ? t(
+                            'salesOrders.createDialog.updatingOrder',
+                            'Updating Order...'
+                          )
+                        : t(
+                            'salesOrders.createDialog.creatingOrder',
+                            'Creating Order...'
+                          )}
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className='mr-1.5 h-4 w-4' />
+                      {orderToEdit
+                        ? t(
+                            'salesOrders.createDialog.updateOrder',
+                            'Update Order'
+                          )
+                        : t(
+                            'salesOrders.createDialog.createDraft',
+                            'Create Draft'
+                          )}
+                    </>
+                  )}
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogFooter>
         </DialogContent>
       </Dialog>
 
