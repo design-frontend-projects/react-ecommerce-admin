@@ -1,0 +1,467 @@
+- generic:
+  - generic [aria-hidden]:
+    - link:
+      - /url: "#content"
+      - text: Skip to main content
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - list:
+              - listitem:
+                - generic:
+                  - link:
+                    - /url: /
+                    - generic:
+                      - generic: ResPOS
+                      - generic: النسخة المميزة
+                  - button:
+                    - generic: تبديل الشريط الجانبي
+          - generic:
+            - generic:
+              - generic: عام
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /
+                    - generic: لوحة التحكم
+                - listitem:
+                  - link:
+                    - /url: /pos
+                    - generic: نظام نقاط البيع
+                - listitem:
+                  - link:
+                    - /url: /products
+                    - generic: المنتجات
+                - listitem:
+                  - link:
+                    - /url: /subscriptions
+                    - generic: الاشتراكات
+                - listitem:
+                  - link:
+                    - /url: /customers
+                    - generic: العملاء
+                - listitem:
+                  - link:
+                    - /url: /customer-groups
+                    - generic: مجموعات العملاء
+                - listitem:
+                  - link:
+                    - /url: /customer-cards
+                    - generic: بطاقات العملاء
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic: الإعدادات
+            - generic:
+              - generic: نقاط بيع المطعم
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /respos
+                    - generic: لوحة تحكم نقاط البيع
+                - listitem:
+                  - link:
+                    - /url: /respos/pos
+                    - generic: شاشة نقاط البيع
+                - listitem:
+                  - link:
+                    - /url: /respos/captain
+                    - generic: محطة الكابتن
+                - listitem:
+                  - link:
+                    - /url: /respos/kitchen
+                    - generic: شاشة المطبخ
+                - listitem:
+                  - link:
+                    - /url: /respos/menu
+                    - generic: إدارة القائمة
+                - listitem:
+                  - link:
+                    - /url: /respos/floors
+                    - generic: الطوابق والطاولات
+                - listitem:
+                  - link:
+                    - /url: /respos/reservations
+                    - generic: الحجوزات
+                - listitem:
+                  - link:
+                    - /url: /respos/analytics
+                    - generic: التحليلات
+                - listitem:
+                  - link:
+                    - /url: /respos/shifts
+                    - generic: الورديات
+                - listitem:
+                  - link:
+                    - /url: /respos/cashier
+                    - generic: الكاشير والدفع
+                - listitem:
+                  - link:
+                    - /url: /respos/payments
+                    - generic: المدفوعات
+                - listitem:
+                  - link:
+                    - /url: /respos/shipments
+                    - generic: الشحنات
+                - listitem:
+                  - link:
+                    - /url: /orders
+                    - generic: الطلبات
+            - generic:
+              - generic: المخزون
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /inventory
+                    - generic: أصناف المخزون
+                - listitem:
+                  - link:
+                    - /url: /inventory/shipments
+                    - generic: الشحنات
+                - listitem:
+                  - link:
+                    - /url: /stock-balances
+                    - generic: أرصدة المخزون
+                - listitem:
+                  - link:
+                    - /url: /purchase-orders
+                    - generic: أوامر الشراء
+                - listitem:
+                  - link:
+                    - /url: /price-list
+                    - generic: قائمة الأسعار
+                - listitem:
+                  - link:
+                    - /url: /promotions
+                    - generic: العروض الترويجية
+                - listitem:
+                  - link:
+                    - /url: /transactions
+                    - generic: المعاملات
+                - listitem:
+                  - link:
+                    - /url: /stock-transfers
+                    - generic: تحويلات المخزون
+                - listitem:
+                  - link:
+                    - /url: /stock-adjustments
+                    - generic: تعديلات المخزون
+                - listitem:
+                  - link:
+                    - /url: /inventory-movements
+                    - generic: حركات المخزون
+                - listitem:
+                  - link:
+                    - /url: /suppliers
+                    - generic: الموردين
+                - listitem:
+                  - link:
+                    - /url: /stores
+                    - generic: المتاجر
+                - listitem:
+                  - link:
+                    - /url: /categories
+                    - generic: الفئات
+                - listitem:
+                  - link:
+                    - /url: /tax-rates
+                    - generic: معدلات الضريبة
+            - generic:
+              - generic: الجداول المرجعية
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /countries
+                    - generic: الدول
+                - listitem:
+                  - link:
+                    - /url: /cities
+                    - generic: المدن
+                - listitem:
+                  - link:
+                    - /url: /currencies
+                    - generic: العملات
+                - listitem:
+                  - link:
+                    - /url: /branches
+                    - generic: الفروع
+            - generic:
+              - generic: التحكم في الوصول
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /users
+                    - generic: المستخدمين والأدوار
+                - listitem:
+                  - link:
+                    - /url: /access-control/roles
+                    - generic: الأدوار
+                - listitem:
+                  - link:
+                    - /url: /access-control/permissions
+                    - generic: الصلاحيات
+                - listitem:
+                  - link:
+                    - /url: /access-control/screens
+                    - generic: سجل الشاشات
+                - listitem:
+                  - link:
+                    - /url: /access-control/buttons
+                    - generic: أزرار الصلاحيات
+                - listitem:
+                  - link:
+                    - /url: /access-control/audit
+                    - generic: سجل التدقيق
+            - generic:
+              - generic: النظام
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /system
+                    - generic: إدارة النظام
+                - listitem:
+                  - link:
+                    - /url: /system/audit-logs
+                    - generic: سجلات التدقيق
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic: ‪
+                  - generic:
+                    - generic: ‪ahmed
+                    - generic: ahmedmedodev@gmail.com
+          - button
+    - generic:
+      - generic:
+        - banner:
+          - generic:
+            - button:
+              - generic: Toggle Sidebar
+            - button:
+              - generic: بحث...
+              - generic:
+                - generic: ⌘
+                - text: K
+            - generic:
+              - button:
+                - generic: Switch Language
+              - button:
+                - generic: المظهر
+              - button:
+                - generic: SN
+            - generic:
+              - combobox:
+                - generic: اختر الفرع
+              - button
+              - button
+              - button:
+                - generic: تثبيت الواجهة
+              - button:
+                - generic: SN
+        - main:
+          - generic:
+            - generic:
+              - heading [level=2]: فواتير وأوامر المبيعات
+              - paragraph: إدارة فواتير المبيعات، ومتابعة التحصيل، والتسليم للعملاء.
+            - button: New sales order
+          - generic:
+            - generic:
+              - generic: Total Orders
+              - paragraph: "0"
+              - paragraph: Recorded sales orders
+            - generic:
+              - generic: Pending / Draft
+              - paragraph: "0"
+              - paragraph: Awaiting fulfillment
+            - generic:
+              - generic: In Fulfillment
+              - paragraph: "0"
+              - paragraph: Picking, packed & transit
+            - generic:
+              - generic: Completed
+              - paragraph: "0"
+              - paragraph: Delivered & invoiced
+            - generic:
+              - generic: Total Pipeline
+              - paragraph: $0.00
+              - paragraph: Active order value
+          - generic:
+            - generic:
+              - generic:
+                - textbox:
+                  - /placeholder: تصفية فواتير المبيعات...
+              - generic:
+                - button: عرض
+            - generic:
+              - generic:
+                - table:
+                  - rowgroup:
+                    - row:
+                      - columnheader:
+                        - generic:
+                          - button:
+                            - generic: رقم الفاتورة
+                      - columnheader:
+                        - generic: العميل
+                      - columnheader: Store / Location
+                      - columnheader:
+                        - generic:
+                          - button:
+                            - generic: الحالة
+                      - columnheader:
+                        - generic:
+                          - button:
+                            - generic: التاريخ
+                      - columnheader:
+                        - generic:
+                          - button:
+                            - generic: المبلغ الإجمالي
+                      - columnheader:
+                        - generic: Items
+                      - columnheader
+                  - rowgroup:
+                    - row:
+                      - cell: No sales orders yet.
+            - generic:
+              - generic: تم تحديد 0 من أصل 0 صفوف.
+              - generic:
+                - generic:
+                  - paragraph: عدد الصفوف في الصفحة
+                  - combobox:
+                    - generic: "10"
+                - generic: "الصفحة {{current}} من 0"
+                - generic:
+                  - button [disabled]:
+                    - generic: الذهاب إلى الصفحة الأولى
+                  - button [disabled]:
+                    - generic: الذهاب إلى الصفحة السابقة
+                  - button [disabled]:
+                    - generic: Go to next page
+                  - button [disabled]:
+                    - generic: Go to last page
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic:
+    - button
+  - button [ref=f8e274] [cursor=pointer]:
+    - generic [ref=f8e272]: "-"
+    - generic [ref=f8e273]: TanStack Router
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - dialog [ref=f8e276]:
+    - generic [ref=f8e277]:
+      - generic [ref=f8e283]:
+        - heading "أمر بيع جديد Draft" [level=2] [ref=f8e284]:
+          - generic [ref=f8e285]: أمر بيع جديد
+          - generic [ref=f8e286]: Draft
+        - paragraph [ref=f8e287]: إنشاء مسودة أمر بيع مع العميل وموقع التجهيز وبنود الأصناف.
+      - generic [ref=f8e288]:
+        - generic [ref=f8e289]: 0 بنود الفاتورة
+        - generic [ref=f8e290]: •
+        - generic [ref=f8e291]: $0.00
+    - generic [ref=f8e293]:
+      - generic [ref=f8e294]:
+        - generic [ref=f8e295]: Fulfillment & Customer Information
+        - generic [ref=f8e304]:
+          - generic [ref=f8e305]:
+            - generic [ref=f8e306]: المتجر / الفرع *
+            - combobox [active] [ref=f8e311] [cursor=pointer]:
+              - generic: suez store
+          - generic [ref=f8e312]:
+            - generic [ref=f8e313]:
+              - generic [ref=f8e314]: مستودع التجهيز والشحن
+              - generic [ref=f8e396]: 2 related
+            - combobox [ref=f8e318] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: Suez warehouse
+                    - generic: (suez-wh)
+                  - generic: Default
+          - generic [ref=f8e319]:
+            - generic [ref=f8e320]: العميل
+            - combobox [ref=f8e324] [cursor=pointer]:
+              - generic: عميل نقدي / مباشر
+          - generic [ref=f8e325]:
+            - generic [ref=f8e326]: قناة البيع
+            - combobox [ref=f8e330] [cursor=pointer]:
+              - generic: مباشر / مبيعات الفرع
+          - generic [ref=f8e331]:
+            - generic [ref=f8e332]: العملة
+            - combobox [ref=f8e333] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: USD
+                  - generic: ($ · US Dollar)
+          - generic [ref=f8e334]:
+            - generic [ref=f8e335]: تاريخ التسليم المتوقع
+            - textbox [ref=f8e338]
+      - generic [ref=f8e339]:
+        - generic [ref=f8e340]:
+          - generic [ref=f8e341]:
+            - heading "بنود الفاتورة (1)" [level=3] [ref=f8e342]
+            - generic [ref=f8e397]: 4 products available · Suez warehouse
+          - button "إضافة بند" [ref=f8e398] [cursor=pointer]
+        - generic [ref=f8e399]:
+          - generic [ref=f8e400]:
+            - generic [ref=f8e401]:
+              - generic [ref=f8e402]: "المنتج #1 *"
+              - combobox [ref=f8e404] [cursor=pointer]:
+                - generic [ref=f8e405]: Select product...
+            - generic [ref=f8e407]:
+              - generic [ref=f8e408]: Variant / SKU *
+              - combobox [disabled] [ref=f8e410]:
+                - generic [ref=f8e411]: Select product first
+            - generic [ref=f8e413]:
+              - generic [ref=f8e414]: الوحدة
+              - combobox [ref=f8e415] [cursor=pointer]:
+                - generic: Unit...
+            - generic [ref=f8e416]:
+              - button "Remove Item" [disabled]
+          - generic [ref=f8e417]:
+            - generic [ref=f8e418]:
+              - generic [ref=f8e419]: الكمية *
+              - generic [ref=f8e421]:
+                - button "Decrease" [disabled]
+                - spinbutton "1" [ref=f8e422]
+                - button "Increase" [ref=f8e423] [cursor=pointer]
+            - generic [ref=f8e424]:
+              - generic [ref=f8e425]: سعر الوحدة ($) *
+              - spinbutton "Price" [ref=f8e427]
+            - generic [ref=f8e428]:
+              - generic [ref=f8e429]: الخصم ($)
+              - spinbutton "0.00" [ref=f8e430]: "0"
+            - generic [ref=f8e431]:
+              - generic [ref=f8e432]: الضريبة ($)
+              - spinbutton "0.00" [ref=f8e438]: "0"
+            - generic [ref=f8e439]:
+              - generic [ref=f8e440]: Line Total
+              - generic [ref=f8e441]: $0.00
+        - generic [ref=f8e354]:
+          - generic [ref=f8e355]:
+            - generic [ref=f8e356]: ملاحظات الفاتورة
+            - textbox "ملاحظات الشحن أو التسليم أو رقم أمر الشراء..." [ref=f8e360]
+          - generic [ref=f8e362]:
+            - generic [ref=f8e363]:
+              - generic [ref=f8e364]: Order Summary
+              - generic [ref=f8e368]: USD
+            - generic [ref=f8e369]:
+              - generic [ref=f8e370]: "Subtotal:"
+              - generic [ref=f8e371]: $0.00
+            - generic [ref=f8e372]:
+              - generic [ref=f8e373]: "Tax:"
+              - generic [ref=f8e375]: +$0.00
+            - generic [ref=f8e376]:
+              - generic [ref=f8e377]: "Grand Total:"
+              - generic [ref=f8e378]: $0.00
+    - generic [ref=f8e379]:
+      - button "إلغاء" [ref=f8e380] [cursor=pointer]
+      - generic [ref=f8e381]:
+        - button "Review & Print Draft" [ref=f8e382] [cursor=pointer]
+        - button "Create Draft" [ref=f8e442] [cursor=pointer]
+    - button "Close" [ref=f8e383] [cursor=pointer]

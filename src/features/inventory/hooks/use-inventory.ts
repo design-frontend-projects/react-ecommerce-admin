@@ -20,7 +20,19 @@ export interface InventoryInput {
   reorder_point?: number | null
   min_quantity?: number | null
   max_quantity?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  unit_cost?: number | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
   last_count_date?: string | null
+  last_restocked_date?: string | null
+  notes?: string | null
   tenant_id?: string | null
   // Compatibility aliases
   reorder_level?: number | null
@@ -61,7 +73,20 @@ export const useInventory = () => {
           reorder_point,
           min_quantity,
           max_quantity,
+          safety_stock,
+          reorder_quantity,
+          reorder_level,
+          unit_cost,
+          lead_time_days,
+          is_active,
+          status,
+          aisle,
+          rack,
+          shelf,
+          bin,
           last_count_date,
+          last_restocked_date,
+          notes,
           tenant_id,
           created_at,
           updated_at,
@@ -71,13 +96,18 @@ export const useInventory = () => {
             id,
             name,
             sku,
-            has_variants
+            has_variants,
+            barcode,
+            categories ( name ),
+            brands ( name )
           ),
           product_variants (
             id,
             product_id,
             name,
-            sku
+            sku,
+            barcode,
+            price_list_items ( price, cost_price )
           ),
           stores (
             store_id,
@@ -88,7 +118,11 @@ export const useInventory = () => {
             name,
             code,
             is_default,
-            is_active
+            is_active,
+            phone,
+            email,
+            address,
+            allow_negative_stock
           ),
           warehouse_locations (
             id,
@@ -97,7 +131,8 @@ export const useInventory = () => {
             location_type,
             path,
             is_pickable,
-            is_receivable
+            is_receivable,
+            is_default
           )
         `)
 
@@ -235,7 +270,20 @@ export const useCreateInventory = () => {
         reorder_point: input.reorder_point ?? input.reorder_level ?? 0,
         min_quantity: input.min_quantity ?? input.reorder_level ?? 0,
         max_quantity: input.max_quantity ?? input.max_stock_level ?? null,
+        safety_stock: input.safety_stock ?? 0,
+        reorder_quantity: input.reorder_quantity ?? 0,
+        reorder_level: input.reorder_level ?? input.reorder_point ?? 0,
+        unit_cost: input.unit_cost ?? null,
+        lead_time_days: input.lead_time_days ?? 1,
+        is_active: input.is_active !== false,
+        status: input.status || 'active',
+        aisle: input.aisle || null,
+        rack: input.rack || null,
+        shelf: input.shelf || null,
+        bin: input.bin || null,
         last_count_date: input.last_count_date || new Date().toISOString(),
+        last_restocked_date: input.last_restocked_date || null,
+        notes: input.notes || null,
         tenant_id: input.tenant_id || tenantId,
         created_by_user_id: userId,
         updated_by_user_id: userId,
@@ -255,7 +303,20 @@ export const useCreateInventory = () => {
           reorder_point,
           min_quantity,
           max_quantity,
+          safety_stock,
+          reorder_quantity,
+          reorder_level,
+          unit_cost,
+          lead_time_days,
+          is_active,
+          status,
+          aisle,
+          rack,
+          shelf,
+          bin,
           last_count_date,
+          last_restocked_date,
+          notes,
           tenant_id,
           products (id, name, sku, has_variants),
           product_variants (id, product_id, name, sku),
@@ -291,6 +352,18 @@ export const useUpdateInventory = () => {
         reorder_point: updates.reorder_point ?? updates.reorder_level ?? 0,
         min_quantity: updates.min_quantity ?? updates.reorder_level ?? 0,
         max_quantity: updates.max_quantity ?? updates.max_stock_level ?? null,
+        safety_stock: updates.safety_stock ?? 0,
+        reorder_quantity: updates.reorder_quantity ?? 0,
+        reorder_level: updates.reorder_level ?? updates.reorder_point ?? 0,
+        unit_cost: updates.unit_cost ?? null,
+        lead_time_days: updates.lead_time_days ?? 1,
+        is_active: updates.is_active !== false,
+        status: updates.status || 'active',
+        aisle: updates.aisle || null,
+        rack: updates.rack || null,
+        shelf: updates.shelf || null,
+        bin: updates.bin || null,
+        notes: updates.notes || null,
         updated_by_user_id: userId,
         updated_at: new Date().toISOString(),
       }
@@ -306,6 +379,9 @@ export const useUpdateInventory = () => {
       }
       if (updates.last_count_date) {
         payload.last_count_date = updates.last_count_date
+      }
+      if (updates.last_restocked_date !== undefined) {
+        payload.last_restocked_date = updates.last_restocked_date || null
       }
 
       const { data, error } = await supabase
@@ -323,7 +399,20 @@ export const useUpdateInventory = () => {
           reorder_point,
           min_quantity,
           max_quantity,
+          safety_stock,
+          reorder_quantity,
+          reorder_level,
+          unit_cost,
+          lead_time_days,
+          is_active,
+          status,
+          aisle,
+          rack,
+          shelf,
+          bin,
           last_count_date,
+          last_restocked_date,
+          notes,
           tenant_id,
           products (id, name, sku, has_variants),
           product_variants (id, product_id, name, sku),
@@ -368,12 +457,28 @@ export const useInventoryProducts = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('id, name, sku, has_variants')
+        .select(`
+          id,
+          name,
+          sku,
+          has_variants,
+          barcode,
+          categories ( name ),
+          brands ( name )
+        `)
         .neq('is_deleted', true)
         .order('name')
 
       if (error) throw error
-      return (data || []) as InventoryProductRelation[]
+      return (data || []).map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        sku: p.sku,
+        has_variants: p.has_variants,
+        barcode: p.barcode,
+        category: p.categories?.name ?? null,
+        brand: p.brands?.name ?? null,
+      })) as InventoryProductRelation[]
     },
   })
 }
@@ -385,9 +490,18 @@ export const useProductVariants = (productId?: string | null) => {
       if (!productId) return []
       const { data, error } = await supabase
         .from('product_variants')
-        .select(
-          'id, product_id, sku, name, barcode, dimensions, weight, is_active, price'
-        )
+        .select(`
+          id,
+          product_id,
+          sku,
+          name,
+          barcode,
+          dimensions,
+          weight,
+          is_active,
+          price_list_items ( price, cost_price ),
+          stock_balances ( qty_on_hand, qty_available, qty_reserved )
+        `)
         .eq('product_id', productId)
         .order('sku')
 
@@ -413,6 +527,15 @@ export const useProductVariants = (productId?: string | null) => {
             )
           }
 
+          const pliList = Array.isArray(v.price_list_items) ? (v.price_list_items as any[]) : []
+          const price = pliList[0]?.price != null ? Number(pliList[0].price) : null
+          const cost_price = pliList[0]?.cost_price != null ? Number(pliList[0].cost_price) : null
+
+          const stockList = Array.isArray(v.stock_balances) ? (v.stock_balances as any[]) : []
+          const qty_on_hand = stockList.reduce((sum, s) => sum + Number(s.qty_on_hand || 0), 0)
+          const qty_available = stockList.reduce((sum, s) => sum + Number(s.qty_available || 0), 0)
+          const qty_reserved = stockList.reduce((sum, s) => sum + Number(s.qty_reserved || 0), 0)
+
           return {
             id: String(v.id),
             product_id: v.product_id ? String(v.product_id) : undefined,
@@ -422,7 +545,11 @@ export const useProductVariants = (productId?: string | null) => {
             dimensions: v.dimensions,
             weight: v.weight ? Number(v.weight) : null,
             is_active: v.is_active !== false,
-            price: v.price != null ? Number(v.price) : null,
+            price,
+            cost_price,
+            qty_on_hand,
+            qty_available,
+            qty_reserved,
             attributes_label: dimLabel || (v.name ? String(v.name) : ''),
           } as InventoryVariantRelation
         }
@@ -439,7 +566,7 @@ export const useWarehouses = () => {
       const { tenantId } = getAuthTenantAndUser()
       let query = supabase
         .from('warehouses')
-        .select('id, name, code, is_default, is_active')
+        .select('id, name, code, is_default, is_active, phone, email, address, allow_negative_stock')
         .eq('is_active', true)
         .order('name')
 
@@ -503,7 +630,34 @@ export const useStoreWarehouses = (storeId?: string | null) => {
   return useQuery({
     queryKey: ['inventory-store-warehouses', storeId],
     queryFn: async () => {
-      if (!storeId) return []
+      if (!storeId || storeId === 'none') return []
+
+      // 1. Primary: Server API query returning all related warehouses with tenant isolation
+      try {
+        const { data: sessionData } = await supabase.auth.getSession()
+        const token = sessionData.session?.access_token
+        if (token) {
+          const res = await fetch(
+            `/api/inventory/store-warehouses?storeId=${encodeURIComponent(storeId)}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+          if (res.ok) {
+            const json = await res.json()
+            if (json.success && Array.isArray(json.data)) {
+              return json.data
+            }
+          }
+        }
+      } catch (err) {
+        console.warn(
+          'Failed to fetch store-warehouses via server API, falling back to Supabase:',
+          err
+        )
+      }
+
+      // 2. Direct Supabase Fallback
       const { data, error } = await supabase
         .from('store_warehouses')
         .select(
@@ -514,13 +668,33 @@ export const useStoreWarehouses = (storeId?: string | null) => {
           is_default,
           priority,
           allow_fulfillment,
+          allow_replenishment,
+          allow_returns,
+          lead_time_days,
+          distance_km,
+          transit_cost,
           is_active,
+          notes,
           warehouses (
             id,
             name,
             code,
             is_active,
-            is_default
+            is_default,
+            allow_negative_stock,
+            phone,
+            email,
+            address,
+            warehouse_locations (
+              id,
+              code,
+              name,
+              location_type,
+              path,
+              is_pickable,
+              is_receivable,
+              is_default
+            )
           )
         `
         )
@@ -530,19 +704,206 @@ export const useStoreWarehouses = (storeId?: string | null) => {
       if (error) throw error
       return data || []
     },
-    enabled: !!storeId,
+    enabled: Boolean(storeId && storeId !== 'none'),
   })
+}
+
+export interface VariantStockBalanceResult {
+  items: Array<{
+    id: string
+    warehouse_id?: string | null
+    store_id?: string | null
+    location_id?: string | null
+    qty_on_hand: number
+    qty_reserved: number
+    qty_available: number
+    avg_cost: number
+    condition?: string
+    warehouses?: { id: string; name: string; code: string } | null
+    stores?: { store_id: string; name: string } | null
+    warehouse_locations?: { id: string; name: string; code: string } | null
+  }>
+  metrics: {
+    totalOnHand: number
+    totalReserved: number
+    totalAvailable: number
+  }
+  inSelectedLocation: {
+    onHand: number
+    available: number
+    reserved: number
+  }
+  warehouseStock: {
+    onHand: number
+    available: number
+    reserved: number
+  }
+  storeStock: {
+    onHand: number
+    available: number
+    reserved: number
+  }
+  stockByWarehouse: Record<
+    string,
+    { onHand: number; available: number; reserved: number; code?: string; name?: string }
+  >
 }
 
 export const useStockBalancesForProduct = (
   variantId?: string | null,
-  warehouseId?: string | null
+  warehouseId?: string | null,
+  storeId?: string | null
 ) => {
-  return useQuery({
-    queryKey: ['stock-balances-details', variantId, warehouseId],
+  return useQuery<VariantStockBalanceResult>({
+    queryKey: ['stock-balances-details', variantId, warehouseId ?? 'all', storeId ?? 'all'],
     queryFn: async () => {
-      if (!variantId) return []
-      let query = supabase
+      const emptyResult: VariantStockBalanceResult = {
+        items: [],
+        metrics: { totalOnHand: 0, totalReserved: 0, totalAvailable: 0 },
+        inSelectedLocation: { onHand: 0, available: 0, reserved: 0 },
+        warehouseStock: { onHand: 0, available: 0, reserved: 0 },
+        storeStock: { onHand: 0, available: 0, reserved: 0 },
+        stockByWarehouse: {},
+      }
+
+      if (!variantId || variantId === 'none') {
+        return emptyResult
+      }
+
+      const params = new URLSearchParams()
+      params.set('productVariantId', variantId)
+      params.set('limit', '500')
+
+      // 1. Try server API
+      try {
+        const { data: sessionData } = await supabase.auth.getSession()
+        const token = sessionData.session?.access_token
+        if (token) {
+          const res = await fetch(`/api/inventory/stock-balances?${params.toString()}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          if (res.ok) {
+            const json = await res.json()
+            if (json.success && Array.isArray(json.items)) {
+              const items = json.items.map((r: any) => {
+                const onHand = Number(r.qty_on_hand || 0)
+                const reserved = Number(r.qty_reserved || 0)
+                const available =
+                  r.qty_available !== null && r.qty_available !== undefined
+                    ? Number(r.qty_available)
+                    : Math.max(0, onHand - reserved)
+                return {
+                  id: r.id,
+                  warehouse_id: r.warehouse_id ?? null,
+                  store_id: r.store_id ?? null,
+                  location_id: r.location_id ?? null,
+                  qty_on_hand: onHand,
+                  qty_reserved: reserved,
+                  qty_available: available,
+                  avg_cost: Number(r.avg_cost || 0),
+                  condition: r.condition || 'good',
+                  warehouses: r.warehouses ?? null,
+                  stores: r.stores ?? null,
+                  warehouse_locations: r.warehouse_locations ?? null,
+                }
+              })
+
+              const hasWh = Boolean(warehouseId && warehouseId !== 'none')
+              const hasStore = Boolean(storeId && storeId !== 'none')
+
+              let whOnHand = 0
+              let whReserved = 0
+              let whAvailable = 0
+
+              let storeOnHand = 0
+              let storeReserved = 0
+              let storeAvailable = 0
+
+              const stockByWarehouse: Record<
+                string,
+                { onHand: number; available: number; reserved: number; code?: string; name?: string }
+              > = {}
+
+              items.forEach((item: any) => {
+                if (item.warehouse_id) {
+                  const existing = stockByWarehouse[item.warehouse_id] || {
+                    onHand: 0,
+                    available: 0,
+                    reserved: 0,
+                    code: item.warehouses?.code,
+                    name: item.warehouses?.name,
+                  }
+                  existing.onHand += item.qty_on_hand
+                  existing.reserved += item.qty_reserved
+                  existing.available += item.qty_available
+                  stockByWarehouse[item.warehouse_id] = existing
+                }
+
+                if (hasWh && item.warehouse_id === warehouseId) {
+                  whOnHand += item.qty_on_hand
+                  whReserved += item.qty_reserved
+                  whAvailable += item.qty_available
+                }
+
+                if (hasStore && item.store_id === storeId) {
+                  storeOnHand += item.qty_on_hand
+                  storeReserved += item.qty_reserved
+                  storeAvailable += item.qty_available
+                }
+              })
+
+              const locOnHand = hasWh
+                ? whOnHand
+                : hasStore
+                ? storeOnHand
+                : (json.metrics?.totalOnHand ?? 0)
+              const locAvailable = hasWh
+                ? whAvailable
+                : hasStore
+                ? storeAvailable
+                : (json.metrics?.totalAvailable ?? 0)
+              const locReserved = hasWh
+                ? whReserved
+                : hasStore
+                ? storeReserved
+                : (json.metrics?.totalReserved ?? 0)
+
+              return {
+                items,
+                metrics: {
+                  totalOnHand: json.metrics?.totalOnHand ?? items.reduce((s: number, i: any) => s + i.qty_on_hand, 0),
+                  totalReserved: json.metrics?.totalReserved ?? items.reduce((s: number, i: any) => s + i.qty_reserved, 0),
+                  totalAvailable: json.metrics?.totalAvailable ?? items.reduce((s: number, i: any) => s + i.qty_available, 0),
+                },
+                inSelectedLocation: {
+                  onHand: locOnHand,
+                  available: locAvailable,
+                  reserved: locReserved,
+                },
+                warehouseStock: {
+                  onHand: whOnHand,
+                  available: whAvailable,
+                  reserved: whReserved,
+                },
+                storeStock: {
+                  onHand: storeOnHand,
+                  available: storeAvailable,
+                  reserved: storeReserved,
+                },
+                stockByWarehouse,
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn(
+          'Failed to fetch stock balances via API, falling back to Supabase:',
+          err
+        )
+      }
+
+      // 2. Direct Supabase Fallback
+      const { data, error } = await supabase
         .from('stock_balances')
         .select(
           `
@@ -563,14 +924,106 @@ export const useStockBalancesForProduct = (
         )
         .eq('product_variant_id', variantId)
 
-      if (warehouseId) {
-        query = query.eq('warehouse_id', warehouseId)
-      }
-
-      const { data, error } = await query
       if (error) throw error
-      return data || []
+
+      const rawItems = (data || []).map((r: any) => {
+        const onHand = Number(r.qty_on_hand || 0)
+        const reserved = Number(r.qty_reserved || 0)
+        const available =
+          r.qty_available !== null && r.qty_available !== undefined
+            ? Number(r.qty_available)
+            : Math.max(0, onHand - reserved)
+        return {
+          id: r.id,
+          warehouse_id: r.warehouse_id ?? null,
+          store_id: r.store_id ?? null,
+          location_id: r.location_id ?? null,
+          qty_on_hand: onHand,
+          qty_reserved: reserved,
+          qty_available: available,
+          avg_cost: Number(r.avg_cost || 0),
+          condition: r.condition || 'good',
+          warehouses: Array.isArray(r.warehouses) ? r.warehouses[0] : r.warehouses,
+          stores: null,
+          warehouse_locations: Array.isArray(r.warehouse_locations)
+            ? r.warehouse_locations[0]
+            : r.warehouse_locations,
+        }
+      })
+
+      const hasWh = Boolean(warehouseId && warehouseId !== 'none')
+      const hasStore = Boolean(storeId && storeId !== 'none')
+
+      let whOnHand = 0
+      let whReserved = 0
+      let whAvailable = 0
+
+      let storeOnHand = 0
+      let storeReserved = 0
+      let storeAvailable = 0
+
+      const stockByWarehouse: Record<
+        string,
+        { onHand: number; available: number; reserved: number; code?: string; name?: string }
+      > = {}
+
+      rawItems.forEach((item: any) => {
+        if (item.warehouse_id) {
+          const existing = stockByWarehouse[item.warehouse_id] || {
+            onHand: 0,
+            available: 0,
+            reserved: 0,
+            code: item.warehouses?.code,
+            name: item.warehouses?.name,
+          }
+          existing.onHand += item.qty_on_hand
+          existing.reserved += item.qty_reserved
+          existing.available += item.qty_available
+          stockByWarehouse[item.warehouse_id] = existing
+        }
+
+        if (hasWh && item.warehouse_id === warehouseId) {
+          whOnHand += item.qty_on_hand
+          whReserved += item.qty_reserved
+          whAvailable += item.qty_available
+        }
+
+        if (hasStore && item.store_id === storeId) {
+          storeOnHand += item.qty_on_hand
+          storeReserved += item.qty_reserved
+          storeAvailable += item.qty_available
+        }
+      })
+
+      const totalOnHand = rawItems.reduce((s: number, i: any) => s + i.qty_on_hand, 0)
+      const totalReserved = rawItems.reduce((s: number, i: any) => s + i.qty_reserved, 0)
+      const totalAvailable = rawItems.reduce((s: number, i: any) => s + i.qty_available, 0)
+
+      const locOnHand = hasWh ? whOnHand : hasStore ? storeOnHand : totalOnHand
+      const locAvailable = hasWh ? whAvailable : hasStore ? storeAvailable : totalAvailable
+      const locReserved = hasWh ? whReserved : hasStore ? storeReserved : totalReserved
+
+      return {
+        items: rawItems,
+        metrics: { totalOnHand, totalReserved, totalAvailable },
+        inSelectedLocation: {
+          onHand: locOnHand,
+          available: locAvailable,
+          reserved: locReserved,
+        },
+        warehouseStock: {
+          onHand: whOnHand,
+          available: whAvailable,
+          reserved: whReserved,
+        },
+        storeStock: {
+          onHand: storeOnHand,
+          available: storeAvailable,
+          reserved: storeReserved,
+        },
+        stockByWarehouse,
+      }
     },
-    enabled: !!variantId,
+    enabled: Boolean(variantId && variantId !== 'none'),
   })
 }

@@ -45,7 +45,12 @@ export async function listStoreWarehouses(authUserId: string, storeId: string) {
 
     // 2. Fetch all direct store_warehouses records for this store
     const links = await prisma.store_warehouses.findMany({
-      where: { store_id: storeId, tenant_id: tenantId },
+      where: {
+        store_id: storeId,
+        tenant_id: tenantId,
+        is_active: true,
+        warehouses: { is_active: true },
+      },
       orderBy: [{ priority: 'asc' }, { created_at: 'asc' }],
       include: {
         warehouses: {
@@ -65,10 +70,15 @@ export async function listStoreWarehouses(authUserId: string, storeId: string) {
       },
     })
 
+    // If direct store_warehouses links exist, return them strictly
+    if (links.length > 0) {
+      return links
+    }
+
     const existingWhIds = new Set(links.map((l) => l.warehouse_id))
     const synthesized: any[] = []
 
-    // 3. If store is associated with a branch, include all warehouses from that same branch
+    // 3. Fallback: If store has no explicit store_warehouses links, check branch association
     if (store?.branch_id) {
       const branchWarehouses = await prisma.warehouses.findMany({
         where: {

@@ -3,6 +3,190 @@ import type {
   SOVariantStockBalance,
 } from '../components/so-product-variant-picker'
 
+export interface VariantStockSummary {
+  onHand: number
+  reserved: number
+  available: number
+  isAvailable: boolean
+  isLowStock: boolean
+  isOutOfStock: boolean
+}
+
+/**
+ * Calculates a complete stock summary for a product variant based on fulfillment warehouse or store context:
+ * - onHand: physical count in the selected warehouse/location
+ * - reserved: quantity already committed to confirmed orders
+ * - available: usable stock (Math.max(0, onHand - reserved))
+ */
+export function getVariantStockSummary(
+  variant: SOVariantOption,
+  targetWarehouseId?: string | null,
+  targetStoreId?: string | null
+): VariantStockSummary {
+  const balances: SOVariantStockBalance[] | undefined = variant.stock_balances
+
+  // 1. If explicit warehouse is targeted, calculate stock strictly for that warehouse
+  if (targetWarehouseId) {
+    if (balances && balances.length > 0) {
+      const whBalances = balances.filter((b) => b.warehouse_id === targetWarehouseId)
+      if (whBalances.length > 0) {
+        const onHand = whBalances.reduce((sum, b) => sum + Number(b.qty_on_hand || 0), 0)
+        const reserved = whBalances.reduce((sum, b) => sum + Number(b.qty_reserved || 0), 0)
+        const available = Math.max(
+          0,
+          whBalances.reduce(
+            (sum, b) =>
+              sum +
+              Number(
+                b.qty_available ??
+                  (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
+              ),
+            0
+          )
+        )
+        return {
+          onHand,
+          reserved,
+          available,
+          isAvailable: available > 0,
+          isLowStock: available > 0 && available <= 5,
+          isOutOfStock: available <= 0,
+        }
+      }
+      // Target warehouse specified but has 0 records in balances
+      return {
+        onHand: 0,
+        reserved: 0,
+        available: 0,
+        isAvailable: false,
+        isLowStock: false,
+        isOutOfStock: true,
+      }
+    }
+
+    // Fall back to stock_quantity if stock_balances is empty or absent
+    if (variant.stock_quantity !== undefined && variant.stock_quantity !== null) {
+      const qty = Math.max(0, Number(variant.stock_quantity))
+      return {
+        onHand: qty,
+        reserved: 0,
+        available: qty,
+        isAvailable: qty > 0,
+        isLowStock: qty > 0 && qty <= 5,
+        isOutOfStock: qty <= 0,
+      }
+    }
+  }
+
+  // 2. If explicit store is targeted (without a warehouse), calculate stock strictly for that store
+  if (targetStoreId) {
+    if (balances && balances.length > 0) {
+      const storeBalances = balances.filter((b) => b.store_id === targetStoreId)
+      if (storeBalances.length > 0) {
+        const onHand = storeBalances.reduce((sum, b) => sum + Number(b.qty_on_hand || 0), 0)
+        const reserved = storeBalances.reduce((sum, b) => sum + Number(b.qty_reserved || 0), 0)
+        const available = Math.max(
+          0,
+          storeBalances.reduce(
+            (sum, b) =>
+              sum +
+              Number(
+                b.qty_available ??
+                  (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
+              ),
+            0
+          )
+        )
+        return {
+          onHand,
+          reserved,
+          available,
+          isAvailable: available > 0,
+          isLowStock: available > 0 && available <= 5,
+          isOutOfStock: available <= 0,
+        }
+      }
+      // Target store specified but has 0 records in balances
+      return {
+        onHand: 0,
+        reserved: 0,
+        available: 0,
+        isAvailable: false,
+        isLowStock: false,
+        isOutOfStock: true,
+      }
+    }
+
+    // Fall back to stock_quantity if stock_balances is empty or absent
+    if (variant.stock_quantity !== undefined && variant.stock_quantity !== null) {
+      const qty = Math.max(0, Number(variant.stock_quantity))
+      return {
+        onHand: qty,
+        reserved: 0,
+        available: qty,
+        isAvailable: qty > 0,
+        isLowStock: qty > 0 && qty <= 5,
+        isOutOfStock: qty <= 0,
+      }
+    }
+  }
+
+  // 3. If variant has precomputed contextual stock values from live queries (e.g. variantStockMap)
+  if (
+    variant.qty_available !== undefined &&
+    variant.qty_on_hand !== undefined
+  ) {
+    const onHand = Number(variant.qty_on_hand || 0)
+    const reserved = Number(variant.qty_reserved || 0)
+    const available = Math.max(0, Number(variant.qty_available || 0))
+    return {
+      onHand,
+      reserved,
+      available,
+      isAvailable: available > 0,
+      isLowStock: available > 0 && available <= 5,
+      isOutOfStock: available <= 0,
+    }
+  }
+
+  // 4. Fallback across all balances if available (only when no specific facility targeted)
+  if (balances && balances.length > 0) {
+    const onHand = balances.reduce((sum, b) => sum + Number(b.qty_on_hand || 0), 0)
+    const reserved = balances.reduce((sum, b) => sum + Number(b.qty_reserved || 0), 0)
+    const available = Math.max(
+      0,
+      balances.reduce(
+        (sum, b) =>
+          sum +
+          Number(
+            b.qty_available ??
+              (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
+          ),
+        0
+      )
+    )
+    return {
+      onHand,
+      reserved,
+      available,
+      isAvailable: available > 0,
+      isLowStock: available > 0 && available <= 5,
+      isOutOfStock: available <= 0,
+    }
+  }
+
+  // 5. Fallback to legacy variant stock_quantity if available
+  const legacyStock = Math.max(0, Number(variant.stock_quantity ?? 0))
+  return {
+    onHand: legacyStock,
+    reserved: 0,
+    available: legacyStock,
+    isAvailable: legacyStock > 0,
+    isLowStock: legacyStock > 0 && legacyStock <= 5,
+    isOutOfStock: legacyStock <= 0,
+  }
+}
+
 /**
  * Calculates available stock for a product variant based on fulfillment warehouse or store context.
  * 1. If targetWarehouseId is provided, matches balances specifically for that warehouse.
@@ -15,57 +199,7 @@ export function getAvailableStock(
   targetWarehouseId?: string | null,
   targetStoreId?: string | null
 ): number {
-  const balances: SOVariantStockBalance[] | undefined = variant.stock_balances
-  if (balances && balances.length > 0) {
-    if (targetWarehouseId) {
-      const whBalances = balances.filter((b) => b.warehouse_id === targetWarehouseId)
-      if (whBalances.length > 0) {
-        return Math.max(
-          0,
-          whBalances.reduce(
-            (sum, b) =>
-              sum +
-              Number(
-                b.qty_available ??
-                  (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
-              ),
-            0
-          )
-        )
-      }
-      return 0
-    }
-    if (targetStoreId) {
-      const storeBalances = balances.filter((b) => b.store_id === targetStoreId)
-      if (storeBalances.length > 0) {
-        return Math.max(
-          0,
-          storeBalances.reduce(
-            (sum, b) =>
-              sum +
-              Number(
-                b.qty_available ??
-                  (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
-              ),
-            0
-          )
-        )
-      }
-    }
-    return Math.max(
-      0,
-      balances.reduce(
-        (sum, b) =>
-          sum +
-          Number(
-            b.qty_available ??
-              (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))
-          ),
-        0
-      )
-    )
-  }
-  return Math.max(0, Number(variant.stock_quantity ?? 0))
+  return getVariantStockSummary(variant, targetWarehouseId, targetStoreId).available
 }
 
 export interface LocationStockItem {
@@ -255,3 +389,89 @@ export function calculateLineTaxAmount(
   const net = Math.max(0, qty * unitPrice - (discountAmount || 0))
   return Number(((net * taxRatePercent) / 100).toFixed(2))
 }
+
+export interface TaxPreviewInfo {
+  taxCode: string | null
+  taxRatePercent: number
+  calculatedTax: number
+  taxName?: string | null
+  taxRate: number
+  taxType: string
+  unitTax: number
+  totalLineTax: number
+  netAmount: number
+  grossAmount: number
+  label: string
+}
+
+/**
+ * Computes full tax preview breakdown including tax code, rate percentage, line tax, and gross amount.
+ * Supports both (product, qty, unitPrice, discount, activeTaxRates) and numeric parameter overloads.
+ */
+export function computeTaxPreview(
+  productOrQty: { tax_code?: string | null } | number | null | undefined,
+  qtyOrUnitPrice: number,
+  unitPriceOrDiscount: number,
+  discountOrTaxRate: number,
+  taxRatesOrType?: Array<{ tax_type: string; rate: number | string; name?: string | null; is_active?: boolean }> | string
+): TaxPreviewInfo {
+  if (typeof productOrQty === 'object' || productOrQty === null || productOrQty === undefined) {
+    const product = productOrQty
+    const qty = qtyOrUnitPrice
+    const unitPrice = unitPriceOrDiscount
+    const discountAmount = discountOrTaxRate
+    const activeTaxRates = Array.isArray(taxRatesOrType) ? taxRatesOrType : []
+
+    const taxRes = extractTaxRate(product, activeTaxRates)
+    const rate = taxRes.taxRate
+    const net = Math.max(0, qty * unitPrice - (discountAmount || 0))
+    const lineTax = calculateLineTaxAmount(qty, unitPrice, discountAmount, rate)
+    const unitTax = qty > 0 ? Number((lineTax / qty).toFixed(2)) : 0
+    const gross = net + lineTax
+
+    const matchedRate = activeTaxRates.find(
+      (t) => t.tax_type.toLowerCase() === (product?.tax_code || '').trim().toLowerCase()
+    )
+
+    return {
+      taxCode: product?.tax_code || (rate > 0 ? taxRes.taxType : null),
+      taxRatePercent: rate,
+      calculatedTax: lineTax,
+      taxName: matchedRate?.name || (rate > 0 ? taxRes.label : null),
+      taxRate: rate,
+      taxType: taxRes.taxType || 'Tax',
+      unitTax,
+      totalLineTax: lineTax,
+      netAmount: net,
+      grossAmount: gross,
+      label: rate > 0 ? `${taxRes.taxType || 'Tax'} (${rate}%)` : 'No Tax',
+    }
+  }
+
+  // Overload when invoked with numbers: (qty, unitPrice, discountAmount, taxRatePercent, taxType)
+  const qty = productOrQty
+  const unitPrice = qtyOrUnitPrice
+  const discountAmount = unitPriceOrDiscount
+  const taxRatePercent = discountOrTaxRate
+  const taxType = typeof taxRatesOrType === 'string' ? taxRatesOrType : 'Tax'
+
+  const net = Math.max(0, qty * unitPrice - (discountAmount || 0))
+  const lineTax = calculateLineTaxAmount(qty, unitPrice, discountAmount, taxRatePercent)
+  const unitTax = qty > 0 ? Number((lineTax / qty).toFixed(2)) : 0
+  const gross = net + lineTax
+
+  return {
+    taxCode: taxRatePercent > 0 ? taxType : null,
+    taxRatePercent,
+    calculatedTax: lineTax,
+    taxName: taxRatePercent > 0 ? `${taxType} (${taxRatePercent}%)` : null,
+    taxRate: taxRatePercent,
+    taxType,
+    unitTax,
+    totalLineTax: lineTax,
+    netAmount: net,
+    grossAmount: gross,
+    label: taxRatePercent > 0 ? `${taxType} (${taxRatePercent}%)` : 'No Tax',
+  }
+}
+

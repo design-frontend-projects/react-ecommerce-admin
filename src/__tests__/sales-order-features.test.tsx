@@ -4,6 +4,7 @@ import {
   getVariantLocationBreakdown,
   extractTaxRate,
   calculateLineTaxAmount,
+  computeTaxPreview,
 } from '@/features/sales-orders/utils/variant-stock'
 import type { SOVariantOption } from '@/features/sales-orders/components/so-product-variant-picker'
 
@@ -345,4 +346,85 @@ describe('Enhanced Sales Order Features', () => {
       expect(chosen?.id).toBe('wh-non-fulfill') // Matches default warehouse if chosen, or can be overridden
     })
   })
+
+  describe('6. Product Tax Preview Calculations (computeTaxPreview)', () => {
+    const taxRatesList = [
+      { tax_type: 'VAT_14', name: 'Standard Egyptian VAT', rate: 14, is_active: true },
+      { tax_type: 'GST_18', name: 'Goods & Services Tax', rate: 18, is_active: true },
+      { tax_type: 'REDUCED_5', name: 'Reduced Hospitality Rate', rate: 5, is_active: true },
+    ]
+
+    test('computes tax preview correctly with product tax_code mapped to tax_rates', () => {
+      const product = {
+        id: 'prod-latte',
+        name: 'Caramel Latte',
+        tax_code: 'VAT_14',
+      }
+      // 3 cups * $10 = $30, $0 discount, 14% VAT = $4.20
+      const preview = computeTaxPreview(product, 3, 10, 0, taxRatesList)
+      expect(preview.taxCode).toBe('VAT_14')
+      expect(preview.taxRatePercent).toBe(14)
+      expect(preview.calculatedTax).toBe(4.2)
+      expect(preview.taxName).toBe('Standard Egyptian VAT')
+    })
+
+    test('computes tax preview with discount applied', () => {
+      const product = {
+        id: 'prod-meal',
+        name: 'Combo Meal',
+        tax_code: 'GST_18',
+      }
+      // 2 meals * $50 = $100, $20 discount -> $80 taxable, 18% GST = $14.40
+      const preview = computeTaxPreview(product, 2, 50, 20, taxRatesList)
+      expect(preview.taxCode).toBe('GST_18')
+      expect(preview.taxRatePercent).toBe(18)
+      expect(preview.calculatedTax).toBe(14.4)
+    })
+
+    test('falls back to 0% tax when product has no tax_code or null product', () => {
+      const nullPreview = computeTaxPreview(null, 5, 20, 0, taxRatesList)
+      expect(nullPreview.taxCode).toBeNull()
+      expect(nullPreview.taxRatePercent).toBe(0)
+      expect(nullPreview.calculatedTax).toBe(0)
+
+      const untaxedProduct = { id: 'prod-bread', name: 'Pita Bread', tax_code: null }
+      const untaxedPreview = computeTaxPreview(untaxedProduct, 10, 2, 0, taxRatesList)
+      expect(untaxedPreview.taxCode).toBeNull()
+      expect(untaxedPreview.taxRatePercent).toBe(0)
+      expect(untaxedPreview.calculatedTax).toBe(0)
+    })
+
+    test('extracts percentage when product has numeric string tax_code without tax_rates table', () => {
+      const product = { id: 'prod-gift', name: 'Gift Card', tax_code: 'VAT_20' }
+      const preview = computeTaxPreview(product, 1, 100, 0, [])
+      expect(preview.taxCode).toBe('VAT_20')
+      expect(preview.taxRatePercent).toBe(20)
+      expect(preview.calculatedTax).toBe(20)
+    })
+  })
+
+  describe('7. Option 1 Store Switch: Line Item Retention & Stock Re-Evaluation', () => {
+    test('re-evaluates line item stock availability when switching store and fulfillment warehouse', () => {
+      // In Cairo store & warehouse, sampleVariant has 80 available
+      const cairoWhStock = getAvailableStock(sampleVariant, 'wh-cairo', 'store-cairo')
+      expect(cairoWhStock).toBe(80)
+      const isOutOfStockInCairo = cairoWhStock <= 0
+      expect(isOutOfStockInCairo).toBe(false)
+
+      // When switching to Suez store & warehouse, sampleVariant has 0 available in Suez warehouse
+      const suezWhStock = getAvailableStock(sampleVariant, 'wh-suez', 'store-suez')
+      expect(suezWhStock).toBe(0)
+      const isOutOfStockInSuez = suezWhStock <= 0
+      expect(isOutOfStockInSuez).toBe(true)
+
+      // Retained line item quantity (e.g. qty: 5)
+      const orderedQty = 5
+      const isExceededInCairo = orderedQty > cairoWhStock
+      expect(isExceededInCairo).toBe(false)
+
+      const isExceededInSuez = orderedQty > suezWhStock
+      expect(isExceededInSuez).toBe(true)
+    })
+  })
 })
+

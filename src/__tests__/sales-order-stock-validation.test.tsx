@@ -1,5 +1,8 @@
 import { describe, test, expect } from 'vitest'
-import { getAvailableStock } from '@/features/sales-orders/utils/variant-stock'
+import {
+  getAvailableStock,
+  getVariantStockSummary,
+} from '@/features/sales-orders/utils/variant-stock'
 import type { SOVariantOption } from '@/features/sales-orders/components/so-product-variant-picker'
 
 describe('Sales Order Stock Availability & Row Validation', () => {
@@ -26,6 +29,91 @@ describe('Sales Order Stock Availability & Row Validation', () => {
       },
     ],
   }
+
+  describe('getVariantStockSummary calculation', () => {
+    test('returns exact onHand, reserved, and available for the selected warehouse', () => {
+      const cairoSummary = getVariantStockSummary(sampleVariant, 'wh-cairo')
+      expect(cairoSummary).toMatchObject({
+        onHand: 50,
+        reserved: 10,
+        available: 40,
+        isAvailable: true,
+        isOutOfStock: false,
+      })
+
+      const alexSummary = getVariantStockSummary(sampleVariant, 'wh-alex')
+      expect(alexSummary).toMatchObject({
+        onHand: 30,
+        reserved: 5,
+        available: 25,
+        isAvailable: true,
+        isOutOfStock: false,
+      })
+    })
+
+    test('returns zero values if the variant has no stock in the warehouse', () => {
+      const suezSummary = getVariantStockSummary(sampleVariant, 'wh-suez')
+      expect(suezSummary).toMatchObject({
+        onHand: 0,
+        reserved: 0,
+        available: 0,
+        isAvailable: false,
+        isOutOfStock: true,
+      })
+    })
+
+    test('aggregates multiple stock balance rows for the same warehouse', () => {
+      const multiLocVariant: SOVariantOption = {
+        id: 'var-multi',
+        sku: 'SKU-MULTI',
+        price: 99,
+        stock_balances: [
+          {
+            warehouse_id: 'wh-cairo',
+            location_id: 'loc-aisle-1',
+            qty_on_hand: 30,
+            qty_reserved: 5,
+            qty_available: 25,
+          },
+          {
+            warehouse_id: 'wh-cairo',
+            location_id: 'loc-aisle-2',
+            qty_on_hand: 20,
+            qty_reserved: 3,
+            qty_available: 17,
+          },
+        ],
+      }
+      const summary = getVariantStockSummary(multiLocVariant, 'wh-cairo')
+      expect(summary).toMatchObject({
+        onHand: 50,
+        reserved: 8,
+        available: 42,
+        isAvailable: true,
+        isOutOfStock: false,
+      })
+    })
+
+    test('falls back to store stock when warehouse is not specified', () => {
+      const storeSummary = getVariantStockSummary(sampleVariant, undefined, 'store-cairo')
+      expect(storeSummary).toMatchObject({
+        onHand: 50,
+        reserved: 10,
+        available: 40,
+        isAvailable: true,
+      })
+    })
+
+    test('aggregates all warehouses when neither warehouse nor store is specified', () => {
+      const totalSummary = getVariantStockSummary(sampleVariant)
+      expect(totalSummary).toMatchObject({
+        onHand: 80,
+        reserved: 15,
+        available: 65,
+        isAvailable: true,
+      })
+    })
+  })
 
   describe('getAvailableStock calculation', () => {
     test('returns exact available stock for the selected warehouse', () => {

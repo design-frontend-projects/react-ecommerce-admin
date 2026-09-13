@@ -250,6 +250,35 @@ export function InventoryDetailSheet() {
                   <span className='font-medium text-xs'>{store.name}</span>
                 </div>
               )}
+
+              {/* Physical Coordinates (Aisle, Rack, Shelf, Bin) */}
+              {(currentRow.aisle || currentRow.rack || currentRow.shelf || currentRow.bin) && (
+                <div className='pt-2 border-t border-border/50 text-xs space-y-1.5'>
+                  <span className='text-muted-foreground text-[11px] font-medium'>Physical Coordinates:</span>
+                  <div className='flex flex-wrap gap-1.5'>
+                    {currentRow.aisle && (
+                      <Badge variant='outline' className='font-mono text-[10px]'>
+                        Aisle: {currentRow.aisle}
+                      </Badge>
+                    )}
+                    {currentRow.rack && (
+                      <Badge variant='outline' className='font-mono text-[10px]'>
+                        Rack: {currentRow.rack}
+                      </Badge>
+                    )}
+                    {currentRow.shelf && (
+                      <Badge variant='outline' className='font-mono text-[10px]'>
+                        Shelf: {currentRow.shelf}
+                      </Badge>
+                    )}
+                    {currentRow.bin && (
+                      <Badge variant='outline' className='font-mono text-[10px]'>
+                        Bin: {currentRow.bin}
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -257,27 +286,34 @@ export function InventoryDetailSheet() {
           <div className='rounded-xl border bg-card p-4 space-y-3 shadow-xs'>
             <h4 className='text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5'>
               <ShieldCheck className='h-3.5 w-3.5 text-primary' />
-              {t('inventory.detail.thresholds', 'Safety Thresholds')}
+              {t('inventory.detail.thresholds', 'Safety Thresholds & Policies')}
             </h4>
 
-            <div className='grid grid-cols-2 gap-3 text-sm'>
-              <div className='rounded-lg border p-3'>
-                <span className='text-xs text-muted-foreground'>
-                  {t('inventory.form.reorderPoint', 'Reorder Point (Min)')}
-                </span>
-                <div className='text-base font-bold text-foreground mt-1'>
-                  {minStock}
-                </div>
+            <div className='grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs'>
+              <div className='rounded-lg border p-2 bg-muted/20'>
+                <span className='text-[10px] text-muted-foreground'>Reorder Point</span>
+                <div className='text-sm font-bold text-foreground mt-0.5'>{minStock}</div>
               </div>
-              <div className='rounded-lg border p-3'>
-                <span className='text-xs text-muted-foreground'>
-                  {t('inventory.form.maxCapacity', 'Max Capacity')}
-                </span>
-                <div className='text-base font-bold text-foreground mt-1'>
-                  {maxStock != null ? maxStock : '∞'}
-                </div>
+              <div className='rounded-lg border p-2 bg-muted/20'>
+                <span className='text-[10px] text-muted-foreground'>Safety Stock</span>
+                <div className='text-sm font-bold text-foreground mt-0.5'>{currentRow.safety_stock ?? 0}</div>
+              </div>
+              <div className='rounded-lg border p-2 bg-muted/20'>
+                <span className='text-[10px] text-muted-foreground'>Reorder Qty</span>
+                <div className='text-sm font-bold text-foreground mt-0.5'>{currentRow.reorder_quantity ?? 0}</div>
+              </div>
+              <div className='rounded-lg border p-2 bg-muted/20'>
+                <span className='text-[10px] text-muted-foreground'>Max Capacity</span>
+                <div className='text-sm font-bold text-foreground mt-0.5'>{maxStock != null ? maxStock : '∞'}</div>
               </div>
             </div>
+
+            {currentRow.lead_time_days != null && (
+              <div className='text-[11px] text-muted-foreground flex items-center justify-between pt-1 border-t border-border/40'>
+                <span>Replenishment Lead Time:</span>
+                <strong className='text-foreground'>{currentRow.lead_time_days} day(s)</strong>
+              </div>
+            )}
           </div>
 
           {/* Valuation & Costing */}
@@ -295,6 +331,14 @@ export function InventoryDetailSheet() {
                 ${avgCost.toFixed(2)}
               </span>
             </div>
+            {currentRow.unit_cost != null && (
+              <div className='flex items-center justify-between text-sm py-0.5'>
+                <span className='text-xs text-muted-foreground'>Standard Reference Cost</span>
+                <span className='font-medium font-mono text-xs'>
+                  ${Number(currentRow.unit_cost).toFixed(2)}
+                </span>
+              </div>
+            )}
             <Separator />
             <div className='flex items-center justify-between text-sm py-1'>
               <span className='text-xs text-muted-foreground'>
@@ -305,6 +349,17 @@ export function InventoryDetailSheet() {
               </span>
             </div>
           </div>
+
+          {/* Handling Notes if provided */}
+          {currentRow.notes && (
+            <div className='rounded-xl border bg-amber-50/40 dark:bg-amber-950/20 border-amber-200/50 dark:border-amber-800/40 p-3 space-y-1 text-xs'>
+              <span className='font-semibold text-amber-800 dark:text-amber-300 flex items-center gap-1.5'>
+                <Info className='h-3.5 w-3.5' />
+                Storage & Handling Notes
+              </span>
+              <p className='text-amber-900/80 dark:text-amber-200/80'>{currentRow.notes}</p>
+            </div>
+          )}
 
           {/* Date Tracking */}
           <div className='rounded-xl border bg-muted/30 p-3.5 space-y-2 text-xs text-muted-foreground'>
@@ -319,6 +374,14 @@ export function InventoryDetailSheet() {
                   : t('common.never', 'Never')}
               </span>
             </div>
+            {currentRow.last_restocked_date && (
+              <div className='flex items-center justify-between'>
+                <span>Last Restocked:</span>
+                <span className='font-medium text-foreground'>
+                  {new Date(currentRow.last_restocked_date).toLocaleDateString()}
+                </span>
+              </div>
+            )}
             {currentRow.created_at && (
               <div className='flex items-center justify-between'>
                 <span>{t('common.createdAt', 'Created')}</span>

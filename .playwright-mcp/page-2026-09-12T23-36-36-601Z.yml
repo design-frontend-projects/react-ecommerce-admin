@@ -1,0 +1,604 @@
+- generic:
+  - generic [aria-hidden]:
+    - link:
+      - /url: "#content"
+      - text: Skip to main content
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - list:
+              - listitem:
+                - generic:
+                  - link:
+                    - /url: /
+                    - generic:
+                      - generic: ResPOS
+                      - generic: النسخة المميزة
+                  - button:
+                    - generic: تبديل الشريط الجانبي
+          - generic:
+            - generic:
+              - generic: عام
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /
+                    - generic: لوحة التحكم
+                - listitem:
+                  - link:
+                    - /url: /pos
+                    - generic: نظام نقاط البيع
+                - listitem:
+                  - link:
+                    - /url: /products
+                    - generic: المنتجات
+                - listitem:
+                  - link:
+                    - /url: /subscriptions
+                    - generic: الاشتراكات
+                - listitem:
+                  - link:
+                    - /url: /customers
+                    - generic: العملاء
+                - listitem:
+                  - link:
+                    - /url: /customer-groups
+                    - generic: مجموعات العملاء
+                - listitem:
+                  - link:
+                    - /url: /customer-cards
+                    - generic: بطاقات العملاء
+                - listitem:
+                  - link:
+                    - /url: /settings
+                    - generic: الإعدادات
+            - generic:
+              - generic: نقاط بيع المطعم
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /respos
+                    - generic: لوحة تحكم نقاط البيع
+                - listitem:
+                  - link:
+                    - /url: /respos/pos
+                    - generic: شاشة نقاط البيع
+                - listitem:
+                  - link:
+                    - /url: /respos/captain
+                    - generic: محطة الكابتن
+                - listitem:
+                  - link:
+                    - /url: /respos/kitchen
+                    - generic: شاشة المطبخ
+                - listitem:
+                  - link:
+                    - /url: /respos/menu
+                    - generic: إدارة القائمة
+                - listitem:
+                  - link:
+                    - /url: /respos/floors
+                    - generic: الطوابق والطاولات
+                - listitem:
+                  - link:
+                    - /url: /respos/reservations
+                    - generic: الحجوزات
+                - listitem:
+                  - link:
+                    - /url: /respos/analytics
+                    - generic: التحليلات
+                - listitem:
+                  - link:
+                    - /url: /respos/shifts
+                    - generic: الورديات
+                - listitem:
+                  - link:
+                    - /url: /respos/cashier
+                    - generic: الكاشير والدفع
+                - listitem:
+                  - link:
+                    - /url: /respos/payments
+                    - generic: المدفوعات
+                - listitem:
+                  - link:
+                    - /url: /respos/shipments
+                    - generic: الشحنات
+                - listitem:
+                  - link:
+                    - /url: /orders
+                    - generic: الطلبات
+            - generic:
+              - generic: المخزون
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /inventory
+                    - generic: أصناف المخزون
+                - listitem:
+                  - link:
+                    - /url: /inventory/shipments
+                    - generic: الشحنات
+                - listitem:
+                  - link:
+                    - /url: /stock-balances
+                    - generic: أرصدة المخزون
+                - listitem:
+                  - link:
+                    - /url: /purchase-orders
+                    - generic: أوامر الشراء
+                - listitem:
+                  - link:
+                    - /url: /price-list
+                    - generic: قائمة الأسعار
+                - listitem:
+                  - link:
+                    - /url: /promotions
+                    - generic: العروض الترويجية
+                - listitem:
+                  - link:
+                    - /url: /transactions
+                    - generic: المعاملات
+                - listitem:
+                  - link:
+                    - /url: /stock-transfers
+                    - generic: تحويلات المخزون
+                - listitem:
+                  - link:
+                    - /url: /stock-adjustments
+                    - generic: تعديلات المخزون
+                - listitem:
+                  - link:
+                    - /url: /inventory-movements
+                    - generic: حركات المخزون
+                - listitem:
+                  - link:
+                    - /url: /suppliers
+                    - generic: الموردين
+                - listitem:
+                  - link:
+                    - /url: /stores
+                    - generic: المتاجر
+                - listitem:
+                  - link:
+                    - /url: /categories
+                    - generic: الفئات
+                - listitem:
+                  - link:
+                    - /url: /tax-rates
+                    - generic: معدلات الضريبة
+            - generic:
+              - generic: الجداول المرجعية
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /countries
+                    - generic: الدول
+                - listitem:
+                  - link:
+                    - /url: /cities
+                    - generic: المدن
+                - listitem:
+                  - link:
+                    - /url: /currencies
+                    - generic: العملات
+                - listitem:
+                  - link:
+                    - /url: /branches
+                    - generic: الفروع
+            - generic:
+              - generic: التحكم في الوصول
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /users
+                    - generic: المستخدمين والأدوار
+                - listitem:
+                  - link:
+                    - /url: /access-control/roles
+                    - generic: الأدوار
+                - listitem:
+                  - link:
+                    - /url: /access-control/permissions
+                    - generic: الصلاحيات
+                - listitem:
+                  - link:
+                    - /url: /access-control/screens
+                    - generic: سجل الشاشات
+                - listitem:
+                  - link:
+                    - /url: /access-control/buttons
+                    - generic: أزرار الصلاحيات
+                - listitem:
+                  - link:
+                    - /url: /access-control/audit
+                    - generic: سجل التدقيق
+            - generic:
+              - generic: النظام
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /system
+                    - generic: إدارة النظام
+                - listitem:
+                  - link:
+                    - /url: /system/audit-logs
+                    - generic: سجلات التدقيق
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic: ‪
+                  - generic:
+                    - generic: ‪ahmed
+                    - generic: ahmedmedodev@gmail.com
+          - button
+    - generic:
+      - generic:
+        - banner:
+          - generic:
+            - button:
+              - generic: Toggle Sidebar
+            - button:
+              - generic: بحث...
+              - generic:
+                - generic: ⌘
+                - text: K
+            - generic:
+              - button:
+                - generic: Switch Language
+              - button:
+                - generic: المظهر
+              - button:
+                - generic: SN
+            - generic:
+              - combobox:
+                - generic: اختر الفرع
+              - button
+              - button
+              - button:
+                - generic: تثبيت الواجهة
+              - button:
+                - generic: SN
+        - main:
+          - generic:
+            - generic:
+              - generic:
+                - heading [level=2]: إدارة المخزون والتخزين
+              - paragraph: إدارة مستويات المخزون عبر المستودعات وأماكن التخزين مع حدود الأمان وأرصدة المخزون الحية.
+            - generic:
+              - button:
+                - generic: تعيين منتج
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: الأصناف المتتبعة
+                  - generic:
+                    - generic: "0"
+                    - paragraph: 0 متغيرات
+              - generic:
+                - generic:
+                  - generic: متوفر في المخزون
+                  - generic:
+                    - generic: "0"
+                    - paragraph: مستويات آمنة
+              - generic:
+                - generic:
+                  - generic: مخزون منخفض
+                  - generic:
+                    - generic: "0"
+                    - paragraph: أقل من نقطة إعادة الطلب
+              - generic:
+                - generic:
+                  - generic: نفد من المخزون
+                  - generic:
+                    - generic: "0"
+                    - paragraph: يتطلب إعادة التزويد فوراً
+              - generic:
+                - generic:
+                  - generic: تقييم المخزون
+                  - generic:
+                    - generic: $0
+                    - paragraph: بناءً على متوسط تكلفة الوحدة
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - textbox:
+                      - /placeholder: ابحث عن اسم المنتج، رمز الصنف، المتغير...
+                    - generic:
+                      - button: الحالة
+                  - generic:
+                    - button: عرض
+                - generic:
+                  - button: Export CSV
+                  - button: تعيين منتج
+              - generic:
+                - generic:
+                  - table:
+                    - rowgroup:
+                      - row:
+                        - columnheader:
+                          - checkbox
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: المنتج
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: المتغير / رمز الصنف
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: المستودع
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: الموقع / الرف
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: المخزون المتوفر
+                        - columnheader:
+                          - generic: متاح / محجوز
+                        - columnheader:
+                          - generic: إعادة الطلب / الحد الأقصى
+                        - columnheader:
+                          - generic: التقييم
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: الحالة
+                        - columnheader:
+                          - generic:
+                            - button:
+                              - generic: آخر جرد
+                        - columnheader
+                    - rowgroup:
+                      - row:
+                        - cell:
+                          - generic: لم يتم العثور على سجلات مخزون.
+              - generic:
+                - generic: تم تحديد 0 من أصل 0 صفوف.
+                - generic:
+                  - generic:
+                    - paragraph: عدد الصفوف في الصفحة
+                    - combobox:
+                      - generic: "10"
+                  - generic: "الصفحة {{current}} من 0"
+                  - generic:
+                    - button [disabled]:
+                      - generic: الذهاب إلى الصفحة الأولى
+                    - button [disabled]:
+                      - generic: الذهاب إلى الصفحة السابقة
+                    - button [disabled]:
+                      - generic: Go to next page
+                    - button [disabled]:
+                      - generic: Go to last page
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic:
+    - button
+  - button [ref=f6e740] [cursor=pointer]:
+    - generic [ref=f6e738]: "-"
+    - generic [ref=f6e739]: TanStack Router
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - dialog [ref=f6e742]:
+    - generic [ref=f6e757]:
+      - heading "تعيين منتج إلى المخزون" [level=2] [ref=f6e758]
+      - paragraph [ref=f6e759]: تتبع حدود الأمان ومواقع التخزين الفعلية لمنتجات الكتالوج.
+    - generic [ref=f6e760]:
+      - generic [ref=f6e761]:
+        - generic [ref=f6e762]:
+          - heading "اختيار المنتج" [level=4] [ref=f6e763]
+          - generic [ref=f6e920]: 2 Variant(s) Available
+        - generic [ref=f6e768]:
+          - generic [ref=f6e769]: المنتج *
+          - combobox "المنتج *" [ref=f6e770] [cursor=pointer]:
+            - generic:
+              - generic:
+                - generic: coffee davidov
+                - generic: COFFEE-10
+                - generic: Variants
+          - combobox [aria-hidden] [ref=f6e771]
+        - generic [ref=f6e924]:
+          - generic [ref=f6e925]:
+            - generic [ref=f6e926]: coffee davidov
+            - generic [ref=f6e927]: "SKU: COFFEE-10"
+          - generic [ref=f6e928]:
+            - generic [ref=f6e929]:
+              - text: "Brand:"
+              - strong [ref=f6e933]: Coffee Planet
+            - generic [ref=f6e934]:
+              - text: "Category:"
+              - strong [ref=f6e938]: drinks
+            - generic [ref=f6e939]: coffee1001012026
+        - generic [ref=f6e941]:
+          - generic [ref=f6e942]:
+            - generic [ref=f6e943]: متغير المنتج
+            - generic [ref=f6e949]: 2 variant options
+          - generic [ref=f6e950]:
+            - button "-- على مستوى المنتج (بدون متغير) --" [ref=f6e951] [cursor=pointer]
+            - 'button "Default ({\"label\":\"{\\\"label\\\":\\\"coffee-brazil\\\"}\"})" [ref=f6e952] [cursor=pointer]':
+              - generic [ref=f6e953]: Default
+              - generic [ref=f6e954]: "({\"label\":\"{\\\"label\\\":\\\"coffee-brazil\\\"}\"})"
+            - 'button "Variant 2 ({\"label\":\"{\\\"label\\\":\\\"coffee-colombia\\\"}\"})" [ref=f6e955] [cursor=pointer]':
+              - generic [ref=f6e956]: Variant 2
+              - generic [ref=f6e957]: "({\"label\":\"{\\\"label\\\":\\\"coffee-colombia\\\"}\"})"
+          - combobox "متغير المنتج 2 variant options" [ref=f6e958] [cursor=pointer]:
+            - generic:
+              - generic:
+                - generic: Default
+                - generic: "{\"label\":\"{\\\"label\\\":\\\"coffee-brazil\\\"}\"}"
+                - generic: "[COFFEE-10-bra]"
+                - generic: $25.00
+          - combobox [aria-hidden] [ref=f6e959]
+          - generic [ref=f6e960]:
+            - generic [ref=f6e964]:
+              - generic [ref=f6e965]:
+                - generic [ref=f6e966]:
+                  - generic [ref=f6e967]: Default
+                  - generic [ref=f6e968]: COFFEE-10-bra
+                  - generic [ref=f6e969]: Active
+                - generic [ref=f6e970]:
+                  - generic [ref=f6e971]: "{\"label\":\"{\\\"label\\\":\\\"coffee-brazil\\\"}\"}"
+                  - generic [ref=f6e976]: coffee10br
+                  - generic [ref=f6e979]: "Weight: 1000 kg"
+              - generic [ref=f6e980]:
+                - generic [ref=f6e981]:
+                  - generic [ref=f6e982]: Selling Price
+                  - generic [ref=f6e983]: $25.00
+                - generic [ref=f6e984]: "Cost: $0.00"
+            - generic [ref=f6e985]:
+              - generic [ref=f6e986]:
+                - generic [ref=f6e987]: "Facility Stock: Egypt Warehouse"
+                - generic [ref=f6e1090]: "Company Total: 1,500 units"
+              - generic [ref=f6e998]:
+                - generic [ref=f6e999]:
+                  - text: Stock On-Hand
+                  - paragraph [ref=f6e1000]: "500"
+                - generic [ref=f6e1001]:
+                  - text: Available
+                  - paragraph [ref=f6e1002]: "500"
+                - generic [ref=f6e1003]:
+                  - text: Reserved
+                  - paragraph [ref=f6e1004]: "0"
+      - generic [ref=f6e772]:
+        - generic [ref=f6e773]:
+          - heading "منشأة وموقع التخزين" [level=4] [ref=f6e774]
+          - generic [ref=f6e1091]: 0 Sub-Location(s)
+        - generic [ref=f6e778]:
+          - generic [ref=f6e779]:
+            - generic [ref=f6e780]: المتجر المعين
+            - combobox "المتجر المعين" [ref=f6e786] [cursor=pointer]:
+              - generic: suez store
+            - combobox [aria-hidden] [ref=f6e787]
+          - generic [ref=f6e788]:
+            - generic [ref=f6e789]:
+              - generic [ref=f6e790]: المستودع
+              - generic [ref=f6e1018]: 2 store + 0 main
+            - combobox "المستودع 2 store + 0 main" [active] [ref=f6e1019] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: egypt-wh
+                  - generic: Egypt Warehouse
+            - combobox [aria-hidden] [ref=f6e1020]
+        - generic [ref=f6e1021]:
+          - generic [ref=f6e1022]:
+            - generic [ref=f6e1023]: suez store Logistics Route
+            - generic [ref=f6e1029]: 2 Warehouse(s) linked
+          - generic [ref=f6e1030]:
+            - generic [ref=f6e1031]:
+              - generic [ref=f6e1032]: Suez warehouse
+              - generic [ref=f6e1033]: "[suez-wh]"
+              - generic [ref=f6e1034]: Default Hub
+              - generic [ref=f6e1035]: P#1
+            - generic [ref=f6e1036]:
+              - generic [ref=f6e1037]: Egypt Warehouse
+              - generic [ref=f6e1038]: "[egypt-wh]"
+              - generic [ref=f6e1039]: P#2
+        - generic [ref=f6e1040]:
+          - generic [ref=f6e1041]:
+            - generic [ref=f6e1042]:
+              - generic [ref=f6e1043]:
+                - generic [ref=f6e1044]: Egypt Warehouse
+                - generic [ref=f6e1045]: egypt-wh
+              - generic [ref=f6e1047]: cairo egypt salam site
+            - generic [ref=f6e1052]: Strict Positive Stock
+          - generic [ref=f6e1054]:
+            - generic [ref=f6e1055]:
+              - text: "Fulfillment:"
+              - strong [ref=f6e1056]: Enabled
+            - generic [ref=f6e1057]: •
+            - generic [ref=f6e1058]:
+              - text: "Replenishment:"
+              - strong [ref=f6e1059]: Enabled
+            - generic [ref=f6e1060]: •
+            - generic [ref=f6e1061]:
+              - text: "Transit Lead Time:"
+              - strong [ref=f6e1062]: 3 day(s)
+        - generic [ref=f6e797]:
+          - generic [ref=f6e798]: الموقع / الرف / الحاوية المحددة
+          - combobox "الموقع / الرف / الحاوية المحددة" [ref=f6e804] [cursor=pointer]:
+            - generic: "-- عام المنشأة / الاستلام --"
+          - combobox [aria-hidden] [ref=f6e805]
+        - generic [ref=f6e806]:
+          - generic [ref=f6e807]: Physical Coordinate Mapping (Optional Bin / Shelf Detail)
+          - generic [ref=f6e811]:
+            - generic [ref=f6e812]:
+              - generic [ref=f6e813]: Aisle
+              - textbox "Aisle" [ref=f6e814]:
+                - /placeholder: e.g. A-02
+            - generic [ref=f6e815]:
+              - generic [ref=f6e816]: Rack
+              - textbox "Rack" [ref=f6e817]:
+                - /placeholder: e.g. R-04
+            - generic [ref=f6e818]:
+              - generic [ref=f6e819]: Shelf
+              - textbox "Shelf" [ref=f6e820]:
+                - /placeholder: e.g. S-1
+            - generic [ref=f6e821]:
+              - generic [ref=f6e822]: Bin
+              - textbox "Bin" [ref=f6e823]:
+                - /placeholder: e.g. B-12
+      - generic [ref=f6e824]:
+        - heading "حدود مخزون الأمان" [level=4] [ref=f6e825]
+        - generic [ref=f6e829]:
+          - generic [ref=f6e830]:
+            - generic [ref=f6e831]: نقطة إعادة الطلب (الحد الأدنى)
+            - spinbutton "نقطة إعادة الطلب (الحد الأدنى)" [ref=f6e832]: "10"
+            - paragraph [ref=f6e833]: Triggers replenishment alert.
+          - generic [ref=f6e834]:
+            - generic [ref=f6e835]: Safety Stock Buffer
+            - spinbutton "Safety Stock Buffer" [ref=f6e836]: "5"
+            - paragraph [ref=f6e837]: Stockout risk reserve buffer.
+          - generic [ref=f6e838]:
+            - generic [ref=f6e839]: Reorder Quantity (Lot Size)
+            - spinbutton "Reorder Quantity (Lot Size)" [ref=f6e840]: "25"
+            - paragraph [ref=f6e841]: Standard order batch size.
+        - generic [ref=f6e842]:
+          - generic [ref=f6e843]:
+            - generic [ref=f6e844]: السعة القصوى للمخزون
+            - spinbutton "السعة القصوى للمخزون" [ref=f6e845]: "100"
+            - paragraph [ref=f6e846]: Storage capacity limit.
+          - generic [ref=f6e847]:
+            - generic [ref=f6e848]: Lead Time (Days)
+            - spinbutton "Lead Time (Days)" [ref=f6e849]: "1"
+            - paragraph [ref=f6e850]: Estimated transit / receipt days.
+          - generic [ref=f6e851]:
+            - generic [ref=f6e852]: Standard Unit Cost ($)
+            - spinbutton "Standard Unit Cost ($)" [ref=f6e853]
+            - paragraph [ref=f6e854]: Unit cost valuation basis.
+        - generic [ref=f6e855]:
+          - generic [ref=f6e856]:
+            - generic [ref=f6e857]: Physical Count Date
+            - textbox "Physical Count Date" [ref=f6e861]: 2026-09-12
+          - generic [ref=f6e862]:
+            - generic [ref=f6e863]: Last Restocked Date
+            - textbox "Last Restocked Date" [ref=f6e868]
+        - generic [ref=f6e869]:
+          - generic [ref=f6e870]:
+            - generic [ref=f6e871]: Inventory Status
+            - combobox "Inventory Status" [ref=f6e872] [cursor=pointer]:
+              - generic: Active
+            - combobox [aria-hidden] [ref=f6e873]
+          - generic [ref=f6e874]:
+            - generic [ref=f6e875]:
+              - generic [ref=f6e876]: Active Item
+              - paragraph [ref=f6e877]: Enable stock tracking and reorder suggestions.
+            - switch "Active Item" [checked] [ref=f6e878] [cursor=pointer]
+            - checkbox [checked] [aria-hidden]
+        - generic [ref=f6e879]:
+          - generic [ref=f6e880]: Handling & Storage Instructions
+          - textbox "Handling & Storage Instructions" [ref=f6e885]:
+            - /placeholder: e.g. Keep refrigerated, handle with care, keep upright...
+      - generic [ref=f6e886]:
+        - button "إلغاء" [ref=f6e887] [cursor=pointer]
+        - button "تعيين إلى المخزون" [ref=f6e888] [cursor=pointer]
+    - button "Close" [ref=f6e889] [cursor=pointer]

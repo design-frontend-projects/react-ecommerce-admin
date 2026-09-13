@@ -1,0 +1,12 @@
+- generic [active] [ref=f7e1]:
+  - generic [ref=f7e5]:
+    - heading "404" [level=1] [ref=f7e6]
+    - generic [ref=f7e7]: Oops! Page Not Found!
+    - paragraph [ref=f7e8]: It seems like the page you're looking for does not exist or might have been removed.
+    - generic [ref=f7e9]:
+      - button "Go Back" [ref=f7e10] [cursor=pointer]
+      - button "Back to Home" [ref=f7e11] [cursor=pointer]
+  - region "Notifications alt+T"
+  - generic [ref=f7e12]:
+    - heading "Command Palette" [level=2] [ref=f7e13]
+    - paragraph [ref=f7e14]: Search for a command to run...

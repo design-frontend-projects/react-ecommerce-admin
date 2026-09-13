@@ -31,6 +31,11 @@ export type InventoryAvgAggregateOutputType = {
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
+  safety_stock: number | null
+  reorder_quantity: number | null
+  reorder_level: number | null
+  unit_cost: runtime.Decimal | null
+  lead_time_days: number | null
 }
 
 export type InventorySumAggregateOutputType = {
@@ -38,6 +43,11 @@ export type InventorySumAggregateOutputType = {
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
+  safety_stock: number | null
+  reorder_quantity: number | null
+  reorder_level: number | null
+  unit_cost: runtime.Decimal | null
+  lead_time_days: number | null
 }
 
 export type InventoryMinAggregateOutputType = {
@@ -47,9 +57,22 @@ export type InventoryMinAggregateOutputType = {
   warehouse_location_id: string | null
   created_at: Date | null
   last_count_date: Date | null
+  last_restocked_date: Date | null
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
+  safety_stock: number | null
+  reorder_quantity: number | null
+  reorder_level: number | null
+  unit_cost: runtime.Decimal | null
+  lead_time_days: number | null
+  is_active: boolean | null
+  status: string | null
+  aisle: string | null
+  rack: string | null
+  shelf: string | null
+  bin: string | null
+  notes: string | null
   tenant_id: string | null
   updated_at: Date | null
   product_id: string | null
@@ -65,9 +88,22 @@ export type InventoryMaxAggregateOutputType = {
   warehouse_location_id: string | null
   created_at: Date | null
   last_count_date: Date | null
+  last_restocked_date: Date | null
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
+  safety_stock: number | null
+  reorder_quantity: number | null
+  reorder_level: number | null
+  unit_cost: runtime.Decimal | null
+  lead_time_days: number | null
+  is_active: boolean | null
+  status: string | null
+  aisle: string | null
+  rack: string | null
+  shelf: string | null
+  bin: string | null
+  notes: string | null
   tenant_id: string | null
   updated_at: Date | null
   product_id: string | null
@@ -83,9 +119,22 @@ export type InventoryCountAggregateOutputType = {
   warehouse_location_id: number
   created_at: number
   last_count_date: number
+  last_restocked_date: number
   max_quantity: number
   min_quantity: number
   reorder_point: number
+  safety_stock: number
+  reorder_quantity: number
+  reorder_level: number
+  unit_cost: number
+  lead_time_days: number
+  is_active: number
+  status: number
+  aisle: number
+  rack: number
+  shelf: number
+  bin: number
+  notes: number
   tenant_id: number
   updated_at: number
   product_id: number
@@ -101,6 +150,11 @@ export type InventoryAvgAggregateInputType = {
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
+  safety_stock?: true
+  reorder_quantity?: true
+  reorder_level?: true
+  unit_cost?: true
+  lead_time_days?: true
 }
 
 export type InventorySumAggregateInputType = {
@@ -108,6 +162,11 @@ export type InventorySumAggregateInputType = {
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
+  safety_stock?: true
+  reorder_quantity?: true
+  reorder_level?: true
+  unit_cost?: true
+  lead_time_days?: true
 }
 
 export type InventoryMinAggregateInputType = {
@@ -117,9 +176,22 @@ export type InventoryMinAggregateInputType = {
   warehouse_location_id?: true
   created_at?: true
   last_count_date?: true
+  last_restocked_date?: true
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
+  safety_stock?: true
+  reorder_quantity?: true
+  reorder_level?: true
+  unit_cost?: true
+  lead_time_days?: true
+  is_active?: true
+  status?: true
+  aisle?: true
+  rack?: true
+  shelf?: true
+  bin?: true
+  notes?: true
   tenant_id?: true
   updated_at?: true
   product_id?: true
@@ -135,9 +207,22 @@ export type InventoryMaxAggregateInputType = {
   warehouse_location_id?: true
   created_at?: true
   last_count_date?: true
+  last_restocked_date?: true
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
+  safety_stock?: true
+  reorder_quantity?: true
+  reorder_level?: true
+  unit_cost?: true
+  lead_time_days?: true
+  is_active?: true
+  status?: true
+  aisle?: true
+  rack?: true
+  shelf?: true
+  bin?: true
+  notes?: true
   tenant_id?: true
   updated_at?: true
   product_id?: true
@@ -153,9 +238,22 @@ export type InventoryCountAggregateInputType = {
   warehouse_location_id?: true
   created_at?: true
   last_count_date?: true
+  last_restocked_date?: true
   max_quantity?: true
   min_quantity?: true
   reorder_point?: true
+  safety_stock?: true
+  reorder_quantity?: true
+  reorder_level?: true
+  unit_cost?: true
+  lead_time_days?: true
+  is_active?: true
+  status?: true
+  aisle?: true
+  rack?: true
+  shelf?: true
+  bin?: true
+  notes?: true
   tenant_id?: true
   updated_at?: true
   product_id?: true
@@ -258,9 +356,22 @@ export type InventoryGroupByOutputType = {
   warehouse_location_id: string | null
   created_at: Date | null
   last_count_date: Date | null
+  last_restocked_date: Date | null
   max_quantity: number | null
   min_quantity: number | null
   reorder_point: number | null
+  safety_stock: number | null
+  reorder_quantity: number | null
+  reorder_level: number | null
+  unit_cost: runtime.Decimal | null
+  lead_time_days: number | null
+  is_active: boolean
+  status: string | null
+  aisle: string | null
+  rack: string | null
+  shelf: string | null
+  bin: string | null
+  notes: string | null
   tenant_id: string
   updated_at: Date | null
   product_id: string | null
@@ -299,9 +410,22 @@ export type inventoryWhereInput = {
   warehouse_location_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
+  last_restocked_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableFilter<"inventory"> | number | null
+  safety_stock?: Prisma.IntNullableFilter<"inventory"> | number | null
+  reorder_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
+  reorder_level?: Prisma.IntNullableFilter<"inventory"> | number | null
+  unit_cost?: Prisma.DecimalNullableFilter<"inventory"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.IntNullableFilter<"inventory"> | number | null
+  is_active?: Prisma.BoolFilter<"inventory"> | boolean
+  status?: Prisma.StringNullableFilter<"inventory"> | string | null
+  aisle?: Prisma.StringNullableFilter<"inventory"> | string | null
+  rack?: Prisma.StringNullableFilter<"inventory"> | string | null
+  shelf?: Prisma.StringNullableFilter<"inventory"> | string | null
+  bin?: Prisma.StringNullableFilter<"inventory"> | string | null
+  notes?: Prisma.StringNullableFilter<"inventory"> | string | null
   tenant_id?: Prisma.UuidFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
@@ -322,9 +446,22 @@ export type inventoryOrderByWithRelationInput = {
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   last_count_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_restocked_date?: Prisma.SortOrderInput | Prisma.SortOrder
   max_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   min_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_point?: Prisma.SortOrderInput | Prisma.SortOrder
+  safety_stock?: Prisma.SortOrderInput | Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
+  reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
+  unit_cost?: Prisma.SortOrderInput | Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  aisle?: Prisma.SortOrderInput | Prisma.SortOrder
+  rack?: Prisma.SortOrderInput | Prisma.SortOrder
+  shelf?: Prisma.SortOrderInput | Prisma.SortOrder
+  bin?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -348,9 +485,22 @@ export type inventoryWhereUniqueInput = Prisma.AtLeast<{
   warehouse_location_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
+  last_restocked_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableFilter<"inventory"> | number | null
+  safety_stock?: Prisma.IntNullableFilter<"inventory"> | number | null
+  reorder_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
+  reorder_level?: Prisma.IntNullableFilter<"inventory"> | number | null
+  unit_cost?: Prisma.DecimalNullableFilter<"inventory"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.IntNullableFilter<"inventory"> | number | null
+  is_active?: Prisma.BoolFilter<"inventory"> | boolean
+  status?: Prisma.StringNullableFilter<"inventory"> | string | null
+  aisle?: Prisma.StringNullableFilter<"inventory"> | string | null
+  rack?: Prisma.StringNullableFilter<"inventory"> | string | null
+  shelf?: Prisma.StringNullableFilter<"inventory"> | string | null
+  bin?: Prisma.StringNullableFilter<"inventory"> | string | null
+  notes?: Prisma.StringNullableFilter<"inventory"> | string | null
   tenant_id?: Prisma.UuidFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
@@ -371,9 +521,22 @@ export type inventoryOrderByWithAggregationInput = {
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   last_count_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_restocked_date?: Prisma.SortOrderInput | Prisma.SortOrder
   max_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   min_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
   reorder_point?: Prisma.SortOrderInput | Prisma.SortOrder
+  safety_stock?: Prisma.SortOrderInput | Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrderInput | Prisma.SortOrder
+  reorder_level?: Prisma.SortOrderInput | Prisma.SortOrder
+  unit_cost?: Prisma.SortOrderInput | Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  aisle?: Prisma.SortOrderInput | Prisma.SortOrder
+  rack?: Prisma.SortOrderInput | Prisma.SortOrder
+  shelf?: Prisma.SortOrderInput | Prisma.SortOrder
+  bin?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -397,9 +560,22 @@ export type inventoryScalarWhereWithAggregatesInput = {
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
+  last_restocked_date?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
+  safety_stock?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
+  reorder_quantity?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
+  reorder_level?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
+  unit_cost?: Prisma.DecimalNullableWithAggregatesFilter<"inventory"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.IntNullableWithAggregatesFilter<"inventory"> | number | null
+  is_active?: Prisma.BoolWithAggregatesFilter<"inventory"> | boolean
+  status?: Prisma.StringNullableWithAggregatesFilter<"inventory"> | string | null
+  aisle?: Prisma.StringNullableWithAggregatesFilter<"inventory"> | string | null
+  rack?: Prisma.StringNullableWithAggregatesFilter<"inventory"> | string | null
+  shelf?: Prisma.StringNullableWithAggregatesFilter<"inventory"> | string | null
+  bin?: Prisma.StringNullableWithAggregatesFilter<"inventory"> | string | null
+  notes?: Prisma.StringNullableWithAggregatesFilter<"inventory"> | string | null
   tenant_id?: Prisma.UuidWithAggregatesFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableWithAggregatesFilter<"inventory"> | string | null
@@ -411,9 +587,22 @@ export type inventoryScalarWhereWithAggregatesInput = {
 export type inventoryCreateInput = {
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   created_by_user_id?: string | null
@@ -432,9 +621,22 @@ export type inventoryUncheckedCreateInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -446,9 +648,22 @@ export type inventoryUncheckedCreateInput = {
 export type inventoryUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -467,9 +682,22 @@ export type inventoryUncheckedUpdateInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -485,9 +713,22 @@ export type inventoryCreateManyInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -499,9 +740,22 @@ export type inventoryCreateManyInput = {
 export type inventoryUpdateManyMutationInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -515,9 +769,22 @@ export type inventoryUncheckedUpdateManyInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -543,9 +810,22 @@ export type inventoryCountOrderByAggregateInput = {
   warehouse_location_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
+  last_restocked_date?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
+  safety_stock?: Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  aisle?: Prisma.SortOrder
+  rack?: Prisma.SortOrder
+  shelf?: Prisma.SortOrder
+  bin?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
@@ -559,6 +839,11 @@ export type inventoryAvgOrderByAggregateInput = {
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
+  safety_stock?: Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrder
 }
 
 export type inventoryMaxOrderByAggregateInput = {
@@ -568,9 +853,22 @@ export type inventoryMaxOrderByAggregateInput = {
   warehouse_location_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
+  last_restocked_date?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
+  safety_stock?: Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  aisle?: Prisma.SortOrder
+  rack?: Prisma.SortOrder
+  shelf?: Prisma.SortOrder
+  bin?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
@@ -586,9 +884,22 @@ export type inventoryMinOrderByAggregateInput = {
   warehouse_location_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   last_count_date?: Prisma.SortOrder
+  last_restocked_date?: Prisma.SortOrder
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
+  safety_stock?: Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  aisle?: Prisma.SortOrder
+  rack?: Prisma.SortOrder
+  shelf?: Prisma.SortOrder
+  bin?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
@@ -602,6 +913,11 @@ export type inventorySumOrderByAggregateInput = {
   max_quantity?: Prisma.SortOrder
   min_quantity?: Prisma.SortOrder
   reorder_point?: Prisma.SortOrder
+  safety_stock?: Prisma.SortOrder
+  reorder_quantity?: Prisma.SortOrder
+  reorder_level?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
+  lead_time_days?: Prisma.SortOrder
 }
 
 export type inventoryCreateNestedManyWithoutProduct_variantsInput = {
@@ -817,9 +1133,22 @@ export type inventoryUncheckedUpdateManyWithoutWarehouse_locationsNestedInput = 
 export type inventoryCreateWithoutProduct_variantsInput = {
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   created_by_user_id?: string | null
@@ -837,9 +1166,22 @@ export type inventoryUncheckedCreateWithoutProduct_variantsInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -883,9 +1225,22 @@ export type inventoryScalarWhereInput = {
   warehouse_location_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   last_count_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
+  last_restocked_date?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   max_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   min_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
   reorder_point?: Prisma.IntNullableFilter<"inventory"> | number | null
+  safety_stock?: Prisma.IntNullableFilter<"inventory"> | number | null
+  reorder_quantity?: Prisma.IntNullableFilter<"inventory"> | number | null
+  reorder_level?: Prisma.IntNullableFilter<"inventory"> | number | null
+  unit_cost?: Prisma.DecimalNullableFilter<"inventory"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.IntNullableFilter<"inventory"> | number | null
+  is_active?: Prisma.BoolFilter<"inventory"> | boolean
+  status?: Prisma.StringNullableFilter<"inventory"> | string | null
+  aisle?: Prisma.StringNullableFilter<"inventory"> | string | null
+  rack?: Prisma.StringNullableFilter<"inventory"> | string | null
+  shelf?: Prisma.StringNullableFilter<"inventory"> | string | null
+  bin?: Prisma.StringNullableFilter<"inventory"> | string | null
+  notes?: Prisma.StringNullableFilter<"inventory"> | string | null
   tenant_id?: Prisma.UuidFilter<"inventory"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"inventory"> | Date | string | null
   product_id?: Prisma.UuidNullableFilter<"inventory"> | string | null
@@ -897,9 +1252,22 @@ export type inventoryScalarWhereInput = {
 export type inventoryCreateWithoutProductsInput = {
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   created_by_user_id?: string | null
@@ -917,9 +1285,22 @@ export type inventoryUncheckedCreateWithoutProductsInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_variant_id?: string | null
@@ -956,9 +1337,22 @@ export type inventoryUpdateManyWithWhereWithoutProductsInput = {
 export type inventoryCreateWithoutStoresInput = {
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   created_by_user_id?: string | null
@@ -975,9 +1369,22 @@ export type inventoryUncheckedCreateWithoutStoresInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1015,9 +1422,22 @@ export type inventoryUpdateManyWithWhereWithoutStoresInput = {
 export type inventoryCreateWithoutWarehousesInput = {
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   created_by_user_id?: string | null
@@ -1034,9 +1454,22 @@ export type inventoryUncheckedCreateWithoutWarehousesInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1074,9 +1507,22 @@ export type inventoryUpdateManyWithWhereWithoutWarehousesInput = {
 export type inventoryCreateWithoutWarehouse_locationsInput = {
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   created_by_user_id?: string | null
@@ -1093,9 +1539,22 @@ export type inventoryUncheckedCreateWithoutWarehouse_locationsInput = {
   warehouse_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1137,9 +1596,22 @@ export type inventoryCreateManyProduct_variantsInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1150,9 +1622,22 @@ export type inventoryCreateManyProduct_variantsInput = {
 export type inventoryUpdateWithoutProduct_variantsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1170,9 +1655,22 @@ export type inventoryUncheckedUpdateWithoutProduct_variantsInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1187,9 +1685,22 @@ export type inventoryUncheckedUpdateManyWithoutProduct_variantsInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1204,9 +1715,22 @@ export type inventoryCreateManyProductsInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_variant_id?: string | null
@@ -1217,9 +1741,22 @@ export type inventoryCreateManyProductsInput = {
 export type inventoryUpdateWithoutProductsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1237,9 +1774,22 @@ export type inventoryUncheckedUpdateWithoutProductsInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1254,9 +1804,22 @@ export type inventoryUncheckedUpdateManyWithoutProductsInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_variant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1270,9 +1833,22 @@ export type inventoryCreateManyStoresInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1284,9 +1860,22 @@ export type inventoryCreateManyStoresInput = {
 export type inventoryUpdateWithoutStoresInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1303,9 +1892,22 @@ export type inventoryUncheckedUpdateWithoutStoresInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1320,9 +1922,22 @@ export type inventoryUncheckedUpdateManyWithoutStoresInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1337,9 +1952,22 @@ export type inventoryCreateManyWarehousesInput = {
   warehouse_location_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1351,9 +1979,22 @@ export type inventoryCreateManyWarehousesInput = {
 export type inventoryUpdateWithoutWarehousesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1370,9 +2011,22 @@ export type inventoryUncheckedUpdateWithoutWarehousesInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1387,9 +2041,22 @@ export type inventoryUncheckedUpdateManyWithoutWarehousesInput = {
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1404,9 +2071,22 @@ export type inventoryCreateManyWarehouse_locationsInput = {
   warehouse_id?: string | null
   created_at?: Date | string | null
   last_count_date?: Date | string | null
+  last_restocked_date?: Date | string | null
   max_quantity?: number | null
   min_quantity?: number | null
   reorder_point?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  reorder_level?: number | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
+  notes?: string | null
   tenant_id: string
   updated_at?: Date | string | null
   product_id?: string | null
@@ -1418,9 +2098,22 @@ export type inventoryCreateManyWarehouse_locationsInput = {
 export type inventoryUpdateWithoutWarehouse_locationsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1437,9 +2130,22 @@ export type inventoryUncheckedUpdateWithoutWarehouse_locationsInput = {
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1454,9 +2160,22 @@ export type inventoryUncheckedUpdateManyWithoutWarehouse_locationsInput = {
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_count_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_restocked_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   max_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   min_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reorder_point?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safety_stock?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_quantity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reorder_level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unit_cost?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lead_time_days?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aisle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rack?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1474,9 +2193,22 @@ export type inventorySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
+  last_restocked_date?: boolean
   max_quantity?: boolean
   min_quantity?: boolean
   reorder_point?: boolean
+  safety_stock?: boolean
+  reorder_quantity?: boolean
+  reorder_level?: boolean
+  unit_cost?: boolean
+  lead_time_days?: boolean
+  is_active?: boolean
+  status?: boolean
+  aisle?: boolean
+  rack?: boolean
+  shelf?: boolean
+  bin?: boolean
+  notes?: boolean
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
@@ -1497,9 +2229,22 @@ export type inventorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
+  last_restocked_date?: boolean
   max_quantity?: boolean
   min_quantity?: boolean
   reorder_point?: boolean
+  safety_stock?: boolean
+  reorder_quantity?: boolean
+  reorder_level?: boolean
+  unit_cost?: boolean
+  lead_time_days?: boolean
+  is_active?: boolean
+  status?: boolean
+  aisle?: boolean
+  rack?: boolean
+  shelf?: boolean
+  bin?: boolean
+  notes?: boolean
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
@@ -1520,9 +2265,22 @@ export type inventorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
+  last_restocked_date?: boolean
   max_quantity?: boolean
   min_quantity?: boolean
   reorder_point?: boolean
+  safety_stock?: boolean
+  reorder_quantity?: boolean
+  reorder_level?: boolean
+  unit_cost?: boolean
+  lead_time_days?: boolean
+  is_active?: boolean
+  status?: boolean
+  aisle?: boolean
+  rack?: boolean
+  shelf?: boolean
+  bin?: boolean
+  notes?: boolean
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
@@ -1543,9 +2301,22 @@ export type inventorySelectScalar = {
   warehouse_location_id?: boolean
   created_at?: boolean
   last_count_date?: boolean
+  last_restocked_date?: boolean
   max_quantity?: boolean
   min_quantity?: boolean
   reorder_point?: boolean
+  safety_stock?: boolean
+  reorder_quantity?: boolean
+  reorder_level?: boolean
+  unit_cost?: boolean
+  lead_time_days?: boolean
+  is_active?: boolean
+  status?: boolean
+  aisle?: boolean
+  rack?: boolean
+  shelf?: boolean
+  bin?: boolean
+  notes?: boolean
   tenant_id?: boolean
   updated_at?: boolean
   product_id?: boolean
@@ -1554,7 +2325,7 @@ export type inventorySelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "store_id" | "warehouse_id" | "warehouse_location_id" | "created_at" | "last_count_date" | "max_quantity" | "min_quantity" | "reorder_point" | "tenant_id" | "updated_at" | "product_id" | "product_variant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory"]>
+export type inventoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"inventory_id" | "store_id" | "warehouse_id" | "warehouse_location_id" | "created_at" | "last_count_date" | "last_restocked_date" | "max_quantity" | "min_quantity" | "reorder_point" | "safety_stock" | "reorder_quantity" | "reorder_level" | "unit_cost" | "lead_time_days" | "is_active" | "status" | "aisle" | "rack" | "shelf" | "bin" | "notes" | "tenant_id" | "updated_at" | "product_id" | "product_variant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["inventory"]>
 export type inventoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.inventory$productsArgs<ExtArgs>
   product_variants?: boolean | Prisma.inventory$product_variantsArgs<ExtArgs>
@@ -1593,9 +2364,22 @@ export type $inventoryPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     warehouse_location_id: string | null
     created_at: Date | null
     last_count_date: Date | null
+    last_restocked_date: Date | null
     max_quantity: number | null
     min_quantity: number | null
     reorder_point: number | null
+    safety_stock: number | null
+    reorder_quantity: number | null
+    reorder_level: number | null
+    unit_cost: runtime.Decimal | null
+    lead_time_days: number | null
+    is_active: boolean
+    status: string | null
+    aisle: string | null
+    rack: string | null
+    shelf: string | null
+    bin: string | null
+    notes: string | null
     tenant_id: string
     updated_at: Date | null
     product_id: string | null
@@ -2036,9 +2820,22 @@ export interface inventoryFieldRefs {
   readonly warehouse_location_id: Prisma.FieldRef<"inventory", 'String'>
   readonly created_at: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly last_count_date: Prisma.FieldRef<"inventory", 'DateTime'>
+  readonly last_restocked_date: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly max_quantity: Prisma.FieldRef<"inventory", 'Int'>
   readonly min_quantity: Prisma.FieldRef<"inventory", 'Int'>
   readonly reorder_point: Prisma.FieldRef<"inventory", 'Int'>
+  readonly safety_stock: Prisma.FieldRef<"inventory", 'Int'>
+  readonly reorder_quantity: Prisma.FieldRef<"inventory", 'Int'>
+  readonly reorder_level: Prisma.FieldRef<"inventory", 'Int'>
+  readonly unit_cost: Prisma.FieldRef<"inventory", 'Decimal'>
+  readonly lead_time_days: Prisma.FieldRef<"inventory", 'Int'>
+  readonly is_active: Prisma.FieldRef<"inventory", 'Boolean'>
+  readonly status: Prisma.FieldRef<"inventory", 'String'>
+  readonly aisle: Prisma.FieldRef<"inventory", 'String'>
+  readonly rack: Prisma.FieldRef<"inventory", 'String'>
+  readonly shelf: Prisma.FieldRef<"inventory", 'String'>
+  readonly bin: Prisma.FieldRef<"inventory", 'String'>
+  readonly notes: Prisma.FieldRef<"inventory", 'String'>
   readonly tenant_id: Prisma.FieldRef<"inventory", 'String'>
   readonly updated_at: Prisma.FieldRef<"inventory", 'DateTime'>
   readonly product_id: Prisma.FieldRef<"inventory", 'String'>

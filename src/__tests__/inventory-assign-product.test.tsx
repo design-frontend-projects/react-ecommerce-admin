@@ -131,6 +131,17 @@ vi.mock('@/features/inventory/hooks/use-inventory', () => ({
     data: warehouseId === 'wh-cairo' ? mockLocationsCairo : [],
     isLoading: false,
   }),
+  useStockBalancesForProduct: () => ({
+    data: {
+      items: [],
+      metrics: { totalOnHand: 0, totalReserved: 0, totalAvailable: 0 },
+      inSelectedLocation: { onHand: 0, available: 0, reserved: 0 },
+      warehouseStock: { onHand: 0, available: 0, reserved: 0 },
+      storeStock: { onHand: 0, available: 0, reserved: 0 },
+      stockByWarehouse: {},
+    },
+    isLoading: false,
+  }),
 }))
 
 describe('Assign Product to Inventory Dialog', () => {
@@ -154,9 +165,9 @@ describe('Assign Product to Inventory Dialog', () => {
     )
 
     expect(screen.getByText('Assign Product to Inventory')).toBeInTheDocument()
-    expect(screen.getByText('Product Selection')).toBeInTheDocument()
-    expect(screen.getByText('Storage Facility & Location')).toBeInTheDocument()
-    expect(screen.getByText('Safety Stock Thresholds')).toBeInTheDocument()
+    expect(screen.getByText('Product & Variant Selection')).toBeInTheDocument()
+    expect(screen.getByText('Storage Facility & Warehouse Route')).toBeInTheDocument()
+    expect(screen.getByText('Safety Stock & Replenishment Policies')).toBeInTheDocument()
   })
 
   it('renders in edit mode with currentRow live stock status and pre-populated fields', () => {
@@ -170,6 +181,14 @@ describe('Assign Product to Inventory Dialog', () => {
       reorder_point: 15,
       min_quantity: 15,
       max_quantity: 250,
+      safety_stock: 5,
+      reorder_quantity: 50,
+      unit_cost: 18.5,
+      lead_time_days: 3,
+      aisle: 'A1',
+      rack: 'R2',
+      shelf: 'S3',
+      bin: 'B4',
       qty_on_hand: 80,
       qty_available: 70,
       qty_reserved: 10,
@@ -184,7 +203,7 @@ describe('Assign Product to Inventory Dialog', () => {
     )
 
     expect(screen.getByText('Edit Inventory Settings')).toBeInTheDocument()
-    expect(screen.getByText('Live Balance (from Stock Balances)')).toBeInTheDocument()
+    expect(screen.getByText('Live Stock Balance (from stock_balances)')).toBeInTheDocument()
     expect(screen.getByText('80')).toBeInTheDocument()
     expect(screen.getByText('70')).toBeInTheDocument()
     expect(screen.getByText('10')).toBeInTheDocument()
@@ -252,23 +271,54 @@ describe('Assign Product to Inventory Dialog', () => {
       </QueryClientProvider>
     )
 
+    expect(screen.getByText('Standard Catalog Product')).toBeInTheDocument()
     expect(
-      screen.getByText(
-        'Standard Catalog Product: This product has no variants. Inventory is tracked directly on the base SKU.'
-      )
+      screen.getByText('This product has no variants. Inventory is tracked directly on the base SKU.')
     ).toBeInTheDocument()
   })
 
-  it('submits updated values when saving changes', async () => {
-    const user = userEvent.setup()
-    const editRow: Inventory = {
-      inventory_id: 102,
+  it('renders store connected warehouse logistics route and fulfillment preview', () => {
+    const editRowWithStore: Inventory = {
+      inventory_id: 103,
       product_id: 'prod-1',
       product_variant_id: 'var-1',
       store_id: 'store-cairo',
       warehouse_id: 'wh-cairo',
       warehouse_location_id: 'loc-1',
-      reorder_point: 10,
+    }
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRowWithStore} />
+      </QueryClientProvider>
+    )
+
+    // Verify store route banner and warehouse preview card
+    expect(screen.getByText('Cairo Downtown Store Logistics Route')).toBeInTheDocument()
+    expect(screen.getAllByText('Cairo Logistics Center').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText('WH-CAI').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getByText('Store Primary Hub')).toBeInTheDocument()
+  })
+
+  it('submits enhanced inventory model fields including coordinates and safety stock', async () => {
+    const user = userEvent.setup()
+    const editRow: Inventory = {
+      inventory_id: 104,
+      product_id: 'prod-1',
+      product_variant_id: 'var-1',
+      store_id: 'store-cairo',
+      warehouse_id: 'wh-cairo',
+      warehouse_location_id: 'loc-1',
+      reorder_point: 20,
+      safety_stock: 12,
+      reorder_quantity: 100,
+      unit_cost: 25.5,
+      lead_time_days: 5,
+      aisle: 'Aisle-3',
+      rack: 'Rack-7',
+      shelf: 'Shelf-B',
+      bin: 'Bin-42',
+      notes: 'Fragile apparel goods handle with care',
     }
 
     render(
@@ -283,14 +333,24 @@ describe('Assign Product to Inventory Dialog', () => {
     await waitFor(() => {
       expect(mockUpdateMutateAsync).toHaveBeenCalledWith(
         expect.objectContaining({
-          inventory_id: 102,
+          inventory_id: 104,
           product_id: 'prod-1',
           product_variant_id: 'var-1',
           store_id: 'store-cairo',
           warehouse_id: 'wh-cairo',
           warehouse_location_id: 'loc-1',
+          safety_stock: 12,
+          reorder_quantity: 100,
+          unit_cost: 25.5,
+          lead_time_days: 5,
+          aisle: 'Aisle-3',
+          rack: 'Rack-7',
+          shelf: 'Shelf-B',
+          bin: 'Bin-42',
+          notes: 'Fragile apparel goods handle with care',
         })
       )
     })
   })
 })
+

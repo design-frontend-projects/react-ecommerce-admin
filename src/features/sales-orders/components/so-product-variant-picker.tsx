@@ -48,6 +48,9 @@ export interface SOVariantOption {
   price: number
   cost_price?: number | null
   stock_quantity?: number
+  qty_on_hand?: number
+  qty_reserved?: number
+  qty_available?: number
   uom_id?: string | null
   stock_balances?: SOVariantStockBalance[]
 }
@@ -61,6 +64,8 @@ export interface SOProductSelectProps {
   disabled?: boolean
   showValidation?: boolean
   storeId?: string | null
+  effectiveWarehouseId?: string | null
+  effectiveWarehouseName?: string | null
 }
 
 export function SOProductSelect({
@@ -71,6 +76,7 @@ export function SOProductSelect({
   disabled,
   showValidation,
   storeId,
+  effectiveWarehouseName,
 }: SOProductSelectProps) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
@@ -106,12 +112,17 @@ export function SOProductSelect({
                 {t('salesOrders.picker.selectStoreFirst', 'Select store first...')}
               </span>
             ) : selectedProduct ? (
-              <span className='truncate font-medium text-foreground'>
-                {selectedProduct.name}
+              <span className='truncate font-medium text-foreground flex items-center gap-1.5'>
+                <span className='truncate'>{selectedProduct.name}</span>
                 {selectedProduct.sku && (
-                  <span className='ml-1.5 font-mono text-xs text-muted-foreground'>
+                  <span className='font-mono text-xs text-muted-foreground shrink-0'>
                     ({selectedProduct.sku})
                   </span>
+                )}
+                {selectedProduct.tax_code && (
+                  <Badge variant='outline' className='text-[9px] h-4 px-1 text-primary border-primary/20 bg-primary/5 shrink-0'>
+                    <Percent className='h-2 w-2 mr-0.5' /> {selectedProduct.tax_code}
+                  </Badge>
                 )}
               </span>
             ) : (
@@ -121,7 +132,7 @@ export function SOProductSelect({
           <ChevronsUpDown className='ml-1.5 h-3.5 w-3.5 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[340px] sm:w-[420px] p-0' align='start'>
+      <PopoverContent className='w-[340px] sm:w-[440px] p-0 shadow-lg' align='start'>
         <Command>
           <CommandInput placeholder={t('salesOrders.picker.searchProduct', 'Search product by name or SKU...')} />
           <CommandList className='max-h-64'>
@@ -131,8 +142,12 @@ export function SOProductSelect({
                 const pId = String(p.id ?? p.product_id ?? '')
                 const pVariants = variantsByProductId.get(pId) ?? []
                 const isSelected = String(productId ?? '') === pId
-                const totalStoreStock = pVariants.reduce(
-                  (sum, v) => sum + (v.stock_quantity ?? 0),
+                const totalAvailable = pVariants.reduce(
+                  (sum, v) => sum + Number(v.qty_available ?? v.stock_quantity ?? 0),
+                  0
+                )
+                const totalOnHand = pVariants.reduce(
+                  (sum, v) => sum + Number(v.qty_on_hand ?? v.stock_quantity ?? 0),
                   0
                 )
 
@@ -166,13 +181,13 @@ export function SOProductSelect({
                           {p.categories?.name && (
                             <>
                               <span>•</span>
-                              <span>{p.categories.name}</span>
+                              <span className='truncate'>{p.categories.name}</span>
                             </>
                           )}
                           {p.tax_code && (
                             <>
                               <span>•</span>
-                              <span className='inline-flex items-center text-[10px] text-primary/80 font-medium'>
+                              <span className='inline-flex items-center text-[10px] text-primary/90 font-medium'>
                                 <Percent className='h-2.5 w-2.5 mr-0.5' />
                                 {p.tax_code}
                               </span>
@@ -182,29 +197,41 @@ export function SOProductSelect({
                       </div>
                     </div>
 
-                    <div className='shrink-0 flex items-center gap-1.5 text-right'>
-                      {/* Store Stock badge */}
-                      {totalStoreStock > 0 ? (
-                        <Badge
-                          variant='outline'
-                          className='text-[10px] font-mono text-emerald-600 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/10'
-                        >
-                          {totalStoreStock} in stock
-                        </Badge>
-                      ) : (
-                        <Badge
-                          variant='outline'
-                          className='text-[10px] font-mono text-rose-600 dark:text-rose-400 border-rose-500/30 bg-rose-500/10'
-                        >
-                          0 in stock
-                        </Badge>
-                      )}
+                    <div className='shrink-0 flex flex-col items-end gap-0.5 text-right'>
+                      <div className='flex items-center gap-1.5'>
+                        {/* Warehouse Stock badge */}
+                        {totalAvailable > 5 ? (
+                          <Badge
+                            variant='outline'
+                            className='text-[10px] font-mono text-emerald-600 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/10'
+                          >
+                            {totalAvailable} avail.
+                          </Badge>
+                        ) : totalAvailable > 0 ? (
+                          <Badge
+                            variant='outline'
+                            className='text-[10px] font-mono text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/10'
+                          >
+                            {totalAvailable} avail.
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant='outline'
+                            className='text-[10px] font-mono text-rose-600 dark:text-rose-400 border-rose-500/30 bg-rose-500/10'
+                          >
+                            0 avail.
+                          </Badge>
+                        )}
 
-                      {/* Variant count pill */}
-                      <span className='text-[10px] text-muted-foreground'>
-                        {pVariants.length === 1
-                          ? '1 var.'
-                          : `${pVariants.length} vars.`}
+                        {/* Variant count pill */}
+                        <span className='text-[10px] text-muted-foreground'>
+                          {pVariants.length === 1
+                            ? '1 var.'
+                            : `${pVariants.length} vars.`}
+                        </span>
+                      </div>
+                      <span className='text-[9px] font-mono text-muted-foreground'>
+                        {totalOnHand} on hand
                       </span>
                     </div>
                   </CommandItem>
@@ -228,6 +255,7 @@ export interface SOVariantSelectProps {
   showValidation?: boolean
   currencySymbol?: string
   effectiveWarehouseId?: string | null
+  effectiveWarehouseName?: string | null
   storeId?: string | null
 }
 
@@ -239,6 +267,7 @@ export function SOVariantSelect({
   disabled,
   showValidation,
   currencySymbol = '$',
+  effectiveWarehouseName,
 }: SOVariantSelectProps) {
   const { t } = useTranslation()
   const selectedVariant = variants.find((v) => v.id === variantId)
@@ -266,6 +295,9 @@ export function SOVariantSelect({
       </div>
     )
   }
+
+  const selAvail = selectedVariant?.qty_available ?? selectedVariant?.stock_quantity ?? 0
+  const selOnHand = selectedVariant?.qty_on_hand ?? selectedVariant?.stock_quantity ?? 0
 
   return (
     <Select
@@ -300,20 +332,23 @@ export function SOVariantSelect({
                 )}
               </div>
               <div className='flex items-center gap-1.5 shrink-0'>
-                {selectedVariant.stock_quantity !== undefined && (
-                  <span
-                    className={cn(
-                      'text-[10px] font-mono px-1 rounded',
-                      selectedVariant.stock_quantity > 0
-                        ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 font-medium'
-                        : 'text-rose-700 dark:text-rose-400 bg-rose-500/10 font-semibold'
-                    )}
-                  >
-                    {selectedVariant.stock_quantity > 0
-                      ? `${selectedVariant.stock_quantity} in stock`
-                      : '0 in stock'}
-                  </span>
-                )}
+                <span
+                  className={cn(
+                    'text-[10px] font-mono px-1.5 py-0.5 rounded',
+                    selAvail > 5
+                      ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 font-medium'
+                      : selAvail > 0
+                      ? 'text-amber-700 dark:text-amber-400 bg-amber-500/10 font-medium'
+                      : 'text-rose-700 dark:text-rose-400 bg-rose-500/10 font-semibold'
+                  )}
+                >
+                  {selAvail > 0 ? `${selAvail} avail.` : '0 avail.'}
+                  {selectedVariant.qty_on_hand !== undefined && (
+                    <span className='ml-1 opacity-75 font-normal'>
+                      ({selOnHand} on hand)
+                    </span>
+                  )}
+                </span>
                 <span className='font-mono text-xs font-semibold text-foreground'>
                   {currencySymbol}{selectedVariant.price.toFixed(2)}
                 </span>
@@ -324,9 +359,13 @@ export function SOVariantSelect({
           )}
         </SelectValue>
       </SelectTrigger>
-      <SelectContent className='w-[300px] sm:w-[380px]'>
+      <SelectContent className='w-[320px] sm:w-[420px]'>
         {variants.map((v) => {
-          const isOutOfStock = (v.stock_quantity ?? 0) <= 0
+          const avail = v.qty_available ?? v.stock_quantity ?? 0
+          const onHand = v.qty_on_hand ?? v.stock_quantity ?? 0
+          const reserved = v.qty_reserved ?? 0
+          const isOutOfStock = avail <= 0
+          const isLowStock = avail > 0 && avail <= 5
 
           return (
             <SelectItem key={v.id} value={v.id} className='cursor-pointer py-2'>
@@ -342,19 +381,38 @@ export function SOVariantSelect({
                       </span>
                     )}
                   </div>
-                  <div className='flex items-center gap-1.5 mt-0.5'>
+                  <div className='flex items-center gap-1.5 mt-0.5 text-[11px] font-mono'>
                     <span
                       className={cn(
-                        'text-[11px] font-mono',
-                        !isOutOfStock
+                        !isOutOfStock && !isLowStock
                           ? 'text-emerald-600 dark:text-emerald-400 font-medium'
+                          : isLowStock
+                          ? 'text-amber-600 dark:text-amber-400 font-medium'
                           : 'text-rose-600 dark:text-rose-400 font-semibold'
                       )}
                     >
-                      {!isOutOfStock
-                        ? `${v.stock_quantity} available in location`
-                        : '0 available in location'}
+                      {avail} avail.
                     </span>
+                    <span className='text-muted-foreground'>•</span>
+                    <span className='text-muted-foreground'>
+                      {onHand} on hand
+                    </span>
+                    {reserved > 0 && (
+                      <>
+                        <span className='text-muted-foreground'>•</span>
+                        <span className='text-amber-600 dark:text-amber-400'>
+                          {reserved} res.
+                        </span>
+                      </>
+                    )}
+                    {effectiveWarehouseName && (
+                      <>
+                        <span className='text-muted-foreground'>•</span>
+                        <span className='text-muted-foreground/80 truncate max-w-[100px]'>
+                          {effectiveWarehouseName}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
                 <span className='font-mono text-xs font-bold text-foreground shrink-0'>

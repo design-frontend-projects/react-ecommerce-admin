@@ -423,9 +423,22 @@ model inventory {
   warehouse_location_id String?              @db.Uuid
   created_at            DateTime?            @default(now()) @db.Timestamptz(6)
   last_count_date       DateTime?            @db.Timestamptz(6)
+  last_restocked_date   DateTime?            @db.Timestamptz(6)
   max_quantity          Int?
   min_quantity          Int?                 @default(0)
   reorder_point         Int?                 @default(0)
+  safety_stock          Int?                 @default(0)
+  reorder_quantity      Int?                 @default(0)
+  reorder_level         Int?                 @default(0)
+  unit_cost             Decimal?             @db.Decimal(18, 4)
+  lead_time_days        Int?                 @default(1)
+  is_active             Boolean              @default(true)
+  status                String?              @default("active") @db.VarChar(50)
+  aisle                 String?              @db.VarChar(50)
+  rack                  String?              @db.VarChar(50)
+  shelf                 String?              @db.VarChar(50)
+  bin                   String?              @db.VarChar(50)
+  notes                 String?
   tenant_id             String               @db.Uuid
   updated_at            DateTime?            @default(now()) @db.Timestamptz(6)
   product_id            String?              @db.Uuid
@@ -444,6 +457,8 @@ model inventory {
   @@index([warehouse_location_id])
   @@index([product_id])
   @@index([product_variant_id])
+  @@index([tenant_id, store_id, warehouse_id])
+  @@index([tenant_id, product_id, product_variant_id])
 }
 
 model pos_reorder_requests {

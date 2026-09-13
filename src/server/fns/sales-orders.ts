@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+import type { Prisma } from '@/generated/prisma/client'
 
 export interface OrderItemInput {
   productVariantId: string
@@ -264,6 +265,115 @@ export async function getOrder(authUserId: string, id: string) {
   }
 }
 
+async function validateOrderStock(
+  tx: Prisma.TransactionClient,
+  tenantId: string,
+  warehouseId: string | null | undefined,
+  storeId: string | null | undefined,
+  lines: Array<{ product_variant_id: string; qty_ordered: number }>
+): Promise<void> {
+  if (!lines || lines.length === 0) return
+
+  let effectiveWarehouseId = warehouseId
+  if (!effectiveWarehouseId && storeId) {
+    const defaultLink = await tx.store_warehouses.findFirst({
+      where: {
+        store_id: storeId,
+        tenant_id: tenantId,
+        is_active: true,
+        is_default: true,
+      },
+      select: { warehouse_id: true },
+    })
+    if (defaultLink?.warehouse_id) {
+      effectiveWarehouseId = defaultLink.warehouse_id
+    }
+  }
+
+  if (!effectiveWarehouseId) return
+
+  // Check if warehouse allows negative stock
+  const wh = await tx.warehouses.findFirst({
+    where: { id: effectiveWarehouseId, tenant_id: tenantId },
+    select: { id: true, name: true, allow_negative_stock: true },
+  })
+  if (wh?.allow_negative_stock) {
+    return
+  }
+
+  // Aggregate requested quantities by variant
+  const requestedByVariant = new Map<string, number>()
+  for (const line of lines) {
+    const current = requestedByVariant.get(line.product_variant_id) ?? 0
+    requestedByVariant.set(line.product_variant_id, current + line.qty_ordered)
+  }
+
+  const variantIds = Array.from(requestedByVariant.keys())
+  const balances = await tx.stock_balances.findMany({
+    where: {
+      tenant_id: tenantId,
+      warehouse_id: effectiveWarehouseId,
+      product_variant_id: { in: variantIds },
+    },
+    include: {
+      product_variants: {
+        select: { sku: true, name: true },
+      },
+    },
+  })
+
+  // Aggregate stock per variant
+  const stockByVariant = new Map<
+    string,
+    { onHand: number; reserved: number; available: number; sku: string; name?: string | null }
+  >()
+
+  for (const b of balances) {
+    const vId = b.product_variant_id
+    const onHand = Number(b.qty_on_hand ?? 0)
+    const reserved = Number(b.qty_reserved ?? 0)
+    const available =
+      b.qty_available !== null && b.qty_available !== undefined
+        ? Number(b.qty_available)
+        : Math.max(0, onHand - reserved)
+
+    const existing = stockByVariant.get(vId)
+    if (existing) {
+      existing.onHand += onHand
+      existing.reserved += reserved
+      existing.available += available
+    } else {
+      stockByVariant.set(vId, {
+        onHand,
+        reserved,
+        available,
+        sku: b.product_variants?.sku || 'Unknown SKU',
+        name: b.product_variants?.name,
+      })
+    }
+  }
+
+  for (const [variantId, reqQty] of requestedByVariant.entries()) {
+    const stock = stockByVariant.get(variantId)
+    const available = stock?.available ?? 0
+    const onHand = stock?.onHand ?? 0
+    if (reqQty > available) {
+      let sku = stock?.sku
+      if (!sku) {
+        const v = await tx.product_variants.findFirst({
+          where: { id: variantId, tenant_id: tenantId },
+          select: { sku: true },
+        })
+        sku = v?.sku || variantId
+      }
+      throw new ApiError(
+        `Insufficient stock for variant "${sku}" in warehouse "${wh?.name || effectiveWarehouseId}". Requested: ${reqQty}, Available: ${available} (${onHand} on hand).`,
+        400
+      )
+    }
+  }
+}
+
 export async function createOrder(authUserId: string, input: CreateOrderInput) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
@@ -298,6 +408,14 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
   const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
 
   return prisma.$transaction(async (tx) => {
+    await validateOrderStock(
+      tx,
+      tenantId,
+      input.warehouseId,
+      input.storeId,
+      lines
+    )
+
     const order = await tx.sales_orders.create({
       data: {
         tenant_id: tenantId,
@@ -383,6 +501,14 @@ export async function updateOrder(
   const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
 
   return prisma.$transaction(async (tx) => {
+    await validateOrderStock(
+      tx,
+      tenantId,
+      input.warehouseId,
+      input.storeId,
+      lines
+    )
+
     await tx.sales_orders.update({
       where: { id },
       data: {

@@ -99,7 +99,6 @@ export function useStoreWarehouses(storeId?: string | null) {
   return useAuthQuery<StoreWarehouseOption[]>({
     queryKey: ['store-warehouses', 'options', storeId ?? 'none'],
     enabled: Boolean(storeId),
-    rbac: { permission: 'inventory.stock.view' },
     queryFn: async (getToken) => {
       if (!storeId) return []
 
@@ -118,13 +117,22 @@ export function useStoreWarehouses(storeId?: string | null) {
             allow_fulfillment?: boolean
             is_active?: boolean
             notes?: string | null
-            warehouses?: {
-              id: string
-              name: string
-              code: string
-              is_active?: boolean
-              allow_negative_stock?: boolean
-            } | null
+            warehouses?:
+              | {
+                  id: string
+                  name: string
+                  code: string
+                  is_active?: boolean
+                  allow_negative_stock?: boolean
+                }
+              | Array<{
+                  id: string
+                  name: string
+                  code: string
+                  is_active?: boolean
+                  allow_negative_stock?: boolean
+                }>
+              | null
           }>
         }
 
@@ -133,9 +141,10 @@ export function useStoreWarehouses(storeId?: string | null) {
           const seenWhIds = new Set<string>()
 
           for (const item of payload.data) {
-            const wh = item.warehouses
+            const rawWh = item.warehouses
+            const wh = Array.isArray(rawWh) ? rawWh[0] : rawWh
             const whId = wh?.id || item.warehouse_id
-            if (whId && !seenWhIds.has(whId)) {
+            if (whId && !seenWhIds.has(whId) && wh?.is_active !== false) {
               seenWhIds.add(whId)
               results.push({
                 id: whId,
@@ -160,7 +169,7 @@ export function useStoreWarehouses(storeId?: string | null) {
         console.warn('API /api/inventory/store-warehouses fallback to Supabase:', err)
       }
 
-      // 2. Supabase Fallback: query without restrictive is_active filter
+      // 2. Supabase Fallback: query store_warehouses with active filters
       const { data, error } = await supabase
         .from('store_warehouses')
         .select(`
@@ -180,6 +189,7 @@ export function useStoreWarehouses(storeId?: string | null) {
           )
         `)
         .eq('store_id', storeId)
+        .eq('is_active', true)
         .order('priority', { ascending: true })
 
       if (error) {
@@ -198,29 +208,40 @@ export function useStoreWarehouses(storeId?: string | null) {
         priority?: number
         allow_fulfillment?: boolean
         is_active?: boolean
-        warehouses?: {
-          id: string
-          name: string
-          code: string
-          is_active?: boolean
-          allow_negative_stock?: boolean
-        } | null
+        warehouses?:
+          | {
+              id: string
+              name: string
+              code: string
+              is_active?: boolean
+              allow_negative_stock?: boolean
+            }
+          | Array<{
+              id: string
+              name: string
+              code: string
+              is_active?: boolean
+              allow_negative_stock?: boolean
+            }>
+          | null
       }
 
       for (const row of (data ?? []) as unknown as RawStoreWarehouseRow[]) {
-        if (row.warehouses) {
-          const whId = row.warehouses.id
-          if (!seenWhIds.has(whId)) {
+        const rawWh = row.warehouses
+        const wh = Array.isArray(rawWh) ? rawWh[0] : rawWh
+        if (wh && wh.is_active !== false) {
+          const whId = wh.id || row.warehouse_id
+          if (whId && !seenWhIds.has(whId)) {
             seenWhIds.add(whId)
             results.push({
               id: whId,
-              name: row.warehouses.name,
-              code: row.warehouses.code,
+              name: wh.name,
+              code: wh.code,
               is_default: Boolean(row.is_default),
               priority: Number(row.priority ?? 1),
               allow_fulfillment: row.allow_fulfillment !== false,
-              allow_negative_stock: Boolean(row.warehouses.allow_negative_stock),
-              is_active: row.warehouses.is_active ?? row.is_active ?? true,
+              allow_negative_stock: Boolean(wh.allow_negative_stock),
+              is_active: wh.is_active ?? row.is_active ?? true,
             })
           }
         }

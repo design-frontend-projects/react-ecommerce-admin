@@ -180,8 +180,15 @@ export const getColumns = (
         )
       }
 
+      const coords = [
+        location?.aisle || row.original.aisle ? `Aisle ${location?.aisle || row.original.aisle}` : null,
+        location?.rack || row.original.rack ? `R:${location?.rack || row.original.rack}` : null,
+        location?.shelf || row.original.shelf ? `S:${location?.shelf || row.original.shelf}` : null,
+        location?.bin || row.original.bin ? `B:${location?.bin || row.original.bin}` : null,
+      ].filter(Boolean).join(' ')
+
       return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col gap-0.5'>
           <div className='flex items-center gap-1.5'>
             <Badge variant='secondary' className='text-xs font-mono px-1.5 py-0'>
               {location.code}
@@ -192,11 +199,15 @@ export const getColumns = (
               </span>
             )}
           </div>
-          {location.path && (
+          {coords ? (
+            <span className='text-[10px] font-mono text-muted-foreground truncate max-w-32'>
+              {coords}
+            </span>
+          ) : location.path ? (
             <span className='text-[10px] text-muted-foreground font-mono truncate max-w-28'>
               {location.path}
             </span>
-          )}
+          ) : null}
         </div>
       )
     },
@@ -265,13 +276,19 @@ export const getColumns = (
         row.original.reorder_level ??
         0
       const max = row.original.max_quantity ?? row.original.max_stock_level
+      const safety = row.original.safety_stock
 
       return (
-        <div className='text-xs text-muted-foreground'>
+        <div className='text-xs text-muted-foreground space-y-0.5'>
           <div>
             {t('inventory.columns.min', 'Min')}:{' '}
             <strong className='text-foreground'>{min}</strong>
           </div>
+          {safety != null && safety > 0 && (
+            <div className='text-[11px] text-amber-600 dark:text-amber-400'>
+              Safety: <strong>{safety}</strong>
+            </div>
+          )}
           {max != null && (
             <div>
               {t('inventory.columns.max', 'Max')}:{' '}
@@ -292,7 +309,7 @@ export const getColumns = (
     ),
     cell: ({ row }) => {
       const qty = Number(row.original.qty_on_hand ?? row.original.quantity ?? 0)
-      const avgCost = Number(row.original.avg_cost ?? 0)
+      const avgCost = Number(row.original.avg_cost ?? row.original.unit_cost ?? 0)
       const totalVal = qty * avgCost
 
       return (
@@ -319,6 +336,10 @@ export const getColumns = (
       />
     ),
     cell: ({ row }) => {
+      if (row.original.is_active === false) {
+        return <Badge variant='outline' className='text-muted-foreground border-dashed'>Inactive</Badge>
+      }
+
       const statusCode = getInventoryStatus(row.original)
       let statusVariant: 'default' | 'destructive' | 'secondary' | 'outline' = 'default'
       let text = t('inventory.status.inStock', 'In Stock')

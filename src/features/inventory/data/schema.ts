@@ -10,7 +10,19 @@ export const inventorySchema = z.object({
   reorder_point: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
   min_quantity: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
   max_quantity: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
+  safety_stock: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
+  reorder_quantity: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
+  unit_cost: z.coerce.number().min(0, 'Must be positive').optional().nullable(),
+  lead_time_days: z.coerce.number().int().min(0, 'Must be positive').optional().nullable(),
+  is_active: z.boolean().optional().default(true),
+  status: z.string().optional().default('active'),
+  aisle: z.string().optional().nullable(),
+  rack: z.string().optional().nullable(),
+  shelf: z.string().optional().nullable(),
+  bin: z.string().optional().nullable(),
   last_count_date: z.string().optional().nullable(),
+  last_restocked_date: z.string().optional().nullable(),
+  notes: z.string().optional().nullable(),
   tenant_id: z.string().optional().nullable(),
   // Compatibility aliases
   quantity: z.coerce.number().int().min(0).optional().nullable(),
@@ -27,6 +39,9 @@ export interface InventoryProductRelation {
   name: string
   sku?: string | null
   has_variants?: boolean | null
+  barcode?: string | null
+  brand?: string | null
+  category?: string | null
 }
 
 export interface InventoryVariantRelation {
@@ -36,10 +51,14 @@ export interface InventoryVariantRelation {
   sku: string
   barcode?: string | null
   price?: number | null
+  cost_price?: number | null
   dimensions?: unknown
   weight?: number | null
   is_active?: boolean
   attributes_label?: string
+  qty_on_hand?: number
+  qty_available?: number
+  qty_reserved?: number
 }
 
 export interface InventoryWarehouseRelation {
@@ -48,6 +67,15 @@ export interface InventoryWarehouseRelation {
   name: string
   is_active?: boolean
   is_default?: boolean
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  allow_negative_stock?: boolean
+  is_store_default?: boolean
+  priority?: number
+  allow_fulfillment?: boolean
+  allow_replenishment?: boolean
+  allow_returns?: boolean
 }
 
 export interface InventoryLocationRelation {
@@ -86,7 +114,19 @@ export type Inventory = {
   reorder_point?: number | null
   min_quantity?: number | null
   max_quantity?: number | null
+  safety_stock?: number | null
+  reorder_quantity?: number | null
+  unit_cost?: number | null
+  lead_time_days?: number | null
+  is_active?: boolean
+  status?: string | null
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
   last_count_date?: string | null
+  last_restocked_date?: string | null
+  notes?: string | null
   tenant_id?: string | null
   created_at?: string | null
   updated_at?: string | null

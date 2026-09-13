@@ -51,7 +51,6 @@ import {
   RotateCcw,
   Radio,
 } from 'lucide-react'
-
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '@/stores/auth-store'
 import { useNavCatalog } from '@/features/access-control/hooks/use-nav-catalog'
@@ -226,6 +225,12 @@ export function useSidebarData(): SidebarData {
             icon: Wallet,
             roles: ADMINS,
           },
+          {
+            title: t('sidebar.promotions'),
+            url: '/promotions',
+            icon: TrendingUp,
+            roles: ADMINS,
+          },
           // Admin only
           {
             title: t('sidebar.usersRoles'),
@@ -307,12 +312,6 @@ export function useSidebarData(): SidebarData {
                 title: t('sidebar.priceList'),
                 url: '/price-list',
                 icon: DollarSign,
-                roles: ADMINS,
-              },
-              {
-                title: t('sidebar.promotions'),
-                url: '/promotions',
-                icon: TrendingUp,
                 roles: ADMINS,
               },
             ],

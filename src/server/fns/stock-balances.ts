@@ -10,6 +10,7 @@ import prisma from '@/lib/prisma'
 
 export interface StockBalanceFilters {
   warehouseId?: string
+  warehouseIds?: string[]
   storeId?: string
   locationId?: string
   productVariantId?: string
@@ -60,11 +61,22 @@ export async function listStockBalances(
       tenant_id: tenantId,
     }
 
-    if (filters.warehouseId) {
-      where.warehouse_id = filters.warehouseId
+    const orConditions: Array<Record<string, unknown>> = []
+
+    if (filters.warehouseIds && filters.warehouseIds.length > 0) {
+      orConditions.push({ warehouse_id: { in: filters.warehouseIds } })
+    } else if (filters.warehouseId) {
+      orConditions.push({ warehouse_id: filters.warehouseId })
     }
+
     if (filters.storeId) {
-      where.store_id = filters.storeId
+      orConditions.push({ store_id: filters.storeId })
+    }
+
+    if (orConditions.length > 1) {
+      where.OR = orConditions
+    } else if (orConditions.length === 1) {
+      Object.assign(where, orConditions[0])
     }
     if (filters.locationId) {
       where.location_id = filters.locationId
