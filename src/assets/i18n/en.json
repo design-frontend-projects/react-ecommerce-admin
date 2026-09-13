@@ -4805,10 +4805,24 @@
   },
   "transactions": {
     "title": "Financial Transactions",
-    "description": "Track payments, invoices, refunds, and financial ledgers.",
+    "description": "Comprehensive monetary ledger: sales, payments, purchases, expenses, and linked refunds.",
+    "newTransaction": "New Transaction",
+    "searchPlaceholder": "Search by transaction # or notes...",
     "table": {
       "filterPlaceholder": "Filter transactions...",
       "noResults": "No transactions found."
+    },
+    "kpis": {
+      "totalVolume": "Total Volume",
+      "totalVolumeDesc": "Net settled turnover",
+      "totalInflow": "Total Inflow",
+      "totalInflowDesc": "Sales, income & receipts",
+      "totalOutflow": "Total Outflow",
+      "totalOutflowDesc": "Purchases & expenditures",
+      "totalRefunds": "Total Refunds",
+      "totalRefundsDesc": "Reversals & chargebacks",
+      "pendingCount": "Pending Settlement",
+      "pendingCountDesc": "Awaiting clearance"
     },
     "columns": {
       "transactionId": "Transaction ID",
@@ -4820,10 +4834,24 @@
       "status": "Status"
     },
     "types": {
-      "payment": "Customer Payment",
+      "sale": "Sale",
+      "purchase": "Purchase",
+      "payment_in": "Payment In",
+      "payment_out": "Payment Out",
       "refund": "Refund",
-      "supplierPayment": "Vendor Payment",
-      "expense": "Expense"
+      "expense": "Expense",
+      "income": "Income",
+      "opening_balance": "Opening Balance",
+      "adjustment": "Adjustment"
+    },
+    "statuses": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "refunded": "Refunded",
+      "partially_refunded": "Partial Refund",
+      "cancelled": "Cancelled",
+      "voided": "Voided",
+      "failed": "Failed"
     }
   },
   "areas": {

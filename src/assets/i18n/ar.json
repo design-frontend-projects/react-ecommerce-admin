@@ -4805,10 +4805,24 @@
   },
   "transactions": {
     "title": "المعاملات والقيود المالية",
-    "description": "تتبع المدفوعات، والمتحصلات، والمصروفات، والمردودات المالية.",
+    "description": "سجل القيود المالية الشامل: المبيعات، المدفوعات، المشتريات، المصروفات، والمردودات المرتبطة.",
+    "newTransaction": "معاملة مالية جديدة",
+    "searchPlaceholder": "البحث برقم المعاملة أو الملاحظات...",
     "table": {
       "filterPlaceholder": "تصفية المعاملات المالية...",
       "noResults": "لم يتم العثور على معاملات مالية."
+    },
+    "kpis": {
+      "totalVolume": "إجمالي الحركة المالية",
+      "totalVolumeDesc": "صافي حجم التداول المالي المسوّى",
+      "totalInflow": "إجمالي المقبوضات",
+      "totalInflowDesc": "المبيعات والإيرادات والمقبوضات",
+      "totalOutflow": "إجمالي المدفوعات",
+      "totalOutflowDesc": "المشتريات والمصروفات التشغيلية",
+      "totalRefunds": "إجمالي المستردات",
+      "totalRefundsDesc": "الاستردادات والتسويات العكسية",
+      "pendingCount": "قيد التسوية",
+      "pendingCountDesc": "معاملات معلقة بانتظار التأكيد"
     },
     "columns": {
       "transactionId": "رقم المعاملة",
@@ -4820,10 +4834,24 @@
       "status": "الحالة"
     },
     "types": {
-      "payment": "تحصيل من عميل",
+      "sale": "مبيعات",
+      "purchase": "مشتريات",
+      "payment_in": "سند قبض",
+      "payment_out": "سند صرف",
       "refund": "استرداد مالي",
-      "supplierPayment": "سداد لمورد",
-      "expense": "مصروفات تشغيلية"
+      "expense": "مصروفات تشغيلية",
+      "income": "إيرادات أخرى",
+      "opening_balance": "رصيد افتتاحي",
+      "adjustment": "تسوية مالية"
+    },
+    "statuses": {
+      "completed": "مكتملة",
+      "pending": "معلقة",
+      "refunded": "مستردة بالكامل",
+      "partially_refunded": "مستردة جزئياً",
+      "cancelled": "ملغاة",
+      "voided": "باطلة",
+      "failed": "فشلت"
     }
   },
   "areas": {

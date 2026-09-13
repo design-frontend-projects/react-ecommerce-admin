@@ -59,6 +59,7 @@ import { Route as AuthenticatedChannelsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
+import { Route as ApiFinancialTransactionsIndexRouteImport } from './routes/api/financial-transactions/index'
 import { Route as AuthenticatedWarehousesIndexRouteImport } from './routes/_authenticated/warehouses/index'
 import { Route as AuthenticatedUnitsIndexRouteImport } from './routes/_authenticated/units/index'
 import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
@@ -131,6 +132,8 @@ import { Route as ApiInventoryCategoriesRouteImport } from './routes/api/invento
 import { Route as ApiInventoryBrandsRouteImport } from './routes/api/inventory/brands'
 import { Route as ApiInventoryBatchesRouteImport } from './routes/api/inventory/batches'
 import { Route as ApiInventoryAdjustmentsRouteImport } from './routes/api/inventory/adjustments'
+import { Route as ApiFinancialTransactionsStatusRouteImport } from './routes/api/financial-transactions/status'
+import { Route as ApiFinancialTransactionsRefundRouteImport } from './routes/api/financial-transactions/refund'
 import { Route as ApiCrmSyncTransactionRouteImport } from './routes/api/crm/sync-transaction'
 import { Route as ApiAuthProvisionSignupRouteImport } from './routes/api/auth/provision-signup'
 import { Route as ApiAccessControlNavigationRouteImport } from './routes/api/access-control/navigation'
@@ -483,6 +486,12 @@ const AuthenticatedCitiesIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/_authenticated/cities/index.lazy').then((d) => d.Route),
   )
+const ApiFinancialTransactionsIndexRoute =
+  ApiFinancialTransactionsIndexRouteImport.update({
+    id: '/api/financial-transactions/',
+    path: '/api/financial-transactions/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedWarehousesIndexRoute =
   AuthenticatedWarehousesIndexRouteImport.update({
     id: '/warehouses/',
@@ -882,6 +891,18 @@ const ApiInventoryAdjustmentsRoute = ApiInventoryAdjustmentsRouteImport.update({
   path: '/api/inventory/adjustments',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiFinancialTransactionsStatusRoute =
+  ApiFinancialTransactionsStatusRouteImport.update({
+    id: '/api/financial-transactions/status',
+    path: '/api/financial-transactions/status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiFinancialTransactionsRefundRoute =
+  ApiFinancialTransactionsRefundRouteImport.update({
+    id: '/api/financial-transactions/refund',
+    path: '/api/financial-transactions/refund',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiCrmSyncTransactionRoute = ApiCrmSyncTransactionRouteImport.update({
   id: '/api/crm/sync-transaction',
   path: '/api/crm/sync-transaction',
@@ -1330,6 +1351,8 @@ export interface FileRoutesByFullPath {
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
+  '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
   '/api/inventory/brands': typeof ApiInventoryBrandsRoute
@@ -1402,6 +1425,7 @@ export interface FileRoutesByFullPath {
   '/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/units/': typeof AuthenticatedUnitsIndexRoute
   '/warehouses/': typeof AuthenticatedWarehousesIndexRoute
+  '/api/financial-transactions/': typeof ApiFinancialTransactionsIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
@@ -1514,6 +1538,8 @@ export interface FileRoutesByTo {
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
+  '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
   '/api/inventory/brands': typeof ApiInventoryBrandsRoute
@@ -1586,6 +1612,7 @@ export interface FileRoutesByTo {
   '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/units': typeof AuthenticatedUnitsIndexRoute
   '/warehouses': typeof AuthenticatedWarehousesIndexRoute
+  '/api/financial-transactions': typeof ApiFinancialTransactionsIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
@@ -1703,6 +1730,8 @@ export interface FileRoutesById {
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
+  '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
   '/api/inventory/brands': typeof ApiInventoryBrandsRoute
@@ -1775,6 +1804,7 @@ export interface FileRoutesById {
   '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/_authenticated/units/': typeof AuthenticatedUnitsIndexRoute
   '/_authenticated/warehouses/': typeof AuthenticatedWarehousesIndexRoute
+  '/api/financial-transactions/': typeof ApiFinancialTransactionsIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
@@ -1891,6 +1921,8 @@ export interface FileRouteTypes {
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
+    | '/api/financial-transactions/refund'
+    | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
     | '/api/inventory/batches'
     | '/api/inventory/brands'
@@ -1963,6 +1995,7 @@ export interface FileRouteTypes {
     | '/transactions/'
     | '/units/'
     | '/warehouses/'
+    | '/api/financial-transactions/'
     | '/cities/'
     | '/respos/invoice/$orderId'
     | '/api/crm/customers/segment'
@@ -2075,6 +2108,8 @@ export interface FileRouteTypes {
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
+    | '/api/financial-transactions/refund'
+    | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
     | '/api/inventory/batches'
     | '/api/inventory/brands'
@@ -2147,6 +2182,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/units'
     | '/warehouses'
+    | '/api/financial-transactions'
     | '/cities'
     | '/respos/invoice/$orderId'
     | '/api/crm/customers/segment'
@@ -2263,6 +2299,8 @@ export interface FileRouteTypes {
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
+    | '/api/financial-transactions/refund'
+    | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
     | '/api/inventory/batches'
     | '/api/inventory/brands'
@@ -2335,6 +2373,7 @@ export interface FileRouteTypes {
     | '/_authenticated/transactions/'
     | '/_authenticated/units/'
     | '/_authenticated/warehouses/'
+    | '/api/financial-transactions/'
     | '/_authenticated/cities/'
     | '/_authenticated/respos/invoice/$orderId'
     | '/api/crm/customers/segment'
@@ -2395,6 +2434,8 @@ export interface RootRouteChildren {
   ApiAccessControlNavigationRoute: typeof ApiAccessControlNavigationRoute
   ApiAuthProvisionSignupRoute: typeof ApiAuthProvisionSignupRoute
   ApiCrmSyncTransactionRoute: typeof ApiCrmSyncTransactionRoute
+  ApiFinancialTransactionsRefundRoute: typeof ApiFinancialTransactionsRefundRoute
+  ApiFinancialTransactionsStatusRoute: typeof ApiFinancialTransactionsStatusRoute
   ApiInventoryAdjustmentsRoute: typeof ApiInventoryAdjustmentsRouteWithChildren
   ApiInventoryBatchesRoute: typeof ApiInventoryBatchesRouteWithChildren
   ApiInventoryBrandsRoute: typeof ApiInventoryBrandsRoute
@@ -2429,6 +2470,7 @@ export interface RootRouteChildren {
   ApiPosCheckoutRoute: typeof ApiPosCheckoutRoute
   ApiTenantActivityTypesRoute: typeof ApiTenantActivityTypesRoute
   ApiTenantOnboardRoute: typeof ApiTenantOnboardRoute
+  ApiFinancialTransactionsIndexRoute: typeof ApiFinancialTransactionsIndexRoute
   ApiCrmCustomersSegmentRoute: typeof ApiCrmCustomersSegmentRoute
   ApiInventoryPurchaseOrdersStatusRoute: typeof ApiInventoryPurchaseOrdersStatusRoute
   ApiTenantSubscriptionStatusRoute: typeof ApiTenantSubscriptionStatusRoute
@@ -2799,6 +2841,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/cities/'
       preLoaderRoute: typeof AuthenticatedCitiesIndexLazyRouteImport
       parentRoute: typeof AuthenticatedCitiesRouteRoute
+    }
+    '/api/financial-transactions/': {
+      id: '/api/financial-transactions/'
+      path: '/api/financial-transactions'
+      fullPath: '/api/financial-transactions/'
+      preLoaderRoute: typeof ApiFinancialTransactionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/warehouses/': {
       id: '/_authenticated/warehouses/'
@@ -3302,6 +3351,20 @@ declare module '@tanstack/react-router' {
       path: '/api/inventory/adjustments'
       fullPath: '/api/inventory/adjustments'
       preLoaderRoute: typeof ApiInventoryAdjustmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/financial-transactions/status': {
+      id: '/api/financial-transactions/status'
+      path: '/api/financial-transactions/status'
+      fullPath: '/api/financial-transactions/status'
+      preLoaderRoute: typeof ApiFinancialTransactionsStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/financial-transactions/refund': {
+      id: '/api/financial-transactions/refund'
+      path: '/api/financial-transactions/refund'
+      fullPath: '/api/financial-transactions/refund'
+      preLoaderRoute: typeof ApiFinancialTransactionsRefundRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/crm/sync-transaction': {
@@ -4251,6 +4314,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAccessControlNavigationRoute: ApiAccessControlNavigationRoute,
   ApiAuthProvisionSignupRoute: ApiAuthProvisionSignupRoute,
   ApiCrmSyncTransactionRoute: ApiCrmSyncTransactionRoute,
+  ApiFinancialTransactionsRefundRoute: ApiFinancialTransactionsRefundRoute,
+  ApiFinancialTransactionsStatusRoute: ApiFinancialTransactionsStatusRoute,
   ApiInventoryAdjustmentsRoute: ApiInventoryAdjustmentsRouteWithChildren,
   ApiInventoryBatchesRoute: ApiInventoryBatchesRouteWithChildren,
   ApiInventoryBrandsRoute: ApiInventoryBrandsRoute,
@@ -4288,6 +4353,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPosCheckoutRoute: ApiPosCheckoutRoute,
   ApiTenantActivityTypesRoute: ApiTenantActivityTypesRoute,
   ApiTenantOnboardRoute: ApiTenantOnboardRoute,
+  ApiFinancialTransactionsIndexRoute: ApiFinancialTransactionsIndexRoute,
   ApiCrmCustomersSegmentRoute: ApiCrmCustomersSegmentRoute,
   ApiInventoryPurchaseOrdersStatusRoute: ApiInventoryPurchaseOrdersStatusRoute,
   ApiTenantSubscriptionStatusRoute: ApiTenantSubscriptionStatusRoute,

@@ -364,7 +364,7 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     route: '/transactions',
     moduleCode: 'inventory',
     roles: ADMINS,
-    permissions: [],
+    permissions: ['inventory.stock.view'],
   },
   {
     code: 'stock_transfers',
@@ -557,4 +557,15 @@ export const SCREEN_BUTTON_SEEDS: ScreenButtonSeed[] = [
     roles: ['manager', ...ADMINS],
   },
   { screenCode: 'stock_adjustments', buttonCode: 'approve', roles: ADMINS },
+  {
+    screenCode: 'transactions',
+    buttonCode: 'create',
+    roles: ['manager', ...ADMINS],
+  },
+  {
+    screenCode: 'transactions',
+    buttonCode: 'pay',
+    roles: [UserRole.Cashier, ...ADMINS],
+  },
+  { screenCode: 'transactions', buttonCode: 'approve', roles: ADMINS },
 ]
