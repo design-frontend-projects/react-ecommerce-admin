@@ -21,8 +21,8 @@ export function RecentSales({ data }: RecentSalesProps) {
   return (
     <div className='space-y-8'>
       {data.map((sale) => {
-        const itemCount = sale.transaction_details?.length || 0
-        const firstItem = sale.transaction_details?.[0]
+        const itemCount = sale.financial_transaction_details?.length || 0
+        const firstItem = sale.financial_transaction_details?.[0]
         const productName =
           firstItem?.products?.name || t('dashboard.unknownProduct')
 

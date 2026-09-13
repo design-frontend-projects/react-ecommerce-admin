@@ -770,7 +770,7 @@ export async function createPosTransaction(
     }
 
     // 5. Create Transaction record
-    const { error: txError } = await supabase.from('transactions').insert({
+    const { error: txError } = await supabase.from('financial_transactions').insert({
       id: transactionId,
       transaction_number: `TRN-${invoiceNo}`,
       transaction_type: 'sale',

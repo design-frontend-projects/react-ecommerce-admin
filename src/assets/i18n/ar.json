@@ -385,6 +385,7 @@
     "stockTransfers": "تحويلات المخزون",
     "stockAdjustments": "تعديلات المخزون",
     "inventoryMovements": "حركات المخزون",
+    "inventoryTransactions": "معاملات المخزون",
     "paymentMethods": "طرق الدفع",
     "warehouses": "المستودعات",
     "stockByLocation": "المخزون حسب الموقع",

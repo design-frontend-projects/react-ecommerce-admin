@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { Loader2 } from 'lucide-react'
 import { useWarehouseOptions, useStoreOptions } from '@/hooks/use-inventory-lookups'
 import { Badge } from '@/components/ui/badge'
@@ -179,10 +180,22 @@ export function InventoryMovements() {
                         <TableCell className='text-end font-mono text-sm'>
                           {movement.unit_cost > 0 ? `$${Number(movement.unit_cost).toFixed(2)}` : '—'}
                         </TableCell>
-                        <TableCell className='text-muted-foreground'>
-                          {movement.reference_type
-                            ? movement.reference_type.replace(/_/g, ' ')
-                            : '—'}
+                        <TableCell>
+                          {movement.reference_type === 'inventory_transaction' || movement.source_document_type ? (
+                            <Link
+                              to='/inventory-transactions'
+                              className='font-medium text-primary hover:underline inline-flex items-center gap-1 text-xs'
+                            >
+                              <span>{movement.source_document_type ?? 'Txn'}</span>
+                              <span className='text-[10px] text-muted-foreground font-mono'>→</span>
+                            </Link>
+                          ) : (
+                            <span className='text-muted-foreground text-xs'>
+                              {movement.reference_type
+                                ? movement.reference_type.replace(/_/g, ' ')
+                                : '—'}
+                            </span>
+                          )}
                         </TableCell>
                       </TableRow>
                     )

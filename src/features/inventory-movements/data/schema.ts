@@ -22,6 +22,8 @@ export const movementRowSchema = z.object({
   total_cost: z.coerce.number(),
   movement_date: z.string(),
   remarks: z.string().nullable(),
+  source_document_id: z.string().nullable().optional(),
+  source_document_type: z.string().nullable().optional(),
   store_id: z.string().nullable(),
   product_variant_id: z.string(),
   product_variants: z

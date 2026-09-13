@@ -25,7 +25,7 @@ export function AnalyticsChart() {
       const sevenDaysAgo = subDays(startOfDay(new Date()), 6).toISOString()
 
       const { data: transactions, error } = await supabase
-        .from('transactions')
+        .from('financial_transactions')
         .select('transaction_type, total_amount, created_at')
         .gte('created_at', sevenDaysAgo)
         .order('created_at', { ascending: true })

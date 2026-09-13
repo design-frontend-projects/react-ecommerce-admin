@@ -26,7 +26,7 @@ export function Analytics() {
     queryFn: async (): Promise<AnalyticsData> => {
       // Transactions summary
       const { data: transactions, error } = await supabase
-        .from('transactions')
+        .from('financial_transactions')
         .select('id, transaction_type, total_amount, status')
 
       if (error) throw error
@@ -61,7 +61,7 @@ export function Analytics() {
 
       // Top selling products from transaction_details
       const { data: details, error: detailsError } = await supabase
-        .from('transaction_details')
+        .from('financial_transaction_details')
         .select(
           `
           quantity,

@@ -348,15 +348,15 @@ export type tenants = Prisma.tenantsModel
  */
 export type tenant_users = Prisma.tenant_usersModel
 /**
- * Model transaction_details
- * 
+ * Model financial_transaction_details
+ * Renamed from `transaction_details` → `financial_transaction_details` to avoid namespace collision with the Inventory Transaction Engine.
  */
-export type transaction_details = Prisma.transaction_detailsModel
+export type financial_transaction_details = Prisma.financial_transaction_detailsModel
 /**
- * Model transactions
- * 
+ * Model financial_transactions
+ * Renamed from `transactions` → `financial_transactions` to avoid namespace collision with the Inventory Transaction Engine.
  */
-export type transactions = Prisma.transactionsModel
+export type financial_transactions = Prisma.financial_transactionsModel
 /**
  * Model user_roles
  * 
@@ -597,3 +597,28 @@ export type lookup_types = Prisma.lookup_typesModel
  * 
  */
 export type lookup_values = Prisma.lookup_valuesModel
+/**
+ * Model inventory_transaction_types
+ * Reference/config table defining all possible inventory transaction types and their stock effects.
+ */
+export type inventory_transaction_types = Prisma.inventory_transaction_typesModel
+/**
+ * Model inventory_transaction_type_rules
+ * Rule engine: defines HOW each transaction type affects each stock quantity field.
+ */
+export type inventory_transaction_type_rules = Prisma.inventory_transaction_type_rulesModel
+/**
+ * Model inventory_transactions
+ * Central inventory state-changing event header. Every stock mutation flows through this table.
+ */
+export type inventory_transactions = Prisma.inventory_transactionsModel
+/**
+ * Model inventory_transaction_items
+ * Individual line items within an inventory transaction.
+ */
+export type inventory_transaction_items = Prisma.inventory_transaction_itemsModel
+/**
+ * Model inventory_audit_logs
+ * Immutable audit trail for all inventory mutations.
+ */
+export type inventory_audit_logs = Prisma.inventory_audit_logsModel

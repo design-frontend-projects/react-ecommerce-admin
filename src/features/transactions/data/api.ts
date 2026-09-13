@@ -3,7 +3,7 @@ import { type TransactionRow } from './schema'
 
 export async function getTransactions(): Promise<TransactionRow[]> {
   const { data, error } = await supabase
-    .from('transactions')
+    .from('financial_transactions')
     .select(
       `
       id,

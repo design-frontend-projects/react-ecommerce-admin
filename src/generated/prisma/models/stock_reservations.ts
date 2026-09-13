@@ -46,12 +46,14 @@ export type Stock_reservationsMinAggregateOutputType = {
   product_variant_id: string | null
   batch_id: string | null
   warehouse_location_id: string | null
+  stock_balance_id: string | null
   qty: runtime.Decimal | null
   qty_consumed: runtime.Decimal | null
   status: $Enums.stock_reservation_status_enum | null
   reference_type: string | null
   reference_id: string | null
   reference_item_id: string | null
+  release_reason: string | null
   expires_at: Date | null
   released_at: Date | null
   consumed_at: Date | null
@@ -72,12 +74,14 @@ export type Stock_reservationsMaxAggregateOutputType = {
   product_variant_id: string | null
   batch_id: string | null
   warehouse_location_id: string | null
+  stock_balance_id: string | null
   qty: runtime.Decimal | null
   qty_consumed: runtime.Decimal | null
   status: $Enums.stock_reservation_status_enum | null
   reference_type: string | null
   reference_id: string | null
   reference_item_id: string | null
+  release_reason: string | null
   expires_at: Date | null
   released_at: Date | null
   consumed_at: Date | null
@@ -98,12 +102,14 @@ export type Stock_reservationsCountAggregateOutputType = {
   product_variant_id: number
   batch_id: number
   warehouse_location_id: number
+  stock_balance_id: number
   qty: number
   qty_consumed: number
   status: number
   reference_type: number
   reference_id: number
   reference_item_id: number
+  release_reason: number
   expires_at: number
   released_at: number
   consumed_at: number
@@ -136,12 +142,14 @@ export type Stock_reservationsMinAggregateInputType = {
   product_variant_id?: true
   batch_id?: true
   warehouse_location_id?: true
+  stock_balance_id?: true
   qty?: true
   qty_consumed?: true
   status?: true
   reference_type?: true
   reference_id?: true
   reference_item_id?: true
+  release_reason?: true
   expires_at?: true
   released_at?: true
   consumed_at?: true
@@ -162,12 +170,14 @@ export type Stock_reservationsMaxAggregateInputType = {
   product_variant_id?: true
   batch_id?: true
   warehouse_location_id?: true
+  stock_balance_id?: true
   qty?: true
   qty_consumed?: true
   status?: true
   reference_type?: true
   reference_id?: true
   reference_item_id?: true
+  release_reason?: true
   expires_at?: true
   released_at?: true
   consumed_at?: true
@@ -188,12 +198,14 @@ export type Stock_reservationsCountAggregateInputType = {
   product_variant_id?: true
   batch_id?: true
   warehouse_location_id?: true
+  stock_balance_id?: true
   qty?: true
   qty_consumed?: true
   status?: true
   reference_type?: true
   reference_id?: true
   reference_item_id?: true
+  release_reason?: true
   expires_at?: true
   released_at?: true
   consumed_at?: true
@@ -301,12 +313,14 @@ export type Stock_reservationsGroupByOutputType = {
   product_variant_id: string
   batch_id: string | null
   warehouse_location_id: string | null
+  stock_balance_id: string | null
   qty: runtime.Decimal
   qty_consumed: runtime.Decimal
   status: $Enums.stock_reservation_status_enum
   reference_type: string
   reference_id: string | null
   reference_item_id: string | null
+  release_reason: string | null
   expires_at: Date | null
   released_at: Date | null
   consumed_at: Date | null
@@ -350,12 +364,14 @@ export type stock_reservationsWhereInput = {
   product_variant_id?: Prisma.UuidFilter<"stock_reservations"> | string
   batch_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  stock_balance_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   qty?: Prisma.DecimalFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: Prisma.DecimalFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.Enumstock_reservation_status_enumFilter<"stock_reservations"> | $Enums.stock_reservation_status_enum
   reference_type?: Prisma.StringFilter<"stock_reservations"> | string
   reference_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   reference_item_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  release_reason?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
   expires_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
   released_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
   consumed_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
@@ -364,6 +380,7 @@ export type stock_reservationsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"stock_reservations"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  stock_balances?: Prisma.XOR<Prisma.Stock_balancesNullableScalarRelationFilter, Prisma.stock_balancesWhereInput> | null
 }
 
 export type stock_reservationsOrderByWithRelationInput = {
@@ -376,12 +393,14 @@ export type stock_reservationsOrderByWithRelationInput = {
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  stock_balance_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty?: Prisma.SortOrder
   qty_consumed?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference_type?: Prisma.SortOrder
   reference_id?: Prisma.SortOrderInput | Prisma.SortOrder
   reference_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  release_reason?: Prisma.SortOrderInput | Prisma.SortOrder
   expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
   released_at?: Prisma.SortOrderInput | Prisma.SortOrder
   consumed_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -390,6 +409,7 @@ export type stock_reservationsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  stock_balances?: Prisma.stock_balancesOrderByWithRelationInput
 }
 
 export type stock_reservationsWhereUniqueInput = Prisma.AtLeast<{
@@ -405,12 +425,14 @@ export type stock_reservationsWhereUniqueInput = Prisma.AtLeast<{
   product_variant_id?: Prisma.UuidFilter<"stock_reservations"> | string
   batch_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  stock_balance_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   qty?: Prisma.DecimalFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: Prisma.DecimalFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.Enumstock_reservation_status_enumFilter<"stock_reservations"> | $Enums.stock_reservation_status_enum
   reference_type?: Prisma.StringFilter<"stock_reservations"> | string
   reference_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   reference_item_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  release_reason?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
   expires_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
   released_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
   consumed_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
@@ -419,6 +441,7 @@ export type stock_reservationsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"stock_reservations"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  stock_balances?: Prisma.XOR<Prisma.Stock_balancesNullableScalarRelationFilter, Prisma.stock_balancesWhereInput> | null
 }, "id">
 
 export type stock_reservationsOrderByWithAggregationInput = {
@@ -431,12 +454,14 @@ export type stock_reservationsOrderByWithAggregationInput = {
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  stock_balance_id?: Prisma.SortOrderInput | Prisma.SortOrder
   qty?: Prisma.SortOrder
   qty_consumed?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference_type?: Prisma.SortOrder
   reference_id?: Prisma.SortOrderInput | Prisma.SortOrder
   reference_item_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  release_reason?: Prisma.SortOrderInput | Prisma.SortOrder
   expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
   released_at?: Prisma.SortOrderInput | Prisma.SortOrder
   consumed_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -465,12 +490,14 @@ export type stock_reservationsScalarWhereWithAggregatesInput = {
   product_variant_id?: Prisma.UuidWithAggregatesFilter<"stock_reservations"> | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
+  stock_balance_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
   qty?: Prisma.DecimalWithAggregatesFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: Prisma.DecimalWithAggregatesFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.Enumstock_reservation_status_enumWithAggregatesFilter<"stock_reservations"> | $Enums.stock_reservation_status_enum
   reference_type?: Prisma.StringWithAggregatesFilter<"stock_reservations"> | string
   reference_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
   reference_item_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_reservations"> | string | null
+  release_reason?: Prisma.StringNullableWithAggregatesFilter<"stock_reservations"> | string | null
   expires_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_reservations"> | Date | string | null
   released_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_reservations"> | Date | string | null
   consumed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_reservations"> | Date | string | null
@@ -497,6 +524,7 @@ export type stock_reservationsCreateInput = {
   reference_type?: string
   reference_id?: string | null
   reference_item_id?: string | null
+  release_reason?: string | null
   expires_at?: Date | string | null
   released_at?: Date | string | null
   consumed_at?: Date | string | null
@@ -505,6 +533,7 @@ export type stock_reservationsCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_balances?: Prisma.stock_balancesCreateNestedOneWithoutStock_reservationsInput
 }
 
 export type stock_reservationsUncheckedCreateInput = {
@@ -517,12 +546,14 @@ export type stock_reservationsUncheckedCreateInput = {
   product_variant_id: string
   batch_id?: string | null
   warehouse_location_id?: string | null
+  stock_balance_id?: string | null
   qty: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.stock_reservation_status_enum
   reference_type?: string
   reference_id?: string | null
   reference_item_id?: string | null
+  release_reason?: string | null
   expires_at?: Date | string | null
   released_at?: Date | string | null
   consumed_at?: Date | string | null
@@ -549,6 +580,7 @@ export type stock_reservationsUpdateInput = {
   reference_type?: Prisma.StringFieldUpdateOperationsInput | string
   reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -557,6 +589,7 @@ export type stock_reservationsUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_balances?: Prisma.stock_balancesUpdateOneWithoutStock_reservationsNestedInput
 }
 
 export type stock_reservationsUncheckedUpdateInput = {
@@ -569,12 +602,14 @@ export type stock_reservationsUncheckedUpdateInput = {
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_balance_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.Enumstock_reservation_status_enumFieldUpdateOperationsInput | $Enums.stock_reservation_status_enum
   reference_type?: Prisma.StringFieldUpdateOperationsInput | string
   reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -595,12 +630,14 @@ export type stock_reservationsCreateManyInput = {
   product_variant_id: string
   batch_id?: string | null
   warehouse_location_id?: string | null
+  stock_balance_id?: string | null
   qty: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.stock_reservation_status_enum
   reference_type?: string
   reference_id?: string | null
   reference_item_id?: string | null
+  release_reason?: string | null
   expires_at?: Date | string | null
   released_at?: Date | string | null
   consumed_at?: Date | string | null
@@ -627,6 +664,7 @@ export type stock_reservationsUpdateManyMutationInput = {
   reference_type?: Prisma.StringFieldUpdateOperationsInput | string
   reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -647,12 +685,14 @@ export type stock_reservationsUncheckedUpdateManyInput = {
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_balance_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_consumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.Enumstock_reservation_status_enumFieldUpdateOperationsInput | $Enums.stock_reservation_status_enum
   reference_type?: Prisma.StringFieldUpdateOperationsInput | string
   reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -661,6 +701,16 @@ export type stock_reservationsUncheckedUpdateManyInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Stock_reservationsListRelationFilter = {
+  every?: Prisma.stock_reservationsWhereInput
+  some?: Prisma.stock_reservationsWhereInput
+  none?: Prisma.stock_reservationsWhereInput
+}
+
+export type stock_reservationsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type stock_reservationsCountOrderByAggregateInput = {
@@ -673,12 +723,14 @@ export type stock_reservationsCountOrderByAggregateInput = {
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
+  stock_balance_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   qty_consumed?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference_type?: Prisma.SortOrder
   reference_id?: Prisma.SortOrder
   reference_item_id?: Prisma.SortOrder
+  release_reason?: Prisma.SortOrder
   expires_at?: Prisma.SortOrder
   released_at?: Prisma.SortOrder
   consumed_at?: Prisma.SortOrder
@@ -704,12 +756,14 @@ export type stock_reservationsMaxOrderByAggregateInput = {
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
+  stock_balance_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   qty_consumed?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference_type?: Prisma.SortOrder
   reference_id?: Prisma.SortOrder
   reference_item_id?: Prisma.SortOrder
+  release_reason?: Prisma.SortOrder
   expires_at?: Prisma.SortOrder
   released_at?: Prisma.SortOrder
   consumed_at?: Prisma.SortOrder
@@ -730,12 +784,14 @@ export type stock_reservationsMinOrderByAggregateInput = {
   product_variant_id?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
   warehouse_location_id?: Prisma.SortOrder
+  stock_balance_id?: Prisma.SortOrder
   qty?: Prisma.SortOrder
   qty_consumed?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference_type?: Prisma.SortOrder
   reference_id?: Prisma.SortOrder
   reference_item_id?: Prisma.SortOrder
+  release_reason?: Prisma.SortOrder
   expires_at?: Prisma.SortOrder
   released_at?: Prisma.SortOrder
   consumed_at?: Prisma.SortOrder
@@ -751,8 +807,269 @@ export type stock_reservationsSumOrderByAggregateInput = {
   qty_consumed?: Prisma.SortOrder
 }
 
+export type stock_reservationsCreateNestedManyWithoutStock_balancesInput = {
+  create?: Prisma.XOR<Prisma.stock_reservationsCreateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput> | Prisma.stock_reservationsCreateWithoutStock_balancesInput[] | Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput[]
+  connectOrCreate?: Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput | Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput[]
+  createMany?: Prisma.stock_reservationsCreateManyStock_balancesInputEnvelope
+  connect?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+}
+
+export type stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput = {
+  create?: Prisma.XOR<Prisma.stock_reservationsCreateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput> | Prisma.stock_reservationsCreateWithoutStock_balancesInput[] | Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput[]
+  connectOrCreate?: Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput | Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput[]
+  createMany?: Prisma.stock_reservationsCreateManyStock_balancesInputEnvelope
+  connect?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+}
+
+export type stock_reservationsUpdateManyWithoutStock_balancesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_reservationsCreateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput> | Prisma.stock_reservationsCreateWithoutStock_balancesInput[] | Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput[]
+  connectOrCreate?: Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput | Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput[]
+  upsert?: Prisma.stock_reservationsUpsertWithWhereUniqueWithoutStock_balancesInput | Prisma.stock_reservationsUpsertWithWhereUniqueWithoutStock_balancesInput[]
+  createMany?: Prisma.stock_reservationsCreateManyStock_balancesInputEnvelope
+  set?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  disconnect?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  delete?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  connect?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  update?: Prisma.stock_reservationsUpdateWithWhereUniqueWithoutStock_balancesInput | Prisma.stock_reservationsUpdateWithWhereUniqueWithoutStock_balancesInput[]
+  updateMany?: Prisma.stock_reservationsUpdateManyWithWhereWithoutStock_balancesInput | Prisma.stock_reservationsUpdateManyWithWhereWithoutStock_balancesInput[]
+  deleteMany?: Prisma.stock_reservationsScalarWhereInput | Prisma.stock_reservationsScalarWhereInput[]
+}
+
+export type stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_reservationsCreateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput> | Prisma.stock_reservationsCreateWithoutStock_balancesInput[] | Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput[]
+  connectOrCreate?: Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput | Prisma.stock_reservationsCreateOrConnectWithoutStock_balancesInput[]
+  upsert?: Prisma.stock_reservationsUpsertWithWhereUniqueWithoutStock_balancesInput | Prisma.stock_reservationsUpsertWithWhereUniqueWithoutStock_balancesInput[]
+  createMany?: Prisma.stock_reservationsCreateManyStock_balancesInputEnvelope
+  set?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  disconnect?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  delete?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  connect?: Prisma.stock_reservationsWhereUniqueInput | Prisma.stock_reservationsWhereUniqueInput[]
+  update?: Prisma.stock_reservationsUpdateWithWhereUniqueWithoutStock_balancesInput | Prisma.stock_reservationsUpdateWithWhereUniqueWithoutStock_balancesInput[]
+  updateMany?: Prisma.stock_reservationsUpdateManyWithWhereWithoutStock_balancesInput | Prisma.stock_reservationsUpdateManyWithWhereWithoutStock_balancesInput[]
+  deleteMany?: Prisma.stock_reservationsScalarWhereInput | Prisma.stock_reservationsScalarWhereInput[]
+}
+
 export type Enumstock_reservation_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.stock_reservation_status_enum
+}
+
+export type stock_reservationsCreateWithoutStock_balancesInput = {
+  id?: string
+  tenant_id: string
+  reservation_no?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  batch_id?: string | null
+  warehouse_location_id?: string | null
+  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.stock_reservation_status_enum
+  reference_type?: string
+  reference_id?: string | null
+  reference_item_id?: string | null
+  release_reason?: string | null
+  expires_at?: Date | string | null
+  released_at?: Date | string | null
+  consumed_at?: Date | string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_reservationsUncheckedCreateWithoutStock_balancesInput = {
+  id?: string
+  tenant_id: string
+  reservation_no?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  batch_id?: string | null
+  warehouse_location_id?: string | null
+  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.stock_reservation_status_enum
+  reference_type?: string
+  reference_id?: string | null
+  reference_item_id?: string | null
+  release_reason?: string | null
+  expires_at?: Date | string | null
+  released_at?: Date | string | null
+  consumed_at?: Date | string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_reservationsCreateOrConnectWithoutStock_balancesInput = {
+  where: Prisma.stock_reservationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_reservationsCreateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput>
+}
+
+export type stock_reservationsCreateManyStock_balancesInputEnvelope = {
+  data: Prisma.stock_reservationsCreateManyStock_balancesInput | Prisma.stock_reservationsCreateManyStock_balancesInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_reservationsUpsertWithWhereUniqueWithoutStock_balancesInput = {
+  where: Prisma.stock_reservationsWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_reservationsUpdateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedUpdateWithoutStock_balancesInput>
+  create: Prisma.XOR<Prisma.stock_reservationsCreateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedCreateWithoutStock_balancesInput>
+}
+
+export type stock_reservationsUpdateWithWhereUniqueWithoutStock_balancesInput = {
+  where: Prisma.stock_reservationsWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_reservationsUpdateWithoutStock_balancesInput, Prisma.stock_reservationsUncheckedUpdateWithoutStock_balancesInput>
+}
+
+export type stock_reservationsUpdateManyWithWhereWithoutStock_balancesInput = {
+  where: Prisma.stock_reservationsScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_reservationsUpdateManyMutationInput, Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesInput>
+}
+
+export type stock_reservationsScalarWhereInput = {
+  AND?: Prisma.stock_reservationsScalarWhereInput | Prisma.stock_reservationsScalarWhereInput[]
+  OR?: Prisma.stock_reservationsScalarWhereInput[]
+  NOT?: Prisma.stock_reservationsScalarWhereInput | Prisma.stock_reservationsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_reservations"> | string
+  tenant_id?: Prisma.UuidFilter<"stock_reservations"> | string
+  reservation_no?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  product_variant_id?: Prisma.UuidFilter<"stock_reservations"> | string
+  batch_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  stock_balance_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  qty?: Prisma.DecimalFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: Prisma.DecimalFilter<"stock_reservations"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumstock_reservation_status_enumFilter<"stock_reservations"> | $Enums.stock_reservation_status_enum
+  reference_type?: Prisma.StringFilter<"stock_reservations"> | string
+  reference_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  reference_item_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  release_reason?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
+  expires_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
+  released_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
+  consumed_at?: Prisma.DateTimeNullableFilter<"stock_reservations"> | Date | string | null
+  created_by?: Prisma.StringNullableFilter<"stock_reservations"> | string | null
+  created_at?: Prisma.DateTimeFilter<"stock_reservations"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"stock_reservations"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_reservations"> | string | null
+}
+
+export type stock_reservationsCreateManyStock_balancesInput = {
+  id?: string
+  tenant_id: string
+  reservation_no?: string | null
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  batch_id?: string | null
+  warehouse_location_id?: string | null
+  qty: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.stock_reservation_status_enum
+  reference_type?: string
+  reference_id?: string | null
+  reference_item_id?: string | null
+  release_reason?: string | null
+  expires_at?: Date | string | null
+  released_at?: Date | string | null
+  consumed_at?: Date | string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_reservationsUpdateWithoutStock_balancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumstock_reservation_status_enumFieldUpdateOperationsInput | $Enums.stock_reservation_status_enum
+  reference_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_reservationsUncheckedUpdateWithoutStock_balancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumstock_reservation_status_enumFieldUpdateOperationsInput | $Enums.stock_reservation_status_enum
+  reference_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_reservationsUncheckedUpdateManyWithoutStock_balancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  reservation_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_consumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumstock_reservation_status_enumFieldUpdateOperationsInput | $Enums.stock_reservation_status_enum
+  reference_type?: Prisma.StringFieldUpdateOperationsInput | string
+  reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference_item_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  release_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  released_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  consumed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -767,12 +1084,14 @@ export type stock_reservationsSelect<ExtArgs extends runtime.Types.Extensions.In
   product_variant_id?: boolean
   batch_id?: boolean
   warehouse_location_id?: boolean
+  stock_balance_id?: boolean
   qty?: boolean
   qty_consumed?: boolean
   status?: boolean
   reference_type?: boolean
   reference_id?: boolean
   reference_item_id?: boolean
+  release_reason?: boolean
   expires_at?: boolean
   released_at?: boolean
   consumed_at?: boolean
@@ -781,6 +1100,7 @@ export type stock_reservationsSelect<ExtArgs extends runtime.Types.Extensions.In
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_balances?: boolean | Prisma.stock_reservations$stock_balancesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_reservations"]>
 
 export type stock_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -793,12 +1113,14 @@ export type stock_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.
   product_variant_id?: boolean
   batch_id?: boolean
   warehouse_location_id?: boolean
+  stock_balance_id?: boolean
   qty?: boolean
   qty_consumed?: boolean
   status?: boolean
   reference_type?: boolean
   reference_id?: boolean
   reference_item_id?: boolean
+  release_reason?: boolean
   expires_at?: boolean
   released_at?: boolean
   consumed_at?: boolean
@@ -807,6 +1129,7 @@ export type stock_reservationsSelectCreateManyAndReturn<ExtArgs extends runtime.
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_balances?: boolean | Prisma.stock_reservations$stock_balancesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_reservations"]>
 
 export type stock_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -819,12 +1142,14 @@ export type stock_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.
   product_variant_id?: boolean
   batch_id?: boolean
   warehouse_location_id?: boolean
+  stock_balance_id?: boolean
   qty?: boolean
   qty_consumed?: boolean
   status?: boolean
   reference_type?: boolean
   reference_id?: boolean
   reference_item_id?: boolean
+  release_reason?: boolean
   expires_at?: boolean
   released_at?: boolean
   consumed_at?: boolean
@@ -833,6 +1158,7 @@ export type stock_reservationsSelectUpdateManyAndReturn<ExtArgs extends runtime.
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_balances?: boolean | Prisma.stock_reservations$stock_balancesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_reservations"]>
 
 export type stock_reservationsSelectScalar = {
@@ -845,12 +1171,14 @@ export type stock_reservationsSelectScalar = {
   product_variant_id?: boolean
   batch_id?: boolean
   warehouse_location_id?: boolean
+  stock_balance_id?: boolean
   qty?: boolean
   qty_consumed?: boolean
   status?: boolean
   reference_type?: boolean
   reference_id?: boolean
   reference_item_id?: boolean
+  release_reason?: boolean
   expires_at?: boolean
   released_at?: boolean
   consumed_at?: boolean
@@ -861,11 +1189,22 @@ export type stock_reservationsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type stock_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "reservation_no" | "warehouse_id" | "location_id" | "store_id" | "product_variant_id" | "batch_id" | "warehouse_location_id" | "qty" | "qty_consumed" | "status" | "reference_type" | "reference_id" | "reference_item_id" | "expires_at" | "released_at" | "consumed_at" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_reservations"]>
+export type stock_reservationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "reservation_no" | "warehouse_id" | "location_id" | "store_id" | "product_variant_id" | "batch_id" | "warehouse_location_id" | "stock_balance_id" | "qty" | "qty_consumed" | "status" | "reference_type" | "reference_id" | "reference_item_id" | "release_reason" | "expires_at" | "released_at" | "consumed_at" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_reservations"]>
+export type stock_reservationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_balances?: boolean | Prisma.stock_reservations$stock_balancesArgs<ExtArgs>
+}
+export type stock_reservationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_balances?: boolean | Prisma.stock_reservations$stock_balancesArgs<ExtArgs>
+}
+export type stock_reservationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_balances?: boolean | Prisma.stock_reservations$stock_balancesArgs<ExtArgs>
+}
 
 export type $stock_reservationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_reservations"
-  objects: {}
+  objects: {
+    stock_balances: Prisma.$stock_balancesPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -876,12 +1215,14 @@ export type $stock_reservationsPayload<ExtArgs extends runtime.Types.Extensions.
     product_variant_id: string
     batch_id: string | null
     warehouse_location_id: string | null
+    stock_balance_id: string | null
     qty: runtime.Decimal
     qty_consumed: runtime.Decimal
     status: $Enums.stock_reservation_status_enum
     reference_type: string
     reference_id: string | null
     reference_item_id: string | null
+    release_reason: string | null
     expires_at: Date | null
     released_at: Date | null
     consumed_at: Date | null
@@ -1284,6 +1625,7 @@ readonly fields: stock_reservationsFieldRefs;
  */
 export interface Prisma__stock_reservationsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  stock_balances<T extends Prisma.stock_reservations$stock_balancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_reservations$stock_balancesArgs<ExtArgs>>): Prisma.Prisma__stock_balancesClient<runtime.Types.Result.GetResult<Prisma.$stock_balancesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1322,12 +1664,14 @@ export interface stock_reservationsFieldRefs {
   readonly product_variant_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly batch_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly warehouse_location_id: Prisma.FieldRef<"stock_reservations", 'String'>
+  readonly stock_balance_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly qty: Prisma.FieldRef<"stock_reservations", 'Decimal'>
   readonly qty_consumed: Prisma.FieldRef<"stock_reservations", 'Decimal'>
   readonly status: Prisma.FieldRef<"stock_reservations", 'stock_reservation_status_enum'>
   readonly reference_type: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly reference_id: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly reference_item_id: Prisma.FieldRef<"stock_reservations", 'String'>
+  readonly release_reason: Prisma.FieldRef<"stock_reservations", 'String'>
   readonly expires_at: Prisma.FieldRef<"stock_reservations", 'DateTime'>
   readonly released_at: Prisma.FieldRef<"stock_reservations", 'DateTime'>
   readonly consumed_at: Prisma.FieldRef<"stock_reservations", 'DateTime'>
@@ -1353,6 +1697,10 @@ export type stock_reservationsFindUniqueArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_reservations to fetch.
    */
   where: Prisma.stock_reservationsWhereUniqueInput
@@ -1371,6 +1719,10 @@ export type stock_reservationsFindUniqueOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_reservations to fetch.
    */
   where: Prisma.stock_reservationsWhereUniqueInput
@@ -1388,6 +1740,10 @@ export type stock_reservationsFindFirstArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the stock_reservations
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
   /**
    * Filter, which stock_reservations to fetch.
    */
@@ -1437,6 +1793,10 @@ export type stock_reservationsFindFirstOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_reservations to fetch.
    */
   where?: Prisma.stock_reservationsWhereInput
@@ -1484,6 +1844,10 @@ export type stock_reservationsFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the stock_reservations
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
   /**
    * Filter, which stock_reservations to fetch.
    */
@@ -1533,6 +1897,10 @@ export type stock_reservationsCreateArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
+  /**
    * The data needed to create a stock_reservations.
    */
   data: Prisma.XOR<Prisma.stock_reservationsCreateInput, Prisma.stock_reservationsUncheckedCreateInput>
@@ -1566,6 +1934,10 @@ export type stock_reservationsCreateManyAndReturnArgs<ExtArgs extends runtime.Ty
    */
   data: Prisma.stock_reservationsCreateManyInput | Prisma.stock_reservationsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1580,6 +1952,10 @@ export type stock_reservationsUpdateArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the stock_reservations
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
   /**
    * The data needed to update a stock_reservations.
    */
@@ -1632,6 +2008,10 @@ export type stock_reservationsUpdateManyAndReturnArgs<ExtArgs extends runtime.Ty
    * Limit how many stock_reservations to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1646,6 +2026,10 @@ export type stock_reservationsUpsertArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the stock_reservations
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
   /**
    * The filter to search for the stock_reservations to update in case it exists.
    */
@@ -1673,6 +2057,10 @@ export type stock_reservationsDeleteArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
+  /**
    * Filter which stock_reservations to delete.
    */
   where: Prisma.stock_reservationsWhereUniqueInput
@@ -1693,6 +2081,25 @@ export type stock_reservationsDeleteManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * stock_reservations.stock_balances
+ */
+export type stock_reservations$stock_balancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_balances
+   */
+  select?: Prisma.stock_balancesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_balances
+   */
+  omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  where?: Prisma.stock_balancesWhereInput
+}
+
+/**
  * stock_reservations without action
  */
 export type stock_reservationsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1704,4 +2111,8 @@ export type stock_reservationsDefaultArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the stock_reservations
    */
   omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
 }

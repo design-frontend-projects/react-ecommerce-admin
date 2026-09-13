@@ -22,7 +22,7 @@ type RecentTransaction = {
   transaction_number: string
   total_amount: number | string
   created_at: string
-  transaction_details: Array<{
+  financial_transaction_details: Array<{
     product_id: number
     quantity: number | string
     unit_price: number | string
@@ -49,14 +49,14 @@ export function ReorderDialog() {
       queryKey: ['recent-pos-transactions'],
       queryFn: async () => {
         const { data, error } = await supabase
-          .from('transactions')
+          .from('financial_transactions')
           .select(
             `
           id,
           transaction_number,
           total_amount,
           created_at,
-          transaction_details (
+          financial_transaction_details (
             product_id,
             quantity,
             unit_price,
@@ -80,7 +80,7 @@ export function ReorderDialog() {
   )
 
   const handleReorder = (transaction: RecentTransaction) => {
-    const newItems = transaction.transaction_details.map((d) => {
+    const newItems = transaction.financial_transaction_details.map((d) => {
       const up = Number(d.unit_price)
       const qty = Number(d.quantity)
       return {

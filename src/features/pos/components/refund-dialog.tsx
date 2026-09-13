@@ -88,8 +88,8 @@ function TransactionRow({
         <p className='truncate text-sm font-medium'>{tx.transaction_number}</p>
         <p className='text-xs text-muted-foreground'>
           {format(new Date(tx.created_at), 'MMM d, yyyy h:mm a')} -{' '}
-          {tx.transaction_details.length} item
-          {tx.transaction_details.length !== 1 ? 's' : ''}
+          {tx.financial_transaction_details.length} item
+          {tx.financial_transaction_details.length !== 1 ? 's' : ''}
         </p>
       </div>
       <div className='ml-4 flex shrink-0 items-center gap-2'>
@@ -485,7 +485,7 @@ export function RefundDialog() {
                 <Separator />
 
                 <div className='space-y-1'>
-                  {selectedTx.transaction_details.map((d) => (
+                  {selectedTx.financial_transaction_details.map((d) => (
                     <div
                       key={d.id}
                       className='flex justify-between text-xs text-muted-foreground'

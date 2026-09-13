@@ -385,6 +385,7 @@
     "stockTransfers": "Stock Transfers",
     "stockAdjustments": "Stock Adjustments",
     "inventoryMovements": "Inventory Movements",
+    "inventoryTransactions": "Inventory Transactions",
     "paymentMethods": "Payment Methods",
     "warehouses": "Warehouses",
     "stockByLocation": "Stock by Location",

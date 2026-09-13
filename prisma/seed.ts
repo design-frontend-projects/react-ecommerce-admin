@@ -360,6 +360,11 @@ async function main() {
   const { seedLookups } = await import('../src/server/seed/lookups-seed');
   await seedLookups();
 
+  // 5. Seed Inventory Transaction Types & Rules
+  console.log('\nStart seeding inventory transaction types & rules...');
+  const { seedInventoryTransactionTypes } = await import('./seed-inventory-transaction-types');
+  await seedInventoryTransactionTypes();
+
   console.log('Seeding finished successfully.');
 }
 

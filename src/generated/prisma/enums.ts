@@ -319,7 +319,7 @@ export const table_status = {
 export type table_status = (typeof table_status)[keyof typeof table_status]
 
 
-export const transaction_type_enum = {
+export const financial_transaction_type_enum = {
   sale: 'sale',
   purchase: 'purchase',
   payment_in: 'payment_in',
@@ -331,7 +331,7 @@ export const transaction_type_enum = {
   adjustment: 'adjustment'
 } as const
 
-export type transaction_type_enum = (typeof transaction_type_enum)[keyof typeof transaction_type_enum]
+export type financial_transaction_type_enum = (typeof financial_transaction_type_enum)[keyof typeof financial_transaction_type_enum]
 
 
 export const transfer_status_enum = {
@@ -611,3 +611,71 @@ export const customer_return_status_enum = {
 } as const
 
 export type customer_return_status_enum = (typeof customer_return_status_enum)[keyof typeof customer_return_status_enum]
+
+
+export const inventory_transaction_status_enum = {
+  draft: 'draft',
+  pending: 'pending',
+  posted: 'posted',
+  cancelled: 'cancelled',
+  reversed: 'reversed',
+  failed: 'failed'
+} as const
+
+export type inventory_transaction_status_enum = (typeof inventory_transaction_status_enum)[keyof typeof inventory_transaction_status_enum]
+
+
+export const inventory_transaction_direction_enum = {
+  inbound: 'inbound',
+  outbound: 'outbound',
+  internal: 'internal',
+  neutral: 'neutral'
+} as const
+
+export type inventory_transaction_direction_enum = (typeof inventory_transaction_direction_enum)[keyof typeof inventory_transaction_direction_enum]
+
+
+export const inventory_transaction_category_enum = {
+  purchase: 'purchase',
+  sale: 'sale',
+  transfer: 'transfer',
+  adjustment: 'adjustment',
+  reservation: 'reservation',
+  return_: 'return_',
+  production: 'production',
+  opening: 'opening',
+  other: 'other'
+} as const
+
+export type inventory_transaction_category_enum = (typeof inventory_transaction_category_enum)[keyof typeof inventory_transaction_category_enum]
+
+
+export const stock_field_enum = {
+  ON_HAND: 'ON_HAND',
+  AVAILABLE: 'AVAILABLE',
+  RESERVED: 'RESERVED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  INCOMING: 'INCOMING',
+  OUTGOING: 'OUTGOING',
+  DAMAGED: 'DAMAGED'
+} as const
+
+export type stock_field_enum = (typeof stock_field_enum)[keyof typeof stock_field_enum]
+
+
+export const stock_operation_enum = {
+  ADD: 'ADD',
+  SUBTRACT: 'SUBTRACT',
+  NONE: 'NONE'
+} as const
+
+export type stock_operation_enum = (typeof stock_operation_enum)[keyof typeof stock_operation_enum]
+
+
+export const stock_rule_applies_to_enum = {
+  SOURCE: 'SOURCE',
+  DESTINATION: 'DESTINATION',
+  BOTH: 'BOTH'
+} as const
+
+export type stock_rule_applies_to_enum = (typeof stock_rule_applies_to_enum)[keyof typeof stock_rule_applies_to_enum]

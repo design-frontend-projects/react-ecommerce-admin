@@ -850,21 +850,21 @@ export type Enumuser_moduleNullableWithAggregatesFilter<$PrismaModel = never> = 
   _max?: Prisma.NestedEnumuser_moduleNullableFilter<$PrismaModel>
 }
 
-export type Enumtransaction_type_enumFilter<$PrismaModel = never> = {
-  equals?: $Enums.transaction_type_enum | Prisma.Enumtransaction_type_enumFieldRefInput<$PrismaModel>
-  in?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  notIn?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel> | $Enums.transaction_type_enum
+export type Enumfinancial_transaction_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.financial_transaction_type_enum | Prisma.Enumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel> | $Enums.financial_transaction_type_enum
 }
 
-export type Enumtransaction_type_enumWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.transaction_type_enum | Prisma.Enumtransaction_type_enumFieldRefInput<$PrismaModel>
-  in?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  notIn?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumtransaction_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.transaction_type_enum
+export type Enumfinancial_transaction_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.financial_transaction_type_enum | Prisma.Enumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumfinancial_transaction_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.financial_transaction_type_enum
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel>
 }
 
 export type BigIntNullableFilter<$PrismaModel = never> = {
@@ -1181,6 +1181,108 @@ export type Enumreceipt_status_enumWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumreceipt_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumreceipt_status_enumFilter<$PrismaModel>
+}
+
+export type Enuminventory_transaction_direction_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_direction_enum | Prisma.Enuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel> | $Enums.inventory_transaction_direction_enum
+}
+
+export type Enuminventory_transaction_category_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_category_enum | Prisma.Enuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_category_enumFilter<$PrismaModel> | $Enums.inventory_transaction_category_enum
+}
+
+export type Enuminventory_transaction_direction_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_direction_enum | Prisma.Enuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_direction_enumWithAggregatesFilter<$PrismaModel> | $Enums.inventory_transaction_direction_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel>
+}
+
+export type Enuminventory_transaction_category_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_category_enum | Prisma.Enuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_category_enumWithAggregatesFilter<$PrismaModel> | $Enums.inventory_transaction_category_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminventory_transaction_category_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminventory_transaction_category_enumFilter<$PrismaModel>
+}
+
+export type Enumstock_field_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_field_enum | Prisma.Enumstock_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_field_enumFilter<$PrismaModel> | $Enums.stock_field_enum
+}
+
+export type Enumstock_operation_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_operation_enum | Prisma.Enumstock_operation_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_operation_enumFilter<$PrismaModel> | $Enums.stock_operation_enum
+}
+
+export type Enumstock_rule_applies_to_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_rule_applies_to_enum | Prisma.Enumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel> | $Enums.stock_rule_applies_to_enum
+}
+
+export type Enumstock_field_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_field_enum | Prisma.Enumstock_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_field_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_field_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_field_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_field_enumFilter<$PrismaModel>
+}
+
+export type Enumstock_operation_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_operation_enum | Prisma.Enumstock_operation_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_operation_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_operation_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_operation_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_operation_enumFilter<$PrismaModel>
+}
+
+export type Enumstock_rule_applies_to_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_rule_applies_to_enum | Prisma.Enumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_rule_applies_to_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_rule_applies_to_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel>
+}
+
+export type Enuminventory_transaction_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_status_enum | Prisma.Enuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_status_enumFilter<$PrismaModel> | $Enums.inventory_transaction_status_enum
+}
+
+export type Enuminventory_transaction_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_status_enum | Prisma.Enuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inventory_transaction_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminventory_transaction_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminventory_transaction_status_enumFilter<$PrismaModel>
 }
 
 export type NestedUuidFilter<$PrismaModel = never> = {
@@ -1974,21 +2076,21 @@ export type NestedEnumuser_moduleNullableWithAggregatesFilter<$PrismaModel = nev
   _max?: Prisma.NestedEnumuser_moduleNullableFilter<$PrismaModel>
 }
 
-export type NestedEnumtransaction_type_enumFilter<$PrismaModel = never> = {
-  equals?: $Enums.transaction_type_enum | Prisma.Enumtransaction_type_enumFieldRefInput<$PrismaModel>
-  in?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  notIn?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel> | $Enums.transaction_type_enum
+export type NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.financial_transaction_type_enum | Prisma.Enumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel> | $Enums.financial_transaction_type_enum
 }
 
-export type NestedEnumtransaction_type_enumWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.transaction_type_enum | Prisma.Enumtransaction_type_enumFieldRefInput<$PrismaModel>
-  in?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  notIn?: $Enums.transaction_type_enum[] | Prisma.ListEnumtransaction_type_enumFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumtransaction_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.transaction_type_enum
+export type NestedEnumfinancial_transaction_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.financial_transaction_type_enum | Prisma.Enumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.financial_transaction_type_enum[] | Prisma.ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumfinancial_transaction_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.financial_transaction_type_enum
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumtransaction_type_enumFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumfinancial_transaction_type_enumFilter<$PrismaModel>
 }
 
 export type NestedBigIntNullableFilter<$PrismaModel = never> = {
@@ -2305,6 +2407,108 @@ export type NestedEnumreceipt_status_enumWithAggregatesFilter<$PrismaModel = nev
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumreceipt_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumreceipt_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_direction_enum | Prisma.Enuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel> | $Enums.inventory_transaction_direction_enum
+}
+
+export type NestedEnuminventory_transaction_category_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_category_enum | Prisma.Enuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_category_enumFilter<$PrismaModel> | $Enums.inventory_transaction_category_enum
+}
+
+export type NestedEnuminventory_transaction_direction_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_direction_enum | Prisma.Enuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_direction_enum[] | Prisma.ListEnuminventory_transaction_direction_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_direction_enumWithAggregatesFilter<$PrismaModel> | $Enums.inventory_transaction_direction_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminventory_transaction_direction_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminventory_transaction_category_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_category_enum | Prisma.Enuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_category_enum[] | Prisma.ListEnuminventory_transaction_category_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_category_enumWithAggregatesFilter<$PrismaModel> | $Enums.inventory_transaction_category_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminventory_transaction_category_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminventory_transaction_category_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_field_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_field_enum | Prisma.Enumstock_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_field_enumFilter<$PrismaModel> | $Enums.stock_field_enum
+}
+
+export type NestedEnumstock_operation_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_operation_enum | Prisma.Enumstock_operation_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_operation_enumFilter<$PrismaModel> | $Enums.stock_operation_enum
+}
+
+export type NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_rule_applies_to_enum | Prisma.Enumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel> | $Enums.stock_rule_applies_to_enum
+}
+
+export type NestedEnumstock_field_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_field_enum | Prisma.Enumstock_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_field_enum[] | Prisma.ListEnumstock_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_field_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_field_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_field_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_field_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_operation_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_operation_enum | Prisma.Enumstock_operation_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_operation_enum[] | Prisma.ListEnumstock_operation_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_operation_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_operation_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_operation_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_operation_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_rule_applies_to_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_rule_applies_to_enum | Prisma.Enumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.stock_rule_applies_to_enum[] | Prisma.ListEnumstock_rule_applies_to_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumstock_rule_applies_to_enumWithAggregatesFilter<$PrismaModel> | $Enums.stock_rule_applies_to_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_rule_applies_to_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminventory_transaction_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_status_enum | Prisma.Enuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_status_enumFilter<$PrismaModel> | $Enums.inventory_transaction_status_enum
+}
+
+export type NestedEnuminventory_transaction_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inventory_transaction_status_enum | Prisma.Enuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inventory_transaction_status_enum[] | Prisma.ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminventory_transaction_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inventory_transaction_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminventory_transaction_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminventory_transaction_status_enumFilter<$PrismaModel>
 }
 
 

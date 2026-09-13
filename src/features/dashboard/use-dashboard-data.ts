@@ -86,7 +86,7 @@ export function useDashboardData() {
     queryFn: async (): Promise<DashboardData> => {
       // ─── 1. Transactions: Total Sales & Refunds ───
       const { data: transactions, error: txError } = await supabase
-        .from('transactions')
+        .from('financial_transactions')
         .select('id, transaction_type, total_amount, status, created_at')
 
       if (txError) throw txError
@@ -224,14 +224,14 @@ export function useDashboardData() {
 
       // ─── 7. Recent Sales (last 5 sale transactions with details) ───
       const { data: recentSalesData, error: salesError } = await supabase
-        .from('transactions')
+        .from('financial_transactions')
         .select(
           `
           id,
           transaction_number,
           total_amount,
           created_at,
-          transaction_details (
+          financial_transaction_details (
             product_id,
             quantity,
             unit_price,

@@ -33,7 +33,7 @@ export interface PosTransactionRecord {
   total_amount: number
   notes: string | null
   created_at: string
-  transaction_details: PosTransactionDetail[]
+  financial_transaction_details: PosTransactionDetail[]
   isRefunded: boolean
   latestRefund: PosLatestRefund | null
 }
@@ -71,7 +71,7 @@ export async function getRecentPosSales(
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
   let query = supabase
-    .from('transactions')
+    .from('financial_transactions')
     .select(
       `
       id,
@@ -84,7 +84,7 @@ export async function getRecentPosSales(
       total_amount,
       notes,
       created_at,
-      transaction_details (
+      financial_transaction_details (
         id,
         transaction_id,
         product_id,
@@ -161,7 +161,7 @@ export async function getTransactionById(
   transactionId: string
 ): Promise<PosTransactionRecord | null> {
   const { data, error } = await supabase
-    .from('transactions')
+    .from('financial_transactions')
     .select(
       `
       id,
@@ -174,7 +174,7 @@ export async function getTransactionById(
       total_amount,
       notes,
       created_at,
-      transaction_details (
+      financial_transaction_details (
         id,
         transaction_id,
         product_id,
@@ -258,7 +258,7 @@ export async function createRefund(
   if (error) throw error
 
   const { data: originalTx, error: txError } = await supabase
-    .from('transactions')
+    .from('financial_transactions')
     .select(
       'id, tenant_id, auth_user_id, currency, transaction_number, sales_invoice_id'
     )
@@ -281,7 +281,7 @@ export async function createRefund(
     .filter(Boolean)
     .join('. ')
 
-  const { error: txInsertError } = await supabase.from('transactions').insert({
+  const { error: txInsertError } = await supabase.from('financial_transactions').insert({
     tenant_id: originalTx.tenant_id,
     auth_user_id: originalTx.auth_user_id,
     transaction_number: `REF-${originalTx.transaction_number}`,

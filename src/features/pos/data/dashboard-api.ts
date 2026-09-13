@@ -322,7 +322,7 @@ export async function getShiftDashboardAnalytics(
     { data: refundRows, error: refundError },
   ] = await Promise.all([
     supabase
-      .from('transactions')
+      .from('financial_transactions')
       .select(
         'id, transaction_number, transaction_type, status, total_amount, created_at'
       )
@@ -345,7 +345,7 @@ export async function getShiftDashboardAnalytics(
 
   if (saleIds.length > 0) {
     const { data: details, error: detailsError } = await supabase
-      .from('transaction_details')
+      .from('financial_transaction_details')
       .select(
         `
           id,
@@ -423,7 +423,7 @@ export async function getRecentTransactions() {
 
   // 2. Fetch recent completed sale transactions
   const { data: transactions, error } = await supabase
-    .from('transactions')
+    .from('financial_transactions')
     .select('*')
     .eq('transaction_type', 'sale')
     .eq('status', 'completed')

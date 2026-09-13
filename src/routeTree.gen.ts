@@ -80,6 +80,7 @@ import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
 import { Route as AuthenticatedLookupsIndexRouteImport } from './routes/_authenticated/lookups/index'
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
+import { Route as AuthenticatedInventoryTransactionsIndexRouteImport } from './routes/_authenticated/inventory-transactions/index'
 import { Route as AuthenticatedInventoryMovementsIndexRouteImport } from './routes/_authenticated/inventory-movements/index'
 import { Route as AuthenticatedGoodsReceiptsIndexRouteImport } from './routes/_authenticated/goods-receipts/index'
 import { Route as AuthenticatedCustomerReturnsIndexRouteImport } from './routes/_authenticated/customer-returns/index'
@@ -109,6 +110,7 @@ import { Route as ApiLookupsTreeRouteImport } from './routes/api/lookups/tree'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
+import { Route as ApiInventoryTransactionsRouteImport } from './routes/api/inventory/transactions'
 import { Route as ApiInventorySuppliersRouteImport } from './routes/api/inventory/suppliers'
 import { Route as ApiInventoryStoreWarehousesRouteImport } from './routes/api/inventory/store-warehouses'
 import { Route as ApiInventoryStockCountsRouteImport } from './routes/api/inventory/stock-counts'
@@ -175,6 +177,9 @@ import { Route as ApiInventoryTransfersPickRouteImport } from './routes/api/inve
 import { Route as ApiInventoryTransfersCompleteRouteImport } from './routes/api/inventory/transfers/complete'
 import { Route as ApiInventoryTransfersApproveRouteImport } from './routes/api/inventory/transfers/approve'
 import { Route as ApiInventoryTransfersApplyRouteImport } from './routes/api/inventory/transfers/apply'
+import { Route as ApiInventoryTransactionsReverseRouteImport } from './routes/api/inventory/transactions/reverse'
+import { Route as ApiInventoryTransactionsPostRouteImport } from './routes/api/inventory/transactions/post'
+import { Route as ApiInventoryTransactionsCancelRouteImport } from './routes/api/inventory/transactions/cancel'
 import { Route as ApiInventoryStockCountsActionsRouteImport } from './routes/api/inventory/stock-counts/actions'
 import { Route as ApiInventorySalesShipmentsShipRouteImport } from './routes/api/inventory/sales-shipments/ship'
 import { Route as ApiInventorySalesOrdersActionsRouteImport } from './routes/api/inventory/sales-orders/actions'
@@ -602,6 +607,12 @@ const AuthenticatedInventoryIndexRoute =
     path: '/inventory/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInventoryTransactionsIndexRoute =
+  AuthenticatedInventoryTransactionsIndexRouteImport.update({
+    id: '/inventory-transactions/',
+    path: '/inventory-transactions/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryMovementsIndexRoute =
   AuthenticatedInventoryMovementsIndexRouteImport.update({
     id: '/inventory-movements/',
@@ -754,6 +765,12 @@ const ApiInventoryTransfersRoute = ApiInventoryTransfersRouteImport.update({
   path: '/api/inventory/transfers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInventoryTransactionsRoute =
+  ApiInventoryTransactionsRouteImport.update({
+    id: '/api/inventory/transactions',
+    path: '/api/inventory/transactions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiInventorySuppliersRoute = ApiInventorySuppliersRouteImport.update({
   id: '/api/inventory/suppliers',
   path: '/api/inventory/suppliers',
@@ -1134,6 +1151,24 @@ const ApiInventoryTransfersApplyRoute =
     path: '/apply',
     getParentRoute: () => ApiInventoryTransfersRoute,
   } as any)
+const ApiInventoryTransactionsReverseRoute =
+  ApiInventoryTransactionsReverseRouteImport.update({
+    id: '/reverse',
+    path: '/reverse',
+    getParentRoute: () => ApiInventoryTransactionsRoute,
+  } as any)
+const ApiInventoryTransactionsPostRoute =
+  ApiInventoryTransactionsPostRouteImport.update({
+    id: '/post',
+    path: '/post',
+    getParentRoute: () => ApiInventoryTransactionsRoute,
+  } as any)
+const ApiInventoryTransactionsCancelRoute =
+  ApiInventoryTransactionsCancelRouteImport.update({
+    id: '/cancel',
+    path: '/cancel',
+    getParentRoute: () => ApiInventoryTransactionsRoute,
+  } as any)
 const ApiInventoryStockCountsActionsRoute =
   ApiInventoryStockCountsActionsRouteImport.update({
     id: '/actions',
@@ -1315,6 +1350,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
   '/api/inventory/store-warehouses': typeof ApiInventoryStoreWarehousesRoute
   '/api/inventory/suppliers': typeof ApiInventorySuppliersRoute
+  '/api/inventory/transactions': typeof ApiInventoryTransactionsRouteWithChildren
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
@@ -1344,6 +1380,7 @@ export interface FileRoutesByFullPath {
   '/customer-returns/': typeof AuthenticatedCustomerReturnsIndexRoute
   '/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
+  '/inventory-transactions/': typeof AuthenticatedInventoryTransactionsIndexRoute
   '/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/pos/': typeof AuthenticatedPosIndexRoute
@@ -1379,6 +1416,9 @@ export interface FileRoutesByFullPath {
   '/api/inventory/sales-orders/actions': typeof ApiInventorySalesOrdersActionsRoute
   '/api/inventory/sales-shipments/ship': typeof ApiInventorySalesShipmentsShipRoute
   '/api/inventory/stock-counts/actions': typeof ApiInventoryStockCountsActionsRoute
+  '/api/inventory/transactions/cancel': typeof ApiInventoryTransactionsCancelRoute
+  '/api/inventory/transactions/post': typeof ApiInventoryTransactionsPostRoute
+  '/api/inventory/transactions/reverse': typeof ApiInventoryTransactionsReverseRoute
   '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
   '/api/inventory/transfers/approve': typeof ApiInventoryTransfersApproveRoute
   '/api/inventory/transfers/complete': typeof ApiInventoryTransfersCompleteRoute
@@ -1494,6 +1534,7 @@ export interface FileRoutesByTo {
   '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
   '/api/inventory/store-warehouses': typeof ApiInventoryStoreWarehousesRoute
   '/api/inventory/suppliers': typeof ApiInventorySuppliersRoute
+  '/api/inventory/transactions': typeof ApiInventoryTransactionsRouteWithChildren
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
@@ -1523,6 +1564,7 @@ export interface FileRoutesByTo {
   '/customer-returns': typeof AuthenticatedCustomerReturnsIndexRoute
   '/goods-receipts': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/inventory-movements': typeof AuthenticatedInventoryMovementsIndexRoute
+  '/inventory-transactions': typeof AuthenticatedInventoryTransactionsIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/lookups': typeof AuthenticatedLookupsIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
@@ -1558,6 +1600,9 @@ export interface FileRoutesByTo {
   '/api/inventory/sales-orders/actions': typeof ApiInventorySalesOrdersActionsRoute
   '/api/inventory/sales-shipments/ship': typeof ApiInventorySalesShipmentsShipRoute
   '/api/inventory/stock-counts/actions': typeof ApiInventoryStockCountsActionsRoute
+  '/api/inventory/transactions/cancel': typeof ApiInventoryTransactionsCancelRoute
+  '/api/inventory/transactions/post': typeof ApiInventoryTransactionsPostRoute
+  '/api/inventory/transactions/reverse': typeof ApiInventoryTransactionsReverseRoute
   '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
   '/api/inventory/transfers/approve': typeof ApiInventoryTransfersApproveRoute
   '/api/inventory/transfers/complete': typeof ApiInventoryTransfersCompleteRoute
@@ -1678,6 +1723,7 @@ export interface FileRoutesById {
   '/api/inventory/stock-counts': typeof ApiInventoryStockCountsRouteWithChildren
   '/api/inventory/store-warehouses': typeof ApiInventoryStoreWarehousesRoute
   '/api/inventory/suppliers': typeof ApiInventorySuppliersRoute
+  '/api/inventory/transactions': typeof ApiInventoryTransactionsRouteWithChildren
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
@@ -1707,6 +1753,7 @@ export interface FileRoutesById {
   '/_authenticated/customer-returns/': typeof AuthenticatedCustomerReturnsIndexRoute
   '/_authenticated/goods-receipts/': typeof AuthenticatedGoodsReceiptsIndexRoute
   '/_authenticated/inventory-movements/': typeof AuthenticatedInventoryMovementsIndexRoute
+  '/_authenticated/inventory-transactions/': typeof AuthenticatedInventoryTransactionsIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/_authenticated/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
@@ -1742,6 +1789,9 @@ export interface FileRoutesById {
   '/api/inventory/sales-orders/actions': typeof ApiInventorySalesOrdersActionsRoute
   '/api/inventory/sales-shipments/ship': typeof ApiInventorySalesShipmentsShipRoute
   '/api/inventory/stock-counts/actions': typeof ApiInventoryStockCountsActionsRoute
+  '/api/inventory/transactions/cancel': typeof ApiInventoryTransactionsCancelRoute
+  '/api/inventory/transactions/post': typeof ApiInventoryTransactionsPostRoute
+  '/api/inventory/transactions/reverse': typeof ApiInventoryTransactionsReverseRoute
   '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
   '/api/inventory/transfers/approve': typeof ApiInventoryTransfersApproveRoute
   '/api/inventory/transfers/complete': typeof ApiInventoryTransfersCompleteRoute
@@ -1861,6 +1911,7 @@ export interface FileRouteTypes {
     | '/api/inventory/stock-counts'
     | '/api/inventory/store-warehouses'
     | '/api/inventory/suppliers'
+    | '/api/inventory/transactions'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
@@ -1890,6 +1941,7 @@ export interface FileRouteTypes {
     | '/customer-returns/'
     | '/goods-receipts/'
     | '/inventory-movements/'
+    | '/inventory-transactions/'
     | '/inventory/'
     | '/lookups/'
     | '/pos/'
@@ -1925,6 +1977,9 @@ export interface FileRouteTypes {
     | '/api/inventory/sales-orders/actions'
     | '/api/inventory/sales-shipments/ship'
     | '/api/inventory/stock-counts/actions'
+    | '/api/inventory/transactions/cancel'
+    | '/api/inventory/transactions/post'
+    | '/api/inventory/transactions/reverse'
     | '/api/inventory/transfers/apply'
     | '/api/inventory/transfers/approve'
     | '/api/inventory/transfers/complete'
@@ -2040,6 +2095,7 @@ export interface FileRouteTypes {
     | '/api/inventory/stock-counts'
     | '/api/inventory/store-warehouses'
     | '/api/inventory/suppliers'
+    | '/api/inventory/transactions'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
@@ -2069,6 +2125,7 @@ export interface FileRouteTypes {
     | '/customer-returns'
     | '/goods-receipts'
     | '/inventory-movements'
+    | '/inventory-transactions'
     | '/inventory'
     | '/lookups'
     | '/pos'
@@ -2104,6 +2161,9 @@ export interface FileRouteTypes {
     | '/api/inventory/sales-orders/actions'
     | '/api/inventory/sales-shipments/ship'
     | '/api/inventory/stock-counts/actions'
+    | '/api/inventory/transactions/cancel'
+    | '/api/inventory/transactions/post'
+    | '/api/inventory/transactions/reverse'
     | '/api/inventory/transfers/apply'
     | '/api/inventory/transfers/approve'
     | '/api/inventory/transfers/complete'
@@ -2223,6 +2283,7 @@ export interface FileRouteTypes {
     | '/api/inventory/stock-counts'
     | '/api/inventory/store-warehouses'
     | '/api/inventory/suppliers'
+    | '/api/inventory/transactions'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
     | '/api/inventory/warehouses'
@@ -2252,6 +2313,7 @@ export interface FileRouteTypes {
     | '/_authenticated/customer-returns/'
     | '/_authenticated/goods-receipts/'
     | '/_authenticated/inventory-movements/'
+    | '/_authenticated/inventory-transactions/'
     | '/_authenticated/inventory/'
     | '/_authenticated/lookups/'
     | '/_authenticated/pos/'
@@ -2287,6 +2349,9 @@ export interface FileRouteTypes {
     | '/api/inventory/sales-orders/actions'
     | '/api/inventory/sales-shipments/ship'
     | '/api/inventory/stock-counts/actions'
+    | '/api/inventory/transactions/cancel'
+    | '/api/inventory/transactions/post'
+    | '/api/inventory/transactions/reverse'
     | '/api/inventory/transfers/apply'
     | '/api/inventory/transfers/approve'
     | '/api/inventory/transfers/complete'
@@ -2350,6 +2415,7 @@ export interface RootRouteChildren {
   ApiInventoryStockCountsRoute: typeof ApiInventoryStockCountsRouteWithChildren
   ApiInventoryStoreWarehousesRoute: typeof ApiInventoryStoreWarehousesRoute
   ApiInventorySuppliersRoute: typeof ApiInventorySuppliersRoute
+  ApiInventoryTransactionsRoute: typeof ApiInventoryTransactionsRouteWithChildren
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
@@ -2881,6 +2947,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedInventoryIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inventory-transactions/': {
+      id: '/_authenticated/inventory-transactions/'
+      path: '/inventory-transactions'
+      fullPath: '/inventory-transactions/'
+      preLoaderRoute: typeof AuthenticatedInventoryTransactionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/inventory-movements/': {
       id: '/_authenticated/inventory-movements/'
       path: '/inventory-movements'
@@ -3082,6 +3155,13 @@ declare module '@tanstack/react-router' {
       path: '/api/inventory/transfers'
       fullPath: '/api/inventory/transfers'
       preLoaderRoute: typeof ApiInventoryTransfersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/transactions': {
+      id: '/api/inventory/transactions'
+      path: '/api/inventory/transactions'
+      fullPath: '/api/inventory/transactions'
+      preLoaderRoute: typeof ApiInventoryTransactionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/suppliers': {
@@ -3546,6 +3626,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInventoryTransfersApplyRouteImport
       parentRoute: typeof ApiInventoryTransfersRoute
     }
+    '/api/inventory/transactions/reverse': {
+      id: '/api/inventory/transactions/reverse'
+      path: '/reverse'
+      fullPath: '/api/inventory/transactions/reverse'
+      preLoaderRoute: typeof ApiInventoryTransactionsReverseRouteImport
+      parentRoute: typeof ApiInventoryTransactionsRoute
+    }
+    '/api/inventory/transactions/post': {
+      id: '/api/inventory/transactions/post'
+      path: '/post'
+      fullPath: '/api/inventory/transactions/post'
+      preLoaderRoute: typeof ApiInventoryTransactionsPostRouteImport
+      parentRoute: typeof ApiInventoryTransactionsRoute
+    }
+    '/api/inventory/transactions/cancel': {
+      id: '/api/inventory/transactions/cancel'
+      path: '/cancel'
+      fullPath: '/api/inventory/transactions/cancel'
+      preLoaderRoute: typeof ApiInventoryTransactionsCancelRouteImport
+      parentRoute: typeof ApiInventoryTransactionsRoute
+    }
     '/api/inventory/stock-counts/actions': {
       id: '/api/inventory/stock-counts/actions'
       path: '/actions'
@@ -3756,6 +3857,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCustomerReturnsIndexRoute: typeof AuthenticatedCustomerReturnsIndexRoute
   AuthenticatedGoodsReceiptsIndexRoute: typeof AuthenticatedGoodsReceiptsIndexRoute
   AuthenticatedInventoryMovementsIndexRoute: typeof AuthenticatedInventoryMovementsIndexRoute
+  AuthenticatedInventoryTransactionsIndexRoute: typeof AuthenticatedInventoryTransactionsIndexRoute
   AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
   AuthenticatedLookupsIndexRoute: typeof AuthenticatedLookupsIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
@@ -3841,6 +3943,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGoodsReceiptsIndexRoute: AuthenticatedGoodsReceiptsIndexRoute,
   AuthenticatedInventoryMovementsIndexRoute:
     AuthenticatedInventoryMovementsIndexRoute,
+  AuthenticatedInventoryTransactionsIndexRoute:
+    AuthenticatedInventoryTransactionsIndexRoute,
   AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
   AuthenticatedLookupsIndexRoute: AuthenticatedLookupsIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
@@ -4053,6 +4157,24 @@ const ApiInventoryStockCountsRouteWithChildren =
     ApiInventoryStockCountsRouteChildren,
   )
 
+interface ApiInventoryTransactionsRouteChildren {
+  ApiInventoryTransactionsCancelRoute: typeof ApiInventoryTransactionsCancelRoute
+  ApiInventoryTransactionsPostRoute: typeof ApiInventoryTransactionsPostRoute
+  ApiInventoryTransactionsReverseRoute: typeof ApiInventoryTransactionsReverseRoute
+}
+
+const ApiInventoryTransactionsRouteChildren: ApiInventoryTransactionsRouteChildren =
+  {
+    ApiInventoryTransactionsCancelRoute: ApiInventoryTransactionsCancelRoute,
+    ApiInventoryTransactionsPostRoute: ApiInventoryTransactionsPostRoute,
+    ApiInventoryTransactionsReverseRoute: ApiInventoryTransactionsReverseRoute,
+  }
+
+const ApiInventoryTransactionsRouteWithChildren =
+  ApiInventoryTransactionsRoute._addFileChildren(
+    ApiInventoryTransactionsRouteChildren,
+  )
+
 interface ApiInventoryTransfersRouteChildren {
   ApiInventoryTransfersApplyRoute: typeof ApiInventoryTransfersApplyRoute
   ApiInventoryTransfersApproveRoute: typeof ApiInventoryTransfersApproveRoute
@@ -4152,6 +4274,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryStockCountsRoute: ApiInventoryStockCountsRouteWithChildren,
   ApiInventoryStoreWarehousesRoute: ApiInventoryStoreWarehousesRoute,
   ApiInventorySuppliersRoute: ApiInventorySuppliersRoute,
+  ApiInventoryTransactionsRoute: ApiInventoryTransactionsRouteWithChildren,
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,

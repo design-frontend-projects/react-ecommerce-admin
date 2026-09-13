@@ -360,6 +360,13 @@ export function useSidebarData(): SidebarData {
                 permissions: ['inventory.stock.view', 'inventory.stock.manage'],
               },
               {
+                title: t('sidebar.inventoryTransactions', 'Inventory Transactions'),
+                url: '/inventory-transactions',
+                icon: ArrowLeftRight,
+                roles: ADMINS,
+                permissions: ['inventory.stock.view', 'inventory.stock.manage'],
+              },
+              {
                 title: t('sidebar.inventoryMovements'),
                 url: '/inventory-movements',
                 icon: History,

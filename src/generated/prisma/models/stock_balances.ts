@@ -30,14 +30,24 @@ export type Stock_balancesAvgAggregateOutputType = {
   qty_on_hand: runtime.Decimal | null
   qty_reserved: runtime.Decimal | null
   qty_available: runtime.Decimal | null
+  qty_in_transit: runtime.Decimal | null
+  qty_incoming: runtime.Decimal | null
+  qty_outgoing: runtime.Decimal | null
+  qty_damaged: runtime.Decimal | null
   avg_cost: runtime.Decimal | null
+  version: number | null
 }
 
 export type Stock_balancesSumAggregateOutputType = {
   qty_on_hand: runtime.Decimal | null
   qty_reserved: runtime.Decimal | null
   qty_available: runtime.Decimal | null
+  qty_in_transit: runtime.Decimal | null
+  qty_incoming: runtime.Decimal | null
+  qty_outgoing: runtime.Decimal | null
+  qty_damaged: runtime.Decimal | null
   avg_cost: runtime.Decimal | null
+  version: number | null
 }
 
 export type Stock_balancesMinAggregateOutputType = {
@@ -53,8 +63,15 @@ export type Stock_balancesMinAggregateOutputType = {
   qty_on_hand: runtime.Decimal | null
   qty_reserved: runtime.Decimal | null
   qty_available: runtime.Decimal | null
+  qty_in_transit: runtime.Decimal | null
+  qty_incoming: runtime.Decimal | null
+  qty_outgoing: runtime.Decimal | null
+  qty_damaged: runtime.Decimal | null
   avg_cost: runtime.Decimal | null
   last_movement_at: Date | null
+  last_transaction_id: string | null
+  last_transaction_at: Date | null
+  version: number | null
   created_at: Date | null
   updated_at: Date | null
   created_by_user_id: string | null
@@ -74,8 +91,15 @@ export type Stock_balancesMaxAggregateOutputType = {
   qty_on_hand: runtime.Decimal | null
   qty_reserved: runtime.Decimal | null
   qty_available: runtime.Decimal | null
+  qty_in_transit: runtime.Decimal | null
+  qty_incoming: runtime.Decimal | null
+  qty_outgoing: runtime.Decimal | null
+  qty_damaged: runtime.Decimal | null
   avg_cost: runtime.Decimal | null
   last_movement_at: Date | null
+  last_transaction_id: string | null
+  last_transaction_at: Date | null
+  version: number | null
   created_at: Date | null
   updated_at: Date | null
   created_by_user_id: string | null
@@ -95,8 +119,15 @@ export type Stock_balancesCountAggregateOutputType = {
   qty_on_hand: number
   qty_reserved: number
   qty_available: number
+  qty_in_transit: number
+  qty_incoming: number
+  qty_outgoing: number
+  qty_damaged: number
   avg_cost: number
   last_movement_at: number
+  last_transaction_id: number
+  last_transaction_at: number
+  version: number
   created_at: number
   updated_at: number
   created_by_user_id: number
@@ -109,14 +140,24 @@ export type Stock_balancesAvgAggregateInputType = {
   qty_on_hand?: true
   qty_reserved?: true
   qty_available?: true
+  qty_in_transit?: true
+  qty_incoming?: true
+  qty_outgoing?: true
+  qty_damaged?: true
   avg_cost?: true
+  version?: true
 }
 
 export type Stock_balancesSumAggregateInputType = {
   qty_on_hand?: true
   qty_reserved?: true
   qty_available?: true
+  qty_in_transit?: true
+  qty_incoming?: true
+  qty_outgoing?: true
+  qty_damaged?: true
   avg_cost?: true
+  version?: true
 }
 
 export type Stock_balancesMinAggregateInputType = {
@@ -132,8 +173,15 @@ export type Stock_balancesMinAggregateInputType = {
   qty_on_hand?: true
   qty_reserved?: true
   qty_available?: true
+  qty_in_transit?: true
+  qty_incoming?: true
+  qty_outgoing?: true
+  qty_damaged?: true
   avg_cost?: true
   last_movement_at?: true
+  last_transaction_id?: true
+  last_transaction_at?: true
+  version?: true
   created_at?: true
   updated_at?: true
   created_by_user_id?: true
@@ -153,8 +201,15 @@ export type Stock_balancesMaxAggregateInputType = {
   qty_on_hand?: true
   qty_reserved?: true
   qty_available?: true
+  qty_in_transit?: true
+  qty_incoming?: true
+  qty_outgoing?: true
+  qty_damaged?: true
   avg_cost?: true
   last_movement_at?: true
+  last_transaction_id?: true
+  last_transaction_at?: true
+  version?: true
   created_at?: true
   updated_at?: true
   created_by_user_id?: true
@@ -174,8 +229,15 @@ export type Stock_balancesCountAggregateInputType = {
   qty_on_hand?: true
   qty_reserved?: true
   qty_available?: true
+  qty_in_transit?: true
+  qty_incoming?: true
+  qty_outgoing?: true
+  qty_damaged?: true
   avg_cost?: true
   last_movement_at?: true
+  last_transaction_id?: true
+  last_transaction_at?: true
+  version?: true
   created_at?: true
   updated_at?: true
   created_by_user_id?: true
@@ -282,8 +344,15 @@ export type Stock_balancesGroupByOutputType = {
   qty_on_hand: runtime.Decimal
   qty_reserved: runtime.Decimal
   qty_available: runtime.Decimal | null
+  qty_in_transit: runtime.Decimal
+  qty_incoming: runtime.Decimal
+  qty_outgoing: runtime.Decimal
+  qty_damaged: runtime.Decimal
   avg_cost: runtime.Decimal
   last_movement_at: Date | null
+  last_transaction_id: string | null
+  last_transaction_at: Date | null
+  version: number
   created_at: Date
   updated_at: Date
   created_by_user_id: string | null
@@ -326,8 +395,15 @@ export type stock_balancesWhereInput = {
   qty_on_hand?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.DecimalNullableFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  last_transaction_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  last_transaction_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  version?: Prisma.IntFilter<"stock_balances"> | number
   created_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
@@ -336,6 +412,8 @@ export type stock_balancesWhereInput = {
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
+  inventory_transaction_items?: Prisma.Inventory_transaction_itemsListRelationFilter
+  stock_reservations?: Prisma.Stock_reservationsListRelationFilter
 }
 
 export type stock_balancesOrderByWithRelationInput = {
@@ -351,8 +429,15 @@ export type stock_balancesOrderByWithRelationInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrderInput | Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
   last_movement_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_transaction_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  version?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -361,6 +446,8 @@ export type stock_balancesOrderByWithRelationInput = {
   warehouses?: Prisma.warehousesOrderByWithRelationInput
   stores?: Prisma.storesOrderByWithRelationInput
   warehouse_locations?: Prisma.warehouse_locationsOrderByWithRelationInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsOrderByRelationAggregateInput
+  stock_reservations?: Prisma.stock_reservationsOrderByRelationAggregateInput
 }
 
 export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
@@ -379,8 +466,15 @@ export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
   qty_on_hand?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.DecimalNullableFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  last_transaction_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  last_transaction_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  version?: Prisma.IntFilter<"stock_balances"> | number
   created_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
@@ -389,6 +483,8 @@ export type stock_balancesWhereUniqueInput = Prisma.AtLeast<{
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   warehouse_locations?: Prisma.XOR<Prisma.Warehouse_locationsNullableScalarRelationFilter, Prisma.warehouse_locationsWhereInput> | null
+  inventory_transaction_items?: Prisma.Inventory_transaction_itemsListRelationFilter
+  stock_reservations?: Prisma.Stock_reservationsListRelationFilter
 }, "id">
 
 export type stock_balancesOrderByWithAggregationInput = {
@@ -404,8 +500,15 @@ export type stock_balancesOrderByWithAggregationInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrderInput | Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
   last_movement_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_transaction_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  version?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -433,8 +536,15 @@ export type stock_balancesScalarWhereWithAggregatesInput = {
   qty_on_hand?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.DecimalNullableWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalWithAggregatesFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_balances"> | Date | string | null
+  last_transaction_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_balances"> | string | null
+  last_transaction_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_balances"> | Date | string | null
+  version?: Prisma.IntWithAggregatesFilter<"stock_balances"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"stock_balances"> | Date | string
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_balances"> | string | null
@@ -450,8 +560,15 @@ export type stock_balancesCreateInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -460,6 +577,8 @@ export type stock_balancesCreateInput = {
   warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
   stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesUncheckedCreateInput = {
@@ -475,12 +594,21 @@ export type stock_balancesUncheckedCreateInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesUpdateInput = {
@@ -492,8 +620,15 @@ export type stock_balancesUpdateInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -502,6 +637,8 @@ export type stock_balancesUpdateInput = {
   warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
   stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateInput = {
@@ -517,12 +654,21 @@ export type stock_balancesUncheckedUpdateInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesCreateManyInput = {
@@ -538,8 +684,15 @@ export type stock_balancesCreateManyInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -555,8 +708,15 @@ export type stock_balancesUpdateManyMutationInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -576,8 +736,15 @@ export type stock_balancesUncheckedUpdateManyInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -607,8 +774,15 @@ export type stock_balancesCountOrderByAggregateInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
   last_movement_at?: Prisma.SortOrder
+  last_transaction_id?: Prisma.SortOrder
+  last_transaction_at?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
@@ -619,7 +793,12 @@ export type stock_balancesAvgOrderByAggregateInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
+  version?: Prisma.SortOrder
 }
 
 export type stock_balancesMaxOrderByAggregateInput = {
@@ -635,8 +814,15 @@ export type stock_balancesMaxOrderByAggregateInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
   last_movement_at?: Prisma.SortOrder
+  last_transaction_id?: Prisma.SortOrder
+  last_transaction_at?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
@@ -656,8 +842,15 @@ export type stock_balancesMinOrderByAggregateInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
   last_movement_at?: Prisma.SortOrder
+  last_transaction_id?: Prisma.SortOrder
+  last_transaction_at?: Prisma.SortOrder
+  version?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
@@ -668,7 +861,17 @@ export type stock_balancesSumOrderByAggregateInput = {
   qty_on_hand?: Prisma.SortOrder
   qty_reserved?: Prisma.SortOrder
   qty_available?: Prisma.SortOrder
+  qty_in_transit?: Prisma.SortOrder
+  qty_incoming?: Prisma.SortOrder
+  qty_outgoing?: Prisma.SortOrder
+  qty_damaged?: Prisma.SortOrder
   avg_cost?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+}
+
+export type Stock_balancesNullableScalarRelationFilter = {
+  is?: Prisma.stock_balancesWhereInput | null
+  isNot?: Prisma.stock_balancesWhereInput | null
 }
 
 export type stock_balancesCreateNestedManyWithoutProduct_variantsInput = {
@@ -755,6 +958,22 @@ export type stock_balancesUncheckedUpdateManyWithoutStoresNestedInput = {
   deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
 }
 
+export type stock_balancesCreateNestedOneWithoutStock_reservationsInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutStock_reservationsInput, Prisma.stock_balancesUncheckedCreateWithoutStock_reservationsInput>
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutStock_reservationsInput
+  connect?: Prisma.stock_balancesWhereUniqueInput
+}
+
+export type stock_balancesUpdateOneWithoutStock_reservationsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutStock_reservationsInput, Prisma.stock_balancesUncheckedCreateWithoutStock_reservationsInput>
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutStock_reservationsInput
+  upsert?: Prisma.stock_balancesUpsertWithoutStock_reservationsInput
+  disconnect?: Prisma.stock_balancesWhereInput | boolean
+  delete?: Prisma.stock_balancesWhereInput | boolean
+  connect?: Prisma.stock_balancesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.stock_balancesUpdateToOneWithWhereWithoutStock_reservationsInput, Prisma.stock_balancesUpdateWithoutStock_reservationsInput>, Prisma.stock_balancesUncheckedUpdateWithoutStock_reservationsInput>
+}
+
 export type stock_balancesCreateNestedManyWithoutWarehousesInput = {
   create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutWarehousesInput, Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput> | Prisma.stock_balancesCreateWithoutWarehousesInput[] | Prisma.stock_balancesUncheckedCreateWithoutWarehousesInput[]
   connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput | Prisma.stock_balancesCreateOrConnectWithoutWarehousesInput[]
@@ -839,6 +1058,22 @@ export type stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsNestedInp
   deleteMany?: Prisma.stock_balancesScalarWhereInput | Prisma.stock_balancesScalarWhereInput[]
 }
 
+export type stock_balancesCreateNestedOneWithoutInventory_transaction_itemsInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUncheckedCreateWithoutInventory_transaction_itemsInput>
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutInventory_transaction_itemsInput
+  connect?: Prisma.stock_balancesWhereUniqueInput
+}
+
+export type stock_balancesUpdateOneWithoutInventory_transaction_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_balancesCreateWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUncheckedCreateWithoutInventory_transaction_itemsInput>
+  connectOrCreate?: Prisma.stock_balancesCreateOrConnectWithoutInventory_transaction_itemsInput
+  upsert?: Prisma.stock_balancesUpsertWithoutInventory_transaction_itemsInput
+  disconnect?: Prisma.stock_balancesWhereInput | boolean
+  delete?: Prisma.stock_balancesWhereInput | boolean
+  connect?: Prisma.stock_balancesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.stock_balancesUpdateToOneWithWhereWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUpdateWithoutInventory_transaction_itemsInput>, Prisma.stock_balancesUncheckedUpdateWithoutInventory_transaction_itemsInput>
+}
+
 export type stock_balancesCreateWithoutProduct_variantsInput = {
   id?: string
   tenant_id: string
@@ -848,8 +1083,15 @@ export type stock_balancesCreateWithoutProduct_variantsInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -857,6 +1099,8 @@ export type stock_balancesCreateWithoutProduct_variantsInput = {
   warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
   stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesUncheckedCreateWithoutProduct_variantsInput = {
@@ -871,12 +1115,21 @@ export type stock_balancesUncheckedCreateWithoutProduct_variantsInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesCreateOrConnectWithoutProduct_variantsInput = {
@@ -921,8 +1174,15 @@ export type stock_balancesScalarWhereInput = {
   qty_on_hand?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.DecimalNullableFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFilter<"stock_balances"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  last_transaction_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
+  last_transaction_at?: Prisma.DateTimeNullableFilter<"stock_balances"> | Date | string | null
+  version?: Prisma.IntFilter<"stock_balances"> | number
   created_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_balances"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_balances"> | string | null
@@ -938,8 +1198,15 @@ export type stock_balancesCreateWithoutStoresInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -947,6 +1214,8 @@ export type stock_balancesCreateWithoutStoresInput = {
   product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesUncheckedCreateWithoutStoresInput = {
@@ -961,12 +1230,21 @@ export type stock_balancesUncheckedCreateWithoutStoresInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesCreateOrConnectWithoutStoresInput = {
@@ -995,6 +1273,138 @@ export type stock_balancesUpdateManyWithWhereWithoutStoresInput = {
   data: Prisma.XOR<Prisma.stock_balancesUpdateManyMutationInput, Prisma.stock_balancesUncheckedUpdateManyWithoutStoresInput>
 }
 
+export type stock_balancesCreateWithoutStock_reservationsInput = {
+  id?: string
+  tenant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
+  stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutStock_balancesInput
+}
+
+export type stock_balancesUncheckedCreateWithoutStock_reservationsInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutStock_balancesInput
+}
+
+export type stock_balancesCreateOrConnectWithoutStock_reservationsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutStock_reservationsInput, Prisma.stock_balancesUncheckedCreateWithoutStock_reservationsInput>
+}
+
+export type stock_balancesUpsertWithoutStock_reservationsInput = {
+  update: Prisma.XOR<Prisma.stock_balancesUpdateWithoutStock_reservationsInput, Prisma.stock_balancesUncheckedUpdateWithoutStock_reservationsInput>
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutStock_reservationsInput, Prisma.stock_balancesUncheckedCreateWithoutStock_reservationsInput>
+  where?: Prisma.stock_balancesWhereInput
+}
+
+export type stock_balancesUpdateToOneWithWhereWithoutStock_reservationsInput = {
+  where?: Prisma.stock_balancesWhereInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateWithoutStock_reservationsInput, Prisma.stock_balancesUncheckedUpdateWithoutStock_reservationsInput>
+}
+
+export type stock_balancesUpdateWithoutStock_reservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutStock_balancesNestedInput
+}
+
+export type stock_balancesUncheckedUpdateWithoutStock_reservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutStock_balancesNestedInput
+}
+
 export type stock_balancesCreateWithoutWarehousesInput = {
   id?: string
   tenant_id: string
@@ -1004,8 +1414,15 @@ export type stock_balancesCreateWithoutWarehousesInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -1013,6 +1430,8 @@ export type stock_balancesCreateWithoutWarehousesInput = {
   product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
   stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
   warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesUncheckedCreateWithoutWarehousesInput = {
@@ -1027,12 +1446,21 @@ export type stock_balancesUncheckedCreateWithoutWarehousesInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesCreateOrConnectWithoutWarehousesInput = {
@@ -1070,8 +1498,15 @@ export type stock_balancesCreateWithoutWarehouse_locationsInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -1079,6 +1514,8 @@ export type stock_balancesCreateWithoutWarehouse_locationsInput = {
   product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
   warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
   stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesUncheckedCreateWithoutWarehouse_locationsInput = {
@@ -1093,12 +1530,21 @@ export type stock_balancesUncheckedCreateWithoutWarehouse_locationsInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput
 }
 
 export type stock_balancesCreateOrConnectWithoutWarehouse_locationsInput = {
@@ -1127,6 +1573,138 @@ export type stock_balancesUpdateManyWithWhereWithoutWarehouse_locationsInput = {
   data: Prisma.XOR<Prisma.stock_balancesUpdateManyMutationInput, Prisma.stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsInput>
 }
 
+export type stock_balancesCreateWithoutInventory_transaction_itemsInput = {
+  id?: string
+  tenant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutStock_balancesInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_balancesInput
+  stores?: Prisma.storesCreateNestedOneWithoutStock_balancesInput
+  warehouse_locations?: Prisma.warehouse_locationsCreateNestedOneWithoutStock_balancesInput
+  stock_reservations?: Prisma.stock_reservationsCreateNestedManyWithoutStock_balancesInput
+}
+
+export type stock_balancesUncheckedCreateWithoutInventory_transaction_itemsInput = {
+  id?: string
+  tenant_id: string
+  warehouse_id?: string | null
+  location_id?: string | null
+  store_id?: string | null
+  product_variant_id: string
+  condition?: $Enums.stock_condition_enum
+  batch_id?: string | null
+  serial_id?: string | null
+  qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  stock_reservations?: Prisma.stock_reservationsUncheckedCreateNestedManyWithoutStock_balancesInput
+}
+
+export type stock_balancesCreateOrConnectWithoutInventory_transaction_itemsInput = {
+  where: Prisma.stock_balancesWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUncheckedCreateWithoutInventory_transaction_itemsInput>
+}
+
+export type stock_balancesUpsertWithoutInventory_transaction_itemsInput = {
+  update: Prisma.XOR<Prisma.stock_balancesUpdateWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUncheckedUpdateWithoutInventory_transaction_itemsInput>
+  create: Prisma.XOR<Prisma.stock_balancesCreateWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUncheckedCreateWithoutInventory_transaction_itemsInput>
+  where?: Prisma.stock_balancesWhereInput
+}
+
+export type stock_balancesUpdateToOneWithWhereWithoutInventory_transaction_itemsInput = {
+  where?: Prisma.stock_balancesWhereInput
+  data: Prisma.XOR<Prisma.stock_balancesUpdateWithoutInventory_transaction_itemsInput, Prisma.stock_balancesUncheckedUpdateWithoutInventory_transaction_itemsInput>
+}
+
+export type stock_balancesUpdateWithoutInventory_transaction_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
+  stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+  warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutStock_balancesNestedInput
+}
+
+export type stock_balancesUncheckedUpdateWithoutInventory_transaction_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  condition?: Prisma.Enumstock_condition_enumFieldUpdateOperationsInput | $Enums.stock_condition_enum
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput
+}
+
 export type stock_balancesCreateManyProduct_variantsInput = {
   id?: string
   tenant_id: string
@@ -1139,8 +1717,15 @@ export type stock_balancesCreateManyProduct_variantsInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -1156,8 +1741,15 @@ export type stock_balancesUpdateWithoutProduct_variantsInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1165,6 +1757,8 @@ export type stock_balancesUpdateWithoutProduct_variantsInput = {
   warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
   stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateWithoutProduct_variantsInput = {
@@ -1179,12 +1773,21 @@ export type stock_balancesUncheckedUpdateWithoutProduct_variantsInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateManyWithoutProduct_variantsInput = {
@@ -1199,8 +1802,15 @@ export type stock_balancesUncheckedUpdateManyWithoutProduct_variantsInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1219,8 +1829,15 @@ export type stock_balancesCreateManyStoresInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -1236,8 +1853,15 @@ export type stock_balancesUpdateWithoutStoresInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1245,6 +1869,8 @@ export type stock_balancesUpdateWithoutStoresInput = {
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateWithoutStoresInput = {
@@ -1259,12 +1885,21 @@ export type stock_balancesUncheckedUpdateWithoutStoresInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateManyWithoutStoresInput = {
@@ -1279,8 +1914,15 @@ export type stock_balancesUncheckedUpdateManyWithoutStoresInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1299,8 +1941,15 @@ export type stock_balancesCreateManyWarehousesInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -1316,8 +1965,15 @@ export type stock_balancesUpdateWithoutWarehousesInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1325,6 +1981,8 @@ export type stock_balancesUpdateWithoutWarehousesInput = {
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
   stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
   warehouse_locations?: Prisma.warehouse_locationsUpdateOneWithoutStock_balancesNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateWithoutWarehousesInput = {
@@ -1339,12 +1997,21 @@ export type stock_balancesUncheckedUpdateWithoutWarehousesInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateManyWithoutWarehousesInput = {
@@ -1359,8 +2026,15 @@ export type stock_balancesUncheckedUpdateManyWithoutWarehousesInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1379,8 +2053,15 @@ export type stock_balancesCreateManyWarehouse_locationsInput = {
   qty_on_hand?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Date | string | null
+  last_transaction_id?: string | null
+  last_transaction_at?: Date | string | null
+  version?: number
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
@@ -1396,8 +2077,15 @@ export type stock_balancesUpdateWithoutWarehouse_locationsInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1405,6 +2093,8 @@ export type stock_balancesUpdateWithoutWarehouse_locationsInput = {
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutStock_balancesNestedInput
   warehouses?: Prisma.warehousesUpdateOneWithoutStock_balancesNestedInput
   stores?: Prisma.storesUpdateOneWithoutStock_balancesNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateWithoutWarehouse_locationsInput = {
@@ -1419,12 +2109,21 @@ export type stock_balancesUncheckedUpdateWithoutWarehouse_locationsInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutStock_balancesNestedInput
+  stock_reservations?: Prisma.stock_reservationsUncheckedUpdateManyWithoutStock_balancesNestedInput
 }
 
 export type stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsInput = {
@@ -1439,14 +2138,59 @@ export type stock_balancesUncheckedUpdateManyWithoutWarehouse_locationsInput = {
   qty_on_hand?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_reserved?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   qty_available?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  qty_in_transit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_incoming?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_outgoing?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_damaged?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   avg_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   last_movement_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  last_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_transaction_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+
+/**
+ * Count Type Stock_balancesCountOutputType
+ */
+
+export type Stock_balancesCountOutputType = {
+  inventory_transaction_items: number
+  stock_reservations: number
+}
+
+export type Stock_balancesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  inventory_transaction_items?: boolean | Stock_balancesCountOutputTypeCountInventory_transaction_itemsArgs
+  stock_reservations?: boolean | Stock_balancesCountOutputTypeCountStock_reservationsArgs
+}
+
+/**
+ * Stock_balancesCountOutputType without action
+ */
+export type Stock_balancesCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Stock_balancesCountOutputType
+   */
+  select?: Prisma.Stock_balancesCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Stock_balancesCountOutputType without action
+ */
+export type Stock_balancesCountOutputTypeCountInventory_transaction_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.inventory_transaction_itemsWhereInput
+}
+
+/**
+ * Stock_balancesCountOutputType without action
+ */
+export type Stock_balancesCountOutputTypeCountStock_reservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_reservationsWhereInput
+}
 
 
 export type stock_balancesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1462,8 +2206,15 @@ export type stock_balancesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   qty_on_hand?: boolean
   qty_reserved?: boolean
   qty_available?: boolean
+  qty_in_transit?: boolean
+  qty_incoming?: boolean
+  qty_outgoing?: boolean
+  qty_damaged?: boolean
   avg_cost?: boolean
   last_movement_at?: boolean
+  last_transaction_id?: boolean
+  last_transaction_at?: boolean
+  version?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
@@ -1472,6 +2223,9 @@ export type stock_balancesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
   stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
+  inventory_transaction_items?: boolean | Prisma.stock_balances$inventory_transaction_itemsArgs<ExtArgs>
+  stock_reservations?: boolean | Prisma.stock_balances$stock_reservationsArgs<ExtArgs>
+  _count?: boolean | Prisma.Stock_balancesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_balances"]>
 
 export type stock_balancesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1487,8 +2241,15 @@ export type stock_balancesSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   qty_on_hand?: boolean
   qty_reserved?: boolean
   qty_available?: boolean
+  qty_in_transit?: boolean
+  qty_incoming?: boolean
+  qty_outgoing?: boolean
+  qty_damaged?: boolean
   avg_cost?: boolean
   last_movement_at?: boolean
+  last_transaction_id?: boolean
+  last_transaction_at?: boolean
+  version?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
@@ -1512,8 +2273,15 @@ export type stock_balancesSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   qty_on_hand?: boolean
   qty_reserved?: boolean
   qty_available?: boolean
+  qty_in_transit?: boolean
+  qty_incoming?: boolean
+  qty_outgoing?: boolean
+  qty_damaged?: boolean
   avg_cost?: boolean
   last_movement_at?: boolean
+  last_transaction_id?: boolean
+  last_transaction_at?: boolean
+  version?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
@@ -1537,20 +2305,30 @@ export type stock_balancesSelectScalar = {
   qty_on_hand?: boolean
   qty_reserved?: boolean
   qty_available?: boolean
+  qty_in_transit?: boolean
+  qty_incoming?: boolean
+  qty_outgoing?: boolean
+  qty_damaged?: boolean
   avg_cost?: boolean
   last_movement_at?: boolean
+  last_transaction_id?: boolean
+  last_transaction_at?: boolean
+  version?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type stock_balancesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "location_id" | "store_id" | "product_variant_id" | "condition" | "batch_id" | "serial_id" | "qty_on_hand" | "qty_reserved" | "qty_available" | "avg_cost" | "last_movement_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_balances"]>
+export type stock_balancesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "warehouse_id" | "location_id" | "store_id" | "product_variant_id" | "condition" | "batch_id" | "serial_id" | "qty_on_hand" | "qty_reserved" | "qty_available" | "qty_in_transit" | "qty_incoming" | "qty_outgoing" | "qty_damaged" | "avg_cost" | "last_movement_at" | "last_transaction_id" | "last_transaction_at" | "version" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_balances"]>
 export type stock_balancesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
   warehouses?: boolean | Prisma.stock_balances$warehousesArgs<ExtArgs>
   stores?: boolean | Prisma.stock_balances$storesArgs<ExtArgs>
   warehouse_locations?: boolean | Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>
+  inventory_transaction_items?: boolean | Prisma.stock_balances$inventory_transaction_itemsArgs<ExtArgs>
+  stock_reservations?: boolean | Prisma.stock_balances$stock_reservationsArgs<ExtArgs>
+  _count?: boolean | Prisma.Stock_balancesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type stock_balancesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
@@ -1572,6 +2350,8 @@ export type $stock_balancesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     warehouses: Prisma.$warehousesPayload<ExtArgs> | null
     stores: Prisma.$storesPayload<ExtArgs> | null
     warehouse_locations: Prisma.$warehouse_locationsPayload<ExtArgs> | null
+    inventory_transaction_items: Prisma.$inventory_transaction_itemsPayload<ExtArgs>[]
+    stock_reservations: Prisma.$stock_reservationsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1586,8 +2366,15 @@ export type $stock_balancesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     qty_on_hand: runtime.Decimal
     qty_reserved: runtime.Decimal
     qty_available: runtime.Decimal | null
+    qty_in_transit: runtime.Decimal
+    qty_incoming: runtime.Decimal
+    qty_outgoing: runtime.Decimal
+    qty_damaged: runtime.Decimal
     avg_cost: runtime.Decimal
     last_movement_at: Date | null
+    last_transaction_id: string | null
+    last_transaction_at: Date | null
+    version: number
     created_at: Date
     updated_at: Date
     created_by_user_id: string | null
@@ -1990,6 +2777,8 @@ export interface Prisma__stock_balancesClient<T, Null = never, ExtArgs extends r
   warehouses<T extends Prisma.stock_balances$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   stores<T extends Prisma.stock_balances$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   warehouse_locations<T extends Prisma.stock_balances$warehouse_locationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$warehouse_locationsArgs<ExtArgs>>): Prisma.Prisma__warehouse_locationsClient<runtime.Types.Result.GetResult<Prisma.$warehouse_locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  inventory_transaction_items<T extends Prisma.stock_balances$inventory_transaction_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$inventory_transaction_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventory_transaction_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stock_reservations<T extends Prisma.stock_balances$stock_reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_balances$stock_reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_reservationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2031,8 +2820,15 @@ export interface stock_balancesFieldRefs {
   readonly qty_on_hand: Prisma.FieldRef<"stock_balances", 'Decimal'>
   readonly qty_reserved: Prisma.FieldRef<"stock_balances", 'Decimal'>
   readonly qty_available: Prisma.FieldRef<"stock_balances", 'Decimal'>
+  readonly qty_in_transit: Prisma.FieldRef<"stock_balances", 'Decimal'>
+  readonly qty_incoming: Prisma.FieldRef<"stock_balances", 'Decimal'>
+  readonly qty_outgoing: Prisma.FieldRef<"stock_balances", 'Decimal'>
+  readonly qty_damaged: Prisma.FieldRef<"stock_balances", 'Decimal'>
   readonly avg_cost: Prisma.FieldRef<"stock_balances", 'Decimal'>
   readonly last_movement_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
+  readonly last_transaction_id: Prisma.FieldRef<"stock_balances", 'String'>
+  readonly last_transaction_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
+  readonly version: Prisma.FieldRef<"stock_balances", 'Int'>
   readonly created_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"stock_balances", 'DateTime'>
   readonly created_by_user_id: Prisma.FieldRef<"stock_balances", 'String'>
@@ -2492,6 +3288,54 @@ export type stock_balances$warehouse_locationsArgs<ExtArgs extends runtime.Types
    */
   include?: Prisma.warehouse_locationsInclude<ExtArgs> | null
   where?: Prisma.warehouse_locationsWhereInput
+}
+
+/**
+ * stock_balances.inventory_transaction_items
+ */
+export type stock_balances$inventory_transaction_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inventory_transaction_items
+   */
+  select?: Prisma.inventory_transaction_itemsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inventory_transaction_items
+   */
+  omit?: Prisma.inventory_transaction_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inventory_transaction_itemsInclude<ExtArgs> | null
+  where?: Prisma.inventory_transaction_itemsWhereInput
+  orderBy?: Prisma.inventory_transaction_itemsOrderByWithRelationInput | Prisma.inventory_transaction_itemsOrderByWithRelationInput[]
+  cursor?: Prisma.inventory_transaction_itemsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Inventory_transaction_itemsScalarFieldEnum | Prisma.Inventory_transaction_itemsScalarFieldEnum[]
+}
+
+/**
+ * stock_balances.stock_reservations
+ */
+export type stock_balances$stock_reservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_reservations
+   */
+  select?: Prisma.stock_reservationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_reservations
+   */
+  omit?: Prisma.stock_reservationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_reservationsInclude<ExtArgs> | null
+  where?: Prisma.stock_reservationsWhereInput
+  orderBy?: Prisma.stock_reservationsOrderByWithRelationInput | Prisma.stock_reservationsOrderByWithRelationInput[]
+  cursor?: Prisma.stock_reservationsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_reservationsScalarFieldEnum | Prisma.Stock_reservationsScalarFieldEnum[]
 }
 
 /**
