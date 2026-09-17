@@ -10,6 +10,10 @@ import {
   createOrderInputSchema,
   customerName,
 } from '@/features/sales-orders/data/schema'
+import {
+  printHtmlIsolated,
+  printElementById,
+} from '@/features/sales-orders/utils/print-engine'
 
 // Mock useAuth
 vi.mock('@/hooks/use-auth', () => ({
@@ -141,6 +145,50 @@ describe('Sales Order Review Dialog & Schemas', () => {
     })
     fireEvent.click(confirmButton)
     expect(onConfirmDraftSubmit).toHaveBeenCalled()
+
+    printSpy.mockRestore()
+  })
+
+  test('toggles to A4 Document Preview and switches between Commercial and Packing Slip templates', () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <OrdersProvider>
+          <SalesOrderReviewDialog
+            open={true}
+            draftData={sampleDraftData}
+          />
+        </OrdersProvider>
+      </QueryClientProvider>
+    )
+
+    // Switch to Document Preview mode
+    const previewTabButton = screen.getByRole('button', { name: /document preview/i })
+    fireEvent.click(previewTabButton)
+
+    // Verify A4 Document Preview elements are visible
+    expect(screen.getByText('COMMERCIAL SALES ORDER')).toBeDefined()
+    expect(screen.getByText('Payment & Settlement Details')).toBeDefined()
+    expect(screen.getByText('Digital Audit Verification')).toBeDefined()
+
+    // Switch to Warehouse Packing Slip template
+    const packingSlipBtn = screen.getByRole('button', { name: /warehouse packing slip/i })
+    fireEvent.click(packingSlipBtn)
+
+    expect(screen.getByText('PACKING & DELIVERY SLIP')).toBeDefined()
+    expect(screen.getByText('Warehouse Fulfillment Checklist')).toBeDefined()
+    expect(screen.getByText('Package Overview')).toBeDefined()
+  })
+
+  test('print-engine functions handle environment fallbacks gracefully', () => {
+    const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {})
+    const onComplete = vi.fn()
+
+    printHtmlIsolated('<div>Test Print</div>', { onComplete })
+    expect(printSpy).toHaveBeenCalled()
+    expect(onComplete).toHaveBeenCalled()
+
+    printElementById('non-existent-id', { onComplete })
+    expect(printSpy).toHaveBeenCalledTimes(2)
 
     printSpy.mockRestore()
   })

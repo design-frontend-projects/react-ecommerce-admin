@@ -2939,6 +2939,26 @@
       "authorizedSignature": "Authorized Signature",
       "date": "Date"
     },
+    "reviewDialog": {
+      "title": "Sales Order Review & Print",
+      "draftDesc": "Review the order specifications and commercial breakdown before finalizing.",
+      "savedDesc": "Commercial sales order invoice, specifications, and fulfillment record.",
+      "tabReview": "Review & Summary",
+      "tabDocument": "Document Preview (A4)",
+      "commercialTemplate": "Commercial Order & Invoice",
+      "packingSlipTemplate": "Warehouse Packing Slip",
+      "printCommercial": "Print Commercial Order (A4)",
+      "printPackingSlip": "Print Packing Slip",
+      "printTriggered": "Document sent to printer",
+      "printOrder": "Print Order",
+      "zoom": "Zoom",
+      "backToEdit": "Back to Edit",
+      "confirmAndCreate": "Confirm & Create Order",
+      "savingOrder": "Saving Order...",
+      "copiedSuccess": "Sales order summary copied to clipboard",
+      "copiedError": "Failed to copy summary",
+      "loadingDetails": "Loading sales order details..."
+    },
     "picker": {
       "selectProduct": "Select product...",
       "searchProduct": "Search product by name or SKU...",

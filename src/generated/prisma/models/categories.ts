@@ -191,7 +191,7 @@ export type CategoriesGroupByOutputType = {
   is_active: boolean | null
   deleted_at: Date | null
   id: string
-  tenant_id: string
+  tenant_id: string | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
   parent_id: string | null
@@ -226,7 +226,7 @@ export type categoriesWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"categories"> | boolean | null
   deleted_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   id?: Prisma.UuidFilter<"categories"> | string
-  tenant_id?: Prisma.UuidFilter<"categories"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   parent_id?: Prisma.UuidNullableFilter<"categories"> | string | null
@@ -243,7 +243,7 @@ export type categoriesOrderByWithRelationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   parent_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -263,7 +263,7 @@ export type categoriesWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   is_active?: Prisma.BoolNullableFilter<"categories"> | boolean | null
   deleted_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
-  tenant_id?: Prisma.UuidFilter<"categories"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   parent_id?: Prisma.UuidNullableFilter<"categories"> | string | null
@@ -280,7 +280,7 @@ export type categoriesOrderByWithAggregationInput = {
   is_active?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   parent_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -300,7 +300,7 @@ export type categoriesScalarWhereWithAggregatesInput = {
   is_active?: Prisma.BoolNullableWithAggregatesFilter<"categories"> | boolean | null
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"categories"> | Date | string | null
   id?: Prisma.UuidWithAggregatesFilter<"categories"> | string
-  tenant_id?: Prisma.UuidWithAggregatesFilter<"categories"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"categories"> | string | null
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"categories"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"categories"> | string | null
   parent_id?: Prisma.UuidNullableWithAggregatesFilter<"categories"> | string | null
@@ -314,7 +314,7 @@ export type categoriesCreateInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent?: Prisma.categoriesCreateNestedOneWithoutChildrenInput
@@ -330,7 +330,7 @@ export type categoriesUncheckedCreateInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent_id?: string | null
@@ -346,7 +346,7 @@ export type categoriesUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent?: Prisma.categoriesUpdateOneWithoutChildrenNestedInput
@@ -362,7 +362,7 @@ export type categoriesUncheckedUpdateInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -378,7 +378,7 @@ export type categoriesCreateManyInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent_id?: string | null
@@ -392,7 +392,7 @@ export type categoriesUpdateManyMutationInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -405,7 +405,7 @@ export type categoriesUncheckedUpdateManyInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -550,7 +550,7 @@ export type categoriesCreateWithoutChildrenInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent?: Prisma.categoriesCreateNestedOneWithoutChildrenInput
@@ -565,7 +565,7 @@ export type categoriesUncheckedCreateWithoutChildrenInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent_id?: string | null
@@ -585,7 +585,7 @@ export type categoriesCreateWithoutParentInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   children?: Prisma.categoriesCreateNestedManyWithoutParentInput
@@ -600,7 +600,7 @@ export type categoriesUncheckedCreateWithoutParentInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   children?: Prisma.categoriesUncheckedCreateNestedManyWithoutParentInput
@@ -636,7 +636,7 @@ export type categoriesUpdateWithoutChildrenInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent?: Prisma.categoriesUpdateOneWithoutChildrenNestedInput
@@ -651,7 +651,7 @@ export type categoriesUncheckedUpdateWithoutChildrenInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -685,7 +685,7 @@ export type categoriesScalarWhereInput = {
   is_active?: Prisma.BoolNullableFilter<"categories"> | boolean | null
   deleted_at?: Prisma.DateTimeNullableFilter<"categories"> | Date | string | null
   id?: Prisma.UuidFilter<"categories"> | string
-  tenant_id?: Prisma.UuidFilter<"categories"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"categories"> | string | null
   parent_id?: Prisma.UuidNullableFilter<"categories"> | string | null
@@ -699,7 +699,7 @@ export type categoriesCreateWithoutProductsInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent?: Prisma.categoriesCreateNestedOneWithoutChildrenInput
@@ -714,7 +714,7 @@ export type categoriesUncheckedCreateWithoutProductsInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   parent_id?: string | null
@@ -745,7 +745,7 @@ export type categoriesUpdateWithoutProductsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent?: Prisma.categoriesUpdateOneWithoutChildrenNestedInput
@@ -760,7 +760,7 @@ export type categoriesUncheckedUpdateWithoutProductsInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parent_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -775,7 +775,7 @@ export type categoriesCreateManyParentInput = {
   is_active?: boolean | null
   deleted_at?: Date | string | null
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -788,7 +788,7 @@ export type categoriesUpdateWithoutParentInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.categoriesUpdateManyWithoutParentNestedInput
@@ -803,7 +803,7 @@ export type categoriesUncheckedUpdateWithoutParentInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.categoriesUncheckedUpdateManyWithoutParentNestedInput
@@ -818,7 +818,7 @@ export type categoriesUncheckedUpdateManyWithoutParentInput = {
   is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -954,7 +954,7 @@ export type $categoriesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     is_active: boolean | null
     deleted_at: Date | null
     id: string
-    tenant_id: string
+    tenant_id: string | null
     created_by_user_id: string | null
     updated_by_user_id: string | null
     parent_id: string | null

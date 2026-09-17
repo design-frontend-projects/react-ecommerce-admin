@@ -125,12 +125,13 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const isPending = isCreating || isUpdating
 
   // Options queries
-  const { data: categories = [] } = useCategoryOptions()
+  const { data: categories = [], isLoading: isCategoriesLoading } =
+    useCategoryOptions()
   const categoryOptions = useMemo(
     () => formatCategorySearchableOptions(categories),
     [categories]
   )
-  const { data: brands = [] } = useBrandOptions()
+  const { data: brands = [], isLoading: isBrandsLoading } = useBrandOptions()
   const { data: uoms = [] } = useUomOptions()
   const { data: suppliers = [] } = useSupplierOptions()
   const { data: productTypes = [] } = useProductTypeOptions()
@@ -697,6 +698,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               })}
                               allowNone={true}
                               noneLabel={`-- ${t('common.none', 'None')} --`}
+                              isLoading={isCategoriesLoading}
                             />
                           </FormControl>
                           <FormMessage />
@@ -723,6 +725,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               emptyText={t('products.form.noBrandFound', {
                                 defaultValue: 'No brand found.',
                               })}
+                              allowNone={true}
+                              noneLabel={`-- ${t('common.none', 'None')} --`}
+                              isLoading={isBrandsLoading}
                             />
                           </FormControl>
                           <FormMessage />

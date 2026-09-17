@@ -69,3 +69,10 @@ export function ProductsDialogs() {
     </>
   )
 }
+
+export {
+  ProductActionDialog,
+  ProductWizardDialog,
+  ProductViewDialog,
+  ProductDeleteDialog,
+}

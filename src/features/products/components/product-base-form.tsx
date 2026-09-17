@@ -66,12 +66,13 @@ export function ProductBaseForm({
     setVariantsEnabled,
   } = useProductWizardStore()
 
-  const { data: categories = [] } = useCategoryOptions()
+  const { data: categories = [], isLoading: isCategoriesLoading } =
+    useCategoryOptions()
   const categoryOptions = useMemo(
     () => formatCategorySearchableOptions(categories),
     [categories]
   )
-  const { data: brands = [] } = useBrandOptions()
+  const { data: brands = [], isLoading: isBrandsLoading } = useBrandOptions()
   const { data: uoms = [] } = useUomOptions()
   const { data: suppliers = [] } = useSupplierOptions()
   const { data: productTypes = [] } = useProductTypeOptions()
@@ -331,6 +332,7 @@ export function ProductBaseForm({
                         })}
                         allowNone={true}
                         noneLabel={`-- ${t('common.none', 'None')} --`}
+                        isLoading={isCategoriesLoading}
                       />
                     </FormControl>
                     <FormMessage />
@@ -356,6 +358,9 @@ export function ProductBaseForm({
                         emptyText={t('products.form.noBrandFound', {
                           defaultValue: 'No brand found.',
                         })}
+                        allowNone={true}
+                        noneLabel={`-- ${t('common.none', 'None')} --`}
+                        isLoading={isBrandsLoading}
                       />
                     </FormControl>
                     <FormMessage />

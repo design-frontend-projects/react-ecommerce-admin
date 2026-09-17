@@ -26,7 +26,9 @@ function assertName(name: unknown): asserts name is string {
 export async function listCategories(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
   return prisma.categories.findMany({
-    where: { tenant_id: tenantId },
+    where: {
+      OR: [{ tenant_id: tenantId }, { tenant_id: null }],
+    },
     orderBy: { name: 'asc' },
     include: {
       parent: {
@@ -107,7 +109,10 @@ export async function updateCategory(
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
   const existing = await prisma.categories.findFirst({
-    where: { id, tenant_id: tenantId },
+    where: {
+      id,
+      OR: [{ tenant_id: tenantId }, { tenant_id: null }],
+    },
     select: { id: true },
   })
   if (!existing) {
@@ -125,7 +130,10 @@ export async function updateCategory(
       throw new ApiError('A category cannot be its own parent.', 400)
     }
     const parentExists = await prisma.categories.findFirst({
-      where: { id: parentId, tenant_id: tenantId },
+      where: {
+        id: parentId,
+        OR: [{ tenant_id: tenantId }, { tenant_id: null }],
+      },
       select: { id: true },
     })
     if (!parentExists) {
@@ -184,7 +192,10 @@ export async function updateCategory(
 export async function deleteCategory(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const existing = (await prisma.categories.findFirst({
-    where: { id, tenant_id: tenantId },
+    where: {
+      id,
+      OR: [{ tenant_id: tenantId }, { tenant_id: null }],
+    },
     select: {
       id: true,
       _count: { select: { products: true, children: true } },

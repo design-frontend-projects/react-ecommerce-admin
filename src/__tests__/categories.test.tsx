@@ -106,7 +106,9 @@ describe('Categories Module with Hierarchy and Arabic Support', () => {
       const result = await listCategories(mockUserId)
       expect(requireTenantId).toHaveBeenCalledWith(mockUserId)
       expect(prisma.categories.findMany).toHaveBeenCalledWith({
-        where: { tenant_id: mockTenantId },
+        where: {
+          OR: [{ tenant_id: mockTenantId }, { tenant_id: null }],
+        },
         orderBy: { name: 'asc' },
         include: {
           parent: {
@@ -199,7 +201,10 @@ describe('Categories Module with Hierarchy and Arabic Support', () => {
       })
 
       expect(prisma.categories.findFirst).toHaveBeenCalledWith({
-        where: { id: 'cat-1', tenant_id: mockTenantId },
+        where: {
+          id: 'cat-1',
+          OR: [{ tenant_id: mockTenantId }, { tenant_id: null }],
+        },
         select: { id: true },
       })
       expect(prisma.categories.update).toHaveBeenCalledWith({

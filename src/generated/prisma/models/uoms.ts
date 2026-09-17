@@ -191,7 +191,7 @@ export type uomsGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UomsGroupByOutputType = {
   id: string
-  tenant_id: string
+  tenant_id: string | null
   code: string
   name: string
   uom_category: string
@@ -227,7 +227,7 @@ export type uomsWhereInput = {
   OR?: Prisma.uomsWhereInput[]
   NOT?: Prisma.uomsWhereInput | Prisma.uomsWhereInput[]
   id?: Prisma.UuidFilter<"uoms"> | string
-  tenant_id?: Prisma.UuidFilter<"uoms"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"uoms"> | string | null
   code?: Prisma.StringFilter<"uoms"> | string
   name?: Prisma.StringFilter<"uoms"> | string
   uom_category?: Prisma.StringFilter<"uoms"> | string
@@ -245,7 +245,7 @@ export type uomsWhereInput = {
 
 export type uomsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   uom_category?: Prisma.SortOrder
@@ -266,7 +266,7 @@ export type uomsWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.uomsWhereInput | Prisma.uomsWhereInput[]
   OR?: Prisma.uomsWhereInput[]
   NOT?: Prisma.uomsWhereInput | Prisma.uomsWhereInput[]
-  tenant_id?: Prisma.UuidFilter<"uoms"> | string
+  tenant_id?: Prisma.UuidNullableFilter<"uoms"> | string | null
   code?: Prisma.StringFilter<"uoms"> | string
   name?: Prisma.StringFilter<"uoms"> | string
   uom_category?: Prisma.StringFilter<"uoms"> | string
@@ -284,7 +284,7 @@ export type uomsWhereUniqueInput = Prisma.AtLeast<{
 
 export type uomsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  tenant_id?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   uom_category?: Prisma.SortOrder
@@ -305,7 +305,7 @@ export type uomsScalarWhereWithAggregatesInput = {
   OR?: Prisma.uomsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.uomsScalarWhereWithAggregatesInput | Prisma.uomsScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"uoms"> | string
-  tenant_id?: Prisma.UuidWithAggregatesFilter<"uoms"> | string
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"uoms"> | string | null
   code?: Prisma.StringWithAggregatesFilter<"uoms"> | string
   name?: Prisma.StringWithAggregatesFilter<"uoms"> | string
   uom_category?: Prisma.StringWithAggregatesFilter<"uoms"> | string
@@ -320,7 +320,7 @@ export type uomsScalarWhereWithAggregatesInput = {
 
 export type uomsCreateInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -338,7 +338,7 @@ export type uomsCreateInput = {
 
 export type uomsUncheckedCreateInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -356,7 +356,7 @@ export type uomsUncheckedCreateInput = {
 
 export type uomsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -374,7 +374,7 @@ export type uomsUpdateInput = {
 
 export type uomsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -392,7 +392,7 @@ export type uomsUncheckedUpdateInput = {
 
 export type uomsCreateManyInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -407,7 +407,7 @@ export type uomsCreateManyInput = {
 
 export type uomsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -422,7 +422,7 @@ export type uomsUpdateManyMutationInput = {
 
 export type uomsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -535,7 +535,7 @@ export type uomsUpdateOneWithoutPurchase_requisition_itemsNestedInput = {
 
 export type uomsCreateWithoutProductsInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -552,7 +552,7 @@ export type uomsCreateWithoutProductsInput = {
 
 export type uomsUncheckedCreateWithoutProductsInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -585,7 +585,7 @@ export type uomsUpdateToOneWithWhereWithoutProductsInput = {
 
 export type uomsUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -602,7 +602,7 @@ export type uomsUpdateWithoutProductsInput = {
 
 export type uomsUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -619,7 +619,7 @@ export type uomsUncheckedUpdateWithoutProductsInput = {
 
 export type uomsCreateWithoutPurchase_order_itemsInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -636,7 +636,7 @@ export type uomsCreateWithoutPurchase_order_itemsInput = {
 
 export type uomsUncheckedCreateWithoutPurchase_order_itemsInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -669,7 +669,7 @@ export type uomsUpdateToOneWithWhereWithoutPurchase_order_itemsInput = {
 
 export type uomsUpdateWithoutPurchase_order_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -686,7 +686,7 @@ export type uomsUpdateWithoutPurchase_order_itemsInput = {
 
 export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -703,7 +703,7 @@ export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
 
 export type uomsCreateWithoutPurchase_requisition_itemsInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -720,7 +720,7 @@ export type uomsCreateWithoutPurchase_requisition_itemsInput = {
 
 export type uomsUncheckedCreateWithoutPurchase_requisition_itemsInput = {
   id?: string
-  tenant_id: string
+  tenant_id?: string | null
   code: string
   name: string
   uom_category?: string
@@ -753,7 +753,7 @@ export type uomsUpdateToOneWithWhereWithoutPurchase_requisition_itemsInput = {
 
 export type uomsUpdateWithoutPurchase_requisition_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -770,7 +770,7 @@ export type uomsUpdateWithoutPurchase_requisition_itemsInput = {
 
 export type uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   uom_category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -917,7 +917,7 @@ export type $uomsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    tenant_id: string
+    tenant_id: string | null
     code: string
     name: string
     uom_category: string

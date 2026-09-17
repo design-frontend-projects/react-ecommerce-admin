@@ -41,7 +41,9 @@ function assertCategory(category: unknown): asserts category is UomCategory {
 export async function listUoms(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
   return prisma.uoms.findMany({
-    where: { tenant_id: tenantId },
+    where: {
+      OR: [{ tenant_id: tenantId }, { tenant_id: null }],
+    },
     orderBy: { code: 'asc' },
     include: {
       _count: { select: { products: true } },

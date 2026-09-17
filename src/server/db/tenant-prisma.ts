@@ -14,7 +14,6 @@ export const TENANT_SCOPED_MODELS = new Set([
   'stock_by_location',
   'stock_adjustments',
   'stock_transfers',
-  'categories',
   'customers',
   'customer_groups',
   'customer_cards',

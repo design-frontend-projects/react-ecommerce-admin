@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import { useAuthEnabled } from '@/hooks/use-auth-query'
-import type { SearchableOption } from '@/components/custom-ui/searchable-select'
+import type { SearchableOption } from '@/components/custom-ui/virtual-searchable-select'
 
 export interface CategoryOption {
   id: string
@@ -100,6 +100,17 @@ export function useCategorySearchOptions() {
   return { ...query, options }
 }
 
+export function formatBrandSearchableOptions(
+  brands: BrandOption[]
+): SearchableOption[] {
+  return brands.map((b) => ({
+    id: b.id,
+    name: b.name,
+    name_ar: b.name_ar,
+    code: b.code,
+  }))
+}
+
 /**
  * Hook to fetch active brands for product form dropdowns.
  */
@@ -120,6 +131,97 @@ export function useBrandOptions() {
     enabled: authEnabled,
   })
 }
+
+/**
+ * Hook that returns brand options formatted for SearchableSelect comboboxes.
+ */
+export function useBrandSearchOptions() {
+  const query = useBrandOptions()
+  const options = useMemo(
+    () => formatBrandSearchableOptions(query.data ?? []),
+    [query.data]
+  )
+  return { ...query, options }
+}
+
+/**
+ * Infinite query to fetch categories with pagination and optional search filter.
+ */
+export function useInfiniteCategoryOptions({
+  search = '',
+  pageSize = 30,
+}: { search?: string; pageSize?: number } = {}) {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
+  return useInfiniteQuery<CategoryOption[]>({
+    queryKey: ['categories', 'options', 'infinite', search],
+    queryFn: async ({ pageParam = 0 }) => {
+      const from = (pageParam as number) * pageSize
+      const to = from + pageSize - 1
+      let query = supabase
+        .from('categories')
+        .select('id, name, name_ar, parent_id')
+        .eq('is_active', true)
+        .order('name')
+        .range(from, to)
+
+      if (search && search.trim()) {
+        const term = search.trim()
+        query = query.or(`name.ilike.%${term}%,name_ar.ilike.%${term}%`)
+      }
+
+      const { data, error } = await query
+      if (error) throw error
+      return (data ?? []) as CategoryOption[]
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < pageSize) return undefined
+      return allPages.length
+    },
+    enabled: authEnabled,
+  })
+}
+
+/**
+ * Infinite query to fetch brands with pagination and optional search filter.
+ */
+export function useInfiniteBrandOptions({
+  search = '',
+  pageSize = 30,
+}: { search?: string; pageSize?: number } = {}) {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
+  return useInfiniteQuery<BrandOption[]>({
+    queryKey: ['brands', 'options', 'infinite', search],
+    queryFn: async ({ pageParam = 0 }) => {
+      const from = (pageParam as number) * pageSize
+      const to = from + pageSize - 1
+      let query = supabase
+        .from('brands')
+        .select('id, name, name_ar, code')
+        .eq('is_active', true)
+        .order('name')
+        .range(from, to)
+
+      if (search && search.trim()) {
+        const term = search.trim()
+        query = query.or(
+          `name.ilike.%${term}%,name_ar.ilike.%${term}%,code.ilike.%${term}%`
+        )
+      }
+
+      const { data, error } = await query
+      if (error) throw error
+      return (data ?? []) as BrandOption[]
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < pageSize) return undefined
+      return allPages.length
+    },
+    enabled: authEnabled,
+  })
+}
+
 
 /**
  * Hook to fetch active units of measure (UOMs) for product dropdowns.
