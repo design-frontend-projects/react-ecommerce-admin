@@ -32,6 +32,17 @@ export const PERMISSIONS = {
   SALES_MANAGE: 'inventory.sales.manage',
   AUDIT_VIEW: 'access_control.audit.view',
   SHIFTS_USE: 'restaurant.shifts.use',
+
+  // POS Permissions
+  POS_ACCESS: 'general.pos.access',
+  POS_SELL: 'pos.sale.create',
+  POS_REFUND: 'pos.refund.manage',
+  POS_DISCOUNT: 'pos.discount.apply',
+  POS_PRICE_OVERRIDE: 'pos.price.override',
+  POS_CASH_DRAWER: 'pos.cash.manage',
+  POS_SESSION_MANAGE: 'pos.session.manage',
+  POS_TERMINALS_MANAGE: 'pos.terminals.manage',
 } as const satisfies Record<string, Exclude<PermissionName, '*'>>
+
 
 export type KnownPermission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS]

@@ -74,6 +74,7 @@ model branches {
   default_for_tenants tenants[]      @relation("tenant_default_branch")
   warehouses          warehouses[]
   purchase_requisitions purchase_requisitions[]
+  pos_terminals       pos_terminals[]
 }
 
 model categories {
@@ -225,18 +226,35 @@ model permissions {
 }
 
 model pos_terminals {
-  id                   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  store_id             String?       @db.Uuid
-  name                 String        @db.VarChar(150)
-  code                 String        @db.VarChar(100)
-  device_identifier    String?       @db.VarChar(255)
-  receipt_printer_name String?       @db.VarChar(255)
-  status               record_status @default(active)
-  created_at           DateTime      @default(now()) @db.Timestamptz(6)
-  updated_at           DateTime      @default(now()) @db.Timestamptz(6)
-  tenant_id            String        @db.Uuid
-  created_by_user_id   String?       @db.Uuid
-  updated_by_user_id   String?       @db.Uuid
+  id                     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  store_id               String?       @db.Uuid
+  branch_id              String?       @db.Uuid
+  warehouse_id           String?       @db.Uuid
+  default_price_list_id  String?       @db.Uuid
+  name                   String        @db.VarChar(150)
+  code                   String        @db.VarChar(100)
+  device_identifier      String?       @db.VarChar(255)
+  receipt_printer_name   String?       @db.VarChar(255)
+  status                 record_status @default(active)
+  deleted_at             DateTime?     @db.Timestamptz(6)
+  created_at             DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime      @default(now()) @db.Timestamptz(6)
+  tenant_id              String        @db.Uuid
+  created_by_user_id     String?       @db.Uuid
+  updated_by_user_id     String?       @db.Uuid
+
+  // Relations
+  branches               branches?     @relation(fields: [branch_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  warehouses             warehouses?   @relation(fields: [warehouse_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  default_price_list     price_list?   @relation(fields: [default_price_list_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  pos_terminal_users     pos_terminal_users[]
+  pos_sessions           pos_sessions[]
+  pos_held_orders        pos_held_orders[]
+  sales_orders           sales_orders[]
+
+  @@index([tenant_id])
+  @@index([store_id])
+  @@index([branch_id])
 }
 
 model price_list {
@@ -268,6 +286,7 @@ model price_list {
   channels           channels?           @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
   price_list_items   price_list_items[]
   price_list_assignments price_list_assignments[]
+  pos_terminals      pos_terminals[]
 }
 
 model price_list_items {
@@ -1907,33 +1926,46 @@ model purchase_requisition_items {
 }
 
 model sales_orders {
-  id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id        String                  @db.Uuid
-  order_number     String                  @default(dbgenerated("('SO-'::text || lpad((nextval('sales_orders_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
-  customer_id      String?                 @db.Uuid
-  branch_id        String?                 @db.Uuid
-  store_id         String?                 @db.Uuid
-  warehouse_id     String?                 @db.Uuid
-  channel_id       String?                 @db.Uuid
-  currency         String?                 @default("USD") @db.Char(3)
-  status           sales_order_status_enum @default(draft)
-  order_date       DateTime                @default(now()) @db.Timestamptz(6)
-  expected_date    DateTime?               @db.Date
-  subtotal         Decimal                 @default(0) @db.Decimal(18, 4)
-  discount_amount  Decimal                 @default(0) @db.Decimal(18, 4)
-  tax_amount       Decimal                 @default(0) @db.Decimal(18, 4)
-  total_amount     Decimal                 @default(0) @db.Decimal(18, 4)
-  sales_invoice_id String?                 @db.Uuid
-  confirmed_by     String?
-  confirmed_at     DateTime?               @db.Timestamptz(6)
-  notes            String?
-  created_by       String?
-  created_at       DateTime                @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime                @default(now()) @db.Timestamptz(6)
-  created_by_user_id String?               @db.Uuid
-  updated_by_user_id String?               @db.Uuid
-  warehouses         warehouses?           @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
-  channels           channels?             @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
+  id                 String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                  @db.Uuid
+  order_number       String                  @default(dbgenerated("('SO-'::text || lpad((nextval('sales_orders_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
+  customer_id        String?                 @db.Uuid
+  branch_id          String?                 @db.Uuid
+  store_id           String?                 @db.Uuid
+  warehouse_id       String?                 @db.Uuid
+  channel_id         String?                 @db.Uuid
+  pos_terminal_id    String?                 @db.Uuid
+  pos_session_id     String?                 @db.Uuid
+  currency           String?                 @default("USD") @db.Char(3)
+  status             sales_order_status_enum @default(draft)
+  payment_status     payment_status_enum     @default(pending)
+  order_date         DateTime                @default(now()) @db.Timestamptz(6)
+  expected_date      DateTime?               @db.Date
+  subtotal           Decimal                 @default(0) @db.Decimal(18, 4)
+  discount_amount    Decimal                 @default(0) @db.Decimal(18, 4)
+  tax_amount         Decimal                 @default(0) @db.Decimal(18, 4)
+  total_amount       Decimal                 @default(0) @db.Decimal(18, 4)
+  sales_invoice_id   String?                 @db.Uuid
+  idempotency_key    String?                 @db.VarChar(128)
+  confirmed_by       String?
+  confirmed_at       DateTime?               @db.Timestamptz(6)
+  notes              String?
+  created_by         String?
+  created_at         DateTime                @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                 @db.Uuid
+  updated_by_user_id String?                 @db.Uuid
+
+  // Relations
+  warehouses           warehouses?             @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
+  channels             channels?               @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
+  pos_terminal         pos_terminals?          @relation(fields: [pos_terminal_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  pos_session          pos_sessions?           @relation(fields: [pos_session_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sales_order_payments sales_order_payments[]
+
+  @@unique([tenant_id, idempotency_key])
+  @@index([pos_terminal_id])
+  @@index([pos_session_id])
 }
 
 model sales_order_items {
@@ -1948,10 +1980,12 @@ model sales_order_items {
   cancelled_qty      Decimal   @default(0) @db.Decimal(18, 4)
   uom_id             String?   @db.Uuid
   unit_price         Decimal   @default(0) @db.Decimal(18, 4)
+  unit_cost          Decimal   @default(0) @db.Decimal(18, 4)
   discount_amount    Decimal   @default(0) @db.Decimal(18, 4)
   tax_amount         Decimal   @default(0) @db.Decimal(18, 4)
   line_total         Decimal   @default(0) @db.Decimal(18, 4)
   batch_id           String?   @db.Uuid
+  tax_rate_id        String?   @db.Uuid
   created_at         DateTime  @default(now()) @db.Timestamptz(6)
   created_by_user_id String?   @db.Uuid
   updated_by_user_id String?   @db.Uuid
@@ -2174,6 +2208,7 @@ model warehouses {
   stock_transfers_from stock_transfers[]    @relation("transfer_source_warehouse")
   stock_transfers_to   stock_transfers[]    @relation("transfer_destination_warehouse")
   inventory            inventory[]
+  pos_terminals        pos_terminals[]
 
   @@index([tenant_id])
   @@index([branch_id])
@@ -3175,3 +3210,142 @@ model inventory_audit_logs {
   @@index([entity_type, entity_id], map: "idx_inv_audit_entity")
 }
 
+// =============================================================================
+// POS RUNTIME MODELS
+// =============================================================================
+
+enum held_order_status_enum {
+  held
+  resumed
+  cancelled
+}
+
+/// Cashier authorization mapping for POS terminals.
+model pos_terminal_users {
+  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String        @db.Uuid
+  terminal_id        String        @db.Uuid
+  user_id            String        @db.Uuid
+  is_active          Boolean       @default(true)
+  created_at         DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime      @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?       @db.Uuid
+  updated_by_user_id String?       @db.Uuid
+
+  // Relations
+  terminal           pos_terminals @relation(fields: [terminal_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([terminal_id, user_id])
+  @@index([tenant_id])
+  @@index([user_id])
+}
+
+/// Represents a cashier shift/session on a POS terminal.
+model pos_sessions {
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String              @db.Uuid
+  terminal_id        String              @db.Uuid
+  cashier_id         String              @db.Uuid
+  status             session_status_enum @default(open)
+  opening_cash       Decimal             @default(0) @db.Decimal(18, 4)
+  expected_cash      Decimal             @default(0) @db.Decimal(18, 4)
+  actual_cash        Decimal?            @db.Decimal(18, 4)
+  cash_difference    Decimal?            @db.Decimal(18, 4)
+  opened_at          DateTime            @default(now()) @db.Timestamptz(6)
+  closed_at          DateTime?           @db.Timestamptz(6)
+  notes              String?
+  created_at         DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime            @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?             @db.Uuid
+  updated_by_user_id String?             @db.Uuid
+
+  // Relations
+  terminal           pos_terminals       @relation(fields: [terminal_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  pos_cash_movements pos_cash_movements[]
+  pos_held_orders    pos_held_orders[]
+  sales_orders       sales_orders[]
+  sales_order_payments sales_order_payments[]
+
+  @@index([tenant_id])
+  @@index([terminal_id])
+  @@index([cashier_id])
+  @@index([tenant_id, status])
+}
+
+/// Audit trail for all cash drawer movements within a POS session.
+model pos_cash_movements {
+  id                 String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                    @db.Uuid
+  session_id         String                    @db.Uuid
+  type               cash_movement_type_enum   @default(in)
+  reason             cash_movement_reason_enum @default(sale)
+  amount             Decimal                   @default(0) @db.Decimal(18, 4)
+  reference_type     String?                   @db.VarChar(50)
+  reference_id       String?                   @db.Uuid
+  notes              String?
+  created_at         DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                  @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                   @db.Uuid
+  updated_by_user_id String?                   @db.Uuid
+
+  // Relations
+  session            pos_sessions              @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([session_id])
+  @@index([tenant_id])
+}
+
+/// Individual payment records supporting split/mixed payments for sales orders.
+model sales_order_payments {
+  id                 String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                    @db.Uuid
+  sales_order_id     String                    @db.Uuid
+  session_id         String?                   @db.Uuid
+  payment_method     payment_method_type_enum  @default(cash)
+  amount             Decimal                   @default(0) @db.Decimal(18, 4)
+  currency           String                    @default("USD") @db.Char(3)
+  status             payment_status_enum       @default(completed)
+  reference_number   String?                   @db.VarChar(100)
+  notes              String?
+  created_at         DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                  @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                   @db.Uuid
+  updated_by_user_id String?                   @db.Uuid
+
+  // Relations
+  sales_order        sales_orders              @relation(fields: [sales_order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  session            pos_sessions?             @relation(fields: [session_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([sales_order_id])
+  @@index([session_id])
+  @@index([tenant_id])
+}
+
+/// Persistent suspended/held POS orders.
+model pos_held_orders {
+  id                 String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                 @db.Uuid
+  terminal_id        String                 @db.Uuid
+  session_id         String                 @db.Uuid
+  customer_id        String?                @db.Uuid
+  hold_reference     String                 @db.VarChar(100)
+  cart_data          Json                   @default("{}")
+  subtotal           Decimal                @default(0) @db.Decimal(18, 4)
+  tax_amount         Decimal                @default(0) @db.Decimal(18, 4)
+  discount_amount    Decimal                @default(0) @db.Decimal(18, 4)
+  total_amount       Decimal                @default(0) @db.Decimal(18, 4)
+  status             held_order_status_enum @default(held)
+  notes              String?
+  created_at         DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime               @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                @db.Uuid
+  updated_by_user_id String?                @db.Uuid
+
+  // Relations
+  terminal           pos_terminals          @relation(fields: [terminal_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  session            pos_sessions           @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([session_id])
+  @@index([terminal_id])
+  @@index([tenant_id, status])
+}

@@ -125,9 +125,34 @@ export function useSidebarData(): SidebarData {
           },
           {
             title: t('sidebar.posSystem'),
-            url: '/pos',
             icon: Receipt,
             roles: ADMINS,
+            items: [
+              {
+                title: t('sidebar.posRegister', 'POS Register'),
+                url: '/pos',
+                icon: Receipt,
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.posTerminals', 'Terminals'),
+                url: '/pos/terminals',
+                icon: Monitor,
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.posTerminalUsers', 'Terminal Users'),
+                url: '/pos/terminal-users',
+                icon: Users,
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.posReports', 'Reports'),
+                url: '/pos/reports',
+                icon: LineChart,
+                roles: ADMINS,
+              },
+            ],
           },
           {
             title: t('sidebar.products'),

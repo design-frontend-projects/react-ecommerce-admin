@@ -108,6 +108,36 @@ export const BASE_PERMISSION_DEFINITIONS = [
     name: 'access_control.audit.view',
     description: 'View the RBAC change audit trail for the tenant.',
   },
+
+  // ── POS Module ─────────────────────────────────────────────────────────
+  {
+    name: 'pos.sale.create',
+    description: 'Ring up sales and complete POS checkout.',
+  },
+  {
+    name: 'pos.refund.manage',
+    description: 'Process returns and refunds at the POS.',
+  },
+  {
+    name: 'pos.discount.apply',
+    description: 'Apply line or order-level discounts during POS checkout.',
+  },
+  {
+    name: 'pos.price.override',
+    description: 'Override unit prices at the POS beyond the price list.',
+  },
+  {
+    name: 'pos.cash.manage',
+    description: 'Perform cash-in, cash-out, and petty cash operations.',
+  },
+  {
+    name: 'pos.session.manage',
+    description: 'Open and close POS cashier sessions.',
+  },
+  {
+    name: 'pos.terminals.manage',
+    description: 'Create, edit, and configure POS terminals and cashier assignments.',
+  },
 ] as const
 
 export type PermissionName =

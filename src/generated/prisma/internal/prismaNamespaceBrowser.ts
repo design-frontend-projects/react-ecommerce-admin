@@ -171,7 +171,12 @@ export const ModelName = {
   inventory_transaction_type_rules: 'inventory_transaction_type_rules',
   inventory_transactions: 'inventory_transactions',
   inventory_transaction_items: 'inventory_transaction_items',
-  inventory_audit_logs: 'inventory_audit_logs'
+  inventory_audit_logs: 'inventory_audit_logs',
+  pos_terminal_users: 'pos_terminal_users',
+  pos_sessions: 'pos_sessions',
+  pos_cash_movements: 'pos_cash_movements',
+  sales_order_payments: 'sales_order_payments',
+  pos_held_orders: 'pos_held_orders'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,11 +418,15 @@ export type PermissionsScalarFieldEnum = (typeof PermissionsScalarFieldEnum)[key
 export const Pos_terminalsScalarFieldEnum = {
   id: 'id',
   store_id: 'store_id',
+  branch_id: 'branch_id',
+  warehouse_id: 'warehouse_id',
+  default_price_list_id: 'default_price_list_id',
   name: 'name',
   code: 'code',
   device_identifier: 'device_identifier',
   receipt_printer_name: 'receipt_printer_name',
   status: 'status',
+  deleted_at: 'deleted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
   tenant_id: 'tenant_id',
@@ -2097,8 +2106,11 @@ export const Sales_ordersScalarFieldEnum = {
   store_id: 'store_id',
   warehouse_id: 'warehouse_id',
   channel_id: 'channel_id',
+  pos_terminal_id: 'pos_terminal_id',
+  pos_session_id: 'pos_session_id',
   currency: 'currency',
   status: 'status',
+  payment_status: 'payment_status',
   order_date: 'order_date',
   expected_date: 'expected_date',
   subtotal: 'subtotal',
@@ -2106,6 +2118,7 @@ export const Sales_ordersScalarFieldEnum = {
   tax_amount: 'tax_amount',
   total_amount: 'total_amount',
   sales_invoice_id: 'sales_invoice_id',
+  idempotency_key: 'idempotency_key',
   confirmed_by: 'confirmed_by',
   confirmed_at: 'confirmed_at',
   notes: 'notes',
@@ -2131,10 +2144,12 @@ export const Sales_order_itemsScalarFieldEnum = {
   cancelled_qty: 'cancelled_qty',
   uom_id: 'uom_id',
   unit_price: 'unit_price',
+  unit_cost: 'unit_cost',
   discount_amount: 'discount_amount',
   tax_amount: 'tax_amount',
   line_total: 'line_total',
   batch_id: 'batch_id',
+  tax_rate_id: 'tax_rate_id',
   created_at: 'created_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
@@ -2780,6 +2795,105 @@ export const Inventory_audit_logsScalarFieldEnum = {
 } as const
 
 export type Inventory_audit_logsScalarFieldEnum = (typeof Inventory_audit_logsScalarFieldEnum)[keyof typeof Inventory_audit_logsScalarFieldEnum]
+
+
+export const Pos_terminal_usersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  user_id: 'user_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_terminal_usersScalarFieldEnum = (typeof Pos_terminal_usersScalarFieldEnum)[keyof typeof Pos_terminal_usersScalarFieldEnum]
+
+
+export const Pos_sessionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  cashier_id: 'cashier_id',
+  status: 'status',
+  opening_cash: 'opening_cash',
+  expected_cash: 'expected_cash',
+  actual_cash: 'actual_cash',
+  cash_difference: 'cash_difference',
+  opened_at: 'opened_at',
+  closed_at: 'closed_at',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_sessionsScalarFieldEnum = (typeof Pos_sessionsScalarFieldEnum)[keyof typeof Pos_sessionsScalarFieldEnum]
+
+
+export const Pos_cash_movementsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  session_id: 'session_id',
+  type: 'type',
+  reason: 'reason',
+  amount: 'amount',
+  reference_type: 'reference_type',
+  reference_id: 'reference_id',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_cash_movementsScalarFieldEnum = (typeof Pos_cash_movementsScalarFieldEnum)[keyof typeof Pos_cash_movementsScalarFieldEnum]
+
+
+export const Sales_order_paymentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  sales_order_id: 'sales_order_id',
+  session_id: 'session_id',
+  payment_method: 'payment_method',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  reference_number: 'reference_number',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Sales_order_paymentsScalarFieldEnum = (typeof Sales_order_paymentsScalarFieldEnum)[keyof typeof Sales_order_paymentsScalarFieldEnum]
+
+
+export const Pos_held_ordersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  session_id: 'session_id',
+  customer_id: 'customer_id',
+  hold_reference: 'hold_reference',
+  cart_data: 'cart_data',
+  subtotal: 'subtotal',
+  tax_amount: 'tax_amount',
+  discount_amount: 'discount_amount',
+  total_amount: 'total_amount',
+  status: 'status',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_held_ordersScalarFieldEnum = (typeof Pos_held_ordersScalarFieldEnum)[keyof typeof Pos_held_ordersScalarFieldEnum]
 
 
 export const SortOrder = {

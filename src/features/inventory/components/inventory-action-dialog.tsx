@@ -58,6 +58,7 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { InventoryProductVirtualCombobox } from './inventory-product-virtual-combobox'
 import {
   inventorySchema,
   type Inventory,
@@ -147,12 +148,11 @@ export function InventoryActionDialog({
   )
 
   // Live stock balance specifically for the selected product variant, warehouse, and store
-  const { data: variantLiveStock, isLoading: isLoadingVariantStock } =
-    useStockBalancesForProduct(
-      selectedVariantId,
-      selectedWarehouseId,
-      selectedStoreId
-    )
+  const { data: variantLiveStock } = useStockBalancesForProduct(
+    selectedVariantId,
+    selectedWarehouseId,
+    selectedStoreId
+  )
 
   // Reset form when dialog opens or currentRow changes
   useEffect(() => {
@@ -230,9 +230,18 @@ export function InventoryActionDialog({
       const currentWh = form.getValues('warehouse_id')
       if (!currentWh || currentWh === 'none') {
         const defaultSw =
-          storeWarehouses.find((sw: any) => sw.is_default) || storeWarehouses[0]
+          storeWarehouses.find(
+            (sw: { is_default?: boolean }) => sw.is_default
+          ) || storeWarehouses[0]
+        const rawSw = defaultSw as
+          | {
+              warehouses?: { id?: string }
+              warehouse_id?: string
+              id?: string
+            }
+          | undefined
         const whId =
-          defaultSw?.warehouses?.id || defaultSw?.warehouse_id || defaultSw?.id
+          rawSw?.warehouses?.id || rawSw?.warehouse_id || rawSw?.id
         if (whId) {
           form.setValue('warehouse_id', whId)
         }
@@ -327,14 +336,7 @@ export function InventoryActionDialog({
   // 1. All active warehouses from useWarehouses()
   const allWarehouses = useMemo(() => warehouses || [], [warehouses])
 
-  // 2. Main warehouse(s) (where is_default is true or code is 'MAIN')
-  const mainWarehouses = useMemo(() => {
-    return allWarehouses.filter(
-      (w) => w.is_default || w.code?.toUpperCase() === 'MAIN'
-    )
-  }, [allWarehouses])
-
-  // 3. Warehouses connected to the selected store via store_warehouses
+  // 2. Warehouses connected to the selected store via store_warehouses
   const storeConnectedWarehouses = useMemo(() => {
     if (
       !selectedStoreId ||
@@ -344,12 +346,13 @@ export function InventoryActionDialog({
     )
       return []
     return storeWarehouses
-      .map((sw: any) => {
-        const rawWh = sw.warehouses ?? sw
+      .map((item: unknown) => {
+        const sw = item as Record<string, unknown>
+        const rawWh = (sw.warehouses ?? sw) as Record<string, unknown> | Record<string, unknown>[]
         const wh = Array.isArray(rawWh) ? rawWh[0] : rawWh
         const whId = wh?.id ?? sw.warehouse_id ?? sw.id
         if (!whId) return null
-        const whActive = wh?.is_active ?? sw.is_active ?? true
+        const whActive = (wh?.is_active ?? sw.is_active ?? true) as boolean
         if (whActive === false) return null
 
         return {
@@ -362,9 +365,9 @@ export function InventoryActionDialog({
           allow_fulfillment: sw.allow_fulfillment !== false,
           allow_replenishment: sw.allow_replenishment !== false,
           lead_time_days: Number(sw.lead_time_days ?? 1),
-          phone: wh?.phone ?? sw.phone,
-          email: wh?.email ?? sw.email,
-          address: wh?.address ?? sw.address,
+          phone: (wh?.phone ?? sw.phone) as string | undefined,
+          email: (wh?.email ?? sw.email) as string | undefined,
+          address: (wh?.address ?? sw.address) as string | undefined,
           allow_negative_stock: Boolean(
             wh?.allow_negative_stock ?? sw.allow_negative_stock
           ),
@@ -416,12 +419,6 @@ export function InventoryActionDialog({
     }))
   }, [selectedStoreId, storeConnectedWarehouses, allWarehouses])
 
-  // Partition for display when store is selected
-  const storeWarehousesGroup = useMemo(
-    () => availableWarehouseOptions,
-    [availableWarehouseOptions]
-  )
-
   // Selected store and warehouse entities for rich previews
   const selectedStore = useMemo(
     () => stores?.find((s) => s.store_id === selectedStoreId),
@@ -457,23 +454,23 @@ export function InventoryActionDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className='max-h-[92vh] max-w-3xl gap-0 overflow-y-auto p-0'
+        className='w-[96vw] max-w-3xl sm:w-full max-h-[92vh] sm:max-h-[88vh] flex flex-col p-0 gap-0 overflow-hidden rounded-2xl shadow-2xl'
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         {/* Dialog Header with Gradient Banner */}
-        <div className='border-b bg-gradient-to-r from-primary/15 via-primary/5 to-background p-6'>
+        <div className='border-b bg-gradient-to-r from-primary/15 via-primary/5 to-background p-4 sm:p-6 shrink-0'>
           <DialogHeader className='space-y-1.5'>
-            <div className='flex items-center gap-2.5'>
-              <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20'>
-                <Boxes className='h-5 w-5' />
+            <div className='flex items-center gap-2.5 sm:gap-3'>
+              <div className='flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20 shrink-0'>
+                <Boxes className='h-4 w-4 sm:h-5 sm:w-5' />
               </div>
-              <div>
-                <DialogTitle className='text-xl font-bold tracking-tight'>
+              <div className='min-w-0 flex-1'>
+                <DialogTitle className='text-lg sm:text-xl font-bold tracking-tight truncate'>
                   {isEdit
                     ? t('inventory.editRecord', 'Edit Inventory Settings')
                     : t('inventory.addRecord', 'Assign Product to Inventory')}
                 </DialogTitle>
-                <DialogDescription className='text-xs text-muted-foreground'>
+                <DialogDescription className='text-xs text-muted-foreground leading-relaxed line-clamp-2 sm:line-clamp-none'>
                   {isEdit
                     ? t(
                         'inventory.editRecordDesc',
@@ -490,7 +487,7 @@ export function InventoryActionDialog({
 
           {/* Live Stock Balances banner if editing */}
           {isEdit && currentRow && (
-            <div className='mt-4 space-y-2.5 rounded-xl border bg-card/80 p-3.5 shadow-2xs backdrop-blur-xs'>
+            <div className='mt-3 sm:mt-4 space-y-2 rounded-xl border bg-card/80 p-3 sm:p-3.5 shadow-2xs backdrop-blur-xs'>
               <div className='flex items-center justify-between text-xs'>
                 <span className='flex items-center gap-1.5 font-semibold text-foreground'>
                   <Info className='h-3.5 w-3.5 text-primary' />
@@ -506,35 +503,35 @@ export function InventoryActionDialog({
                   {currentRow.condition || 'good'}
                 </Badge>
               </div>
-              <div className='grid grid-cols-3 gap-2.5 text-center text-xs'>
-                <div className='rounded-lg border bg-background/90 p-2.5 shadow-2xs'>
-                  <span className='text-[11px] text-muted-foreground'>
+              <div className='grid grid-cols-3 gap-2 sm:gap-2.5 text-center text-xs'>
+                <div className='rounded-lg border bg-background/90 p-2 sm:p-2.5 shadow-2xs'>
+                  <span className='text-[10px] sm:text-[11px] text-muted-foreground block truncate'>
                     {t('inventory.columns.onHand', 'On-Hand')}
                   </span>
-                  <p className='text-lg font-bold text-foreground'>
+                  <p className='text-base sm:text-lg font-bold text-foreground'>
                     {Number(
                       currentRow.qty_on_hand ?? currentRow.quantity ?? 0
                     ).toLocaleString()}
                   </p>
                 </div>
-                <div className='rounded-lg border bg-background/90 p-2.5 shadow-2xs'>
-                  <span className='text-[11px] text-muted-foreground'>
+                <div className='rounded-lg border bg-background/90 p-2 sm:p-2.5 shadow-2xs'>
+                  <span className='text-[10px] sm:text-[11px] text-muted-foreground block truncate'>
                     {t('inventory.detail.available', 'Available')}
                   </span>
-                  <p className='text-lg font-bold text-emerald-600 dark:text-emerald-400'>
+                  <p className='text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400'>
                     {Number(currentRow.qty_available ?? 0).toLocaleString()}
                   </p>
                 </div>
-                <div className='rounded-lg border bg-background/90 p-2.5 shadow-2xs'>
-                  <span className='text-[11px] text-muted-foreground'>
+                <div className='rounded-lg border bg-background/90 p-2 sm:p-2.5 shadow-2xs'>
+                  <span className='text-[10px] sm:text-[11px] text-muted-foreground block truncate'>
                     {t('inventory.detail.reserved', 'Reserved')}
                   </span>
-                  <p className='text-lg font-bold text-amber-600 dark:text-amber-400'>
+                  <p className='text-base sm:text-lg font-bold text-amber-600 dark:text-amber-400'>
                     {Number(currentRow.qty_reserved ?? 0).toLocaleString()}
                   </p>
                 </div>
               </div>
-              <p className='flex items-center gap-1 text-[11px] text-muted-foreground'>
+              <p className='flex items-center gap-1 text-[10px] sm:text-[11px] text-muted-foreground'>
                 <ShieldCheck className='h-3 w-3 shrink-0 text-primary' />
                 {t(
                   'inventory.form.stockNotice',
@@ -548,10 +545,11 @@ export function InventoryActionDialog({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6 p-6'
+            className='flex flex-col flex-1 min-h-0 overflow-hidden'
           >
-            {/* ─── 1. Product & Variant Section ──────────────────────────────── */}
-            <div className='space-y-4 rounded-xl border bg-card/60 p-4 shadow-2xs'>
+            <div className='flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:p-6 space-y-5 sm:space-y-6'>
+              {/* ─── 1. Product & Variant Section ──────────────────────────────── */}
+              <div className='space-y-4 rounded-xl border bg-card/60 p-4 shadow-2xs'>
               <div className='flex items-center justify-between'>
                 <h4 className='flex items-center gap-1.5 text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
                   <Package className='h-3.5 w-3.5 text-primary' />
@@ -587,62 +585,31 @@ export function InventoryActionDialog({
                 name='product_id'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      {t('inventory.form.product', 'Product')} *
+                    <FormLabel className='flex items-center justify-between text-xs sm:text-sm font-medium'>
+                      <span>
+                        {t('inventory.form.product', 'Product')} *
+                      </span>
+                      {isEdit && (
+                        <Badge
+                          variant='outline'
+                          className='text-[10px] text-muted-foreground font-normal'
+                        >
+                          {t('inventory.form.lockedInEdit', 'Locked in Edit Mode')}
+                        </Badge>
+                      )}
                     </FormLabel>
-                    <Select
-                      disabled={isEdit || isLoadingProducts}
-                      value={field.value}
-                      onValueChange={(val) => {
-                        field.onChange(val)
-                        form.setValue('product_variant_id', null)
-                      }}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue
-                            placeholder={
-                              isLoadingProducts
-                                ? t(
-                                    'inventory.form.loadingProducts',
-                                    'Loading products...'
-                                  )
-                                : t(
-                                    'inventory.form.selectProduct',
-                                    'Select a product'
-                                  )
-                            }
-                          />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className='max-h-60'>
-                        {products?.map((product) => (
-                          <SelectItem key={product.id} value={product.id}>
-                            <div className='flex w-full items-center gap-2'>
-                              <span className='font-medium'>
-                                {product.name}
-                              </span>
-                              {product.sku && (
-                                <Badge
-                                  variant='outline'
-                                  className='px-1 py-0 font-mono text-xs'
-                                >
-                                  {product.sku}
-                                </Badge>
-                              )}
-                              {product.has_variants && (
-                                <Badge
-                                  variant='secondary'
-                                  className='ms-auto text-[9px]'
-                                >
-                                  Variants
-                                </Badge>
-                              )}
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <InventoryProductVirtualCombobox
+                        value={field.value}
+                        disabled={isEdit}
+                        isLoading={isLoadingProducts}
+                        products={products}
+                        onChange={(val) => {
+                          field.onChange(val || '')
+                          form.setValue('product_variant_id', null)
+                        }}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -827,30 +794,30 @@ export function InventoryActionDialog({
                           {/* Selected Variant Rich Preview Card */}
                           {selectedVariant ? (
                             <div className='space-y-3 rounded-xl border border-primary/20 bg-primary/5 p-3.5 text-xs shadow-2xs'>
-                              <div className='flex items-start justify-between gap-3'>
-                                <div className='space-y-1.5'>
+                              <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-3'>
+                                <div className='space-y-1.5 flex-1 min-w-0'>
                                   <div className='flex items-center gap-2'>
-                                    <span className='text-sm font-bold text-foreground'>
+                                    <span className='text-sm font-bold text-foreground truncate'>
                                       {selectedVariant.name ||
                                         selectedVariant.sku}
                                     </span>
                                     <Badge
                                       variant='outline'
-                                      className='bg-background font-mono text-[10px]'
+                                      className='bg-background font-mono text-[10px] shrink-0'
                                     >
                                       {selectedVariant.sku}
                                     </Badge>
                                     {selectedVariant.is_active === false ? (
                                       <Badge
                                         variant='destructive'
-                                        className='text-[9px]'
+                                        className='text-[9px] shrink-0'
                                       >
                                         Inactive
                                       </Badge>
                                     ) : (
                                       <Badge
                                         variant='secondary'
-                                        className='bg-emerald-500/10 text-[9px] text-emerald-600 dark:text-emerald-400'
+                                        className='bg-emerald-500/10 text-[9px] text-emerald-600 dark:text-emerald-400 shrink-0'
                                       >
                                         Active
                                       </Badge>
@@ -860,7 +827,7 @@ export function InventoryActionDialog({
                                   <div className='flex flex-wrap items-center gap-2 text-muted-foreground'>
                                     {selectedVariant.attributes_label && (
                                       <div className='flex items-center gap-1 font-medium text-foreground'>
-                                        <Tag className='h-3 w-3 text-primary' />
+                                        <Tag className='h-3 w-3 text-primary shrink-0' />
                                         <span>
                                           {selectedVariant.attributes_label}
                                         </span>
@@ -868,7 +835,7 @@ export function InventoryActionDialog({
                                     )}
                                     {selectedVariant.barcode && (
                                       <div className='flex items-center gap-1 font-mono text-muted-foreground'>
-                                        <Barcode className='h-3 w-3' />
+                                        <Barcode className='h-3 w-3 shrink-0' />
                                         <span>{selectedVariant.barcode}</span>
                                       </div>
                                     )}
@@ -881,7 +848,7 @@ export function InventoryActionDialog({
                                 </div>
 
                                 {/* Pricing Breakdown */}
-                                <div className='shrink-0 text-end'>
+                                <div className='sm:shrink-0 sm:text-end border-t sm:border-0 pt-2 sm:pt-0 border-border/40 flex sm:block items-baseline justify-between'>
                                   {selectedVariant.price != null && (
                                     <div>
                                       <span className='block text-[10px] tracking-wider text-muted-foreground uppercase'>
@@ -1347,9 +1314,9 @@ export function InventoryActionDialog({
               {/* Warehouse Details Preview Card when Warehouse is Selected */}
               {selectedWarehouse && (
                 <div className='space-y-2 rounded-lg border border-primary/20 bg-muted/30 p-3 text-xs'>
-                  <div className='flex items-start justify-between gap-2'>
-                    <div>
-                      <div className='flex items-center gap-2'>
+                  <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-2.5'>
+                    <div className='min-w-0 flex-1'>
+                      <div className='flex flex-wrap items-center gap-2'>
                         <span className='font-bold text-foreground'>
                           {selectedWarehouse.name}
                         </span>
@@ -1373,29 +1340,29 @@ export function InventoryActionDialog({
                           </Badge>
                         )}
                       </div>
-                      <div className='mt-1.5 flex flex-wrap items-center gap-3 text-muted-foreground'>
+                      <div className='mt-1.5 flex flex-wrap items-center gap-3 text-muted-foreground break-all'>
                         {selectedWarehouse.address && (
                           <span className='flex items-center gap-1'>
-                            <MapPin className='h-3 w-3 text-primary' />
-                            {selectedWarehouse.address}
+                            <MapPin className='h-3 w-3 text-primary shrink-0' />
+                            <span>{selectedWarehouse.address}</span>
                           </span>
                         )}
                         {selectedWarehouse.phone && (
                           <span className='flex items-center gap-1'>
-                            <Phone className='h-3 w-3' />
-                            {selectedWarehouse.phone}
+                            <Phone className='h-3 w-3 shrink-0' />
+                            <span>{selectedWarehouse.phone}</span>
                           </span>
                         )}
                         {selectedWarehouse.email && (
                           <span className='flex items-center gap-1'>
-                            <Mail className='h-3 w-3' />
-                            {selectedWarehouse.email}
+                            <Mail className='h-3 w-3 shrink-0' />
+                            <span>{selectedWarehouse.email}</span>
                           </span>
                         )}
                       </div>
                     </div>
 
-                    <div className='shrink-0 text-end'>
+                    <div className='shrink-0 sm:text-end'>
                       <Badge
                         variant='outline'
                         className={`text-[9px] ${
@@ -1599,7 +1566,7 @@ export function InventoryActionDialog({
                   <Hash className='h-3 w-3 text-primary' />
                   Physical Coordinate Mapping (Optional Bin / Shelf Detail)
                 </span>
-                <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
+                <div className='grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3'>
                   <FormField
                     control={form.control}
                     name='aisle'
@@ -1611,7 +1578,7 @@ export function InventoryActionDialog({
                             placeholder='e.g. A-02'
                             value={field.value || ''}
                             onChange={field.onChange}
-                            className='h-8 font-mono text-xs'
+                            className='h-9 font-mono text-xs'
                           />
                         </FormControl>
                       </FormItem>
@@ -1628,7 +1595,7 @@ export function InventoryActionDialog({
                             placeholder='e.g. R-04'
                             value={field.value || ''}
                             onChange={field.onChange}
-                            className='h-8 font-mono text-xs'
+                            className='h-9 font-mono text-xs'
                           />
                         </FormControl>
                       </FormItem>
@@ -1645,7 +1612,7 @@ export function InventoryActionDialog({
                             placeholder='e.g. S-1'
                             value={field.value || ''}
                             onChange={field.onChange}
-                            className='h-8 font-mono text-xs'
+                            className='h-9 font-mono text-xs'
                           />
                         </FormControl>
                       </FormItem>
@@ -1662,7 +1629,7 @@ export function InventoryActionDialog({
                             placeholder='e.g. B-12'
                             value={field.value || ''}
                             onChange={field.onChange}
-                            className='h-8 font-mono text-xs'
+                            className='h-9 font-mono text-xs'
                           />
                         </FormControl>
                       </FormItem>
@@ -1962,7 +1929,7 @@ export function InventoryActionDialog({
                   control={form.control}
                   name='is_active'
                   render={({ field }) => (
-                    <FormItem className='mt-4 flex flex-row items-center justify-between rounded-lg border p-3'>
+                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 bg-background/50'>
                       <div className='space-y-0.5'>
                         <FormLabel className='text-xs font-semibold'>
                           Active Item
@@ -2006,17 +1973,23 @@ export function InventoryActionDialog({
                 )}
               />
             </div>
+          </div>
 
-            <DialogFooter className='gap-2 pt-2 sm:gap-0'>
+            <DialogFooter className='sticky bottom-0 z-10 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 p-3.5 sm:px-6 sm:py-3.5 border-t bg-background/95 backdrop-blur-md shrink-0'>
               <Button
                 type='button'
                 variant='outline'
                 disabled={isSubmitting}
                 onClick={() => onOpenChange(false)}
+                className='w-full sm:w-auto h-10 text-xs sm:text-sm'
               >
                 {t('common.cancel', 'Cancel')}
               </Button>
-              <Button type='submit' disabled={isSubmitting} className='gap-2'>
+              <Button
+                type='submit'
+                disabled={isSubmitting}
+                className='w-full sm:w-auto h-10 gap-2 shadow-sm shadow-primary/20 font-medium text-xs sm:text-sm'
+              >
                 {isSubmitting && <Loader2 className='h-4 w-4 animate-spin' />}
                 {isEdit
                   ? t('common.saveChanges', 'Save Changes')

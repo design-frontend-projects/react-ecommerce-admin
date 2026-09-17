@@ -622,3 +622,28 @@ export type inventory_transaction_items = Prisma.inventory_transaction_itemsMode
  * Immutable audit trail for all inventory mutations.
  */
 export type inventory_audit_logs = Prisma.inventory_audit_logsModel
+/**
+ * Model pos_terminal_users
+ * Cashier authorization mapping for POS terminals.
+ */
+export type pos_terminal_users = Prisma.pos_terminal_usersModel
+/**
+ * Model pos_sessions
+ * Represents a cashier shift/session on a POS terminal.
+ */
+export type pos_sessions = Prisma.pos_sessionsModel
+/**
+ * Model pos_cash_movements
+ * Audit trail for all cash drawer movements within a POS session.
+ */
+export type pos_cash_movements = Prisma.pos_cash_movementsModel
+/**
+ * Model sales_order_payments
+ * Individual payment records supporting split/mixed payments for sales orders.
+ */
+export type sales_order_payments = Prisma.sales_order_paymentsModel
+/**
+ * Model pos_held_orders
+ * Persistent suspended/held POS orders.
+ */
+export type pos_held_orders = Prisma.pos_held_ordersModel

@@ -33,6 +33,7 @@ export type Sales_order_itemsAvgAggregateOutputType = {
   qty_fulfilled: runtime.Decimal | null
   cancelled_qty: runtime.Decimal | null
   unit_price: runtime.Decimal | null
+  unit_cost: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   line_total: runtime.Decimal | null
@@ -45,6 +46,7 @@ export type Sales_order_itemsSumAggregateOutputType = {
   qty_fulfilled: runtime.Decimal | null
   cancelled_qty: runtime.Decimal | null
   unit_price: runtime.Decimal | null
+  unit_cost: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   line_total: runtime.Decimal | null
@@ -62,10 +64,12 @@ export type Sales_order_itemsMinAggregateOutputType = {
   cancelled_qty: runtime.Decimal | null
   uom_id: string | null
   unit_price: runtime.Decimal | null
+  unit_cost: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   line_total: runtime.Decimal | null
   batch_id: string | null
+  tax_rate_id: string | null
   created_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
@@ -83,10 +87,12 @@ export type Sales_order_itemsMaxAggregateOutputType = {
   cancelled_qty: runtime.Decimal | null
   uom_id: string | null
   unit_price: runtime.Decimal | null
+  unit_cost: runtime.Decimal | null
   discount_amount: runtime.Decimal | null
   tax_amount: runtime.Decimal | null
   line_total: runtime.Decimal | null
   batch_id: string | null
+  tax_rate_id: string | null
   created_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
@@ -104,10 +110,12 @@ export type Sales_order_itemsCountAggregateOutputType = {
   cancelled_qty: number
   uom_id: number
   unit_price: number
+  unit_cost: number
   discount_amount: number
   tax_amount: number
   line_total: number
   batch_id: number
+  tax_rate_id: number
   created_at: number
   created_by_user_id: number
   updated_by_user_id: number
@@ -122,6 +130,7 @@ export type Sales_order_itemsAvgAggregateInputType = {
   qty_fulfilled?: true
   cancelled_qty?: true
   unit_price?: true
+  unit_cost?: true
   discount_amount?: true
   tax_amount?: true
   line_total?: true
@@ -134,6 +143,7 @@ export type Sales_order_itemsSumAggregateInputType = {
   qty_fulfilled?: true
   cancelled_qty?: true
   unit_price?: true
+  unit_cost?: true
   discount_amount?: true
   tax_amount?: true
   line_total?: true
@@ -151,10 +161,12 @@ export type Sales_order_itemsMinAggregateInputType = {
   cancelled_qty?: true
   uom_id?: true
   unit_price?: true
+  unit_cost?: true
   discount_amount?: true
   tax_amount?: true
   line_total?: true
   batch_id?: true
+  tax_rate_id?: true
   created_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
@@ -172,10 +184,12 @@ export type Sales_order_itemsMaxAggregateInputType = {
   cancelled_qty?: true
   uom_id?: true
   unit_price?: true
+  unit_cost?: true
   discount_amount?: true
   tax_amount?: true
   line_total?: true
   batch_id?: true
+  tax_rate_id?: true
   created_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
@@ -193,10 +207,12 @@ export type Sales_order_itemsCountAggregateInputType = {
   cancelled_qty?: true
   uom_id?: true
   unit_price?: true
+  unit_cost?: true
   discount_amount?: true
   tax_amount?: true
   line_total?: true
   batch_id?: true
+  tax_rate_id?: true
   created_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
@@ -301,10 +317,12 @@ export type Sales_order_itemsGroupByOutputType = {
   cancelled_qty: runtime.Decimal
   uom_id: string | null
   unit_price: runtime.Decimal
+  unit_cost: runtime.Decimal
   discount_amount: runtime.Decimal
   tax_amount: runtime.Decimal
   line_total: runtime.Decimal
   batch_id: string | null
+  tax_rate_id: string | null
   created_at: Date
   created_by_user_id: string | null
   updated_by_user_id: string | null
@@ -345,10 +363,12 @@ export type sales_order_itemsWhereInput = {
   cancelled_qty?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
   unit_price?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
+  tax_rate_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"sales_order_items"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
@@ -366,10 +386,12 @@ export type sales_order_itemsOrderByWithRelationInput = {
   cancelled_qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -390,10 +412,12 @@ export type sales_order_itemsWhereUniqueInput = Prisma.AtLeast<{
   cancelled_qty?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
   unit_price?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
+  tax_rate_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
   created_at?: Prisma.DateTimeFilter<"sales_order_items"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"sales_order_items"> | string | null
@@ -411,10 +435,12 @@ export type sales_order_itemsOrderByWithAggregationInput = {
   cancelled_qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -440,10 +466,12 @@ export type sales_order_itemsScalarWhereWithAggregatesInput = {
   cancelled_qty?: Prisma.DecimalWithAggregatesFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_order_items"> | string | null
   unit_price?: Prisma.DecimalWithAggregatesFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalWithAggregatesFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalWithAggregatesFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalWithAggregatesFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalWithAggregatesFilter<"sales_order_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_order_items"> | string | null
+  tax_rate_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_order_items"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"sales_order_items"> | Date | string
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"sales_order_items"> | string | null
@@ -461,10 +489,12 @@ export type sales_order_itemsCreateInput = {
   cancelled_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
   unit_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: string | null
+  tax_rate_id?: string | null
   created_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
@@ -482,10 +512,12 @@ export type sales_order_itemsUncheckedCreateInput = {
   cancelled_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
   unit_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: string | null
+  tax_rate_id?: string | null
   created_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
@@ -503,10 +535,12 @@ export type sales_order_itemsUpdateInput = {
   cancelled_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -524,10 +558,12 @@ export type sales_order_itemsUncheckedUpdateInput = {
   cancelled_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -545,10 +581,12 @@ export type sales_order_itemsCreateManyInput = {
   cancelled_qty?: runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: string | null
   unit_price?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: string | null
+  tax_rate_id?: string | null
   created_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
@@ -566,10 +604,12 @@ export type sales_order_itemsUpdateManyMutationInput = {
   cancelled_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -587,10 +627,12 @@ export type sales_order_itemsUncheckedUpdateManyInput = {
   cancelled_qty?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unit_price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   line_total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -608,10 +650,12 @@ export type sales_order_itemsCountOrderByAggregateInput = {
   cancelled_qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
@@ -624,6 +668,7 @@ export type sales_order_itemsAvgOrderByAggregateInput = {
   qty_fulfilled?: Prisma.SortOrder
   cancelled_qty?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
@@ -641,10 +686,12 @@ export type sales_order_itemsMaxOrderByAggregateInput = {
   cancelled_qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
@@ -662,10 +709,12 @@ export type sales_order_itemsMinOrderByAggregateInput = {
   cancelled_qty?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
   batch_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
@@ -678,6 +727,7 @@ export type sales_order_itemsSumOrderByAggregateInput = {
   qty_fulfilled?: Prisma.SortOrder
   cancelled_qty?: Prisma.SortOrder
   unit_price?: Prisma.SortOrder
+  unit_cost?: Prisma.SortOrder
   discount_amount?: Prisma.SortOrder
   tax_amount?: Prisma.SortOrder
   line_total?: Prisma.SortOrder
@@ -697,10 +747,12 @@ export type sales_order_itemsSelect<ExtArgs extends runtime.Types.Extensions.Int
   cancelled_qty?: boolean
   uom_id?: boolean
   unit_price?: boolean
+  unit_cost?: boolean
   discount_amount?: boolean
   tax_amount?: boolean
   line_total?: boolean
   batch_id?: boolean
+  tax_rate_id?: boolean
   created_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
@@ -718,10 +770,12 @@ export type sales_order_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.T
   cancelled_qty?: boolean
   uom_id?: boolean
   unit_price?: boolean
+  unit_cost?: boolean
   discount_amount?: boolean
   tax_amount?: boolean
   line_total?: boolean
   batch_id?: boolean
+  tax_rate_id?: boolean
   created_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
@@ -739,10 +793,12 @@ export type sales_order_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   cancelled_qty?: boolean
   uom_id?: boolean
   unit_price?: boolean
+  unit_cost?: boolean
   discount_amount?: boolean
   tax_amount?: boolean
   line_total?: boolean
   batch_id?: boolean
+  tax_rate_id?: boolean
   created_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
@@ -760,16 +816,18 @@ export type sales_order_itemsSelectScalar = {
   cancelled_qty?: boolean
   uom_id?: boolean
   unit_price?: boolean
+  unit_cost?: boolean
   discount_amount?: boolean
   tax_amount?: boolean
   line_total?: boolean
   batch_id?: boolean
+  tax_rate_id?: boolean
   created_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type sales_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "sales_order_id" | "product_variant_id" | "line_no" | "qty_ordered" | "qty_reserved" | "qty_fulfilled" | "cancelled_qty" | "uom_id" | "unit_price" | "discount_amount" | "tax_amount" | "line_total" | "batch_id" | "created_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_order_items"]>
+export type sales_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "sales_order_id" | "product_variant_id" | "line_no" | "qty_ordered" | "qty_reserved" | "qty_fulfilled" | "cancelled_qty" | "uom_id" | "unit_price" | "unit_cost" | "discount_amount" | "tax_amount" | "line_total" | "batch_id" | "tax_rate_id" | "created_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["sales_order_items"]>
 
 export type $sales_order_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "sales_order_items"
@@ -786,10 +844,12 @@ export type $sales_order_itemsPayload<ExtArgs extends runtime.Types.Extensions.I
     cancelled_qty: runtime.Decimal
     uom_id: string | null
     unit_price: runtime.Decimal
+    unit_cost: runtime.Decimal
     discount_amount: runtime.Decimal
     tax_amount: runtime.Decimal
     line_total: runtime.Decimal
     batch_id: string | null
+    tax_rate_id: string | null
     created_at: Date
     created_by_user_id: string | null
     updated_by_user_id: string | null
@@ -1227,10 +1287,12 @@ export interface sales_order_itemsFieldRefs {
   readonly cancelled_qty: Prisma.FieldRef<"sales_order_items", 'Decimal'>
   readonly uom_id: Prisma.FieldRef<"sales_order_items", 'String'>
   readonly unit_price: Prisma.FieldRef<"sales_order_items", 'Decimal'>
+  readonly unit_cost: Prisma.FieldRef<"sales_order_items", 'Decimal'>
   readonly discount_amount: Prisma.FieldRef<"sales_order_items", 'Decimal'>
   readonly tax_amount: Prisma.FieldRef<"sales_order_items", 'Decimal'>
   readonly line_total: Prisma.FieldRef<"sales_order_items", 'Decimal'>
   readonly batch_id: Prisma.FieldRef<"sales_order_items", 'String'>
+  readonly tax_rate_id: Prisma.FieldRef<"sales_order_items", 'String'>
   readonly created_at: Prisma.FieldRef<"sales_order_items", 'DateTime'>
   readonly created_by_user_id: Prisma.FieldRef<"sales_order_items", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"sales_order_items", 'String'>

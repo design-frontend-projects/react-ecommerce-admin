@@ -504,7 +504,12 @@ export const ModelName = {
   inventory_transaction_type_rules: 'inventory_transaction_type_rules',
   inventory_transactions: 'inventory_transactions',
   inventory_transaction_items: 'inventory_transaction_items',
-  inventory_audit_logs: 'inventory_audit_logs'
+  inventory_audit_logs: 'inventory_audit_logs',
+  pos_terminal_users: 'pos_terminal_users',
+  pos_sessions: 'pos_sessions',
+  pos_cash_movements: 'pos_cash_movements',
+  sales_order_payments: 'sales_order_payments',
+  pos_held_orders: 'pos_held_orders'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -520,7 +525,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -9478,6 +9483,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    pos_terminal_users: {
+      payload: Prisma.$pos_terminal_usersPayload<ExtArgs>
+      fields: Prisma.pos_terminal_usersFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pos_terminal_usersFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pos_terminal_usersFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>
+        }
+        findFirst: {
+          args: Prisma.pos_terminal_usersFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pos_terminal_usersFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>
+        }
+        findMany: {
+          args: Prisma.pos_terminal_usersFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>[]
+        }
+        create: {
+          args: Prisma.pos_terminal_usersCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>
+        }
+        createMany: {
+          args: Prisma.pos_terminal_usersCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pos_terminal_usersCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>[]
+        }
+        delete: {
+          args: Prisma.pos_terminal_usersDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>
+        }
+        update: {
+          args: Prisma.pos_terminal_usersUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>
+        }
+        deleteMany: {
+          args: Prisma.pos_terminal_usersDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pos_terminal_usersUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pos_terminal_usersUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>[]
+        }
+        upsert: {
+          args: Prisma.pos_terminal_usersUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_terminal_usersPayload>
+        }
+        aggregate: {
+          args: Prisma.Pos_terminal_usersAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePos_terminal_users>
+        }
+        groupBy: {
+          args: Prisma.pos_terminal_usersGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_terminal_usersGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pos_terminal_usersCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_terminal_usersCountAggregateOutputType> | number
+        }
+      }
+    }
+    pos_sessions: {
+      payload: Prisma.$pos_sessionsPayload<ExtArgs>
+      fields: Prisma.pos_sessionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pos_sessionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pos_sessionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>
+        }
+        findFirst: {
+          args: Prisma.pos_sessionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pos_sessionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>
+        }
+        findMany: {
+          args: Prisma.pos_sessionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>[]
+        }
+        create: {
+          args: Prisma.pos_sessionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>
+        }
+        createMany: {
+          args: Prisma.pos_sessionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pos_sessionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>[]
+        }
+        delete: {
+          args: Prisma.pos_sessionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>
+        }
+        update: {
+          args: Prisma.pos_sessionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.pos_sessionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pos_sessionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pos_sessionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.pos_sessionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_sessionsPayload>
+        }
+        aggregate: {
+          args: Prisma.Pos_sessionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePos_sessions>
+        }
+        groupBy: {
+          args: Prisma.pos_sessionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_sessionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pos_sessionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_sessionsCountAggregateOutputType> | number
+        }
+      }
+    }
+    pos_cash_movements: {
+      payload: Prisma.$pos_cash_movementsPayload<ExtArgs>
+      fields: Prisma.pos_cash_movementsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pos_cash_movementsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pos_cash_movementsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>
+        }
+        findFirst: {
+          args: Prisma.pos_cash_movementsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pos_cash_movementsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>
+        }
+        findMany: {
+          args: Prisma.pos_cash_movementsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>[]
+        }
+        create: {
+          args: Prisma.pos_cash_movementsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>
+        }
+        createMany: {
+          args: Prisma.pos_cash_movementsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pos_cash_movementsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>[]
+        }
+        delete: {
+          args: Prisma.pos_cash_movementsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>
+        }
+        update: {
+          args: Prisma.pos_cash_movementsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>
+        }
+        deleteMany: {
+          args: Prisma.pos_cash_movementsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pos_cash_movementsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pos_cash_movementsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>[]
+        }
+        upsert: {
+          args: Prisma.pos_cash_movementsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_cash_movementsPayload>
+        }
+        aggregate: {
+          args: Prisma.Pos_cash_movementsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePos_cash_movements>
+        }
+        groupBy: {
+          args: Prisma.pos_cash_movementsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_cash_movementsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pos_cash_movementsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_cash_movementsCountAggregateOutputType> | number
+        }
+      }
+    }
+    sales_order_payments: {
+      payload: Prisma.$sales_order_paymentsPayload<ExtArgs>
+      fields: Prisma.sales_order_paymentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.sales_order_paymentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.sales_order_paymentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>
+        }
+        findFirst: {
+          args: Prisma.sales_order_paymentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.sales_order_paymentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>
+        }
+        findMany: {
+          args: Prisma.sales_order_paymentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>[]
+        }
+        create: {
+          args: Prisma.sales_order_paymentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>
+        }
+        createMany: {
+          args: Prisma.sales_order_paymentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.sales_order_paymentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>[]
+        }
+        delete: {
+          args: Prisma.sales_order_paymentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>
+        }
+        update: {
+          args: Prisma.sales_order_paymentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.sales_order_paymentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.sales_order_paymentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.sales_order_paymentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.sales_order_paymentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_order_paymentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Sales_order_paymentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSales_order_payments>
+        }
+        groupBy: {
+          args: Prisma.sales_order_paymentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Sales_order_paymentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.sales_order_paymentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Sales_order_paymentsCountAggregateOutputType> | number
+        }
+      }
+    }
+    pos_held_orders: {
+      payload: Prisma.$pos_held_ordersPayload<ExtArgs>
+      fields: Prisma.pos_held_ordersFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pos_held_ordersFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pos_held_ordersFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>
+        }
+        findFirst: {
+          args: Prisma.pos_held_ordersFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pos_held_ordersFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>
+        }
+        findMany: {
+          args: Prisma.pos_held_ordersFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>[]
+        }
+        create: {
+          args: Prisma.pos_held_ordersCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>
+        }
+        createMany: {
+          args: Prisma.pos_held_ordersCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pos_held_ordersCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>[]
+        }
+        delete: {
+          args: Prisma.pos_held_ordersDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>
+        }
+        update: {
+          args: Prisma.pos_held_ordersUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>
+        }
+        deleteMany: {
+          args: Prisma.pos_held_ordersDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pos_held_ordersUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pos_held_ordersUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>[]
+        }
+        upsert: {
+          args: Prisma.pos_held_ordersUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_held_ordersPayload>
+        }
+        aggregate: {
+          args: Prisma.Pos_held_ordersAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePos_held_orders>
+        }
+        groupBy: {
+          args: Prisma.pos_held_ordersGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_held_ordersGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pos_held_ordersCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_held_ordersCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -9740,11 +10115,15 @@ export type PermissionsScalarFieldEnum = (typeof PermissionsScalarFieldEnum)[key
 export const Pos_terminalsScalarFieldEnum = {
   id: 'id',
   store_id: 'store_id',
+  branch_id: 'branch_id',
+  warehouse_id: 'warehouse_id',
+  default_price_list_id: 'default_price_list_id',
   name: 'name',
   code: 'code',
   device_identifier: 'device_identifier',
   receipt_printer_name: 'receipt_printer_name',
   status: 'status',
+  deleted_at: 'deleted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
   tenant_id: 'tenant_id',
@@ -11424,8 +11803,11 @@ export const Sales_ordersScalarFieldEnum = {
   store_id: 'store_id',
   warehouse_id: 'warehouse_id',
   channel_id: 'channel_id',
+  pos_terminal_id: 'pos_terminal_id',
+  pos_session_id: 'pos_session_id',
   currency: 'currency',
   status: 'status',
+  payment_status: 'payment_status',
   order_date: 'order_date',
   expected_date: 'expected_date',
   subtotal: 'subtotal',
@@ -11433,6 +11815,7 @@ export const Sales_ordersScalarFieldEnum = {
   tax_amount: 'tax_amount',
   total_amount: 'total_amount',
   sales_invoice_id: 'sales_invoice_id',
+  idempotency_key: 'idempotency_key',
   confirmed_by: 'confirmed_by',
   confirmed_at: 'confirmed_at',
   notes: 'notes',
@@ -11458,10 +11841,12 @@ export const Sales_order_itemsScalarFieldEnum = {
   cancelled_qty: 'cancelled_qty',
   uom_id: 'uom_id',
   unit_price: 'unit_price',
+  unit_cost: 'unit_cost',
   discount_amount: 'discount_amount',
   tax_amount: 'tax_amount',
   line_total: 'line_total',
   batch_id: 'batch_id',
+  tax_rate_id: 'tax_rate_id',
   created_at: 'created_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
@@ -12107,6 +12492,105 @@ export const Inventory_audit_logsScalarFieldEnum = {
 } as const
 
 export type Inventory_audit_logsScalarFieldEnum = (typeof Inventory_audit_logsScalarFieldEnum)[keyof typeof Inventory_audit_logsScalarFieldEnum]
+
+
+export const Pos_terminal_usersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  user_id: 'user_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_terminal_usersScalarFieldEnum = (typeof Pos_terminal_usersScalarFieldEnum)[keyof typeof Pos_terminal_usersScalarFieldEnum]
+
+
+export const Pos_sessionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  cashier_id: 'cashier_id',
+  status: 'status',
+  opening_cash: 'opening_cash',
+  expected_cash: 'expected_cash',
+  actual_cash: 'actual_cash',
+  cash_difference: 'cash_difference',
+  opened_at: 'opened_at',
+  closed_at: 'closed_at',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_sessionsScalarFieldEnum = (typeof Pos_sessionsScalarFieldEnum)[keyof typeof Pos_sessionsScalarFieldEnum]
+
+
+export const Pos_cash_movementsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  session_id: 'session_id',
+  type: 'type',
+  reason: 'reason',
+  amount: 'amount',
+  reference_type: 'reference_type',
+  reference_id: 'reference_id',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_cash_movementsScalarFieldEnum = (typeof Pos_cash_movementsScalarFieldEnum)[keyof typeof Pos_cash_movementsScalarFieldEnum]
+
+
+export const Sales_order_paymentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  sales_order_id: 'sales_order_id',
+  session_id: 'session_id',
+  payment_method: 'payment_method',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  reference_number: 'reference_number',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Sales_order_paymentsScalarFieldEnum = (typeof Sales_order_paymentsScalarFieldEnum)[keyof typeof Sales_order_paymentsScalarFieldEnum]
+
+
+export const Pos_held_ordersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  session_id: 'session_id',
+  customer_id: 'customer_id',
+  hold_reference: 'hold_reference',
+  cart_data: 'cart_data',
+  subtotal: 'subtotal',
+  tax_amount: 'tax_amount',
+  discount_amount: 'discount_amount',
+  total_amount: 'total_amount',
+  status: 'status',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Pos_held_ordersScalarFieldEnum = (typeof Pos_held_ordersScalarFieldEnum)[keyof typeof Pos_held_ordersScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -12759,6 +13243,20 @@ export type ListEnumsales_order_status_enumFieldRefInput<$PrismaModel> = FieldRe
 
 
 /**
+ * Reference to a field of type 'payment_status_enum'
+ */
+export type Enumpayment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'payment_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'payment_status_enum[]'
+ */
+export type ListEnumpayment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'payment_status_enum[]'>
+    
+
+
+/**
  * Reference to a field of type 'customer_return_status_enum'
  */
 export type Enumcustomer_return_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'customer_return_status_enum'>
@@ -12937,6 +13435,76 @@ export type Enuminventory_transaction_status_enumFieldRefInput<$PrismaModel> = F
  * Reference to a field of type 'inventory_transaction_status_enum[]'
  */
 export type ListEnuminventory_transaction_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inventory_transaction_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'session_status_enum'
+ */
+export type Enumsession_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'session_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'session_status_enum[]'
+ */
+export type ListEnumsession_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'session_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'cash_movement_type_enum'
+ */
+export type Enumcash_movement_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'cash_movement_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'cash_movement_type_enum[]'
+ */
+export type ListEnumcash_movement_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'cash_movement_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'cash_movement_reason_enum'
+ */
+export type Enumcash_movement_reason_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'cash_movement_reason_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'cash_movement_reason_enum[]'
+ */
+export type ListEnumcash_movement_reason_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'cash_movement_reason_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'payment_method_type_enum'
+ */
+export type Enumpayment_method_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'payment_method_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'payment_method_type_enum[]'
+ */
+export type ListEnumpayment_method_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'payment_method_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'held_order_status_enum'
+ */
+export type Enumheld_order_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'held_order_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'held_order_status_enum[]'
+ */
+export type ListEnumheld_order_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'held_order_status_enum[]'>
     
 
 
@@ -13169,6 +13737,11 @@ export type GlobalOmitConfig = {
   inventory_transactions?: Prisma.inventory_transactionsOmit
   inventory_transaction_items?: Prisma.inventory_transaction_itemsOmit
   inventory_audit_logs?: Prisma.inventory_audit_logsOmit
+  pos_terminal_users?: Prisma.pos_terminal_usersOmit
+  pos_sessions?: Prisma.pos_sessionsOmit
+  pos_cash_movements?: Prisma.pos_cash_movementsOmit
+  sales_order_payments?: Prisma.sales_order_paymentsOmit
+  pos_held_orders?: Prisma.pos_held_ordersOmit
 }
 
 /* Types for Logging */

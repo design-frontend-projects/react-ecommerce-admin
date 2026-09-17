@@ -352,5 +352,58 @@ describe('Assign Product to Inventory Dialog', () => {
       )
     })
   })
+
+  it('locks product selection in edit mode with locked badge', () => {
+    const editRow: Inventory = {
+      inventory_id: 105,
+      product_id: 'prod-1',
+      product_variant_id: null,
+    }
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRow} />
+      </QueryClientProvider>
+    )
+
+    expect(screen.getByText('Locked in Edit Mode')).toBeInTheDocument()
+    const combobox = screen.getByRole('combobox', { name: /Select Product/i })
+    expect(combobox).toBeDisabled()
+  })
+
+  it('searches and selects product from the virtual combobox in add mode', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <InventoryActionDialog open={true} onOpenChange={vi.fn()} />
+      </QueryClientProvider>
+    )
+
+    const combobox = screen.getByRole('combobox', { name: /Select Product/i })
+    expect(combobox).not.toBeDisabled()
+
+    // Open popover
+    await user.click(combobox)
+
+    // Search input should be visible
+    const searchInput = screen.getByPlaceholderText('Search products by name, SKU, brand, barcode...')
+    expect(searchInput).toBeInTheDocument()
+
+    // Verify products are in the list
+    expect(screen.getByText('Cotton T-Shirt')).toBeInTheDocument()
+    expect(screen.getByText('Wireless Mouse')).toBeInTheDocument()
+
+    // Type in search query to filter
+    await user.type(searchInput, 'Mouse')
+    expect(screen.queryByText('Cotton T-Shirt')).not.toBeInTheDocument()
+    expect(screen.getByText('Wireless Mouse')).toBeInTheDocument()
+
+    // Select the filtered product
+    await user.click(screen.getByText('Wireless Mouse'))
+
+    // Verify selection is rendered
+    expect(screen.getAllByText('Wireless Mouse').length).toBeGreaterThanOrEqual(1)
+  })
 })
 

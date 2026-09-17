@@ -100,6 +100,12 @@ import { Route as ApiRbacScreenButtonsRouteImport } from './routes/api/rbac/scre
 import { Route as ApiRbacPermissionsRouteImport } from './routes/api/rbac/permissions'
 import { Route as ApiRbacButtonsRouteImport } from './routes/api/rbac/buttons'
 import { Route as ApiRbacAuditRouteImport } from './routes/api/rbac/audit'
+import { Route as ApiPosTerminalsRouteImport } from './routes/api/pos/terminals'
+import { Route as ApiPosTerminalUsersRouteImport } from './routes/api/pos/terminal-users'
+import { Route as ApiPosSessionsRouteImport } from './routes/api/pos/sessions'
+import { Route as ApiPosReturnsRouteImport } from './routes/api/pos/returns'
+import { Route as ApiPosProductsRouteImport } from './routes/api/pos/products'
+import { Route as ApiPosHeldOrdersRouteImport } from './routes/api/pos/held-orders'
 import { Route as ApiPosCheckoutRouteImport } from './routes/api/pos/checkout'
 import { Route as ApiOnboardingUsersRouteImport } from './routes/api/onboarding/users'
 import { Route as ApiOnboardingTenantUsersRouteImport } from './routes/api/onboarding/tenant-users'
@@ -154,6 +160,9 @@ import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authent
 import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authenticated/respos/cashier'
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
+import { Route as AuthenticatedPosTerminalsRouteImport } from './routes/_authenticated/pos/terminals'
+import { Route as AuthenticatedPosTerminalUsersRouteImport } from './routes/_authenticated/pos/terminal-users'
+import { Route as AuthenticatedPosReportsRouteImport } from './routes/_authenticated/pos/reports'
 import { Route as AuthenticatedInventoryValuationRouteImport } from './routes/_authenticated/inventory/valuation'
 import { Route as AuthenticatedInventoryShipmentsRouteImport } from './routes/_authenticated/inventory/shipments'
 import { Route as AuthenticatedInventoryLedgerRouteImport } from './routes/_authenticated/inventory/ledger'
@@ -718,6 +727,36 @@ const ApiRbacAuditRoute = ApiRbacAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => ApiRbacRoute,
 } as any)
+const ApiPosTerminalsRoute = ApiPosTerminalsRouteImport.update({
+  id: '/api/pos/terminals',
+  path: '/api/pos/terminals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPosTerminalUsersRoute = ApiPosTerminalUsersRouteImport.update({
+  id: '/api/pos/terminal-users',
+  path: '/api/pos/terminal-users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPosSessionsRoute = ApiPosSessionsRouteImport.update({
+  id: '/api/pos/sessions',
+  path: '/api/pos/sessions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPosReturnsRoute = ApiPosReturnsRouteImport.update({
+  id: '/api/pos/returns',
+  path: '/api/pos/returns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPosProductsRoute = ApiPosProductsRouteImport.update({
+  id: '/api/pos/products',
+  path: '/api/pos/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPosHeldOrdersRoute = ApiPosHeldOrdersRouteImport.update({
+  id: '/api/pos/held-orders',
+  path: '/api/pos/held-orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPosCheckoutRoute = ApiPosCheckoutRouteImport.update({
   id: '/api/pos/checkout',
   path: '/api/pos/checkout',
@@ -1019,6 +1058,23 @@ const AuthenticatedResposAnalyticsRoute =
     path: '/respos/analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPosTerminalsRoute =
+  AuthenticatedPosTerminalsRouteImport.update({
+    id: '/pos/terminals',
+    path: '/pos/terminals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPosTerminalUsersRoute =
+  AuthenticatedPosTerminalUsersRouteImport.update({
+    id: '/pos/terminal-users',
+    path: '/pos/terminal-users',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPosReportsRoute = AuthenticatedPosReportsRouteImport.update({
+  id: '/pos/reports',
+  path: '/pos/reports',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedInventoryValuationRoute =
   AuthenticatedInventoryValuationRouteImport.update({
     id: '/inventory/valuation',
@@ -1331,6 +1387,9 @@ export interface FileRoutesByFullPath {
   '/inventory/ledger': typeof AuthenticatedInventoryLedgerRoute
   '/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
   '/inventory/valuation': typeof AuthenticatedInventoryValuationRoute
+  '/pos/reports': typeof AuthenticatedPosReportsRoute
+  '/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
+  '/pos/terminals': typeof AuthenticatedPosTerminalsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1385,6 +1444,12 @@ export interface FileRoutesByFullPath {
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
   '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
+  '/api/pos/held-orders': typeof ApiPosHeldOrdersRoute
+  '/api/pos/products': typeof ApiPosProductsRoute
+  '/api/pos/returns': typeof ApiPosReturnsRoute
+  '/api/pos/sessions': typeof ApiPosSessionsRoute
+  '/api/pos/terminal-users': typeof ApiPosTerminalUsersRoute
+  '/api/pos/terminals': typeof ApiPosTerminalsRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
@@ -1518,6 +1583,9 @@ export interface FileRoutesByTo {
   '/inventory/ledger': typeof AuthenticatedInventoryLedgerRoute
   '/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
   '/inventory/valuation': typeof AuthenticatedInventoryValuationRoute
+  '/pos/reports': typeof AuthenticatedPosReportsRoute
+  '/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
+  '/pos/terminals': typeof AuthenticatedPosTerminalsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1572,6 +1640,12 @@ export interface FileRoutesByTo {
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
   '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
+  '/api/pos/held-orders': typeof ApiPosHeldOrdersRoute
+  '/api/pos/products': typeof ApiPosProductsRoute
+  '/api/pos/returns': typeof ApiPosReturnsRoute
+  '/api/pos/sessions': typeof ApiPosSessionsRoute
+  '/api/pos/terminal-users': typeof ApiPosTerminalUsersRoute
+  '/api/pos/terminals': typeof ApiPosTerminalsRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
@@ -1710,6 +1784,9 @@ export interface FileRoutesById {
   '/_authenticated/inventory/ledger': typeof AuthenticatedInventoryLedgerRoute
   '/_authenticated/inventory/shipments': typeof AuthenticatedInventoryShipmentsRoute
   '/_authenticated/inventory/valuation': typeof AuthenticatedInventoryValuationRoute
+  '/_authenticated/pos/reports': typeof AuthenticatedPosReportsRoute
+  '/_authenticated/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
+  '/_authenticated/pos/terminals': typeof AuthenticatedPosTerminalsRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/_authenticated/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1764,6 +1841,12 @@ export interface FileRoutesById {
   '/api/onboarding/tenant-users': typeof ApiOnboardingTenantUsersRoute
   '/api/onboarding/users': typeof ApiOnboardingUsersRoute
   '/api/pos/checkout': typeof ApiPosCheckoutRoute
+  '/api/pos/held-orders': typeof ApiPosHeldOrdersRoute
+  '/api/pos/products': typeof ApiPosProductsRoute
+  '/api/pos/returns': typeof ApiPosReturnsRoute
+  '/api/pos/sessions': typeof ApiPosSessionsRoute
+  '/api/pos/terminal-users': typeof ApiPosTerminalUsersRoute
+  '/api/pos/terminals': typeof ApiPosTerminalsRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
@@ -1901,6 +1984,9 @@ export interface FileRouteTypes {
     | '/inventory/ledger'
     | '/inventory/shipments'
     | '/inventory/valuation'
+    | '/pos/reports'
+    | '/pos/terminal-users'
+    | '/pos/terminals'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -1955,6 +2041,12 @@ export interface FileRouteTypes {
     | '/api/onboarding/tenant-users'
     | '/api/onboarding/users'
     | '/api/pos/checkout'
+    | '/api/pos/held-orders'
+    | '/api/pos/products'
+    | '/api/pos/returns'
+    | '/api/pos/sessions'
+    | '/api/pos/terminal-users'
+    | '/api/pos/terminals'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
     | '/api/rbac/permissions'
@@ -2088,6 +2180,9 @@ export interface FileRouteTypes {
     | '/inventory/ledger'
     | '/inventory/shipments'
     | '/inventory/valuation'
+    | '/pos/reports'
+    | '/pos/terminal-users'
+    | '/pos/terminals'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -2142,6 +2237,12 @@ export interface FileRouteTypes {
     | '/api/onboarding/tenant-users'
     | '/api/onboarding/users'
     | '/api/pos/checkout'
+    | '/api/pos/held-orders'
+    | '/api/pos/products'
+    | '/api/pos/returns'
+    | '/api/pos/sessions'
+    | '/api/pos/terminal-users'
+    | '/api/pos/terminals'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
     | '/api/rbac/permissions'
@@ -2279,6 +2380,9 @@ export interface FileRouteTypes {
     | '/_authenticated/inventory/ledger'
     | '/_authenticated/inventory/shipments'
     | '/_authenticated/inventory/valuation'
+    | '/_authenticated/pos/reports'
+    | '/_authenticated/pos/terminal-users'
+    | '/_authenticated/pos/terminals'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
     | '/_authenticated/respos/cashier'
@@ -2333,6 +2437,12 @@ export interface FileRouteTypes {
     | '/api/onboarding/tenant-users'
     | '/api/onboarding/users'
     | '/api/pos/checkout'
+    | '/api/pos/held-orders'
+    | '/api/pos/products'
+    | '/api/pos/returns'
+    | '/api/pos/sessions'
+    | '/api/pos/terminal-users'
+    | '/api/pos/terminals'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
     | '/api/rbac/permissions'
@@ -2468,6 +2578,12 @@ export interface RootRouteChildren {
   ApiOnboardingTenantUsersRoute: typeof ApiOnboardingTenantUsersRoute
   ApiOnboardingUsersRoute: typeof ApiOnboardingUsersRoute
   ApiPosCheckoutRoute: typeof ApiPosCheckoutRoute
+  ApiPosHeldOrdersRoute: typeof ApiPosHeldOrdersRoute
+  ApiPosProductsRoute: typeof ApiPosProductsRoute
+  ApiPosReturnsRoute: typeof ApiPosReturnsRoute
+  ApiPosSessionsRoute: typeof ApiPosSessionsRoute
+  ApiPosTerminalUsersRoute: typeof ApiPosTerminalUsersRoute
+  ApiPosTerminalsRoute: typeof ApiPosTerminalsRoute
   ApiTenantActivityTypesRoute: typeof ApiTenantActivityTypesRoute
   ApiTenantOnboardRoute: typeof ApiTenantOnboardRoute
   ApiFinancialTransactionsIndexRoute: typeof ApiFinancialTransactionsIndexRoute
@@ -3129,6 +3245,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRbacAuditRouteImport
       parentRoute: typeof ApiRbacRoute
     }
+    '/api/pos/terminals': {
+      id: '/api/pos/terminals'
+      path: '/api/pos/terminals'
+      fullPath: '/api/pos/terminals'
+      preLoaderRoute: typeof ApiPosTerminalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pos/terminal-users': {
+      id: '/api/pos/terminal-users'
+      path: '/api/pos/terminal-users'
+      fullPath: '/api/pos/terminal-users'
+      preLoaderRoute: typeof ApiPosTerminalUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pos/sessions': {
+      id: '/api/pos/sessions'
+      path: '/api/pos/sessions'
+      fullPath: '/api/pos/sessions'
+      preLoaderRoute: typeof ApiPosSessionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pos/returns': {
+      id: '/api/pos/returns'
+      path: '/api/pos/returns'
+      fullPath: '/api/pos/returns'
+      preLoaderRoute: typeof ApiPosReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pos/products': {
+      id: '/api/pos/products'
+      path: '/api/pos/products'
+      fullPath: '/api/pos/products'
+      preLoaderRoute: typeof ApiPosProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pos/held-orders': {
+      id: '/api/pos/held-orders'
+      path: '/api/pos/held-orders'
+      fullPath: '/api/pos/held-orders'
+      preLoaderRoute: typeof ApiPosHeldOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/pos/checkout': {
       id: '/api/pos/checkout'
       path: '/api/pos/checkout'
@@ -3505,6 +3663,27 @@ declare module '@tanstack/react-router' {
       path: '/respos/analytics'
       fullPath: '/respos/analytics'
       preLoaderRoute: typeof AuthenticatedResposAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pos/terminals': {
+      id: '/_authenticated/pos/terminals'
+      path: '/pos/terminals'
+      fullPath: '/pos/terminals'
+      preLoaderRoute: typeof AuthenticatedPosTerminalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pos/terminal-users': {
+      id: '/_authenticated/pos/terminal-users'
+      path: '/pos/terminal-users'
+      fullPath: '/pos/terminal-users'
+      preLoaderRoute: typeof AuthenticatedPosTerminalUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pos/reports': {
+      id: '/_authenticated/pos/reports'
+      path: '/pos/reports'
+      fullPath: '/pos/reports'
+      preLoaderRoute: typeof AuthenticatedPosReportsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory/valuation': {
@@ -3901,6 +4080,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInventoryLedgerRoute: typeof AuthenticatedInventoryLedgerRoute
   AuthenticatedInventoryShipmentsRoute: typeof AuthenticatedInventoryShipmentsRoute
   AuthenticatedInventoryValuationRoute: typeof AuthenticatedInventoryValuationRoute
+  AuthenticatedPosReportsRoute: typeof AuthenticatedPosReportsRoute
+  AuthenticatedPosTerminalUsersRoute: typeof AuthenticatedPosTerminalUsersRoute
+  AuthenticatedPosTerminalsRoute: typeof AuthenticatedPosTerminalsRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
   AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
   AuthenticatedResposCashierRoute: typeof AuthenticatedResposCashierRoute
@@ -3984,6 +4166,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInventoryLedgerRoute: AuthenticatedInventoryLedgerRoute,
   AuthenticatedInventoryShipmentsRoute: AuthenticatedInventoryShipmentsRoute,
   AuthenticatedInventoryValuationRoute: AuthenticatedInventoryValuationRoute,
+  AuthenticatedPosReportsRoute: AuthenticatedPosReportsRoute,
+  AuthenticatedPosTerminalUsersRoute: AuthenticatedPosTerminalUsersRoute,
+  AuthenticatedPosTerminalsRoute: AuthenticatedPosTerminalsRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
   AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
   AuthenticatedResposCashierRoute: AuthenticatedResposCashierRoute,
@@ -4351,6 +4536,12 @@ const rootRouteChildren: RootRouteChildren = {
   ApiOnboardingTenantUsersRoute: ApiOnboardingTenantUsersRoute,
   ApiOnboardingUsersRoute: ApiOnboardingUsersRoute,
   ApiPosCheckoutRoute: ApiPosCheckoutRoute,
+  ApiPosHeldOrdersRoute: ApiPosHeldOrdersRoute,
+  ApiPosProductsRoute: ApiPosProductsRoute,
+  ApiPosReturnsRoute: ApiPosReturnsRoute,
+  ApiPosSessionsRoute: ApiPosSessionsRoute,
+  ApiPosTerminalUsersRoute: ApiPosTerminalUsersRoute,
+  ApiPosTerminalsRoute: ApiPosTerminalsRoute,
   ApiTenantActivityTypesRoute: ApiTenantActivityTypesRoute,
   ApiTenantOnboardRoute: ApiTenantOnboardRoute,
   ApiFinancialTransactionsIndexRoute: ApiFinancialTransactionsIndexRoute,

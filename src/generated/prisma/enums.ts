@@ -679,3 +679,12 @@ export const stock_rule_applies_to_enum = {
 } as const
 
 export type stock_rule_applies_to_enum = (typeof stock_rule_applies_to_enum)[keyof typeof stock_rule_applies_to_enum]
+
+
+export const held_order_status_enum = {
+  held: 'held',
+  resumed: 'resumed',
+  cancelled: 'cancelled'
+} as const
+
+export type held_order_status_enum = (typeof held_order_status_enum)[keyof typeof held_order_status_enum]
