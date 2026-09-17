@@ -2,7 +2,11 @@
 
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError, rpcError } from '@/server/utils/api-error'
-import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
+import {
+  isValidUuid,
+  requireTenantId,
+  resolveTenantUserId,
+} from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import type { Prisma } from '@/generated/prisma/client'
 
@@ -140,16 +144,39 @@ export async function listOrders(authUserId: string) {
   }))
 }
 
-export async function getOrder(authUserId: string, id: string) {
+export async function getOrder(
+  authUserId: string,
+  id: string,
+  client: Prisma.TransactionClient | typeof prisma = prisma
+) {
+  if (!id || !isValidUuid(id)) {
+    throw new ApiError('Valid Sales Order ID is required.', 400)
+  }
+
   const tenantId = await requireTenantId(authUserId)
-  const order = await prisma.sales_orders.findFirst({
+  const order = await client.sales_orders.findFirst({
     where: { id, tenant_id: tenantId },
   })
   if (!order) {
+    if (process.env.NODE_ENV !== 'production') {
+      const existingCrossTenant = await prisma.sales_orders.findUnique({
+        where: { id },
+        select: { id: true, tenant_id: true },
+      })
+      if (existingCrossTenant) {
+        console.warn(
+          `[SalesOrder Security Warning] Order "${id}" exists under tenant "${existingCrossTenant.tenant_id}", but caller "${authUserId}" is in tenant "${tenantId}".`
+        )
+      } else {
+        console.warn(
+          `[SalesOrder Not Found] Order "${id}" does not exist in sales_orders table.`
+        )
+      }
+    }
     throw new ApiError('Sales order not found.', 404)
   }
 
-  const items = await prisma.sales_order_items.findMany({
+  const items = await client.sales_order_items.findMany({
     where: { sales_order_id: id },
     orderBy: { line_no: 'asc' },
   })
@@ -407,7 +434,7 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
   )
   const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
 
-  return prisma.$transaction(async (tx) => {
+  const createdOrderId = await prisma.$transaction(async (tx) => {
     await validateOrderStock(
       tx,
       tenantId,
@@ -449,8 +476,10 @@ export async function createOrder(authUserId: string, input: CreateOrderInput) {
       })
     }
 
-    return getOrder(authUserId, order.id)
+    return order.id
   })
+
+  return getOrder(authUserId, createdOrderId)
 }
 
 export async function updateOrder(
@@ -458,6 +487,10 @@ export async function updateOrder(
   id: string,
   input: CreateOrderInput
 ) {
+  if (!id || !isValidUuid(id)) {
+    throw new ApiError('Valid Sales Order ID is required.', 400)
+  }
+
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
@@ -465,6 +498,17 @@ export async function updateOrder(
     where: { id, tenant_id: tenantId },
   })
   if (!existing) {
+    if (process.env.NODE_ENV !== 'production') {
+      const existingCrossTenant = await prisma.sales_orders.findUnique({
+        where: { id },
+        select: { id: true, tenant_id: true },
+      })
+      if (existingCrossTenant) {
+        console.warn(
+          `[SalesOrder Security Warning] Update attempted on order "${id}" belonging to tenant "${existingCrossTenant.tenant_id}", but caller is in tenant "${tenantId}".`
+        )
+      }
+    }
     throw new ApiError('Sales order not found.', 404)
   }
   if (existing.status !== 'draft') {
@@ -500,7 +544,7 @@ export async function updateOrder(
   )
   const taxAmount = lines.reduce((sum, line) => sum + line.tax_amount, 0)
 
-  return prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx) => {
     await validateOrderStock(
       tx,
       tenantId,
@@ -542,17 +586,31 @@ export async function updateOrder(
         })),
       })
     }
-
-    return getOrder(authUserId, id)
   })
+
+  return getOrder(authUserId, id)
 }
 
 async function requireOrder(tenantId: string, id: string): Promise<void> {
+  if (!id || !isValidUuid(id)) {
+    throw new ApiError('Valid Sales Order ID is required.', 400)
+  }
   const existing = (await prisma.sales_orders.findFirst({
     where: { id, tenant_id: tenantId },
     select: { id: true },
   })) as { id: string } | null
   if (!existing) {
+    if (process.env.NODE_ENV !== 'production') {
+      const existingCrossTenant = await prisma.sales_orders.findUnique({
+        where: { id },
+        select: { id: true, tenant_id: true },
+      })
+      if (existingCrossTenant) {
+        console.warn(
+          `[SalesOrder Security Warning] Action attempted on order "${id}" belonging to tenant "${existingCrossTenant.tenant_id}", but caller is in tenant "${tenantId}".`
+        )
+      }
+    }
     throw new ApiError('Sales order not found.', 404)
   }
 }

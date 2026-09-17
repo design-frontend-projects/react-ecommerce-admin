@@ -15,7 +15,8 @@ const GET = withAuth(PERMISSIONS.SALES_VIEW, async ({ request, auth }) => {
     const { userId } = auth
 
     const { searchParams } = new URL(request.url)
-    const id = searchParams.get('id')
+    const rawId = searchParams.get('id')?.trim()
+    const id = rawId && rawId !== 'undefined' && rawId !== 'null' ? rawId : null
 
     const data = id ? await getOrder(userId, id) : await listOrders(userId)
     return Response.json({ success: true, data })
