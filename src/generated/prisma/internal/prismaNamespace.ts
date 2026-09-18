@@ -10483,6 +10483,7 @@ export type Purchase_order_itemsScalarFieldEnum = (typeof Purchase_order_itemsSc
 export const Purchase_ordersScalarFieldEnum = {
   order_date: 'order_date',
   expected_delivery_date: 'expected_delivery_date',
+  currency_id: 'currency_id',
   currency: 'currency',
   subtotal: 'subtotal',
   tax_total: 'tax_total',

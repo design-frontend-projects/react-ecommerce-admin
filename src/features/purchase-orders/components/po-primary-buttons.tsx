@@ -10,7 +10,10 @@ export function POPrimaryButtons() {
 
   return (
     <Can permission='purchasing.manage'>
-      <Button onClick={() => setOpen('create')} className='space-x-1'>
+      <Button
+        onClick={() => setOpen('create')}
+        className='h-9 gap-1.5 shadow-2xs text-xs sm:text-sm font-semibold'
+      >
         <Plus className='h-4 w-4' />
         <span>{t('purchaseOrders.createOrder', 'Create Purchase Order')}</span>
       </Button>

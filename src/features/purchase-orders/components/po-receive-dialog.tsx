@@ -128,16 +128,41 @@ function POReceiveDialogContent({
     }
   }
 
+  const handleReceiveAll = () => {
+    if (!po?.purchase_order_items) return
+    const allQtys: Record<string, number> = {}
+    po.purchase_order_items.forEach((item, index) => {
+      const key = getItemKey(item, index)
+      const prevReceived = Number(item.received_quantity ?? 0)
+      const remaining = Math.max(0, item.quantity_ordered - prevReceived)
+      if (remaining > 0) {
+        allQtys[key] = remaining
+      }
+    })
+    setReceivedQtys(allQtys)
+  }
+
   const poLabel = `PO-${String(currentRow.po_id).padStart(4, '0')}`
   const isPending = batchReceive.isPending || updateStatus.isPending
 
   return (
-    <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-2xl'>
+    <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-3xl'>
       <DialogHeader>
-        <DialogTitle className='flex items-center gap-2'>
-          {t('purchaseOrders.receiveDialog.title', 'Receive Items')} — {poLabel}
-          <POStatusBadge status={currentRow.status} />
-        </DialogTitle>
+        <div className='flex items-center justify-between'>
+          <DialogTitle className='flex items-center gap-2'>
+            {t('purchaseOrders.receiveDialog.title', 'Receive Items')} — {poLabel}
+            <POStatusBadge status={currentRow.status} />
+          </DialogTitle>
+          <Button
+            type='button'
+            variant='outline'
+            size='sm'
+            onClick={handleReceiveAll}
+            className='text-xs h-8 mr-6 text-primary hover:text-primary'
+          >
+            {t('purchaseOrders.receiveDialog.receiveAllRemaining', 'Fill Remaining Qty')}
+          </Button>
+        </div>
         <DialogDescription>
           {t('purchaseOrders.receiveDialog.desc', 'Enter the quantity received for each item.')}
           {currentRow.suppliers?.name && (
@@ -170,7 +195,7 @@ function POReceiveDialogContent({
       </div>
 
       {po?.purchase_order_items && po.purchase_order_items.length > 0 ? (
-        <div className='rounded-md border'>
+        <div className='rounded-md border overflow-x-auto'>
           <Table>
             <TableHeader>
               <TableRow>

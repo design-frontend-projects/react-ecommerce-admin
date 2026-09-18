@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { type PurchaseOrder } from '../hooks/use-purchase-orders'
 
-type PODialogType = 'create' | 'edit' | 'delete' | 'receive' | 'view' | null
+type PODialogType = 'create' | 'edit' | 'delete' | 'receive' | 'view' | 'cancel' | null
 
 interface POContextType {
   open: PODialogType

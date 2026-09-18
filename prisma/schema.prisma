@@ -137,6 +137,7 @@ model currencies {
   countries  countries[]
   tenants    tenants[]
   price_list price_list[]
+  purchase_orders purchase_orders[]
 }
 
 model customer_cards {
@@ -640,6 +641,7 @@ model purchase_order_items {
 model purchase_orders {
   order_date             DateTime?                 @default(now()) @db.Timestamptz(6)
   expected_delivery_date DateTime?                 @db.Date
+  currency_id            String?                   @db.Uuid
   currency               String?                   @default("USD") @db.Char(3)
   subtotal               Decimal?                  @default(0) @db.Decimal(18, 4)
   tax_total              Decimal?                  @default(0) @db.Decimal(18, 4)
@@ -668,6 +670,7 @@ model purchase_orders {
   created_by_user_id     String?                   @db.Uuid
   updated_by_user_id     String?                   @db.Uuid
   purchase_order_items   purchase_order_items[]
+  currencies             currencies?               @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   suppliers              suppliers                 @relation(fields: [supplier_id], references: [id], onUpdate: NoAction, map: "fk_purchase_orders_suppliers")
   warehouses             warehouses?               @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
 }

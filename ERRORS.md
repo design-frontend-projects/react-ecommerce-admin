@@ -1,5 +1,34 @@
 # Error Log
 
+## [2026-09-18 23:35] - Missing PostgreSQL RPC public.set_purchase_order_status(p_po_id, p_status) in Schema Cache
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/server/fns/purchase-orders.ts:32`
+- **Agent**: @backend-specialist
+- **Root Cause**: `setPurchaseOrderStatus` invoked `supabaseAdmin.rpc('set_purchase_order_status', { p_po_id, p_status })`, but the function never existed in the live PostgreSQL database. The legacy migration `20260713120000_purchase_doc_rpcs` defined the function with `p_po_id integer` and referenced obsolete columns (`po_id`, `auth_user_id`) that were removed or renamed during the UUID normalization migration `20260814000000`. The migration was never successfully applied, leaving the function absent from `pg_proc`.
+- **Error Message**:
+  ```json
+  {
+    "success": false,
+    "message": "Could not find the function public.set_purchase_order_status(p_po_id, p_status) in the schema cache",
+    "error": {
+      "message": "Could not find the function public.set_purchase_order_status(p_po_id, p_status) in the schema cache"
+    }
+  }
+  ```
+- **Fix Applied**:
+  1. Created migration `prisma/migrations/20260918234500_purchase_order_lifecycle_rpcs/migration.sql` with modern PL/pgSQL implementation using `p_po_id uuid` parameter, `id` column references, and full lifecycle state machine validation.
+  2. Applied migration to Supabase PostgreSQL database via `scripts/apply-po-lifecycle-migration.ts`.
+  3. Granted `EXECUTE` permissions to `authenticated`, `service_role`, and `anon` roles.
+  4. Triggered `NOTIFY pgrst, 'reload schema'` to refresh PostgREST schema cache.
+  5. Added `PO_NOT_FOUND` and `PO_INVALID_TRANSITION` error codes to `RPC_ERROR_MAP` in `src/server/utils/api-error.ts`.
+  6. Verified RPC call works via `scripts/test-po-rpc.ts` — idempotent call returned `{ po_id, from: 'draft', to: 'draft' }` with `error: null`.
+- **Prevention**: Whenever defining server functions that call Supabase RPCs, ensure corresponding database functions are deployed with correct parameter types matching the current schema (UUID not integer), granted to PostgREST roles, and verified with integration tests.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-18 22:30] - ZodError: expected number, received NaN on /inventory-movements (qty_in and qty_out undefined)
 
 - **Type**: Integration

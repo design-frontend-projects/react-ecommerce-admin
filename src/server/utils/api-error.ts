@@ -48,6 +48,11 @@ const RPC_ERROR_MAP: Record<string, { message: string; status: number }> = {
     message: 'Store has no branch assigned.',
     status: 422,
   },
+  PO_NOT_FOUND: { message: 'Purchase order not found.', status: 404 },
+  PO_INVALID_TRANSITION: {
+    message: 'Invalid purchase order status transition.',
+    status: 400,
+  },
   TRANSFER_NOT_FOUND: { message: 'Transfer not found.', status: 404 },
   ADJUSTMENT_NOT_FOUND: { message: 'Adjustment not found.', status: 404 },
 }

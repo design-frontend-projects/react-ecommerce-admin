@@ -11,7 +11,7 @@ export interface ReorderAlert {
     name: string
     product_id: number
     supplier_id: number | null
-    suppliers?: { name: string; supplier_id: number } | null
+    suppliers?: { name: string; id: string } | null
   } | null
 }
 
@@ -23,7 +23,7 @@ export const useReorderAlerts = () => {
       const { data, error } = await supabase
         .from('inventory')
         .select(
-          '*, products(name, product_id, supplier_id, suppliers(name, supplier_id))'
+          '*, products(name, product_id, supplier_id, suppliers(name, id))'
         )
         .not('reorder_level', 'is', null)
         .order('quantity', { ascending: true })

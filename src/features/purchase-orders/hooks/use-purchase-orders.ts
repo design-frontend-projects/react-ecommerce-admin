@@ -10,69 +10,39 @@ import {
   isValidUuid,
 } from '@/lib/client-tenant'
 
-// ─── Types ────────────────────────────────────────────────
-export interface PurchaseOrder {
-  id?: string
-  po_id: number | string
-  po_number?: number | null
-  supplier_id: number | string | null
-  tenant_id?: string
-  order_date: string | null
-  status: 'pending' | 'partial' | 'received' | 'cancelled'
-  total_amount: number | null
-  expected_delivery_date: string | null
-  notes: string | null
-  created_at: string | null
-  suppliers?: { name: string } | null
-  purchase_order_items: Array<{
-    id?: string
-    po_item_id?: number | string
-    po_id: number | string
-    tenant_id?: string
-    product_id: number | string
-    product_variant_id: string | null
-    quantity_ordered: number
-    unit_cost: number
-    subtotal: number
-    received_quantity: number | null
-    uom_id?: string | null
-    uoms?: {
-      id: string
-      name: string
-      code: string
-      uom_category?: string
-    } | null
-    products?: {
-      name: string
-      product_variants?: Array<{
-        id: string
-        sku: string
-        price_list_items?: Array<{
-          price: number | string
-          cost_price?: number | string | null
-        }>
-        price?: number
-        cost_price?: number | null
-      }>
-    } | null
-  }>
-}
+// ─── Lifecycle & Status Types (Prisma po_lifecycle_status_enum) ──
+export type PurchaseOrderLifecycleStatus =
+  | 'draft'
+  | 'approved'
+  | 'sent'
+  | 'partially_received'
+  | 'received'
+  | 'closed'
+  | 'cancelled'
 
-export interface PurchaseOrderWithItems extends PurchaseOrder {
-  purchase_order_items: PurchaseOrderItem[]
-}
+export type PurchaseOrderStatus =
+  | 'pending'
+  | 'partial'
+  | 'received'
+  | 'cancelled'
+  | PurchaseOrderLifecycleStatus
 
+// ─── Prisma-Consistent Models ──────────────────────────────
 export interface PurchaseOrderItem {
   id?: string
   po_item_id?: number | string
   po_id: number | string
+  line_no?: number
   tenant_id?: string
   product_id: number | string
   product_variant_id: string | null
   quantity_ordered: number
   unit_cost: number
+  tax_amount?: number | null
+  discount_amount?: number | null
   subtotal: number
-  received_quantity: number
+  received_quantity: number | null
+  cancelled_qty?: number | null
   uom_id?: string | null
   uoms?: {
     id: string
@@ -82,6 +52,9 @@ export interface PurchaseOrderItem {
   } | null
   products?: {
     name: string
+    sku?: string
+    base_uom_id?: string | null
+    base_uom?: { id: string; name: string; code: string } | null
     product_variants?: Array<{
       id: string
       sku: string
@@ -95,25 +68,79 @@ export interface PurchaseOrderItem {
   } | null
 }
 
+export interface PurchaseOrder {
+  id?: string
+  po_id: number | string
+  po_number?: number | null
+  supplier_id: number | string | null
+  warehouse_id?: string | null
+  branch_id?: string | null
+  store_id?: string | null
+  tenant_id?: string
+  order_date: string | null
+  expected_delivery_date: string | null
+  currency_id?: string | null
+  currency?: string | null
+  currencies?: {
+    id: string
+    code: string
+    name: string
+    name_ar?: string | null
+    symbol: string
+  } | null
+  status: PurchaseOrderStatus
+  lifecycle_status?: PurchaseOrderLifecycleStatus | null
+  payment_status?: string | null
+  subtotal?: number | null
+  tax_amount?: number | null
+  tax_total?: number | null
+  discount_amount?: number | null
+  discount_total?: number | null
+  shipping_amount?: number | null
+  grand_total?: number | null
+  total_amount: number | null
+  notes: string | null
+  created_at: string | null
+  approved_at?: string | null
+  approved_by?: string | null
+  sent_at?: string | null
+  closed_at?: string | null
+  suppliers?: { id?: string; name: string } | null
+  warehouses?: { id: string; name: string } | null
+  purchase_order_items: PurchaseOrderItem[]
+}
+
+export interface PurchaseOrderWithItems extends PurchaseOrder {
+  purchase_order_items: PurchaseOrderItem[]
+}
+
 export interface PurchaseOrderInput {
   supplier_id: number | string
+  warehouse_id?: string | null
   order_date: string
   expected_delivery_date?: string | null
-  notes?: string
+  currency_id?: string | null
+  currency?: string | null
+  tax_amount?: number | null
+  shipping_amount?: number | null
+  discount_amount?: number | null
+  notes?: string | null
   tenant_id?: string
 }
 
 export interface PurchaseOrderItemInput {
   product_id: number | string
-  product_variant_id: string
+  product_variant_id: string | null
   quantity_ordered: number
   unit_cost: number
+  tax_amount?: number | null
+  discount_amount?: number | null
   subtotal: number
   uom_id?: string | null
   tenant_id?: string
 }
 
-// ─── List all POs ─────────────────────────────────────────
+// ─── List all POs (Including Warehouses & Suppliers) ────────
 export const usePurchaseOrders = () => {
   const { authEnabled } = useAuthEnabled({ permission: 'purchasing.view' })
   return useQuery({
@@ -122,7 +149,7 @@ export const usePurchaseOrders = () => {
       const { tenantId } = getAuthTenantAndUser()
       let query = supabase
         .from('purchase_orders')
-        .select('*, suppliers(name)')
+        .select('*, suppliers(name), warehouses(id, name), currencies(id, code, name, name_ar, symbol)')
 
       if (tenantId && isValidUuid(tenantId)) {
         query = query.eq('tenant_id', tenantId)
@@ -134,13 +161,14 @@ export const usePurchaseOrders = () => {
       return (data || []).map((row) => ({
         ...row,
         po_id: row.id || row.po_id,
+        purchase_order_items: row.purchase_order_items || [],
       })) as PurchaseOrder[]
     },
     enabled: authEnabled,
   })
 }
 
-// ─── Single PO with items ─────────────────────────────────
+// ─── Single PO with items & full relationships ─────────────
 export const usePurchaseOrder = (id: number | string) => {
   const { authEnabled } = useAuthEnabled({ permission: 'purchasing.view' })
   const cleanId = String(id || '')
@@ -152,12 +180,13 @@ export const usePurchaseOrder = (id: number | string) => {
       let query = supabase
         .from('purchase_orders')
         .select(
-          `*, suppliers(name), 
+          `*, suppliers(name), warehouses(id, name), currencies(id, code, name, name_ar, symbol),
                 purchase_order_items(
                   *,
                   uoms(id, name, code, uom_category),
                   products(
                     name,
+                    sku,
                     base_uom_id,
                     base_uom:uoms(id, name, code),
                     product_variants(id, sku, price_list_items(price, cost_price))
@@ -184,7 +213,7 @@ export const usePurchaseOrder = (id: number | string) => {
   })
 }
 
-// ─── Create PO with items ─────────────────────────────────
+// ─── Create PO with items & financial breakdown ────────────
 export const useCreatePurchaseOrder = () => {
   const { has } = useAuth()
   const queryClient = useQueryClient()
@@ -210,18 +239,38 @@ export const useCreatePurchaseOrder = () => {
 
       const { userId } = getAuthTenantAndUser()
 
-      // Calculate total
-      const total_amount = items.reduce((sum, item) => sum + item.subtotal, 0)
+      // Calculate financial totals
+      const itemsSubtotal = items.reduce(
+        (sum, item) => sum + (Number(item.subtotal) || 0),
+        0
+      )
+      const taxAmount = Number(order.tax_amount || 0)
+      const shippingAmount = Number(order.shipping_amount || 0)
+      const discountAmount = Number(order.discount_amount || 0)
+      const grandTotal = Math.max(
+        0,
+        itemsSubtotal + taxAmount + shippingAmount - discountAmount
+      )
 
       const poPayload: Record<string, unknown> = {
         tenant_id: resolvedTenantId,
         supplier_id: String(order.supplier_id),
+        warehouse_id: order.warehouse_id || null,
+        currency_id: order.currency_id || null,
         order_date: order.order_date,
         expected_delivery_date: order.expected_delivery_date || null,
+        currency: order.currency || 'USD',
         notes: order.notes || null,
-        total_amount,
-        subtotal: total_amount,
-        grand_total: total_amount,
+        subtotal: itemsSubtotal,
+        tax_amount: taxAmount,
+        tax_total: taxAmount,
+        shipping_amount: shippingAmount,
+        discount_amount: discountAmount,
+        discount_total: discountAmount,
+        grand_total: grandTotal,
+        total_amount: grandTotal,
+        status: 'pending',
+        lifecycle_status: 'draft',
       }
 
       if (userId && isValidUuid(userId)) {
@@ -246,13 +295,15 @@ export const useCreatePurchaseOrder = () => {
           const itemPayload: Record<string, unknown> = {
             tenant_id: resolvedTenantId,
             po_id: resolvedPoId,
+            line_no: index + 1,
             product_id: String(item.product_id),
             product_variant_id: item.product_variant_id || null,
             uom_id: item.uom_id || null,
             quantity_ordered: item.quantity_ordered,
             unit_cost: item.unit_cost,
+            tax_amount: Number(item.tax_amount || 0),
+            discount_amount: Number(item.discount_amount || 0),
             subtotal: item.subtotal,
-            line_no: index + 1,
           }
 
           if (userId && isValidUuid(userId)) {
@@ -306,16 +357,34 @@ export const useUpdatePurchaseOrder = () => {
       }
 
       const { userId } = getAuthTenantAndUser()
-      const total_amount = items.reduce((sum, item) => sum + item.subtotal, 0)
+      const itemsSubtotal = items.reduce(
+        (sum, item) => sum + (Number(item.subtotal) || 0),
+        0
+      )
+      const taxAmount = Number(order.tax_amount || 0)
+      const shippingAmount = Number(order.shipping_amount || 0)
+      const discountAmount = Number(order.discount_amount || 0)
+      const grandTotal = Math.max(
+        0,
+        itemsSubtotal + taxAmount + shippingAmount - discountAmount
+      )
 
       const updatePayload: Record<string, unknown> = {
         supplier_id: String(order.supplier_id),
+        warehouse_id: order.warehouse_id || null,
+        currency_id: order.currency_id || null,
         order_date: order.order_date,
         expected_delivery_date: order.expected_delivery_date || null,
+        currency: order.currency || 'USD',
         notes: order.notes || null,
-        total_amount,
-        subtotal: total_amount,
-        grand_total: total_amount,
+        subtotal: itemsSubtotal,
+        tax_amount: taxAmount,
+        tax_total: taxAmount,
+        shipping_amount: shippingAmount,
+        discount_amount: discountAmount,
+        discount_total: discountAmount,
+        grand_total: grandTotal,
+        total_amount: grandTotal,
       }
 
       if (userId && isValidUuid(userId)) {
@@ -357,13 +426,15 @@ export const useUpdatePurchaseOrder = () => {
           const itemPayload: Record<string, unknown> = {
             tenant_id: resolvedTenantId,
             po_id: cleanId,
+            line_no: index + 1,
             product_id: String(item.product_id),
             product_variant_id: item.product_variant_id || null,
             uom_id: item.uom_id || null,
             quantity_ordered: item.quantity_ordered,
             unit_cost: item.unit_cost,
+            tax_amount: Number(item.tax_amount || 0),
+            discount_amount: Number(item.discount_amount || 0),
             subtotal: item.subtotal,
-            line_no: index + 1,
           }
 
           if (userId && isValidUuid(userId)) {
@@ -392,22 +463,17 @@ export const useUpdatePurchaseOrder = () => {
   })
 }
 
-// ─── Update PO status only ────────────────────────────────
-type PurchaseOrderLifecycleStatus =
-  | 'draft'
-  | 'approved'
-  | 'sent'
-  | 'partially_received'
-  | 'received'
-  | 'closed'
-  | 'cancelled'
-
 /** Translate legacy status labels to lifecycle statuses (pass-through otherwise). */
 const LEGACY_STATUS_MAP: Record<string, PurchaseOrderLifecycleStatus> = {
   pending: 'approved',
   partial: 'partially_received',
   received: 'received',
   cancelled: 'cancelled',
+  draft: 'draft',
+  approved: 'approved',
+  sent: 'sent',
+  partially_received: 'partially_received',
+  closed: 'closed',
 }
 
 export const useUpdatePurchaseOrderStatus = () => {
@@ -421,12 +487,7 @@ export const useUpdatePurchaseOrderStatus = () => {
         status,
       }: {
         id: number | string
-        status:
-          | 'pending'
-          | 'received'
-          | 'partial'
-          | 'cancelled'
-          | PurchaseOrderLifecycleStatus
+        status: PurchaseOrderStatus
       }
     ) => {
       const mapped =
@@ -482,3 +543,4 @@ export const useDeletePurchaseOrder = () => {
     },
   })
 }
+

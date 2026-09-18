@@ -14,9 +14,12 @@ import {
   ArrowLeft,
   Pencil,
   PackageCheck,
+  Warehouse,
+  Coins,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
@@ -58,8 +61,17 @@ export interface POSummaryDraftItem {
 export interface POSummaryDraftData {
   supplierName: string
   supplierId: string
+  warehouseId?: string
+  warehouseName?: string
   orderDate: string
   expectedDeliveryDate?: string
+  currencyId?: string
+  currency?: string
+  currencySymbol?: string
+  subtotal?: number
+  taxAmount?: number
+  shippingAmount?: number
+  discountAmount?: number
   notes?: string
   items: POSummaryDraftItem[]
   totalAmount: number
@@ -113,6 +125,34 @@ export function POSummaryDialog({
     ? draftData?.supplierName || t('purchaseOrders.summary.unspecifiedSupplier', 'Unspecified Supplier')
     : fullPO?.suppliers?.name || currentRow?.suppliers?.name || '—'
 
+  const warehouseName = isDraftMode
+    ? draftData?.warehouseName || null
+    : fullPO?.warehouses?.name || currentRow?.warehouses?.name || null
+
+  const currency = isDraftMode
+    ? draftData?.currency || 'USD'
+    : fullPO?.currency || fullPO?.currencies?.code || currentRow?.currency || currentRow?.currencies?.code || 'USD'
+
+  const currencySymbol = isDraftMode
+    ? draftData?.currencySymbol || '$'
+    : fullPO?.currencies?.symbol || currentRow?.currencies?.symbol || '$'
+
+  const currencyName = isDraftMode
+    ? null
+    : fullPO?.currencies?.name || currentRow?.currencies?.name || null
+
+  const taxAmount = isDraftMode
+    ? Number(draftData?.taxAmount || 0)
+    : Number(fullPO?.tax_amount ?? fullPO?.tax_total ?? currentRow?.tax_amount ?? 0)
+
+  const shippingAmount = isDraftMode
+    ? Number(draftData?.shippingAmount || 0)
+    : Number(fullPO?.shipping_amount ?? currentRow?.shipping_amount ?? 0)
+
+  const discountAmount = isDraftMode
+    ? Number(draftData?.discountAmount || 0)
+    : Number(fullPO?.discount_amount ?? fullPO?.discount_total ?? currentRow?.discount_amount ?? 0)
+
   const orderDate = isDraftMode
     ? draftData?.orderDate
     : fullPO?.order_date || currentRow?.order_date
@@ -145,8 +185,10 @@ export function POSummaryDialog({
 
   const totalAmount = isDraftMode
     ? draftData?.totalAmount || 0
-    : Number(fullPO?.total_amount ?? currentRow?.total_amount ?? 0)
+    : Number(fullPO?.grand_total ?? fullPO?.total_amount ?? currentRow?.grand_total ?? currentRow?.total_amount ?? 0)
 
+  const subtotalAmount = lineItems.reduce((sum, item) => sum + item.subtotal, 0)
+  const hasFinancialAdjustments = taxAmount > 0 || shippingAmount > 0 || discountAmount > 0
   const totalQuantity = lineItems.reduce((sum, item) => sum + item.quantity, 0)
   const totalItemsCount = lineItems.length
 
@@ -165,16 +207,22 @@ export function POSummaryDialog({
       `PO Number: ${poNumber}`,
       `Status: ${status.toUpperCase()}`,
       `Supplier: ${supplierName}`,
+      ...(warehouseName ? [`Destination Warehouse: ${warehouseName}`] : []),
       `Order Date: ${formatDateDisplay(orderDate)}`,
       `Expected Delivery: ${formatDateDisplay(expectedDeliveryDate)}`,
+      `Currency: ${currency} (${currencySymbol})`,
       `Total Line Items: ${totalItemsCount}`,
       `Total Units: ${totalQuantity}`,
-      `Total Amount: $${totalAmount.toFixed(2)}`,
+      `Items Subtotal: ${currencySymbol}${subtotalAmount.toFixed(2)}`,
+      ...(taxAmount > 0 ? [`Tax: +${currencySymbol}${taxAmount.toFixed(2)}`] : []),
+      ...(shippingAmount > 0 ? [`Shipping: +${currencySymbol}${shippingAmount.toFixed(2)}`] : []),
+      ...(discountAmount > 0 ? [`Discount: -${currencySymbol}${discountAmount.toFixed(2)}`] : []),
+      `Total Amount: ${currencySymbol}${totalAmount.toFixed(2)} ${currency}`,
       ``,
       `--- Line Items ---`,
       ...lineItems.map(
         (it, idx) =>
-          `${idx + 1}. ${it.productName} [Variant: ${it.variantSku}]${it.uomCode || it.uomName ? ` [UOM: ${it.uomCode || it.uomName}]` : ''} | Qty: ${it.quantity} | Unit Cost: $${it.unitCost.toFixed(2)} | Subtotal: $${it.subtotal.toFixed(2)}`
+          `${idx + 1}. ${it.productName} [Variant: ${it.variantSku}]${it.uomCode || it.uomName ? ` [UOM: ${it.uomCode || it.uomName}]` : ''} | Qty: ${it.quantity} | Unit Cost: ${currencySymbol}${it.unitCost.toFixed(2)} | Subtotal: ${currencySymbol}${it.subtotal.toFixed(2)}`
       ),
       ...(notes ? [``, `Notes: ${notes}`] : []),
     ]
@@ -275,7 +323,10 @@ export function POSummaryDialog({
           ) : (
             <div className='space-y-6'>
               {/* Order Metadata Cards */}
-              <div className='grid grid-cols-1 sm:grid-cols-3 gap-3'>
+              <div className={cn(
+                'grid gap-3',
+                warehouseName ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-3'
+              )}>
                 <div className='rounded-lg border bg-card p-3.5 space-y-1'>
                   <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
                     <Building2 className='h-3.5 w-3.5 text-primary' />
@@ -284,6 +335,35 @@ export function POSummaryDialog({
                   <p className='text-sm font-semibold truncate text-foreground'>
                     {supplierName}
                   </p>
+                </div>
+
+                {warehouseName && (
+                  <div className='rounded-lg border bg-card p-3.5 space-y-1'>
+                    <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
+                      <Warehouse className='h-3.5 w-3.5 text-primary' />
+                      <span>{t('purchaseOrders.fields.destinationWarehouse', 'Destination')}</span>
+                    </div>
+                    <p className='text-sm font-semibold truncate text-foreground'>
+                      {warehouseName}
+                    </p>
+                  </div>
+                )}
+
+                <div className='rounded-lg border bg-card p-3.5 space-y-1'>
+                  <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
+                    <Coins className='h-3.5 w-3.5 text-primary' />
+                    <span>{t('purchaseOrders.fields.currency', 'Currency')}</span>
+                  </div>
+                  <div className='flex items-center gap-1.5'>
+                    <Badge variant='outline' className='font-mono font-bold text-xs'>
+                      {currencySymbol} {currency}
+                    </Badge>
+                    {currencyName && (
+                      <span className='text-xs text-muted-foreground truncate'>
+                        {currencyName}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div className='rounded-lg border bg-card p-3.5 space-y-1'>
@@ -334,7 +414,7 @@ export function POSummaryDialog({
                     <DollarSign className='h-3.5 w-3.5 text-primary' /> {t('purchaseOrders.summary.totalCost', 'Total Cost')}
                   </span>
                   <span className='text-xl font-bold mt-1 text-primary'>
-                    ${totalAmount.toFixed(2)}
+                    {currencySymbol}{totalAmount.toFixed(2)}
                   </span>
                   <span className='text-[11px] text-muted-foreground'>{t('purchaseOrders.summary.estimatedExpenditure', 'Estimated expenditure')}</span>
                 </div>
@@ -413,10 +493,10 @@ export function POSummaryDialog({
                               {item.quantity}
                             </TableCell>
                             <TableCell className='text-right font-mono text-sm'>
-                              ${item.unitCost.toFixed(2)}
+                              {currencySymbol}{item.unitCost.toFixed(2)}
                             </TableCell>
                             <TableCell className='text-right font-mono font-semibold text-sm'>
-                              ${item.subtotal.toFixed(2)}
+                              {currencySymbol}{item.subtotal.toFixed(2)}
                             </TableCell>
                           </TableRow>
                         ))
@@ -424,6 +504,40 @@ export function POSummaryDialog({
                     </TableBody>
                   </Table>
                 </div>
+
+                {/* Financial Totals Breakdown */}
+                {hasFinancialAdjustments && (
+                  <div className='flex justify-end pt-2'>
+                    <div className='w-full sm:w-80 space-y-2 rounded-xl border bg-card p-4 shadow-2xs text-xs'>
+                      <div className='flex justify-between text-muted-foreground'>
+                        <span>{t('purchaseOrders.financials.subtotal', 'Items Subtotal')}:</span>
+                        <span className='font-mono font-medium text-foreground'>{currencySymbol}{subtotalAmount.toFixed(2)}</span>
+                      </div>
+                      {taxAmount > 0 && (
+                        <div className='flex justify-between text-muted-foreground'>
+                          <span>{t('purchaseOrders.financials.taxAmount', 'Tax Total')}:</span>
+                          <span className='font-mono font-medium text-foreground'>+{currencySymbol}{taxAmount.toFixed(2)}</span>
+                        </div>
+                      )}
+                      {shippingAmount > 0 && (
+                        <div className='flex justify-between text-muted-foreground'>
+                          <span>{t('purchaseOrders.financials.shippingAmount', 'Shipping & Freight')}:</span>
+                          <span className='font-mono font-medium text-foreground'>+{currencySymbol}{shippingAmount.toFixed(2)}</span>
+                        </div>
+                      )}
+                      {discountAmount > 0 && (
+                        <div className='flex justify-between text-emerald-600 dark:text-emerald-400'>
+                          <span>{t('purchaseOrders.financials.discountAmount', 'Discounts & Deductions')}:</span>
+                          <span className='font-mono font-medium'>-{currencySymbol}{discountAmount.toFixed(2)}</span>
+                        </div>
+                      )}
+                      <div className='border-t pt-2 flex justify-between items-baseline font-bold text-sm text-foreground'>
+                        <span>{t('purchaseOrders.financials.grandTotal', 'Grand Total')}:</span>
+                        <span className='font-mono text-base text-primary'>{currencySymbol}{totalAmount.toFixed(2)} {currency}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Notes */}
