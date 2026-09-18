@@ -225,7 +225,8 @@ export async function listReceivablePurchaseOrders(authUserId: string) {
         .map((item) => {
           const ordered = Number(item.quantity_ordered) || 0
           const received = Number(item.received_quantity) || 0
-          const outstanding = Math.max(0, ordered - received)
+          const cancelled = Number(item.cancelled_qty) || 0
+          const outstanding = Math.max(0, ordered - received - cancelled)
           return { ...item, outstanding_qty: outstanding }
         })
         .filter((item) => item.outstanding_qty > 0)

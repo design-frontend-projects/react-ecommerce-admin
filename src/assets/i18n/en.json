@@ -3344,6 +3344,7 @@
     "addItem": "Add Item",
     "items": "Receipt Items",
     "linkedToPo": "Linked to PO",
+    "allRejectedNotice": "All items are marked as rejected. This document will be posted as an audit record of rejected delivery, and 0 units will be added to warehouse inventory.",
     "selectVariant": "Select product variant",
     "orderedQty": "Ordered",
     "receivedQty": "Received",

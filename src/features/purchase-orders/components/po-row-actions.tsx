@@ -3,7 +3,6 @@ import {
   Eye,
   Pencil,
   Trash2,
-  PackageCheck,
   Ban,
   CheckCircle,
   Send,
@@ -40,17 +39,16 @@ export function PORowActions({ row }: PORowActionsProps) {
 
   const isDraft = currentStatus === 'draft'
   const isApproved = currentStatus === 'approved'
-  const isSent = currentStatus === 'sent'
   const isPending = currentStatus === 'pending'
+  const isReceived = currentStatus === 'received'
   const isPartial =
     currentStatus === 'partial' || currentStatus === 'partially_received'
-  const isReceived = currentStatus === 'received'
+  const isReceivedOrPartial = isReceived || isPartial
   const isClosed = currentStatus === 'closed'
   const isCancelled = currentStatus === 'cancelled'
 
-  const canReceive = isPending || isApproved || isSent || isPartial
   const canEdit = isDraft || isPending
-  const canCancel = !isCancelled && !isClosed && !isReceived
+  const showCancel = !isCancelled && !isClosed
   const canDelete = isDraft || isCancelled
 
   const handleQuickStatusChange = async (
@@ -122,19 +120,6 @@ export function PORowActions({ row }: PORowActionsProps) {
           </Can>
         )}
 
-        {/* 3. Receive Items */}
-        {canReceive && (
-          <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(row)
-              setOpen('receive')
-            }}
-          >
-            <PackageCheck className='mr-2 h-4 w-4 text-emerald-600 dark:text-emerald-400' />
-            {t('purchaseOrders.actions.receiveItems', 'Receive Items')}
-          </DropdownMenuItem>
-        )}
-
         {isReceived && (
           <Can permission='purchasing.manage'>
             <DropdownMenuItem
@@ -163,15 +148,29 @@ export function PORowActions({ row }: PORowActionsProps) {
         )}
 
         {/* 5. Cancel Order */}
-        {canCancel && (
+        {showCancel && (
           <Can permission='purchasing.manage'>
             <DropdownMenuSeparator />
             <DropdownMenuItem
+              disabled={isReceivedOrPartial}
               onClick={() => {
+                if (isReceivedOrPartial) return
                 setCurrentRow(row)
                 setOpen('cancel')
               }}
-              className='text-amber-600 focus:text-amber-600'
+              className={
+                isReceivedOrPartial
+                  ? 'opacity-50 cursor-not-allowed text-muted-foreground select-none'
+                  : 'text-amber-600 focus:text-amber-600'
+              }
+              title={
+                isReceivedOrPartial
+                  ? t(
+                      'purchaseOrders.actions.cannotCancelReceived',
+                      'Cannot cancel orders that are received or partially received'
+                    )
+                  : undefined
+              }
             >
               <Ban className='mr-2 h-4 w-4' />
               {t('purchaseOrders.actions.cancelOrder', 'Cancel Order')}
@@ -182,7 +181,7 @@ export function PORowActions({ row }: PORowActionsProps) {
         {/* 6. Delete Order */}
         {canDelete && (
           <Can permission='purchasing.manage'>
-            {!canCancel && <DropdownMenuSeparator />}
+            {!showCancel && <DropdownMenuSeparator />}
             <DropdownMenuItem
               onClick={() => {
                 setCurrentRow(row)

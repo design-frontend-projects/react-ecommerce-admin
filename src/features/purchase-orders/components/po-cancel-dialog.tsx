@@ -25,8 +25,14 @@ export function POCancelDialog() {
 
   const poLabel = `PO-${String(currentRow.po_number ?? currentRow.po_id).padStart(4, '0')}`
   const poId = currentRow.id || currentRow.po_id
+  const currentStatus = String(currentRow.lifecycle_status ?? currentRow.status).toLowerCase()
+  const isReceivedOrPartial =
+    currentStatus === 'received' ||
+    currentStatus === 'partial' ||
+    currentStatus === 'partially_received'
 
   const handleCancel = async () => {
+    if (isReceivedOrPartial) return
     try {
       await updateStatusMutation.mutateAsync({
         id: poId,
@@ -56,13 +62,22 @@ export function POCancelDialog() {
             </AlertDialogTitle>
           </div>
           <AlertDialogDescription className='space-y-2 pt-2'>
-            <p>
-              {t(
-                'purchaseOrders.cancelDialog.confirmMessage',
-                'Are you sure you want to cancel {{poLabel}}? This order will be marked as cancelled and shipment processing will halt.',
-                { poLabel }
-              )}
-            </p>
+            {isReceivedOrPartial ? (
+              <p className='text-destructive font-medium'>
+                {t(
+                  'purchaseOrders.cancelDialog.cannotCancelReceived',
+                  'This order cannot be cancelled because it is already received or partially received.'
+                )}
+              </p>
+            ) : (
+              <p>
+                {t(
+                  'purchaseOrders.cancelDialog.confirmMessage',
+                  'Are you sure you want to cancel {{poLabel}}? This order will be marked as cancelled and shipment processing will halt.',
+                  { poLabel }
+                )}
+              </p>
+            )}
             {currentRow.suppliers?.name && (
               <p className='text-xs text-muted-foreground'>
                 {t('purchaseOrders.cancelDialog.supplierLabel', 'Supplier:')}{' '}
@@ -77,7 +92,7 @@ export function POCancelDialog() {
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleCancel}
-            disabled={updateStatusMutation.isPending}
+            disabled={updateStatusMutation.isPending || isReceivedOrPartial}
             className='bg-amber-600 text-white hover:bg-amber-700 dark:bg-amber-600 dark:hover:bg-amber-700'
           >
             {updateStatusMutation.isPending

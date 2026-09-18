@@ -20,7 +20,6 @@ import {
   Table as TableIcon,
   X,
   Eye,
-  PackageCheck,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
@@ -325,8 +324,6 @@ export function POTable({
               const total = Number(po.grand_total ?? po.total_amount ?? 0)
               const currency = po.currency || po.currencies?.code || 'USD'
               const symbol = po.currencies?.symbol || '$'
-              const st = String(po.lifecycle_status ?? po.status).toLowerCase()
-              const canReceive = ['pending', 'approved', 'sent', 'partial', 'partially_received'].includes(st)
 
               return (
                 <Card
@@ -420,20 +417,6 @@ export function POTable({
                       </div>
 
                       <div className='flex items-center gap-1.5'>
-                        {canReceive && (
-                          <Button
-                            variant='outline'
-                            size='sm'
-                            onClick={() => {
-                              setCurrentRow(po)
-                              setOpen('receive')
-                            }}
-                            className='h-8 text-xs text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
-                          >
-                            <PackageCheck className='h-3.5 w-3.5 mr-1' />
-                            {t('purchaseOrders.actions.receive', 'Receive')}
-                          </Button>
-                        )}
                         <Button
                           variant='secondary'
                           size='sm'

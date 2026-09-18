@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, Trash2, ShoppingCart, CheckCircle2, Package } from 'lucide-react'
+import { Plus, Trash2, ShoppingCart, CheckCircle2, Package, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import {
   useWarehouseOptions,
@@ -95,6 +95,11 @@ export function ReceiptCreateDialog({
       ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
       : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
 
+  const totalReceived = items.reduce((acc, it) => acc + (Number(it.qtyReceived) || 0), 0)
+  const totalAccepted = items.reduce((acc, it) => acc + (Number(it.acceptedQty) || 0), 0)
+  const totalRejected = items.reduce((acc, it) => acc + (Number(it.rejectedQty) || 0), 0)
+  const isAllRejected = totalReceived > 0 && totalAccepted === 0 && totalRejected > 0
+
   const reset = () => {
     setSelectedPoId(NO_PO)
     setWarehouseId('')
@@ -160,6 +165,13 @@ export function ReceiptCreateDialog({
           const num = Number(patch.qtyReceived) || 0
           const rej = Number(updated.rejectedQty) || 0
           updated.acceptedQty = String(Math.max(0, num - rej))
+        }
+
+        // If acceptedQty changes, adjust rejectedQty accordingly
+        if (patch.acceptedQty !== undefined) {
+          const num = Number(updated.qtyReceived) || 0
+          const acc = Number(patch.acceptedQty) || 0
+          updated.rejectedQty = String(Math.max(0, num - acc))
         }
 
         // If rejectedQty changes, adjust acceptedQty accordingly
@@ -430,6 +442,17 @@ export function ReceiptCreateDialog({
 
               {/* Items List */}
               <div className='space-y-3'>
+                {isAllRejected && (
+                  <div className='flex items-center gap-2 rounded-md bg-amber-500/10 p-2.5 text-xs text-amber-600 dark:text-amber-400 border border-amber-500/20'>
+                    <AlertCircle className='h-4 w-4 shrink-0' />
+                    <span>
+                      {t(
+                        'goodsReceipts.allRejectedNotice',
+                        'All items are marked as rejected. This document will be posted as an audit record of rejected delivery, and 0 units will be added to warehouse inventory.'
+                      )}
+                    </span>
+                  </div>
+                )}
                 {items.map((item, index) => {
                   const isPoItem = Boolean(item.purchaseOrderItemId)
                   return (
