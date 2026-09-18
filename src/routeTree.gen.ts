@@ -199,6 +199,7 @@ import { Route as ApiInventoryReorderSuggestionsRunRouteImport } from './routes/
 import { Route as ApiInventoryReorderSuggestionsConvertRouteImport } from './routes/api/inventory/reorder-suggestions/convert'
 import { Route as ApiInventoryPurchaseRequisitionsActionsRouteImport } from './routes/api/inventory/purchase-requisitions/actions'
 import { Route as ApiInventoryPurchaseOrdersStatusRouteImport } from './routes/api/inventory/purchase-orders/status'
+import { Route as ApiInventoryGoodsReceiptsReceivablePosRouteImport } from './routes/api/inventory/goods-receipts/receivable-pos'
 import { Route as ApiInventoryGoodsReceiptsPostRouteImport } from './routes/api/inventory/goods-receipts/post'
 import { Route as ApiInventoryCustomerReturnsReceiveRouteImport } from './routes/api/inventory/customer-returns/receive'
 import { Route as ApiInventoryBatchesExpireRouteImport } from './routes/api/inventory/batches/expire'
@@ -1288,6 +1289,12 @@ const ApiInventoryPurchaseOrdersStatusRoute =
     path: '/api/inventory/purchase-orders/status',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiInventoryGoodsReceiptsReceivablePosRoute =
+  ApiInventoryGoodsReceiptsReceivablePosRouteImport.update({
+    id: '/receivable-pos',
+    path: '/receivable-pos',
+    getParentRoute: () => ApiInventoryGoodsReceiptsRoute,
+  } as any)
 const ApiInventoryGoodsReceiptsPostRoute =
   ApiInventoryGoodsReceiptsPostRouteImport.update({
     id: '/post',
@@ -1498,6 +1505,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
   '/api/inventory/customer-returns/receive': typeof ApiInventoryCustomerReturnsReceiveRoute
   '/api/inventory/goods-receipts/post': typeof ApiInventoryGoodsReceiptsPostRoute
+  '/api/inventory/goods-receipts/receivable-pos': typeof ApiInventoryGoodsReceiptsReceivablePosRoute
   '/api/inventory/purchase-orders/status': typeof ApiInventoryPurchaseOrdersStatusRoute
   '/api/inventory/purchase-requisitions/actions': typeof ApiInventoryPurchaseRequisitionsActionsRoute
   '/api/inventory/reorder-suggestions/convert': typeof ApiInventoryReorderSuggestionsConvertRoute
@@ -1694,6 +1702,7 @@ export interface FileRoutesByTo {
   '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
   '/api/inventory/customer-returns/receive': typeof ApiInventoryCustomerReturnsReceiveRoute
   '/api/inventory/goods-receipts/post': typeof ApiInventoryGoodsReceiptsPostRoute
+  '/api/inventory/goods-receipts/receivable-pos': typeof ApiInventoryGoodsReceiptsReceivablePosRoute
   '/api/inventory/purchase-orders/status': typeof ApiInventoryPurchaseOrdersStatusRoute
   '/api/inventory/purchase-requisitions/actions': typeof ApiInventoryPurchaseRequisitionsActionsRoute
   '/api/inventory/reorder-suggestions/convert': typeof ApiInventoryReorderSuggestionsConvertRoute
@@ -1895,6 +1904,7 @@ export interface FileRoutesById {
   '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
   '/api/inventory/customer-returns/receive': typeof ApiInventoryCustomerReturnsReceiveRoute
   '/api/inventory/goods-receipts/post': typeof ApiInventoryGoodsReceiptsPostRoute
+  '/api/inventory/goods-receipts/receivable-pos': typeof ApiInventoryGoodsReceiptsReceivablePosRoute
   '/api/inventory/purchase-orders/status': typeof ApiInventoryPurchaseOrdersStatusRoute
   '/api/inventory/purchase-requisitions/actions': typeof ApiInventoryPurchaseRequisitionsActionsRoute
   '/api/inventory/reorder-suggestions/convert': typeof ApiInventoryReorderSuggestionsConvertRoute
@@ -2095,6 +2105,7 @@ export interface FileRouteTypes {
     | '/api/inventory/batches/expire'
     | '/api/inventory/customer-returns/receive'
     | '/api/inventory/goods-receipts/post'
+    | '/api/inventory/goods-receipts/receivable-pos'
     | '/api/inventory/purchase-orders/status'
     | '/api/inventory/purchase-requisitions/actions'
     | '/api/inventory/reorder-suggestions/convert'
@@ -2291,6 +2302,7 @@ export interface FileRouteTypes {
     | '/api/inventory/batches/expire'
     | '/api/inventory/customer-returns/receive'
     | '/api/inventory/goods-receipts/post'
+    | '/api/inventory/goods-receipts/receivable-pos'
     | '/api/inventory/purchase-orders/status'
     | '/api/inventory/purchase-requisitions/actions'
     | '/api/inventory/reorder-suggestions/convert'
@@ -2491,6 +2503,7 @@ export interface FileRouteTypes {
     | '/api/inventory/batches/expire'
     | '/api/inventory/customer-returns/receive'
     | '/api/inventory/goods-receipts/post'
+    | '/api/inventory/goods-receipts/receivable-pos'
     | '/api/inventory/purchase-orders/status'
     | '/api/inventory/purchase-requisitions/actions'
     | '/api/inventory/reorder-suggestions/convert'
@@ -3938,6 +3951,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInventoryPurchaseOrdersStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/inventory/goods-receipts/receivable-pos': {
+      id: '/api/inventory/goods-receipts/receivable-pos'
+      path: '/receivable-pos'
+      fullPath: '/api/inventory/goods-receipts/receivable-pos'
+      preLoaderRoute: typeof ApiInventoryGoodsReceiptsReceivablePosRouteImport
+      parentRoute: typeof ApiInventoryGoodsReceiptsRoute
+    }
     '/api/inventory/goods-receipts/post': {
       id: '/api/inventory/goods-receipts/post'
       path: '/post'
@@ -4318,11 +4338,14 @@ const ApiInventoryCustomerReturnsRouteWithChildren =
 
 interface ApiInventoryGoodsReceiptsRouteChildren {
   ApiInventoryGoodsReceiptsPostRoute: typeof ApiInventoryGoodsReceiptsPostRoute
+  ApiInventoryGoodsReceiptsReceivablePosRoute: typeof ApiInventoryGoodsReceiptsReceivablePosRoute
 }
 
 const ApiInventoryGoodsReceiptsRouteChildren: ApiInventoryGoodsReceiptsRouteChildren =
   {
     ApiInventoryGoodsReceiptsPostRoute: ApiInventoryGoodsReceiptsPostRoute,
+    ApiInventoryGoodsReceiptsReceivablePosRoute:
+      ApiInventoryGoodsReceiptsReceivablePosRoute,
   }
 
 const ApiInventoryGoodsReceiptsRouteWithChildren =

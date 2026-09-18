@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   type SortingState,
   type VisibilityState,
@@ -22,12 +22,14 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import type { ReceiptListItem } from '../data/schema'
-import { columns } from './columns'
+import { getColumns } from './columns'
 
 export function ReceiptsTable({ data }: { data: ReceiptListItem[] }) {
   const { t } = useTranslation()
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const columns = useMemo(() => getColumns(t), [t])
 
   const table = useReactTable({
     data,
@@ -47,7 +49,7 @@ export function ReceiptsTable({ data }: { data: ReceiptListItem[] }) {
     <div className='flex flex-1 flex-col gap-4'>
       <DataTableToolbar
         table={table}
-        searchPlaceholder={t('goodsReceipts.table.filterPlaceholder', { defaultValue: 'Filter...' })}
+        searchPlaceholder={t('goodsReceipts.table.filterPlaceholder', { defaultValue: 'Filter goods receipts...' })}
         searchKey='receipt_number'
       />
       <div className='overflow-hidden rounded-md border'>
@@ -86,9 +88,9 @@ export function ReceiptsTable({ data }: { data: ReceiptListItem[] }) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className='h-24 text-center'
+                  className='h-24 text-center text-muted-foreground'
                 >
-                  No goods receipts yet.
+                  {t('goodsReceipts.table.noResults', { defaultValue: 'No goods receipts found.' })}
                 </TableCell>
               </TableRow>
             )}

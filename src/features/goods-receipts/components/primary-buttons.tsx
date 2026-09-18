@@ -15,8 +15,8 @@ export function ReceiptsPrimaryButtons() {
           setOpen('create')
         }}
       >
-        <Plus className='me-1 h-4 w-4' />
-        New receipt
+        <Plus className='me-1.5 h-4 w-4' />
+        {t('goodsReceipts.createReceipt', { defaultValue: 'New receipt' })}
       </Button>
     </Can>
   )

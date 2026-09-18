@@ -30,10 +30,14 @@ export function GoodsReceipts() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('goodsReceipts.title')}</h2>
-            <p className='text-muted-foreground'>
-              Inventory only increases when a receipt is posted through the
-              movement engine.
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
+              {t('goodsReceipts.title', { defaultValue: 'Goods Receipts' })}
+            </h2>
+            <p className='text-muted-foreground text-sm'>
+              {t('goodsReceipts.subtitle', {
+                defaultValue:
+                  'Inventory only increases when a receipt is posted through the movement engine.',
+              })}
             </p>
           </div>
           <ReceiptsPrimaryButtons />
@@ -45,7 +49,9 @@ export function GoodsReceipts() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading goods receipts.</p>
+            <p className='font-medium'>
+              {t('goodsReceipts.errorLoading', { defaultValue: 'Error loading goods receipts.' })}
+            </p>
           </div>
         ) : (
           <ReceiptsTable data={receipts ?? []} />

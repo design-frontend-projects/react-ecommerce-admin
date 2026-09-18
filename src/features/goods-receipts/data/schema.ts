@@ -24,6 +24,7 @@ export const receiptItemInputSchema = z.object({
   serialId: z.string().uuid().optional().nullable(),
   expiryDate: z.string().optional().nullable(),
   serialNumbers: z.array(z.string()).optional(),
+  purchaseOrderItemId: z.string().uuid().optional().nullable(),
 })
 
 export const createReceiptInputSchema = z.object({
@@ -33,6 +34,7 @@ export const createReceiptInputSchema = z.object({
   supplierId: z.string().uuid().optional().nullable(),
   notes: z.string().optional().nullable(),
   items: z.array(receiptItemInputSchema).min(1, 'Add at least one item.'),
+  autoPost: z.boolean().optional(),
 })
 
 export type ReceiptItemInput = z.infer<typeof receiptItemInputSchema>
@@ -40,7 +42,12 @@ export type CreateReceiptInput = z.infer<typeof createReceiptInputSchema>
 
 // ── Responses ──
 const entityRefSchema = z
-  .object({ id: z.string().optional(), store_id: z.string().optional(), name: z.string().nullable(), code: z.string().optional().nullable() })
+  .object({
+    id: z.string().optional(),
+    store_id: z.string().optional(),
+    name: z.string().nullable(),
+    code: z.string().optional().nullable(),
+  })
   .nullable()
 
 export const receiptListItemSchema = z.object({
@@ -56,6 +63,14 @@ export const receiptListItemSchema = z.object({
   warehouses: entityRefSchema.optional(),
   stores: entityRefSchema.optional(),
   suppliers: entityRefSchema.optional(),
+  purchase_orders: z
+    .object({
+      id: z.string().optional(),
+      po_number: z.number().nullable().optional(),
+      lifecycle_status: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
   _count: z.object({ goods_receipt_items: z.number() }).optional(),
 })
 
@@ -73,6 +88,7 @@ export const receiptItemRowSchema = z.object({
   serial_id: z.string().nullable().optional(),
   expiry_date: z.string().nullable().optional(),
   serial_numbers: z.unknown().nullable().optional(),
+  purchase_order_item_id: z.string().nullable().optional(),
   product_variants: z
     .object({
       id: z.string(),
@@ -83,7 +99,11 @@ export const receiptItemRowSchema = z.object({
     .nullable()
     .optional(),
   warehouse_locations: z
-    .object({ id: z.string(), code: z.string().optional(), path: z.string().nullable().optional() })
+    .object({
+      id: z.string(),
+      code: z.string().optional(),
+      path: z.string().nullable().optional(),
+    })
     .nullable()
     .optional(),
 })
@@ -101,3 +121,61 @@ export const receiptListResponseSchema = successEnvelope(
 )
 export const receiptDetailResponseSchema = successEnvelope(receiptDetailSchema)
 
+// ── Receivable Purchase Orders ──
+export const receivablePoItemSchema = z.object({
+  id: z.string().uuid(),
+  po_id: z.string().uuid(),
+  line_no: z.number(),
+  quantity_ordered: z.number(),
+  unit_cost: z.coerce.number(),
+  received_quantity: z.coerce.number().nullable().optional(),
+  outstanding_qty: z.number(),
+  product_id: z.string().uuid().nullable().optional(),
+  product_variant_id: z.string().uuid().nullable().optional(),
+  products: z
+    .object({
+      name: z.string(),
+      sku: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  product_variants: z
+    .object({
+      id: z.string(),
+      sku: z.string(),
+    })
+    .nullable()
+    .optional(),
+})
+
+export const receivablePurchaseOrderSchema = z.object({
+  id: z.string().uuid(),
+  po_number: z.number().nullable().optional(),
+  order_date: z.string().nullable().optional(),
+  supplier_id: z.string().uuid().nullable().optional(),
+  warehouse_id: z.string().uuid().nullable().optional(),
+  lifecycle_status: z.string().nullable().optional(),
+  suppliers: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+    })
+    .nullable()
+    .optional(),
+  warehouses: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      code: z.string(),
+    })
+    .nullable()
+    .optional(),
+  purchase_order_items: z.array(receivablePoItemSchema),
+})
+
+export type ReceivablePurchaseOrder = z.infer<typeof receivablePurchaseOrderSchema>
+export type ReceivablePoItem = z.infer<typeof receivablePoItemSchema>
+
+export const receivablePoListResponseSchema = successEnvelope(
+  z.array(receivablePurchaseOrderSchema)
+)

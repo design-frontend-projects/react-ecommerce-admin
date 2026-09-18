@@ -3,9 +3,11 @@ import {
   createReceiptInputSchema,
   receiptDetailResponseSchema,
   receiptListResponseSchema,
+  receivablePoListResponseSchema,
   type CreateReceiptInput,
   type ReceiptDetail,
   type ReceiptListItem,
+  type ReceivablePurchaseOrder,
 } from './schema'
 
 const BASE = '/api/inventory/goods-receipts'
@@ -26,6 +28,13 @@ export async function fetchReceipt(
     `${BASE}?id=${encodeURIComponent(id)}`
   )
   return receiptDetailResponseSchema.parse(payload).data
+}
+
+export async function fetchReceivablePurchaseOrders(
+  getToken: TokenGetter
+): Promise<ReceivablePurchaseOrder[]> {
+  const payload = await authorizedRequest(getToken, `${BASE}/receivable-pos`)
+  return receivablePoListResponseSchema.parse(payload).data
 }
 
 export async function createReceipt(
