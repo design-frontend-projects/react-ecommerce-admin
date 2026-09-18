@@ -1,7 +1,0 @@
-- generic [ref=f11e899]:
-  - heading "500" [level=1] [ref=f11e900]
-  - generic [ref=f11e901]: Oops! Something went wrong :')
-  - paragraph [ref=f11e902]: We apologize for the inconvenience. Please try again later.
-  - generic [ref=f11e903]:
-    - button "Go Back" [ref=f11e904] [cursor=pointer]
-    - button "Back to Home" [ref=f11e905] [cursor=pointer]

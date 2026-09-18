@@ -100,7 +100,7 @@ export const getColumns = (
             )}
             <span>{from.name}</span>
           </div>
-          <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+          <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0 rtl:rotate-180" />
           <div className="flex items-center gap-1.5 font-medium">
             {to.type && (
               <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-normal text-muted-foreground">
@@ -164,7 +164,11 @@ export const getColumns = (
   },
   {
     id: 'actions',
-    cell: ({ row }) => <TransferRowActions row={row.original} />,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <TransferRowActions row={row.original} />
+      </div>
+    ),
   },
 ]
 

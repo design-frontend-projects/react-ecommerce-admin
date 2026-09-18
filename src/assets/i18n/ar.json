@@ -5318,5 +5318,281 @@
       "updateSuccess": "تم تحديث قناة البيع بنجاح.",
       "deleteSuccess": "تم حذف قناة البيع بنجاح."
     }
+  },
+  "stockTransfers": {
+    "title": "مناقلات المخزون",
+    "description": "تحويل المخزون بين المستودعات والمتاجر والفروع مع تتبع مسارات وسير الموافقات.",
+    "errorLoading": "خطأ في تحميل المناقلات.",
+    "createTransfer": "مناقلة جديدة",
+    "entityTypes": {
+      "warehouse": "مستودع",
+      "store": "متجر",
+      "branch": "فرع"
+    },
+    "types": {
+      "warehouse": "مستودع ← مستودع",
+      "store": "متجر ← متجر",
+      "branch": "فرع ← فرع"
+    },
+    "conditions": {
+      "good": "سليم",
+      "damaged": "تالف",
+      "quarantine": "حجر صحي/عزل",
+      "expired": "منتهي الصلاحية",
+      "blocked": "محظور"
+    },
+    "status": {
+      "draft": "مسودة",
+      "approved": "معتمد",
+      "picked": "تم التجهيز",
+      "in_transit": "قيد النقل",
+      "received": "مستلم",
+      "completed": "مكتمل",
+      "cancelled": "ملغي"
+    },
+    "movementTypes": {
+      "transfer_out": "صرف مناقلة (خارج)",
+      "transfer_in": "توريد مناقلة (داخل)"
+    },
+    "columns": {
+      "referenceOrTransfer": "المرجع / رقم المناقلة",
+      "route": "مسار المناقلة (المصدر ← الهدف)",
+      "items": "الأصناف",
+      "item": "صنف واحد",
+      "items_other": "{{count}} أصناف",
+      "status": "الحالة",
+      "dateCreated": "تاريخ الإنشاء"
+    },
+    "table": {
+      "filterPlaceholder": "تصفية مناقلات المخزون...",
+      "noResults": "لا توجد مناقلات حتى الآن."
+    },
+    "form": {
+      "saving": "جاري الإنشاء...",
+      "save": "إنشاء المناقلة"
+    },
+    "createDialog": {
+      "errors": {
+        "validationFailed": "يرجى التحقق من أخطاء النموذج قبل الإرسال."
+      },
+      "routingType": "نوع مسار المناقلة",
+      "sourceWarehouse": "المستودع المصدر",
+      "selectSourceWarehouse": "اختر المستودع المصدر",
+      "destinationWarehouse": "المستودع الوجهة",
+      "selectDestinationWarehouse": "اختر المستودع الوجهة",
+      "sourceStore": "المتجر المصدر",
+      "selectSourceStore": "اختر المتجر المصدر",
+      "destinationStore": "المتجر الوجهة",
+      "selectDestinationStore": "اختر المتجر الوجهة",
+      "sourceBranch": "الفرع المصدر",
+      "selectSourceBranch": "اختر الفرع المصدر",
+      "destinationBranch": "الفرع الوجهة",
+      "selectDestinationBranch": "اختر الفرع الوجهة",
+      "referenceNo": "رقم المرجع / أمر الشراء (اختياري)",
+      "referencePlaceholder": "مثال: TR-2026-001",
+      "notes": "ملاحظات وتعليمات المناقلة",
+      "notesPlaceholder": "السبب، السائق، أو تعليمات المناولة...",
+      "itemsTitle": "أصناف المناقلة",
+      "advancedToggle": "حقول متقدمة (الحالة، المواقع، الدفعة، الرقم التسلسلي)",
+      "productVariant": "متغير الصنف",
+      "uom": "وحدة القياس:",
+      "qty": "الكمية",
+      "unitCost": "تكلفة الوحدة ($)",
+      "condition": "حالة المخزون",
+      "sourceLocation": "الموقع المصدر",
+      "targetLocation": "الموقع الهدف",
+      "default": "افتراضي",
+      "defaultLocation": "الموقع الافتراضي",
+      "batchNo": "رقم الدفعة (اختياري)",
+      "batchPlaceholder": "معرف الدفعة",
+      "serialNo": "الرقم التسلسلي (اختياري)",
+      "serialPlaceholder": "معرف الرقم التسلسلي",
+      "addItem": "إضافة صنف آخر",
+      "lines": "البنود:",
+      "totalUnits": "إجمالي الوحدات:",
+      "weight": "الوزن:",
+      "costValuation": "تقييم التكلفة:",
+      "retailValuation": "تقييم البيع:",
+      "markup": "هامش الربح:",
+      "selectProductVariant": "البحث واختيار الصنف برمز SKU أو الاسم أو الباركود...",
+      "searchPlaceholder": "ابحث عن SKU، الاسم، الباركود، العلامة التجارية، الفئة..."
+    },
+    "viewDialog": {
+      "transfer": "المناقلة:",
+      "from": "من:",
+      "to": "إلى:",
+      "transferLineItems": "بنود المناقلة ({{count}})",
+      "movementsLedgerAndAudit": "سجل الحركات والتدقيق",
+      "itemsTitle": "أصناف المناقلة",
+      "totalQty": "إجمالي الكمية:",
+      "received": "المستلم:",
+      "loading": "جاري تحميل أصناف المناقلة...",
+      "loadingLedger": "جاري تحميل سجل الحركات...",
+      "notes": "الملاحظات:",
+      "fullPage": "صفحة كاملة",
+      "close": "إغلاق",
+      "totalEstimatedValue": "إجمالي القيمة التقديرية:",
+      "uom": "وحدة القياس: {{uom}}",
+      "batch": "الدفعة: {{batch}}",
+      "serialNo": "الرقم التسلسلي: {{serial}}",
+      "columns": {
+        "productVariant": "المنتج / المتغير",
+        "condition": "الحالة",
+        "transferQty": "كمية المناقلة",
+        "received": "المستلم",
+        "unitCost": "تكلفة الوحدة",
+        "subtotal": "الإجمالي الفرعي"
+      }
+    },
+    "crossWarehouse": {
+      "checking": "جاري التحقق من التوفر بين المستودعات...",
+      "outOfStock": "نفد من المخزون",
+      "lowStock": "مخزون منخفض ({{count}})",
+      "availableAtOtherWarehouses": "متوفر في {{count}} مستودع(ات) أخرى",
+      "noStockInOtherWarehouses": "لا يوجد مخزون في مستودعات المستأجر الأخرى",
+      "outOfStockAtOrigin": "نفد من المخزون في {{warehouse}}",
+      "insufficientStock": "مخزون غير كافٍ في {{warehouse}} (المتوفر: {{available}}، المطلوب: {{requested}})",
+      "tenantBalanceCheck": "فحص رصيد المستأجر",
+      "availableInOthers": "المنتج متوفر في {{count}} مستودع(ات) أخرى لهذا الحساب:",
+      "availableCount": "{{count}} متوفر",
+      "onHandCount": "{{count}} متوفر فعلياً",
+      "switchOrigin": "تبديل المصدر",
+      "noStockAnywhere": "هذا الصنف غير متوفر حالياً في جميع مستودعات المستأجر."
+    },
+    "combobox": {
+      "ariaSelectProductVariant": "اختر متغير المنتج",
+      "filterAll": "الكل ({{count}})",
+      "inStock": "متوفر بالمخزون",
+      "outOfStock": "نفد من المخزون",
+      "loadingProducts": "جاري تحميل قائمة المنتجات...",
+      "noProductsMatching": "لا توجد منتجات تطابق \"{{query}}\"",
+      "noVariantsFound": "لم يتم العثور على متغيرات منتجات",
+      "tryAdjusting": "جرب تعديل مصطلحات البحث أو الفلاتر المحددة.",
+      "cost": "التكلفة:",
+      "list": "السعر:",
+      "inOriginCount": "{{count}} في المصدر",
+      "selectOrigin": "اختر المصدر",
+      "otherWarehousesAvailable": "متوفر بمستودعات أخرى",
+      "showingItems": "عرض {{displayed}} من إجمالي {{total}} صنف",
+      "originPrefix": "المصدر: {{warehouse}}"
+    },
+    "history": {
+      "ledger": "سجل حركات المخزون",
+      "reconciliation": "التسليم ومطابقة الفروقات",
+      "audit": "سجل تدقيق دورة الحياة",
+      "noLedgerEntries": "لا توجد قيود مسجلة تلقائياً في السجل حتى الآن.",
+      "immutableRecordsDesc": "يتم ترحيل سجلات الحركات تلقائياً عند شحن المناقلة (صرف) واستلامها (توريد).",
+      "status": "الحالة: {{status}}",
+      "timestamp": "الوقت والتاريخ",
+      "movementType": "نوع الحركة",
+      "skuOrItem": "SKU / الصنف",
+      "warehouse": "المستودع",
+      "delta": "الفرق",
+      "beforeAfter": "قبل ← بعد",
+      "unitCost": "تكلفة الوحدة",
+      "productOrSku": "المنتج / SKU",
+      "sentQty": "الكمية المرسلة",
+      "receivedQty": "الكمية المستلمة",
+      "variance": "الفرق",
+      "costVariance": "فرق التكلفة",
+      "netTransferVariance": "صافي فرق المناقلة: {{count}} وحدة",
+      "financialImpact": "الأثر المالي:",
+      "creation": "الإنشاء:",
+      "byUser": "بواسطة المستخدم: {{user}}",
+      "approval": "الاعتماد:",
+      "approvedBy": "معتمد من: {{user}}",
+      "shippedInTransit": "الشحن (قيد النقل):",
+      "dispatchedBy": "تم الإرسال بواسطة: {{user}}",
+      "receivedAtDestination": "الاستلام في الوجهة:",
+      "receivedBy": "تم الاستلام بواسطة: {{user}}",
+      "transferNotes": "ملاحظات المناقلة:"
+    },
+    "timeline": {
+      "draft": { "title": "مسودة", "description": "تم الإنشاء" },
+      "approved": { "title": "معتمد", "description": "معتمد للتجهيز" },
+      "picked": { "title": "تم التجهيز", "description": "تم تجهيز الأصناف" },
+      "in_transit": { "title": "قيد النقل", "description": "تم الشحن إلى الوجهة" },
+      "received": { "title": "مستلم", "description": "وصل وتم ترحيل المخزون" },
+      "completed": { "title": "مكتمل", "description": "تمت المناقلة بالكامل" }
+    },
+    "workflow": {
+      "cancel": "إلغاء المناقلة",
+      "approve": "اعتماد المناقلة",
+      "pick": "تحديد كتم التجهيز",
+      "ship": "شحن المناقلة",
+      "receive": "استلام وترحيل المناقلة",
+      "complete": "إكمال المناقلة",
+      "approveDialog": {
+        "title": "هل تريد اعتماد مناقلة المخزون؟",
+        "desc": "اعتماد المناقلة {{ref}} للتصريح بتجهيز وشحن المخزون.",
+        "confirmText": "اعتماد المناقلة"
+      },
+      "pickDialog": {
+        "title": "هل تم تجهيز المخزون؟",
+        "desc": "تأكيد تجهيز جميع بنود المناقلة {{ref}} من مواقع المستودع.",
+        "confirmText": "تأكيد التجهيز"
+      },
+      "shipDialog": {
+        "title": "هل تريد شحن مناقلة المخزون؟",
+        "desc": "إرسال المناقلة {{ref}}. سيتم تحديث الحالة إلى قيد النقل.",
+        "confirmText": "شحن المناقلة"
+      },
+      "receiveDialog": {
+        "title": "استلام وترحيل مناقلة المخزون؟",
+        "desc": "استلام مناقلة المخزون {{ref}} في الوجهة. سيؤدي هذا لتحديث أرصدة المخزون وتسجيل حركات النقل.",
+        "confirmText": "استلام وترحيل المخزون"
+      },
+      "completeDialog": {
+        "title": "إغلاق وإكمال المناقلة؟",
+        "desc": "إغلاق مناقلة المخزون {{ref}}. تم الانتهاء من جميع المطابقات وحركات المخزون.",
+        "confirmText": "إكمال المناقلة"
+      },
+      "cancelDialog": {
+        "title": "إلغاء مناقلة المخزون؟",
+        "desc": "هل أنت متأكد من رغبتك في إلغاء المناقلة {{ref}}؟ لن يتم نقل أي أصناف.",
+        "confirmText": "نعم، إلغاء المناقلة"
+      }
+    },
+    "analytics": {
+      "totalTransfers": "إجمالي المناقلات",
+      "linesCount": "({{count}} بنود)",
+      "completedCount": "{{count}} مكتمل",
+      "activeCount": "{{count}} نشط",
+      "inTransit": "شحنات قيد النقل",
+      "shipmentsOnMove": "{{count}} قيد النقل",
+      "activeInterWarehouse": "مناقلات نشطة بين المستودعات في مرحلة النقل اللوجستي",
+      "allArrived": "جميع الشحنات وصلت إلى وجهتها حالياً",
+      "actionRequired": "إجراءات معلقة",
+      "awaitingSteps": "بانتظار خطوات سير العمل",
+      "draftsCount": "{{count}} مسودات",
+      "approvedCount": "{{count}} معتمدة",
+      "pickedCount": "{{count}} مجهزة",
+      "fulfillmentRate": "معدل الإنجاز",
+      "receivedCount": "{{count}} مستلمة",
+      "cancelledRejectedCount": "{{count}} ملغية / مرفوضة",
+      "filterAll": "الكل ({{count}})",
+      "filterInTransit": "قيد النقل ({{count}})",
+      "filterPendingAction": "إجراءات معلقة ({{count}})",
+      "filterCompletedReceived": "مكتمل / مستلم ({{count}})",
+      "filterDrafts": "مسودات ({{count}})"
+    },
+    "toast": {
+      "created": "تم إنشاء المناقلة بنجاح.",
+      "createError": "تعذر إنشاء المناقلة",
+      "updated": "تم تحديث المناقلة بنجاح.",
+      "updateError": "تعذر تحديث المناقلة",
+      "approved": "تم اعتماد المناقلة.",
+      "approveError": "تعذر اعتماد المناقلة",
+      "picked": "تم تجهيز أصناف المناقلة.",
+      "pickError": "تعذر تجهيز المناقلة",
+      "shipped": "تم شحن المناقلة — أصبحت قيد النقل.",
+      "shipError": "تعذر شحن المناقلة",
+      "received": "تم استلام المناقلة وتحديث أرصدة المخزون.",
+      "receiveError": "تعذر استلام المناقلة",
+      "completed": "تم إكمال المناقلة بنجاح.",
+      "completeError": "تعذر إكمال المناقلة",
+      "cancelled": "تم إلغاء المناقلة.",
+      "cancelError": "تعذر إلغاء المناقلة"
+    }
   }
 }

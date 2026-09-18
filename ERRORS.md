@@ -1,5 +1,70 @@
 # Error Log
 
+## [2026-09-18 22:30] - ZodError: expected number, received NaN on /inventory-movements (qty_in and qty_out undefined)
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/features/inventory-movements/data/schema.ts:18`
+- **Agent**: @fullstack-specialist
+- **Root Cause**: The `inventory_movements` database table stores signed deltas in `quantity_delta` (positive for inward stock, negative for outward stock) rather than discrete `qty_in` and `qty_out` columns. When querying `inventory_movements`, the backend returned raw rows where `qty_in` and `qty_out` were `undefined`. In `src/features/inventory-movements/data/schema.ts`, `movementRowSchema` declared `qty_in: z.coerce.number()` and `qty_out: z.coerce.number()`. Because `Number(undefined)` evaluates to `NaN`, Zod threw `Invalid input: expected number, received NaN` for every record in the ledger.
+- **Error Message**:
+  ```json
+  {
+    "failureCount": 0,
+    "error": {
+      "name": "ZodError",
+      "message": "[{\"expected\": \"number\", \"code\": \"invalid_type\", \"received\": \"NaN\", \"path\": [\"data\", 0, \"qty_in\"], \"message\": \"Invalid input: expected number, received NaN\"}, {\"expected\": \"number\", \"code\": \"invalid_type\", \"received\": \"NaN\", \"path\": [\"data\", 0, \"qty_out\"], \"message\": \"Invalid input: expected number, received NaN\"}]"
+    }
+  }
+  ```
+- **Fix Applied**:
+  1. Updated `src/server/fns/inventory-movements.ts`:
+     - Computed `qty_in` and `qty_out` from `quantity_delta` (`qty_in = delta > 0 ? delta : 0`, `qty_out = delta < 0 ? Math.abs(delta) : 0`).
+     - Serialized Decimal fields (`quantity_delta`, `unit_cost`, `total_cost`, `qty_before`, `qty_after`) to numbers.
+     - Converted `movement_no` `BigInt` to string to avoid JSON serialization failures.
+     - Serialized `movement_date`, `occurred_at`, `created_at` dates to ISO strings.
+     - Fetched `warehouse_locations` and enriched variant information (`barcode`, `name`).
+     - Handled location filtering where `warehouseId === storeId` via an `OR` clause.
+  2. Updated `src/features/inventory-movements/data/schema.ts`:
+     - Added resilient `safeNumber` and `safeNullableNumber` preprocessors that convert undefined/null/NaN to default numbers instead of throwing.
+     - Added schema transform to automatically derive `qty_in` and `qty_out` from `quantity_delta` if not already provided.
+  3. Updated `src/features/inventory-movements/index.tsx`:
+     - Displayed both warehouse and store options in location filter and dispatched the appropriate ID parameter.
+  4. Updated `src/server/fns/serials.ts` and `src/features/serials/data/schema.ts` to similarly prevent `NaN` ZodErrors on serial movement trails.
+  5. Added unit and server integration tests in `src/__tests__/inventory-movements-schema.test.ts` and `src/__tests__/inventory-movements-server.test.ts` (6/6 passing).
+- **Prevention**: In Zod schemas parsing API payloads, avoid `z.coerce.number()` on fields that might be `undefined` or `null` from the database. Use `z.preprocess()` with fallback defaults or schema transforms, and ensure server functions explicitly compute and serialize domain-specific fields from underlying DB columns.
+- **Status**: Fixed
+
+---
+
+## [2026-09-17 18:45] - Missing PostgreSQL RPC public.confirm_sales_order(p_order_id) in Schema Cache
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/server/fns/sales-orders.ts:622`
+- **Agent**: @backend-specialist
+- **Root Cause**: `confirmOrder` invoked `supabaseAdmin.rpc('confirm_sales_order', { p_order_id })`, but `confirm_sales_order` and accompanying sales order lifecycle RPCs were not deployed to PostgreSQL because legacy migration `20260713130000_sales_order_rpcs` contained references to a non-existent `post_inventory_movement` function and obsolete column names (`auth_user_id`).
+- **Error Message**:
+  ```json
+  {
+    "success": false,
+    "message": "Could not find the function public.confirm_sales_order(p_order_id) in the schema cache",
+    "error": {
+      "message": "Could not find the function public.confirm_sales_order(p_order_id) in the schema cache"
+    }
+  }
+  ```
+- **Fix Applied**:
+  1. Created migration `prisma/migrations/20260917190000_sales_order_lifecycle_rpcs/migration.sql` with modern multi-tenant PL/pgSQL implementations of `confirm_sales_order`, `set_sales_order_status`, `cancel_sales_order`, `fulfill_sales_order`, and `invoice_sales_order`.
+  2. Implemented atomic stock reservation logic in `confirm_sales_order`: locks sales order, resolves effective warehouse, checks `allow_negative_stock`, updates `stock_balances` (`qty_reserved`, `qty_available`), creates `stock_reservations` records, records audit entries in `inventory_movements`, and transitions order to `'confirmed'`.
+  3. Applied migration to Supabase PostgreSQL database, granted permissions to authenticated, service_role, and anon, and triggered PostgREST schema cache reload (`NOTIFY pgrst, 'reload schema'`).
+  4. Enhanced `rpcError` in `src/server/utils/api-error.ts` to surface detailed error messages and map `ORDER_NOT_FOUND` and `ORDER_INVALID_TRANSITION`.
+  5. Added comprehensive test coverage in `src/__tests__/sales-order-confirm.test.ts` (5/5 tests passing).
+- **Prevention**: Whenever defining server functions that call Supabase RPCs, ensure corresponding database functions are deployed, granted, and covered by unit/integration tests that mock or verify schema contracts.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-12 03:45] - React Hook Order Violation in PriceListViewDialog (Early Return Before useMemo)
 
 - **Type**: Runtime

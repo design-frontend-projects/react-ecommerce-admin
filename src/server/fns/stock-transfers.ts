@@ -1,10 +1,13 @@
 'use server'
 
-import type {
-  transfer_status_enum,
-  stock_condition_enum,
+import {
+  type transfer_status_enum,
+  type stock_condition_enum,
+  type movement_type_enum,
   Prisma,
 } from '@/generated/prisma/client'
+
+const Decimal = Prisma.Decimal
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
@@ -72,12 +75,19 @@ export function serializeTransfer<
   T extends {
     transfer_no?: bigint | number | string | null
     stock_transfer_items?: Array<Record<string, unknown>>
+    inventory_movements?: Array<Record<string, unknown>>
+    total_weight?: unknown
+    total_price_valuation?: unknown
+    total_cost_valuation?: unknown
   },
 >(transfer: T) {
   return {
     ...transfer,
     transfer_no:
       transfer.transfer_no != null ? transfer.transfer_no.toString() : null,
+    total_weight: toNumeric(transfer.total_weight, 0),
+    total_price_valuation: toNumeric(transfer.total_price_valuation, 0),
+    total_cost_valuation: toNumeric(transfer.total_cost_valuation, 0),
     ...(transfer.stock_transfer_items
       ? {
           stock_transfer_items: transfer.stock_transfer_items.map((it) => ({
@@ -85,6 +95,21 @@ export function serializeTransfer<
             qty: toNumeric(it.qty, 0),
             received_qty: toNumeric(it.received_qty, 0),
             unit_cost: it.unit_cost == null ? null : toNumeric(it.unit_cost, 0),
+            weight: it.weight == null ? 0 : toNumeric(it.weight, 0),
+            list_price: it.list_price == null ? null : toNumeric(it.list_price, 0),
+          })),
+        }
+      : {}),
+    ...(transfer.inventory_movements
+      ? {
+          inventory_movements: transfer.inventory_movements.map((m) => ({
+            ...m,
+            movement_no: m.movement_no != null ? m.movement_no.toString() : null,
+            quantity_delta: toNumeric(m.quantity_delta, 0),
+            unit_cost: m.unit_cost == null ? null : toNumeric(m.unit_cost, 0),
+            total_cost: m.total_cost == null ? null : toNumeric(m.total_cost, 0),
+            qty_before: m.qty_before == null ? null : toNumeric(m.qty_before, 0),
+            qty_after: m.qty_after == null ? null : toNumeric(m.qty_after, 0),
           })),
         }
       : {}),
@@ -221,7 +246,7 @@ export async function getTransfer(authUserId: string, id: string) {
     Boolean
   ) as string[]
 
-  const [variants, locations, stores, branches] = await Promise.all([
+  const [variants, locations, stores, branches, priceListItems, movements] = await Promise.all([
     variantIds.length > 0
       ? prisma.product_variants.findMany({
           where: { id: { in: variantIds } },
@@ -229,8 +254,19 @@ export async function getTransfer(authUserId: string, id: string) {
             id: true,
             sku: true,
             barcode: true,
+            name: true,
+            weight: true,
             products: {
-              select: { id: true, name: true },
+              select: {
+                id: true,
+                name: true,
+                sku: true,
+                barcode: true,
+                weight: true,
+                brands: { select: { name: true } },
+                categories: { select: { name: true } },
+                base_uom: { select: { name: true, code: true } },
+              },
             },
           },
         })
@@ -253,6 +289,38 @@ export async function getTransfer(authUserId: string, id: string) {
           select: { id: true, name: true },
         })
       : [],
+    variantIds.length > 0
+      ? prisma.price_list_items.findMany({
+          where: {
+            product_variant_id: { in: variantIds },
+            tenant_id: tenantId,
+            price_list: {
+              is_active: true,
+            },
+          },
+          include: {
+            price_list: { select: { id: true, name: true, is_default: true } },
+          },
+          orderBy: [
+            { price_list: { is_default: 'desc' } },
+            { created_at: 'desc' },
+          ],
+        })
+      : [],
+    prisma.inventory_movements.findMany({
+      where: {
+        tenant_id: tenantId,
+        OR: [
+          { reference_id: id },
+          { reference_type: 'stock_transfer', reference_id: id },
+          { remarks: { contains: id } },
+          ...(transfer.reference_no
+            ? [{ remarks: { contains: transfer.reference_no } }]
+            : []),
+        ],
+      },
+      orderBy: { created_at: 'desc' },
+    }),
   ])
 
   const variantMap = new Map(variants.map((v) => [v.id, v]))
@@ -260,16 +328,86 @@ export async function getTransfer(authUserId: string, id: string) {
   const storeMap = new Map(stores.map((s) => [s.store_id, s]))
   const branchMap = new Map(branches.map((b) => [b.id, b]))
 
-  const enrichedItems = items.map((it) => ({
-    ...it,
-    product_variants: variantMap.get(it.product_variant_id) || null,
-    source_location: it.source_location_id
-      ? locationMap.get(it.source_location_id) || null
-      : null,
-    destination_location: it.destination_location_id
-      ? locationMap.get(it.destination_location_id) || null
-      : null,
-  }))
+  // Build price item lookup
+  const priceItemMap = new Map<string, (typeof priceListItems)[0]>()
+  for (const pi of priceListItems) {
+    if (!priceItemMap.has(pi.product_variant_id)) {
+      priceItemMap.set(pi.product_variant_id, pi)
+    }
+  }
+
+  let totalWeight = 0
+  let totalCostValuation = 0
+  let totalPriceValuation = 0
+
+  const enrichedItems = items.map((it) => {
+    const variant = variantMap.get(it.product_variant_id)
+    const priceItem = priceItemMap.get(it.product_variant_id)
+
+    const qty = toNumeric(it.qty, 0)
+    const unitCost = it.unit_cost != null ? toNumeric(it.unit_cost, 0) : null
+    const weight = toNumeric(variant?.weight ?? variant?.products?.weight ?? 0, 0)
+    const listPrice = priceItem?.price != null ? toNumeric(priceItem.price, 0) : null
+    const priceListName = priceItem?.price_list?.name ?? null
+    const brand = variant?.products?.brands?.name ?? null
+    const category = variant?.products?.categories?.name ?? null
+    const uom = variant?.products?.base_uom?.name ?? variant?.products?.base_uom?.code ?? null
+
+    totalWeight += weight * qty
+    totalCostValuation += (unitCost ?? 0) * qty
+    if (listPrice != null) {
+      totalPriceValuation += listPrice * qty
+    }
+
+    return {
+      ...it,
+      brand,
+      category,
+      uom,
+      weight,
+      list_price: listPrice,
+      price_list_name: priceListName,
+      product_variants: variant || null,
+      source_location: it.source_location_id
+        ? locationMap.get(it.source_location_id) || null
+        : null,
+      destination_location: it.destination_location_id
+        ? locationMap.get(it.destination_location_id) || null
+        : null,
+    }
+  })
+
+  // Enrich inventory movements with warehouse & variant names
+  const movementWarehouseIds = Array.from(
+    new Set(movements.map((m) => m.warehouse_id).filter(Boolean) as string[])
+  )
+  const movementWarehouses =
+    movementWarehouseIds.length > 0
+      ? await prisma.warehouses.findMany({
+          where: { id: { in: movementWarehouseIds } },
+          select: { id: true, name: true, code: true },
+        })
+      : []
+  const movementWarehouseMap = new Map(movementWarehouses.map((w) => [w.id, w]))
+
+  const enrichedMovements = movements.map((m) => {
+    const variant = m.product_variant_id ? variantMap.get(m.product_variant_id) : null
+    const warehouse = m.warehouse_id ? movementWarehouseMap.get(m.warehouse_id) : null
+
+    return {
+      ...m,
+      product_variants: variant
+        ? {
+            id: variant.id,
+            sku: variant.sku,
+            barcode: variant.barcode,
+            name: variant.name,
+            products: variant.products ? { name: variant.products.name } : null,
+          }
+        : null,
+      warehouses: warehouse ?? null,
+    }
+  })
 
   const fromStore = transfer.from_store_id
     ? storeMap.get(transfer.from_store_id)
@@ -286,6 +424,9 @@ export async function getTransfer(authUserId: string, id: string) {
 
   return serializeTransfer({
     ...transfer,
+    total_weight: totalWeight,
+    total_cost_valuation: totalCostValuation,
+    total_price_valuation: totalPriceValuation,
     from_store: fromStore
       ? { store_id: fromStore.store_id, name: fromStore.name }
       : null,
@@ -299,6 +440,7 @@ export async function getTransfer(authUserId: string, id: string) {
       ? { id: toBranch.id, name: toBranch.name }
       : null,
     stock_transfer_items: enrichedItems,
+    inventory_movements: enrichedMovements,
     _count: {
       stock_transfer_items: items.length,
     },
@@ -503,10 +645,14 @@ export async function pickTransfer(authUserId: string, id: string) {
 export async function shipTransfer(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
-  const existing = await prisma.stock_transfers.findFirst({
-    where: { id, tenant_id: tenantId },
-    select: { status: true },
-  })
+  const [existing, transferItems] = await Promise.all([
+    prisma.stock_transfers.findFirst({
+      where: { id, tenant_id: tenantId },
+    }),
+    prisma.stock_transfer_items.findMany({
+      where: { stock_transfer_id: id },
+    }),
+  ])
   if (!existing) {
     throw new ApiError('Transfer not found.', 404)
   }
@@ -517,15 +663,75 @@ export async function shipTransfer(authUserId: string, id: string) {
     )
   }
 
-  return prisma.stock_transfers.update({
-    where: { id, tenant_id: tenantId },
-    data: {
-      status: 'in_transit' as transfer_status_enum,
-      shipped_by: authUserId,
-      shipped_at: new Date(),
-      updated_by_user_id: tenantUserId,
-      updated_at: new Date(),
-    },
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    const updated = await tx.stock_transfers.update({
+      where: { id, tenant_id: tenantId },
+      data: {
+        status: 'in_transit' as transfer_status_enum,
+        shipped_by: authUserId,
+        shipped_at: new Date(),
+        updated_by_user_id: tenantUserId,
+        updated_at: new Date(),
+      },
+    })
+
+    // If source_warehouse_id exists, record transfer_out movements and adjust stock balances
+    if (existing.source_warehouse_id && transferItems.length > 0) {
+      for (const item of transferItems) {
+        const itemQty = toNumeric(item.qty, 0)
+        if (itemQty <= 0) continue
+
+        const balance = await tx.stock_balances.findFirst({
+          where: {
+            tenant_id: tenantId,
+            warehouse_id: existing.source_warehouse_id,
+            product_variant_id: item.product_variant_id,
+          },
+        })
+
+        const currentOnHand = balance ? toNumeric(balance.qty_on_hand, 0) : 0
+        const newOnHand = currentOnHand - itemQty
+
+        if (balance) {
+          await tx.stock_balances.update({
+            where: { id: balance.id },
+            data: {
+              qty_on_hand: new Decimal(newOnHand),
+              qty_available: new Decimal(toNumeric(balance.qty_available, 0) - itemQty),
+              qty_in_transit: new Decimal(toNumeric(balance.qty_in_transit, 0) + itemQty),
+              last_movement_at: new Date(),
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+
+        const unitCostNum = item.unit_cost != null ? toNumeric(item.unit_cost, 0) : 0
+        await tx.inventory_movements.create({
+          data: {
+            tenant_id: tenantId,
+            warehouse_id: existing.source_warehouse_id,
+            warehouse_location_id: item.source_location_id ?? null,
+            product_variant_id: item.product_variant_id,
+            movement_type: 'transfer_out' as movement_type_enum,
+            status: 'posted',
+            condition: item.condition,
+            quantity_delta: new Decimal(-itemQty),
+            unit_cost: new Decimal(unitCostNum),
+            total_cost: new Decimal(itemQty * unitCostNum),
+            qty_before: new Decimal(currentOnHand),
+            qty_after: new Decimal(newOnHand),
+            reference_type: 'stock_transfer',
+            reference_id: id,
+            remarks: `Stock transfer dispatched: ${existing.reference_no ?? id}`,
+            created_by: authUserId,
+            created_by_user_id: tenantUserId,
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+    }
+
+    return updated
   })
 }
 
@@ -533,10 +739,14 @@ export async function receiveTransfer(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  const existing = await prisma.stock_transfers.findFirst({
-    where: { id, tenant_id: tenantId },
-    select: { status: true },
-  })
+  const [existing, transferItems] = await Promise.all([
+    prisma.stock_transfers.findFirst({
+      where: { id, tenant_id: tenantId },
+    }),
+    prisma.stock_transfer_items.findMany({
+      where: { stock_transfer_id: id },
+    }),
+  ])
   if (!existing) {
     throw new ApiError('Transfer not found.', 404)
   }
@@ -548,32 +758,107 @@ export async function receiveTransfer(authUserId: string, id: string) {
   }
 
   // Call Supabase RPC to record movements and balance adjustments if available
-  const { error } = await supabaseAdmin.rpc('apply_stock_transfer', {
-    p_transfer_id: id,
-  })
-  if (error) {
+  try {
+    const { error } = await supabaseAdmin.rpc('apply_stock_transfer', {
+      p_transfer_id: id,
+    })
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.warn('RPC apply_stock_transfer warning:', error.message)
+    }
+  } catch (e) {
     // eslint-disable-next-line no-console
-    console.warn('RPC apply_stock_transfer warning:', error.message)
+    console.warn('RPC invocation failed:', (e as Error)?.message)
   }
 
-  // Set received_qty equal to qty on all items if received_qty is 0
-  await prisma.$executeRawUnsafe(
-    `UPDATE stock_transfer_items SET received_qty = qty WHERE stock_transfer_id = $1::uuid AND received_qty = 0`,
-    id
-  ).catch((e: unknown) => {
-    // eslint-disable-next-line no-console
-    console.warn('Unable to auto-update received_qty:', (e as Error)?.message)
-  })
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    // Ensure all items have received_qty populated
+    for (const item of transferItems) {
+      const sentQty = toNumeric(item.qty, 0)
+      const currentRecv = toNumeric(item.received_qty, 0)
+      const recvQty = currentRecv > 0 ? currentRecv : sentQty
 
-  return prisma.stock_transfers.update({
-    where: { id, tenant_id: tenantId },
-    data: {
-      status: 'received' as transfer_status_enum,
-      received_by: authUserId,
-      received_at: new Date(),
-      updated_by_user_id: tenantUserId,
-      updated_at: new Date(),
-    },
+      await tx.stock_transfer_items.update({
+        where: { id: item.id },
+        data: { received_qty: recvQty },
+      })
+
+      // If destination_warehouse_id exists, record transfer_in movements and increment stock balances
+      if (existing.destination_warehouse_id && recvQty > 0) {
+        const destBalance = await tx.stock_balances.findFirst({
+          where: {
+            tenant_id: tenantId,
+            warehouse_id: existing.destination_warehouse_id,
+            product_variant_id: item.product_variant_id,
+          },
+        })
+
+        const currentOnHand = destBalance ? toNumeric(destBalance.qty_on_hand, 0) : 0
+        const newOnHand = currentOnHand + recvQty
+
+        if (destBalance) {
+          await tx.stock_balances.update({
+            where: { id: destBalance.id },
+            data: {
+              qty_on_hand: new Decimal(newOnHand),
+              qty_available: new Decimal(toNumeric(destBalance.qty_available, 0) + recvQty),
+              last_movement_at: new Date(),
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        } else {
+          await tx.stock_balances.create({
+            data: {
+              tenant_id: tenantId,
+              warehouse_id: existing.destination_warehouse_id,
+              location_id: item.destination_location_id ?? null,
+              product_variant_id: item.product_variant_id,
+              condition: item.condition,
+              qty_on_hand: new Decimal(newOnHand),
+              qty_available: new Decimal(newOnHand),
+              qty_reserved: new Decimal(0),
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+
+        const unitCostNum = item.unit_cost != null ? toNumeric(item.unit_cost, 0) : 0
+        await tx.inventory_movements.create({
+          data: {
+            tenant_id: tenantId,
+            warehouse_id: existing.destination_warehouse_id,
+            warehouse_location_id: item.destination_location_id ?? null,
+            product_variant_id: item.product_variant_id,
+            movement_type: 'transfer_in' as movement_type_enum,
+            status: 'posted',
+            condition: item.condition,
+            quantity_delta: new Decimal(recvQty),
+            unit_cost: new Decimal(unitCostNum),
+            total_cost: new Decimal(recvQty * unitCostNum),
+            qty_before: new Decimal(currentOnHand),
+            qty_after: new Decimal(newOnHand),
+            reference_type: 'stock_transfer',
+            reference_id: id,
+            remarks: `Stock transfer received: ${existing.reference_no ?? id}`,
+            created_by: authUserId,
+            created_by_user_id: tenantUserId,
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+    }
+
+    return tx.stock_transfers.update({
+      where: { id, tenant_id: tenantId },
+      data: {
+        status: 'received' as transfer_status_enum,
+        received_by: authUserId,
+        received_at: new Date(),
+        updated_by_user_id: tenantUserId,
+        updated_at: new Date(),
+      },
+    })
   })
 }
 

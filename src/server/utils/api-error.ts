@@ -39,6 +39,15 @@ const RPC_ERROR_MAP: Record<string, { message: string; status: number }> = {
     message: 'The selected store has no branch assigned.',
     status: 422,
   },
+  ORDER_NOT_FOUND: { message: 'Sales order not found.', status: 404 },
+  ORDER_INVALID_TRANSITION: {
+    message: 'Invalid sales order status transition.',
+    status: 400,
+  },
+  ORDER_BRANCH_MISSING: {
+    message: 'Store has no branch assigned.',
+    status: 422,
+  },
   TRANSFER_NOT_FOUND: { message: 'Transfer not found.', status: 404 },
   ADJUSTMENT_NOT_FOUND: { message: 'Adjustment not found.', status: 404 },
 }
@@ -49,12 +58,14 @@ const RPC_ERROR_MAP: Record<string, { message: string; status: number }> = {
  */
 export function rpcError(error: RpcErrorLike): ApiError {
   const raw = error.message ?? 'Failed to apply the inventory operation.'
-  const code = raw.split('|')[0]?.trim()
+  const parts = raw.split('|')
+  const code = parts[0]?.trim()
+  const detail = parts.slice(1).join('|').trim()
   const mapped = code ? RPC_ERROR_MAP[code] : undefined
   if (mapped) {
-    return new ApiError(mapped.message, mapped.status)
+    return new ApiError(detail || mapped.message, mapped.status)
   }
-  return new ApiError(raw, 400)
+  return new ApiError(detail || raw, 400)
 }
 
 /** Standard route-handler error responder. */

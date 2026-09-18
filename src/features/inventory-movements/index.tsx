@@ -58,19 +58,31 @@ export function InventoryMovements() {
   const [movementType, setMovementType] = useState<string>(ALL)
   const [warehouseId, setWarehouseId] = useState<string>(ALL)
 
-  const filters: MovementFilters = {
-    movementType: movementType === ALL ? undefined : movementType,
-    warehouseId: warehouseId === ALL ? undefined : warehouseId,
-    storeId: warehouseId === ALL ? undefined : warehouseId,
-  }
-  const { data: movements, isLoading, error } = useInventoryMovements(filters)
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
 
-  const locationOptions =
-    warehouses.length > 0
-      ? warehouses.map((w) => ({ id: w.id, name: `${w.name} (${w.code})` }))
-      : stores.map((s) => ({ id: s.store_id, name: s.name ?? s.store_id }))
+  const isSelectedWarehouse = warehouses.some((w) => w.id === warehouseId)
+  const isSelectedStore = stores.some((s) => s.store_id === warehouseId)
+
+  const filters: MovementFilters = {
+    movementType: movementType === ALL ? undefined : movementType,
+    warehouseId:
+      warehouseId === ALL ? undefined : isSelectedWarehouse ? warehouseId : undefined,
+    storeId:
+      warehouseId === ALL ? undefined : isSelectedStore ? warehouseId : undefined,
+  }
+  const { data: movements, isLoading, error } = useInventoryMovements(filters)
+
+  const locationOptions = [
+    ...warehouses.map((w) => ({
+      id: w.id,
+      name: w.code ? `${w.name} (${w.code})` : w.name,
+    })),
+    ...stores.map((s) => ({
+      id: s.store_id,
+      name: s.name ? `${s.name} (Store)` : s.store_id,
+    })),
+  ]
 
   return (
     <>

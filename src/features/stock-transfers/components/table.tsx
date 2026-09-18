@@ -90,7 +90,7 @@ export function TransfersTable({ data }: { data: TransferListItem[] }) {
         ]}
       />
       <div className='overflow-hidden rounded-md border'>
-        <Table>
+        <Table className='min-w-[760px]'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

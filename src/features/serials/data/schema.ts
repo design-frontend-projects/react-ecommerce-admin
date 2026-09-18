@@ -39,17 +39,27 @@ export const serialListItemSchema = z.object({
 })
 export type SerialListItem = z.infer<typeof serialListItemSchema>
 
+const safeNumber = (defaultVal = 0) =>
+  z.preprocess((val) => {
+    if (val === undefined || val === null || val === '') return defaultVal
+    const num = Number(val)
+    return isNaN(num) ? defaultVal : num
+  }, z.number())
+
 export const serialTrailEntrySchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   inventory_movements: z.object({
     id: z.string(),
     movement_type: z.string(),
-    movement_date: z.string(),
-    qty_in: z.coerce.number(),
-    qty_out: z.coerce.number(),
-    reference_type: z.string().nullable(),
-    reference_id: z.string().nullable(),
-    remarks: z.string().nullable(),
+    movement_date: z.preprocess(
+      (val) => (val instanceof Date ? val.toISOString() : val != null ? String(val) : new Date().toISOString()),
+      z.string()
+    ),
+    qty_in: safeNumber(0),
+    qty_out: safeNumber(0),
+    reference_type: z.string().nullable().optional(),
+    reference_id: z.string().nullable().optional(),
+    remarks: z.string().nullable().optional(),
   }),
 })
 export type SerialTrailEntry = z.infer<typeof serialTrailEntrySchema>

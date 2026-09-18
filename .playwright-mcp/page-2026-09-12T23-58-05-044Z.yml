@@ -1,5 +1,0 @@
-- generic [active] [ref=f22e1]:
-  - region "Notifications alt+T"
-  - generic [ref=f22e7]:
-    - heading "Command Palette" [level=2] [ref=f22e8]
-    - paragraph [ref=f22e9]: Search for a command to run...

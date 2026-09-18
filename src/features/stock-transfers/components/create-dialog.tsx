@@ -11,9 +11,11 @@ import {
   Building2,
   Package,
   Plus,
+  Scale,
   SlidersHorizontal,
   Store,
   Trash2,
+  TrendingUp,
   Warehouse,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +25,6 @@ import {
   useBranchOptions,
   useStoreOnHand,
   useStoreOptions,
-  useVariantOptions,
   useWarehouseLocationOptions,
   useWarehouseOnHand,
   useWarehouseOptions,
@@ -55,7 +56,10 @@ import {
   type CreateTransferInput,
   type StockCondition,
 } from '../data/schema'
+import { useStockTransferProductVariants } from '../hooks/use-stock-transfer-products'
 import { useCreateTransfer } from '../hooks/use-stock-transfers'
+import { CrossWarehouseStockBadge } from './cross-warehouse-stock-badge'
+import { StockTransferProductVirtualCombobox } from './stock-transfer-product-virtual-combobox'
 
 const CONDITIONS: {
   value: StockCondition
@@ -103,12 +107,12 @@ export function TransferCreateDialog({
   const { t } = useTranslation()
   const createTransfer = useCreateTransfer()
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [search, setSearch] = useState('')
 
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
   const { data: branches = [] } = useBranchOptions()
-  const { data: variants = [] } = useVariantOptions(search)
+  const { data: variants = [], isLoading: isLoadingVariants } =
+    useStockTransferProductVariants()
 
   const {
     register,
@@ -138,6 +142,8 @@ export function TransferCreateDialog({
   const fromBranchId = watch('fromBranchId')
   const watchedItems = watch('items')
 
+  const selectedWarehouse = warehouses.find((w) => w.id === sourceWarehouseId)
+
   // Stock on hand lookups
   const { data: warehouseStockMap = {} } = useWarehouseOnHand(
     transferType === 'warehouse' ? (sourceWarehouseId ?? undefined) : undefined
@@ -159,7 +165,6 @@ export function TransferCreateDialog({
   const handleReset = () => {
     reset(defaultValues)
     setShowAdvanced(false)
-    setSearch('')
   }
 
   const handleTypeChange = (type: 'warehouse' | 'store' | 'branch') => {
@@ -174,21 +179,42 @@ export function TransferCreateDialog({
 
   // Calculate live summary
   const totals = useMemo(() => {
-    const totalQty = (watchedItems || []).reduce(
-      (acc, item) => acc + (Number(item?.qty) || 0),
-      0
-    )
-    const totalCost = (watchedItems || []).reduce(
-      (acc, item) =>
-        acc + (Number(item?.qty) || 0) * (Number(item?.unitCost) || 0),
-      0
-    )
+    const variantMap = new Map(variants.map((v) => [v.id, v]))
+    let totalQty = 0
+    let totalCost = 0
+    let totalPriceValuation = 0
+    let totalWeight = 0
+
+    for (const item of watchedItems || []) {
+      const qty = Number(item?.qty) || 0
+      const cost = Number(item?.unitCost) || 0
+      const v = item?.productVariantId
+        ? variantMap.get(item.productVariantId)
+        : null
+      const listPrice = v?.listPrice || cost
+
+      totalQty += qty
+      totalCost += qty * cost
+      totalPriceValuation += qty * listPrice
+      if (v?.weight) {
+        totalWeight += qty * v.weight
+      }
+    }
+
+    const potentialMarkup = totalPriceValuation - totalCost
+    const markupPercent =
+      totalCost > 0 ? (potentialMarkup / totalCost) * 100 : 0
+
     return {
       lineCount: watchedItems?.length || 0,
       totalQty,
       totalCost,
+      totalPriceValuation,
+      totalWeight,
+      potentialMarkup,
+      markupPercent,
     }
-  }, [watchedItems])
+  }, [watchedItems, variants])
 
   const onSubmit = async (data: CreateTransferInput) => {
     try {
@@ -218,8 +244,8 @@ export function TransferCreateDialog({
         onOpenChange(value)
       }}
     >
-      <DialogContent className='flex max-h-[90vh] flex-col gap-0 p-0 sm:max-w-3xl'>
-        <DialogHeader className='border-b p-6 pb-4'>
+      <DialogContent className='flex max-h-[90vh] flex-col gap-0 p-0 sm:max-w-3xl overflow-hidden'>
+        <DialogHeader className='shrink-0 border-b p-6 pb-4'>
           <DialogTitle className='flex items-center gap-2 text-xl font-bold'>
             <Package className='h-5 w-5 text-primary' />
             {t('stockTransfers.createTransfer', {
@@ -236,14 +262,17 @@ export function TransferCreateDialog({
 
         <form
           onSubmit={handleSubmit(onSubmit, onInvalid)}
-          className='flex flex-1 flex-col overflow-hidden'
+          className='flex flex-1 flex-col min-h-0 overflow-hidden'
         >
-          <ScrollArea className='flex-1 space-y-6 p-6'>
-            <div className='space-y-6'>
+          <ScrollArea className='flex-1 min-h-0'>
+            <div className='p-6 space-y-6'>
               {/* Transfer Type Selector */}
               <div className='space-y-2'>
                 <Label className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
-                  {t('stockTransfers.createDialog.routingType', 'Transfer Routing Type')}
+                  {t(
+                    'stockTransfers.createDialog.routingType',
+                    'Transfer Routing Type'
+                  )}
                 </Label>
                 <Tabs
                   value={transferType}
@@ -252,18 +281,23 @@ export function TransferCreateDialog({
                   }
                   className='w-full'
                 >
-                  <TabsList className='grid w-full grid-cols-3'>
-                    <TabsTrigger value='warehouse' className='gap-2'>
-                      <Warehouse className='h-4 w-4' />
-                      {t('stockTransfers.types.warehouse', 'Warehouse → Warehouse')}
+                  <TabsList className='grid h-auto w-full grid-cols-1 gap-1 p-1 sm:grid-cols-3'>
+                    <TabsTrigger value='warehouse' className='gap-2 py-2 text-xs sm:text-sm'>
+                      <Warehouse className='h-4 w-4 shrink-0' />
+                      <span className='truncate'>
+                        {t(
+                          'stockTransfers.types.warehouse',
+                          'Warehouse → Warehouse'
+                        )}
+                      </span>
                     </TabsTrigger>
-                    <TabsTrigger value='store' className='gap-2'>
-                      <Store className='h-4 w-4' />
-                      {t('stockTransfers.types.store', 'Store → Store')}
+                    <TabsTrigger value='store' className='gap-2 py-2 text-xs sm:text-sm'>
+                      <Store className='h-4 w-4 shrink-0' />
+                      <span className='truncate'>{t('stockTransfers.types.store', 'Store → Store')}</span>
                     </TabsTrigger>
-                    <TabsTrigger value='branch' className='gap-2'>
-                      <Building2 className='h-4 w-4' />
-                      {t('stockTransfers.types.branch', 'Branch → Branch')}
+                    <TabsTrigger value='branch' className='gap-2 py-2 text-xs sm:text-sm'>
+                      <Building2 className='h-4 w-4 shrink-0' />
+                      <span className='truncate'>{t('stockTransfers.types.branch', 'Branch → Branch')}</span>
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -279,7 +313,10 @@ export function TransferCreateDialog({
                         htmlFor='sourceWarehouseId'
                         className='text-sm font-medium'
                       >
-                        {t('stockTransfers.createDialog.sourceWarehouse', 'Source Warehouse')}{' '}
+                        {t(
+                          'stockTransfers.createDialog.sourceWarehouse',
+                          'Source Warehouse'
+                        )}{' '}
                         <span className='text-destructive'>*</span>
                       </Label>
                       <Controller
@@ -296,7 +333,12 @@ export function TransferCreateDialog({
                                 errors.sourceWarehouseId && 'border-destructive'
                               )}
                             >
-                              <SelectValue placeholder={t('stockTransfers.createDialog.selectSourceWarehouse', 'Select origin warehouse')} />
+                              <SelectValue
+                                placeholder={t(
+                                  'stockTransfers.createDialog.selectSourceWarehouse',
+                                  'Select origin warehouse'
+                                )}
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {warehouses.map((w) => (
@@ -320,7 +362,10 @@ export function TransferCreateDialog({
                         htmlFor='destinationWarehouseId'
                         className='text-sm font-medium'
                       >
-                        {t('stockTransfers.createDialog.destinationWarehouse', 'Destination Warehouse')}{' '}
+                        {t(
+                          'stockTransfers.createDialog.destinationWarehouse',
+                          'Destination Warehouse'
+                        )}{' '}
                         <span className='text-destructive'>*</span>
                       </Label>
                       <Controller
@@ -338,7 +383,12 @@ export function TransferCreateDialog({
                                   'border-destructive'
                               )}
                             >
-                              <SelectValue placeholder={t('stockTransfers.createDialog.selectDestinationWarehouse', 'Select target warehouse')} />
+                              <SelectValue
+                                placeholder={t(
+                                  'stockTransfers.createDialog.selectDestinationWarehouse',
+                                  'Select target warehouse'
+                                )}
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {warehouses
@@ -369,7 +419,10 @@ export function TransferCreateDialog({
                         htmlFor='fromStoreId'
                         className='text-sm font-medium'
                       >
-                        {t('stockTransfers.createDialog.sourceStore', 'Source Store')}{' '}
+                        {t(
+                          'stockTransfers.createDialog.sourceStore',
+                          'Source Store'
+                        )}{' '}
                         <span className='text-destructive'>*</span>
                       </Label>
                       <Controller
@@ -386,7 +439,12 @@ export function TransferCreateDialog({
                                 errors.fromStoreId && 'border-destructive'
                               )}
                             >
-                              <SelectValue placeholder={t('stockTransfers.createDialog.selectSourceStore', 'Select origin store')} />
+                              <SelectValue
+                                placeholder={t(
+                                  'stockTransfers.createDialog.selectSourceStore',
+                                  'Select origin store'
+                                )}
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {stores.map((s) => (
@@ -410,7 +468,10 @@ export function TransferCreateDialog({
                         htmlFor='toStoreId'
                         className='text-sm font-medium'
                       >
-                        {t('stockTransfers.createDialog.destinationStore', 'Destination Store')}{' '}
+                        {t(
+                          'stockTransfers.createDialog.destinationStore',
+                          'Destination Store'
+                        )}{' '}
                         <span className='text-destructive'>*</span>
                       </Label>
                       <Controller
@@ -427,7 +488,12 @@ export function TransferCreateDialog({
                                 errors.toStoreId && 'border-destructive'
                               )}
                             >
-                              <SelectValue placeholder={t('stockTransfers.createDialog.selectDestinationStore', 'Select target store')} />
+                              <SelectValue
+                                placeholder={t(
+                                  'stockTransfers.createDialog.selectDestinationStore',
+                                  'Select target store'
+                                )}
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {stores
@@ -461,7 +527,10 @@ export function TransferCreateDialog({
                         htmlFor='fromBranchId'
                         className='text-sm font-medium'
                       >
-                        {t('stockTransfers.createDialog.sourceBranch', 'Source Branch')}{' '}
+                        {t(
+                          'stockTransfers.createDialog.sourceBranch',
+                          'Source Branch'
+                        )}{' '}
                         <span className='text-destructive'>*</span>
                       </Label>
                       <Controller
@@ -478,7 +547,12 @@ export function TransferCreateDialog({
                                 errors.fromBranchId && 'border-destructive'
                               )}
                             >
-                              <SelectValue placeholder={t('stockTransfers.createDialog.selectSourceBranch', 'Select origin branch')} />
+                              <SelectValue
+                                placeholder={t(
+                                  'stockTransfers.createDialog.selectSourceBranch',
+                                  'Select origin branch'
+                                )}
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {branches.map((b) => (
@@ -502,7 +576,10 @@ export function TransferCreateDialog({
                         htmlFor='toBranchId'
                         className='text-sm font-medium'
                       >
-                        {t('stockTransfers.createDialog.destinationBranch', 'Destination Branch')}{' '}
+                        {t(
+                          'stockTransfers.createDialog.destinationBranch',
+                          'Destination Branch'
+                        )}{' '}
                         <span className='text-destructive'>*</span>
                       </Label>
                       <Controller
@@ -519,7 +596,12 @@ export function TransferCreateDialog({
                                 errors.toBranchId && 'border-destructive'
                               )}
                             >
-                              <SelectValue placeholder={t('stockTransfers.createDialog.selectDestinationBranch', 'Select target branch')} />
+                              <SelectValue
+                                placeholder={t(
+                                  'stockTransfers.createDialog.selectDestinationBranch',
+                                  'Select target branch'
+                                )}
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {branches
@@ -624,12 +706,6 @@ export function TransferCreateDialog({
                   {fields.map((field, index) => {
                     const selectedVariantId =
                       watchedItems?.[index]?.productVariantId
-                    const onHandStock =
-                      transferType === 'warehouse'
-                        ? warehouseStockMap[selectedVariantId]
-                        : transferType === 'store'
-                          ? storeStockMap[selectedVariantId]
-                          : undefined
 
                     return (
                       <div
@@ -638,56 +714,62 @@ export function TransferCreateDialog({
                       >
                         <div className='grid grid-cols-12 items-start gap-3'>
                           {/* Variant Selector */}
-                          <div className='col-span-12 space-y-1 sm:col-span-5'>
-                            <Label className='text-xs text-muted-foreground'>
-                              {t(
-                                'stockTransfers.createDialog.productVariant',
-                                'Product Variant'
-                              )}{' '}
-                              <span className='text-destructive'>*</span>
-                            </Label>
+                          <div className='col-span-12 space-y-1 sm:col-span-6'>
+                            <div className='flex items-center justify-between'>
+                              <Label className='text-xs text-muted-foreground'>
+                                {t(
+                                  'stockTransfers.createDialog.productVariant',
+                                  'Product Variant'
+                                )}{' '}
+                                <span className='text-destructive'>*</span>
+                              </Label>
+                              {selectedVariantId && (
+                                <span className='text-[10px] text-muted-foreground'>
+                                  {variants.find(
+                                    (v) => v.id === selectedVariantId
+                                  )?.brand && (
+                                    <span className='mr-1.5 font-medium text-foreground'>
+                                      {
+                                        variants.find(
+                                          (v) => v.id === selectedVariantId
+                                        )?.brand
+                                      }
+                                    </span>
+                                  )}
+                                  {t('stockTransfers.createDialog.uom', 'UOM:')}{' '}
+                                  <strong className='text-foreground'>
+                                    {variants.find(
+                                      (v) => v.id === selectedVariantId
+                                    )?.uom || 'PCS'}
+                                  </strong>
+                                </span>
+                              )}
+                            </div>
                             <Controller
                               name={`items.${index}.productVariantId`}
                               control={control}
                               render={({ field: variantField }) => (
-                                <Select
+                                <StockTransferProductVirtualCombobox
                                   value={variantField.value}
-                                  onValueChange={(val) => {
-                                    variantField.onChange(val)
-                                    // Auto-populate cost if available
-                                    const v = variants.find(
-                                      (item) => item.id === val
-                                    )
-                                    if (v?.cost_price != null) {
+                                  variants={variants}
+                                  isLoading={isLoadingVariants}
+                                  sourceWarehouseId={sourceWarehouseId}
+                                  sourceWarehouseName={selectedWarehouse?.name}
+                                  originStockMap={
+                                    transferType === 'store'
+                                      ? storeStockMap
+                                      : warehouseStockMap
+                                  }
+                                  onChange={(v) => {
+                                    variantField.onChange(v?.id || '')
+                                    if (v) {
                                       setValue(
                                         `items.${index}.unitCost`,
-                                        Number(v.cost_price)
+                                        v.costPrice || 0
                                       )
                                     }
                                   }}
-                                >
-                                  <SelectTrigger
-                                    className={cn(
-                                      'w-full',
-                                      errors.items?.[index]?.productVariantId &&
-                                        'border-destructive'
-                                    )}
-                                  >
-                                    <SelectValue
-                                      placeholder={t(
-                                        'stockTransfers.createDialog.selectProductVariant',
-                                        'Select product / SKU'
-                                      )}
-                                    />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {variants.map((v) => (
-                                      <SelectItem key={v.id} value={v.id}>
-                                        {v.sku} — {v.products?.name ?? 'Item'}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
+                                />
                               )}
                             />
                             {errors.items?.[index]?.productVariantId && (
@@ -695,17 +777,22 @@ export function TransferCreateDialog({
                                 {errors.items[index]?.productVariantId?.message}
                               </p>
                             )}
-                            {onHandStock !== undefined && (
-                              <p className='pt-0.5 text-[11px] text-muted-foreground'>
-                                {t(
-                                  'stockTransfers.createDialog.availableOnHand',
-                                  'Available on hand:'
-                                )}{' '}
-                                <span className='font-semibold text-foreground'>
-                                  {onHandStock}
-                                </span>
-                              </p>
-                            )}
+
+                            {/* Cross-Warehouse Stock Availability Sourcing */}
+                            {transferType === 'warehouse' &&
+                              selectedVariantId && (
+                                <CrossWarehouseStockBadge
+                                  productVariantId={selectedVariantId}
+                                  sourceWarehouseId={sourceWarehouseId}
+                                  sourceWarehouseName={selectedWarehouse?.name}
+                                  requestedQty={Number(
+                                    watchedItems?.[index]?.qty || 1
+                                  )}
+                                  onSwitchSourceWarehouse={(newWhId) => {
+                                    setValue('sourceWarehouseId', newWhId)
+                                  }}
+                                />
+                              )}
                           </div>
 
                           {/* Quantity */}
@@ -735,7 +822,7 @@ export function TransferCreateDialog({
                           </div>
 
                           {/* Unit Cost */}
-                          <div className='col-span-5 space-y-1 sm:col-span-3'>
+                          <div className='col-span-5 space-y-1 sm:col-span-2'>
                             <Label className='text-xs text-muted-foreground'>
                               {t(
                                 'stockTransfers.createDialog.unitCost',
@@ -1000,16 +1087,13 @@ export function TransferCreateDialog({
                   className='gap-1.5'
                 >
                   <Plus className='h-4 w-4' />
-                  {t(
-                    'stockTransfers.createDialog.addItem',
-                    'Add Another Item'
-                  )}
+                  {t('stockTransfers.createDialog.addItem', 'Add Another Item')}
                 </Button>
               </div>
 
               {/* Summary Totals Card */}
-              <div className='flex flex-wrap items-center justify-between rounded-xl border bg-muted/30 p-3.5 text-xs'>
-                <div className='flex items-center gap-4'>
+              <div className='flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-muted/30 p-3.5 text-xs'>
+                <div className='flex flex-wrap items-center gap-4'>
                   <div>
                     <span className='text-muted-foreground'>
                       {t('stockTransfers.createDialog.lines', 'Lines:')}{' '}
@@ -1029,23 +1113,68 @@ export function TransferCreateDialog({
                       {totals.totalQty}
                     </span>
                   </div>
+                  {totals.totalWeight > 0 && (
+                    <div className='flex items-center gap-1'>
+                      <Scale className='h-3.5 w-3.5 text-muted-foreground' />
+                      <span className='text-muted-foreground'>
+                        {t(
+                          'stockTransfers.createDialog.weight',
+                          'Weight:'
+                        )}{' '}
+                      </span>
+                      <span className='font-bold text-foreground'>
+                        {totals.totalWeight.toFixed(2)} kg
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <div>
-                  <span className='text-muted-foreground'>
-                    {t(
-                      'stockTransfers.createDialog.estimatedValue',
-                      'Estimated Value:'
-                    )}{' '}
-                  </span>
-                  <span className='font-bold text-foreground'>
-                    ${totals.totalCost.toFixed(2)}
-                  </span>
+
+                <div className='flex flex-wrap items-center gap-4'>
+                  <div>
+                    <span className='text-muted-foreground'>
+                      {t(
+                        'stockTransfers.createDialog.costValuation',
+                        'Cost Valuation:'
+                      )}{' '}
+                    </span>
+                    <span className='font-bold text-foreground'>
+                      ${totals.totalCost.toFixed(2)}
+                    </span>
+                  </div>
+                  {totals.totalPriceValuation > 0 && (
+                    <div>
+                      <span className='text-muted-foreground'>
+                        {t(
+                          'stockTransfers.createDialog.retailValuation',
+                          'Retail Valuation:'
+                        )}{' '}
+                      </span>
+                      <span className='font-bold text-emerald-600 dark:text-emerald-400'>
+                        ${totals.totalPriceValuation.toFixed(2)}
+                      </span>
+                    </div>
+                  )}
+                  {totals.potentialMarkup !== 0 && totals.totalCost > 0 && (
+                    <div className='flex items-center gap-1'>
+                      <TrendingUp className='h-3.5 w-3.5 text-primary' />
+                      <span className='text-muted-foreground'>
+                        {t(
+                          'stockTransfers.createDialog.markup',
+                          'Markup:'
+                        )}{' '}
+                      </span>
+                      <span className='font-medium text-foreground'>
+                        {totals.markupPercent > 0 ? '+' : ''}
+                        {totals.markupPercent.toFixed(1)}%
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </ScrollArea>
 
-          <DialogFooter className='flex-row justify-end gap-2 border-t bg-muted/10 p-4'>
+          <DialogFooter className='shrink-0 flex-row justify-end gap-2 border-t bg-muted/10 p-4'>
             <Button
               type='button'
               variant='outline'

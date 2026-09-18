@@ -184,12 +184,63 @@ export const transferListItemSchema = z.object({
   _count: z.object({ stock_transfer_items: z.number().optional() }).optional(),
 })
 
+export const inventoryMovementRecordSchema = z.object({
+  id: z.string(),
+  movement_no: z.coerce.string().nullable().optional(),
+  movement_type: z.string(),
+  status: z.string().nullable().optional(),
+  quantity_delta: z.coerce.number(),
+  unit_cost: z.coerce.number().nullable().optional(),
+  total_cost: z.coerce.number().nullable().optional(),
+  qty_before: z.coerce.number().nullable().optional(),
+  qty_after: z.coerce.number().nullable().optional(),
+  warehouse_id: z.string().nullable().optional(),
+  store_id: z.string().nullable().optional(),
+  product_variant_id: z.string().nullable().optional(),
+  movement_date: z.string().nullable().optional(),
+  occurred_at: z.string().nullable().optional(),
+  created_at: z.string().nullable().optional(),
+  created_by: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
+  warehouses: z
+    .object({
+      id: z.string().optional(),
+      name: z.string().nullable().optional(),
+      code: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  product_variants: z
+    .object({
+      id: z.string().optional(),
+      sku: z.string().optional(),
+      products: z
+        .object({
+          name: z.string().optional(),
+        })
+        .nullable()
+        .optional(),
+    })
+    .nullable()
+    .optional(),
+})
+
+export type InventoryMovementRecord = z.infer<
+  typeof inventoryMovementRecordSchema
+>
+
 export const transferItemRowSchema = z.object({
   id: z.string().uuid(),
   product_variant_id: z.string(),
   qty: z.coerce.number(),
   received_qty: z.coerce.number().optional().default(0),
   unit_cost: z.coerce.number().optional().default(0),
+  list_price: z.coerce.number().nullable().optional(),
+  weight: z.coerce.number().nullable().optional(),
+  uom: z.string().nullable().optional(),
+  brand: z.string().nullable().optional(),
+  category: z.string().nullable().optional(),
+  price_list_name: z.string().nullable().optional(),
   condition: stockConditionSchema.default('good'),
   source_location_id: z.string().nullable().optional(),
   destination_location_id: z.string().nullable().optional(),
@@ -201,11 +252,24 @@ export const transferItemRowSchema = z.object({
     .object({
       id: z.string(),
       sku: z.string(),
+      name: z.string().nullable().optional(),
       barcode: z.string().nullable().optional(),
+      weight: z.coerce.number().nullable().optional(),
+      price: z.coerce.number().nullable().optional(),
+      cost_price: z.coerce.number().nullable().optional(),
+      uom: z.string().nullable().optional(),
+      brand: z.string().nullable().optional(),
+      category: z.string().nullable().optional(),
+      price_list_name: z.string().nullable().optional(),
       products: z
         .object({
           id: z.string().optional(),
           name: z.string(),
+          sku: z.string().nullable().optional(),
+          barcode: z.string().nullable().optional(),
+          brand_name: z.string().nullable().optional(),
+          category_name: z.string().nullable().optional(),
+          uom_name: z.string().nullable().optional(),
         })
         .nullable()
         .optional(),
@@ -216,6 +280,10 @@ export const transferItemRowSchema = z.object({
 
 export const transferDetailSchema = transferListItemSchema.extend({
   stock_transfer_items: z.array(transferItemRowSchema),
+  inventory_movements: z.array(inventoryMovementRecordSchema).optional().default([]),
+  total_weight: z.coerce.number().nullable().optional(),
+  total_price_valuation: z.coerce.number().nullable().optional(),
+  total_cost_valuation: z.coerce.number().nullable().optional(),
 })
 
 export type TransferListItem = z.infer<typeof transferListItemSchema>
@@ -228,4 +296,5 @@ export const transferListResponseSchema = successEnvelope(
 export const transferDetailResponseSchema =
   successEnvelope(transferDetailSchema)
 export const transferMutationResponseSchema = successEnvelope(z.unknown())
+
 

@@ -5338,5 +5338,281 @@
       "updateSuccess": "Sales channel updated successfully.",
       "deleteSuccess": "Sales channel deleted successfully."
     }
+  },
+  "stockTransfers": {
+    "title": "Stock Transfers",
+    "description": "Transfer stock between warehouses, stores, or branches with tracked approval workflows.",
+    "errorLoading": "Error loading transfers.",
+    "createTransfer": "New Transfer",
+    "entityTypes": {
+      "warehouse": "Warehouse",
+      "store": "Store",
+      "branch": "Branch"
+    },
+    "types": {
+      "warehouse": "Warehouse → Warehouse",
+      "store": "Store → Store",
+      "branch": "Branch → Branch"
+    },
+    "conditions": {
+      "good": "Good",
+      "damaged": "Damaged",
+      "quarantine": "Quarantine",
+      "expired": "Expired",
+      "blocked": "Blocked"
+    },
+    "status": {
+      "draft": "Draft",
+      "approved": "Approved",
+      "picked": "Picked",
+      "in_transit": "In Transit",
+      "received": "Received",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "movementTypes": {
+      "transfer_out": "TRANSFER OUT",
+      "transfer_in": "TRANSFER IN"
+    },
+    "columns": {
+      "referenceOrTransfer": "Reference / Transfer #",
+      "route": "Transfer Route (Origin → Target)",
+      "items": "Items",
+      "item": "{{count}} item",
+      "items_other": "{{count}} items",
+      "status": "Status",
+      "dateCreated": "Date Created"
+    },
+    "table": {
+      "filterPlaceholder": "Filter stock transfers...",
+      "noResults": "No transfers yet."
+    },
+    "form": {
+      "saving": "Creating...",
+      "save": "Create Transfer"
+    },
+    "createDialog": {
+      "errors": {
+        "validationFailed": "Please check the form for errors before submitting."
+      },
+      "routingType": "Transfer Routing Type",
+      "sourceWarehouse": "Source Warehouse",
+      "selectSourceWarehouse": "Select origin warehouse",
+      "destinationWarehouse": "Destination Warehouse",
+      "selectDestinationWarehouse": "Select target warehouse",
+      "sourceStore": "Source Store",
+      "selectSourceStore": "Select origin store",
+      "destinationStore": "Destination Store",
+      "selectDestinationStore": "Select target store",
+      "sourceBranch": "Source Branch",
+      "selectSourceBranch": "Select origin branch",
+      "destinationBranch": "Destination Branch",
+      "selectDestinationBranch": "Select target branch",
+      "referenceNo": "Reference / PO # (Optional)",
+      "referencePlaceholder": "e.g. TR-2026-001",
+      "notes": "Transfer Notes & Instructions",
+      "notesPlaceholder": "Reason, driver, or handling instructions...",
+      "itemsTitle": "Transfer Items",
+      "advancedToggle": "Advanced Fields (Condition, Locations, Batch, Serial)",
+      "productVariant": "Product Variant",
+      "uom": "UOM:",
+      "qty": "Qty",
+      "unitCost": "Unit Cost ($)",
+      "condition": "Condition",
+      "sourceLocation": "Source Location",
+      "targetLocation": "Target Location",
+      "default": "Default",
+      "defaultLocation": "Default Location",
+      "batchNo": "Batch # (Optional)",
+      "batchPlaceholder": "Batch ID",
+      "serialNo": "Serial # (Optional)",
+      "serialPlaceholder": "Serial ID",
+      "addItem": "Add Another Item",
+      "lines": "Lines:",
+      "totalUnits": "Total Units:",
+      "weight": "Weight:",
+      "costValuation": "Cost Valuation:",
+      "retailValuation": "Retail Valuation:",
+      "markup": "Markup:",
+      "selectProductVariant": "Search & select product by SKU, name, barcode...",
+      "searchPlaceholder": "Search SKU, name, barcode, brand, category..."
+    },
+    "viewDialog": {
+      "transfer": "Transfer:",
+      "from": "From:",
+      "to": "To:",
+      "transferLineItems": "Transfer Line Items ({{count}})",
+      "movementsLedgerAndAudit": "Movements Ledger & Audit",
+      "itemsTitle": "Transfer Items",
+      "totalQty": "Total Qty:",
+      "received": "Received:",
+      "loading": "Loading transfer items...",
+      "loadingLedger": "Loading movement ledger...",
+      "notes": "Notes:",
+      "fullPage": "Full Page",
+      "close": "Close",
+      "totalEstimatedValue": "Total Estimated Value:",
+      "uom": "UOM: {{uom}}",
+      "batch": "Batch: {{batch}}",
+      "serialNo": "SN: {{serial}}",
+      "columns": {
+        "productVariant": "Product / Variant",
+        "condition": "Condition",
+        "transferQty": "Transfer Qty",
+        "received": "Received",
+        "unitCost": "Unit Cost",
+        "subtotal": "Subtotal"
+      }
+    },
+    "crossWarehouse": {
+      "checking": "Checking cross-warehouse availability...",
+      "outOfStock": "Out of Stock",
+      "lowStock": "Low Stock ({{count}})",
+      "availableAtOtherWarehouses": "Available at {{count}} other warehouse(s)",
+      "noStockInOtherWarehouses": "No stock in other tenant warehouses",
+      "outOfStockAtOrigin": "Out of Stock at {{warehouse}}",
+      "insufficientStock": "Insufficient Stock at {{warehouse}} ({{available}} available, {{requested}} requested)",
+      "tenantBalanceCheck": "Tenant Balance Check",
+      "availableInOthers": "Product is available in {{count}} other warehouse(s) of this tenant:",
+      "availableCount": "{{count}} available",
+      "onHandCount": "{{count}} on hand",
+      "switchOrigin": "Switch Origin",
+      "noStockAnywhere": "This item is currently out of stock across all tenant warehouses."
+    },
+    "combobox": {
+      "ariaSelectProductVariant": "Select product variant",
+      "filterAll": "All ({{count}})",
+      "inStock": "In Stock",
+      "outOfStock": "Out of Stock",
+      "loadingProducts": "Loading catalog products...",
+      "noProductsMatching": "No products matching \"{{query}}\"",
+      "noVariantsFound": "No product variants found",
+      "tryAdjusting": "Try adjusting your search terms or filter selection.",
+      "cost": "Cost:",
+      "list": "List:",
+      "inOriginCount": "{{count}} in origin",
+      "selectOrigin": "Select origin",
+      "otherWarehousesAvailable": "Other WHs available",
+      "showingItems": "Showing {{displayed}} of {{total}} items",
+      "originPrefix": "Origin: {{warehouse}}"
+    },
+    "history": {
+      "ledger": "Movements Ledger",
+      "reconciliation": "Fulfillment & Variance",
+      "audit": "Lifecycle Audit",
+      "noLedgerEntries": "No automated inventory ledger entries recorded yet.",
+      "immutableRecordsDesc": "Immutable ledger records are posted when the transfer is shipped (transfer_out) and received (transfer_in).",
+      "status": "Status: {{status}}",
+      "timestamp": "Timestamp",
+      "movementType": "Movement Type",
+      "skuOrItem": "SKU / Item",
+      "warehouse": "Warehouse",
+      "delta": "Delta",
+      "beforeAfter": "Before → After",
+      "unitCost": "Unit Cost",
+      "productOrSku": "Product / SKU",
+      "sentQty": "Sent Qty",
+      "receivedQty": "Received Qty",
+      "variance": "Variance",
+      "costVariance": "Cost Variance",
+      "netTransferVariance": "Net Transfer Variance: {{count}} units",
+      "financialImpact": "Financial Impact:",
+      "creation": "Creation:",
+      "byUser": "By User: {{user}}",
+      "approval": "Approval:",
+      "approvedBy": "Approved by: {{user}}",
+      "shippedInTransit": "Shipped (In Transit):",
+      "dispatchedBy": "Dispatched by: {{user}}",
+      "receivedAtDestination": "Received at Destination:",
+      "receivedBy": "Received by: {{user}}",
+      "transferNotes": "Transfer Notes:"
+    },
+    "timeline": {
+      "draft": { "title": "Draft", "description": "Created" },
+      "approved": { "title": "Approved", "description": "Approved for picking" },
+      "picked": { "title": "Picked", "description": "Stock picked" },
+      "in_transit": { "title": "In Transit", "description": "Shipped to destination" },
+      "received": { "title": "Received", "description": "Arrived & stock posted" },
+      "completed": { "title": "Completed", "description": "Transfer finalized" }
+    },
+    "workflow": {
+      "cancel": "Cancel Transfer",
+      "approve": "Approve Transfer",
+      "pick": "Mark Picked",
+      "ship": "Ship Transfer",
+      "receive": "Receive & Post Transfer",
+      "complete": "Complete Transfer",
+      "approveDialog": {
+        "title": "Approve Stock Transfer?",
+        "desc": "Approve transfer {{ref}} to authorize stock picking and shipping.",
+        "confirmText": "Approve Transfer"
+      },
+      "pickDialog": {
+        "title": "Mark Stock as Picked?",
+        "desc": "Confirm that all items for transfer {{ref}} have been picked from warehouse locations.",
+        "confirmText": "Mark Picked"
+      },
+      "shipDialog": {
+        "title": "Ship Stock Transfer?",
+        "desc": "Dispatch transfer {{ref}}. Status will be updated to in-transit.",
+        "confirmText": "Ship Transfer"
+      },
+      "receiveDialog": {
+        "title": "Receive & Post Stock Transfer?",
+        "desc": "Receive stock transfer {{ref}} at the destination. This will trigger inventory balance updates and stock movements.",
+        "confirmText": "Receive & Post Stock"
+      },
+      "completeDialog": {
+        "title": "Mark Transfer as Complete?",
+        "desc": "Close out stock transfer {{ref}}. All reconciliation and movements are finalized.",
+        "confirmText": "Complete Transfer"
+      },
+      "cancelDialog": {
+        "title": "Cancel Stock Transfer?",
+        "desc": "Are you sure you want to cancel transfer {{ref}}? No items will be moved.",
+        "confirmText": "Yes, Cancel Transfer"
+      }
+    },
+    "analytics": {
+      "totalTransfers": "Total Transfers",
+      "linesCount": "({{count}} lines)",
+      "completedCount": "{{count}} Completed",
+      "activeCount": "{{count}} Active",
+      "inTransit": "In-Transit Freight",
+      "shipmentsOnMove": "{{count}} on move",
+      "activeInterWarehouse": "Active inter-warehouse transfers in logistics transit",
+      "allArrived": "All shipments currently arrived at destination",
+      "actionRequired": "Pending Action",
+      "awaitingSteps": "Awaiting workflow steps",
+      "draftsCount": "{{count}} Drafts",
+      "approvedCount": "{{count}} Approved",
+      "pickedCount": "{{count}} Picked",
+      "fulfillmentRate": "Fulfillment Rate",
+      "receivedCount": "{{count}} Received",
+      "cancelledRejectedCount": "{{count}} Cancelled / Rejected",
+      "filterAll": "All ({{count}})",
+      "filterInTransit": "In Transit ({{count}})",
+      "filterPendingAction": "Pending Action ({{count}})",
+      "filterCompletedReceived": "Completed / Received ({{count}})",
+      "filterDrafts": "Drafts ({{count}})"
+    },
+    "toast": {
+      "created": "Transfer created.",
+      "createError": "Unable to create transfer",
+      "updated": "Transfer updated.",
+      "updateError": "Unable to update transfer",
+      "approved": "Transfer approved.",
+      "approveError": "Unable to approve transfer",
+      "picked": "Transfer items picked.",
+      "pickError": "Unable to pick transfer",
+      "shipped": "Transfer shipped — in transit.",
+      "shipError": "Unable to ship transfer",
+      "received": "Transfer received. Stock balances updated.",
+      "receiveError": "Unable to receive transfer",
+      "completed": "Transfer marked complete.",
+      "completeError": "Unable to complete transfer",
+      "cancelled": "Transfer cancelled.",
+      "cancelError": "Unable to cancel transfer"
+    }
   }
 }

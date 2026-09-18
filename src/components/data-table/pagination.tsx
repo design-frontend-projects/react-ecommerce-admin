@@ -60,6 +60,7 @@ export function DataTablePagination<TData>({
         </div>
         <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
           {t('dataTable.pageOf', {
+            current: table.getState().pagination.pageIndex + 1,
             page: table.getState().pagination.pageIndex + 1,
             total: table.getPageCount(),
             defaultValue: `Page ${table.getState().pagination.pageIndex + 1} of ${table.getPageCount()}`,

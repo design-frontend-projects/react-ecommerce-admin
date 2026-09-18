@@ -7,6 +7,11 @@ import {
   Store,
   Warehouse,
   UserCheck,
+  History,
+  TrendingUp,
+  Weight,
+  DollarSign,
+  Tag,
 } from 'lucide-react'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Button } from '@/components/ui/button'
@@ -20,9 +25,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useTransfer } from '@/features/stock-transfers/hooks/use-stock-transfers'
 import { TransferTimeline } from '@/features/stock-transfers/components/transfer-timeline'
 import { TransferWorkflowActions } from '@/features/stock-transfers/components/transfer-workflow-actions'
+import { TransferMovementHistory } from '@/features/stock-transfers/components/transfer-movement-history'
 import type { StockCondition, TransferDetail, TransferItemRow } from '@/features/stock-transfers/data/schema'
 
 const CONDITION_BADGE: Record<
@@ -115,6 +122,22 @@ function StockTransferDetailPage() {
     (acc, it) => acc + Number(it.qty || 0) * Number(it.unit_cost || 0),
     0
   )
+  const totalWeight = items.reduce(
+    (acc, it) =>
+      acc +
+      Number(it.weight || it.product_variants?.weight || it.product_variants?.products?.weight || 0) *
+        Number(it.qty || 0),
+    0
+  )
+  const totalRetailValuation = items.reduce(
+    (acc, it) => acc + Number(it.list_price || 0) * Number(it.qty || 0),
+    0
+  )
+
+  const markupPercent =
+    totalCost > 0 && totalRetailValuation > totalCost
+      ? (((totalRetailValuation - totalCost) / totalCost) * 100).toFixed(1)
+      : null
 
   const isReceivedOrDone = ['received', 'completed'].includes(transfer.status)
 
@@ -221,156 +244,249 @@ function StockTransferDetailPage() {
           </CardContent>
         </Card>
 
-        {/* Quantities Card */}
+        {/* Quantities & Freight Weight */}
         <Card>
           <CardContent className="pt-6 flex items-start gap-3">
             <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
               <Package className="h-5 w-5" />
             </div>
             <div className="space-y-1">
-              <p className="text-xs text-muted-foreground font-medium">Quantities & Value</p>
+              <p className="text-xs text-muted-foreground font-medium">Cargo & Freight</p>
               <p className="text-sm font-bold">{totalQuantity} Units ({items.length} lines)</p>
-              <p className="text-[11px] text-muted-foreground">
-                {isReceivedOrDone ? `Received: ${totalReceived} units • ` : ''}
-                Est. ${totalCost.toFixed(2)}
-              </p>
+              <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                <span className="inline-flex items-center gap-0.5">
+                  <Weight className="h-3 w-3" />
+                  {totalWeight > 0 ? `${totalWeight.toFixed(2)} kg` : '0.00 kg'}
+                </span>
+                {isReceivedOrDone && (
+                  <span>• Rec: <strong className="text-emerald-600">{totalReceived}</strong></span>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Audit & Log Card */}
+        {/* Valuations Card */}
         <Card>
           <CardContent className="pt-6 flex items-start gap-3">
             <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
-              <UserCheck className="h-5 w-5" />
+              <DollarSign className="h-5 w-5" />
             </div>
-            <div className="space-y-1 text-xs">
-              <p className="text-muted-foreground font-medium">Lifecycle Audit</p>
-              <p className="text-foreground">
-                Created: {new Date(transfer.created_at).toLocaleDateString()}
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground font-medium">Financial Valuation</p>
+              <p className="text-sm font-bold font-mono">
+                ${totalCost.toFixed(2)}{' '}
+                <span className="text-xs font-normal text-muted-foreground">Cost</span>
               </p>
-              {transfer.approved_at && (
-                <p className="text-muted-foreground text-[11px]">
-                  Approved: {new Date(transfer.approved_at).toLocaleDateString()}
-                </p>
-              )}
-              {transfer.shipped_at && (
-                <p className="text-muted-foreground text-[11px]">
-                  Shipped: {new Date(transfer.shipped_at).toLocaleDateString()}
-                </p>
-              )}
-              {transfer.received_at && (
-                <p className="text-muted-foreground text-[11px]">
-                  Received: {new Date(transfer.received_at).toLocaleDateString()}
-                </p>
-              )}
+              <div className="text-[11px] text-muted-foreground">
+                {totalRetailValuation > 0 ? (
+                  <span className="flex items-center gap-1 font-mono">
+                    Retail: ${totalRetailValuation.toFixed(2)}
+                    {markupPercent && (
+                      <Badge variant="outline" className="text-[9px] px-1 py-0 text-emerald-600 border-emerald-500/30">
+                        +{markupPercent}%
+                      </Badge>
+                    )}
+                  </span>
+                ) : (
+                  <span>Cost valuation based on transfer unit costs</span>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Transfer Items Table */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-3">
-          <div>
-            <CardTitle className="text-base font-bold">Transfer Line Items</CardTitle>
-            <CardDescription className="text-xs">
-              List of product variants, condition, locations, and quantities for this transfer.
-            </CardDescription>
-          </div>
-          <Badge variant="secondary" className="font-semibold">
-            {items.length} Lines • {totalQuantity} Total Units
-          </Badge>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-hidden rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/40">
-                  <TableHead>SKU / Variant</TableHead>
-                  <TableHead>Condition</TableHead>
-                  <TableHead>Locations</TableHead>
-                  <TableHead className="text-end">Transfer Qty</TableHead>
-                  {isReceivedOrDone && (
-                    <TableHead className="text-end">Received Qty</TableHead>
-                  )}
-                  <TableHead className="text-end">Unit Cost</TableHead>
-                  <TableHead className="text-end">Subtotal</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {items.map((item) => {
-                  const subtotal = Number(item.qty || 0) * Number(item.unit_cost || 0)
-                  const sku = item.product_variants?.sku ?? item.product_variant_id
-                  const productName = item.product_variants?.products?.name
+      {/* Main Content Tabs: Line Items vs Movement Ledger & Audit */}
+      <Tabs defaultValue="items" className="w-full space-y-4">
+        <TabsList className="grid w-full sm:w-[460px] grid-cols-2 h-9">
+          <TabsTrigger value="items" className="gap-2 text-xs">
+            <Package className="h-4 w-4" />
+            Transfer Items ({items.length})
+          </TabsTrigger>
+          <TabsTrigger value="movements" className="gap-2 text-xs">
+            <History className="h-4 w-4" />
+            Movements & Audit Ledger
+          </TabsTrigger>
+        </TabsList>
 
-                  return (
-                    <TableRow key={item.id}>
-                      <TableCell>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-foreground">{sku}</span>
-                          {productName && (
-                            <span className="text-xs text-muted-foreground">
-                              {productName}
-                            </span>
-                          )}
-                          {(item.batch_id || item.serial_id) && (
-                            <span className="text-[10px] text-muted-foreground font-mono mt-0.5">
-                              {item.batch_id ? `Batch: ${item.batch_id} ` : ''}
-                              {item.serial_id ? `SN: ${item.serial_id}` : ''}
-                            </span>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={CONDITION_BADGE[item.condition] ?? 'secondary'}
-                          className="text-xs capitalize"
-                        >
-                          {item.condition}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">
-                        <div className="flex flex-col">
-                          <span>
-                            From: {item.source_location?.code || 'Default'}
-                          </span>
-                          <span>
-                            To: {item.destination_location?.code || 'Default'}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-end font-semibold text-sm">
-                        {item.qty}
-                      </TableCell>
+        {/* TAB 1: Transfer Items Table */}
+        <TabsContent value="items" className="space-y-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-3">
+              <div>
+                <CardTitle className="text-base font-bold">Transfer Line Items</CardTitle>
+                <CardDescription className="text-xs">
+                  List of product variants, condition, locations, weights, and valuations for this transfer.
+                </CardDescription>
+              </div>
+              <Badge variant="secondary" className="font-semibold">
+                {items.length} Lines • {totalQuantity} Units • {totalWeight.toFixed(2)} kg
+              </Badge>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/40">
+                      <TableHead>SKU / Variant</TableHead>
+                      <TableHead>Product Details</TableHead>
+                      <TableHead>Specs</TableHead>
+                      <TableHead>Condition</TableHead>
+                      <TableHead>Locations</TableHead>
+                      <TableHead className="text-end">Transfer Qty</TableHead>
                       {isReceivedOrDone && (
-                        <TableCell className="text-end font-bold text-emerald-600 text-sm">
-                          {item.received_qty}
-                        </TableCell>
+                        <TableHead className="text-end">Received Qty</TableHead>
                       )}
-                      <TableCell className="text-end text-muted-foreground">
-                        ${Number(item.unit_cost || 0).toFixed(2)}
-                      </TableCell>
-                      <TableCell className="text-end font-bold">
-                        ${subtotal.toFixed(2)}
-                      </TableCell>
+                      <TableHead className="text-end">Unit Cost</TableHead>
+                      <TableHead className="text-end">List Price</TableHead>
+                      <TableHead className="text-end">Cost Subtotal</TableHead>
                     </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </div>
+                  </TableHeader>
+                  <TableBody>
+                    {items.map((item) => {
+                      const qty = Number(item.qty || 0)
+                      const cost = Number(item.unit_cost || 0)
+                      const subtotal = qty * cost
+                      const sku = item.product_variants?.sku ?? item.product_variant_id
+                      const productName = item.product_variants?.products?.name
+                      const brand = item.brand ?? item.product_variants?.products?.brands?.name
+                      const category = item.category ?? item.product_variants?.products?.categories?.name
+                      const uom = item.uom ?? item.product_variants?.products?.base_uom?.name ?? item.product_variants?.products?.base_uom?.code
+                      const weight = Number(item.weight || item.product_variants?.weight || item.product_variants?.products?.weight || 0)
+                      const listPrice = Number(item.list_price || 0)
 
-          {transfer.notes && (
-            <div className="mt-4 p-3.5 rounded-lg border bg-muted/20 space-y-1 text-xs">
-              <span className="font-semibold text-foreground flex items-center gap-1.5">
-                <FileText className="h-3.5 w-3.5 text-muted-foreground" /> Notes & Instructions:
-              </span>
-              <p className="text-muted-foreground">{transfer.notes}</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                      return (
+                        <TableRow key={item.id}>
+                          <TableCell>
+                            <div className="flex flex-col">
+                              <span className="font-bold text-foreground font-mono">{sku}</span>
+                              {item.product_variants?.barcode && (
+                                <span className="text-[10px] text-muted-foreground font-mono">
+                                  {item.product_variants.barcode}
+                                </span>
+                              )}
+                              {(item.batch_id || item.serial_id) && (
+                                <span className="text-[10px] text-muted-foreground font-mono mt-0.5">
+                                  {item.batch_id ? `Batch: ${item.batch_id} ` : ''}
+                                  {item.serial_id ? `SN: ${item.serial_id}` : ''}
+                                </span>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex flex-col max-w-[200px]">
+                              <span className="text-xs font-medium text-foreground truncate">
+                                {productName || '—'}
+                              </span>
+                              <div className="flex items-center gap-1.5 mt-0.5">
+                                {brand && (
+                                  <Badge variant="outline" className="text-[9px] px-1 py-0 h-4">
+                                    {brand}
+                                  </Badge>
+                                )}
+                                {category && (
+                                  <span className="text-[10px] text-muted-foreground truncate">
+                                    {category}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-xs text-muted-foreground">
+                            <div className="flex flex-col">
+                              <span>{uom || 'Unit'}</span>
+                              {weight > 0 && (
+                                <span className="text-[10px] text-muted-foreground font-mono">
+                                  {weight} kg/ea
+                                </span>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={CONDITION_BADGE[item.condition] ?? 'secondary'}
+                              className="text-xs capitalize"
+                            >
+                              {item.condition}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-xs text-muted-foreground">
+                            <div className="flex flex-col">
+                              <span>
+                                From: {item.source_location?.code || 'Default'}
+                              </span>
+                              <span>
+                                To: {item.destination_location?.code || 'Default'}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-end font-semibold text-sm">
+                            {item.qty}
+                          </TableCell>
+                          {isReceivedOrDone && (
+                            <TableCell className="text-end font-bold text-emerald-600 text-sm">
+                              {item.received_qty}
+                            </TableCell>
+                          )}
+                          <TableCell className="text-end text-muted-foreground font-mono text-xs">
+                            ${cost.toFixed(2)}
+                          </TableCell>
+                          <TableCell className="text-end font-mono text-xs">
+                            {listPrice > 0 ? (
+                              <div className="flex flex-col items-end">
+                                <span className="text-foreground font-medium">
+                                  ${listPrice.toFixed(2)}
+                                </span>
+                                {item.price_list_name && (
+                                  <span className="text-[9px] text-muted-foreground truncate max-w-[80px]">
+                                    {item.price_list_name}
+                                  </span>
+                                )}
+                              </div>
+                            ) : (
+                              '—'
+                            )}
+                          </TableCell>
+                          <TableCell className="text-end font-bold font-mono">
+                            ${subtotal.toFixed(2)}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {transfer.notes && (
+                <div className="mt-4 p-3.5 rounded-lg border bg-muted/20 space-y-1 text-xs">
+                  <span className="font-semibold text-foreground flex items-center gap-1.5">
+                    <FileText className="h-3.5 w-3.5 text-muted-foreground" /> Notes & Instructions:
+                  </span>
+                  <p className="text-muted-foreground">{transfer.notes}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* TAB 2: Movements & Audit History Ledger */}
+        <TabsContent value="movements" className="space-y-4">
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base font-bold">
+                Inventory Movements & Reconciliation Ledger
+              </CardTitle>
+              <CardDescription className="text-xs">
+                Real-time tracking of stock dispatch, transit receipts, discrepancies, and state audit history.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TransferMovementHistory transfer={transfer} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
