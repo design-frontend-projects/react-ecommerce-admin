@@ -26,10 +26,10 @@ export function PromotionDeleteDialog() {
         await deleteMutation.mutateAsync(
           currentRow.id || String(currentRow.promotion_id)
         )
-        toast.success('Promotion deleted successfully')
+        toast.success(t('promotions.archiveSuccess', 'Promotion deleted successfully'))
         setOpen(null)
       } catch (error: unknown) {
-        toast.error('Error', {
+        toast.error(t('promotions.archiveFailed', 'Error'), {
           description:
             error && error instanceof Error
               ? error.message
@@ -45,8 +45,7 @@ export function PromotionDeleteDialog() {
         <AlertDialogHeader>
           <AlertDialogTitle>{t('promotions.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            promotion
+            {t('promotions.delete.description', 'This action cannot be undone. This will permanently delete the promotion')}
             <span className='font-medium text-foreground'>
               {currentRow?.name ? ` "${currentRow.name}"` : ''}
             </span>
@@ -55,7 +54,7 @@ export function PromotionDeleteDialog() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={deleteMutation.isPending}>
-            Cancel
+            {t('promotions.common.cancel', 'Cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
@@ -65,7 +64,7 @@ export function PromotionDeleteDialog() {
             className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
             disabled={deleteMutation.isPending}
           >
-            {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+            {deleteMutation.isPending ? t('promotions.common.deleting', 'Deleting...') : t('promotions.common.delete', 'Delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

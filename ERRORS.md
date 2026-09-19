@@ -1,5 +1,71 @@
 # Error Log
 
+## [2026-09-19 02:45] - Prisma Client Error: Unknown field `name_ar` for select statement on model `products` in /api/pos/products
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/routes/api/pos/products.ts:61`
+- **Agent**: @backend-specialist
+- **Root Cause**: `src/routes/api/pos/products.ts` attempted to select `name_ar`, `tax_rate_id`, and `tax_rates` on `model products`, as well as `base_price`, `cost_price`, `variant_attributes`, and `product_images` on `model product_variants`. In addition, its `search` filter referenced `product_barcodes` as a direct relation on `products`. None of these fields or relations exist on `products` in `schema.prisma`. Taxes are stored in the standalone `tax_rates` table and pricing is maintained under `price_list_items`.
+- **Error Message**:
+  ```
+  Invalid `prisma.products.findMany()` invocation in
+  src/routes/api/pos/products.ts:61:27
+
+  Unknown field `name_ar` for select statement on model `products`. Available options are marked with ?.
+  ```
+- **Fix Applied**:
+  1. Updated `src/routes/api/pos/products.ts`:
+     - Removed non-existent fields (`name_ar`, `tax_rate_id`, `tax_rates`) from `prisma.products.findMany({ select: ... })`.
+     - Removed non-existent fields (`base_price`, `cost_price`, `variant_attributes`, `product_images`) from `product_variants` select.
+     - Added `price_list_items: { select: { price: true, cost_price: true }, take: 1 }` on `product_variants` and `products`.
+     - Queried tenant's active tax rate via `prisma.tax_rates.findFirst(...)` and mapped `taxRateId`, `taxRate`, `taxInclusive` to POS items.
+     - Fixed `product_barcodes` search by querying `product_barcodes` table directly for matching variant IDs instead of using a non-existent relation.
+     - Implemented safe fallback mapping for standalone products without variants.
+  2. Updated `src/server/fns/pos-pricing-resolver.ts`:
+     - Removed non-existent `tax_rate_id` and `tax_rates` from products select in `resolvePosVariantPrices()`.
+     - Fetched active tax rate from `prisma.tax_rates.findFirst(...)`.
+     - Removed non-existent `is_active` filter on `price_list_items` and added robust fallback lookup when no specific candidate price list is configured.
+  3. Added comprehensive test coverage in `src/__tests__/pos-products-api.test.ts` and verified all POS tests pass.
+- **Prevention**: Always verify model fields and relations directly against `prisma/schema.prisma` before issuing Prisma queries. Do not assume fields exist across relational models without checking model definitions.
+- **Status**: Fixed
+
+---
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/features/pos/data/api.ts:416`
+- **Agent**: @backend-specialist
+- **Root Cause**: During UUID normalization in migration `20260814000000_normalize_db_and_uuid_pks`, the `shipments` table primary key was normalized to `id UUID` (without any column named `shipment_id`). In `src/features/pos/data/api.ts`, `getNonRestaurantShipments`, `updateNonRestaurantShipment`, and `getPosShipmentDetails` still queried `.select('shipment_id, ...')`, `.order('shipment_id')`, and `.eq('shipment_id', ...)`. In addition, functions parsed shipment IDs with `Number(shipmentId)`, which produced `NaN` for UUID values.
+- **Error Message**:
+  ```json
+  {
+    "failureCount": 0,
+    "error": {
+      "code": "42703",
+      "details": null,
+      "hint": null,
+      "message": "column shipments.shipment_id does not exist"
+    }
+  }
+  ```
+- **Fix Applied**:
+  1. Updated `src/features/pos/data/api.ts`:
+     - Updated `NonRestaurantShipment` and `ShipmentsRow` to support UUID string identifiers and optional timestamps.
+     - In `getNonRestaurantShipments()`, changed `.select(...)` to query `id, sales_invoice_id, order_id, ...` and ordered by `created_at DESC` (falling back gracefully).
+     - In `updateNonRestaurantShipment()`, `getNonRestaurantShipmentDetails()`, and `getPosShipmentDetails()`, updated queries and filters to use `id` with string/UUID parameter validation instead of forcing `numericShipmentId`.
+     - In `mapNonRestaurantShipmentRow()`, safely resolved `id`, `shipment_id`, and `order_id` whether provided as string or number without producing `NaN`.
+     - In `getNonRestaurantShipmentDetails()`, added fallback order lookup for `sales_orders` when `sales_invoice_id` is not present.
+  2. Updated `src/features/pos/components/non-restaurant-shipments-board.tsx`:
+     - Updated `openDetailsSheet`, `submitEdit`, and `handleQuickStatusAction` to preserve string/UUID identifiers.
+     - Formatted table rows and dialogs to safely truncate UUIDs (e.g. `#e1234567`) while keeping key uniqueness.
+  3. Added `created_at` and `updated_at` to `model shipments` in `prisma/schema.prisma` and created migration `20260919030000_add_shipments_timestamps`. Applied the columns to PostgreSQL.
+  4. Added test cases in `src/features/pos/data/__tests__/shipments-api.test.ts` for UUID string mapping and verified with Vitest (13/13 passing).
+- **Prevention**: Whenever database tables are normalized from integer primary keys to UUIDs (`id UUID`), ensure all Supabase client queries and data mapping functions are updated from legacy field names (`<table_name>_id`) to `id`, and ensure IDs are treated as strings rather than coerced to numbers.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-18 23:35] - Missing PostgreSQL RPC public.set_purchase_order_status(p_po_id, p_status) in Schema Cache
 
 - **Type**: Integration

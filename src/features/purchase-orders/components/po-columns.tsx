@@ -27,7 +27,8 @@ function POCell({ po }: { po: PurchaseOrder }) {
 }
 
 export const getPOColumns = (
-  t: (key: string, fallback: string) => string = (_k, fallback) => fallback
+  t: (key: string, fallback: string) => string = (_k, fallback) => fallback,
+  warehouses: Array<{ id: string; name: string }> = []
 ): ColumnDef<PurchaseOrder>[] => [
   {
     accessorKey: 'po_id',
@@ -52,17 +53,33 @@ export const getPOColumns = (
     },
   },
   {
-    accessorKey: 'warehouses',
+    id: 'destination',
+    accessorFn: (row) => {
+      const wh = Array.isArray(row.warehouses) ? row.warehouses[0] : row.warehouses
+      return wh?.name || warehouses.find((w) => w.id === row.warehouse_id)?.name || ''
+    },
     header: t('purchaseOrders.columns.warehouse', 'Destination'),
     cell: ({ row }) => {
-      const whName = row.original.warehouses?.name
+      const wh = Array.isArray(row.original.warehouses)
+        ? row.original.warehouses[0]
+        : row.original.warehouses
+      const whName =
+        wh?.name || warehouses.find((w) => w.id === row.original.warehouse_id)?.name
+
       if (!whName) {
-        return <span className='text-xs text-muted-foreground'>—</span>
+        return (
+          <span className='inline-flex items-center gap-1.5 text-xs text-muted-foreground italic'>
+            <WarehouseIcon className='h-3.5 w-3.5 opacity-40 shrink-0' />
+            <span>{t('purchaseOrders.unassigned', 'Unassigned')}</span>
+          </span>
+        )
       }
       return (
         <div className='flex items-center gap-1.5 text-xs text-muted-foreground font-medium'>
           <WarehouseIcon className='h-3.5 w-3.5 text-primary/70 shrink-0' />
-          <span className='truncate max-w-[140px]'>{whName}</span>
+          <span className='truncate max-w-[140px]' title={whName}>
+            {whName}
+          </span>
         </div>
       )
     },

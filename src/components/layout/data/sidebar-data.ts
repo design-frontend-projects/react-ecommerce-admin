@@ -252,9 +252,35 @@ export function useSidebarData(): SidebarData {
           },
           {
             title: t('sidebar.promotions'),
-            url: '/promotions',
             icon: TrendingUp,
             roles: ADMINS,
+            items: [
+              {
+                title: t('sidebar.allPromotions', 'All Promotions'),
+                url: '/promotions',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.newPromotion', 'New Promotion'),
+                url: '/promotions/new',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.coupons', 'Coupons & Vouchers'),
+                url: '/promotions/coupons',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.discountApprovals', 'Discount Approvals'),
+                url: '/promotions/discount-approvals',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.discountReports', 'Discount Reports'),
+                url: '/promotions/reports',
+                roles: ADMINS,
+              },
+            ],
           },
           // Admin only
           {

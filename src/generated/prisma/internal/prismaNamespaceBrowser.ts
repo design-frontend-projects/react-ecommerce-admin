@@ -176,7 +176,23 @@ export const ModelName = {
   pos_sessions: 'pos_sessions',
   pos_cash_movements: 'pos_cash_movements',
   sales_order_payments: 'sales_order_payments',
-  pos_held_orders: 'pos_held_orders'
+  pos_held_orders: 'pos_held_orders',
+  inv_promotions: 'inv_promotions',
+  inv_promotion_rules: 'inv_promotion_rules',
+  inv_promotion_conditions: 'inv_promotion_conditions',
+  inv_promotion_products: 'inv_promotion_products',
+  inv_promotion_categories: 'inv_promotion_categories',
+  inv_promotion_brands: 'inv_promotion_brands',
+  inv_promotion_customer_groups: 'inv_promotion_customer_groups',
+  inv_promotion_channels: 'inv_promotion_channels',
+  inv_promotion_stores: 'inv_promotion_stores',
+  inv_promotion_branches: 'inv_promotion_branches',
+  inv_coupons: 'inv_coupons',
+  inv_coupon_redemptions: 'inv_coupon_redemptions',
+  inv_sales_invoice_discounts: 'inv_sales_invoice_discounts',
+  inv_sales_invoice_item_discounts: 'inv_sales_invoice_item_discounts',
+  inv_discount_approval_requests: 'inv_discount_approval_requests',
+  inv_promotion_usage_logs: 'inv_promotion_usage_logs'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1342,6 +1358,8 @@ export const ShipmentsScalarFieldEnum = {
   sales_invoice_id: 'sales_invoice_id',
   tenant_id: 'tenant_id',
   order_id: 'order_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -2895,6 +2913,291 @@ export const Pos_held_ordersScalarFieldEnum = {
 } as const
 
 export type Pos_held_ordersScalarFieldEnum = (typeof Pos_held_ordersScalarFieldEnum)[keyof typeof Pos_held_ordersScalarFieldEnum]
+
+
+export const Inv_promotionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  status: 'status',
+  promo_type: 'promo_type',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  timezone: 'timezone',
+  priority: 'priority',
+  currency_id: 'currency_id',
+  currency_code: 'currency_code',
+  min_order_amount: 'min_order_amount',
+  max_discount_amount: 'max_discount_amount',
+  usage_limit: 'usage_limit',
+  usage_per_customer: 'usage_per_customer',
+  daily_usage_limit: 'daily_usage_limit',
+  current_usage_count: 'current_usage_count',
+  allow_stacking: 'allow_stacking',
+  stacking_priority: 'stacking_priority',
+  max_stacking_count: 'max_stacking_count',
+  requires_coupon: 'requires_coupon',
+  requires_approval: 'requires_approval',
+  auto_apply: 'auto_apply',
+  scope_product_type: 'scope_product_type',
+  scope_customer_type: 'scope_customer_type',
+  scope_channel_type: 'scope_channel_type',
+  scope_location_type: 'scope_location_type',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_promotionsScalarFieldEnum = (typeof Inv_promotionsScalarFieldEnum)[keyof typeof Inv_promotionsScalarFieldEnum]
+
+
+export const Inv_promotion_rulesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  rule_type: 'rule_type',
+  discount_value: 'discount_value',
+  apply_to: 'apply_to',
+  buy_quantity: 'buy_quantity',
+  get_quantity: 'get_quantity',
+  get_discount_percent: 'get_discount_percent',
+  get_product_variant_id: 'get_product_variant_id',
+  tier_min_quantity: 'tier_min_quantity',
+  tier_min_amount: 'tier_min_amount',
+  sort_order: 'sort_order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_promotion_rulesScalarFieldEnum = (typeof Inv_promotion_rulesScalarFieldEnum)[keyof typeof Inv_promotion_rulesScalarFieldEnum]
+
+
+export const Inv_promotion_conditionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  group_id: 'group_id',
+  logical_operator: 'logical_operator',
+  field: 'field',
+  operator: 'operator',
+  value: 'value',
+  sort_order: 'sort_order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_promotion_conditionsScalarFieldEnum = (typeof Inv_promotion_conditionsScalarFieldEnum)[keyof typeof Inv_promotion_conditionsScalarFieldEnum]
+
+
+export const Inv_promotion_productsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  product_id: 'product_id',
+  product_variant_id: 'product_variant_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_productsScalarFieldEnum = (typeof Inv_promotion_productsScalarFieldEnum)[keyof typeof Inv_promotion_productsScalarFieldEnum]
+
+
+export const Inv_promotion_categoriesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  category_id: 'category_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_categoriesScalarFieldEnum = (typeof Inv_promotion_categoriesScalarFieldEnum)[keyof typeof Inv_promotion_categoriesScalarFieldEnum]
+
+
+export const Inv_promotion_brandsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  brand_id: 'brand_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_brandsScalarFieldEnum = (typeof Inv_promotion_brandsScalarFieldEnum)[keyof typeof Inv_promotion_brandsScalarFieldEnum]
+
+
+export const Inv_promotion_customer_groupsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  customer_group_id: 'customer_group_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_customer_groupsScalarFieldEnum = (typeof Inv_promotion_customer_groupsScalarFieldEnum)[keyof typeof Inv_promotion_customer_groupsScalarFieldEnum]
+
+
+export const Inv_promotion_channelsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  channel_id: 'channel_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_channelsScalarFieldEnum = (typeof Inv_promotion_channelsScalarFieldEnum)[keyof typeof Inv_promotion_channelsScalarFieldEnum]
+
+
+export const Inv_promotion_storesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  store_id: 'store_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_storesScalarFieldEnum = (typeof Inv_promotion_storesScalarFieldEnum)[keyof typeof Inv_promotion_storesScalarFieldEnum]
+
+
+export const Inv_promotion_branchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  branch_id: 'branch_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_branchesScalarFieldEnum = (typeof Inv_promotion_branchesScalarFieldEnum)[keyof typeof Inv_promotion_branchesScalarFieldEnum]
+
+
+export const Inv_couponsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  code: 'code',
+  description: 'description',
+  status: 'status',
+  max_usages: 'max_usages',
+  max_usages_per_customer: 'max_usages_per_customer',
+  current_usages: 'current_usages',
+  min_order_amount: 'min_order_amount',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  customer_id: 'customer_id',
+  is_single_use: 'is_single_use',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_couponsScalarFieldEnum = (typeof Inv_couponsScalarFieldEnum)[keyof typeof Inv_couponsScalarFieldEnum]
+
+
+export const Inv_coupon_redemptionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  coupon_id: 'coupon_id',
+  promotion_id: 'promotion_id',
+  customer_id: 'customer_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_order_id: 'sales_order_id',
+  discount_amount: 'discount_amount',
+  redeemed_at: 'redeemed_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Inv_coupon_redemptionsScalarFieldEnum = (typeof Inv_coupon_redemptionsScalarFieldEnum)[keyof typeof Inv_coupon_redemptionsScalarFieldEnum]
+
+
+export const Inv_sales_invoice_discountsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  sales_invoice_id: 'sales_invoice_id',
+  promotion_id: 'promotion_id',
+  coupon_id: 'coupon_id',
+  discount_source: 'discount_source',
+  discount_type: 'discount_type',
+  discount_rate: 'discount_rate',
+  discount_amount: 'discount_amount',
+  reason: 'reason',
+  applied_by_user_id: 'applied_by_user_id',
+  created_at: 'created_at'
+} as const
+
+export type Inv_sales_invoice_discountsScalarFieldEnum = (typeof Inv_sales_invoice_discountsScalarFieldEnum)[keyof typeof Inv_sales_invoice_discountsScalarFieldEnum]
+
+
+export const Inv_sales_invoice_item_discountsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  sales_invoice_item_id: 'sales_invoice_item_id',
+  sales_invoice_id: 'sales_invoice_id',
+  promotion_id: 'promotion_id',
+  promotion_rule_id: 'promotion_rule_id',
+  coupon_id: 'coupon_id',
+  discount_source: 'discount_source',
+  discount_type: 'discount_type',
+  discount_rate: 'discount_rate',
+  discount_amount: 'discount_amount',
+  original_unit_price: 'original_unit_price',
+  final_unit_price: 'final_unit_price',
+  quantity: 'quantity',
+  created_at: 'created_at'
+} as const
+
+export type Inv_sales_invoice_item_discountsScalarFieldEnum = (typeof Inv_sales_invoice_item_discountsScalarFieldEnum)[keyof typeof Inv_sales_invoice_item_discountsScalarFieldEnum]
+
+
+export const Inv_discount_approval_requestsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  branch_id: 'branch_id',
+  store_id: 'store_id',
+  pos_terminal_id: 'pos_terminal_id',
+  requested_by_user_id: 'requested_by_user_id',
+  approved_by_user_id: 'approved_by_user_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_order_id: 'sales_order_id',
+  discount_type: 'discount_type',
+  discount_value: 'discount_value',
+  discount_amount: 'discount_amount',
+  original_amount: 'original_amount',
+  user_max_allowed_percent: 'user_max_allowed_percent',
+  status: 'status',
+  reason: 'reason',
+  rejection_reason: 'rejection_reason',
+  reviewed_at: 'reviewed_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_discount_approval_requestsScalarFieldEnum = (typeof Inv_discount_approval_requestsScalarFieldEnum)[keyof typeof Inv_discount_approval_requestsScalarFieldEnum]
+
+
+export const Inv_promotion_usage_logsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_order_id: 'sales_order_id',
+  customer_id: 'customer_id',
+  discount_amount: 'discount_amount',
+  channel_id: 'channel_id',
+  store_id: 'store_id',
+  branch_id: 'branch_id',
+  used_at: 'used_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Inv_promotion_usage_logsScalarFieldEnum = (typeof Inv_promotion_usage_logsScalarFieldEnum)[keyof typeof Inv_promotion_usage_logsScalarFieldEnum]
 
 
 export const SortOrder = {

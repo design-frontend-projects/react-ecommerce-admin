@@ -19,3 +19,9 @@ export function SearchableSelect(props: SearchableSelectProps) {
 }
 
 export { VirtualSearchableSelect }
+
+export {
+  VirtualSearchableMultiSelect,
+  type VirtualSearchableMultiSelectProps,
+} from './virtual-searchable-multi-select'
+export { VirtualSearchableMultiSelect as SearchableMultiSelect }

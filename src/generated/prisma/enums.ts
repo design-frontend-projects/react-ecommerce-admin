@@ -681,6 +681,113 @@ export const stock_rule_applies_to_enum = {
 export type stock_rule_applies_to_enum = (typeof stock_rule_applies_to_enum)[keyof typeof stock_rule_applies_to_enum]
 
 
+export const inv_promotion_status_enum = {
+  draft: 'draft',
+  active: 'active',
+  paused: 'paused',
+  scheduled: 'scheduled',
+  expired: 'expired',
+  archived: 'archived'
+} as const
+
+export type inv_promotion_status_enum = (typeof inv_promotion_status_enum)[keyof typeof inv_promotion_status_enum]
+
+
+export const inv_promotion_type_enum = {
+  percentage: 'percentage',
+  fixed_amount: 'fixed_amount',
+  buy_x_get_y: 'buy_x_get_y',
+  free_item: 'free_item',
+  order_discount: 'order_discount',
+  tiered: 'tiered'
+} as const
+
+export type inv_promotion_type_enum = (typeof inv_promotion_type_enum)[keyof typeof inv_promotion_type_enum]
+
+
+export const inv_rule_action_type_enum = {
+  percentage_discount: 'percentage_discount',
+  fixed_discount: 'fixed_discount',
+  buy_x_get_y: 'buy_x_get_y',
+  free_item: 'free_item',
+  bundle_fixed_price: 'bundle_fixed_price'
+} as const
+
+export type inv_rule_action_type_enum = (typeof inv_rule_action_type_enum)[keyof typeof inv_rule_action_type_enum]
+
+
+export const inv_promotion_scope_enum = {
+  all: 'all',
+  selected: 'selected'
+} as const
+
+export type inv_promotion_scope_enum = (typeof inv_promotion_scope_enum)[keyof typeof inv_promotion_scope_enum]
+
+
+export const inv_condition_field_enum = {
+  order_subtotal: 'order_subtotal',
+  item_quantity: 'item_quantity',
+  customer_group: 'customer_group',
+  product_category: 'product_category',
+  product_brand: 'product_brand',
+  sales_channel: 'sales_channel',
+  store: 'store',
+  branch: 'branch',
+  customer_first_order: 'customer_first_order',
+  customer_order_count: 'customer_order_count',
+  day_of_week: 'day_of_week',
+  time_of_day: 'time_of_day'
+} as const
+
+export type inv_condition_field_enum = (typeof inv_condition_field_enum)[keyof typeof inv_condition_field_enum]
+
+
+export const inv_condition_operator_enum = {
+  eq: 'eq',
+  neq: 'neq',
+  gte: 'gte',
+  lte: 'lte',
+  gt: 'gt',
+  lt: 'lt',
+  in: 'in',
+  not_in: 'not_in',
+  between: 'between'
+} as const
+
+export type inv_condition_operator_enum = (typeof inv_condition_operator_enum)[keyof typeof inv_condition_operator_enum]
+
+
+export const inv_coupon_status_enum = {
+  active: 'active',
+  expired: 'expired',
+  exhausted: 'exhausted',
+  disabled: 'disabled'
+} as const
+
+export type inv_coupon_status_enum = (typeof inv_coupon_status_enum)[keyof typeof inv_coupon_status_enum]
+
+
+export const inv_discount_source_enum = {
+  promotion: 'promotion',
+  coupon: 'coupon',
+  manual: 'manual',
+  customer_group: 'customer_group',
+  price_list: 'price_list'
+} as const
+
+export type inv_discount_source_enum = (typeof inv_discount_source_enum)[keyof typeof inv_discount_source_enum]
+
+
+export const inv_approval_status_enum = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected',
+  cancelled: 'cancelled'
+} as const
+
+export type inv_approval_status_enum = (typeof inv_approval_status_enum)[keyof typeof inv_approval_status_enum]
+
+
 export const held_order_status_enum = {
   held: 'held',
   resumed: 'resumed',

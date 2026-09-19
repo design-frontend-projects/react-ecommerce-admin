@@ -4,6 +4,7 @@ import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, ChevronDown } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -211,6 +212,7 @@ function RefMultiSelect({
   value,
   onChange,
 }: RefMultiSelectProps) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
   const toggle = (id: string) => {
@@ -235,9 +237,9 @@ function RefMultiSelect({
       </PopoverTrigger>
       <PopoverContent className='w-[280px] p-0' align='start'>
         <Command>
-          <CommandInput placeholder='Search...' />
+          <CommandInput placeholder={t('promotions.actionDialog.search', 'Search...')} />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>{t('promotions.actionDialog.noResults', 'No results found.')}</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
@@ -263,6 +265,7 @@ function RefMultiSelect({
 }
 
 export function PromotionActionDialog() {
+  const { t } = useTranslation()
   const { open, setOpen, currentRow } = usePromotionsContext()
   const createMutation = useCreatePromotion()
   const updateMutation = useUpdatePromotion()
@@ -271,6 +274,12 @@ export function PromotionActionDialog() {
 
   const isEdit = open === 'edit'
   const isOpen = open === 'create' || open === 'edit'
+
+  const activityLabels: Record<PromotionActivity, string> = {
+    dine_in: t('promotions.actionDialog.activityDineIn', 'Dine-in'),
+    takeaway: t('promotions.actionDialog.activityTakeaway', 'Takeaway'),
+    delivery: t('promotions.actionDialog.activityDelivery', 'Delivery'),
+  }
 
   const form = useForm<PromotionFormValues>({
     resolver: zodResolver(formSchema) as Resolver<PromotionFormValues>,
@@ -354,18 +363,18 @@ export function PromotionActionDialog() {
           id: currentRow.id || String(currentRow.promotion_id),
           ...payload,
         })
-        toast.success('Promotion updated successfully')
+        toast.success(t('promotions.actionDialog.updatedSuccess', 'Promotion updated successfully'))
       } else {
         await createMutation.mutateAsync(payload)
-        toast.success('Promotion created successfully')
+        toast.success(t('promotions.actionDialog.createdSuccess', 'Promotion created successfully'))
       }
       setOpen(null)
     } catch (error: unknown) {
-      toast.error('Error', {
+      toast.error(t('promotions.actionDialog.error', 'Error'), {
         description:
           error instanceof Error
             ? error.message
-            : 'Something went wrong. Please try again.',
+            : t('promotions.actionDialog.errorGeneric', 'Something went wrong. Please try again.'),
       })
     }
   }
@@ -375,12 +384,14 @@ export function PromotionActionDialog() {
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[560px]'>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Edit Promotion' : 'Create Promotion'}
+            {isEdit
+              ? t('promotions.actionDialog.editTitle', 'Edit Promotion')
+              : t('promotions.actionDialog.createTitle', 'Create Promotion')}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Edit the promotion details below.'
-              : 'Add a new promotion to your database.'}
+              ? t('promotions.actionDialog.editDesc', 'Edit the promotion details below.')
+              : t('promotions.actionDialog.createDesc', 'Add a new promotion to your database.')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -394,9 +405,9 @@ export function PromotionActionDialog() {
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Promotion Name</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.name', 'Promotion Name')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='Holiday Sale' {...field} />
+                      <Input placeholder={t('promotions.actionDialog.namePlaceholder', 'Holiday Sale')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -407,9 +418,9 @@ export function PromotionActionDialog() {
                 name='code'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Promo Code</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.code', 'Promo Code')}</FormLabel>
                     <FormControl>
-                      <Input placeholder='SAVE20' {...field} />
+                      <Input placeholder={t('promotions.actionDialog.codePlaceholder', 'SAVE20')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -421,10 +432,10 @@ export function PromotionActionDialog() {
               name='description'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t('promotions.actionDialog.description', 'Description')}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Promotion description...'
+                      placeholder={t('promotions.actionDialog.descriptionPlaceholder', 'Promotion description...')}
                       {...field}
                     />
                   </FormControl>
@@ -439,7 +450,7 @@ export function PromotionActionDialog() {
               name='activities'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Activities</FormLabel>
+                  <FormLabel>{t('promotions.actionDialog.activities', 'Activities')}</FormLabel>
                   <div className='flex gap-4 rounded-lg border p-3'>
                     {ACTIVITY_OPTIONS.map((option) => (
                       <label
@@ -458,7 +469,7 @@ export function PromotionActionDialog() {
                             )
                           }}
                         />
-                        {option.label}
+                        {activityLabels[option.value] || option.label}
                       </label>
                     ))}
                   </div>
@@ -473,21 +484,23 @@ export function PromotionActionDialog() {
               name='promo_type'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Promotion Type</FormLabel>
+                  <FormLabel>{t('promotions.actionDialog.promoType', 'Promotion Type')}</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select type' />
+                        <SelectValue placeholder={t('promotions.actionDialog.selectType', 'Select type')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectItem value='order_discount'>
-                        Order Discount
+                        {t('promotions.actionDialog.orderDiscount', 'Order Discount')}
                       </SelectItem>
                       <SelectItem value='item_discount'>
-                        Item / Category Discount
+                        {t('promotions.actionDialog.itemDiscount', 'Item / Category Discount')}
                       </SelectItem>
-                      <SelectItem value='buy_x_get_y'>Buy X Get Y</SelectItem>
+                      <SelectItem value='buy_x_get_y'>
+                        {t('promotions.actionDialog.buyXGetY', 'Buy X Get Y')}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -502,19 +515,23 @@ export function PromotionActionDialog() {
                   name='discount_type'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Discount Type</FormLabel>
+                      <FormLabel>{t('promotions.actionDialog.discountType', 'Discount Type')}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Select type' />
+                            <SelectValue placeholder={t('promotions.actionDialog.selectType', 'Select type')} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value='percentage'>Percentage</SelectItem>
-                          <SelectItem value='fixed'>Fixed Amount</SelectItem>
+                          <SelectItem value='percentage'>
+                            {t('promotions.actionDialog.percentage', 'Percentage')}
+                          </SelectItem>
+                          <SelectItem value='fixed'>
+                            {t('promotions.actionDialog.fixedAmount', 'Fixed Amount')}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -526,7 +543,7 @@ export function PromotionActionDialog() {
                   name='discount_value'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Value</FormLabel>
+                      <FormLabel>{t('promotions.actionDialog.value', 'Value')}</FormLabel>
                       <FormControl>
                         <Input type='number' {...field} />
                       </FormControl>
@@ -539,14 +556,14 @@ export function PromotionActionDialog() {
 
             {promoType === 'item_discount' && (
               <div className='space-y-2 rounded-lg border p-3'>
-                <p className='text-sm font-medium'>Applies to</p>
+                <p className='text-sm font-medium'>{t('promotions.actionDialog.appliesTo', 'Applies to')}</p>
                 <FormField
                   control={form.control}
                   name='target_item_ids'
                   render={({ field }) => (
                     <FormItem>
                       <RefMultiSelect
-                        label='Menu items'
+                        label={t('promotions.actionDialog.menuItems', 'Menu items')}
                         options={menuItems ?? []}
                         value={field.value}
                         onChange={field.onChange}
@@ -561,7 +578,7 @@ export function PromotionActionDialog() {
                   render={({ field }) => (
                     <FormItem>
                       <RefMultiSelect
-                        label='Categories'
+                        label={t('promotions.actionDialog.categories', 'Categories')}
                         options={menuCategories ?? []}
                         value={field.value}
                         onChange={field.onChange}
@@ -581,7 +598,7 @@ export function PromotionActionDialog() {
                     name='buy_quantity'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Buy Qty</FormLabel>
+                        <FormLabel>{t('promotions.actionDialog.buyQty', 'Buy Qty')}</FormLabel>
                         <FormControl>
                           <Input type='number' min={1} {...field} />
                         </FormControl>
@@ -594,7 +611,7 @@ export function PromotionActionDialog() {
                     name='get_quantity'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Get Qty</FormLabel>
+                        <FormLabel>{t('promotions.actionDialog.getQty', 'Get Qty')}</FormLabel>
                         <FormControl>
                           <Input type='number' min={1} {...field} />
                         </FormControl>
@@ -607,7 +624,7 @@ export function PromotionActionDialog() {
                     name='get_discount_value'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>% Off "Get"</FormLabel>
+                        <FormLabel>{t('promotions.actionDialog.percentOffGet', '% Off "Get"')}</FormLabel>
                         <FormControl>
                           <Input type='number' min={0} max={100} {...field} />
                         </FormControl>
@@ -617,17 +634,21 @@ export function PromotionActionDialog() {
                   />
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  100% = free. Leave "customer gets" empty to discount the same
-                  items the customer buys.
+                  {t(
+                    'promotions.actionDialog.bxgyHelp',
+                    '100% = free. Leave "customer gets" empty to discount the same items the customer buys.'
+                  )}
                 </p>
                 <div className='space-y-2'>
-                  <p className='text-sm font-medium'>Customer buys</p>
+                  <p className='text-sm font-medium'>
+                    {t('promotions.actionDialog.customerBuys', 'Customer buys')}
+                  </p>
                   <FormField
                     control={form.control}
                     name='buy_item_ids'
                     render={({ field }) => (
                       <RefMultiSelect
-                        label='Menu items'
+                        label={t('promotions.actionDialog.menuItems', 'Menu items')}
                         options={menuItems ?? []}
                         value={field.value}
                         onChange={field.onChange}
@@ -639,20 +660,22 @@ export function PromotionActionDialog() {
                     name='buy_category_ids'
                     render={({ field }) => (
                       <RefMultiSelect
-                        label='Categories'
+                        label={t('promotions.actionDialog.categories', 'Categories')}
                         options={menuCategories ?? []}
                         value={field.value}
                         onChange={field.onChange}
                       />
                     )}
                   />
-                  <p className='text-sm font-medium'>Customer gets</p>
+                  <p className='text-sm font-medium'>
+                    {t('promotions.actionDialog.customerGets', 'Customer gets')}
+                  </p>
                   <FormField
                     control={form.control}
                     name='get_item_ids'
                     render={({ field }) => (
                       <RefMultiSelect
-                        label='Menu items'
+                        label={t('promotions.actionDialog.menuItems', 'Menu items')}
                         options={menuItems ?? []}
                         value={field.value}
                         onChange={field.onChange}
@@ -664,7 +687,7 @@ export function PromotionActionDialog() {
                     name='get_category_ids'
                     render={({ field }) => (
                       <RefMultiSelect
-                        label='Categories'
+                        label={t('promotions.actionDialog.categories', 'Categories')}
                         options={menuCategories ?? []}
                         value={field.value}
                         onChange={field.onChange}
@@ -681,7 +704,7 @@ export function PromotionActionDialog() {
                 name='minimum_purchase'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Minimum Purchase</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.minimumPurchase', 'Minimum Purchase')}</FormLabel>
                     <FormControl>
                       <Input type='number' min={0} {...field} />
                     </FormControl>
@@ -695,7 +718,7 @@ export function PromotionActionDialog() {
                 name='start_date'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Start Date</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.startDate', 'Start Date')}</FormLabel>
                     <FormControl>
                       <Input type='date' {...field} />
                     </FormControl>
@@ -708,7 +731,7 @@ export function PromotionActionDialog() {
                 name='end_date'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>End Date</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.endDate', 'End Date')}</FormLabel>
                     <FormControl>
                       <Input type='date' {...field} />
                     </FormControl>
@@ -725,12 +748,12 @@ export function PromotionActionDialog() {
                 name='usage_limit'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Total Usage Limit</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.usageLimit', 'Total Usage Limit')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         min={0}
-                        placeholder='Unlimited'
+                        placeholder={t('promotions.actionDialog.unlimited', 'Unlimited')}
                         {...field}
                         value={field.value ?? ''}
                       />
@@ -744,12 +767,12 @@ export function PromotionActionDialog() {
                 name='usage_per_customer'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Uses Per Customer</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.usagePerCustomer', 'Uses Per Customer')}</FormLabel>
                     <FormControl>
                       <Input
                         type='number'
                         min={0}
-                        placeholder='Unlimited'
+                        placeholder={t('promotions.actionDialog.unlimited', 'Unlimited')}
                         {...field}
                         value={field.value ?? ''}
                       />
@@ -766,9 +789,9 @@ export function PromotionActionDialog() {
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
                   <div className='space-y-0.5'>
-                    <FormLabel>Active Status</FormLabel>
+                    <FormLabel>{t('promotions.actionDialog.activeStatus', 'Active Status')}</FormLabel>
                     <div className='text-[0.8rem] text-muted-foreground'>
-                      Enable or disable this promotion.
+                      {t('promotions.actionDialog.activeStatusDesc', 'Enable or disable this promotion.')}
                     </div>
                   </div>
                   <FormControl>
@@ -787,15 +810,15 @@ export function PromotionActionDialog() {
                 onClick={() => setOpen(null)}
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
-                Cancel
+                {t('promotions.actionDialog.cancel', 'Cancel')}
               </Button>
               <Button
                 type='submit'
                 disabled={createMutation.isPending || updateMutation.isPending}
               >
                 {createMutation.isPending || updateMutation.isPending
-                  ? 'Saving...'
-                  : 'Save'}
+                  ? t('promotions.actionDialog.saving', 'Saving...')
+                  : t('promotions.actionDialog.save', 'Save')}
               </Button>
             </DialogFooter>
           </form>

@@ -92,10 +92,10 @@ describe('Purchase Order Summary Modal & Product Variant Picker', () => {
     expect(screen.getByText('Total Units')).toBeInTheDocument()
     expect(screen.getByText('$275.00')).toBeInTheDocument()
 
-    // Check line items table and UOM
+    // Check line items table and UOM descriptions (not raw codes)
     expect(screen.getByText('UOM')).toBeInTheDocument()
-    expect(screen.getByText('kg')).toBeInTheDocument()
-    expect(screen.getByText('carton')).toBeInTheDocument()
+    expect(screen.getByText('Kilogram')).toBeInTheDocument()
+    expect(screen.getByText('Carton')).toBeInTheDocument()
     expect(screen.getByText('Organic Espresso Beans')).toBeInTheDocument()
     expect(screen.getByText('ESP-1KG')).toBeInTheDocument()
     expect(screen.getByText('Oat Milk Barista Edition')).toBeInTheDocument()

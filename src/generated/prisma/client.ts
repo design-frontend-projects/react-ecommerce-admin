@@ -671,3 +671,83 @@ export type sales_order_payments = Prisma.sales_order_paymentsModel
  * Persistent suspended/held POS orders.
  */
 export type pos_held_orders = Prisma.pos_held_ordersModel
+/**
+ * Model inv_promotions
+ * 
+ */
+export type inv_promotions = Prisma.inv_promotionsModel
+/**
+ * Model inv_promotion_rules
+ * 
+ */
+export type inv_promotion_rules = Prisma.inv_promotion_rulesModel
+/**
+ * Model inv_promotion_conditions
+ * 
+ */
+export type inv_promotion_conditions = Prisma.inv_promotion_conditionsModel
+/**
+ * Model inv_promotion_products
+ * 
+ */
+export type inv_promotion_products = Prisma.inv_promotion_productsModel
+/**
+ * Model inv_promotion_categories
+ * 
+ */
+export type inv_promotion_categories = Prisma.inv_promotion_categoriesModel
+/**
+ * Model inv_promotion_brands
+ * 
+ */
+export type inv_promotion_brands = Prisma.inv_promotion_brandsModel
+/**
+ * Model inv_promotion_customer_groups
+ * 
+ */
+export type inv_promotion_customer_groups = Prisma.inv_promotion_customer_groupsModel
+/**
+ * Model inv_promotion_channels
+ * 
+ */
+export type inv_promotion_channels = Prisma.inv_promotion_channelsModel
+/**
+ * Model inv_promotion_stores
+ * 
+ */
+export type inv_promotion_stores = Prisma.inv_promotion_storesModel
+/**
+ * Model inv_promotion_branches
+ * 
+ */
+export type inv_promotion_branches = Prisma.inv_promotion_branchesModel
+/**
+ * Model inv_coupons
+ * 
+ */
+export type inv_coupons = Prisma.inv_couponsModel
+/**
+ * Model inv_coupon_redemptions
+ * 
+ */
+export type inv_coupon_redemptions = Prisma.inv_coupon_redemptionsModel
+/**
+ * Model inv_sales_invoice_discounts
+ * 
+ */
+export type inv_sales_invoice_discounts = Prisma.inv_sales_invoice_discountsModel
+/**
+ * Model inv_sales_invoice_item_discounts
+ * 
+ */
+export type inv_sales_invoice_item_discounts = Prisma.inv_sales_invoice_item_discountsModel
+/**
+ * Model inv_discount_approval_requests
+ * 
+ */
+export type inv_discount_approval_requests = Prisma.inv_discount_approval_requestsModel
+/**
+ * Model inv_promotion_usage_logs
+ * 
+ */
+export type inv_promotion_usage_logs = Prisma.inv_promotion_usage_logsModel

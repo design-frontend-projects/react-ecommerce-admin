@@ -39,6 +39,22 @@ export const TENANT_SCOPED_MODELS = new Set([
   'res_item_properties',
   'res_menu_categories',
   'res_void_requests',
+  'inv_promotions',
+  'inv_promotion_rules',
+  'inv_promotion_conditions',
+  'inv_promotion_products',
+  'inv_promotion_categories',
+  'inv_promotion_brands',
+  'inv_promotion_customer_groups',
+  'inv_promotion_channels',
+  'inv_promotion_stores',
+  'inv_promotion_branches',
+  'inv_coupons',
+  'inv_coupon_redemptions',
+  'inv_sales_invoice_discounts',
+  'inv_sales_invoice_item_discounts',
+  'inv_discount_approval_requests',
+  'inv_promotion_usage_logs',
 ])
 
 /**

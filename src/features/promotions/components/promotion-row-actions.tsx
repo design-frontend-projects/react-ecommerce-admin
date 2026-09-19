@@ -1,4 +1,5 @@
 import { type Row } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,6 +21,7 @@ interface PromotionRowActionsProps<TData> {
 export function PromotionRowActions<TData>({
   row,
 }: PromotionRowActionsProps<TData>) {
+  const { t } = useTranslation()
   const promotion = row.original as Promotion
   const { setOpen, setCurrentRow } = usePromotionsContext()
 
@@ -31,7 +33,7 @@ export function PromotionRowActions<TData>({
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <MoreHorizontal className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t('promotions.rowActions.openMenu', 'Open menu')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -43,7 +45,7 @@ export function PromotionRowActions<TData>({
             }}
           >
             <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Edit
+            {t('promotions.rowActions.edit', 'Edit')}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -53,7 +55,7 @@ export function PromotionRowActions<TData>({
             }}
           >
             <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Delete
+            {t('promotions.rowActions.delete', 'Delete')}
             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
           </DropdownMenuItem>
         </Can>

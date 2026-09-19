@@ -161,6 +161,9 @@ export const usePurchaseOrders = () => {
       return (data || []).map((row) => ({
         ...row,
         po_id: row.id || row.po_id,
+        warehouses: Array.isArray(row.warehouses) ? row.warehouses[0] : row.warehouses,
+        suppliers: Array.isArray(row.suppliers) ? row.suppliers[0] : row.suppliers,
+        currencies: Array.isArray(row.currencies) ? row.currencies[0] : row.currencies,
         purchase_order_items: row.purchase_order_items || [],
       })) as PurchaseOrder[]
     },
@@ -207,6 +210,9 @@ export const usePurchaseOrder = (id: number | string) => {
       return {
         ...data,
         po_id: data.id || data.po_id,
+        warehouses: Array.isArray(data.warehouses) ? data.warehouses[0] : data.warehouses,
+        suppliers: Array.isArray(data.suppliers) ? data.suppliers[0] : data.suppliers,
+        currencies: Array.isArray(data.currencies) ? data.currencies[0] : data.currencies,
       } as PurchaseOrderWithItems
     },
     enabled: Boolean(cleanId && cleanId !== '0') && authEnabled,

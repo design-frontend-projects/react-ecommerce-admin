@@ -209,7 +209,11 @@ export async function processPosReturn(
         )
       }
 
-      const unitPrice = toDecimal(item.unitPrice || origItem.unit_price)
+      // Calculate effective unit price accounting for item discounts paid
+      const effectivePaidUnitPrice = origItem.qty_ordered.gt(0)
+        ? origItem.line_total.dividedBy(origItem.qty_ordered)
+        : origItem.unit_price
+      const unitPrice = item.unitPrice ? toDecimal(item.unitPrice) : effectivePaidUnitPrice
       const lineTotal = qty.times(unitPrice)
       totalRefund = totalRefund.plus(lineTotal)
 

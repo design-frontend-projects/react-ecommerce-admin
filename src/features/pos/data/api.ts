@@ -156,6 +156,138 @@ export async function getInclusiveTaxRates() {
 }
 
 export async function validatePosPromotion(code: string) {
+  const cleanCode = code.trim().toUpperCase()
+
+  // 1. Check ERP inv_coupons table
+  const { data: couponData } = await supabase
+    .from('inv_coupons')
+    .select(`
+      id,
+      code,
+      promotion_id,
+      status,
+      max_usages,
+      current_usages,
+      start_date,
+      end_date,
+      min_order_amount,
+      promotion:inv_promotions (
+        id,
+        name,
+        code,
+        status,
+        promo_type,
+        start_date,
+        end_date,
+        rules:inv_promotion_rules (*)
+      )
+    `)
+    .ilike('code', cleanCode)
+    .maybeSingle()
+
+  if (couponData) {
+    if (couponData.status !== 'active') {
+      throw new Error(`Coupon '${cleanCode}' is ${couponData.status}.`)
+    }
+    const now = new Date()
+    if (couponData.start_date && new Date(couponData.start_date) > now) {
+      throw new Error('Coupon is not yet active.')
+    }
+    if (couponData.end_date && new Date(couponData.end_date) < now) {
+      throw new Error('Coupon has expired.')
+    }
+    if (couponData.max_usages && couponData.current_usages >= couponData.max_usages) {
+      throw new Error('Coupon usage limit reached.')
+    }
+
+    const rawPromo = couponData.promotion as unknown as {
+      id: string
+      name: string
+      code: string | null
+      status: string
+      promo_type: string
+      rules?: { discount_value: number; rule_type: string }[]
+    } | {
+      id: string
+      name: string
+      code: string | null
+      status: string
+      promo_type: string
+      rules?: { discount_value: number; rule_type: string }[]
+    }[] | null
+
+    const promo = Array.isArray(rawPromo) ? rawPromo[0] : rawPromo
+    const primaryRule = promo?.rules?.[0]
+    const discountVal = primaryRule ? Number(primaryRule.discount_value) : 0
+    const isFixed =
+      promo?.promo_type === 'fixed_amount' ||
+      primaryRule?.rule_type === 'fixed_amount_discount'
+
+    return {
+      promotion_id: couponData.promotion_id,
+      coupon_id: couponData.id,
+      name: promo?.name || couponData.code,
+      code: couponData.code,
+      discount_type: isFixed ? 'fixed' : 'percentage',
+      discount_value: discountVal,
+      is_inv_promotion: true,
+      min_order_amount: couponData.min_order_amount ? Number(couponData.min_order_amount) : 0,
+    }
+  }
+
+  // 2. Check ERP inv_promotions direct code
+  const { data: promoData } = await supabase
+    .from('inv_promotions')
+    .select(`
+      id,
+      name,
+      code,
+      status,
+      promo_type,
+      start_date,
+      end_date,
+      usage_limit,
+      current_usage_count,
+      min_order_amount,
+      rules:inv_promotion_rules (*)
+    `)
+    .ilike('code', cleanCode)
+    .maybeSingle()
+
+  if (promoData) {
+    if (promoData.status !== 'active') {
+      throw new Error(`Promotion is ${promoData.status}.`)
+    }
+    const now = new Date()
+    if (promoData.start_date && new Date(promoData.start_date) > now) {
+      throw new Error('Promotion has not started yet.')
+    }
+    if (promoData.end_date && new Date(promoData.end_date) < now) {
+      throw new Error('Promotion has expired.')
+    }
+    if (promoData.usage_limit && promoData.current_usage_count >= promoData.usage_limit) {
+      throw new Error('Promotion usage limit reached.')
+    }
+
+    const rawRules = promoData.rules as unknown as { discount_value: number; rule_type: string }[] | null
+    const primaryRule = rawRules?.[0]
+    const discountVal = primaryRule ? Number(primaryRule.discount_value) : 0
+    const isFixed =
+      promoData.promo_type === 'fixed_amount' ||
+      primaryRule?.rule_type === 'fixed_amount_discount'
+
+    return {
+      promotion_id: promoData.id,
+      name: promoData.name,
+      code: promoData.code || cleanCode,
+      discount_type: isFixed ? 'fixed' : 'percentage',
+      discount_value: discountVal,
+      is_inv_promotion: true,
+      min_order_amount: promoData.min_order_amount ? Number(promoData.min_order_amount) : 0,
+    }
+  }
+
+  // 3. Fallback to legacy promotions table
   const { data, error } = await supabase
     .from('promotions')
     .select('*')
@@ -188,8 +320,6 @@ export async function validatePosPromotion(code: string) {
       throw new Error('Promotion usage limit reached.')
     }
   }
-
-  // We are bypassing customer usage limit for walk-ins per plan approval.
 
   return data
 }
@@ -289,8 +419,10 @@ export function validateNonRestaurantShipmentStatus(
 }
 
 export type NonRestaurantShipment = {
-  shipment_id: number
-  order_id: number
+  id?: string
+  shipment_id: number | string
+  order_id: number | string | null
+  sales_invoice_id?: string | null
   tracking_number: string | null
   shipped_date: string | null
   delivered_date: string | null
@@ -303,6 +435,8 @@ export type NonRestaurantShipment = {
   city: string | null
   state: string | null
   postal_code: string | null
+  created_at?: string | null
+  updated_at?: string | null
 }
 
 type ShipmentsRow = {
@@ -316,6 +450,8 @@ type ShipmentsRow = {
   carrier: string | null
   status: string | null
   notes: string | null
+  created_at?: string | null
+  updated_at?: string | null
 }
 
 export type NonRestaurantShipmentUpdateInput = {
@@ -386,12 +522,29 @@ export function mapNonRestaurantShipmentRow(
   shipment: ShipmentsRow
 ): NonRestaurantShipment {
   const details = parseSerializedShipmentDetails(shipment.notes)
-  const resolvedShipmentId = Number(shipment.shipment_id ?? shipment.id ?? 0)
-  const resolvedOrderId = Number(shipment.order_id ?? 0)
+  const rawShipmentId = shipment.shipment_id ?? shipment.id ?? ''
+  const resolvedShipmentId =
+    typeof rawShipmentId === 'number'
+      ? rawShipmentId
+      : !isNaN(Number(rawShipmentId)) && rawShipmentId !== '' && !String(rawShipmentId).includes('-')
+        ? Number(rawShipmentId)
+        : String(rawShipmentId)
+
+  const rawOrderId = shipment.order_id ?? shipment.sales_invoice_id ?? null
+  const resolvedOrderId =
+    rawOrderId != null
+      ? typeof rawOrderId === 'number'
+        ? rawOrderId
+        : !isNaN(Number(rawOrderId)) && rawOrderId !== '' && !String(rawOrderId).includes('-')
+          ? Number(rawOrderId)
+          : String(rawOrderId)
+      : null
 
   return {
+    id: String(rawShipmentId),
     shipment_id: resolvedShipmentId,
     order_id: resolvedOrderId,
+    sales_invoice_id: shipment.sales_invoice_id ? String(shipment.sales_invoice_id) : null,
     tracking_number: shipment.tracking_number ?? null,
     shipped_date: shipment.shipped_date ?? null,
     delivered_date: shipment.delivered_date ?? null,
@@ -404,6 +557,8 @@ export function mapNonRestaurantShipmentRow(
     city: details?.city || null,
     state: details?.state || null,
     postal_code: details?.postalCode || null,
+    created_at: shipment.created_at ?? null,
+    updated_at: shipment.updated_at ?? null,
   }
 }
 
@@ -413,9 +568,9 @@ export async function getNonRestaurantShipments(): Promise<
   const { data, error } = await supabase
     .from('shipments')
     .select(
-      'shipment_id, order_id, tracking_number, shipped_date, delivered_date, carrier, status, notes'
+      'id, sales_invoice_id, order_id, tracking_number, shipped_date, delivered_date, carrier, status, notes, created_at, updated_at'
     )
-    .order('shipment_id', { ascending: false })
+    .order('created_at', { ascending: false })
 
   if (error) throw error
 
@@ -425,9 +580,9 @@ export async function getNonRestaurantShipments(): Promise<
 export async function updateNonRestaurantShipment(
   input: NonRestaurantShipmentUpdateInput
 ) {
-  const numericShipmentId = Number(input.shipmentId)
+  const targetId = String(input.shipmentId).trim()
 
-  if (!Number.isFinite(numericShipmentId)) {
+  if (!targetId || targetId === 'NaN' || targetId === 'undefined' || targetId === 'null') {
     throw new Error(`Invalid shipment id: ${input.shipmentId}`)
   }
 
@@ -435,8 +590,8 @@ export async function updateNonRestaurantShipment(
 
   const { data: existing, error: existingError } = await supabase
     .from('shipments')
-    .select('shipment_id, shipped_date, delivered_date, notes')
-    .eq('shipment_id', numericShipmentId)
+    .select('id, shipped_date, delivered_date, notes')
+    .eq('id', targetId)
     .single()
 
   if (existingError) throw existingError
@@ -453,8 +608,10 @@ export async function updateNonRestaurantShipment(
     tracking_number?: string | null
     carrier?: string | null
     notes?: string | null
+    updated_at?: string | null
   } = {
     ...statusUpdates,
+    updated_at: new Date().toISOString(),
   }
 
   if ('tracking_number' in input) {
@@ -475,11 +632,11 @@ export async function updateNonRestaurantShipment(
   const { error } = await supabase
     .from('shipments')
     .update(updates)
-    .eq('shipment_id', numericShipmentId)
+    .eq('id', targetId)
 
   if (error) throw error
 
-  return { id: String(numericShipmentId), ...updates }
+  return { id: targetId, ...updates }
 }
 
 
@@ -513,18 +670,18 @@ export type NonRestaurantShipmentDetails = {
 export async function getNonRestaurantShipmentDetails(
   shipmentId: string | number
 ): Promise<NonRestaurantShipmentDetails> {
-  const numericShipmentId = Number(shipmentId)
+  const targetId = String(shipmentId).trim()
 
-  if (!Number.isFinite(numericShipmentId)) {
+  if (!targetId || targetId === 'NaN' || targetId === 'undefined' || targetId === 'null') {
     throw new Error(`Invalid shipment id: ${shipmentId}`)
   }
 
   const { data: shipmentRow, error: shipmentError } = await supabase
     .from('shipments')
     .select(
-      'id, sales_invoice_id, order_id, tracking_number, shipped_date, delivered_date, carrier, status, notes'
+      'id, sales_invoice_id, order_id, tracking_number, shipped_date, delivered_date, carrier, status, notes, created_at, updated_at'
     )
-    .eq('id', numericShipmentId)
+    .eq('id', targetId)
     .single()
 
   if (shipmentError) throw shipmentError
@@ -595,6 +752,61 @@ export async function getNonRestaurantShipmentDetails(
         total_amount: invoiceRow.total_amount,
         items: mappedItems,
       },
+    }
+  }
+
+  const orderId = (shipmentRow as any).order_id
+  if (orderId) {
+    const { data: orderRow, error: orderError } = await supabase
+      .from('sales_orders')
+      .select('id, order_no, status, total_amount, order_date')
+      .eq('id', orderId)
+      .maybeSingle()
+
+    if (!orderError && orderRow) {
+      const { data: orderItems } = await supabase
+        .from('sales_order_items')
+        .select(
+          'id, product_variant_id, qty_ordered, unit_price, line_total, product_variants(products(name, sku))'
+        )
+        .eq('sales_order_id', orderRow.id)
+
+      const mappedItems: NonRestaurantShipmentOrderItem[] =
+        ((orderItems as any[]) || []).map((item) => {
+          const product = Array.isArray(item.product_variants?.products)
+            ? item.product_variants?.products[0]
+            : item.product_variants?.products
+          const quantity = Number(item.qty_ordered || 0)
+          const unitPrice = Number(item.unit_price || 0)
+
+          return {
+            sale_item_id: item.id,
+            product_id: item.product_variant_id,
+            product_name: product?.name || null,
+            product_sku: product?.sku || null,
+            quantity,
+            unit_price: unitPrice,
+            line_subtotal:
+              item.line_total !== null && item.line_total !== undefined
+                ? Number(item.line_total)
+                : quantity * unitPrice,
+          }
+        })
+
+      return {
+        shipment,
+        order: {
+          sale_id: orderRow.id,
+          sale_date: orderRow.order_date,
+          status: orderRow.status,
+          payment_method: 'order',
+          subtotal: orderRow.total_amount,
+          discount_amount: 0,
+          tax_amount: 0,
+          total_amount: orderRow.total_amount,
+          items: mappedItems,
+        },
+      }
     }
   }
 
@@ -712,17 +924,55 @@ export async function createPosTransaction(
       restaurantOrderId = resOrder.id
     }
 
-    // Insert promotion usage if promotionId is present
+    // Insert promotion usage & discounts
     if (payload.promotionId) {
-      const { error: promoUsageError } = await supabase
-        .from('promotion_usage')
-        .insert({
-          promotion_id: payload.promotionId,
-          customer_id: payload.customerId || null,
-          res_order_id: restaurantOrderId || null,
+      const { data: invPromo } = await supabase
+        .from('inv_promotions')
+        .select('id, current_usage_count, tenant_id')
+        .eq('id', payload.promotionId)
+        .maybeSingle()
+
+      if (invPromo) {
+        // Record ERP sales invoice discount
+        await supabase.from('inv_sales_invoice_discounts').insert({
+          tenant_id: invPromo.tenant_id,
+          sales_invoice_id: invoice.id,
+          promotion_id: invPromo.id,
+          source: 'promotion',
+          discount_amount: payload.discountTotal || 0,
+          notes: 'POS Applied Promotion',
         })
-      if (promoUsageError) {
-        console.warn('Failed to record promotion usage', promoUsageError) // eslint-disable-line no-console
+
+        // Record ERP promotion usage log
+        await supabase.from('inv_promotion_usage_logs').insert({
+          tenant_id: invPromo.tenant_id,
+          promotion_id: invPromo.id,
+          sales_invoice_id: invoice.id,
+          customer_id: payload.customerId || null,
+          branch_id: selectedBranchId,
+          store_id: payload.storeId || null,
+          discount_amount: payload.discountTotal || 0,
+        })
+
+        // Increment current_usage_count
+        await supabase
+          .from('inv_promotions')
+          .update({
+            current_usage_count: (invPromo.current_usage_count || 0) + 1,
+          })
+          .eq('id', invPromo.id)
+      } else {
+        // Legacy restaurant promotion
+        const { error: promoUsageError } = await supabase
+          .from('promotion_usage')
+          .insert({
+            promotion_id: payload.promotionId,
+            customer_id: payload.customerId || null,
+            res_order_id: restaurantOrderId || null,
+          })
+        if (promoUsageError) {
+          console.warn('Failed to record promotion usage', promoUsageError) // eslint-disable-line no-console
+        }
       }
     }
 
@@ -852,8 +1102,8 @@ export async function getPosShipments() {
 
   return shipments.map((shipment) => {
     return {
-      id: String(shipment.shipment_id),
-      order_id: String(shipment.order_id),
+      id: String(shipment.id ?? shipment.shipment_id),
+      order_id: String(shipment.order_id ?? shipment.sales_invoice_id ?? ''),
       recipient_name: shipment.recipient_name || 'N/A',
       recipient_phone: shipment.recipient_phone || 'N/A',
       delivery_address: shipment.delivery_address || 'N/A',
@@ -867,6 +1117,7 @@ export async function getPosShipments() {
       shipped_at: shipment.shipped_date,
       delivered_at: shipment.delivered_date,
       created_at:
+        shipment.created_at ||
         shipment.shipped_date ||
         shipment.delivered_date ||
         new Date().toISOString(),
@@ -1012,15 +1263,15 @@ export async function getPosShipmentDetails(
     }
   }
 
-  const numericShipmentId = Number(shipmentId)
-  if (!Number.isFinite(numericShipmentId)) {
+  const targetShipmentId = String(shipmentId).trim()
+  if (!targetShipmentId || targetShipmentId === 'NaN' || targetShipmentId === 'undefined' || targetShipmentId === 'null') {
     throw new Error(`Invalid shipment id: ${shipmentId}`)
   }
 
   const { data: shipment, error: shipmentError } = await supabase
     .from('shipments')
     .select('*')
-    .eq('shipment_id', numericShipmentId)
+    .eq('id', targetShipmentId)
     .single()
 
   if (shipmentError) throw shipmentError
@@ -1029,8 +1280,8 @@ export async function getPosShipmentDetails(
 
   return {
     shipment: {
-      id: String(mappedShipment.shipment_id),
-      order_id: String(mappedShipment.order_id),
+      id: String(mappedShipment.id ?? mappedShipment.shipment_id),
+      order_id: String(mappedShipment.order_id ?? mappedShipment.sales_invoice_id ?? ''),
       recipient_name: mappedShipment.recipient_name || 'N/A',
       recipient_phone: mappedShipment.recipient_phone || 'N/A',
       delivery_address: mappedShipment.delivery_address || 'N/A',
@@ -1040,10 +1291,11 @@ export async function getPosShipmentDetails(
       status: mappedShipment.status,
       notes: mappedShipment.notes || '',
       created_at:
+        mappedShipment.created_at ||
         mappedShipment.shipped_date ||
         mappedShipment.delivered_date ||
         new Date().toISOString(),
-      updated_at: null,
+      updated_at: mappedShipment.updated_at || null,
       shipped_at: mappedShipment.shipped_date || null,
       delivered_at: mappedShipment.delivered_date || null,
       tracking_number: mappedShipment.tracking_number,

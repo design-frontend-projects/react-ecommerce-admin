@@ -49,6 +49,28 @@ describe('mapNonRestaurantShipmentRow', () => {
     expect(mapped.order_id).toBe(304)
     expect(mapped.status).toBe('prepared')
   })
+
+  it('maps correctly when row has UUID string id and order_id', () => {
+    const row = {
+      id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+      sales_invoice_id: 'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a22',
+      order_id: 'c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33',
+      tracking_number: 'TRK789',
+      shipped_date: '2026-09-19T00:00:00.000Z',
+      delivered_date: null,
+      carrier: 'UPS',
+      status: 'in_transit',
+      notes: null,
+      created_at: '2026-09-19T00:00:00.000Z',
+      updated_at: '2026-09-19T00:00:00.000Z',
+    }
+
+    const mapped = mapNonRestaurantShipmentRow(row)
+    expect(mapped.id).toBe('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
+    expect(mapped.shipment_id).toBe('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
+    expect(mapped.order_id).toBe('c2eebc99-9c0b-4ef8-bb6d-6bb9bd380a33')
+    expect(mapped.status).toBe('in_transit')
+  })
 })
 
 describe('parseSerializedShipmentDetails', () => {

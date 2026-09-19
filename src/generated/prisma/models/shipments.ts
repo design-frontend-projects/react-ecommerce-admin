@@ -35,6 +35,8 @@ export type ShipmentsMinAggregateOutputType = {
   sales_invoice_id: string | null
   tenant_id: string | null
   order_id: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
@@ -50,6 +52,8 @@ export type ShipmentsMaxAggregateOutputType = {
   sales_invoice_id: string | null
   tenant_id: string | null
   order_id: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
@@ -65,6 +69,8 @@ export type ShipmentsCountAggregateOutputType = {
   sales_invoice_id: number
   tenant_id: number
   order_id: number
+  created_at: number
+  updated_at: number
   created_by_user_id: number
   updated_by_user_id: number
   _all: number
@@ -82,6 +88,8 @@ export type ShipmentsMinAggregateInputType = {
   sales_invoice_id?: true
   tenant_id?: true
   order_id?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
@@ -97,6 +105,8 @@ export type ShipmentsMaxAggregateInputType = {
   sales_invoice_id?: true
   tenant_id?: true
   order_id?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
@@ -112,6 +122,8 @@ export type ShipmentsCountAggregateInputType = {
   sales_invoice_id?: true
   tenant_id?: true
   order_id?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
   _all?: true
@@ -200,6 +212,8 @@ export type ShipmentsGroupByOutputType = {
   sales_invoice_id: string | null
   tenant_id: string
   order_id: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
   _count: ShipmentsCountAggregateOutputType | null
@@ -236,6 +250,8 @@ export type shipmentsWhereInput = {
   sales_invoice_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
   tenant_id?: Prisma.UuidFilter<"shipments"> | string
   order_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
 }
@@ -251,6 +267,8 @@ export type shipmentsOrderByWithRelationInput = {
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
 }
@@ -269,6 +287,8 @@ export type shipmentsWhereUniqueInput = Prisma.AtLeast<{
   sales_invoice_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
   tenant_id?: Prisma.UuidFilter<"shipments"> | string
   order_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"shipments"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"shipments"> | string | null
 }, "id">
@@ -284,6 +304,8 @@ export type shipmentsOrderByWithAggregationInput = {
   sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipmentsCountOrderByAggregateInput
@@ -305,6 +327,8 @@ export type shipmentsScalarWhereWithAggregatesInput = {
   sales_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"shipments"> | string | null
   tenant_id?: Prisma.UuidWithAggregatesFilter<"shipments"> | string
   order_id?: Prisma.UuidNullableWithAggregatesFilter<"shipments"> | string | null
+  created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"shipments"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"shipments"> | Date | string | null
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipments"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"shipments"> | string | null
 }
@@ -320,6 +344,8 @@ export type shipmentsCreateInput = {
   sales_invoice_id?: string | null
   tenant_id: string
   order_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -335,6 +361,8 @@ export type shipmentsUncheckedCreateInput = {
   sales_invoice_id?: string | null
   tenant_id: string
   order_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -350,6 +378,8 @@ export type shipmentsUpdateInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -365,6 +395,8 @@ export type shipmentsUncheckedUpdateInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -380,6 +412,8 @@ export type shipmentsCreateManyInput = {
   sales_invoice_id?: string | null
   tenant_id: string
   order_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -395,6 +429,8 @@ export type shipmentsUpdateManyMutationInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -410,6 +446,8 @@ export type shipmentsUncheckedUpdateManyInput = {
   sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -425,6 +463,8 @@ export type shipmentsCountOrderByAggregateInput = {
   sales_invoice_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -440,6 +480,8 @@ export type shipmentsMaxOrderByAggregateInput = {
   sales_invoice_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -455,6 +497,8 @@ export type shipmentsMinOrderByAggregateInput = {
   sales_invoice_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   order_id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -472,6 +516,8 @@ export type shipmentsSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   sales_invoice_id?: boolean
   tenant_id?: boolean
   order_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipments"]>
@@ -487,6 +533,8 @@ export type shipmentsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   sales_invoice_id?: boolean
   tenant_id?: boolean
   order_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipments"]>
@@ -502,6 +550,8 @@ export type shipmentsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   sales_invoice_id?: boolean
   tenant_id?: boolean
   order_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }, ExtArgs["result"]["shipments"]>
@@ -517,11 +567,13 @@ export type shipmentsSelectScalar = {
   sales_invoice_id?: boolean
   tenant_id?: boolean
   order_id?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tracking_number" | "shipped_date" | "delivered_date" | "carrier" | "status" | "notes" | "id" | "sales_invoice_id" | "tenant_id" | "order_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["shipments"]>
+export type shipmentsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tracking_number" | "shipped_date" | "delivered_date" | "carrier" | "status" | "notes" | "id" | "sales_invoice_id" | "tenant_id" | "order_id" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["shipments"]>
 
 export type $shipmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "shipments"
@@ -537,6 +589,8 @@ export type $shipmentsPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     sales_invoice_id: string | null
     tenant_id: string
     order_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
     created_by_user_id: string | null
     updated_by_user_id: string | null
   }, ExtArgs["result"]["shipments"]>
@@ -972,6 +1026,8 @@ export interface shipmentsFieldRefs {
   readonly sales_invoice_id: Prisma.FieldRef<"shipments", 'String'>
   readonly tenant_id: Prisma.FieldRef<"shipments", 'String'>
   readonly order_id: Prisma.FieldRef<"shipments", 'String'>
+  readonly created_at: Prisma.FieldRef<"shipments", 'DateTime'>
+  readonly updated_at: Prisma.FieldRef<"shipments", 'DateTime'>
   readonly created_by_user_id: Prisma.FieldRef<"shipments", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"shipments", 'String'>
 }

@@ -42,6 +42,7 @@ import {
 import { POStatusBadge } from './po-status-badge'
 import { usePOContext } from './po-provider'
 import { usePurchaseOrder } from '../hooks/use-purchase-orders'
+import { getLocalizedUomDescription } from '../utils/format-uom'
 
 export interface POSummaryDraftItem {
   productId: number | string
@@ -93,7 +94,7 @@ export function POSummaryDialog({
   onConfirmDraftSubmit,
   isSubmittingDraft,
 }: POSummaryDialogProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { open: contextOpen, setOpen: setContextOpen, currentRow } = usePOContext()
   const [copied, setCopied] = useState(false)
 
@@ -436,7 +437,7 @@ export function POSummaryDialog({
                         <TableHead className='w-12 text-center'>#</TableHead>
                         <TableHead>{t('purchaseOrders.lineItems.product', 'Product')}</TableHead>
                         <TableHead>{t('purchaseOrders.summary.variantSku', 'Variant / SKU')}</TableHead>
-                        <TableHead className='w-20 text-center'>{t('purchaseOrders.lineItems.uom', 'UOM')}</TableHead>
+                        <TableHead className='w-28 text-center'>{t('purchaseOrders.lineItems.uom', 'UOM')}</TableHead>
                         <TableHead className='w-24 text-center'>{t('purchaseOrders.lineItems.qty', 'Qty')}</TableHead>
                         <TableHead className='w-28 text-right'>{t('purchaseOrders.lineItems.unitCost', 'Unit Cost')}</TableHead>
                         <TableHead className='w-28 text-right'>{t('purchaseOrders.lineItems.subtotal', 'Subtotal')}</TableHead>
@@ -481,9 +482,12 @@ export function POSummaryDialog({
                               </div>
                             </TableCell>
                             <TableCell className='text-center'>
-                              {item.uomCode || item.uomName ? (
-                                <Badge variant='outline' className='font-mono text-xs'>
-                                  {item.uomCode || item.uomName}
+                              {item.uomName || item.uomCode ? (
+                                <Badge variant='secondary' className='text-xs font-medium px-2 py-0.5'>
+                                  {getLocalizedUomDescription(
+                                    { name: item.uomName, code: item.uomCode },
+                                    i18n.language
+                                  )}
                                 </Badge>
                               ) : (
                                 <span className='text-xs text-muted-foreground'>—</span>

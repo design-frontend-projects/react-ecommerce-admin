@@ -231,6 +231,7 @@ export type brandsWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   products?: Prisma.ProductsListRelationFilter
+  inv_promotion_brands?: Prisma.Inv_promotion_brandsListRelationFilter
 }
 
 export type brandsOrderByWithRelationInput = {
@@ -246,6 +247,7 @@ export type brandsOrderByWithRelationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   products?: Prisma.productsOrderByRelationAggregateInput
+  inv_promotion_brands?: Prisma.inv_promotion_brandsOrderByRelationAggregateInput
 }
 
 export type brandsWhereUniqueInput = Prisma.AtLeast<{
@@ -264,6 +266,7 @@ export type brandsWhereUniqueInput = Prisma.AtLeast<{
   created_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"brands"> | string | null
   products?: Prisma.ProductsListRelationFilter
+  inv_promotion_brands?: Prisma.Inv_promotion_brandsListRelationFilter
 }, "id" | "name">
 
 export type brandsOrderByWithAggregationInput = {
@@ -313,6 +316,7 @@ export type brandsCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   products?: Prisma.productsCreateNestedManyWithoutBrandsInput
+  inv_promotion_brands?: Prisma.inv_promotion_brandsCreateNestedManyWithoutBrandsInput
 }
 
 export type brandsUncheckedCreateInput = {
@@ -328,6 +332,7 @@ export type brandsUncheckedCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   products?: Prisma.productsUncheckedCreateNestedManyWithoutBrandsInput
+  inv_promotion_brands?: Prisma.inv_promotion_brandsUncheckedCreateNestedManyWithoutBrandsInput
 }
 
 export type brandsUpdateInput = {
@@ -343,6 +348,7 @@ export type brandsUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateManyWithoutBrandsNestedInput
+  inv_promotion_brands?: Prisma.inv_promotion_brandsUpdateManyWithoutBrandsNestedInput
 }
 
 export type brandsUncheckedUpdateInput = {
@@ -358,6 +364,7 @@ export type brandsUncheckedUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUncheckedUpdateManyWithoutBrandsNestedInput
+  inv_promotion_brands?: Prisma.inv_promotion_brandsUncheckedUpdateManyWithoutBrandsNestedInput
 }
 
 export type brandsCreateManyInput = {
@@ -449,6 +456,11 @@ export type brandsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
+export type BrandsScalarRelationFilter = {
+  is?: Prisma.brandsWhereInput
+  isNot?: Prisma.brandsWhereInput
+}
+
 export type brandsCreateNestedOneWithoutProductsInput = {
   create?: Prisma.XOR<Prisma.brandsCreateWithoutProductsInput, Prisma.brandsUncheckedCreateWithoutProductsInput>
   connectOrCreate?: Prisma.brandsCreateOrConnectWithoutProductsInput
@@ -465,6 +477,20 @@ export type brandsUpdateOneWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.brandsUpdateToOneWithWhereWithoutProductsInput, Prisma.brandsUpdateWithoutProductsInput>, Prisma.brandsUncheckedUpdateWithoutProductsInput>
 }
 
+export type brandsCreateNestedOneWithoutInv_promotion_brandsInput = {
+  create?: Prisma.XOR<Prisma.brandsCreateWithoutInv_promotion_brandsInput, Prisma.brandsUncheckedCreateWithoutInv_promotion_brandsInput>
+  connectOrCreate?: Prisma.brandsCreateOrConnectWithoutInv_promotion_brandsInput
+  connect?: Prisma.brandsWhereUniqueInput
+}
+
+export type brandsUpdateOneRequiredWithoutInv_promotion_brandsNestedInput = {
+  create?: Prisma.XOR<Prisma.brandsCreateWithoutInv_promotion_brandsInput, Prisma.brandsUncheckedCreateWithoutInv_promotion_brandsInput>
+  connectOrCreate?: Prisma.brandsCreateOrConnectWithoutInv_promotion_brandsInput
+  upsert?: Prisma.brandsUpsertWithoutInv_promotion_brandsInput
+  connect?: Prisma.brandsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.brandsUpdateToOneWithWhereWithoutInv_promotion_brandsInput, Prisma.brandsUpdateWithoutInv_promotion_brandsInput>, Prisma.brandsUncheckedUpdateWithoutInv_promotion_brandsInput>
+}
+
 export type brandsCreateWithoutProductsInput = {
   id?: string
   name: string
@@ -477,6 +503,7 @@ export type brandsCreateWithoutProductsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inv_promotion_brands?: Prisma.inv_promotion_brandsCreateNestedManyWithoutBrandsInput
 }
 
 export type brandsUncheckedCreateWithoutProductsInput = {
@@ -491,6 +518,7 @@ export type brandsUncheckedCreateWithoutProductsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  inv_promotion_brands?: Prisma.inv_promotion_brandsUncheckedCreateNestedManyWithoutBrandsInput
 }
 
 export type brandsCreateOrConnectWithoutProductsInput = {
@@ -521,6 +549,7 @@ export type brandsUpdateWithoutProductsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inv_promotion_brands?: Prisma.inv_promotion_brandsUpdateManyWithoutBrandsNestedInput
 }
 
 export type brandsUncheckedUpdateWithoutProductsInput = {
@@ -535,6 +564,83 @@ export type brandsUncheckedUpdateWithoutProductsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inv_promotion_brands?: Prisma.inv_promotion_brandsUncheckedUpdateManyWithoutBrandsNestedInput
+}
+
+export type brandsCreateWithoutInv_promotion_brandsInput = {
+  id?: string
+  name: string
+  name_ar?: string | null
+  code?: string | null
+  logo_url?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedManyWithoutBrandsInput
+}
+
+export type brandsUncheckedCreateWithoutInv_promotion_brandsInput = {
+  id?: string
+  name: string
+  name_ar?: string | null
+  code?: string | null
+  logo_url?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsUncheckedCreateNestedManyWithoutBrandsInput
+}
+
+export type brandsCreateOrConnectWithoutInv_promotion_brandsInput = {
+  where: Prisma.brandsWhereUniqueInput
+  create: Prisma.XOR<Prisma.brandsCreateWithoutInv_promotion_brandsInput, Prisma.brandsUncheckedCreateWithoutInv_promotion_brandsInput>
+}
+
+export type brandsUpsertWithoutInv_promotion_brandsInput = {
+  update: Prisma.XOR<Prisma.brandsUpdateWithoutInv_promotion_brandsInput, Prisma.brandsUncheckedUpdateWithoutInv_promotion_brandsInput>
+  create: Prisma.XOR<Prisma.brandsCreateWithoutInv_promotion_brandsInput, Prisma.brandsUncheckedCreateWithoutInv_promotion_brandsInput>
+  where?: Prisma.brandsWhereInput
+}
+
+export type brandsUpdateToOneWithWhereWithoutInv_promotion_brandsInput = {
+  where?: Prisma.brandsWhereInput
+  data: Prisma.XOR<Prisma.brandsUpdateWithoutInv_promotion_brandsInput, Prisma.brandsUncheckedUpdateWithoutInv_promotion_brandsInput>
+}
+
+export type brandsUpdateWithoutInv_promotion_brandsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateManyWithoutBrandsNestedInput
+}
+
+export type brandsUncheckedUpdateWithoutInv_promotion_brandsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUncheckedUpdateManyWithoutBrandsNestedInput
 }
 
 
@@ -544,10 +650,12 @@ export type brandsUncheckedUpdateWithoutProductsInput = {
 
 export type BrandsCountOutputType = {
   products: number
+  inv_promotion_brands: number
 }
 
 export type BrandsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | BrandsCountOutputTypeCountProductsArgs
+  inv_promotion_brands?: boolean | BrandsCountOutputTypeCountInv_promotion_brandsArgs
 }
 
 /**
@@ -567,6 +675,13 @@ export type BrandsCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types
   where?: Prisma.productsWhereInput
 }
 
+/**
+ * BrandsCountOutputType without action
+ */
+export type BrandsCountOutputTypeCountInv_promotion_brandsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.inv_promotion_brandsWhereInput
+}
+
 
 export type brandsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -581,6 +696,7 @@ export type brandsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   products?: boolean | Prisma.brands$productsArgs<ExtArgs>
+  inv_promotion_brands?: boolean | Prisma.brands$inv_promotion_brandsArgs<ExtArgs>
   _count?: boolean | Prisma.BrandsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["brands"]>
 
@@ -629,6 +745,7 @@ export type brandsSelectScalar = {
 export type brandsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "name_ar" | "code" | "logo_url" | "description" | "is_active" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["brands"]>
 export type brandsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.brands$productsArgs<ExtArgs>
+  inv_promotion_brands?: boolean | Prisma.brands$inv_promotion_brandsArgs<ExtArgs>
   _count?: boolean | Prisma.BrandsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type brandsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -638,6 +755,7 @@ export type $brandsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "brands"
   objects: {
     products: Prisma.$productsPayload<ExtArgs>[]
+    inv_promotion_brands: Prisma.$inv_promotion_brandsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1046,6 +1164,7 @@ readonly fields: brandsFieldRefs;
 export interface Prisma__brandsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   products<T extends Prisma.brands$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.brands$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inv_promotion_brands<T extends Prisma.brands$inv_promotion_brandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.brands$inv_promotion_brandsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_promotion_brandsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1500,6 +1619,30 @@ export type brands$productsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.ProductsScalarFieldEnum | Prisma.ProductsScalarFieldEnum[]
+}
+
+/**
+ * brands.inv_promotion_brands
+ */
+export type brands$inv_promotion_brandsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inv_promotion_brands
+   */
+  select?: Prisma.inv_promotion_brandsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inv_promotion_brands
+   */
+  omit?: Prisma.inv_promotion_brandsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inv_promotion_brandsInclude<ExtArgs> | null
+  where?: Prisma.inv_promotion_brandsWhereInput
+  orderBy?: Prisma.inv_promotion_brandsOrderByWithRelationInput | Prisma.inv_promotion_brandsOrderByWithRelationInput[]
+  cursor?: Prisma.inv_promotion_brandsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Inv_promotion_brandsScalarFieldEnum | Prisma.Inv_promotion_brandsScalarFieldEnum[]
 }
 
 /**

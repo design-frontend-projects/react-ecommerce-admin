@@ -2,7 +2,11 @@
 
 import prisma from '@/lib/prisma'
 import { Prisma } from '@/generated/prisma/client'
-import type { payment_method_type_enum } from '@/generated/prisma/enums'
+import type {
+  payment_method_type_enum,
+  inv_discount_source_enum,
+  discount_type_enum,
+} from '@/generated/prisma/enums'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { runWithTenantContext } from '@/server/context/tenant-context'
 import { ApiError } from '@/server/utils/api-error'
@@ -25,6 +29,11 @@ export interface PosCheckoutLineItem {
   taxAmount?: number | string
   taxRateId?: string | null
   batchId?: string | null
+  promotionId?: string | null
+  promotionRuleId?: string | null
+  couponId?: string | null
+  discountType?: 'percentage' | 'fixed' | null
+  discountRate?: number | string | null
 }
 
 export interface PosCheckoutPayment {
@@ -45,6 +54,9 @@ export interface PosCheckoutInput {
   items: PosCheckoutLineItem[]
   payments: PosCheckoutPayment[]
   orderDiscountAmount?: number | string
+  couponCode?: string | null
+  appliedCouponId?: string | null
+  appliedPromotionIds?: string[]
   notes?: string
   idempotencyKey?: string
 }
@@ -350,22 +362,138 @@ export async function processPosSale(
       })
 
       // 7e. Create sales_invoice_items
-      await tx.sales_invoice_items.createMany({
-        data: lineItems.map((li) => ({
-          tenant_id: tenantId,
-          sales_invoice_id: invoice.id,
-          product_variant_id: li.productVariantId,
-          quantity: li.quantity,
-          unit_price: li.unitPrice,
-          discount_amount: li.discountAmount,
-          tax_amount: li.taxAmount,
-          line_total: li.lineTotal,
-          tax_rate_id: li.taxRateId,
-          batch_id: li.batchId,
-          created_by_user_id: tenantUserId,
-          updated_by_user_id: tenantUserId,
-        })),
-      })
+      const invoiceItems = await Promise.all(
+        lineItems.map((li) =>
+          tx.sales_invoice_items.create({
+            data: {
+              tenant_id: tenantId,
+              sales_invoice_id: invoice.id,
+              product_variant_id: li.productVariantId,
+              quantity: li.quantity,
+              unit_price: li.unitPrice,
+              discount_amount: li.discountAmount,
+              tax_amount: li.taxAmount,
+              line_total: li.lineTotal,
+              tax_rate_id: li.taxRateId,
+              batch_id: li.batchId,
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        )
+      )
+
+      // 7e-2. Record item-level discounts
+      for (let i = 0; i < lineItems.length; i++) {
+        const li = lineItems[i]
+        const invItem = invoiceItems[i]
+        const rawInputItem = input.items[i]
+        if (li.discountAmount.gt(0)) {
+          const discountSource = rawInputItem?.couponId
+            ? 'coupon'
+            : rawInputItem?.promotionId
+            ? 'promotion'
+            : 'manual'
+          const discountType = rawInputItem?.discountType === 'fixed' ? 'fixed' : 'percentage'
+          const finalUnitPrice = li.lineTotal.dividedBy(li.quantity)
+
+          await tx.inv_sales_invoice_item_discounts.create({
+            data: {
+              tenant_id: tenantId,
+              sales_invoice_item_id: invItem.id,
+              sales_invoice_id: invoice.id,
+              promotion_id: rawInputItem?.promotionId ?? null,
+              promotion_rule_id: rawInputItem?.promotionRuleId ?? null,
+              coupon_id: rawInputItem?.couponId ?? null,
+              discount_source: discountSource as inv_discount_source_enum,
+              discount_type: discountType as discount_type_enum,
+              discount_rate: rawInputItem?.discountRate ? toDecimal(rawInputItem.discountRate) : null,
+              discount_amount: li.discountAmount,
+              original_unit_price: li.unitPrice,
+              final_unit_price: finalUnitPrice,
+              quantity: li.quantity,
+            },
+          })
+        }
+      }
+
+      // 7e-3. Record Coupon Redemption if coupon was supplied
+      let appliedCouponRecord: { id: string; promotion_id: string; code: string } | null = null
+      if (input.couponCode && input.couponCode.trim()) {
+        appliedCouponRecord = await tx.inv_coupons.findFirst({
+          where: {
+            tenant_id: tenantId,
+            code: { equals: input.couponCode.trim(), mode: 'insensitive' },
+          },
+          select: { id: true, promotion_id: true, code: true },
+        })
+
+        if (appliedCouponRecord) {
+          await tx.inv_coupon_redemptions.create({
+            data: {
+              tenant_id: tenantId,
+              coupon_id: appliedCouponRecord.id,
+              promotion_id: appliedCouponRecord.promotion_id,
+              customer_id: input.customerId ?? null,
+              sales_invoice_id: invoice.id,
+              sales_order_id: order.id,
+              discount_amount: toDecimal(input.orderDiscountAmount),
+              created_by_user_id: tenantUserId,
+            },
+          })
+
+          await tx.inv_coupons.update({
+            where: { id: appliedCouponRecord.id },
+            data: { current_usages: { increment: 1 } },
+          })
+        }
+      }
+
+      // 7e-4. Record Invoice-Level Discounts & Promotion Usage Logs
+      const orderDiscountDec = toDecimal(input.orderDiscountAmount)
+      if (orderDiscountDec.gt(0)) {
+        const promoId = appliedCouponRecord?.promotion_id ?? input.appliedPromotionIds?.[0] ?? null
+        const discountSource = appliedCouponRecord ? 'coupon' : promoId ? 'promotion' : 'manual'
+
+        await tx.inv_sales_invoice_discounts.create({
+          data: {
+            tenant_id: tenantId,
+            sales_invoice_id: invoice.id,
+            promotion_id: promoId,
+            coupon_id: appliedCouponRecord?.id ?? null,
+            discount_source: discountSource as inv_discount_source_enum,
+            discount_type: 'fixed',
+            discount_amount: orderDiscountDec,
+            reason: appliedCouponRecord ? `Coupon: ${appliedCouponRecord.code}` : promoId ? 'Automated Promotion' : 'Cashier Manual Discount',
+            applied_by_user_id: tenantUserId,
+          },
+        })
+
+        if (promoId) {
+          await tx.inv_promotion_usage_logs.create({
+            data: {
+              tenant_id: tenantId,
+              promotion_id: promoId,
+              sales_invoice_id: invoice.id,
+              sales_order_id: order.id,
+              customer_id: input.customerId ?? null,
+              discount_amount: orderDiscountDec,
+              channel_id: posChannelId,
+              store_id: input.storeId ?? null,
+              branch_id: input.branchId ?? null,
+              created_by_user_id: tenantUserId,
+            },
+          })
+
+          await tx.inv_promotions.update({
+            where: { id: promoId },
+            data: {
+              current_usage_count: { increment: 1 },
+              current_discount_amount: { increment: orderDiscountDec },
+            },
+          })
+        }
+      }
 
       // 7f. Record cash movements for cash payments
       const cashPayments = input.payments.filter((p) => p.method === 'cash')
@@ -427,6 +555,7 @@ export async function processPosSale(
     } catch (invError) {
       // If inventory deduction fails, mark order with a warning but don't rollback
       // This prevents stock data inconsistency from blocking the sale
+      // eslint-disable-next-line no-console
       console.error('[POS Checkout] Inventory deduction failed:', invError)
       await prisma.sales_orders.update({
         where: { id: result.order.id },
@@ -451,3 +580,51 @@ export async function processPosSale(
     }
   })
 }
+
+/**
+ * Evaluates promotional discounts for a POS basket prior to finalizing payment.
+ */
+export async function evaluatePosCartDiscounts(
+  authUserId: string,
+  context: {
+    items: Array<{
+      productVariantId: string
+      productId: string
+      categoryId?: string | null
+      brandId?: string | null
+      quantity: number
+      unitPrice: number
+    }>
+    couponCode?: string | null
+    customerId?: string | null
+    customerGroupId?: string | null
+    branchId?: string | null
+    storeId?: string | null
+    currencyId?: string | null
+    manualDiscountPercent?: number | null
+    userMaxDiscountPercent?: number | null
+  }
+) {
+  const { calculateApplicableDiscounts } = await import('./promotion-engine')
+  return calculateApplicableDiscounts(authUserId, {
+    cartItems: context.items.map((it, idx) => ({
+      lineId: `line_${idx}`,
+      variantId: it.productVariantId,
+      productId: it.productId,
+      categoryId: it.categoryId ?? undefined,
+      brandId: it.brandId ?? undefined,
+      quantity: it.quantity,
+      unitPrice: it.unitPrice,
+      subtotal: it.quantity * it.unitPrice,
+    })),
+    couponCode: context.couponCode ?? undefined,
+    customerId: context.customerId ?? undefined,
+    customerGroupId: context.customerGroupId ?? undefined,
+    branchId: context.branchId ?? undefined,
+    storeId: context.storeId ?? undefined,
+    currencyId: context.currencyId ?? undefined,
+    manualDiscountPercent: context.manualDiscountPercent ?? undefined,
+    userMaxDiscountPercent: context.userMaxDiscountPercent ?? undefined,
+  })
+}
+

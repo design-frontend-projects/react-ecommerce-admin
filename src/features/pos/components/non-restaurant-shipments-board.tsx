@@ -391,7 +391,7 @@ export function NonRestaurantShipmentsBoard({
     setIsEditOpen(true)
   }
 
-  const openDetailsSheet = (shipmentId: number) => {
+  const openDetailsSheet = (shipmentId: number | string) => {
     setActiveShipmentId(String(shipmentId))
     setIsDetailsOpen(true)
   }
@@ -400,7 +400,7 @@ export function NonRestaurantShipmentsBoard({
     if (!editingShipment) return
 
     saveShipment({
-      shipmentId: editingShipment.shipment_id,
+      shipmentId: editingShipment.id ?? editingShipment.shipment_id,
       status: formState.status,
       tracking_number: toNullableValue(formState.tracking_number),
       carrier: toNullableValue(formState.carrier),
@@ -413,7 +413,7 @@ export function NonRestaurantShipmentsBoard({
     status: NonRestaurantShipmentStatus
   ) => {
     saveShipment({
-      shipmentId: shipment.shipment_id,
+      shipmentId: shipment.id ?? shipment.shipment_id,
       status,
     })
   }
@@ -611,18 +611,28 @@ export function NonRestaurantShipmentsBoard({
                     filteredShipments.map((shipment) => {
                       const statusValue = normalizeStatus(shipment.status)
                       const statusLabel = toTitleCase(statusValue)
+                      const shipmentRowKey = String(shipment.id ?? shipment.shipment_id)
                       const isUpdatingCurrentShipment =
                         isSaving &&
-                        Number(pendingUpdate?.shipmentId) ===
-                          shipment.shipment_id
+                        String(pendingUpdate?.shipmentId) === shipmentRowKey
 
                       return (
-                        <TableRow key={shipment.shipment_id}>
+                        <TableRow key={shipmentRowKey}>
                           <TableCell className='font-mono text-xs'>
-                            #{shipment.shipment_id}
+                            #{typeof shipment.shipment_id === 'string' && shipment.shipment_id.length > 8
+                              ? shipment.shipment_id.slice(0, 8)
+                              : shipment.shipment_id}
                           </TableCell>
                           <TableCell className='font-mono text-xs'>
-                            {shipment.order_id}
+                            {shipment.order_id
+                              ? typeof shipment.order_id === 'string' && shipment.order_id.length > 8
+                                ? shipment.order_id.slice(0, 8)
+                                : shipment.order_id
+                              : shipment.sales_invoice_id
+                                ? typeof shipment.sales_invoice_id === 'string' && shipment.sales_invoice_id.length > 8
+                                  ? shipment.sales_invoice_id.slice(0, 8)
+                                  : shipment.sales_invoice_id
+                                : '--'}
                           </TableCell>
                           <TableCell>
                             <Badge
@@ -688,7 +698,7 @@ export function NonRestaurantShipmentsBoard({
                                   <DropdownMenuGroup>
                                     <DropdownMenuItem
                                       onClick={() =>
-                                        openDetailsSheet(shipment.shipment_id)
+                                        openDetailsSheet(shipment.id ?? shipment.shipment_id)
                                       }
                                     >
                                       <Eye />
@@ -771,7 +781,11 @@ export function NonRestaurantShipmentsBoard({
             <DialogTitle>Edit Shipment</DialogTitle>
             <DialogDescription>
               Update status and delivery metadata for shipment{' '}
-              {editingShipment ? `#${editingShipment.shipment_id}` : ''}.
+              {editingShipment
+                ? `#${typeof editingShipment.shipment_id === 'string' && editingShipment.shipment_id.length > 8
+                    ? editingShipment.shipment_id.slice(0, 8)
+                    : editingShipment.shipment_id}`
+                : ''}.
             </DialogDescription>
           </DialogHeader>
 
@@ -936,7 +950,7 @@ export function NonRestaurantShipmentsBoard({
                             Order ID
                           </span>
                           <span className='font-mono text-xs'>
-                            {shipmentDetails.shipment.order_id}
+                            {shipmentDetails.shipment.order_id || (shipmentDetails.shipment as any).sales_invoice_id || '--'}
                           </span>
                         </div>
                         <div className='flex items-center justify-between'>

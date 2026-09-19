@@ -115,49 +115,76 @@ export async function resolvePosVariantPrices(
       }
     }
 
-    // 3. Load all price list items for the candidate lists and requested variants
+    // 3. Load all price list items for the candidate lists (or fallback) and requested variants
     const priceItems =
       candidatePriceListIds.length > 0
         ? await prisma.price_list_items.findMany({
             where: {
               price_list_id: { in: candidatePriceListIds },
               product_variant_id: { in: variantIds },
-              is_active: true,
               tenant_id: tenantId,
             },
             include: {
               price_list: { select: { id: true, name: true } },
             },
           })
-        : []
+        : await prisma.price_list_items.findMany({
+            where: {
+              product_variant_id: { in: variantIds },
+              tenant_id: tenantId,
+            },
+            include: {
+              price_list: { select: { id: true, name: true } },
+            },
+          })
 
-    // Build lookup: variantId -> best price item (first matching in priority)
+    // Build lookup: variantId -> best price item (first matching in priority or fallback)
     const variantPriceMap = new Map<string, (typeof priceItems)[0]>()
     for (const vid of variantIds) {
-      for (const plId of candidatePriceListIds) {
-        const match = priceItems.find(
-          (pi) => pi.product_variant_id === vid && pi.price_list_id === plId
-        )
+      if (candidatePriceListIds.length > 0) {
+        for (const plId of candidatePriceListIds) {
+          const match = priceItems.find(
+            (pi) => pi.product_variant_id === vid && pi.price_list_id === plId
+          )
+          if (match) {
+            variantPriceMap.set(vid, match)
+            break
+          }
+        }
+      } else {
+        const match = priceItems.find((pi) => pi.product_variant_id === vid)
         if (match) {
           variantPriceMap.set(vid, match)
-          break
         }
       }
     }
 
-    // 4. Load variants with product info
-    const variants = await prisma.product_variants.findMany({
-      where: { id: { in: variantIds } },
-      include: {
-        products: {
-          select: {
-            name: true,
-            tax_rate_id: true,
-            tax_rates: { select: { id: true, rate: true, is_inclusive: true } },
+    // 4. Load variants with product info and active tax rate
+    const now = new Date()
+    const [variants, activeTaxRate] = await Promise.all([
+      prisma.product_variants.findMany({
+        where: { id: { in: variantIds } },
+        include: {
+          products: {
+            select: {
+              name: true,
+            },
           },
         },
-      },
-    })
+      }),
+      prisma.tax_rates.findFirst({
+        where: {
+          tenant_id: tenantId,
+          is_active: true,
+          effective_from: { lte: now },
+          OR: [
+            { effective_to: null },
+            { effective_to: { gte: now } },
+          ],
+        },
+        orderBy: { effective_from: 'desc' },
+      }),
+    ])
 
     // 5. Load stock balances for the target warehouse
     const stockBalances = warehouseId
@@ -183,8 +210,7 @@ export async function resolvePosVariantPrices(
     return variants.map((v): ResolvedVariantPrice => {
       const priceItem = variantPriceMap.get(v.id)
       const stock = stockMap.get(v.id)
-      const taxRate = v.products?.tax_rates
-      const basePrice = v.base_price ?? new Prisma.Decimal(0)
+      const basePrice = priceItem?.price ?? new Prisma.Decimal(0)
 
       return {
         productVariantId: v.id,
@@ -192,14 +218,14 @@ export async function resolvePosVariantPrices(
         productName: v.products?.name ?? null,
         variantName: v.name,
         unitPrice: priceItem?.price ?? basePrice,
-        costPrice: priceItem?.cost_price ?? v.cost_price ?? new Prisma.Decimal(0),
+        costPrice: priceItem?.cost_price ?? new Prisma.Decimal(0),
         minPrice: priceItem?.min_price ?? new Prisma.Decimal(0),
         maxDiscountPercent: priceItem?.max_discount_percent ?? new Prisma.Decimal(100),
         priceListId: priceItem?.price_list_id ?? null,
         priceListName: priceItem?.price_list?.name ?? null,
-        taxRateId: taxRate?.id ?? null,
-        taxRate: taxRate?.rate ?? new Prisma.Decimal(0),
-        taxInclusive: taxRate?.is_inclusive ?? false,
+        taxRateId: activeTaxRate?.id ?? null,
+        taxRate: activeTaxRate?.rate ?? new Prisma.Decimal(0),
+        taxInclusive: activeTaxRate?.is_inclusive ?? false,
         stockAvailable: stock?.qty_available ?? new Prisma.Decimal(0),
         stockOnHand: stock?.qty_on_hand ?? new Prisma.Decimal(0),
       }

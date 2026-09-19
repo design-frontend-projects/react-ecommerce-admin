@@ -277,6 +277,7 @@ export type pos_terminalsWhereInput = {
   pos_sessions?: Prisma.Pos_sessionsListRelationFilter
   pos_held_orders?: Prisma.Pos_held_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
+  inv_discount_approval_requests?: Prisma.Inv_discount_approval_requestsListRelationFilter
 }
 
 export type pos_terminalsOrderByWithRelationInput = {
@@ -303,6 +304,7 @@ export type pos_terminalsOrderByWithRelationInput = {
   pos_sessions?: Prisma.pos_sessionsOrderByRelationAggregateInput
   pos_held_orders?: Prisma.pos_held_ordersOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsOrderByRelationAggregateInput
 }
 
 export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
@@ -332,6 +334,7 @@ export type pos_terminalsWhereUniqueInput = Prisma.AtLeast<{
   pos_sessions?: Prisma.Pos_sessionsListRelationFilter
   pos_held_orders?: Prisma.Pos_held_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
+  inv_discount_approval_requests?: Prisma.Inv_discount_approval_requestsListRelationFilter
 }, "id">
 
 export type pos_terminalsOrderByWithAggregationInput = {
@@ -399,6 +402,7 @@ export type pos_terminalsCreateInput = {
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateInput = {
@@ -422,6 +426,7 @@ export type pos_terminalsUncheckedCreateInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUpdateInput = {
@@ -445,6 +450,7 @@ export type pos_terminalsUpdateInput = {
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateInput = {
@@ -468,6 +474,7 @@ export type pos_terminalsUncheckedUpdateInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsCreateManyInput = {
@@ -793,6 +800,22 @@ export type pos_terminalsUpdateOneRequiredWithoutPos_held_ordersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.pos_terminalsUpdateToOneWithWhereWithoutPos_held_ordersInput, Prisma.pos_terminalsUpdateWithoutPos_held_ordersInput>, Prisma.pos_terminalsUncheckedUpdateWithoutPos_held_ordersInput>
 }
 
+export type pos_terminalsCreateNestedOneWithoutInv_discount_approval_requestsInput = {
+  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUncheckedCreateWithoutInv_discount_approval_requestsInput>
+  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutInv_discount_approval_requestsInput
+  connect?: Prisma.pos_terminalsWhereUniqueInput
+}
+
+export type pos_terminalsUpdateOneWithoutInv_discount_approval_requestsNestedInput = {
+  create?: Prisma.XOR<Prisma.pos_terminalsCreateWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUncheckedCreateWithoutInv_discount_approval_requestsInput>
+  connectOrCreate?: Prisma.pos_terminalsCreateOrConnectWithoutInv_discount_approval_requestsInput
+  upsert?: Prisma.pos_terminalsUpsertWithoutInv_discount_approval_requestsInput
+  disconnect?: Prisma.pos_terminalsWhereInput | boolean
+  delete?: Prisma.pos_terminalsWhereInput | boolean
+  connect?: Prisma.pos_terminalsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pos_terminalsUpdateToOneWithWhereWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUpdateWithoutInv_discount_approval_requestsInput>, Prisma.pos_terminalsUncheckedUpdateWithoutInv_discount_approval_requestsInput>
+}
+
 export type pos_terminalsCreateWithoutBranchesInput = {
   id?: string
   store_id?: string | null
@@ -813,6 +836,7 @@ export type pos_terminalsCreateWithoutBranchesInput = {
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutBranchesInput = {
@@ -835,6 +859,7 @@ export type pos_terminalsUncheckedCreateWithoutBranchesInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutBranchesInput = {
@@ -905,6 +930,7 @@ export type pos_terminalsCreateWithoutDefault_price_listInput = {
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutDefault_price_listInput = {
@@ -927,6 +953,7 @@ export type pos_terminalsUncheckedCreateWithoutDefault_price_listInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutDefault_price_listInput = {
@@ -975,6 +1002,7 @@ export type pos_terminalsCreateWithoutSales_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersCreateNestedManyWithoutTerminalInput
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutSales_ordersInput = {
@@ -997,6 +1025,7 @@ export type pos_terminalsUncheckedCreateWithoutSales_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUncheckedCreateNestedManyWithoutTerminalInput
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutSales_ordersInput = {
@@ -1035,6 +1064,7 @@ export type pos_terminalsUpdateWithoutSales_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUpdateManyWithoutTerminalNestedInput
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutSales_ordersInput = {
@@ -1057,6 +1087,7 @@ export type pos_terminalsUncheckedUpdateWithoutSales_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUncheckedUpdateManyWithoutTerminalNestedInput
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsCreateWithoutWarehousesInput = {
@@ -1079,6 +1110,7 @@ export type pos_terminalsCreateWithoutWarehousesInput = {
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutWarehousesInput = {
@@ -1101,6 +1133,7 @@ export type pos_terminalsUncheckedCreateWithoutWarehousesInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutWarehousesInput = {
@@ -1149,6 +1182,7 @@ export type pos_terminalsCreateWithoutPos_terminal_usersInput = {
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutPos_terminal_usersInput = {
@@ -1171,6 +1205,7 @@ export type pos_terminalsUncheckedCreateWithoutPos_terminal_usersInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutPos_terminal_usersInput = {
@@ -1209,6 +1244,7 @@ export type pos_terminalsUpdateWithoutPos_terminal_usersInput = {
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutPos_terminal_usersInput = {
@@ -1231,6 +1267,7 @@ export type pos_terminalsUncheckedUpdateWithoutPos_terminal_usersInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsCreateWithoutPos_sessionsInput = {
@@ -1253,6 +1290,7 @@ export type pos_terminalsCreateWithoutPos_sessionsInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutPos_sessionsInput = {
@@ -1275,6 +1313,7 @@ export type pos_terminalsUncheckedCreateWithoutPos_sessionsInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUncheckedCreateNestedManyWithoutTerminalInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutPos_sessionsInput = {
@@ -1313,6 +1352,7 @@ export type pos_terminalsUpdateWithoutPos_sessionsInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutPos_sessionsInput = {
@@ -1335,6 +1375,7 @@ export type pos_terminalsUncheckedUpdateWithoutPos_sessionsInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsCreateWithoutPos_held_ordersInput = {
@@ -1357,6 +1398,7 @@ export type pos_terminalsCreateWithoutPos_held_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersCreateNestedManyWithoutTerminalInput
   pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsUncheckedCreateWithoutPos_held_ordersInput = {
@@ -1379,6 +1421,7 @@ export type pos_terminalsUncheckedCreateWithoutPos_held_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUncheckedCreateNestedManyWithoutTerminalInput
   pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutPos_terminalsInput
 }
 
 export type pos_terminalsCreateOrConnectWithoutPos_held_ordersInput = {
@@ -1417,6 +1460,7 @@ export type pos_terminalsUpdateWithoutPos_held_ordersInput = {
   pos_terminal_users?: Prisma.pos_terminal_usersUpdateManyWithoutTerminalNestedInput
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutPos_held_ordersInput = {
@@ -1438,6 +1482,115 @@ export type pos_terminalsUncheckedUpdateWithoutPos_held_ordersInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_terminal_users?: Prisma.pos_terminal_usersUncheckedUpdateManyWithoutTerminalNestedInput
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
+}
+
+export type pos_terminalsCreateWithoutInv_discount_approval_requestsInput = {
+  id?: string
+  store_id?: string | null
+  name: string
+  code: string
+  device_identifier?: string | null
+  receipt_printer_name?: string | null
+  status?: $Enums.record_status
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutPos_terminalsInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutPos_terminalsInput
+  default_price_list?: Prisma.price_listCreateNestedOneWithoutPos_terminalsInput
+  pos_terminal_users?: Prisma.pos_terminal_usersCreateNestedManyWithoutTerminalInput
+  pos_sessions?: Prisma.pos_sessionsCreateNestedManyWithoutTerminalInput
+  pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutTerminalInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_terminalInput
+}
+
+export type pos_terminalsUncheckedCreateWithoutInv_discount_approval_requestsInput = {
+  id?: string
+  store_id?: string | null
+  branch_id?: string | null
+  warehouse_id?: string | null
+  default_price_list_id?: string | null
+  name: string
+  code: string
+  device_identifier?: string | null
+  receipt_printer_name?: string | null
+  status?: $Enums.record_status
+  deleted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_terminal_users?: Prisma.pos_terminal_usersUncheckedCreateNestedManyWithoutTerminalInput
+  pos_sessions?: Prisma.pos_sessionsUncheckedCreateNestedManyWithoutTerminalInput
+  pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutTerminalInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_terminalInput
+}
+
+export type pos_terminalsCreateOrConnectWithoutInv_discount_approval_requestsInput = {
+  where: Prisma.pos_terminalsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUncheckedCreateWithoutInv_discount_approval_requestsInput>
+}
+
+export type pos_terminalsUpsertWithoutInv_discount_approval_requestsInput = {
+  update: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUncheckedUpdateWithoutInv_discount_approval_requestsInput>
+  create: Prisma.XOR<Prisma.pos_terminalsCreateWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUncheckedCreateWithoutInv_discount_approval_requestsInput>
+  where?: Prisma.pos_terminalsWhereInput
+}
+
+export type pos_terminalsUpdateToOneWithWhereWithoutInv_discount_approval_requestsInput = {
+  where?: Prisma.pos_terminalsWhereInput
+  data: Prisma.XOR<Prisma.pos_terminalsUpdateWithoutInv_discount_approval_requestsInput, Prisma.pos_terminalsUncheckedUpdateWithoutInv_discount_approval_requestsInput>
+}
+
+export type pos_terminalsUpdateWithoutInv_discount_approval_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutPos_terminalsNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutPos_terminalsNestedInput
+  default_price_list?: Prisma.price_listUpdateOneWithoutPos_terminalsNestedInput
+  pos_terminal_users?: Prisma.pos_terminal_usersUpdateManyWithoutTerminalNestedInput
+  pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
+  pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+}
+
+export type pos_terminalsUncheckedUpdateWithoutInv_discount_approval_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  device_identifier?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receipt_printer_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrecord_statusFieldUpdateOperationsInput | $Enums.record_status
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_users?: Prisma.pos_terminal_usersUncheckedUpdateManyWithoutTerminalNestedInput
+  pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
+  pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
 }
 
@@ -1479,6 +1632,7 @@ export type pos_terminalsUpdateWithoutBranchesInput = {
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutBranchesInput = {
@@ -1501,6 +1655,7 @@ export type pos_terminalsUncheckedUpdateWithoutBranchesInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateManyWithoutBranchesInput = {
@@ -1559,6 +1714,7 @@ export type pos_terminalsUpdateWithoutDefault_price_listInput = {
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutDefault_price_listInput = {
@@ -1581,6 +1737,7 @@ export type pos_terminalsUncheckedUpdateWithoutDefault_price_listInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateManyWithoutDefault_price_listInput = {
@@ -1639,6 +1796,7 @@ export type pos_terminalsUpdateWithoutWarehousesInput = {
   pos_sessions?: Prisma.pos_sessionsUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateWithoutWarehousesInput = {
@@ -1661,6 +1819,7 @@ export type pos_terminalsUncheckedUpdateWithoutWarehousesInput = {
   pos_sessions?: Prisma.pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutTerminalNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_terminalNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutPos_terminalsNestedInput
 }
 
 export type pos_terminalsUncheckedUpdateManyWithoutWarehousesInput = {
@@ -1691,6 +1850,7 @@ export type Pos_terminalsCountOutputType = {
   pos_sessions: number
   pos_held_orders: number
   sales_orders: number
+  inv_discount_approval_requests: number
 }
 
 export type Pos_terminalsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1698,6 +1858,7 @@ export type Pos_terminalsCountOutputTypeSelect<ExtArgs extends runtime.Types.Ext
   pos_sessions?: boolean | Pos_terminalsCountOutputTypeCountPos_sessionsArgs
   pos_held_orders?: boolean | Pos_terminalsCountOutputTypeCountPos_held_ordersArgs
   sales_orders?: boolean | Pos_terminalsCountOutputTypeCountSales_ordersArgs
+  inv_discount_approval_requests?: boolean | Pos_terminalsCountOutputTypeCountInv_discount_approval_requestsArgs
 }
 
 /**
@@ -1738,6 +1899,13 @@ export type Pos_terminalsCountOutputTypeCountSales_ordersArgs<ExtArgs extends ru
   where?: Prisma.sales_ordersWhereInput
 }
 
+/**
+ * Pos_terminalsCountOutputType without action
+ */
+export type Pos_terminalsCountOutputTypeCountInv_discount_approval_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.inv_discount_approval_requestsWhereInput
+}
+
 
 export type pos_terminalsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1763,6 +1931,7 @@ export type pos_terminalsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   pos_sessions?: boolean | Prisma.pos_terminals$pos_sessionsArgs<ExtArgs>
   pos_held_orders?: boolean | Prisma.pos_terminals$pos_held_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.pos_terminals$sales_ordersArgs<ExtArgs>
+  inv_discount_approval_requests?: boolean | Prisma.pos_terminals$inv_discount_approval_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.Pos_terminalsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pos_terminals"]>
 
@@ -1838,6 +2007,7 @@ export type pos_terminalsInclude<ExtArgs extends runtime.Types.Extensions.Intern
   pos_sessions?: boolean | Prisma.pos_terminals$pos_sessionsArgs<ExtArgs>
   pos_held_orders?: boolean | Prisma.pos_terminals$pos_held_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.pos_terminals$sales_ordersArgs<ExtArgs>
+  inv_discount_approval_requests?: boolean | Prisma.pos_terminals$inv_discount_approval_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.Pos_terminalsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type pos_terminalsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1861,6 +2031,7 @@ export type $pos_terminalsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     pos_sessions: Prisma.$pos_sessionsPayload<ExtArgs>[]
     pos_held_orders: Prisma.$pos_held_ordersPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
+    inv_discount_approval_requests: Prisma.$inv_discount_approval_requestsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2280,6 +2451,7 @@ export interface Prisma__pos_terminalsClient<T, Null = never, ExtArgs extends ru
   pos_sessions<T extends Prisma.pos_terminals$pos_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$pos_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_sessionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pos_held_orders<T extends Prisma.pos_terminals$pos_held_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$pos_held_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_held_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.pos_terminals$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inv_discount_approval_requests<T extends Prisma.pos_terminals$inv_discount_approval_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_terminals$inv_discount_approval_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_discount_approval_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2876,6 +3048,30 @@ export type pos_terminals$sales_ordersArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.Sales_ordersScalarFieldEnum | Prisma.Sales_ordersScalarFieldEnum[]
+}
+
+/**
+ * pos_terminals.inv_discount_approval_requests
+ */
+export type pos_terminals$inv_discount_approval_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inv_discount_approval_requests
+   */
+  select?: Prisma.inv_discount_approval_requestsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inv_discount_approval_requests
+   */
+  omit?: Prisma.inv_discount_approval_requestsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inv_discount_approval_requestsInclude<ExtArgs> | null
+  where?: Prisma.inv_discount_approval_requestsWhereInput
+  orderBy?: Prisma.inv_discount_approval_requestsOrderByWithRelationInput | Prisma.inv_discount_approval_requestsOrderByWithRelationInput[]
+  cursor?: Prisma.inv_discount_approval_requestsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Inv_discount_approval_requestsScalarFieldEnum | Prisma.Inv_discount_approval_requestsScalarFieldEnum[]
 }
 
 /**

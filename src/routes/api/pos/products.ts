@@ -5,6 +5,7 @@ import { requireTenantId } from '@/server/utils/tenant'
 import { withAuth } from '@/server/utils/with-auth'
 import prisma from '@/lib/prisma'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
+import type { Prisma } from '@/generated/prisma/client'
 
 /**
  * Fast POS product search supporting:
@@ -20,13 +21,13 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
     const tenantId = await requireTenantId(auth.userId)
     const url = new URL(request.url)
 
-    const search = url.searchParams.get('q') ?? ''
+    const search = (url.searchParams.get('q') ?? '').trim()
     const categoryId = url.searchParams.get('categoryId')
     const brandId = url.searchParams.get('brandId')
     const warehouseId = url.searchParams.get('warehouseId')
-    const page = Number(url.searchParams.get('page') ?? 1)
+    const page = Math.max(1, Number(url.searchParams.get('page') ?? 1))
     const pageSize = Math.min(
-      Number(url.searchParams.get('pageSize') ?? 50),
+      Math.max(1, Number(url.searchParams.get('pageSize') ?? 50)),
       100
     )
     const skip = (page - 1) * pageSize
@@ -45,19 +46,40 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
 
         // Search conditions
         if (search.length > 0) {
+          // Look up secondary barcodes from product_barcodes table
+          const barcodeMatches = await prisma.product_barcodes.findMany({
+            where: {
+              tenant_id: tenantId,
+              barcode: { contains: search, mode: 'insensitive' },
+            },
+            select: { product_variant_id: true },
+            take: 50,
+          })
+          const matchedVariantIds = barcodeMatches.map((b) => b.product_variant_id)
+
           productWhere.OR = [
             { name: { contains: search, mode: 'insensitive' } },
+            { sku: { contains: search, mode: 'insensitive' } },
+            { barcode: { contains: search, mode: 'insensitive' } },
             {
               product_variants: {
-                some: { sku: { startsWith: search, mode: 'insensitive' } },
+                some: {
+                  OR: [
+                    { name: { contains: search, mode: 'insensitive' } },
+                    { sku: { contains: search, mode: 'insensitive' } },
+                    { barcode: { contains: search, mode: 'insensitive' } },
+                    ...(matchedVariantIds.length > 0
+                      ? [{ id: { in: matchedVariantIds } }]
+                      : []),
+                  ],
+                },
               },
             },
-            { product_variants: { some: { barcode: search } } },
-            { product_barcodes: { some: { barcode: search } } },
           ]
         }
 
-        const [products, total] = await Promise.all([
+        const now = new Date()
+        const [products, total, activeTaxRate] = await Promise.all([
           prisma.products.findMany({
             where: productWhere,
             skip,
@@ -66,15 +88,16 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
             select: {
               id: true,
               name: true,
-              name_ar: true,
               description: true,
+              sku: true,
+              barcode: true,
               category_id: true,
               brand_id: true,
-              tax_rate_id: true,
               categories: { select: { id: true, name: true } },
               brands: { select: { id: true, name: true } },
-              tax_rates: {
-                select: { id: true, rate: true, is_inclusive: true },
+              price_list_items: {
+                select: { price: true, cost_price: true },
+                take: 1,
               },
               product_variants: {
                 where: { is_active: true },
@@ -83,14 +106,11 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
                   sku: true,
                   name: true,
                   barcode: true,
-                  base_price: true,
-                  cost_price: true,
                   weight: true,
-                  variant_attributes: true,
-                  product_images: {
-                    select: { image_url: true, is_primary: true },
+                  dimensions: true,
+                  price_list_items: {
+                    select: { price: true, cost_price: true },
                     take: 1,
-                    orderBy: { is_primary: 'desc' },
                   },
                   // Stock at specified warehouse
                   ...(warehouseId
@@ -115,34 +135,74 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
             },
           }),
           prisma.products.count({ where: productWhere }),
+          prisma.tax_rates.findFirst({
+            where: {
+              tenant_id: tenantId,
+              is_active: true,
+              effective_from: { lte: now },
+              OR: [
+                { effective_to: null },
+                { effective_to: { gte: now } },
+              ],
+            },
+            orderBy: { effective_from: 'desc' },
+          }),
         ])
 
         // Flatten and enrich for POS display
-        const items = products.flatMap((p) =>
-          p.product_variants.map((v) => {
+        const items = products.flatMap((p) => {
+          if (!p.product_variants || p.product_variants.length === 0) {
+            const priceItem = (p as any).price_list_items?.[0]
+            return [
+              {
+                productId: p.id,
+                productVariantId: p.id,
+                productName: p.name,
+                variantName: null,
+                sku: p.sku,
+                barcode: p.barcode,
+                basePrice: priceItem?.price?.toString() ?? '0',
+                costPrice: priceItem?.cost_price?.toString() ?? '0',
+                categoryId: p.category_id,
+                categoryName: p.categories?.name ?? null,
+                brandName: p.brands?.name ?? null,
+                imageUrl: null,
+                taxRateId: activeTaxRate?.id ?? null,
+                taxRate: activeTaxRate?.rate?.toString() ?? '0',
+                taxInclusive: activeTaxRate?.is_inclusive ?? false,
+                stockAvailable: '0',
+                stockOnHand: '0',
+                variantAttributes: null,
+              },
+            ]
+          }
+
+          return p.product_variants.map((v) => {
             const stock = (v as any).stock_balances?.[0]
+            const priceItem =
+              (v as any).price_list_items?.[0] ?? (p as any).price_list_items?.[0]
             return {
               productId: p.id,
               productVariantId: v.id,
               productName: p.name,
               variantName: v.name,
               sku: v.sku,
-              barcode: v.barcode,
-              basePrice: v.base_price?.toString() ?? '0',
-              costPrice: v.cost_price?.toString() ?? '0',
+              barcode: v.barcode ?? p.barcode,
+              basePrice: priceItem?.price?.toString() ?? '0',
+              costPrice: priceItem?.cost_price?.toString() ?? '0',
               categoryId: p.category_id,
               categoryName: p.categories?.name ?? null,
               brandName: p.brands?.name ?? null,
-              imageUrl: v.product_images?.[0]?.image_url ?? null,
-              taxRateId: p.tax_rate_id ?? null,
-              taxRate: p.tax_rates?.rate?.toString() ?? '0',
-              taxInclusive: p.tax_rates?.is_inclusive ?? false,
+              imageUrl: null,
+              taxRateId: activeTaxRate?.id ?? null,
+              taxRate: activeTaxRate?.rate?.toString() ?? '0',
+              taxInclusive: activeTaxRate?.is_inclusive ?? false,
               stockAvailable: stock?.qty_available?.toString() ?? '0',
               stockOnHand: stock?.qty_on_hand?.toString() ?? '0',
-              variantAttributes: v.variant_attributes,
+              variantAttributes: v.dimensions,
             }
           })
-        )
+        })
 
         return Response.json({
           success: true,

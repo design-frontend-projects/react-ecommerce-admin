@@ -509,7 +509,23 @@ export const ModelName = {
   pos_sessions: 'pos_sessions',
   pos_cash_movements: 'pos_cash_movements',
   sales_order_payments: 'sales_order_payments',
-  pos_held_orders: 'pos_held_orders'
+  pos_held_orders: 'pos_held_orders',
+  inv_promotions: 'inv_promotions',
+  inv_promotion_rules: 'inv_promotion_rules',
+  inv_promotion_conditions: 'inv_promotion_conditions',
+  inv_promotion_products: 'inv_promotion_products',
+  inv_promotion_categories: 'inv_promotion_categories',
+  inv_promotion_brands: 'inv_promotion_brands',
+  inv_promotion_customer_groups: 'inv_promotion_customer_groups',
+  inv_promotion_channels: 'inv_promotion_channels',
+  inv_promotion_stores: 'inv_promotion_stores',
+  inv_promotion_branches: 'inv_promotion_branches',
+  inv_coupons: 'inv_coupons',
+  inv_coupon_redemptions: 'inv_coupon_redemptions',
+  inv_sales_invoice_discounts: 'inv_sales_invoice_discounts',
+  inv_sales_invoice_item_discounts: 'inv_sales_invoice_item_discounts',
+  inv_discount_approval_requests: 'inv_discount_approval_requests',
+  inv_promotion_usage_logs: 'inv_promotion_usage_logs'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -525,7 +541,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -9853,6 +9869,1190 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    inv_promotions: {
+      payload: Prisma.$inv_promotionsPayload<ExtArgs>
+      fields: Prisma.inv_promotionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotionsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotions>
+        }
+        groupBy: {
+          args: Prisma.inv_promotionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotionsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_rules: {
+      payload: Prisma.$inv_promotion_rulesPayload<ExtArgs>
+      fields: Prisma.inv_promotion_rulesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_rulesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_rulesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_rulesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_rulesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_rulesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_rulesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_rulesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_rulesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_rulesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_rulesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_rulesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_rulesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_rulesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_rulesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_rulesPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_rulesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_rules>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_rulesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_rulesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_rulesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_rulesCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_conditions: {
+      payload: Prisma.$inv_promotion_conditionsPayload<ExtArgs>
+      fields: Prisma.inv_promotion_conditionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_conditionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_conditionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_conditionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_conditionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_conditionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_conditionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_conditionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_conditionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_conditionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_conditionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_conditionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_conditionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_conditionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_conditionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_conditionsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_conditionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_conditions>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_conditionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_conditionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_conditionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_conditionsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_products: {
+      payload: Prisma.$inv_promotion_productsPayload<ExtArgs>
+      fields: Prisma.inv_promotion_productsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_productsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_productsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_productsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_productsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_productsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_productsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_productsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_productsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_productsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_productsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_productsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_productsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_productsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_productsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_productsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_productsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_products>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_productsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_productsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_productsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_productsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_categories: {
+      payload: Prisma.$inv_promotion_categoriesPayload<ExtArgs>
+      fields: Prisma.inv_promotion_categoriesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_categoriesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_categoriesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_categoriesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_categoriesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_categoriesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_categoriesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_categoriesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_categoriesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_categoriesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_categoriesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_categoriesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_categoriesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_categoriesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_categoriesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_categoriesPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_categoriesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_categories>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_categoriesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_categoriesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_categoriesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_categoriesCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_brands: {
+      payload: Prisma.$inv_promotion_brandsPayload<ExtArgs>
+      fields: Prisma.inv_promotion_brandsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_brandsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_brandsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_brandsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_brandsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_brandsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_brandsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_brandsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_brandsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_brandsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_brandsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_brandsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_brandsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_brandsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_brandsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_brandsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_brandsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_brands>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_brandsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_brandsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_brandsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_brandsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_customer_groups: {
+      payload: Prisma.$inv_promotion_customer_groupsPayload<ExtArgs>
+      fields: Prisma.inv_promotion_customer_groupsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_customer_groupsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_customer_groupsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_customer_groupsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_customer_groupsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_customer_groupsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_customer_groupsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_customer_groupsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_customer_groupsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_customer_groupsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_customer_groupsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_customer_groupsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_customer_groupsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_customer_groupsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_customer_groupsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_customer_groupsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_customer_groupsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_customer_groups>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_customer_groupsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_customer_groupsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_customer_groupsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_customer_groupsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_channels: {
+      payload: Prisma.$inv_promotion_channelsPayload<ExtArgs>
+      fields: Prisma.inv_promotion_channelsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_channelsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_channelsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_channelsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_channelsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_channelsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_channelsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_channelsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_channelsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_channelsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_channelsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_channelsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_channelsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_channelsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_channelsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_channelsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_channelsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_channels>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_channelsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_channelsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_channelsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_channelsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_stores: {
+      payload: Prisma.$inv_promotion_storesPayload<ExtArgs>
+      fields: Prisma.inv_promotion_storesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_storesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_storesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_storesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_storesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_storesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_storesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_storesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_storesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_storesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_storesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_storesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_storesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_storesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_storesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_storesPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_storesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_stores>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_storesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_storesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_storesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_storesCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_branches: {
+      payload: Prisma.$inv_promotion_branchesPayload<ExtArgs>
+      fields: Prisma.inv_promotion_branchesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_branchesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_branchesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_branchesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_branchesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_branchesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_branchesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_branchesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_branchesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_branchesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_branchesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_branchesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_branchesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_branchesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_branchesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_branchesPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_branchesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_branches>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_branchesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_branchesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_branchesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_branchesCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_coupons: {
+      payload: Prisma.$inv_couponsPayload<ExtArgs>
+      fields: Prisma.inv_couponsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_couponsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_couponsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_couponsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_couponsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_couponsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_couponsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_couponsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_couponsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_couponsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>
+        }
+        update: {
+          args: Prisma.inv_couponsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_couponsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_couponsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_couponsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_couponsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_couponsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_couponsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_coupons>
+        }
+        groupBy: {
+          args: Prisma.inv_couponsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_couponsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_couponsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_couponsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_coupon_redemptions: {
+      payload: Prisma.$inv_coupon_redemptionsPayload<ExtArgs>
+      fields: Prisma.inv_coupon_redemptionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_coupon_redemptionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_coupon_redemptionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_coupon_redemptionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_coupon_redemptionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_coupon_redemptionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_coupon_redemptionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_coupon_redemptionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_coupon_redemptionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_coupon_redemptionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>
+        }
+        update: {
+          args: Prisma.inv_coupon_redemptionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_coupon_redemptionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_coupon_redemptionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_coupon_redemptionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_coupon_redemptionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_coupon_redemptionsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_coupon_redemptionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_coupon_redemptions>
+        }
+        groupBy: {
+          args: Prisma.inv_coupon_redemptionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_coupon_redemptionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_coupon_redemptionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_coupon_redemptionsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_sales_invoice_discounts: {
+      payload: Prisma.$inv_sales_invoice_discountsPayload<ExtArgs>
+      fields: Prisma.inv_sales_invoice_discountsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_sales_invoice_discountsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_sales_invoice_discountsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_sales_invoice_discountsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_sales_invoice_discountsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_sales_invoice_discountsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_sales_invoice_discountsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_sales_invoice_discountsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_sales_invoice_discountsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_sales_invoice_discountsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>
+        }
+        update: {
+          args: Prisma.inv_sales_invoice_discountsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_sales_invoice_discountsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_sales_invoice_discountsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_sales_invoice_discountsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_sales_invoice_discountsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_discountsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_sales_invoice_discountsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_sales_invoice_discounts>
+        }
+        groupBy: {
+          args: Prisma.inv_sales_invoice_discountsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_sales_invoice_discountsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_sales_invoice_discountsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_sales_invoice_discountsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_sales_invoice_item_discounts: {
+      payload: Prisma.$inv_sales_invoice_item_discountsPayload<ExtArgs>
+      fields: Prisma.inv_sales_invoice_item_discountsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_sales_invoice_item_discountsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_sales_invoice_item_discountsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_sales_invoice_item_discountsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_sales_invoice_item_discountsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_sales_invoice_item_discountsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_sales_invoice_item_discountsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_sales_invoice_item_discountsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_sales_invoice_item_discountsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_sales_invoice_item_discountsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>
+        }
+        update: {
+          args: Prisma.inv_sales_invoice_item_discountsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_sales_invoice_item_discountsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_sales_invoice_item_discountsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_sales_invoice_item_discountsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_sales_invoice_item_discountsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_sales_invoice_item_discountsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_sales_invoice_item_discountsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_sales_invoice_item_discounts>
+        }
+        groupBy: {
+          args: Prisma.inv_sales_invoice_item_discountsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_sales_invoice_item_discountsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_sales_invoice_item_discountsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_sales_invoice_item_discountsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_discount_approval_requests: {
+      payload: Prisma.$inv_discount_approval_requestsPayload<ExtArgs>
+      fields: Prisma.inv_discount_approval_requestsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_discount_approval_requestsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_discount_approval_requestsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_discount_approval_requestsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_discount_approval_requestsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_discount_approval_requestsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_discount_approval_requestsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_discount_approval_requestsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_discount_approval_requestsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_discount_approval_requestsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>
+        }
+        update: {
+          args: Prisma.inv_discount_approval_requestsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_discount_approval_requestsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_discount_approval_requestsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_discount_approval_requestsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_discount_approval_requestsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_discount_approval_requestsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_discount_approval_requestsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_discount_approval_requests>
+        }
+        groupBy: {
+          args: Prisma.inv_discount_approval_requestsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_discount_approval_requestsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_discount_approval_requestsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_discount_approval_requestsCountAggregateOutputType> | number
+        }
+      }
+    }
+    inv_promotion_usage_logs: {
+      payload: Prisma.$inv_promotion_usage_logsPayload<ExtArgs>
+      fields: Prisma.inv_promotion_usage_logsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.inv_promotion_usage_logsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.inv_promotion_usage_logsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>
+        }
+        findFirst: {
+          args: Prisma.inv_promotion_usage_logsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.inv_promotion_usage_logsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>
+        }
+        findMany: {
+          args: Prisma.inv_promotion_usage_logsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>[]
+        }
+        create: {
+          args: Prisma.inv_promotion_usage_logsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>
+        }
+        createMany: {
+          args: Prisma.inv_promotion_usage_logsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.inv_promotion_usage_logsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>[]
+        }
+        delete: {
+          args: Prisma.inv_promotion_usage_logsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>
+        }
+        update: {
+          args: Prisma.inv_promotion_usage_logsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>
+        }
+        deleteMany: {
+          args: Prisma.inv_promotion_usage_logsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.inv_promotion_usage_logsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.inv_promotion_usage_logsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>[]
+        }
+        upsert: {
+          args: Prisma.inv_promotion_usage_logsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inv_promotion_usage_logsPayload>
+        }
+        aggregate: {
+          args: Prisma.Inv_promotion_usage_logsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInv_promotion_usage_logs>
+        }
+        groupBy: {
+          args: Prisma.inv_promotion_usage_logsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_usage_logsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.inv_promotion_usage_logsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inv_promotion_usage_logsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -11039,6 +12239,8 @@ export const ShipmentsScalarFieldEnum = {
   sales_invoice_id: 'sales_invoice_id',
   tenant_id: 'tenant_id',
   order_id: 'order_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -12594,6 +13796,291 @@ export const Pos_held_ordersScalarFieldEnum = {
 export type Pos_held_ordersScalarFieldEnum = (typeof Pos_held_ordersScalarFieldEnum)[keyof typeof Pos_held_ordersScalarFieldEnum]
 
 
+export const Inv_promotionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  status: 'status',
+  promo_type: 'promo_type',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  timezone: 'timezone',
+  priority: 'priority',
+  currency_id: 'currency_id',
+  currency_code: 'currency_code',
+  min_order_amount: 'min_order_amount',
+  max_discount_amount: 'max_discount_amount',
+  usage_limit: 'usage_limit',
+  usage_per_customer: 'usage_per_customer',
+  daily_usage_limit: 'daily_usage_limit',
+  current_usage_count: 'current_usage_count',
+  allow_stacking: 'allow_stacking',
+  stacking_priority: 'stacking_priority',
+  max_stacking_count: 'max_stacking_count',
+  requires_coupon: 'requires_coupon',
+  requires_approval: 'requires_approval',
+  auto_apply: 'auto_apply',
+  scope_product_type: 'scope_product_type',
+  scope_customer_type: 'scope_customer_type',
+  scope_channel_type: 'scope_channel_type',
+  scope_location_type: 'scope_location_type',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_promotionsScalarFieldEnum = (typeof Inv_promotionsScalarFieldEnum)[keyof typeof Inv_promotionsScalarFieldEnum]
+
+
+export const Inv_promotion_rulesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  rule_type: 'rule_type',
+  discount_value: 'discount_value',
+  apply_to: 'apply_to',
+  buy_quantity: 'buy_quantity',
+  get_quantity: 'get_quantity',
+  get_discount_percent: 'get_discount_percent',
+  get_product_variant_id: 'get_product_variant_id',
+  tier_min_quantity: 'tier_min_quantity',
+  tier_min_amount: 'tier_min_amount',
+  sort_order: 'sort_order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_promotion_rulesScalarFieldEnum = (typeof Inv_promotion_rulesScalarFieldEnum)[keyof typeof Inv_promotion_rulesScalarFieldEnum]
+
+
+export const Inv_promotion_conditionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  group_id: 'group_id',
+  logical_operator: 'logical_operator',
+  field: 'field',
+  operator: 'operator',
+  value: 'value',
+  sort_order: 'sort_order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_promotion_conditionsScalarFieldEnum = (typeof Inv_promotion_conditionsScalarFieldEnum)[keyof typeof Inv_promotion_conditionsScalarFieldEnum]
+
+
+export const Inv_promotion_productsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  product_id: 'product_id',
+  product_variant_id: 'product_variant_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_productsScalarFieldEnum = (typeof Inv_promotion_productsScalarFieldEnum)[keyof typeof Inv_promotion_productsScalarFieldEnum]
+
+
+export const Inv_promotion_categoriesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  category_id: 'category_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_categoriesScalarFieldEnum = (typeof Inv_promotion_categoriesScalarFieldEnum)[keyof typeof Inv_promotion_categoriesScalarFieldEnum]
+
+
+export const Inv_promotion_brandsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  brand_id: 'brand_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_brandsScalarFieldEnum = (typeof Inv_promotion_brandsScalarFieldEnum)[keyof typeof Inv_promotion_brandsScalarFieldEnum]
+
+
+export const Inv_promotion_customer_groupsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  customer_group_id: 'customer_group_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_customer_groupsScalarFieldEnum = (typeof Inv_promotion_customer_groupsScalarFieldEnum)[keyof typeof Inv_promotion_customer_groupsScalarFieldEnum]
+
+
+export const Inv_promotion_channelsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  channel_id: 'channel_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_channelsScalarFieldEnum = (typeof Inv_promotion_channelsScalarFieldEnum)[keyof typeof Inv_promotion_channelsScalarFieldEnum]
+
+
+export const Inv_promotion_storesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  store_id: 'store_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_storesScalarFieldEnum = (typeof Inv_promotion_storesScalarFieldEnum)[keyof typeof Inv_promotion_storesScalarFieldEnum]
+
+
+export const Inv_promotion_branchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  branch_id: 'branch_id',
+  is_excluded: 'is_excluded',
+  created_at: 'created_at'
+} as const
+
+export type Inv_promotion_branchesScalarFieldEnum = (typeof Inv_promotion_branchesScalarFieldEnum)[keyof typeof Inv_promotion_branchesScalarFieldEnum]
+
+
+export const Inv_couponsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  code: 'code',
+  description: 'description',
+  status: 'status',
+  max_usages: 'max_usages',
+  max_usages_per_customer: 'max_usages_per_customer',
+  current_usages: 'current_usages',
+  min_order_amount: 'min_order_amount',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  customer_id: 'customer_id',
+  is_single_use: 'is_single_use',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_couponsScalarFieldEnum = (typeof Inv_couponsScalarFieldEnum)[keyof typeof Inv_couponsScalarFieldEnum]
+
+
+export const Inv_coupon_redemptionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  coupon_id: 'coupon_id',
+  promotion_id: 'promotion_id',
+  customer_id: 'customer_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_order_id: 'sales_order_id',
+  discount_amount: 'discount_amount',
+  redeemed_at: 'redeemed_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Inv_coupon_redemptionsScalarFieldEnum = (typeof Inv_coupon_redemptionsScalarFieldEnum)[keyof typeof Inv_coupon_redemptionsScalarFieldEnum]
+
+
+export const Inv_sales_invoice_discountsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  sales_invoice_id: 'sales_invoice_id',
+  promotion_id: 'promotion_id',
+  coupon_id: 'coupon_id',
+  discount_source: 'discount_source',
+  discount_type: 'discount_type',
+  discount_rate: 'discount_rate',
+  discount_amount: 'discount_amount',
+  reason: 'reason',
+  applied_by_user_id: 'applied_by_user_id',
+  created_at: 'created_at'
+} as const
+
+export type Inv_sales_invoice_discountsScalarFieldEnum = (typeof Inv_sales_invoice_discountsScalarFieldEnum)[keyof typeof Inv_sales_invoice_discountsScalarFieldEnum]
+
+
+export const Inv_sales_invoice_item_discountsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  sales_invoice_item_id: 'sales_invoice_item_id',
+  sales_invoice_id: 'sales_invoice_id',
+  promotion_id: 'promotion_id',
+  promotion_rule_id: 'promotion_rule_id',
+  coupon_id: 'coupon_id',
+  discount_source: 'discount_source',
+  discount_type: 'discount_type',
+  discount_rate: 'discount_rate',
+  discount_amount: 'discount_amount',
+  original_unit_price: 'original_unit_price',
+  final_unit_price: 'final_unit_price',
+  quantity: 'quantity',
+  created_at: 'created_at'
+} as const
+
+export type Inv_sales_invoice_item_discountsScalarFieldEnum = (typeof Inv_sales_invoice_item_discountsScalarFieldEnum)[keyof typeof Inv_sales_invoice_item_discountsScalarFieldEnum]
+
+
+export const Inv_discount_approval_requestsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  branch_id: 'branch_id',
+  store_id: 'store_id',
+  pos_terminal_id: 'pos_terminal_id',
+  requested_by_user_id: 'requested_by_user_id',
+  approved_by_user_id: 'approved_by_user_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_order_id: 'sales_order_id',
+  discount_type: 'discount_type',
+  discount_value: 'discount_value',
+  discount_amount: 'discount_amount',
+  original_amount: 'original_amount',
+  user_max_allowed_percent: 'user_max_allowed_percent',
+  status: 'status',
+  reason: 'reason',
+  rejection_reason: 'rejection_reason',
+  reviewed_at: 'reviewed_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Inv_discount_approval_requestsScalarFieldEnum = (typeof Inv_discount_approval_requestsScalarFieldEnum)[keyof typeof Inv_discount_approval_requestsScalarFieldEnum]
+
+
+export const Inv_promotion_usage_logsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  promotion_id: 'promotion_id',
+  sales_invoice_id: 'sales_invoice_id',
+  sales_order_id: 'sales_order_id',
+  customer_id: 'customer_id',
+  discount_amount: 'discount_amount',
+  channel_id: 'channel_id',
+  store_id: 'store_id',
+  branch_id: 'branch_id',
+  used_at: 'used_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Inv_promotion_usage_logsScalarFieldEnum = (typeof Inv_promotion_usage_logsScalarFieldEnum)[keyof typeof Inv_promotion_usage_logsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -13510,6 +14997,132 @@ export type ListEnumheld_order_status_enumFieldRefInput<$PrismaModel> = FieldRef
 
 
 /**
+ * Reference to a field of type 'inv_promotion_status_enum'
+ */
+export type Enuminv_promotion_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_promotion_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_promotion_status_enum[]'
+ */
+export type ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_promotion_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_promotion_type_enum'
+ */
+export type Enuminv_promotion_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_promotion_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_promotion_type_enum[]'
+ */
+export type ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_promotion_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_promotion_scope_enum'
+ */
+export type Enuminv_promotion_scope_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_promotion_scope_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_promotion_scope_enum[]'
+ */
+export type ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_promotion_scope_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_rule_action_type_enum'
+ */
+export type Enuminv_rule_action_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_rule_action_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_rule_action_type_enum[]'
+ */
+export type ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_rule_action_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_condition_field_enum'
+ */
+export type Enuminv_condition_field_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_condition_field_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_condition_field_enum[]'
+ */
+export type ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_condition_field_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_condition_operator_enum'
+ */
+export type Enuminv_condition_operator_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_condition_operator_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_condition_operator_enum[]'
+ */
+export type ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_condition_operator_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_coupon_status_enum'
+ */
+export type Enuminv_coupon_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_coupon_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_coupon_status_enum[]'
+ */
+export type ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_coupon_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_discount_source_enum'
+ */
+export type Enuminv_discount_source_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_discount_source_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_discount_source_enum[]'
+ */
+export type ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_discount_source_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_approval_status_enum'
+ */
+export type Enuminv_approval_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_approval_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'inv_approval_status_enum[]'
+ */
+export type ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'inv_approval_status_enum[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -13743,6 +15356,22 @@ export type GlobalOmitConfig = {
   pos_cash_movements?: Prisma.pos_cash_movementsOmit
   sales_order_payments?: Prisma.sales_order_paymentsOmit
   pos_held_orders?: Prisma.pos_held_ordersOmit
+  inv_promotions?: Prisma.inv_promotionsOmit
+  inv_promotion_rules?: Prisma.inv_promotion_rulesOmit
+  inv_promotion_conditions?: Prisma.inv_promotion_conditionsOmit
+  inv_promotion_products?: Prisma.inv_promotion_productsOmit
+  inv_promotion_categories?: Prisma.inv_promotion_categoriesOmit
+  inv_promotion_brands?: Prisma.inv_promotion_brandsOmit
+  inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsOmit
+  inv_promotion_channels?: Prisma.inv_promotion_channelsOmit
+  inv_promotion_stores?: Prisma.inv_promotion_storesOmit
+  inv_promotion_branches?: Prisma.inv_promotion_branchesOmit
+  inv_coupons?: Prisma.inv_couponsOmit
+  inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsOmit
+  inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsOmit
+  inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsOmit
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsOmit
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsOmit
 }
 
 /* Types for Logging */

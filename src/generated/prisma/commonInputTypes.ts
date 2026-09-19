@@ -1387,6 +1387,176 @@ export type Enumheld_order_status_enumWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumheld_order_status_enumFilter<$PrismaModel>
 }
 
+export type Enuminv_promotion_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_status_enum | Prisma.Enuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_status_enumFilter<$PrismaModel> | $Enums.inv_promotion_status_enum
+}
+
+export type Enuminv_promotion_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_type_enum | Prisma.Enuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_type_enumFilter<$PrismaModel> | $Enums.inv_promotion_type_enum
+}
+
+export type Enuminv_promotion_scope_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_scope_enum | Prisma.Enuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_scope_enumFilter<$PrismaModel> | $Enums.inv_promotion_scope_enum
+}
+
+export type Enuminv_promotion_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_status_enum | Prisma.Enuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_promotion_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_promotion_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_promotion_status_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_promotion_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_type_enum | Prisma.Enuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_promotion_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_promotion_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_promotion_type_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_promotion_scope_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_scope_enum | Prisma.Enuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_scope_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_promotion_scope_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_promotion_scope_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_promotion_scope_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_rule_action_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_rule_action_type_enum | Prisma.Enuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_rule_action_type_enumFilter<$PrismaModel> | $Enums.inv_rule_action_type_enum
+}
+
+export type Enuminv_rule_action_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_rule_action_type_enum | Prisma.Enuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_rule_action_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_rule_action_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_rule_action_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_rule_action_type_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_condition_field_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_field_enum | Prisma.Enuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_field_enumFilter<$PrismaModel> | $Enums.inv_condition_field_enum
+}
+
+export type Enuminv_condition_operator_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_operator_enum | Prisma.Enuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_operator_enumFilter<$PrismaModel> | $Enums.inv_condition_operator_enum
+}
+
+export type Enuminv_condition_field_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_field_enum | Prisma.Enuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_field_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_condition_field_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_condition_field_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_condition_field_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_condition_operator_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_operator_enum | Prisma.Enuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_operator_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_condition_operator_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_condition_operator_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_condition_operator_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_coupon_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_coupon_status_enum | Prisma.Enuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_coupon_status_enumFilter<$PrismaModel> | $Enums.inv_coupon_status_enum
+}
+
+export type Enuminv_coupon_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_coupon_status_enum | Prisma.Enuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_coupon_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_coupon_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_coupon_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_coupon_status_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_discount_source_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_discount_source_enum | Prisma.Enuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_discount_source_enumFilter<$PrismaModel> | $Enums.inv_discount_source_enum
+}
+
+export type Enumdiscount_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.discount_type_enum | Prisma.Enumdiscount_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdiscount_type_enumFilter<$PrismaModel> | $Enums.discount_type_enum
+}
+
+export type Enuminv_discount_source_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_discount_source_enum | Prisma.Enuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_discount_source_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_discount_source_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_discount_source_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_discount_source_enumFilter<$PrismaModel>
+}
+
+export type Enumdiscount_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.discount_type_enum | Prisma.Enumdiscount_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdiscount_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.discount_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumdiscount_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumdiscount_type_enumFilter<$PrismaModel>
+}
+
+export type Enuminv_approval_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_approval_status_enum | Prisma.Enuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_approval_status_enumFilter<$PrismaModel> | $Enums.inv_approval_status_enum
+}
+
+export type Enuminv_approval_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_approval_status_enum | Prisma.Enuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_approval_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_approval_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_approval_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_approval_status_enumFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -2713,6 +2883,176 @@ export type NestedEnumheld_order_status_enumWithAggregatesFilter<$PrismaModel = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumheld_order_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumheld_order_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_promotion_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_status_enum | Prisma.Enuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_status_enumFilter<$PrismaModel> | $Enums.inv_promotion_status_enum
+}
+
+export type NestedEnuminv_promotion_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_type_enum | Prisma.Enuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_type_enumFilter<$PrismaModel> | $Enums.inv_promotion_type_enum
+}
+
+export type NestedEnuminv_promotion_scope_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_scope_enum | Prisma.Enuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_scope_enumFilter<$PrismaModel> | $Enums.inv_promotion_scope_enum
+}
+
+export type NestedEnuminv_promotion_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_status_enum | Prisma.Enuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_status_enum[] | Prisma.ListEnuminv_promotion_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_promotion_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_promotion_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_promotion_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_promotion_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_type_enum | Prisma.Enuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_type_enum[] | Prisma.ListEnuminv_promotion_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_promotion_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_promotion_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_promotion_type_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_promotion_scope_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_promotion_scope_enum | Prisma.Enuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_promotion_scope_enum[] | Prisma.ListEnuminv_promotion_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_promotion_scope_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_promotion_scope_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_promotion_scope_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_promotion_scope_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_rule_action_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_rule_action_type_enum | Prisma.Enuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_rule_action_type_enumFilter<$PrismaModel> | $Enums.inv_rule_action_type_enum
+}
+
+export type NestedEnuminv_rule_action_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_rule_action_type_enum | Prisma.Enuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_rule_action_type_enum[] | Prisma.ListEnuminv_rule_action_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_rule_action_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_rule_action_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_rule_action_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_rule_action_type_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_condition_field_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_field_enum | Prisma.Enuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_field_enumFilter<$PrismaModel> | $Enums.inv_condition_field_enum
+}
+
+export type NestedEnuminv_condition_operator_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_operator_enum | Prisma.Enuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_operator_enumFilter<$PrismaModel> | $Enums.inv_condition_operator_enum
+}
+
+export type NestedEnuminv_condition_field_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_field_enum | Prisma.Enuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_field_enum[] | Prisma.ListEnuminv_condition_field_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_field_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_condition_field_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_condition_field_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_condition_field_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_condition_operator_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_condition_operator_enum | Prisma.Enuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_condition_operator_enum[] | Prisma.ListEnuminv_condition_operator_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_condition_operator_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_condition_operator_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_condition_operator_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_condition_operator_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_coupon_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_coupon_status_enum | Prisma.Enuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_coupon_status_enumFilter<$PrismaModel> | $Enums.inv_coupon_status_enum
+}
+
+export type NestedEnuminv_coupon_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_coupon_status_enum | Prisma.Enuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_coupon_status_enum[] | Prisma.ListEnuminv_coupon_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_coupon_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_coupon_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_coupon_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_coupon_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_discount_source_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_discount_source_enum | Prisma.Enuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_discount_source_enumFilter<$PrismaModel> | $Enums.inv_discount_source_enum
+}
+
+export type NestedEnumdiscount_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.discount_type_enum | Prisma.Enumdiscount_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdiscount_type_enumFilter<$PrismaModel> | $Enums.discount_type_enum
+}
+
+export type NestedEnuminv_discount_source_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_discount_source_enum | Prisma.Enuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_discount_source_enum[] | Prisma.ListEnuminv_discount_source_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_discount_source_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_discount_source_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_discount_source_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_discount_source_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumdiscount_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.discount_type_enum | Prisma.Enumdiscount_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.discount_type_enum[] | Prisma.ListEnumdiscount_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdiscount_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.discount_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumdiscount_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumdiscount_type_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminv_approval_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_approval_status_enum | Prisma.Enuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_approval_status_enumFilter<$PrismaModel> | $Enums.inv_approval_status_enum
+}
+
+export type NestedEnuminv_approval_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.inv_approval_status_enum | Prisma.Enuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.inv_approval_status_enum[] | Prisma.ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminv_approval_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.inv_approval_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminv_approval_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminv_approval_status_enumFilter<$PrismaModel>
 }
 
 

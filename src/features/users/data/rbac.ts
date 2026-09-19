@@ -138,6 +138,44 @@ export const BASE_PERMISSION_DEFINITIONS = [
     name: 'pos.terminals.manage',
     description: 'Create, edit, and configure POS terminals and cashier assignments.',
   },
+
+  // ── Promotions & Discounts Module ───────────────────────────────────────
+  {
+    name: 'inventory.promotions.view',
+    description: 'View promotions, coupons, and discount configurations.',
+  },
+  {
+    name: 'inventory.promotions.manage',
+    description: 'Create, edit, duplicate, and configure promotions and rules.',
+  },
+  {
+    name: 'inventory.promotions.activate',
+    description: 'Activate, pause, or schedule promotions.',
+  },
+  {
+    name: 'inventory.promotions.delete',
+    description: 'Archive or delete promotions.',
+  },
+  {
+    name: 'inventory.coupons.view',
+    description: 'View coupons and redemption history.',
+  },
+  {
+    name: 'inventory.coupons.manage',
+    description: 'Create, update, generate bulk coupons, and revoke coupons.',
+  },
+  {
+    name: 'inventory.discounts.apply_manual',
+    description: 'Apply manual line and invoice discounts up to authorized limit.',
+  },
+  {
+    name: 'inventory.discounts.approve',
+    description: 'Approve or reject manual discount requests exceeding standard limits.',
+  },
+  {
+    name: 'inventory.discounts.view_reports',
+    description: 'View discount analytics, promotion performance, and revenue impact reports.',
+  },
 ] as const
 
 export type PermissionName =
@@ -227,6 +265,15 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'inventory.sales.view',
     'inventory.sales.manage',
     'access_control.audit.view',
+    'inventory.promotions.view',
+    'inventory.promotions.manage',
+    'inventory.promotions.activate',
+    'inventory.promotions.delete',
+    'inventory.coupons.view',
+    'inventory.coupons.manage',
+    'inventory.discounts.apply_manual',
+    'inventory.discounts.approve',
+    'inventory.discounts.view_reports',
   ],
   [UserRole.Manager]: [
     'general.dashboard.view',
@@ -244,6 +291,14 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'inventory.purchasing.manage',
     'inventory.sales.view',
     'inventory.sales.manage',
+    'inventory.promotions.view',
+    'inventory.promotions.manage',
+    'inventory.promotions.activate',
+    'inventory.coupons.view',
+    'inventory.coupons.manage',
+    'inventory.discounts.apply_manual',
+    'inventory.discounts.approve',
+    'inventory.discounts.view_reports',
   ],
   [UserRole.Staff]: [
     'general.dashboard.view',

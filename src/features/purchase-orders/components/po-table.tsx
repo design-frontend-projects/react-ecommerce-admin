@@ -139,7 +139,10 @@ export function POTable({
     })
   }, [data, statusFilter, warehouseFilter, currencyFilter, searchQuery])
 
-  const columns = useMemo(() => getPOColumns(t), [t])
+  const columns = useMemo(
+    () => getPOColumns(t, warehouses),
+    [t, warehouses]
+  )
 
   const table = useReactTable({
     data: filteredData,
@@ -366,17 +369,21 @@ export function POTable({
                       </div>
 
                       {/* Destination Warehouse */}
-                      {po.warehouses?.name && (
-                        <div className='flex items-center justify-between'>
-                          <span className='flex items-center gap-1.5'>
-                            <Warehouse className='h-3.5 w-3.5 text-primary/70' />
-                            {t('purchaseOrders.fields.destination', 'Destination')}:
-                          </span>
-                          <span className='font-medium text-foreground max-w-[180px] truncate text-right'>
-                            {po.warehouses.name}
-                          </span>
-                        </div>
-                      )}
+                      {(() => {
+                        const wh = Array.isArray(po.warehouses) ? po.warehouses[0] : po.warehouses
+                        const whName = wh?.name || warehouses.find((w) => w.id === po.warehouse_id)?.name
+                        return (
+                          <div className='flex items-center justify-between'>
+                            <span className='flex items-center gap-1.5'>
+                              <Warehouse className='h-3.5 w-3.5 text-primary/70' />
+                              {t('purchaseOrders.fields.destination', 'Destination')}:
+                            </span>
+                            <span className={whName ? 'font-medium text-foreground max-w-[180px] truncate text-right' : 'text-muted-foreground italic text-right'}>
+                              {whName || t('purchaseOrders.unassigned', 'Unassigned')}
+                            </span>
+                          </div>
+                        )
+                      })()}
 
                       {/* Order Date */}
                       {po.order_date && (

@@ -46,7 +46,6 @@ import { Route as AuthenticatedSuppliersRouteRouteImport } from './routes/_authe
 import { Route as AuthenticatedStoresRouteRouteImport } from './routes/_authenticated/stores/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedPurchaseOrdersRouteRouteImport } from './routes/_authenticated/purchase-orders/route'
-import { Route as AuthenticatedPromotionsRouteRouteImport } from './routes/_authenticated/promotions/route'
 import { Route as AuthenticatedPriceListRouteRouteImport } from './routes/_authenticated/price-list/route'
 import { Route as AuthenticatedPaymentMethodsRouteRouteImport } from './routes/_authenticated/payment-methods/route'
 import { Route as AuthenticatedCustomersRouteRouteImport } from './routes/_authenticated/customers/route'
@@ -77,6 +76,7 @@ import { Route as AuthenticatedReservationsIndexRouteImport } from './routes/_au
 import { Route as AuthenticatedReplenishmentIndexRouteImport } from './routes/_authenticated/replenishment/index'
 import { Route as AuthenticatedReorderRulesIndexRouteImport } from './routes/_authenticated/reorder-rules/index'
 import { Route as AuthenticatedPurchaseRequisitionsIndexRouteImport } from './routes/_authenticated/purchase-requisitions/index'
+import { Route as AuthenticatedPromotionsIndexRouteImport } from './routes/_authenticated/promotions/index'
 import { Route as AuthenticatedProductsIndexRouteImport } from './routes/_authenticated/products/index'
 import { Route as AuthenticatedPosIndexRouteImport } from './routes/_authenticated/pos/index'
 import { Route as AuthenticatedLookupsIndexRouteImport } from './routes/_authenticated/lookups/index'
@@ -160,6 +160,11 @@ import { Route as AuthenticatedResposFloorsRouteImport } from './routes/_authent
 import { Route as AuthenticatedResposCashierRouteImport } from './routes/_authenticated/respos/cashier'
 import { Route as AuthenticatedResposCaptainRouteImport } from './routes/_authenticated/respos/captain'
 import { Route as AuthenticatedResposAnalyticsRouteImport } from './routes/_authenticated/respos/analytics'
+import { Route as AuthenticatedPromotionsReportsRouteImport } from './routes/_authenticated/promotions/reports'
+import { Route as AuthenticatedPromotionsNewRouteImport } from './routes/_authenticated/promotions/new'
+import { Route as AuthenticatedPromotionsDiscountApprovalsRouteImport } from './routes/_authenticated/promotions/discount-approvals'
+import { Route as AuthenticatedPromotionsCouponsRouteImport } from './routes/_authenticated/promotions/coupons'
+import { Route as AuthenticatedPromotionsPromotionIdRouteImport } from './routes/_authenticated/promotions/$promotionId'
 import { Route as AuthenticatedPosTerminalsRouteImport } from './routes/_authenticated/pos/terminals'
 import { Route as AuthenticatedPosTerminalUsersRouteImport } from './routes/_authenticated/pos/terminal-users'
 import { Route as AuthenticatedPosReportsRouteImport } from './routes/_authenticated/pos/reports'
@@ -411,12 +416,6 @@ const AuthenticatedPurchaseOrdersRouteRoute =
     path: '/purchase-orders',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedPromotionsRouteRoute =
-  AuthenticatedPromotionsRouteRouteImport.update({
-    id: '/promotions',
-    path: '/promotions',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedPriceListRouteRoute =
   AuthenticatedPriceListRouteRouteImport.update({
     id: '/price-list',
@@ -601,6 +600,12 @@ const AuthenticatedPurchaseRequisitionsIndexRoute =
   AuthenticatedPurchaseRequisitionsIndexRouteImport.update({
     id: '/purchase-requisitions/',
     path: '/purchase-requisitions/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPromotionsIndexRoute =
+  AuthenticatedPromotionsIndexRouteImport.update({
+    id: '/promotions/',
+    path: '/promotions/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedProductsIndexRoute =
@@ -1059,6 +1064,36 @@ const AuthenticatedResposAnalyticsRoute =
     path: '/respos/analytics',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPromotionsReportsRoute =
+  AuthenticatedPromotionsReportsRouteImport.update({
+    id: '/promotions/reports',
+    path: '/promotions/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPromotionsNewRoute =
+  AuthenticatedPromotionsNewRouteImport.update({
+    id: '/promotions/new',
+    path: '/promotions/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPromotionsDiscountApprovalsRoute =
+  AuthenticatedPromotionsDiscountApprovalsRouteImport.update({
+    id: '/promotions/discount-approvals',
+    path: '/promotions/discount-approvals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPromotionsCouponsRoute =
+  AuthenticatedPromotionsCouponsRouteImport.update({
+    id: '/promotions/coupons',
+    path: '/promotions/coupons',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPromotionsPromotionIdRoute =
+  AuthenticatedPromotionsPromotionIdRouteImport.update({
+    id: '/promotions/$promotionId',
+    path: '/promotions/$promotionId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPosTerminalsRoute =
   AuthenticatedPosTerminalsRouteImport.update({
     id: '/pos/terminals',
@@ -1349,7 +1384,6 @@ export interface FileRoutesByFullPath {
   '/customers': typeof AuthenticatedCustomersRouteRoute
   '/payment-methods': typeof AuthenticatedPaymentMethodsRouteRoute
   '/price-list': typeof AuthenticatedPriceListRouteRoute
-  '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/stores': typeof AuthenticatedStoresRouteRoute
@@ -1397,6 +1431,11 @@ export interface FileRoutesByFullPath {
   '/pos/reports': typeof AuthenticatedPosReportsRoute
   '/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
   '/pos/terminals': typeof AuthenticatedPosTerminalsRoute
+  '/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRoute
+  '/promotions/coupons': typeof AuthenticatedPromotionsCouponsRoute
+  '/promotions/discount-approvals': typeof AuthenticatedPromotionsDiscountApprovalsRoute
+  '/promotions/new': typeof AuthenticatedPromotionsNewRoute
+  '/promotions/reports': typeof AuthenticatedPromotionsReportsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1480,6 +1519,7 @@ export interface FileRoutesByFullPath {
   '/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/pos/': typeof AuthenticatedPosIndexRoute
   '/products/': typeof AuthenticatedProductsIndexRoute
+  '/promotions/': typeof AuthenticatedPromotionsIndexRoute
   '/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
   '/reorder-rules/': typeof AuthenticatedReorderRulesIndexRoute
   '/replenishment/': typeof AuthenticatedReplenishmentIndexRoute
@@ -1546,7 +1586,6 @@ export interface FileRoutesByTo {
   '/customers': typeof AuthenticatedCustomersRouteRoute
   '/payment-methods': typeof AuthenticatedPaymentMethodsRouteRoute
   '/price-list': typeof AuthenticatedPriceListRouteRoute
-  '/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/stores': typeof AuthenticatedStoresRouteRoute
   '/suppliers': typeof AuthenticatedSuppliersRouteRoute
@@ -1594,6 +1633,11 @@ export interface FileRoutesByTo {
   '/pos/reports': typeof AuthenticatedPosReportsRoute
   '/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
   '/pos/terminals': typeof AuthenticatedPosTerminalsRoute
+  '/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRoute
+  '/promotions/coupons': typeof AuthenticatedPromotionsCouponsRoute
+  '/promotions/discount-approvals': typeof AuthenticatedPromotionsDiscountApprovalsRoute
+  '/promotions/new': typeof AuthenticatedPromotionsNewRoute
+  '/promotions/reports': typeof AuthenticatedPromotionsReportsRoute
   '/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1677,6 +1721,7 @@ export interface FileRoutesByTo {
   '/lookups': typeof AuthenticatedLookupsIndexRoute
   '/pos': typeof AuthenticatedPosIndexRoute
   '/products': typeof AuthenticatedProductsIndexRoute
+  '/promotions': typeof AuthenticatedPromotionsIndexRoute
   '/purchase-requisitions': typeof AuthenticatedPurchaseRequisitionsIndexRoute
   '/reorder-rules': typeof AuthenticatedReorderRulesIndexRoute
   '/replenishment': typeof AuthenticatedReplenishmentIndexRoute
@@ -1746,7 +1791,6 @@ export interface FileRoutesById {
   '/_authenticated/customers': typeof AuthenticatedCustomersRouteRoute
   '/_authenticated/payment-methods': typeof AuthenticatedPaymentMethodsRouteRoute
   '/_authenticated/price-list': typeof AuthenticatedPriceListRouteRoute
-  '/_authenticated/promotions': typeof AuthenticatedPromotionsRouteRoute
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRouteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/_authenticated/stores': typeof AuthenticatedStoresRouteRoute
@@ -1796,6 +1840,11 @@ export interface FileRoutesById {
   '/_authenticated/pos/reports': typeof AuthenticatedPosReportsRoute
   '/_authenticated/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
   '/_authenticated/pos/terminals': typeof AuthenticatedPosTerminalsRoute
+  '/_authenticated/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRoute
+  '/_authenticated/promotions/coupons': typeof AuthenticatedPromotionsCouponsRoute
+  '/_authenticated/promotions/discount-approvals': typeof AuthenticatedPromotionsDiscountApprovalsRoute
+  '/_authenticated/promotions/new': typeof AuthenticatedPromotionsNewRoute
+  '/_authenticated/promotions/reports': typeof AuthenticatedPromotionsReportsRoute
   '/_authenticated/respos/analytics': typeof AuthenticatedResposAnalyticsRoute
   '/_authenticated/respos/captain': typeof AuthenticatedResposCaptainRoute
   '/_authenticated/respos/cashier': typeof AuthenticatedResposCashierRoute
@@ -1879,6 +1928,7 @@ export interface FileRoutesById {
   '/_authenticated/lookups/': typeof AuthenticatedLookupsIndexRoute
   '/_authenticated/pos/': typeof AuthenticatedPosIndexRoute
   '/_authenticated/products/': typeof AuthenticatedProductsIndexRoute
+  '/_authenticated/promotions/': typeof AuthenticatedPromotionsIndexRoute
   '/_authenticated/purchase-requisitions/': typeof AuthenticatedPurchaseRequisitionsIndexRoute
   '/_authenticated/reorder-rules/': typeof AuthenticatedReorderRulesIndexRoute
   '/_authenticated/replenishment/': typeof AuthenticatedReplenishmentIndexRoute
@@ -1949,7 +1999,6 @@ export interface FileRouteTypes {
     | '/customers'
     | '/payment-methods'
     | '/price-list'
-    | '/promotions'
     | '/purchase-orders'
     | '/settings'
     | '/stores'
@@ -1997,6 +2046,11 @@ export interface FileRouteTypes {
     | '/pos/reports'
     | '/pos/terminal-users'
     | '/pos/terminals'
+    | '/promotions/$promotionId'
+    | '/promotions/coupons'
+    | '/promotions/discount-approvals'
+    | '/promotions/new'
+    | '/promotions/reports'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -2080,6 +2134,7 @@ export interface FileRouteTypes {
     | '/lookups/'
     | '/pos/'
     | '/products/'
+    | '/promotions/'
     | '/purchase-requisitions/'
     | '/reorder-rules/'
     | '/replenishment/'
@@ -2146,7 +2201,6 @@ export interface FileRouteTypes {
     | '/customers'
     | '/payment-methods'
     | '/price-list'
-    | '/promotions'
     | '/purchase-orders'
     | '/stores'
     | '/suppliers'
@@ -2194,6 +2248,11 @@ export interface FileRouteTypes {
     | '/pos/reports'
     | '/pos/terminal-users'
     | '/pos/terminals'
+    | '/promotions/$promotionId'
+    | '/promotions/coupons'
+    | '/promotions/discount-approvals'
+    | '/promotions/new'
+    | '/promotions/reports'
     | '/respos/analytics'
     | '/respos/captain'
     | '/respos/cashier'
@@ -2277,6 +2336,7 @@ export interface FileRouteTypes {
     | '/lookups'
     | '/pos'
     | '/products'
+    | '/promotions'
     | '/purchase-requisitions'
     | '/reorder-rules'
     | '/replenishment'
@@ -2345,7 +2405,6 @@ export interface FileRouteTypes {
     | '/_authenticated/customers'
     | '/_authenticated/payment-methods'
     | '/_authenticated/price-list'
-    | '/_authenticated/promotions'
     | '/_authenticated/purchase-orders'
     | '/_authenticated/settings'
     | '/_authenticated/stores'
@@ -2395,6 +2454,11 @@ export interface FileRouteTypes {
     | '/_authenticated/pos/reports'
     | '/_authenticated/pos/terminal-users'
     | '/_authenticated/pos/terminals'
+    | '/_authenticated/promotions/$promotionId'
+    | '/_authenticated/promotions/coupons'
+    | '/_authenticated/promotions/discount-approvals'
+    | '/_authenticated/promotions/new'
+    | '/_authenticated/promotions/reports'
     | '/_authenticated/respos/analytics'
     | '/_authenticated/respos/captain'
     | '/_authenticated/respos/cashier'
@@ -2478,6 +2542,7 @@ export interface FileRouteTypes {
     | '/_authenticated/lookups/'
     | '/_authenticated/pos/'
     | '/_authenticated/products/'
+    | '/_authenticated/promotions/'
     | '/_authenticated/purchase-requisitions/'
     | '/_authenticated/reorder-rules/'
     | '/_authenticated/replenishment/'
@@ -2873,13 +2938,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPurchaseOrdersRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/promotions': {
-      id: '/_authenticated/promotions'
-      path: '/promotions'
-      fullPath: '/promotions'
-      preLoaderRoute: typeof AuthenticatedPromotionsRouteRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/price-list': {
       id: '/_authenticated/price-list'
       path: '/price-list'
@@ -3095,6 +3153,13 @@ declare module '@tanstack/react-router' {
       path: '/purchase-requisitions'
       fullPath: '/purchase-requisitions/'
       preLoaderRoute: typeof AuthenticatedPurchaseRequisitionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/promotions/': {
+      id: '/_authenticated/promotions/'
+      path: '/promotions'
+      fullPath: '/promotions/'
+      preLoaderRoute: typeof AuthenticatedPromotionsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/products/': {
@@ -3678,6 +3743,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/promotions/reports': {
+      id: '/_authenticated/promotions/reports'
+      path: '/promotions/reports'
+      fullPath: '/promotions/reports'
+      preLoaderRoute: typeof AuthenticatedPromotionsReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/promotions/new': {
+      id: '/_authenticated/promotions/new'
+      path: '/promotions/new'
+      fullPath: '/promotions/new'
+      preLoaderRoute: typeof AuthenticatedPromotionsNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/promotions/discount-approvals': {
+      id: '/_authenticated/promotions/discount-approvals'
+      path: '/promotions/discount-approvals'
+      fullPath: '/promotions/discount-approvals'
+      preLoaderRoute: typeof AuthenticatedPromotionsDiscountApprovalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/promotions/coupons': {
+      id: '/_authenticated/promotions/coupons'
+      path: '/promotions/coupons'
+      fullPath: '/promotions/coupons'
+      preLoaderRoute: typeof AuthenticatedPromotionsCouponsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/promotions/$promotionId': {
+      id: '/_authenticated/promotions/$promotionId'
+      path: '/promotions/$promotionId'
+      fullPath: '/promotions/$promotionId'
+      preLoaderRoute: typeof AuthenticatedPromotionsPromotionIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pos/terminals': {
       id: '/_authenticated/pos/terminals'
       path: '/pos/terminals'
@@ -4075,7 +4175,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCustomersRouteRoute: typeof AuthenticatedCustomersRouteRoute
   AuthenticatedPaymentMethodsRouteRoute: typeof AuthenticatedPaymentMethodsRouteRoute
   AuthenticatedPriceListRouteRoute: typeof AuthenticatedPriceListRouteRoute
-  AuthenticatedPromotionsRouteRoute: typeof AuthenticatedPromotionsRouteRoute
   AuthenticatedPurchaseOrdersRouteRoute: typeof AuthenticatedPurchaseOrdersRouteRoute
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedStoresRouteRoute: typeof AuthenticatedStoresRouteRoute
@@ -4103,6 +4202,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPosReportsRoute: typeof AuthenticatedPosReportsRoute
   AuthenticatedPosTerminalUsersRoute: typeof AuthenticatedPosTerminalUsersRoute
   AuthenticatedPosTerminalsRoute: typeof AuthenticatedPosTerminalsRoute
+  AuthenticatedPromotionsPromotionIdRoute: typeof AuthenticatedPromotionsPromotionIdRoute
+  AuthenticatedPromotionsCouponsRoute: typeof AuthenticatedPromotionsCouponsRoute
+  AuthenticatedPromotionsDiscountApprovalsRoute: typeof AuthenticatedPromotionsDiscountApprovalsRoute
+  AuthenticatedPromotionsNewRoute: typeof AuthenticatedPromotionsNewRoute
+  AuthenticatedPromotionsReportsRoute: typeof AuthenticatedPromotionsReportsRoute
   AuthenticatedResposAnalyticsRoute: typeof AuthenticatedResposAnalyticsRoute
   AuthenticatedResposCaptainRoute: typeof AuthenticatedResposCaptainRoute
   AuthenticatedResposCashierRoute: typeof AuthenticatedResposCashierRoute
@@ -4127,6 +4231,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLookupsIndexRoute: typeof AuthenticatedLookupsIndexRoute
   AuthenticatedPosIndexRoute: typeof AuthenticatedPosIndexRoute
   AuthenticatedProductsIndexRoute: typeof AuthenticatedProductsIndexRoute
+  AuthenticatedPromotionsIndexRoute: typeof AuthenticatedPromotionsIndexRoute
   AuthenticatedPurchaseRequisitionsIndexRoute: typeof AuthenticatedPurchaseRequisitionsIndexRoute
   AuthenticatedReorderRulesIndexRoute: typeof AuthenticatedReorderRulesIndexRoute
   AuthenticatedReplenishmentIndexRoute: typeof AuthenticatedReplenishmentIndexRoute
@@ -4159,7 +4264,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCustomersRouteRoute: AuthenticatedCustomersRouteRoute,
   AuthenticatedPaymentMethodsRouteRoute: AuthenticatedPaymentMethodsRouteRoute,
   AuthenticatedPriceListRouteRoute: AuthenticatedPriceListRouteRoute,
-  AuthenticatedPromotionsRouteRoute: AuthenticatedPromotionsRouteRoute,
   AuthenticatedPurchaseOrdersRouteRoute: AuthenticatedPurchaseOrdersRouteRoute,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedStoresRouteRoute: AuthenticatedStoresRouteRoute,
@@ -4189,6 +4293,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPosReportsRoute: AuthenticatedPosReportsRoute,
   AuthenticatedPosTerminalUsersRoute: AuthenticatedPosTerminalUsersRoute,
   AuthenticatedPosTerminalsRoute: AuthenticatedPosTerminalsRoute,
+  AuthenticatedPromotionsPromotionIdRoute:
+    AuthenticatedPromotionsPromotionIdRoute,
+  AuthenticatedPromotionsCouponsRoute: AuthenticatedPromotionsCouponsRoute,
+  AuthenticatedPromotionsDiscountApprovalsRoute:
+    AuthenticatedPromotionsDiscountApprovalsRoute,
+  AuthenticatedPromotionsNewRoute: AuthenticatedPromotionsNewRoute,
+  AuthenticatedPromotionsReportsRoute: AuthenticatedPromotionsReportsRoute,
   AuthenticatedResposAnalyticsRoute: AuthenticatedResposAnalyticsRoute,
   AuthenticatedResposCaptainRoute: AuthenticatedResposCaptainRoute,
   AuthenticatedResposCashierRoute: AuthenticatedResposCashierRoute,
@@ -4217,6 +4328,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLookupsIndexRoute: AuthenticatedLookupsIndexRoute,
   AuthenticatedPosIndexRoute: AuthenticatedPosIndexRoute,
   AuthenticatedProductsIndexRoute: AuthenticatedProductsIndexRoute,
+  AuthenticatedPromotionsIndexRoute: AuthenticatedPromotionsIndexRoute,
   AuthenticatedPurchaseRequisitionsIndexRoute:
     AuthenticatedPurchaseRequisitionsIndexRoute,
   AuthenticatedReorderRulesIndexRoute: AuthenticatedReorderRulesIndexRoute,

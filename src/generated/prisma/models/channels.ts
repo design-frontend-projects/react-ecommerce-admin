@@ -234,6 +234,8 @@ export type channelsWhereInput = {
   price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
+  inv_promotion_channels?: Prisma.Inv_promotion_channelsListRelationFilter
+  inv_promotion_usage_logs?: Prisma.Inv_promotion_usage_logsListRelationFilter
 }
 
 export type channelsOrderByWithRelationInput = {
@@ -252,6 +254,8 @@ export type channelsOrderByWithRelationInput = {
   price_list_assignments?: Prisma.price_list_assignmentsOrderByRelationAggregateInput
   sales_invoices?: Prisma.sales_invoicesOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsOrderByRelationAggregateInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsOrderByRelationAggregateInput
 }
 
 export type channelsWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +278,8 @@ export type channelsWhereUniqueInput = Prisma.AtLeast<{
   price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
+  inv_promotion_channels?: Prisma.Inv_promotion_channelsListRelationFilter
+  inv_promotion_usage_logs?: Prisma.Inv_promotion_usage_logsListRelationFilter
 }, "id" | "tenant_id_code">
 
 export type channelsOrderByWithAggregationInput = {
@@ -326,6 +332,8 @@ export type channelsCreateInput = {
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateInput = {
@@ -344,6 +352,8 @@ export type channelsUncheckedCreateInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUpdateInput = {
@@ -362,6 +372,8 @@ export type channelsUpdateInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateInput = {
@@ -380,6 +392,8 @@ export type channelsUncheckedUpdateInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsCreateManyInput = {
@@ -476,6 +490,11 @@ export type channelsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
+export type ChannelsScalarRelationFilter = {
+  is?: Prisma.channelsWhereInput
+  isNot?: Prisma.channelsWhereInput
+}
+
 export type channelsCreateNestedOneWithoutPrice_listInput = {
   create?: Prisma.XOR<Prisma.channelsCreateWithoutPrice_listInput, Prisma.channelsUncheckedCreateWithoutPrice_listInput>
   connectOrCreate?: Prisma.channelsCreateOrConnectWithoutPrice_listInput
@@ -540,6 +559,36 @@ export type channelsUpdateOneWithoutSales_ordersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutSales_ordersInput, Prisma.channelsUpdateWithoutSales_ordersInput>, Prisma.channelsUncheckedUpdateWithoutSales_ordersInput>
 }
 
+export type channelsCreateNestedOneWithoutInv_promotion_channelsInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_channelsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_channelsInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutInv_promotion_channelsInput
+  connect?: Prisma.channelsWhereUniqueInput
+}
+
+export type channelsUpdateOneRequiredWithoutInv_promotion_channelsNestedInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_channelsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_channelsInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutInv_promotion_channelsInput
+  upsert?: Prisma.channelsUpsertWithoutInv_promotion_channelsInput
+  connect?: Prisma.channelsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutInv_promotion_channelsInput, Prisma.channelsUpdateWithoutInv_promotion_channelsInput>, Prisma.channelsUncheckedUpdateWithoutInv_promotion_channelsInput>
+}
+
+export type channelsCreateNestedOneWithoutInv_promotion_usage_logsInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_usage_logsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_usage_logsInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutInv_promotion_usage_logsInput
+  connect?: Prisma.channelsWhereUniqueInput
+}
+
+export type channelsUpdateOneWithoutInv_promotion_usage_logsNestedInput = {
+  create?: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_usage_logsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_usage_logsInput>
+  connectOrCreate?: Prisma.channelsCreateOrConnectWithoutInv_promotion_usage_logsInput
+  upsert?: Prisma.channelsUpsertWithoutInv_promotion_usage_logsInput
+  disconnect?: Prisma.channelsWhereInput | boolean
+  delete?: Prisma.channelsWhereInput | boolean
+  connect?: Prisma.channelsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.channelsUpdateToOneWithWhereWithoutInv_promotion_usage_logsInput, Prisma.channelsUpdateWithoutInv_promotion_usage_logsInput>, Prisma.channelsUncheckedUpdateWithoutInv_promotion_usage_logsInput>
+}
+
 export type channelsCreateWithoutPrice_listInput = {
   id?: string
   tenant_id: string
@@ -555,6 +604,8 @@ export type channelsCreateWithoutPrice_listInput = {
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateWithoutPrice_listInput = {
@@ -572,6 +623,8 @@ export type channelsUncheckedCreateWithoutPrice_listInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsCreateOrConnectWithoutPrice_listInput = {
@@ -605,6 +658,8 @@ export type channelsUpdateWithoutPrice_listInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateWithoutPrice_listInput = {
@@ -622,6 +677,8 @@ export type channelsUncheckedUpdateWithoutPrice_listInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsCreateWithoutPrice_list_assignmentsInput = {
@@ -639,6 +696,8 @@ export type channelsCreateWithoutPrice_list_assignmentsInput = {
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateWithoutPrice_list_assignmentsInput = {
@@ -656,6 +715,8 @@ export type channelsUncheckedCreateWithoutPrice_list_assignmentsInput = {
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsCreateOrConnectWithoutPrice_list_assignmentsInput = {
@@ -689,6 +750,8 @@ export type channelsUpdateWithoutPrice_list_assignmentsInput = {
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateWithoutPrice_list_assignmentsInput = {
@@ -706,6 +769,8 @@ export type channelsUncheckedUpdateWithoutPrice_list_assignmentsInput = {
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsCreateWithoutSales_invoicesInput = {
@@ -723,6 +788,8 @@ export type channelsCreateWithoutSales_invoicesInput = {
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateWithoutSales_invoicesInput = {
@@ -740,6 +807,8 @@ export type channelsUncheckedCreateWithoutSales_invoicesInput = {
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsCreateOrConnectWithoutSales_invoicesInput = {
@@ -773,6 +842,8 @@ export type channelsUpdateWithoutSales_invoicesInput = {
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateWithoutSales_invoicesInput = {
@@ -790,6 +861,8 @@ export type channelsUncheckedUpdateWithoutSales_invoicesInput = {
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsCreateWithoutSales_ordersInput = {
@@ -807,6 +880,8 @@ export type channelsCreateWithoutSales_ordersInput = {
   price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsUncheckedCreateWithoutSales_ordersInput = {
@@ -824,6 +899,8 @@ export type channelsUncheckedCreateWithoutSales_ordersInput = {
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutChannelsInput
 }
 
 export type channelsCreateOrConnectWithoutSales_ordersInput = {
@@ -857,6 +934,8 @@ export type channelsUpdateWithoutSales_ordersInput = {
   price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutChannelsNestedInput
 }
 
 export type channelsUncheckedUpdateWithoutSales_ordersInput = {
@@ -874,6 +953,192 @@ export type channelsUncheckedUpdateWithoutSales_ordersInput = {
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsCreateWithoutInv_promotion_channelsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsUncheckedCreateWithoutInv_promotion_channelsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsCreateOrConnectWithoutInv_promotion_channelsInput = {
+  where: Prisma.channelsWhereUniqueInput
+  create: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_channelsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_channelsInput>
+}
+
+export type channelsUpsertWithoutInv_promotion_channelsInput = {
+  update: Prisma.XOR<Prisma.channelsUpdateWithoutInv_promotion_channelsInput, Prisma.channelsUncheckedUpdateWithoutInv_promotion_channelsInput>
+  create: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_channelsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_channelsInput>
+  where?: Prisma.channelsWhereInput
+}
+
+export type channelsUpdateToOneWithWhereWithoutInv_promotion_channelsInput = {
+  where?: Prisma.channelsWhereInput
+  data: Prisma.XOR<Prisma.channelsUpdateWithoutInv_promotion_channelsInput, Prisma.channelsUncheckedUpdateWithoutInv_promotion_channelsInput>
+}
+
+export type channelsUpdateWithoutInv_promotion_channelsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsUncheckedUpdateWithoutInv_promotion_channelsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsCreateWithoutInv_promotion_usage_logsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsUncheckedCreateWithoutInv_promotion_usage_logsInput = {
+  id?: string
+  tenant_id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  description?: string | null
+  is_active?: boolean
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutChannelsInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutChannelsInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutChannelsInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutChannelsInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedCreateNestedManyWithoutChannelsInput
+}
+
+export type channelsCreateOrConnectWithoutInv_promotion_usage_logsInput = {
+  where: Prisma.channelsWhereUniqueInput
+  create: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_usage_logsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_usage_logsInput>
+}
+
+export type channelsUpsertWithoutInv_promotion_usage_logsInput = {
+  update: Prisma.XOR<Prisma.channelsUpdateWithoutInv_promotion_usage_logsInput, Prisma.channelsUncheckedUpdateWithoutInv_promotion_usage_logsInput>
+  create: Prisma.XOR<Prisma.channelsCreateWithoutInv_promotion_usage_logsInput, Prisma.channelsUncheckedCreateWithoutInv_promotion_usage_logsInput>
+  where?: Prisma.channelsWhereInput
+}
+
+export type channelsUpdateToOneWithWhereWithoutInv_promotion_usage_logsInput = {
+  where?: Prisma.channelsWhereInput
+  data: Prisma.XOR<Prisma.channelsUpdateWithoutInv_promotion_usage_logsInput, Prisma.channelsUncheckedUpdateWithoutInv_promotion_usage_logsInput>
+}
+
+export type channelsUpdateWithoutInv_promotion_usage_logsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUpdateManyWithoutChannelsNestedInput
+}
+
+export type channelsUncheckedUpdateWithoutInv_promotion_usage_logsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  name_ar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutChannelsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutChannelsNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutChannelsNestedInput
+  inv_promotion_channels?: Prisma.inv_promotion_channelsUncheckedUpdateManyWithoutChannelsNestedInput
 }
 
 
@@ -886,6 +1151,8 @@ export type ChannelsCountOutputType = {
   price_list_assignments: number
   sales_invoices: number
   sales_orders: number
+  inv_promotion_channels: number
+  inv_promotion_usage_logs: number
 }
 
 export type ChannelsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -893,6 +1160,8 @@ export type ChannelsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   price_list_assignments?: boolean | ChannelsCountOutputTypeCountPrice_list_assignmentsArgs
   sales_invoices?: boolean | ChannelsCountOutputTypeCountSales_invoicesArgs
   sales_orders?: boolean | ChannelsCountOutputTypeCountSales_ordersArgs
+  inv_promotion_channels?: boolean | ChannelsCountOutputTypeCountInv_promotion_channelsArgs
+  inv_promotion_usage_logs?: boolean | ChannelsCountOutputTypeCountInv_promotion_usage_logsArgs
 }
 
 /**
@@ -933,6 +1202,20 @@ export type ChannelsCountOutputTypeCountSales_ordersArgs<ExtArgs extends runtime
   where?: Prisma.sales_ordersWhereInput
 }
 
+/**
+ * ChannelsCountOutputType without action
+ */
+export type ChannelsCountOutputTypeCountInv_promotion_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.inv_promotion_channelsWhereInput
+}
+
+/**
+ * ChannelsCountOutputType without action
+ */
+export type ChannelsCountOutputTypeCountInv_promotion_usage_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.inv_promotion_usage_logsWhereInput
+}
+
 
 export type channelsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -950,6 +1233,8 @@ export type channelsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   price_list_assignments?: boolean | Prisma.channels$price_list_assignmentsArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.channels$sales_invoicesArgs<ExtArgs>
   sales_orders?: boolean | Prisma.channels$sales_ordersArgs<ExtArgs>
+  inv_promotion_channels?: boolean | Prisma.channels$inv_promotion_channelsArgs<ExtArgs>
+  inv_promotion_usage_logs?: boolean | Prisma.channels$inv_promotion_usage_logsArgs<ExtArgs>
   _count?: boolean | Prisma.ChannelsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["channels"]>
 
@@ -1001,6 +1286,8 @@ export type channelsInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   price_list_assignments?: boolean | Prisma.channels$price_list_assignmentsArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.channels$sales_invoicesArgs<ExtArgs>
   sales_orders?: boolean | Prisma.channels$sales_ordersArgs<ExtArgs>
+  inv_promotion_channels?: boolean | Prisma.channels$inv_promotion_channelsArgs<ExtArgs>
+  inv_promotion_usage_logs?: boolean | Prisma.channels$inv_promotion_usage_logsArgs<ExtArgs>
   _count?: boolean | Prisma.ChannelsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type channelsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1013,6 +1300,8 @@ export type $channelsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     price_list_assignments: Prisma.$price_list_assignmentsPayload<ExtArgs>[]
     sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
+    inv_promotion_channels: Prisma.$inv_promotion_channelsPayload<ExtArgs>[]
+    inv_promotion_usage_logs: Prisma.$inv_promotion_usage_logsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1424,6 +1713,8 @@ export interface Prisma__channelsClient<T, Null = never, ExtArgs extends runtime
   price_list_assignments<T extends Prisma.channels$price_list_assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$price_list_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_invoices<T extends Prisma.channels$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$sales_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.channels$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inv_promotion_channels<T extends Prisma.channels$inv_promotion_channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$inv_promotion_channelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_promotion_channelsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inv_promotion_usage_logs<T extends Prisma.channels$inv_promotion_usage_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.channels$inv_promotion_usage_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_promotion_usage_logsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1950,6 +2241,54 @@ export type channels$sales_ordersArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.Sales_ordersScalarFieldEnum | Prisma.Sales_ordersScalarFieldEnum[]
+}
+
+/**
+ * channels.inv_promotion_channels
+ */
+export type channels$inv_promotion_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inv_promotion_channels
+   */
+  select?: Prisma.inv_promotion_channelsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inv_promotion_channels
+   */
+  omit?: Prisma.inv_promotion_channelsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inv_promotion_channelsInclude<ExtArgs> | null
+  where?: Prisma.inv_promotion_channelsWhereInput
+  orderBy?: Prisma.inv_promotion_channelsOrderByWithRelationInput | Prisma.inv_promotion_channelsOrderByWithRelationInput[]
+  cursor?: Prisma.inv_promotion_channelsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Inv_promotion_channelsScalarFieldEnum | Prisma.Inv_promotion_channelsScalarFieldEnum[]
+}
+
+/**
+ * channels.inv_promotion_usage_logs
+ */
+export type channels$inv_promotion_usage_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the inv_promotion_usage_logs
+   */
+  select?: Prisma.inv_promotion_usage_logsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the inv_promotion_usage_logs
+   */
+  omit?: Prisma.inv_promotion_usage_logsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.inv_promotion_usage_logsInclude<ExtArgs> | null
+  where?: Prisma.inv_promotion_usage_logsWhereInput
+  orderBy?: Prisma.inv_promotion_usage_logsOrderByWithRelationInput | Prisma.inv_promotion_usage_logsOrderByWithRelationInput[]
+  cursor?: Prisma.inv_promotion_usage_logsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Inv_promotion_usage_logsScalarFieldEnum | Prisma.Inv_promotion_usage_logsScalarFieldEnum[]
 }
 
 /**

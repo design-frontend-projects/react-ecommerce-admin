@@ -75,6 +75,9 @@ model branches {
   warehouses          warehouses[]
   purchase_requisitions purchase_requisitions[]
   pos_terminals       pos_terminals[]
+  inv_promotion_branches inv_promotion_branches[]
+  inv_promotion_usage_logs inv_promotion_usage_logs[]
+  inv_discount_approval_requests inv_discount_approval_requests[]
 }
 
 model categories {
@@ -92,6 +95,7 @@ model categories {
   parent             categories?   @relation("CategoryHierarchy", fields: [parent_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   children           categories[]  @relation("CategoryHierarchy")
   products           products[]
+  inv_promotion_categories inv_promotion_categories[]
 }
 
 model cities {
@@ -138,6 +142,7 @@ model currencies {
   tenants    tenants[]
   price_list price_list[]
   purchase_orders purchase_orders[]
+  inv_promotions inv_promotions[]
 }
 
 model customer_cards {
@@ -171,6 +176,7 @@ model customer_groups {
   customers            customers[]
   price_list           price_list[]
   price_list_assignments price_list_assignments[]
+  inv_promotion_customer_groups inv_promotion_customer_groups[]
 }
 
 model customers {
@@ -199,6 +205,9 @@ model customers {
   updated_by_user_id String?          @db.Uuid
   customer_cards     customer_cards[]
   customer_groups    customer_groups? @relation(fields: [group_id], references: [id], onUpdate: NoAction, map: "fk_customers_customer_groups")
+  inv_coupons            inv_coupons[]
+  inv_coupon_redemptions inv_coupon_redemptions[]
+  inv_promotion_usage_logs inv_promotion_usage_logs[]
 }
 
 model payment_types {
@@ -252,6 +261,7 @@ model pos_terminals {
   pos_sessions           pos_sessions[]
   pos_held_orders        pos_held_orders[]
   sales_orders           sales_orders[]
+  inv_discount_approval_requests inv_discount_approval_requests[]
 
   @@index([tenant_id])
   @@index([store_id])
@@ -371,6 +381,8 @@ model product_variants {
   price_list_items     price_list_items[]
   purchase_requisition_items purchase_requisition_items[]
   inventory_transaction_items inventory_transaction_items[]
+  inv_promotion_products inv_promotion_products[]
+  inv_promotion_rules_free inv_promotion_rules[] @relation("inv_free_variant")
 }
 
 
@@ -421,6 +433,7 @@ model products {
   inventory              inventory[]
   price_list             price_list[]
   price_list_items       price_list_items[]
+  inv_promotion_products inv_promotion_products[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1055,6 +1068,7 @@ model sales_invoice_items {
   tenant_id          String              @db.Uuid
   created_by_user_id String?             @db.Uuid
   updated_by_user_id String?             @db.Uuid
+  inv_sales_invoice_item_discounts inv_sales_invoice_item_discounts[]
 }
 
 model sales_invoices {
@@ -1090,6 +1104,11 @@ model sales_invoices {
   created_by_user_id String?             @db.Uuid
   updated_by_user_id String?             @db.Uuid
   channels           channels?           @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
+  inv_sales_invoice_discounts inv_sales_invoice_discounts[]
+  inv_sales_invoice_item_discounts inv_sales_invoice_item_discounts[]
+  inv_coupon_redemptions inv_coupon_redemptions[]
+  inv_promotion_usage_logs inv_promotion_usage_logs[]
+  inv_discount_approval_requests inv_discount_approval_requests[]
 }
 
 model sales_return_items {
@@ -1142,6 +1161,8 @@ model shipments {
   sales_invoice_id   String?              @db.Uuid
   tenant_id          String               @db.Uuid
   order_id           String?              @db.Uuid
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @db.Timestamptz(6)
   created_by_user_id String?              @db.Uuid
   updated_by_user_id String?              @db.Uuid
 }
@@ -1206,6 +1227,9 @@ model stores {
   price_list_assignments price_list_assignments[]
   purchase_requisitions purchase_requisitions[]
   inventory            inventory[]
+  inv_promotion_stores inv_promotion_stores[]
+  inv_promotion_usage_logs inv_promotion_usage_logs[]
+  inv_discount_approval_requests inv_discount_approval_requests[]
 }
 
 model channels {
@@ -1224,6 +1248,8 @@ model channels {
   price_list_assignments price_list_assignments[]
   sales_invoices     sales_invoices[]
   sales_orders       sales_orders[]
+  inv_promotion_channels inv_promotion_channels[]
+  inv_promotion_usage_logs inv_promotion_usage_logs[]
 
   @@unique([tenant_id, code])
   @@index([tenant_id])
@@ -1965,6 +1991,9 @@ model sales_orders {
   pos_terminal         pos_terminals?          @relation(fields: [pos_terminal_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   pos_session          pos_sessions?           @relation(fields: [pos_session_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   sales_order_payments sales_order_payments[]
+  inv_coupon_redemptions inv_coupon_redemptions[]
+  inv_promotion_usage_logs inv_promotion_usage_logs[]
+  inv_discount_approval_requests inv_discount_approval_requests[]
 
   @@unique([tenant_id, idempotency_key])
   @@index([pos_terminal_id])
@@ -2311,6 +2340,7 @@ model brands {
   created_by_user_id String?    @db.Uuid
   updated_by_user_id String?    @db.Uuid
   products           products[]
+  inv_promotion_brands inv_promotion_brands[]
 
   @@index([code], map: "idx_brands_code")
 }
@@ -3014,6 +3044,90 @@ enum stock_rule_applies_to_enum {
 }
 
 // ============================================================================
+// PROMOTIONS, DISCOUNTS & COUPONS MODULE — ENUMS
+// ============================================================================
+
+enum inv_promotion_status_enum {
+  draft
+  active
+  paused
+  scheduled
+  expired
+  archived
+}
+
+enum inv_promotion_type_enum {
+  percentage
+  fixed_amount
+  buy_x_get_y
+  free_item
+  order_discount
+  tiered
+}
+
+enum inv_rule_action_type_enum {
+  percentage_discount
+  fixed_discount
+  buy_x_get_y
+  free_item
+  bundle_fixed_price
+}
+
+enum inv_promotion_scope_enum {
+  all
+  selected
+}
+
+enum inv_condition_field_enum {
+  order_subtotal
+  item_quantity
+  customer_group
+  product_category
+  product_brand
+  sales_channel
+  store
+  branch
+  customer_first_order
+  customer_order_count
+  day_of_week
+  time_of_day
+}
+
+enum inv_condition_operator_enum {
+  eq
+  neq
+  gte
+  lte
+  gt
+  lt
+  in
+  not_in
+  between
+}
+
+enum inv_coupon_status_enum {
+  active
+  expired
+  exhausted
+  disabled
+}
+
+enum inv_discount_source_enum {
+  promotion
+  coupon
+  manual
+  customer_group
+  price_list
+}
+
+enum inv_approval_status_enum {
+  pending
+  approved
+  rejected
+  cancelled
+}
+
+// ============================================================================
 // INVENTORY TRANSACTION ENGINE — MODELS
 // ============================================================================
 
@@ -3351,4 +3465,394 @@ model pos_held_orders {
   @@index([session_id])
   @@index([terminal_id])
   @@index([tenant_id, status])
+}
+
+// ============================================================================
+// PROMOTIONS, DISCOUNTS & COUPONS MODULE — MODELS
+// ============================================================================
+
+model inv_promotions {
+  id                    String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String                    @db.Uuid
+  name                  String                    @db.VarChar(200)
+  code                  String?                   @db.VarChar(50)
+  description           String?
+  status                inv_promotion_status_enum @default(draft)
+  promo_type            inv_promotion_type_enum   @default(percentage)
+  start_date            DateTime                  @db.Timestamptz(6)
+  end_date              DateTime?                 @db.Timestamptz(6)
+  timezone              String                    @default("Asia/Qatar") @db.VarChar(50)
+  priority              Int                       @default(0)
+  currency_id           String?                   @db.Uuid
+  currency_code         String?                   @default("QAR") @db.VarChar(10)
+  min_order_amount      Decimal?                  @default(0) @db.Decimal(18, 4)
+  max_discount_amount   Decimal?                  @db.Decimal(18, 4)
+  usage_limit           Int?
+  usage_per_customer    Int?                      @default(1)
+  daily_usage_limit     Int?
+  current_usage_count   Int                       @default(0)
+  allow_stacking        Boolean                   @default(false)
+  stacking_priority     Int                       @default(0)
+  max_stacking_count    Int?                      @default(1)
+  requires_coupon       Boolean                   @default(false)
+  requires_approval     Boolean                   @default(false)
+  auto_apply            Boolean                   @default(true)
+  scope_product_type    inv_promotion_scope_enum  @default(all)
+  scope_customer_type   inv_promotion_scope_enum  @default(all)
+  scope_channel_type    inv_promotion_scope_enum  @default(all)
+  scope_location_type   inv_promotion_scope_enum  @default(all)
+  created_by_user_id    String?                   @db.Uuid
+  updated_by_user_id    String?                   @db.Uuid
+  created_at            DateTime                  @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime                  @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  currencies            currencies?               @relation(fields: [currency_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  rules                 inv_promotion_rules[]
+  conditions            inv_promotion_conditions[]
+  products              inv_promotion_products[]
+  categories            inv_promotion_categories[]
+  brands                inv_promotion_brands[]
+  customer_groups       inv_promotion_customer_groups[]
+  channels              inv_promotion_channels[]
+  stores                inv_promotion_stores[]
+  branches              inv_promotion_branches[]
+  coupons               inv_coupons[]
+  coupon_redemptions    inv_coupon_redemptions[]
+  invoice_discounts     inv_sales_invoice_discounts[]
+  item_discounts        inv_sales_invoice_item_discounts[]
+  usage_logs            inv_promotion_usage_logs[]
+
+  @@index([tenant_id, status])
+  @@index([tenant_id, start_date, end_date])
+  @@index([tenant_id, code])
+}
+
+model inv_promotion_rules {
+  id                     String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id              String                     @db.Uuid
+  promotion_id           String                     @db.Uuid
+  rule_type              inv_rule_action_type_enum  @default(percentage_discount)
+  discount_value         Decimal                    @default(0) @db.Decimal(18, 4)
+  apply_to               String                     @default("matching_items") @db.VarChar(50)
+  buy_quantity           Int?
+  get_quantity           Int?
+  get_discount_percent   Decimal?                   @default(100) @db.Decimal(5, 2)
+  get_product_variant_id String?                    @db.Uuid
+  tier_min_quantity      Decimal?                   @db.Decimal(18, 4)
+  tier_min_amount        Decimal?                   @db.Decimal(18, 4)
+  sort_order             Int                        @default(0)
+  created_at             DateTime                   @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime                   @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion              inv_promotions             @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  free_product_variant   product_variants?          @relation("inv_free_variant", fields: [get_product_variant_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  item_discounts         inv_sales_invoice_item_discounts[]
+
+  @@index([promotion_id])
+  @@index([tenant_id])
+}
+
+model inv_promotion_conditions {
+  id               String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id        String                      @db.Uuid
+  promotion_id     String                      @db.Uuid
+  group_id         String?                     @default("group_1") @db.VarChar(50)
+  logical_operator String                      @default("AND") @db.VarChar(10)
+  field            inv_condition_field_enum
+  operator         inv_condition_operator_enum @default(gte)
+  value            String                      @db.Text
+  sort_order       Int                         @default(0)
+  created_at       DateTime                    @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime                    @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion        inv_promotions              @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([tenant_id])
+}
+
+model inv_promotion_products {
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String            @db.Uuid
+  promotion_id       String            @db.Uuid
+  product_id         String?           @db.Uuid
+  product_variant_id String?           @db.Uuid
+  is_excluded        Boolean           @default(false)
+  created_at         DateTime          @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion          inv_promotions    @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products           products?         @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants   product_variants? @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([product_id])
+  @@index([product_variant_id])
+}
+
+model inv_promotion_categories {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id    String         @db.Uuid
+  promotion_id String         @db.Uuid
+  category_id  String         @db.Uuid
+  is_excluded  Boolean        @default(false)
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion    inv_promotions @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  categories   categories     @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([category_id])
+}
+
+model inv_promotion_brands {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id    String         @db.Uuid
+  promotion_id String         @db.Uuid
+  brand_id     String         @db.Uuid
+  is_excluded  Boolean        @default(false)
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion    inv_promotions @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  brands       brands         @relation(fields: [brand_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([brand_id])
+}
+
+model inv_promotion_customer_groups {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id         String          @db.Uuid
+  promotion_id      String          @db.Uuid
+  customer_group_id String          @db.Uuid
+  is_excluded       Boolean         @default(false)
+  created_at        DateTime        @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion         inv_promotions  @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  customer_groups   customer_groups @relation(fields: [customer_group_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([customer_group_id])
+}
+
+model inv_promotion_channels {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id    String         @db.Uuid
+  promotion_id String         @db.Uuid
+  channel_id   String         @db.Uuid
+  is_excluded  Boolean        @default(false)
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion    inv_promotions @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  channels     channels       @relation(fields: [channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([channel_id])
+}
+
+model inv_promotion_stores {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id    String         @db.Uuid
+  promotion_id String         @db.Uuid
+  store_id     String         @db.Uuid
+  is_excluded  Boolean        @default(false)
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion    inv_promotions @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores       stores         @relation(fields: [store_id], references: [store_id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([store_id])
+}
+
+model inv_promotion_branches {
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id    String         @db.Uuid
+  promotion_id String         @db.Uuid
+  branch_id    String         @db.Uuid
+  is_excluded  Boolean        @default(false)
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion    inv_promotions @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  branches     branches       @relation(fields: [branch_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([branch_id])
+}
+
+model inv_coupons {
+  id                      String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id               String                 @db.Uuid
+  promotion_id            String                 @db.Uuid
+  code                    String                 @db.VarChar(50)
+  description             String?
+  status                  inv_coupon_status_enum @default(active)
+  max_usages              Int?
+  max_usages_per_customer Int?                   @default(1)
+  current_usages          Int                    @default(0)
+  min_order_amount        Decimal?               @db.Decimal(18, 4)
+  start_date              DateTime?              @db.Timestamptz(6)
+  end_date                DateTime?              @db.Timestamptz(6)
+  customer_id             String?                @db.Uuid
+  is_single_use           Boolean                @default(false)
+  created_by_user_id      String?                @db.Uuid
+  updated_by_user_id      String?                @db.Uuid
+  created_at              DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime               @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  promotion               inv_promotions         @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  customers               customers?             @relation(fields: [customer_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  redemptions             inv_coupon_redemptions[]
+  invoice_discounts       inv_sales_invoice_discounts[]
+  item_discounts          inv_sales_invoice_item_discounts[]
+
+  @@unique([tenant_id, code], map: "uq_inv_coupons_tenant_code")
+  @@index([tenant_id, code])
+  @@index([promotion_id])
+}
+
+model inv_coupon_redemptions {
+  id               String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id        String          @db.Uuid
+  coupon_id        String          @db.Uuid
+  promotion_id     String          @db.Uuid
+  customer_id      String?         @db.Uuid
+  sales_invoice_id String?         @db.Uuid
+  sales_order_id   String?         @db.Uuid
+  discount_amount  Decimal         @default(0) @db.Decimal(18, 4)
+  redeemed_at      DateTime        @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?       @db.Uuid
+
+  // Relations
+  coupon           inv_coupons     @relation(fields: [coupon_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  promotion        inv_promotions  @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  customers        customers?      @relation(fields: [customer_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sales_invoices   sales_invoices? @relation(fields: [sales_invoice_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sales_orders     sales_orders?   @relation(fields: [sales_order_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([coupon_id])
+  @@index([tenant_id, customer_id])
+  @@index([sales_invoice_id])
+}
+
+model inv_sales_invoice_discounts {
+  id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id        String                  @db.Uuid
+  sales_invoice_id String                  @db.Uuid
+  promotion_id     String?                 @db.Uuid
+  coupon_id        String?                 @db.Uuid
+  discount_source  inv_discount_source_enum @default(promotion)
+  discount_type    discount_type_enum      @default(percentage)
+  discount_rate    Decimal?                @db.Decimal(18, 4)
+  discount_amount  Decimal                 @default(0) @db.Decimal(18, 4)
+  reason           String?
+  applied_by_user_id String?               @db.Uuid
+  created_at       DateTime                @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  sales_invoices   sales_invoices          @relation(fields: [sales_invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  promotion        inv_promotions?         @relation(fields: [promotion_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  coupon           inv_coupons?            @relation(fields: [coupon_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([sales_invoice_id])
+  @@index([promotion_id])
+}
+
+model inv_sales_invoice_item_discounts {
+  id                    String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String                   @db.Uuid
+  sales_invoice_item_id String                   @db.Uuid
+  sales_invoice_id      String                   @db.Uuid
+  promotion_id          String?                  @db.Uuid
+  promotion_rule_id     String?                  @db.Uuid
+  coupon_id             String?                  @db.Uuid
+  discount_source       inv_discount_source_enum @default(promotion)
+  discount_type         discount_type_enum       @default(percentage)
+  discount_rate         Decimal?                 @db.Decimal(18, 4)
+  discount_amount       Decimal                  @default(0) @db.Decimal(18, 4)
+  original_unit_price   Decimal                  @default(0) @db.Decimal(18, 4)
+  final_unit_price      Decimal                  @default(0) @db.Decimal(18, 4)
+  quantity              Decimal                  @default(1) @db.Decimal(18, 4)
+  created_at            DateTime                 @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  sales_invoice_items   sales_invoice_items      @relation(fields: [sales_invoice_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  sales_invoices        sales_invoices           @relation(fields: [sales_invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  promotion             inv_promotions?          @relation(fields: [promotion_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  promotion_rule        inv_promotion_rules?     @relation(fields: [promotion_rule_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  coupon                inv_coupons?             @relation(fields: [coupon_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([sales_invoice_item_id])
+  @@index([sales_invoice_id])
+}
+
+model inv_discount_approval_requests {
+  id                       String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                String                   @db.Uuid
+  branch_id                String                   @db.Uuid
+  store_id                 String?                  @db.Uuid
+  pos_terminal_id          String?                  @db.Uuid
+  requested_by_user_id     String                   @db.Uuid
+  approved_by_user_id      String?                  @db.Uuid
+  sales_invoice_id         String?                  @db.Uuid
+  sales_order_id           String?                  @db.Uuid
+  discount_type            discount_type_enum       @default(percentage)
+  discount_value           Decimal                  @default(0) @db.Decimal(18, 4)
+  discount_amount          Decimal                  @default(0) @db.Decimal(18, 4)
+  original_amount          Decimal                  @default(0) @db.Decimal(18, 4)
+  user_max_allowed_percent Decimal                  @default(0) @db.Decimal(5, 2)
+  status                   inv_approval_status_enum @default(pending)
+  reason                   String
+  rejection_reason         String?
+  reviewed_at              DateTime?                @db.Timestamptz(6)
+  created_at               DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime                 @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  branches                 branches                 @relation(fields: [branch_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores                   stores?                  @relation(fields: [store_id], references: [store_id], onDelete: SetNull, onUpdate: NoAction)
+  pos_terminals            pos_terminals?           @relation(fields: [pos_terminal_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sales_invoices           sales_invoices?          @relation(fields: [sales_invoice_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sales_orders             sales_orders?            @relation(fields: [sales_order_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([tenant_id, status])
+  @@index([branch_id])
+}
+
+model inv_promotion_usage_logs {
+  id                 String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String          @db.Uuid
+  promotion_id       String          @db.Uuid
+  sales_invoice_id   String?         @db.Uuid
+  sales_order_id     String?         @db.Uuid
+  customer_id        String?         @db.Uuid
+  discount_amount    Decimal         @default(0) @db.Decimal(18, 4)
+  channel_id         String?         @db.Uuid
+  store_id           String?         @db.Uuid
+  branch_id          String?         @db.Uuid
+  used_at            DateTime        @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?         @db.Uuid
+
+  // Relations
+  promotion          inv_promotions  @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  sales_invoices     sales_invoices? @relation(fields: [sales_invoice_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sales_orders       sales_orders?   @relation(fields: [sales_order_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  customers          customers?      @relation(fields: [customer_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  channels           channels?       @relation(fields: [channel_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  stores             stores?         @relation(fields: [store_id], references: [store_id], onDelete: SetNull, onUpdate: NoAction)
+  branches           branches?       @relation(fields: [branch_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([promotion_id])
+  @@index([tenant_id, customer_id])
+  @@index([tenant_id, used_at])
 }
