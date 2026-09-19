@@ -125,7 +125,15 @@ export async function resolvePosVariantPrices(
               tenant_id: tenantId,
             },
             include: {
-              price_list: { select: { id: true, name: true } },
+              price_list: {
+                select: {
+                  id: true,
+                  name: true,
+                  tax_id: true,
+                  tax_rates: true,
+                },
+              },
+              tax_rates: true,
             },
           })
         : await prisma.price_list_items.findMany({
@@ -134,7 +142,15 @@ export async function resolvePosVariantPrices(
               tenant_id: tenantId,
             },
             include: {
-              price_list: { select: { id: true, name: true } },
+              price_list: {
+                select: {
+                  id: true,
+                  name: true,
+                  tax_id: true,
+                  tax_rates: true,
+                },
+              },
+              tax_rates: true,
             },
           })
 
@@ -212,6 +228,8 @@ export async function resolvePosVariantPrices(
       const stock = stockMap.get(v.id)
       const basePrice = priceItem?.price ?? new Prisma.Decimal(0)
 
+      const effectiveTax = priceItem?.tax_rates ?? priceItem?.price_list?.tax_rates ?? activeTaxRate
+
       return {
         productVariantId: v.id,
         sku: v.sku,
@@ -223,9 +241,9 @@ export async function resolvePosVariantPrices(
         maxDiscountPercent: priceItem?.max_discount_percent ?? new Prisma.Decimal(100),
         priceListId: priceItem?.price_list_id ?? null,
         priceListName: priceItem?.price_list?.name ?? null,
-        taxRateId: activeTaxRate?.id ?? null,
-        taxRate: activeTaxRate?.rate ?? new Prisma.Decimal(0),
-        taxInclusive: activeTaxRate?.is_inclusive ?? false,
+        taxRateId: effectiveTax?.id ?? null,
+        taxRate: effectiveTax?.rate ?? new Prisma.Decimal(0),
+        taxInclusive: effectiveTax?.is_inclusive ?? false,
         stockAvailable: stock?.qty_available ?? new Prisma.Decimal(0),
         stockOnHand: stock?.qty_on_hand ?? new Prisma.Decimal(0),
       }

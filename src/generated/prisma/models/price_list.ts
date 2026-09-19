@@ -28,10 +28,12 @@ export type AggregatePrice_list = {
 
 export type Price_listAvgAggregateOutputType = {
   price: runtime.Decimal | null
+  markup_percent: runtime.Decimal | null
 }
 
 export type Price_listSumAggregateOutputType = {
   price: runtime.Decimal | null
+  markup_percent: runtime.Decimal | null
 }
 
 export type Price_listMinAggregateOutputType = {
@@ -48,6 +50,9 @@ export type Price_listMinAggregateOutputType = {
   store_id: string | null
   currency_id: string | null
   channel_id: string | null
+  tax_id: string | null
+  price_source: string | null
+  markup_percent: runtime.Decimal | null
   id: string | null
   tenant_id: string | null
   product_id: string | null
@@ -72,6 +77,9 @@ export type Price_listMaxAggregateOutputType = {
   store_id: string | null
   currency_id: string | null
   channel_id: string | null
+  tax_id: string | null
+  price_source: string | null
+  markup_percent: runtime.Decimal | null
   id: string | null
   tenant_id: string | null
   product_id: string | null
@@ -96,6 +104,9 @@ export type Price_listCountAggregateOutputType = {
   store_id: number
   currency_id: number
   channel_id: number
+  tax_id: number
+  price_source: number
+  markup_percent: number
   id: number
   tenant_id: number
   product_id: number
@@ -110,10 +121,12 @@ export type Price_listCountAggregateOutputType = {
 
 export type Price_listAvgAggregateInputType = {
   price?: true
+  markup_percent?: true
 }
 
 export type Price_listSumAggregateInputType = {
   price?: true
+  markup_percent?: true
 }
 
 export type Price_listMinAggregateInputType = {
@@ -130,6 +143,9 @@ export type Price_listMinAggregateInputType = {
   store_id?: true
   currency_id?: true
   channel_id?: true
+  tax_id?: true
+  price_source?: true
+  markup_percent?: true
   id?: true
   tenant_id?: true
   product_id?: true
@@ -154,6 +170,9 @@ export type Price_listMaxAggregateInputType = {
   store_id?: true
   currency_id?: true
   channel_id?: true
+  tax_id?: true
+  price_source?: true
+  markup_percent?: true
   id?: true
   tenant_id?: true
   product_id?: true
@@ -178,6 +197,9 @@ export type Price_listCountAggregateInputType = {
   store_id?: true
   currency_id?: true
   channel_id?: true
+  tax_id?: true
+  price_source?: true
+  markup_percent?: true
   id?: true
   tenant_id?: true
   product_id?: true
@@ -289,6 +311,9 @@ export type Price_listGroupByOutputType = {
   store_id: string | null
   currency_id: string | null
   channel_id: string | null
+  tax_id: string | null
+  price_source: string | null
+  markup_percent: runtime.Decimal | null
   id: string
   tenant_id: string
   product_id: string | null
@@ -336,6 +361,9 @@ export type price_listWhereInput = {
   store_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   currency_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   channel_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  tax_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  price_source?: Prisma.StringNullableFilter<"price_list"> | string | null
+  markup_percent?: Prisma.DecimalNullableFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.UuidFilter<"price_list"> | string
   tenant_id?: Prisma.UuidFilter<"price_list"> | string
   product_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
@@ -349,6 +377,7 @@ export type price_listWhereInput = {
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   channels?: Prisma.XOR<Prisma.ChannelsNullableScalarRelationFilter, Prisma.channelsWhereInput> | null
+  tax_rates?: Prisma.XOR<Prisma.Tax_ratesNullableScalarRelationFilter, Prisma.tax_ratesWhereInput> | null
   price_list_items?: Prisma.Price_list_itemsListRelationFilter
   price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   pos_terminals?: Prisma.Pos_terminalsListRelationFilter
@@ -368,6 +397,9 @@ export type price_listOrderByWithRelationInput = {
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   currency_id?: Prisma.SortOrderInput | Prisma.SortOrder
   channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tax_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  price_source?: Prisma.SortOrderInput | Prisma.SortOrder
+  markup_percent?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -381,6 +413,7 @@ export type price_listOrderByWithRelationInput = {
   stores?: Prisma.storesOrderByWithRelationInput
   currencies?: Prisma.currenciesOrderByWithRelationInput
   channels?: Prisma.channelsOrderByWithRelationInput
+  tax_rates?: Prisma.tax_ratesOrderByWithRelationInput
   price_list_items?: Prisma.price_list_itemsOrderByRelationAggregateInput
   price_list_assignments?: Prisma.price_list_assignmentsOrderByRelationAggregateInput
   pos_terminals?: Prisma.pos_terminalsOrderByRelationAggregateInput
@@ -404,6 +437,9 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   store_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   currency_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   channel_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  tax_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  price_source?: Prisma.StringNullableFilter<"price_list"> | string | null
+  markup_percent?: Prisma.DecimalNullableFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tenant_id?: Prisma.UuidFilter<"price_list"> | string
   product_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   group_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
@@ -416,6 +452,7 @@ export type price_listWhereUniqueInput = Prisma.AtLeast<{
   stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   channels?: Prisma.XOR<Prisma.ChannelsNullableScalarRelationFilter, Prisma.channelsWhereInput> | null
+  tax_rates?: Prisma.XOR<Prisma.Tax_ratesNullableScalarRelationFilter, Prisma.tax_ratesWhereInput> | null
   price_list_items?: Prisma.Price_list_itemsListRelationFilter
   price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   pos_terminals?: Prisma.Pos_terminalsListRelationFilter
@@ -435,6 +472,9 @@ export type price_listOrderByWithAggregationInput = {
   store_id?: Prisma.SortOrderInput | Prisma.SortOrder
   currency_id?: Prisma.SortOrderInput | Prisma.SortOrder
   channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  tax_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  price_source?: Prisma.SortOrderInput | Prisma.SortOrder
+  markup_percent?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -467,6 +507,9 @@ export type price_listScalarWhereWithAggregatesInput = {
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   currency_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
   channel_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  tax_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
+  price_source?: Prisma.StringNullableWithAggregatesFilter<"price_list"> | string | null
+  markup_percent?: Prisma.DecimalNullableWithAggregatesFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"price_list"> | string
   product_id?: Prisma.UuidNullableWithAggregatesFilter<"price_list"> | string | null
@@ -488,6 +531,8 @@ export type price_listCreateInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -499,6 +544,7 @@ export type price_listCreateInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
@@ -518,6 +564,9 @@ export type price_listUncheckedCreateInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -542,6 +591,8 @@ export type price_listUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -553,6 +604,7 @@ export type price_listUpdateInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
@@ -572,6 +624,9 @@ export type price_listUncheckedUpdateInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -599,6 +654,9 @@ export type price_listCreateManyInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -620,6 +678,8 @@ export type price_listUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -642,6 +702,9 @@ export type price_listUncheckedUpdateManyInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -681,6 +744,9 @@ export type price_listCountOrderByAggregateInput = {
   store_id?: Prisma.SortOrder
   currency_id?: Prisma.SortOrder
   channel_id?: Prisma.SortOrder
+  tax_id?: Prisma.SortOrder
+  price_source?: Prisma.SortOrder
+  markup_percent?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
@@ -693,6 +759,7 @@ export type price_listCountOrderByAggregateInput = {
 
 export type price_listAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  markup_percent?: Prisma.SortOrder
 }
 
 export type price_listMaxOrderByAggregateInput = {
@@ -709,6 +776,9 @@ export type price_listMaxOrderByAggregateInput = {
   store_id?: Prisma.SortOrder
   currency_id?: Prisma.SortOrder
   channel_id?: Prisma.SortOrder
+  tax_id?: Prisma.SortOrder
+  price_source?: Prisma.SortOrder
+  markup_percent?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
@@ -733,6 +803,9 @@ export type price_listMinOrderByAggregateInput = {
   store_id?: Prisma.SortOrder
   currency_id?: Prisma.SortOrder
   channel_id?: Prisma.SortOrder
+  tax_id?: Prisma.SortOrder
+  price_source?: Prisma.SortOrder
+  markup_percent?: Prisma.SortOrder
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
@@ -745,6 +818,7 @@ export type price_listMinOrderByAggregateInput = {
 
 export type price_listSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  markup_percent?: Prisma.SortOrder
 }
 
 export type Price_listScalarRelationFilter = {
@@ -1010,6 +1084,48 @@ export type price_listUncheckedUpdateManyWithoutChannelsNestedInput = {
   deleteMany?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
 }
 
+export type price_listCreateNestedManyWithoutTax_ratesInput = {
+  create?: Prisma.XOR<Prisma.price_listCreateWithoutTax_ratesInput, Prisma.price_listUncheckedCreateWithoutTax_ratesInput> | Prisma.price_listCreateWithoutTax_ratesInput[] | Prisma.price_listUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.price_listCreateOrConnectWithoutTax_ratesInput | Prisma.price_listCreateOrConnectWithoutTax_ratesInput[]
+  createMany?: Prisma.price_listCreateManyTax_ratesInputEnvelope
+  connect?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+}
+
+export type price_listUncheckedCreateNestedManyWithoutTax_ratesInput = {
+  create?: Prisma.XOR<Prisma.price_listCreateWithoutTax_ratesInput, Prisma.price_listUncheckedCreateWithoutTax_ratesInput> | Prisma.price_listCreateWithoutTax_ratesInput[] | Prisma.price_listUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.price_listCreateOrConnectWithoutTax_ratesInput | Prisma.price_listCreateOrConnectWithoutTax_ratesInput[]
+  createMany?: Prisma.price_listCreateManyTax_ratesInputEnvelope
+  connect?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+}
+
+export type price_listUpdateManyWithoutTax_ratesNestedInput = {
+  create?: Prisma.XOR<Prisma.price_listCreateWithoutTax_ratesInput, Prisma.price_listUncheckedCreateWithoutTax_ratesInput> | Prisma.price_listCreateWithoutTax_ratesInput[] | Prisma.price_listUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.price_listCreateOrConnectWithoutTax_ratesInput | Prisma.price_listCreateOrConnectWithoutTax_ratesInput[]
+  upsert?: Prisma.price_listUpsertWithWhereUniqueWithoutTax_ratesInput | Prisma.price_listUpsertWithWhereUniqueWithoutTax_ratesInput[]
+  createMany?: Prisma.price_listCreateManyTax_ratesInputEnvelope
+  set?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  disconnect?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  delete?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  connect?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  update?: Prisma.price_listUpdateWithWhereUniqueWithoutTax_ratesInput | Prisma.price_listUpdateWithWhereUniqueWithoutTax_ratesInput[]
+  updateMany?: Prisma.price_listUpdateManyWithWhereWithoutTax_ratesInput | Prisma.price_listUpdateManyWithWhereWithoutTax_ratesInput[]
+  deleteMany?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
+}
+
+export type price_listUncheckedUpdateManyWithoutTax_ratesNestedInput = {
+  create?: Prisma.XOR<Prisma.price_listCreateWithoutTax_ratesInput, Prisma.price_listUncheckedCreateWithoutTax_ratesInput> | Prisma.price_listCreateWithoutTax_ratesInput[] | Prisma.price_listUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.price_listCreateOrConnectWithoutTax_ratesInput | Prisma.price_listCreateOrConnectWithoutTax_ratesInput[]
+  upsert?: Prisma.price_listUpsertWithWhereUniqueWithoutTax_ratesInput | Prisma.price_listUpsertWithWhereUniqueWithoutTax_ratesInput[]
+  createMany?: Prisma.price_listCreateManyTax_ratesInputEnvelope
+  set?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  disconnect?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  delete?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  connect?: Prisma.price_listWhereUniqueInput | Prisma.price_listWhereUniqueInput[]
+  update?: Prisma.price_listUpdateWithWhereUniqueWithoutTax_ratesInput | Prisma.price_listUpdateWithWhereUniqueWithoutTax_ratesInput[]
+  updateMany?: Prisma.price_listUpdateManyWithWhereWithoutTax_ratesInput | Prisma.price_listUpdateManyWithWhereWithoutTax_ratesInput[]
+  deleteMany?: Prisma.price_listScalarWhereInput | Prisma.price_listScalarWhereInput[]
+}
+
 export type price_listCreateWithoutCurrenciesInput = {
   name?: string | null
   code?: string | null
@@ -1021,6 +1137,8 @@ export type price_listCreateWithoutCurrenciesInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1031,6 +1149,7 @@ export type price_listCreateWithoutCurrenciesInput = {
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
@@ -1049,6 +1168,9 @@ export type price_listUncheckedCreateWithoutCurrenciesInput = {
   price_list_type_id?: string | null
   store_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1105,6 +1227,9 @@ export type price_listScalarWhereInput = {
   store_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   currency_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
   channel_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  tax_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
+  price_source?: Prisma.StringNullableFilter<"price_list"> | string | null
+  markup_percent?: Prisma.DecimalNullableFilter<"price_list"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.UuidFilter<"price_list"> | string
   tenant_id?: Prisma.UuidFilter<"price_list"> | string
   product_id?: Prisma.UuidNullableFilter<"price_list"> | string | null
@@ -1126,6 +1251,8 @@ export type price_listCreateWithoutCustomer_groupsInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1136,6 +1263,7 @@ export type price_listCreateWithoutCustomer_groupsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
@@ -1155,6 +1283,9 @@ export type price_listUncheckedCreateWithoutCustomer_groupsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1204,6 +1335,8 @@ export type price_listCreateWithoutPos_terminalsInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1215,6 +1348,7 @@ export type price_listCreateWithoutPos_terminalsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
 }
@@ -1233,6 +1367,9 @@ export type price_listUncheckedCreateWithoutPos_terminalsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1272,6 +1409,8 @@ export type price_listUpdateWithoutPos_terminalsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1283,6 +1422,7 @@ export type price_listUpdateWithoutPos_terminalsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
 }
@@ -1301,6 +1441,9 @@ export type price_listUncheckedUpdateWithoutPos_terminalsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1324,6 +1467,8 @@ export type price_listCreateWithoutPrice_list_itemsInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1335,6 +1480,7 @@ export type price_listCreateWithoutPrice_list_itemsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
 }
@@ -1353,6 +1499,9 @@ export type price_listUncheckedCreateWithoutPrice_list_itemsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1392,6 +1541,8 @@ export type price_listUpdateWithoutPrice_list_itemsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1403,6 +1554,7 @@ export type price_listUpdateWithoutPrice_list_itemsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
 }
@@ -1421,6 +1573,9 @@ export type price_listUncheckedUpdateWithoutPrice_list_itemsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1444,6 +1599,8 @@ export type price_listCreateWithoutPrice_list_assignmentsInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1455,6 +1612,7 @@ export type price_listCreateWithoutPrice_list_assignmentsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
 }
@@ -1473,6 +1631,9 @@ export type price_listUncheckedCreateWithoutPrice_list_assignmentsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1512,6 +1673,8 @@ export type price_listUpdateWithoutPrice_list_assignmentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1523,6 +1686,7 @@ export type price_listUpdateWithoutPrice_list_assignmentsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
 }
@@ -1541,6 +1705,9 @@ export type price_listUncheckedUpdateWithoutPrice_list_assignmentsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1564,6 +1731,8 @@ export type price_listCreateWithoutProductsInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1574,6 +1743,7 @@ export type price_listCreateWithoutProductsInput = {
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
@@ -1593,6 +1763,9 @@ export type price_listUncheckedCreateWithoutProductsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   group_id?: string | null
@@ -1642,6 +1815,8 @@ export type price_listCreateWithoutStoresInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1652,6 +1827,7 @@ export type price_listCreateWithoutStoresInput = {
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
   channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
@@ -1670,6 +1846,9 @@ export type price_listUncheckedCreateWithoutStoresInput = {
   price_list_type_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1720,6 +1899,8 @@ export type price_listCreateWithoutChannelsInput = {
   description?: string | null
   type?: $Enums.price_list_types | null
   price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   created_at?: Date | string | null
@@ -1730,6 +1911,7 @@ export type price_listCreateWithoutChannelsInput = {
   customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
   stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutPrice_listInput
   price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
@@ -1748,6 +1930,9 @@ export type price_listUncheckedCreateWithoutChannelsInput = {
   price_list_type_id?: string | null
   store_id?: string | null
   currency_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1787,6 +1972,90 @@ export type price_listUpdateManyWithWhereWithoutChannelsInput = {
   data: Prisma.XOR<Prisma.price_listUpdateManyMutationInput, Prisma.price_listUncheckedUpdateManyWithoutChannelsInput>
 }
 
+export type price_listCreateWithoutTax_ratesInput = {
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Date | string
+  end_date?: Date | string | null
+  is_active?: boolean | null
+  description?: string | null
+  type?: $Enums.price_list_types | null
+  price_list_type_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: string
+  tenant_id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedOneWithoutPrice_listInput
+  customer_groups?: Prisma.customer_groupsCreateNestedOneWithoutPrice_listInput
+  stores?: Prisma.storesCreateNestedOneWithoutPrice_listInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutPrice_listInput
+  channels?: Prisma.channelsCreateNestedOneWithoutPrice_listInput
+  price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutPrice_listInput
+  pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutDefault_price_listInput
+}
+
+export type price_listUncheckedCreateWithoutTax_ratesInput = {
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Date | string
+  end_date?: Date | string | null
+  is_active?: boolean | null
+  description?: string | null
+  type?: $Enums.price_list_types | null
+  price_list_type_id?: string | null
+  store_id?: string | null
+  currency_id?: string | null
+  channel_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: string
+  tenant_id: string
+  product_id?: string | null
+  group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutPrice_listInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutPrice_listInput
+  pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutDefault_price_listInput
+}
+
+export type price_listCreateOrConnectWithoutTax_ratesInput = {
+  where: Prisma.price_listWhereUniqueInput
+  create: Prisma.XOR<Prisma.price_listCreateWithoutTax_ratesInput, Prisma.price_listUncheckedCreateWithoutTax_ratesInput>
+}
+
+export type price_listCreateManyTax_ratesInputEnvelope = {
+  data: Prisma.price_listCreateManyTax_ratesInput | Prisma.price_listCreateManyTax_ratesInput[]
+  skipDuplicates?: boolean
+}
+
+export type price_listUpsertWithWhereUniqueWithoutTax_ratesInput = {
+  where: Prisma.price_listWhereUniqueInput
+  update: Prisma.XOR<Prisma.price_listUpdateWithoutTax_ratesInput, Prisma.price_listUncheckedUpdateWithoutTax_ratesInput>
+  create: Prisma.XOR<Prisma.price_listCreateWithoutTax_ratesInput, Prisma.price_listUncheckedCreateWithoutTax_ratesInput>
+}
+
+export type price_listUpdateWithWhereUniqueWithoutTax_ratesInput = {
+  where: Prisma.price_listWhereUniqueInput
+  data: Prisma.XOR<Prisma.price_listUpdateWithoutTax_ratesInput, Prisma.price_listUncheckedUpdateWithoutTax_ratesInput>
+}
+
+export type price_listUpdateManyWithWhereWithoutTax_ratesInput = {
+  where: Prisma.price_listScalarWhereInput
+  data: Prisma.XOR<Prisma.price_listUpdateManyMutationInput, Prisma.price_listUncheckedUpdateManyWithoutTax_ratesInput>
+}
+
 export type price_listCreateManyCurrenciesInput = {
   name?: string | null
   code?: string | null
@@ -1800,6 +2069,9 @@ export type price_listCreateManyCurrenciesInput = {
   price_list_type_id?: string | null
   store_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1821,6 +2093,8 @@ export type price_listUpdateWithoutCurrenciesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1831,6 +2105,7 @@ export type price_listUpdateWithoutCurrenciesInput = {
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
@@ -1849,6 +2124,9 @@ export type price_listUncheckedUpdateWithoutCurrenciesInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1875,6 +2153,9 @@ export type price_listUncheckedUpdateManyWithoutCurrenciesInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1899,6 +2180,9 @@ export type price_listCreateManyCustomer_groupsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -1919,6 +2203,8 @@ export type price_listUpdateWithoutCustomer_groupsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1929,6 +2215,7 @@ export type price_listUpdateWithoutCustomer_groupsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
@@ -1948,6 +2235,9 @@ export type price_listUncheckedUpdateWithoutCustomer_groupsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1974,6 +2264,9 @@ export type price_listUncheckedUpdateManyWithoutCustomer_groupsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1997,6 +2290,9 @@ export type price_listCreateManyProductsInput = {
   store_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   group_id?: string | null
@@ -2017,6 +2313,8 @@ export type price_listUpdateWithoutProductsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2027,6 +2325,7 @@ export type price_listUpdateWithoutProductsInput = {
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
@@ -2046,6 +2345,9 @@ export type price_listUncheckedUpdateWithoutProductsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2072,6 +2374,9 @@ export type price_listUncheckedUpdateManyWithoutProductsInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2094,6 +2399,9 @@ export type price_listCreateManyStoresInput = {
   price_list_type_id?: string | null
   currency_id?: string | null
   channel_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -2115,6 +2423,8 @@ export type price_listUpdateWithoutStoresInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2125,6 +2435,7 @@ export type price_listUpdateWithoutStoresInput = {
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
   channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
@@ -2143,6 +2454,9 @@ export type price_listUncheckedUpdateWithoutStoresInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2169,6 +2483,9 @@ export type price_listUncheckedUpdateManyWithoutStoresInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2192,6 +2509,9 @@ export type price_listCreateManyChannelsInput = {
   price_list_type_id?: string | null
   store_id?: string | null
   currency_id?: string | null
+  tax_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: string
   tenant_id: string
   product_id?: string | null
@@ -2213,6 +2533,8 @@ export type price_listUpdateWithoutChannelsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2223,6 +2545,7 @@ export type price_listUpdateWithoutChannelsInput = {
   customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
   stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutPrice_listNestedInput
   price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
@@ -2241,6 +2564,9 @@ export type price_listUncheckedUpdateWithoutChannelsInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2267,6 +2593,119 @@ export type price_listUncheckedUpdateManyWithoutChannelsInput = {
   price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type price_listCreateManyTax_ratesInput = {
+  name?: string | null
+  code?: string | null
+  is_default?: boolean
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Date | string
+  end_date?: Date | string | null
+  is_active?: boolean | null
+  description?: string | null
+  type?: $Enums.price_list_types | null
+  price_list_type_id?: string | null
+  store_id?: string | null
+  currency_id?: string | null
+  channel_id?: string | null
+  price_source?: string | null
+  markup_percent?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: string
+  tenant_id: string
+  product_id?: string | null
+  group_id?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type price_listUpdateWithoutTax_ratesInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
+  price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateOneWithoutPrice_listNestedInput
+  customer_groups?: Prisma.customer_groupsUpdateOneWithoutPrice_listNestedInput
+  stores?: Prisma.storesUpdateOneWithoutPrice_listNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutPrice_listNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutPrice_listNestedInput
+  price_list_items?: Prisma.price_list_itemsUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutPrice_listNestedInput
+  pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutDefault_price_listNestedInput
+}
+
+export type price_listUncheckedUpdateWithoutTax_ratesInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
+  price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  group_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutPrice_listNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutPrice_listNestedInput
+  pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutDefault_price_listNestedInput
+}
+
+export type price_listUncheckedUpdateManyWithoutTax_ratesInput = {
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableEnumprice_list_typesFieldUpdateOperationsInput | $Enums.price_list_types | null
+  price_list_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  markup_percent?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2340,6 +2779,9 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   store_id?: boolean
   currency_id?: boolean
   channel_id?: boolean
+  tax_id?: boolean
+  price_source?: boolean
+  markup_percent?: boolean
   id?: boolean
   tenant_id?: boolean
   product_id?: boolean
@@ -2353,6 +2795,7 @@ export type price_listSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.price_list$tax_ratesArgs<ExtArgs>
   price_list_items?: boolean | Prisma.price_list$price_list_itemsArgs<ExtArgs>
   price_list_assignments?: boolean | Prisma.price_list$price_list_assignmentsArgs<ExtArgs>
   pos_terminals?: boolean | Prisma.price_list$pos_terminalsArgs<ExtArgs>
@@ -2373,6 +2816,9 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   store_id?: boolean
   currency_id?: boolean
   channel_id?: boolean
+  tax_id?: boolean
+  price_source?: boolean
+  markup_percent?: boolean
   id?: boolean
   tenant_id?: boolean
   product_id?: boolean
@@ -2386,6 +2832,7 @@ export type price_listSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.price_list$tax_ratesArgs<ExtArgs>
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2402,6 +2849,9 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   store_id?: boolean
   currency_id?: boolean
   channel_id?: boolean
+  tax_id?: boolean
+  price_source?: boolean
+  markup_percent?: boolean
   id?: boolean
   tenant_id?: boolean
   product_id?: boolean
@@ -2415,6 +2865,7 @@ export type price_listSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.price_list$tax_ratesArgs<ExtArgs>
 }, ExtArgs["result"]["price_list"]>
 
 export type price_listSelectScalar = {
@@ -2431,6 +2882,9 @@ export type price_listSelectScalar = {
   store_id?: boolean
   currency_id?: boolean
   channel_id?: boolean
+  tax_id?: boolean
+  price_source?: boolean
+  markup_percent?: boolean
   id?: boolean
   tenant_id?: boolean
   product_id?: boolean
@@ -2441,13 +2895,14 @@ export type price_listSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "code" | "is_default" | "price" | "start_date" | "end_date" | "is_active" | "description" | "type" | "price_list_type_id" | "store_id" | "currency_id" | "channel_id" | "id" | "tenant_id" | "product_id" | "group_id" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["price_list"]>
+export type price_listOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "code" | "is_default" | "price" | "start_date" | "end_date" | "is_active" | "description" | "type" | "price_list_type_id" | "store_id" | "currency_id" | "channel_id" | "tax_id" | "price_source" | "markup_percent" | "id" | "tenant_id" | "product_id" | "group_id" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["price_list"]>
 export type price_listInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
   customer_groups?: boolean | Prisma.price_list$customer_groupsArgs<ExtArgs>
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.price_list$tax_ratesArgs<ExtArgs>
   price_list_items?: boolean | Prisma.price_list$price_list_itemsArgs<ExtArgs>
   price_list_assignments?: boolean | Prisma.price_list$price_list_assignmentsArgs<ExtArgs>
   pos_terminals?: boolean | Prisma.price_list$pos_terminalsArgs<ExtArgs>
@@ -2459,6 +2914,7 @@ export type price_listIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.E
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.price_list$tax_ratesArgs<ExtArgs>
 }
 export type price_listIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.price_list$productsArgs<ExtArgs>
@@ -2466,6 +2922,7 @@ export type price_listIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   stores?: boolean | Prisma.price_list$storesArgs<ExtArgs>
   currencies?: boolean | Prisma.price_list$currenciesArgs<ExtArgs>
   channels?: boolean | Prisma.price_list$channelsArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.price_list$tax_ratesArgs<ExtArgs>
 }
 
 export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2476,6 +2933,7 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     stores: Prisma.$storesPayload<ExtArgs> | null
     currencies: Prisma.$currenciesPayload<ExtArgs> | null
     channels: Prisma.$channelsPayload<ExtArgs> | null
+    tax_rates: Prisma.$tax_ratesPayload<ExtArgs> | null
     price_list_items: Prisma.$price_list_itemsPayload<ExtArgs>[]
     price_list_assignments: Prisma.$price_list_assignmentsPayload<ExtArgs>[]
     pos_terminals: Prisma.$pos_terminalsPayload<ExtArgs>[]
@@ -2494,6 +2952,9 @@ export type $price_listPayload<ExtArgs extends runtime.Types.Extensions.Internal
     store_id: string | null
     currency_id: string | null
     channel_id: string | null
+    tax_id: string | null
+    price_source: string | null
+    markup_percent: runtime.Decimal | null
     id: string
     tenant_id: string
     product_id: string | null
@@ -2901,6 +3362,7 @@ export interface Prisma__price_listClient<T, Null = never, ExtArgs extends runti
   stores<T extends Prisma.price_list$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   currencies<T extends Prisma.price_list$currenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$currenciesArgs<ExtArgs>>): Prisma.Prisma__currenciesClient<runtime.Types.Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   channels<T extends Prisma.price_list$channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$channelsArgs<ExtArgs>>): Prisma.Prisma__channelsClient<runtime.Types.Result.GetResult<Prisma.$channelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tax_rates<T extends Prisma.price_list$tax_ratesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$tax_ratesArgs<ExtArgs>>): Prisma.Prisma__tax_ratesClient<runtime.Types.Result.GetResult<Prisma.$tax_ratesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   price_list_items<T extends Prisma.price_list$price_list_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$price_list_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   price_list_assignments<T extends Prisma.price_list$price_list_assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$price_list_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pos_terminals<T extends Prisma.price_list$pos_terminalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.price_list$pos_terminalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_terminalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2946,6 +3408,9 @@ export interface price_listFieldRefs {
   readonly store_id: Prisma.FieldRef<"price_list", 'String'>
   readonly currency_id: Prisma.FieldRef<"price_list", 'String'>
   readonly channel_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly tax_id: Prisma.FieldRef<"price_list", 'String'>
+  readonly price_source: Prisma.FieldRef<"price_list", 'String'>
+  readonly markup_percent: Prisma.FieldRef<"price_list", 'Decimal'>
   readonly id: Prisma.FieldRef<"price_list", 'String'>
   readonly tenant_id: Prisma.FieldRef<"price_list", 'String'>
   readonly product_id: Prisma.FieldRef<"price_list", 'String'>
@@ -3447,6 +3912,25 @@ export type price_list$channelsArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.channelsInclude<ExtArgs> | null
   where?: Prisma.channelsWhereInput
+}
+
+/**
+ * price_list.tax_rates
+ */
+export type price_list$tax_ratesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tax_rates
+   */
+  select?: Prisma.tax_ratesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tax_rates
+   */
+  omit?: Prisma.tax_ratesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tax_ratesInclude<ExtArgs> | null
+  where?: Prisma.tax_ratesWhereInput
 }
 
 /**

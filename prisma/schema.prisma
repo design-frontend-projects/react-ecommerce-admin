@@ -284,6 +284,9 @@ model price_list {
   store_id           String?             @db.Uuid
   currency_id        String?             @db.Uuid
   channel_id         String?             @db.Uuid
+  tax_id             String?             @db.Uuid
+  price_source       String?             @default("MANUAL") @db.VarChar(50)
+  markup_percent     Decimal?            @default(0) @db.Decimal(7, 4)
   id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String              @db.Uuid
   product_id         String?             @db.Uuid
@@ -297,6 +300,7 @@ model price_list {
   stores             stores?             @relation(fields: [store_id], references: [store_id], onUpdate: NoAction)
   currencies         currencies?         @relation(fields: [currency_id], references: [id], onUpdate: NoAction)
   channels           channels?           @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
+  tax_rates          tax_rates?          @relation(fields: [tax_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   price_list_items   price_list_items[]
   price_list_assignments price_list_assignments[]
   pos_terminals      pos_terminals[]
@@ -310,6 +314,9 @@ model price_list_items {
   cost_price           Decimal?         @default(0) @db.Decimal(18, 4)
   min_price            Decimal          @default(0) @db.Decimal(18, 4)
   max_discount_percent Decimal          @default(0) @db.Decimal(7, 4)
+  tax_id               String?          @db.Uuid
+  price_source         String           @default("MANUAL") @db.VarChar(50)
+  markup_percent       Decimal?         @default(0) @db.Decimal(7, 4)
   created_at           DateTime         @default(now()) @db.Timestamptz(6)
   updated_at           DateTime         @default(now()) @db.Timestamptz(6)
   tenant_id            String           @db.Uuid
@@ -319,6 +326,7 @@ model price_list_items {
   price_list           price_list       @relation(fields: [price_list_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product_variants     product_variants @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   products             products?        @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  tax_rates            tax_rates?       @relation(fields: [tax_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
 
   @@unique([price_list_id, product_variant_id])
 }
@@ -1406,6 +1414,8 @@ model tax_rates {
   created_by_user_id String?    @db.Uuid
   updated_by_user_id String?    @db.Uuid
   countries          countries? @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  price_list         price_list[]
+  price_list_items   price_list_items[]
 }
 
 model tenant_subscriptions {

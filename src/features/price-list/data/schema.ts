@@ -17,6 +17,28 @@ export const PRICE_LIST_TYPE_LABELS: Record<PriceListType, { label: string; labe
   valintine_day: { label: "Valentine's Day", labelAr: 'يوم الحب', color: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300' },
 }
 
+export const priceSourceEnum = z.enum([
+  'MANUAL',
+  'LAST_PURCHASE_COST',
+  'AVERAGE_COST',
+])
+export type PriceSource = z.infer<typeof priceSourceEnum>
+
+export const PRICE_SOURCE_LABELS: Record<PriceSource, { label: string; labelAr: string; color: string }> = {
+  MANUAL: { label: 'Manual', labelAr: 'يدوي', color: 'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200' },
+  LAST_PURCHASE_COST: { label: 'Last Purchase Cost', labelAr: 'آخر سعر شراء', color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300' },
+  AVERAGE_COST: { label: 'Average Cost', labelAr: 'متوسط التكلفة', color: 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300' },
+}
+
+export interface TaxRateBrief {
+  id: string
+  tax_type: string
+  rate: number
+  description?: string | null
+  is_inclusive: boolean
+  is_active?: boolean | null
+}
+
 export interface ProductVariantBrief {
   id: string
   product_id?: string
@@ -72,12 +94,16 @@ export interface PriceListItemRecord {
   cost_price?: number | null
   min_price: number
   max_discount_percent: number
+  tax_id?: string | null
+  price_source?: PriceSource | string
+  markup_percent?: number | null
   created_at?: string
   updated_at?: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   product_variants?: ProductVariantBrief | null
   products?: ProductBrief | null
+  tax_rates?: TaxRateBrief | null
 }
 
 export interface PriceListAssignmentBrief {
@@ -112,6 +138,9 @@ export interface PriceList {
   currency_id?: string | null
   channel_id?: string | null
   group_id?: string | null
+  tax_id?: string | null
+  price_source?: PriceSource | string | null
+  markup_percent?: number | null
   start_date: string
   end_date?: string | null
   is_active: boolean
@@ -125,6 +154,7 @@ export interface PriceList {
   stores?: StoreBrief | null
   currencies?: CurrencyBrief | null
   channels?: ChannelBrief | null
+  tax_rates?: TaxRateBrief | null
   price_list_items?: PriceListItemRecord[]
   price_list_assignments?: PriceListAssignmentBrief[]
 }
@@ -141,12 +171,22 @@ export const priceListItemFormSchema = z.object({
     .min(0, 'Discount must be at least 0%')
     .max(100, 'Discount cannot exceed 100%')
     .default(0),
-  // UI metadata helpers (not written directly to price_list_items table)
+  tax_id: z.string().optional().nullable().or(z.literal('')),
+  price_source: priceSourceEnum.default('MANUAL'),
+  markup_percent: z.coerce.number().default(0).optional().nullable(),
+  // UI metadata & calculated helpers (not written directly to price_list_items table)
   product_name: z.string().optional().nullable(),
   product_sku: z.string().optional().nullable(),
   variant_name: z.string().optional().nullable(),
   variant_sku: z.string().optional(),
   regular_price: z.number().optional(),
+  price_before_tax: z.number().optional(),
+  tax_amount: z.number().optional(),
+  price_after_tax: z.number().optional(),
+  tax_rate_percent: z.number().optional(),
+  tax_is_inclusive: z.boolean().optional(),
+  last_receipt_number: z.string().optional().nullable(),
+  last_receipt_date: z.string().optional().nullable(),
 })
 
 export type PriceListItemFormData = z.infer<typeof priceListItemFormSchema>
@@ -165,6 +205,9 @@ export const priceListFormSchema = z
     priority: z.coerce.number().min(0, 'Priority must be 0 or greater').default(100),
     currency_id: z.string().uuid().optional().nullable().or(z.literal('')),
     channel_id: z.string().uuid().optional().nullable().or(z.literal('')),
+    tax_id: z.string().optional().nullable().or(z.literal('')),
+    price_source: priceSourceEnum.default('MANUAL'),
+    markup_percent: z.coerce.number().default(0).optional().nullable(),
     start_date: z.string().min(1, 'Start date is required'),
     end_date: z.string().optional().nullable().or(z.literal('')),
     is_active: z.boolean().default(true),
@@ -257,12 +300,22 @@ export const getPriceListItemFormSchema = (
         })
       )
       .default(0),
-    // UI metadata helpers (not written directly to price_list_items table)
+    tax_id: z.string().optional().nullable().or(z.literal('')),
+    price_source: priceSourceEnum.default('MANUAL'),
+    markup_percent: z.coerce.number().default(0).optional().nullable(),
+    // UI metadata & calculated helpers (not written directly to price_list_items table)
     product_name: z.string().optional().nullable(),
     product_sku: z.string().optional().nullable(),
     variant_name: z.string().optional().nullable(),
     variant_sku: z.string().optional(),
     regular_price: z.number().optional(),
+    price_before_tax: z.number().optional(),
+    tax_amount: z.number().optional(),
+    price_after_tax: z.number().optional(),
+    tax_rate_percent: z.number().optional(),
+    tax_is_inclusive: z.boolean().optional(),
+    last_receipt_number: z.string().optional().nullable(),
+    last_receipt_date: z.string().optional().nullable(),
   })
 
 export const getPriceListFormSchema = (
@@ -308,6 +361,9 @@ export const getPriceListFormSchema = (
       priority: z.coerce.number().min(0).default(100),
       currency_id: z.string().uuid().optional().nullable().or(z.literal('')),
       channel_id: z.string().uuid().optional().nullable().or(z.literal('')),
+      tax_id: z.string().optional().nullable().or(z.literal('')),
+      price_source: priceSourceEnum.default('MANUAL'),
+      markup_percent: z.coerce.number().default(0).optional().nullable(),
       start_date: z
         .string()
         .min(

@@ -13,7 +13,15 @@ import type {
   StoreBrief,
   CurrencyBrief,
   ChannelBrief,
+  TaxRateBrief,
 } from '../data/schema'
+
+export interface VariantCostValuation {
+  lastPurchaseCost: number
+  averageCost: number
+  lastReceiptNumber?: string
+  lastReceiptDate?: string
+}
 
 export interface PriceListFilters {
   search?: string
@@ -42,6 +50,13 @@ function getAuthTenantAndUser() {
 
 const PRICE_LIST_SELECT_QUERY = `
   *,
+  tax_rates (
+    id,
+    tax_type,
+    rate,
+    is_inclusive,
+    description
+  ),
   products (
     id,
     name,
@@ -78,8 +93,18 @@ const PRICE_LIST_SELECT_QUERY = `
     cost_price,
     min_price,
     max_discount_percent,
+    tax_id,
+    price_source,
+    markup_percent,
     created_at,
     updated_at,
+    tax_rates (
+      id,
+      tax_type,
+      rate,
+      is_inclusive,
+      description
+    ),
     product_variants (
       id,
       product_id,
@@ -262,26 +287,108 @@ export const usePriceListOptions = () => {
         .eq('is_active', true)
         .order('name')
 
+      let taxRatesQuery = supabase
+        .from('tax_rates')
+        .select('id, tax_type, rate, description, is_inclusive, is_active')
+        .eq('is_active', true)
+        .order('tax_type')
+
+      // Variant cost valuations:
+      // 1. Goods receipt items for last purchase cost
+      const grQuery = supabase
+        .from('goods_receipt_items')
+        .select(`
+          product_variant_id,
+          unit_cost,
+          created_at,
+          goods_receipts (
+            id,
+            receipt_number,
+            received_date,
+            status,
+            tenant_id
+          )
+        `)
+        .order('created_at', { ascending: false })
+        .limit(1000)
+
+      // 2. Stock balances for weighted average cost
+      let sbQuery = supabase
+        .from('stock_balances')
+        .select('product_variant_id, avg_cost, qty_on_hand')
+
       if (tenantId) {
         productsQuery = productsQuery.eq('tenant_id', tenantId)
         groupsQuery = groupsQuery.eq('tenant_id', tenantId)
         storesQuery = storesQuery.eq('tenant_id', tenantId)
         channelsQuery = channelsQuery.eq('tenant_id', tenantId)
+        taxRatesQuery = taxRatesQuery.eq('tenant_id', tenantId)
+        sbQuery = sbQuery.eq('tenant_id', tenantId)
       }
 
-      const [productsRes, groupsRes, storesRes, currenciesRes, channelsRes] = await Promise.all([
-        productsQuery,
-        groupsQuery,
-        storesQuery,
-        currenciesQuery,
-        channelsQuery,
-      ])
+      const [productsRes, groupsRes, storesRes, currenciesRes, channelsRes, taxRatesRes, grRes, sbRes] =
+        await Promise.all([
+          productsQuery,
+          groupsQuery,
+          storesQuery,
+          currenciesQuery,
+          channelsQuery,
+          taxRatesQuery,
+          Promise.resolve(grQuery).catch(() => ({ data: null, error: null })),
+          Promise.resolve(sbQuery).catch(() => ({ data: null, error: null })),
+        ])
 
       if (productsRes.error) throw productsRes.error
       if (groupsRes.error) throw groupsRes.error
       if (storesRes.error) throw storesRes.error
       if (currenciesRes.error) throw currenciesRes.error
       if (channelsRes.error) throw channelsRes.error
+      if (taxRatesRes.error) throw taxRatesRes.error
+
+      const variantCosts: Record<string, VariantCostValuation> = {}
+
+      if (grRes.data && Array.isArray(grRes.data)) {
+        for (const item of grRes.data as any[]) {
+          const vid = item.product_variant_id
+          if (!vid) continue
+          if (!variantCosts[vid]) {
+            variantCosts[vid] = {
+              lastPurchaseCost: Number(item.unit_cost) || 0,
+              averageCost: 0,
+              lastReceiptNumber: item.goods_receipts?.receipt_number || undefined,
+              lastReceiptDate: item.goods_receipts?.received_date || undefined,
+            }
+          }
+        }
+      }
+
+      if (sbRes.data && Array.isArray(sbRes.data)) {
+        const sbAgg: Record<string, { totalVal: number; totalQty: number; fallbackAvg: number }> = {}
+        for (const sb of sbRes.data as any[]) {
+          const vid = sb.product_variant_id
+          if (!vid) continue
+          const qty = Math.max(0, Number(sb.qty_on_hand) || 0)
+          const cost = Number(sb.avg_cost) || 0
+          if (!sbAgg[vid]) {
+            sbAgg[vid] = { totalVal: 0, totalQty: 0, fallbackAvg: cost }
+          }
+          sbAgg[vid].totalVal += cost * qty
+          sbAgg[vid].totalQty += qty
+          if (cost > 0) sbAgg[vid].fallbackAvg = cost
+        }
+
+        for (const [vid, agg] of Object.entries(sbAgg)) {
+          const avg = agg.totalQty > 0 ? agg.totalVal / agg.totalQty : agg.fallbackAvg
+          if (!variantCosts[vid]) {
+            variantCosts[vid] = {
+              lastPurchaseCost: 0,
+              averageCost: Number(avg.toFixed(4)),
+            }
+          } else {
+            variantCosts[vid].averageCost = Number(avg.toFixed(4))
+          }
+        }
+      }
 
       return {
         products: (productsRes.data || []) as unknown as ProductBrief[],
@@ -289,6 +396,8 @@ export const usePriceListOptions = () => {
         stores: (storesRes.data || []) as unknown as StoreBrief[],
         currencies: (currenciesRes.data || []) as unknown as CurrencyBrief[],
         channels: (channelsRes.data || []) as unknown as ChannelBrief[],
+        taxRates: (taxRatesRes.data || []) as unknown as TaxRateBrief[],
+        variantCosts,
       }
     },
     enabled: authEnabled,
@@ -337,6 +446,9 @@ export const useCreatePriceListWithItems = () => {
         store_id: formData.store_id ? formData.store_id : null,
         currency_id: formData.currency_id ? formData.currency_id : null,
         channel_id: formData.channel_id ? formData.channel_id : null,
+        tax_id: formData.tax_id ? formData.tax_id : null,
+        price_source: formData.price_source || 'MANUAL',
+        markup_percent: formData.markup_percent !== undefined && formData.markup_percent !== null ? formData.markup_percent : 0,
         start_date: formData.start_date,
         end_date: formData.end_date ? formData.end_date : null,
         is_active: formData.is_active ?? true,
@@ -374,6 +486,9 @@ export const useCreatePriceListWithItems = () => {
           cost_price: item.cost_price ?? 0,
           min_price: item.min_price ?? 0,
           max_discount_percent: item.max_discount_percent ?? 0,
+          tax_id: item.tax_id ? item.tax_id : (formData.tax_id || null),
+          price_source: item.price_source || formData.price_source || 'MANUAL',
+          markup_percent: item.markup_percent !== undefined && item.markup_percent !== null ? item.markup_percent : 0,
           created_by_user_id: userId,
           updated_by_user_id: userId,
         }))
@@ -503,6 +618,9 @@ export const useUpdatePriceListWithItems = () => {
         store_id: formData.store_id ? formData.store_id : null,
         currency_id: formData.currency_id ? formData.currency_id : null,
         channel_id: formData.channel_id ? formData.channel_id : null,
+        tax_id: formData.tax_id ? formData.tax_id : null,
+        price_source: formData.price_source || 'MANUAL',
+        markup_percent: formData.markup_percent !== undefined && formData.markup_percent !== null ? formData.markup_percent : 0,
         start_date: formData.start_date,
         end_date: formData.end_date ? formData.end_date : null,
         is_active: formData.is_active ?? true,
@@ -562,6 +680,9 @@ export const useUpdatePriceListWithItems = () => {
               cost_price: item.cost_price ?? 0,
               min_price: item.min_price ?? 0,
               max_discount_percent: item.max_discount_percent ?? 0,
+              tax_id: item.tax_id ? item.tax_id : (formData.tax_id || null),
+              price_source: item.price_source || formData.price_source || 'MANUAL',
+              markup_percent: item.markup_percent !== undefined && item.markup_percent !== null ? item.markup_percent : 0,
               updated_by_user_id: userId,
             },
           })
@@ -575,6 +696,9 @@ export const useUpdatePriceListWithItems = () => {
             cost_price: item.cost_price ?? 0,
             min_price: item.min_price ?? 0,
             max_discount_percent: item.max_discount_percent ?? 0,
+            tax_id: item.tax_id ? item.tax_id : (formData.tax_id || null),
+            price_source: item.price_source || formData.price_source || 'MANUAL',
+            markup_percent: item.markup_percent !== undefined && item.markup_percent !== null ? item.markup_percent : 0,
             created_by_user_id: userId,
             updated_by_user_id: userId,
           })
@@ -810,7 +934,6 @@ export const useRemoveStorePriceList = () => {
   return useMutation({
     mutationFn: async ({
       assignmentId,
-      storeId,
     }: {
       assignmentId: string
       storeId: string

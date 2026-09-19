@@ -36,9 +36,12 @@ import {
 import { usePriceListContext } from './price-list-provider'
 import {
   PRICE_LIST_TYPE_LABELS,
+  PRICE_SOURCE_LABELS,
   type PriceList,
   type PriceListType,
+  type PriceSource,
 } from '../data/schema'
+import { calculateTaxBreakdown, getTaxRatePercentage } from '../utils/pricing-calculator'
 
 interface PriceListViewDialogContentProps {
   currentRow: PriceList
@@ -269,6 +272,50 @@ function PriceListViewDialogContent({
               </span>
             </div>
 
+            {/* Default Price Source & Tax */}
+            <div className='flex flex-wrap items-center gap-2 sm:col-span-2 pt-1 border-t border-dashed'>
+              <div className='flex items-center gap-1.5'>
+                <span className='text-xs text-muted-foreground'>
+                  {t('priceList.form.defaultPriceSource', { defaultValue: 'Default Source' })}:
+                </span>
+                {(() => {
+                  const src = (currentRow.price_source as PriceSource) || 'MANUAL'
+                  const cfg = PRICE_SOURCE_LABELS[src]
+                  return (
+                    <Badge variant='outline' className={`text-xs ${cfg?.color || ''}`}>
+                      {isAr ? cfg?.labelAr : cfg?.label}
+                    </Badge>
+                  )
+                })()}
+              </div>
+
+              {currentRow.markup_percent != null && Number(currentRow.markup_percent) > 0 && (
+                <div className='flex items-center gap-1.5'>
+                  <span className='text-xs text-muted-foreground'>
+                    {t('priceList.form.defaultMarkup', { defaultValue: 'Default Markup' })}:
+                  </span>
+                  <Badge variant='secondary' className='text-xs font-mono text-blue-600 dark:text-blue-400'>
+                    +{Number(currentRow.markup_percent).toFixed(1)}%
+                  </Badge>
+                </div>
+              )}
+
+              <div className='flex items-center gap-1.5'>
+                <span className='text-xs text-muted-foreground'>
+                  {t('priceList.form.defaultTaxRate', { defaultValue: 'Default Tax Rate' })}:
+                </span>
+                {currentRow.tax_rates ? (
+                  <Badge variant='outline' className='text-xs font-mono border-indigo-400 text-indigo-700 dark:text-indigo-300'>
+                    {currentRow.tax_rates.name} ({getTaxRatePercentage(currentRow.tax_rates.rate)}% {currentRow.tax_rates.is_inclusive ? 'Inc' : 'Exc'})
+                  </Badge>
+                ) : (
+                  <span className='text-xs text-muted-foreground font-mono'>
+                    {t('priceList.form.noTax', { defaultValue: 'None (0%)' })}
+                  </span>
+                )}
+              </div>
+            </div>
+
             <div className='flex items-center gap-2'>
               {currentRow.is_active ? (
                 <Badge variant='default' className='gap-1 bg-emerald-600 hover:bg-emerald-700 text-xs'>
@@ -332,10 +379,15 @@ function PriceListViewDialogContent({
                   <TableRow>
                     <TableHead>{t('priceList.form.productColumn', { defaultValue: 'Product' })}</TableHead>
                     <TableHead>{t('priceList.table.variant', { defaultValue: 'Variant / SKU' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.costRef', { defaultValue: 'Cost Price' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.tierPrice', { defaultValue: 'Price List Price' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.floorPrice', { defaultValue: 'Floor (Min)' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.maxDiscount', { defaultValue: 'Max Disc %' })}</TableHead>
+                    <TableHead>{t('priceList.table.source', { defaultValue: 'Source' })}</TableHead>
+                    <TableHead className='text-right'>{t('priceList.table.costRef', { defaultValue: 'Cost' })}</TableHead>
+                    <TableHead className='text-right'>{t('priceList.table.markup', { defaultValue: 'Markup %' })}</TableHead>
+                    <TableHead className='text-right'>{t('priceList.table.tierPrice', { defaultValue: 'Selling Price' })}</TableHead>
+                    <TableHead className='text-center'>{t('priceList.table.tax', { defaultValue: 'Tax Rate' })}</TableHead>
+                    <TableHead className='text-right font-medium text-muted-foreground'>{t('priceList.table.beforeTax', { defaultValue: 'Before Tax' })}</TableHead>
+                    <TableHead className='text-right font-medium text-muted-foreground'>{t('priceList.table.taxAmount', { defaultValue: 'Tax Amt' })}</TableHead>
+                    <TableHead className='text-right font-bold text-foreground'>{t('priceList.table.afterTax', { defaultValue: 'After Tax' })}</TableHead>
+                    <TableHead className='text-right'>{t('priceList.table.floorPrice', { defaultValue: 'Floor' })}</TableHead>
                     <TableHead className='text-right'>{t('priceList.table.margin', { defaultValue: 'Margin' })}</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -347,6 +399,16 @@ function PriceListViewDialogContent({
                       cost > 0 && price > 0
                         ? (((price - cost) / price) * 100).toFixed(1)
                         : null
+
+                    const effectiveSource: PriceSource = (item.price_source as PriceSource) || (currentRow.price_source as PriceSource) || 'MANUAL'
+                    const sourceConfig = PRICE_SOURCE_LABELS[effectiveSource]
+                    const effectiveTaxRate = item.tax_rates || currentRow.tax_rates
+                    const taxBreakdown = calculateTaxBreakdown(
+                      price,
+                      effectiveTaxRate?.rate != null ? Number(effectiveTaxRate.rate) : null,
+                      effectiveTaxRate?.is_inclusive ?? false
+                    )
+                    const itemMarkup = item.markup_percent != null ? Number(item.markup_percent) : currentRow.markup_percent != null ? Number(currentRow.markup_percent) : null
 
                     return (
                       <TableRow key={item.id}>
@@ -374,24 +436,67 @@ function PriceListViewDialogContent({
                           </div>
                         </TableCell>
 
+                        {/* Price Source */}
+                        <TableCell>
+                          {sourceConfig ? (
+                            <Badge variant='outline' className={`text-[10px] px-1.5 py-0 whitespace-nowrap ${sourceConfig.color}`}>
+                              {isAr ? sourceConfig.labelAr : sourceConfig.label}
+                            </Badge>
+                          ) : (
+                            <span className='text-xs text-muted-foreground'>—</span>
+                          )}
+                        </TableCell>
+
                         {/* Cost Price */}
                         <TableCell className='text-right font-medium text-xs font-mono'>
                           ${cost.toFixed(2)}
                         </TableCell>
 
-                        {/* Price List Price */}
+                        {/* Markup % */}
+                        <TableCell className='text-right font-mono text-xs'>
+                          {itemMarkup != null && itemMarkup > 0 ? (
+                            <span className='text-blue-600 dark:text-blue-400 font-medium'>
+                              +{itemMarkup.toFixed(1)}%
+                            </span>
+                          ) : (
+                            <span className='text-muted-foreground'>—</span>
+                          )}
+                        </TableCell>
+
+                        {/* Selling Price */}
                         <TableCell className='text-right font-bold text-primary font-mono'>
                           ${price.toFixed(2)}
+                        </TableCell>
+
+                        {/* Tax Rate */}
+                        <TableCell className='text-center text-xs font-mono'>
+                          {effectiveTaxRate ? (
+                            <Badge variant='outline' className='text-[10px] border-indigo-300 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300'>
+                              {getTaxRatePercentage(effectiveTaxRate.rate)}% {effectiveTaxRate.is_inclusive ? '(Inc)' : '(Exc)'}
+                            </Badge>
+                          ) : (
+                            <span className='text-muted-foreground text-[11px]'>0%</span>
+                          )}
+                        </TableCell>
+
+                        {/* Price Before Tax (read only) */}
+                        <TableCell className='text-right font-mono text-xs text-muted-foreground bg-muted/20'>
+                          ${taxBreakdown.priceBeforeTax.toFixed(2)}
+                        </TableCell>
+
+                        {/* Tax Amount (read only) */}
+                        <TableCell className='text-right font-mono text-xs text-muted-foreground bg-muted/20'>
+                          ${taxBreakdown.taxAmount.toFixed(2)}
+                        </TableCell>
+
+                        {/* Price After Tax (read only) */}
+                        <TableCell className='text-right font-mono text-xs font-semibold text-foreground bg-muted/20'>
+                          ${taxBreakdown.priceAfterTax.toFixed(2)}
                         </TableCell>
 
                         {/* Min Price (Floor) */}
                         <TableCell className='text-right text-xs font-mono'>
                           ${Number(item.min_price || 0).toFixed(2)}
-                        </TableCell>
-
-                        {/* Max Discount % */}
-                        <TableCell className='text-right text-xs font-mono'>
-                          {Number(item.max_discount_percent || 0).toFixed(1)}%
                         </TableCell>
 
                         {/* Margin */}

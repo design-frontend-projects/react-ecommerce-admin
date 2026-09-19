@@ -14,9 +14,12 @@ import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   PRICE_LIST_TYPE_LABELS,
+  PRICE_SOURCE_LABELS,
   type PriceList,
   type PriceListType,
+  type PriceSource,
 } from '../data/schema'
+import { getTaxRatePercentage } from '../utils/pricing-calculator'
 import { PriceListRowActions } from './price-list-row-actions'
 
 export const getColumns = (
@@ -233,6 +236,46 @@ export const getColumns = (
       }
 
       return <div className='text-xs text-muted-foreground font-mono'>—</div>
+    },
+  },
+  {
+    id: 'price_source',
+    header: t('priceList.columns.priceSource', { defaultValue: 'Pricing Source' }),
+    cell: ({ row }) => {
+      const source = (row.original.price_source as PriceSource) || 'MANUAL'
+      const config = PRICE_SOURCE_LABELS[source]
+      const markup = row.original.markup_percent != null ? Number(row.original.markup_percent) : null
+
+      return (
+        <div className='flex flex-col items-start gap-1'>
+          <Badge
+            variant='outline'
+            className={`text-[11px] font-medium px-1.5 py-0 ${config?.color || ''}`}
+          >
+            {isAr ? config?.labelAr : config?.label}
+          </Badge>
+          {markup != null && markup > 0 && (
+            <span className='font-mono text-[10px] text-blue-600 dark:text-blue-400 font-medium'>
+              +{markup.toFixed(1)}% markup
+            </span>
+          )}
+        </div>
+      )
+    },
+  },
+  {
+    id: 'tax_rate',
+    header: t('priceList.columns.taxRate', { defaultValue: 'Tax Rate' }),
+    cell: ({ row }) => {
+      const taxRate = row.original.tax_rates
+      if (!taxRate) {
+        return <span className='text-[11px] text-muted-foreground'>—</span>
+      }
+      return (
+        <Badge variant='outline' className='font-mono text-[11px] border-indigo-300 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 px-1.5 py-0'>
+          {getTaxRatePercentage(taxRate.rate)}% {taxRate.is_inclusive ? '(Inc)' : '(Exc)'}
+        </Badge>
+      )
     },
   },
   {

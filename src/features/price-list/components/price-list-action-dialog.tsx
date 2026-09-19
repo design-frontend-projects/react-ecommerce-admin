@@ -19,6 +19,11 @@ import {
   Package,
   Search,
   Check,
+  Calculator,
+  Receipt,
+  Lock,
+  TrendingUp,
+  Tag,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -68,10 +73,18 @@ import {
   getPriceListFormSchema,
   priceListTypesEnum,
   PRICE_LIST_TYPE_LABELS,
+  PRICE_SOURCE_LABELS,
   type PriceListFormData,
   type PriceListType,
   type PriceListItemFormData,
+  type PriceSource,
 } from '../data/schema'
+import {
+  calculateTaxBreakdown,
+  calculatePriceFromCostAndMarkup,
+  calculateMarkupPercent,
+  getTaxRatePercentage,
+} from '../utils/pricing-calculator'
 
 export function PriceListActionDialog() {
   const { t, i18n } = useTranslation()
@@ -106,6 +119,9 @@ export function PriceListActionDialog() {
       priority: 100,
       currency_id: '',
       channel_id: '',
+      tax_id: '',
+      price_source: 'MANUAL',
+      markup_percent: 0,
       start_date: defaultStartDate,
       end_date: '',
       is_active: true,
@@ -140,6 +156,19 @@ export function PriceListActionDialog() {
           item.product_variants ||
           prod?.product_variants?.find((v) => v.id === item.product_variant_id)
 
+        const rawPrice = Number(item.price) || 0
+        const rawCost = item.cost_price != null ? Number(item.cost_price) : 0
+        const itemTaxId = item.tax_id || currentRow.tax_id || ''
+        const taxRateObj = options?.taxRates?.find((tr) => tr.id === itemTaxId) || item.tax_rates
+        const taxBreakdown = calculateTaxBreakdown(rawPrice, taxRateObj?.rate, taxRateObj?.is_inclusive)
+        const itemSource = (item.price_source || currentRow.price_source || 'MANUAL') as PriceSource
+        const itemMarkup =
+          item.markup_percent != null
+            ? Number(item.markup_percent)
+            : calculateMarkupPercent(rawCost, rawPrice)
+
+        const valuation = variant?.id ? options?.variantCosts?.[variant.id] : undefined
+
         return {
           id: item.id,
           product_id: item.product_id || prod?.id || '',
@@ -148,11 +177,21 @@ export function PriceListActionDialog() {
           product_sku: prod?.sku || '',
           variant_name: variant?.name || item.product_variants?.name || 'Standard',
           variant_sku: variant?.sku || item.product_variants?.sku || '',
-          regular_price: Number(item.price) || 0,
-          cost_price: item.cost_price != null ? Number(item.cost_price) : 0,
-          price: Number(item.price),
+          regular_price: rawPrice,
+          cost_price: rawCost,
+          price: rawPrice,
           min_price: Number(item.min_price || 0),
           max_discount_percent: Number(item.max_discount_percent || 0),
+          tax_id: itemTaxId,
+          price_source: itemSource,
+          markup_percent: itemMarkup,
+          price_before_tax: taxBreakdown.priceBeforeTax,
+          tax_amount: taxBreakdown.taxAmount,
+          price_after_tax: taxBreakdown.priceAfterTax,
+          tax_rate_percent: taxBreakdown.taxRatePercent,
+          tax_is_inclusive: taxBreakdown.isInclusive,
+          last_receipt_number: valuation?.lastReceiptNumber,
+          last_receipt_date: valuation?.lastReceiptDate,
         }
       })
 
@@ -180,6 +219,9 @@ export function PriceListActionDialog() {
         priority: initialPriority,
         currency_id: currentRow.currency_id || '',
         channel_id: currentRow.channel_id || '',
+        tax_id: currentRow.tax_id || '',
+        price_source: (currentRow.price_source as PriceSource) || 'MANUAL',
+        markup_percent: currentRow.markup_percent != null ? Number(currentRow.markup_percent) : 0,
         start_date: currentRow.start_date || defaultStartDate,
         end_date: currentRow.end_date || '',
         is_active: currentRow.is_active ?? true,
@@ -200,6 +242,9 @@ export function PriceListActionDialog() {
         priority: 100,
         currency_id: '',
         channel_id: '',
+        tax_id: '',
+        price_source: 'MANUAL',
+        markup_percent: 0,
         start_date: defaultStartDate,
         end_date: '',
         is_active: true,
@@ -207,7 +252,7 @@ export function PriceListActionDialog() {
         items: [],
       })
     }
-  }, [currentRow, open, isOpen, isEdit, options?.products, defaultStartDate, form])
+  }, [currentRow, open, isOpen, isEdit, options?.products, options?.taxRates, options?.variantCosts, defaultStartDate, form])
 
   const watchedItems = form.watch('items') || []
 
@@ -217,9 +262,54 @@ export function PriceListActionDialog() {
     return new Set(pids).size
   }, [watchedItems])
 
+  // Helper to re-evaluate pricing & tax for a row
+  const recomputeRow = (
+    variantId: string,
+    source: PriceSource,
+    markup: number,
+    taxId: string,
+    explicitPrice?: number,
+    explicitCost?: number
+  ) => {
+    const valuation = options?.variantCosts?.[variantId]
+    let cost = explicitCost !== undefined ? explicitCost : 0
+
+    if (source === 'LAST_PURCHASE_COST') {
+      cost = valuation?.lastPurchaseCost ?? cost
+    } else if (source === 'AVERAGE_COST') {
+      cost = valuation?.averageCost ?? cost
+    } else if (valuation?.lastPurchaseCost || valuation?.averageCost) {
+      cost = explicitCost !== undefined && explicitCost > 0 ? explicitCost : (valuation.lastPurchaseCost || valuation.averageCost)
+    }
+
+    let sellingPrice = explicitPrice !== undefined ? explicitPrice : 0
+    if (source !== 'MANUAL') {
+      sellingPrice = calculatePriceFromCostAndMarkup(cost, markup)
+    }
+
+    const taxRateObj = options?.taxRates?.find((tr) => tr.id === taxId)
+    const taxBreakdown = calculateTaxBreakdown(sellingPrice, taxRateObj?.rate, taxRateObj?.is_inclusive)
+
+    return {
+      cost,
+      sellingPrice,
+      markup: source === 'MANUAL' && cost > 0 ? calculateMarkupPercent(cost, sellingPrice) : markup,
+      taxBreakdown,
+      lastReceiptNumber: valuation?.lastReceiptNumber,
+      lastReceiptDate: valuation?.lastReceiptDate,
+    }
+  }
+
   // Add single empty row
   const handleAddRow = () => {
     const defaultPrice = Number(form.getValues('price')) || 0
+    const defaultTaxId = form.getValues('tax_id') || ''
+    const defaultSource = (form.getValues('price_source') as PriceSource) || 'MANUAL'
+    const defaultMarkup = Number(form.getValues('markup_percent')) || 0
+
+    const taxRateObj = options?.taxRates?.find((tr) => tr.id === defaultTaxId)
+    const taxBreakdown = calculateTaxBreakdown(defaultPrice, taxRateObj?.rate, taxRateObj?.is_inclusive)
+
     append({
       product_id: '',
       product_variant_id: '',
@@ -232,6 +322,14 @@ export function PriceListActionDialog() {
       price: defaultPrice,
       min_price: 0,
       max_discount_percent: 0,
+      tax_id: defaultTaxId,
+      price_source: defaultSource,
+      markup_percent: defaultMarkup,
+      price_before_tax: taxBreakdown.priceBeforeTax,
+      tax_amount: taxBreakdown.taxAmount,
+      price_after_tax: taxBreakdown.priceAfterTax,
+      tax_rate_percent: taxBreakdown.taxRatePercent,
+      tax_is_inclusive: taxBreakdown.isInclusive,
     })
   }
 
@@ -247,6 +345,10 @@ export function PriceListActionDialog() {
 
     const variants = product.product_variants || []
     const defaultPrice = Number(form.getValues('price')) || 0
+    const defaultTaxId = form.getValues('tax_id') || ''
+    const defaultSource = (form.getValues('price_source') as PriceSource) || 'MANUAL'
+    const defaultMarkup = Number(form.getValues('markup_percent')) || 0
+
     const newItems: PriceListItemFormData[] = []
 
     if (variants.length > 0) {
@@ -256,6 +358,15 @@ export function PriceListActionDialog() {
           const variantRefPrice = Number(vAny.price_list_items?.[0]?.price) || defaultPrice
           const variantCost = Number(vAny.price_list_items?.[0]?.cost_price) || 0
 
+          const computed = recomputeRow(
+            v.id,
+            defaultSource,
+            defaultMarkup,
+            defaultTaxId,
+            defaultSource === 'MANUAL' ? variantRefPrice : undefined,
+            variantCost
+          )
+
           newItems.push({
             product_id: product.id,
             product_variant_id: v.id,
@@ -264,10 +375,20 @@ export function PriceListActionDialog() {
             variant_name: v.name || 'Standard',
             variant_sku: v.sku,
             regular_price: variantRefPrice,
-            cost_price: variantCost,
-            price: variantRefPrice,
+            cost_price: computed.cost,
+            price: computed.sellingPrice,
             min_price: 0,
             max_discount_percent: 0,
+            tax_id: defaultTaxId,
+            price_source: defaultSource,
+            markup_percent: computed.markup,
+            price_before_tax: computed.taxBreakdown.priceBeforeTax,
+            tax_amount: computed.taxBreakdown.taxAmount,
+            price_after_tax: computed.taxBreakdown.priceAfterTax,
+            tax_rate_percent: computed.taxBreakdown.taxRatePercent,
+            tax_is_inclusive: computed.taxBreakdown.isInclusive,
+            last_receipt_number: computed.lastReceiptNumber,
+            last_receipt_date: computed.lastReceiptDate,
           })
         }
       }
@@ -299,6 +420,9 @@ export function PriceListActionDialog() {
 
     const variants = product.product_variants || []
     const defaultPrice = Number(form.getValues('price')) || 0
+    const itemSource = (form.getValues(`items.${index}.price_source`) as PriceSource) || 'MANUAL'
+    const itemMarkup = Number(form.getValues(`items.${index}.markup_percent`)) || 0
+    const itemTaxId = form.getValues(`items.${index}.tax_id`) || form.getValues('tax_id') || ''
 
     form.setValue(`items.${index}.product_id`, product.id)
     form.setValue(`items.${index}.product_name`, product.name)
@@ -310,12 +434,27 @@ export function PriceListActionDialog() {
       const variantRefPrice = Number(vAny.price_list_items?.[0]?.price) || defaultPrice
       const variantCost = Number(vAny.price_list_items?.[0]?.cost_price) || 0
 
+      const computed = recomputeRow(
+        v.id,
+        itemSource,
+        itemMarkup,
+        itemTaxId,
+        itemSource === 'MANUAL' ? variantRefPrice : undefined,
+        variantCost
+      )
+
       form.setValue(`items.${index}.product_variant_id`, v.id)
       form.setValue(`items.${index}.variant_name`, v.name || 'Standard')
       form.setValue(`items.${index}.variant_sku`, v.sku)
       form.setValue(`items.${index}.regular_price`, variantRefPrice)
-      form.setValue(`items.${index}.cost_price`, variantCost)
-      form.setValue(`items.${index}.price`, variantRefPrice)
+      form.setValue(`items.${index}.cost_price`, computed.cost)
+      form.setValue(`items.${index}.price`, computed.sellingPrice)
+      form.setValue(`items.${index}.markup_percent`, computed.markup)
+      form.setValue(`items.${index}.price_before_tax`, computed.taxBreakdown.priceBeforeTax)
+      form.setValue(`items.${index}.tax_amount`, computed.taxBreakdown.taxAmount)
+      form.setValue(`items.${index}.price_after_tax`, computed.taxBreakdown.priceAfterTax)
+      form.setValue(`items.${index}.tax_rate_percent`, computed.taxBreakdown.taxRatePercent)
+      form.setValue(`items.${index}.tax_is_inclusive`, computed.taxBreakdown.isInclusive)
     } else {
       form.setValue(`items.${index}.product_variant_id`, '')
       form.setValue(`items.${index}.variant_name`, '')
@@ -323,6 +462,9 @@ export function PriceListActionDialog() {
       form.setValue(`items.${index}.regular_price`, defaultPrice)
       form.setValue(`items.${index}.cost_price`, 0)
       form.setValue(`items.${index}.price`, defaultPrice)
+      form.setValue(`items.${index}.price_before_tax`, defaultPrice)
+      form.setValue(`items.${index}.tax_amount`, 0)
+      form.setValue(`items.${index}.price_after_tax`, defaultPrice)
     }
   }
 
@@ -351,25 +493,205 @@ export function PriceListActionDialog() {
     const variantRefPrice = Number(vAny.price_list_items?.[0]?.price) || defaultPrice
     const variantCost = Number(vAny.price_list_items?.[0]?.cost_price) || 0
 
+    const itemSource = (form.getValues(`items.${index}.price_source`) as PriceSource) || 'MANUAL'
+    const itemMarkup = Number(form.getValues(`items.${index}.markup_percent`)) || 0
+    const itemTaxId = form.getValues(`items.${index}.tax_id`) || form.getValues('tax_id') || ''
+
+    const computed = recomputeRow(
+      variant.id,
+      itemSource,
+      itemMarkup,
+      itemTaxId,
+      itemSource === 'MANUAL' ? variantRefPrice : undefined,
+      variantCost
+    )
+
     form.setValue(`items.${index}.product_variant_id`, variant.id)
     form.setValue(`items.${index}.variant_name`, variant.name || 'Standard')
     form.setValue(`items.${index}.variant_sku`, variant.sku)
     form.setValue(`items.${index}.regular_price`, variantRefPrice)
-    form.setValue(`items.${index}.cost_price`, variantCost)
-    form.setValue(`items.${index}.price`, variantRefPrice)
+    form.setValue(`items.${index}.cost_price`, computed.cost)
+    form.setValue(`items.${index}.price`, computed.sellingPrice)
+    form.setValue(`items.${index}.markup_percent`, computed.markup)
+    form.setValue(`items.${index}.price_before_tax`, computed.taxBreakdown.priceBeforeTax)
+    form.setValue(`items.${index}.tax_amount`, computed.taxBreakdown.taxAmount)
+    form.setValue(`items.${index}.price_after_tax`, computed.taxBreakdown.priceAfterTax)
+    form.setValue(`items.${index}.tax_rate_percent`, computed.taxBreakdown.taxRatePercent)
+    form.setValue(`items.${index}.tax_is_inclusive`, computed.taxBreakdown.isInclusive)
+    form.setValue(`items.${index}.last_receipt_number`, computed.lastReceiptNumber)
+    form.setValue(`items.${index}.last_receipt_date`, computed.lastReceiptDate)
   }
 
+  // Row Price Source change handler
+  const handleItemSourceChange = (index: number, newSource: PriceSource) => {
+    const variantId = form.getValues(`items.${index}.product_variant_id`)
+    const currentCost = Number(form.getValues(`items.${index}.cost_price`)) || 0
+    const currentPrice = Number(form.getValues(`items.${index}.price`)) || 0
+    const markup = Number(form.getValues(`items.${index}.markup_percent`)) || 0
+    const taxId = form.getValues(`items.${index}.tax_id`) || ''
+
+    const computed = recomputeRow(
+      variantId,
+      newSource,
+      markup,
+      taxId,
+      newSource === 'MANUAL' ? currentPrice : undefined,
+      currentCost
+    )
+
+    form.setValue(`items.${index}.price_source`, newSource)
+    form.setValue(`items.${index}.cost_price`, computed.cost)
+    form.setValue(`items.${index}.price`, computed.sellingPrice)
+    form.setValue(`items.${index}.markup_percent`, computed.markup)
+    form.setValue(`items.${index}.price_before_tax`, computed.taxBreakdown.priceBeforeTax)
+    form.setValue(`items.${index}.tax_amount`, computed.taxBreakdown.taxAmount)
+    form.setValue(`items.${index}.price_after_tax`, computed.taxBreakdown.priceAfterTax)
+    form.setValue(`items.${index}.last_receipt_number`, computed.lastReceiptNumber)
+    form.setValue(`items.${index}.last_receipt_date`, computed.lastReceiptDate)
+
+    if (newSource === 'LAST_PURCHASE_COST' && computed.cost === 0) {
+      toast.info(
+        t('priceList.form.noReceiptWarning', {
+          defaultValue: 'No goods receipt unit cost found for this variant. Cost is 0.00.',
+        })
+      )
+    }
+  }
+
+  // Row Markup change handler
+  const handleItemMarkupChange = (index: number, newMarkup: number) => {
+    const variantId = form.getValues(`items.${index}.product_variant_id`)
+    const currentCost = Number(form.getValues(`items.${index}.cost_price`)) || 0
+    const currentPrice = Number(form.getValues(`items.${index}.price`)) || 0
+    const source = (form.getValues(`items.${index}.price_source`) as PriceSource) || 'MANUAL'
+    const taxId = form.getValues(`items.${index}.tax_id`) || ''
+
+    form.setValue(`items.${index}.markup_percent`, newMarkup)
+
+    if (source !== 'MANUAL') {
+      const computed = recomputeRow(variantId, source, newMarkup, taxId, undefined, currentCost)
+      form.setValue(`items.${index}.price`, computed.sellingPrice)
+      form.setValue(`items.${index}.price_before_tax`, computed.taxBreakdown.priceBeforeTax)
+      form.setValue(`items.${index}.tax_amount`, computed.taxBreakdown.taxAmount)
+      form.setValue(`items.${index}.price_after_tax`, computed.taxBreakdown.priceAfterTax)
+    }
+  }
+
+  // Row Price change handler (Manual mode)
+  const handleItemPriceChange = (index: number, newPrice: number) => {
+    const variantId = form.getValues(`items.${index}.product_variant_id`)
+    const cost = Number(form.getValues(`items.${index}.cost_price`)) || 0
+    const source = (form.getValues(`items.${index}.price_source`) as PriceSource) || 'MANUAL'
+    const taxId = form.getValues(`items.${index}.tax_id`) || ''
+
+    form.setValue(`items.${index}.price`, newPrice)
+
+    const computed = recomputeRow(variantId, source, 0, taxId, newPrice, cost)
+    form.setValue(`items.${index}.markup_percent`, computed.markup)
+    form.setValue(`items.${index}.price_before_tax`, computed.taxBreakdown.priceBeforeTax)
+    form.setValue(`items.${index}.tax_amount`, computed.taxBreakdown.taxAmount)
+    form.setValue(`items.${index}.price_after_tax`, computed.taxBreakdown.priceAfterTax)
+  }
+
+  // Row Tax Rate change handler
+  const handleItemTaxChange = (index: number, newTaxId: string) => {
+    const price = Number(form.getValues(`items.${index}.price`)) || 0
+    const taxRateObj = options?.taxRates?.find((tr) => tr.id === newTaxId)
+    const breakdown = calculateTaxBreakdown(price, taxRateObj?.rate, taxRateObj?.is_inclusive)
+
+    form.setValue(`items.${index}.tax_id`, newTaxId)
+    form.setValue(`items.${index}.price_before_tax`, breakdown.priceBeforeTax)
+    form.setValue(`items.${index}.tax_amount`, breakdown.taxAmount)
+    form.setValue(`items.${index}.price_after_tax`, breakdown.priceAfterTax)
+    form.setValue(`items.${index}.tax_rate_percent`, breakdown.taxRatePercent)
+    form.setValue(`items.${index}.tax_is_inclusive`, breakdown.isInclusive)
+  }
+
+  // Bulk Apply Default Price to all items
   const handleApplyDefaultPriceToAll = () => {
     const currentPrice = Number(form.getValues('price')) || 0
     const currentItems = form.getValues('items')
-    const updatedItems = currentItems.map((item) => ({
-      ...item,
-      price: currentPrice,
-    }))
+    const updatedItems = currentItems.map((item) => {
+      const taxRateObj = options?.taxRates?.find((tr) => tr.id === item.tax_id)
+      const breakdown = calculateTaxBreakdown(currentPrice, taxRateObj?.rate, taxRateObj?.is_inclusive)
+      const cost = Number(item.cost_price) || 0
+      return {
+        ...item,
+        price: currentPrice,
+        price_source: 'MANUAL' as PriceSource,
+        markup_percent: cost > 0 ? calculateMarkupPercent(cost, currentPrice) : 0,
+        price_before_tax: breakdown.priceBeforeTax,
+        tax_amount: breakdown.taxAmount,
+        price_after_tax: breakdown.priceAfterTax,
+      }
+    })
     replace(updatedItems)
     toast.success(
       t('priceList.form.appliedToAll', {
         defaultValue: 'Applied default price to all variants',
+      })
+    )
+  }
+
+  // Bulk Apply Default Tax Rate to all items
+  const handleApplyTaxToAll = () => {
+    const defaultTaxId = form.getValues('tax_id') || ''
+    const currentItems = form.getValues('items')
+    const taxRateObj = options?.taxRates?.find((tr) => tr.id === defaultTaxId)
+
+    const updatedItems = currentItems.map((item) => {
+      const price = Number(item.price) || 0
+      const breakdown = calculateTaxBreakdown(price, taxRateObj?.rate, taxRateObj?.is_inclusive)
+      return {
+        ...item,
+        tax_id: defaultTaxId,
+        price_before_tax: breakdown.priceBeforeTax,
+        tax_amount: breakdown.taxAmount,
+        price_after_tax: breakdown.priceAfterTax,
+        tax_rate_percent: breakdown.taxRatePercent,
+        tax_is_inclusive: breakdown.isInclusive,
+      }
+    })
+    replace(updatedItems)
+    toast.success(
+      t('priceList.form.taxAppliedToAll', {
+        defaultValue: 'Applied default tax rate to all items',
+      })
+    )
+  }
+
+  // Bulk Apply Default Price Source & Markup to all items
+  const handleApplySourceAndMarkupToAll = () => {
+    const defaultSource = (form.getValues('price_source') as PriceSource) || 'MANUAL'
+    const defaultMarkup = Number(form.getValues('markup_percent')) || 0
+    const currentItems = form.getValues('items')
+
+    const updatedItems = currentItems.map((item) => {
+      const computed = recomputeRow(
+        item.product_variant_id,
+        defaultSource,
+        defaultMarkup,
+        item.tax_id || '',
+        defaultSource === 'MANUAL' ? Number(item.price) : undefined,
+        Number(item.cost_price) || 0
+      )
+      return {
+        ...item,
+        price_source: defaultSource,
+        cost_price: computed.cost,
+        price: computed.sellingPrice,
+        markup_percent: computed.markup,
+        price_before_tax: computed.taxBreakdown.priceBeforeTax,
+        tax_amount: computed.taxBreakdown.taxAmount,
+        price_after_tax: computed.taxBreakdown.priceAfterTax,
+        last_receipt_number: computed.lastReceiptNumber,
+        last_receipt_date: computed.lastReceiptDate,
+      }
+    })
+    replace(updatedItems)
+    toast.success(
+      t('priceList.form.sourceAppliedToAll', {
+        defaultValue: 'Applied price source strategy and markup to all items',
       })
     )
   }
@@ -384,6 +706,9 @@ export function PriceListActionDialog() {
         store_id: values.store_id ? values.store_id : null,
         currency_id: values.currency_id ? values.currency_id : null,
         channel_id: values.channel_id ? values.channel_id : null,
+        tax_id: values.tax_id ? values.tax_id : null,
+        price_source: values.price_source || 'MANUAL',
+        markup_percent: values.markup_percent !== undefined && values.markup_percent !== null ? values.markup_percent : 0,
         end_date: values.end_date ? values.end_date : null,
         description: values.description ? values.description : null,
         type: values.type ? values.type : null,
@@ -420,7 +745,7 @@ export function PriceListActionDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(v) => !v && setOpen(null)}>
-      <DialogContent className='max-h-[94vh] overflow-y-auto sm:max-w-5xl'>
+      <DialogContent className='max-h-[95vh] overflow-y-auto sm:max-w-[1360px]'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-xl'>
             <Layers className='h-5 w-5 text-primary' />
@@ -431,10 +756,10 @@ export function PriceListActionDialog() {
           <DialogDescription>
             {isEdit
               ? t('priceList.editDescription', {
-                  defaultValue: 'Modify pricing schedule, customer tier, and multi-product price rules.',
+                  defaultValue: 'Modify pricing schedule, customer tier, tax rules, and multi-product price rules.',
                 })
               : t('priceList.createDescription', {
-                  defaultValue: 'Define a price list schedule and add multiple products and variant pricing rules.',
+                  defaultValue: 'Define a price list schedule, configure tax and cost-markup strategy, and add product variant pricing rules.',
                 })}
           </DialogDescription>
         </DialogHeader>
@@ -469,9 +794,10 @@ export function PriceListActionDialog() {
                       <FormControl>
                         <Input
                           placeholder={t('priceList.form.namePlaceholder', {
-                            defaultValue: 'e.g. Retail Standard 2026',
+                            defaultValue: 'e.g. Wholesale VIP Tier 1, Ramadan Menu 2026',
                           })}
                           {...field}
+                          value={field.value || ''}
                         />
                       </FormControl>
                       <FormMessage />
@@ -479,22 +805,23 @@ export function PriceListActionDialog() {
                   )}
                 />
 
-                {/* Price List Code */}
+                {/* Unique Code */}
                 <FormField
                   control={form.control}
                   name='code'
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        {t('priceList.form.code', { defaultValue: 'Code' })}
+                        {t('priceList.form.code', { defaultValue: 'Pricing Code / ID' })}
                       </FormLabel>
                       <FormControl>
                         <Input
                           placeholder={t('priceList.form.codePlaceholder', {
-                            defaultValue: 'e.g. RETAIL_STD',
+                            defaultValue: 'e.g. WS-VIP-01, RET-STD',
                           })}
                           {...field}
                           value={field.value || ''}
+                          className='font-mono uppercase'
                         />
                       </FormControl>
                       <FormMessage />
@@ -674,119 +1001,6 @@ export function PriceListActionDialog() {
                   )}
                 />
 
-                {/* Assigned Stores (Multi-Store Assignment Scope) */}
-                <FormField
-                  control={form.control}
-                  name='assigned_store_ids'
-                  render={({ field }) => {
-                    const selectedStores = field.value || []
-                    const isAllStores = selectedStores.length === 0
-
-                    return (
-                      <FormItem className='col-span-1 md:col-span-2 rounded-lg border border-border/60 p-3 bg-muted/20'>
-                        <div className='flex items-center justify-between'>
-                          <FormLabel className='flex items-center gap-1.5 font-medium'>
-                            <StoreIcon className='h-3.5 w-3.5 text-primary' />
-                            {t('priceList.form.assignedStores', { defaultValue: 'Assigned Stores / Outlets' })}
-                          </FormLabel>
-                          <span className='text-xs font-medium text-muted-foreground'>
-                            {isAllStores
-                              ? t('priceList.form.allStoresActive', { defaultValue: '🌐 All Stores (Global Scope)' })
-                              : `${selectedStores.length} store(s) assigned`}
-                          </span>
-                        </div>
-                        <div className='flex flex-wrap gap-1.5 pt-2'>
-                          <Badge
-                            variant={isAllStores ? 'default' : 'outline'}
-                            className='cursor-pointer text-xs font-normal py-1 px-2.5 transition-all select-none'
-                            onClick={() => {
-                              field.onChange([])
-                              form.setValue('store_id', '')
-                            }}
-                          >
-                            {t('priceList.form.allStoresGlobal', { defaultValue: 'All Stores (Global)' })}
-                          </Badge>
-                          {options?.stores?.map((s) => {
-                            const isSelected = selectedStores.includes(s.store_id)
-                            return (
-                              <Badge
-                                key={s.store_id}
-                                variant={isSelected ? 'default' : 'outline'}
-                                className={cn(
-                                  'cursor-pointer text-xs font-normal py-1 px-2.5 transition-all select-none flex items-center gap-1',
-                                  isSelected && 'bg-primary text-primary-foreground font-medium'
-                                )}
-                                onClick={() => {
-                                  let next: string[]
-                                  if (isSelected) {
-                                    next = selectedStores.filter((id) => id !== s.store_id)
-                                  } else {
-                                    next = [...selectedStores, s.store_id]
-                                  }
-                                  field.onChange(next)
-                                  form.setValue('store_id', next[0] || '')
-                                }}
-                              >
-                                {s.name || s.store_id}
-                                {isSelected && <Check className='h-3 w-3' />}
-                              </Badge>
-                            )
-                          })}
-                        </div>
-                        <FormDescription className='text-[11px] pt-1 text-muted-foreground'>
-                          {t('priceList.form.multiStoreHelp', {
-                            defaultValue:
-                              'Assign one or multiple stores to this price list without duplicating items. When none selected, applies to all stores.',
-                          })}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )
-                  }}
-                />
-
-                {/* Resolution Priority */}
-                <FormField
-                  control={form.control}
-                  name='priority'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className='flex items-center gap-1.5'>
-                        <Layers className='h-3.5 w-3.5 text-muted-foreground' />
-                        {t('priceList.form.priority', { defaultValue: 'Resolution Priority' })}
-                      </FormLabel>
-                      <FormControl>
-                        <div className='flex items-center gap-2'>
-                          <Input
-                            type='number'
-                            min={0}
-                            max={999}
-                            {...field}
-                            value={field.value ?? 100}
-                            onChange={(e) => field.onChange(Number(e.target.value))}
-                            className='h-9 w-28 font-mono'
-                          />
-                          <Badge variant='outline' className='text-[11px] font-normal'>
-                            {(field.value ?? 100) <= 15
-                              ? '⚡ High (Promo/Flash)'
-                              : (field.value ?? 100) <= 35
-                              ? '⭐ VIP Tier'
-                              : (field.value ?? 100) <= 70
-                              ? '🏢 Wholesale/B2B'
-                              : '🏷️ Standard (100)'}
-                          </Badge>
-                        </div>
-                      </FormControl>
-                      <FormDescription className='text-[11px]'>
-                        {t('priceList.form.priorityDescription', {
-                          defaultValue: 'Lower number = higher priority. e.g. Priority 10 Promo overrides Priority 100 Retail.',
-                        })}
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
                 {/* Currency */}
                 <FormField
                   control={form.control}
@@ -869,6 +1083,48 @@ export function PriceListActionDialog() {
                   )}
                 />
 
+                {/* Resolution Priority */}
+                <FormField
+                  control={form.control}
+                  name='priority'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center gap-1.5'>
+                        <Layers className='h-3.5 w-3.5 text-muted-foreground' />
+                        {t('priceList.form.priority', { defaultValue: 'Resolution Priority' })}
+                      </FormLabel>
+                      <FormControl>
+                        <div className='flex items-center gap-2'>
+                          <Input
+                            type='number'
+                            min={0}
+                            max={999}
+                            {...field}
+                            value={field.value ?? 100}
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                            className='h-9 w-28 font-mono'
+                          />
+                          <Badge variant='outline' className='text-[11px] font-normal'>
+                            {(field.value ?? 100) <= 15
+                              ? '⚡ High (Promo/Flash)'
+                              : (field.value ?? 100) <= 35
+                              ? '⭐ VIP Tier'
+                              : (field.value ?? 100) <= 70
+                              ? '🏢 Wholesale/B2B'
+                              : '🏷️ Standard (100)'}
+                          </Badge>
+                        </div>
+                      </FormControl>
+                      <FormDescription className='text-[11px]'>
+                        {t('priceList.form.priorityDescription', {
+                          defaultValue: 'Lower number = higher priority. e.g. Priority 10 Promo overrides Priority 100 Retail.',
+                        })}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {/* Date Validity Row */}
                 <FormField
                   control={form.control}
@@ -906,6 +1162,77 @@ export function PriceListActionDialog() {
                     </FormItem>
                   )}
                 />
+
+                {/* Assigned Stores (Multi-Store Assignment Scope) */}
+                <FormField
+                  control={form.control}
+                  name='assigned_store_ids'
+                  render={({ field }) => {
+                    const selectedStores = field.value || []
+                    const isAllStores = selectedStores.length === 0
+
+                    return (
+                      <FormItem className='col-span-1 md:col-span-2 rounded-lg border border-border/60 p-3 bg-muted/20'>
+                        <div className='flex items-center justify-between'>
+                          <FormLabel className='flex items-center gap-1.5 font-medium'>
+                            <StoreIcon className='h-3.5 w-3.5 text-primary' />
+                            {t('priceList.form.assignedStores', { defaultValue: 'Assigned Stores / Outlets' })}
+                          </FormLabel>
+                          <span className='text-xs font-medium text-muted-foreground'>
+                            {isAllStores
+                              ? t('priceList.form.allStoresActive', { defaultValue: '🌐 All Stores (Global Scope)' })
+                              : `${selectedStores.length} store(s) assigned`}
+                          </span>
+                        </div>
+                        <div className='flex flex-wrap gap-1.5 pt-2'>
+                          <Badge
+                            variant={isAllStores ? 'default' : 'outline'}
+                            className='cursor-pointer text-xs font-normal py-1 px-2.5 transition-all select-none'
+                            onClick={() => {
+                              field.onChange([])
+                              form.setValue('store_id', '')
+                            }}
+                          >
+                            {t('priceList.form.allStoresGlobal', { defaultValue: 'All Stores (Global)' })}
+                          </Badge>
+                          {options?.stores?.map((s) => {
+                            const isSelected = selectedStores.includes(s.store_id)
+                            return (
+                              <Badge
+                                key={s.store_id}
+                                variant={isSelected ? 'default' : 'outline'}
+                                className={cn(
+                                  'cursor-pointer text-xs font-normal py-1 px-2.5 transition-all select-none flex items-center gap-1',
+                                  isSelected && 'bg-primary text-primary-foreground font-medium'
+                                )}
+                                onClick={() => {
+                                  let next: string[]
+                                  if (isSelected) {
+                                    next = selectedStores.filter((id) => id !== s.store_id)
+                                  } else {
+                                    next = [...selectedStores, s.store_id]
+                                  }
+                                  field.onChange(next)
+                                  form.setValue('store_id', next[0] || '')
+                                }}
+                              >
+                                {s.name || s.store_id}
+                                {isSelected && <Check className='h-3 w-3' />}
+                              </Badge>
+                            )
+                          })}
+                        </div>
+                        <FormDescription className='text-[11px] pt-1 text-muted-foreground'>
+                          {t('priceList.form.multiStoreHelp', {
+                            defaultValue:
+                              'Assign one or multiple stores to this price list without duplicating items. When none selected, applies to all stores.',
+                          })}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )
+                  }}
+                />
               </div>
 
               {/* Description / Notes */}
@@ -933,7 +1260,163 @@ export function PriceListActionDialog() {
               />
             </div>
 
-            {/* 2. Child Items Matrix: One-to-Many Products & Variants */}
+            {/* 2. Pricing Strategy & Tax Defaults Header Card */}
+            <div className='rounded-lg border border-primary/20 bg-primary/5 p-4 shadow-xs space-y-3'>
+              <div className='flex flex-wrap items-center justify-between gap-2 border-b border-primary/10 pb-2'>
+                <div className='flex items-center gap-2'>
+                  <Calculator className='h-4 w-4 text-primary' />
+                  <h3 className='text-sm font-semibold uppercase tracking-wider text-primary'>
+                    {t('priceList.form.strategySection', { defaultValue: 'Pricing Strategy & Default Tax Settings' })}
+                  </h3>
+                </div>
+                {fields.length > 0 && (
+                  <Button
+                    type='button'
+                    variant='outline'
+                    size='sm'
+                    className='h-7 text-xs border-primary/30 text-primary hover:bg-primary/10'
+                    onClick={handleApplySourceAndMarkupToAll}
+                  >
+                    <Sparkles className='mr-1.5 h-3 w-3' />
+                    {t('priceList.form.applyAllDefaults', { defaultValue: 'Apply Strategy to All Items' })}
+                  </Button>
+                )}
+              </div>
+
+              <div className='grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1'>
+                {/* Default Tax Rate */}
+                <FormField
+                  control={form.control}
+                  name='tax_id'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center justify-between text-xs'>
+                        <span className='flex items-center gap-1 font-medium'>
+                          <Receipt className='h-3.5 w-3.5 text-muted-foreground' />
+                          {t('priceList.form.defaultTaxRate', { defaultValue: 'Default Tax Rate' })}
+                        </span>
+                        {fields.length > 0 && (
+                          <button
+                            type='button'
+                            className='text-[11px] text-primary hover:underline'
+                            onClick={handleApplyTaxToAll}
+                          >
+                            {t('priceList.form.applyToAll', { defaultValue: 'Apply' })}
+                          </button>
+                        )}
+                      </FormLabel>
+                      <Select
+                        onValueChange={(val) => field.onChange(val === 'NONE' ? '' : val)}
+                        value={field.value || 'NONE'}
+                      >
+                        <FormControl>
+                          <SelectTrigger className='h-8 text-xs'>
+                            <SelectValue
+                              placeholder={t('priceList.form.selectTaxRate', {
+                                defaultValue: 'No Tax (0%)',
+                              })}
+                            />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value='NONE' className='text-xs'>
+                            {t('priceList.form.noTax', { defaultValue: 'No Tax (0%)' })}
+                          </SelectItem>
+                          {options?.taxRates?.map((tr) => (
+                            <SelectItem key={tr.id} value={tr.id} className='text-xs'>
+                              <div className='flex items-center gap-2'>
+                                <span className='font-medium'>{tr.tax_type} ({getTaxRatePercentage(tr.rate)}%)</span>
+                                <span className='text-[10px] text-muted-foreground'>
+                                  {tr.is_inclusive ? '• Incl' : '• Excl'}
+                                </span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormDescription className='text-[10px] text-muted-foreground'>
+                        {t('priceList.form.taxHelp', { defaultValue: 'Default tax cascaded to line items' })}
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+
+                {/* Default Price Source */}
+                <FormField
+                  control={form.control}
+                  name='price_source'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center justify-between text-xs'>
+                        <span className='flex items-center gap-1 font-medium'>
+                          <Tag className='h-3.5 w-3.5 text-muted-foreground' />
+                          {t('priceList.form.defaultPriceSource', { defaultValue: 'Default Price Source' })}
+                        </span>
+                      </FormLabel>
+                      <Select
+                        onValueChange={(val) => field.onChange(val as PriceSource)}
+                        value={field.value || 'MANUAL'}
+                      >
+                        <FormControl>
+                          <SelectTrigger className='h-8 text-xs'>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value='MANUAL' className='text-xs'>
+                            {t('priceList.sources.manual', { defaultValue: 'Manual (Enter Selling Price)' })}
+                          </SelectItem>
+                          <SelectItem value='LAST_PURCHASE_COST' className='text-xs'>
+                            {t('priceList.sources.lastPurchaseCost', { defaultValue: 'Last Purchase Cost (Goods Receipt)' })}
+                          </SelectItem>
+                          <SelectItem value='AVERAGE_COST' className='text-xs'>
+                            {t('priceList.sources.averageCost', { defaultValue: 'Average Cost (Stock Balances)' })}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription className='text-[10px] text-muted-foreground'>
+                        {t('priceList.form.sourceHelp', { defaultValue: 'How selling prices are determined' })}
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+
+                {/* Default Markup % */}
+                <FormField
+                  control={form.control}
+                  name='markup_percent'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center justify-between text-xs'>
+                        <span className='flex items-center gap-1 font-medium'>
+                          <TrendingUp className='h-3.5 w-3.5 text-muted-foreground' />
+                          {t('priceList.form.defaultMarkup', { defaultValue: 'Default Cost Markup %' })}
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className='relative'>
+                          <Input
+                            type='number'
+                            step='0.1'
+                            placeholder='0.0'
+                            className='h-8 pr-7 text-xs font-mono'
+                            {...field}
+                            value={field.value ?? 0}
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                          />
+                          <span className='absolute right-2 top-2 text-xs text-muted-foreground'>%</span>
+                        </div>
+                      </FormControl>
+                      <FormDescription className='text-[10px] text-muted-foreground'>
+                        {t('priceList.form.markupDesc', { defaultValue: 'Selling Price = Cost × (1 + Markup%)' })}
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* 3. Child Items Matrix: One-to-Many Products & Variants */}
             <div className='rounded-lg border bg-card p-4 shadow-xs space-y-4'>
               <div className='flex flex-wrap items-center justify-between gap-3 border-b pb-3'>
                 <div>
@@ -945,7 +1428,8 @@ export function PriceListActionDialog() {
                   </h3>
                   <p className='text-xs text-muted-foreground mt-0.5'>
                     {t('priceList.form.variantItemsHelp', {
-                      defaultValue: 'Assign specific prices, floor price thresholds, and max discount % per product & variant.',
+                      defaultValue:
+                        'Assign price source, cost markup, floor price thresholds, and view calculated pre/post tax values.',
                     })}
                   </p>
                 </div>
@@ -1031,35 +1515,62 @@ export function PriceListActionDialog() {
               {/* Items Form Table */}
               {fields.length > 0 ? (
                 <div className='overflow-x-auto rounded-md border'>
-                  <Table>
+                  <Table className='min-w-[1240px]'>
                     <TableHeader className='bg-muted/50'>
                       <TableRow>
-                        <TableHead className='w-[40px] text-center'>#</TableHead>
-                        <TableHead className='w-[200px]'>
+                        <TableHead className='w-[35px] text-center'>#</TableHead>
+                        <TableHead className='w-[170px]'>
                           {t('priceList.form.productColumn', { defaultValue: 'Product' })}{' '}
                           <span className='text-destructive'>*</span>
                         </TableHead>
-                        <TableHead className='w-[190px]'>
+                        <TableHead className='w-[160px]'>
                           {t('priceList.form.variantColumn', { defaultValue: 'Variant / SKU' })}{' '}
                           <span className='text-destructive'>*</span>
                         </TableHead>
-                        <TableHead className='w-[120px] text-right'>
+                        <TableHead className='w-[135px]'>
+                          {t('priceList.table.source', { defaultValue: 'Price Source' })}
+                        </TableHead>
+                        <TableHead className='w-[110px] text-right'>
                           {t('priceList.table.costRef', { defaultValue: 'Cost / Ref' })}
                         </TableHead>
-                        <TableHead className='w-[140px]'>
-                          {t('priceList.table.tierPrice', { defaultValue: 'List Price' })}{' '}
+                        <TableHead className='w-[85px]'>
+                          {t('priceList.table.markup', { defaultValue: 'Markup %' })}
+                        </TableHead>
+                        <TableHead className='w-[120px]'>
+                          {t('priceList.table.sellingPrice', { defaultValue: 'Selling Price' })}{' '}
                           <span className='text-destructive'>*</span>
                         </TableHead>
                         <TableHead className='w-[130px]'>
+                          {t('priceList.table.taxRate', { defaultValue: 'Tax Rate' })}
+                        </TableHead>
+                        <TableHead className='w-[105px] text-right bg-muted/20'>
+                          <div className='flex flex-col items-end leading-tight'>
+                            <span>{t('priceList.table.priceBeforeTax', { defaultValue: 'Price (Excl)' })}</span>
+                            <span className='text-[9px] font-normal text-muted-foreground'>(Read-Only)</span>
+                          </div>
+                        </TableHead>
+                        <TableHead className='w-[90px] text-right bg-muted/20'>
+                          <div className='flex flex-col items-end leading-tight'>
+                            <span>{t('priceList.table.taxAmount', { defaultValue: 'Tax Amt' })}</span>
+                            <span className='text-[9px] font-normal text-muted-foreground'>(Read-Only)</span>
+                          </div>
+                        </TableHead>
+                        <TableHead className='w-[110px] text-right bg-muted/20'>
+                          <div className='flex flex-col items-end leading-tight text-emerald-700 dark:text-emerald-400'>
+                            <span>{t('priceList.table.priceAfterTax', { defaultValue: 'Price (Incl)' })}</span>
+                            <span className='text-[9px] font-normal text-muted-foreground'>(Read-Only)</span>
+                          </div>
+                        </TableHead>
+                        <TableHead className='w-[100px]'>
                           {t('priceList.table.floorPrice', { defaultValue: 'Floor (Min)' })}
                         </TableHead>
-                        <TableHead className='w-[120px]'>
+                        <TableHead className='w-[90px]'>
                           {t('priceList.table.maxDiscount', { defaultValue: 'Max Disc %' })}
                         </TableHead>
-                        <TableHead className='w-[100px] text-right'>
+                        <TableHead className='w-[70px] text-right'>
                           {t('priceList.table.margin', { defaultValue: 'Margin' })}
                         </TableHead>
-                        <TableHead className='w-[50px] text-center'></TableHead>
+                        <TableHead className='w-[40px] text-center'></TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -1070,9 +1581,16 @@ export function PriceListActionDialog() {
                         const variantMinPrice = Number(form.watch(`items.${index}.min_price`)) || 0
                         const cost = Number(form.watch(`items.${index}.cost_price`)) || 0
                         const regularPrice = Number(form.watch(`items.${index}.regular_price`)) || 0
+                        const itemSource = (form.watch(`items.${index}.price_source`) as PriceSource) || 'MANUAL'
+                        const itemTaxId = form.watch(`items.${index}.tax_id`) || ''
+                        const itemMarkup = form.watch(`items.${index}.markup_percent`) ?? 0
 
                         const product = options?.products?.find((p) => p.id === selectedProductId)
                         const productVariants = product?.product_variants || []
+                        const valuation = selectedVariantId ? options?.variantCosts?.[selectedVariantId] : undefined
+
+                        const taxRateObj = options?.taxRates?.find((tr) => tr.id === itemTaxId)
+                        const taxBreakdown = calculateTaxBreakdown(variantPrice, taxRateObj?.rate, taxRateObj?.is_inclusive)
 
                         // Filter by in-table search if present
                         if (itemSearch) {
@@ -1168,21 +1686,63 @@ export function PriceListActionDialog() {
                               </Select>
                             </TableCell>
 
-                            {/* Ref Price & Cost */}
+                            {/* Price Source Dropdown */}
+                            <TableCell>
+                              <Select
+                                value={itemSource}
+                                onValueChange={(val: PriceSource) => handleItemSourceChange(index, val)}
+                              >
+                                <SelectTrigger className='h-8 text-xs font-medium'>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value='MANUAL' className='text-xs'>
+                                    {t('priceList.sources.manualShort', { defaultValue: 'Manual' })}
+                                  </SelectItem>
+                                  <SelectItem value='LAST_PURCHASE_COST' className='text-xs'>
+                                    {t('priceList.sources.lastPurchaseCostShort', { defaultValue: 'Last GR Cost' })}
+                                  </SelectItem>
+                                  <SelectItem value='AVERAGE_COST' className='text-xs'>
+                                    {t('priceList.sources.averageCostShort', { defaultValue: 'Avg Cost' })}
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </TableCell>
+
+                            {/* Cost / Valuation Ref */}
                             <TableCell className='text-right text-xs'>
-                              <div className='flex flex-col items-end'>
+                              <div className='flex flex-col items-end gap-0.5'>
                                 <span className='font-mono font-medium'>
-                                  ${regularPrice.toFixed(2)}
+                                  ${cost.toFixed(2)}
                                 </span>
-                                {cost > 0 && (
-                                  <span className='text-[11px] text-muted-foreground font-mono'>
-                                    {t('priceList.form.costPrefix', { defaultValue: 'Cost' })}: ${cost.toFixed(2)}
-                                  </span>
+                                {itemSource === 'LAST_PURCHASE_COST' && (
+                                  <Badge variant='outline' className='text-[10px] text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-1 py-0'>
+                                    {valuation?.lastReceiptNumber ? `${valuation.lastReceiptNumber}` : t('priceList.form.grCostBadge', { defaultValue: 'GR' })}
+                                  </Badge>
+                                )}
+                                {itemSource === 'AVERAGE_COST' && (
+                                  <Badge variant='outline' className='text-[10px] text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 px-1 py-0'>
+                                    {t('priceList.form.avgCostBadge', { defaultValue: 'Avg' })}
+                                  </Badge>
                                 )}
                               </div>
                             </TableCell>
 
-                            {/* Editable Price */}
+                            {/* Markup % */}
+                            <TableCell>
+                              <div className='relative'>
+                                <Input
+                                  type='number'
+                                  step='0.1'
+                                  className='h-8 pr-5 text-xs font-mono text-right'
+                                  value={itemMarkup ?? 0}
+                                  onChange={(e) => handleItemMarkupChange(index, Number(e.target.value))}
+                                />
+                                <span className='absolute right-2 top-2 text-xs text-muted-foreground'>%</span>
+                              </div>
+                            </TableCell>
+
+                            {/* Selling Price (Editable if Manual, Locked if Cost-Sourced) */}
                             <TableCell>
                               <div className='space-y-0.5'>
                                 <div className='relative'>
@@ -1193,13 +1753,25 @@ export function PriceListActionDialog() {
                                     type='number'
                                     step='0.01'
                                     min='0'
-                                    className={`h-8 pl-5 text-xs font-mono ${
-                                      isBelowCost ? 'border-amber-500 bg-amber-50/20' : ''
-                                    }`}
-                                    {...form.register(`items.${index}.price`, {
-                                      valueAsNumber: true,
-                                    })}
+                                    readOnly={itemSource !== 'MANUAL'}
+                                    className={cn(
+                                      'h-8 pl-5 pr-6 text-xs font-mono',
+                                      itemSource !== 'MANUAL' && 'bg-muted/40 cursor-not-allowed font-medium text-foreground',
+                                      isBelowCost && 'border-amber-500 bg-amber-50/20'
+                                    )}
+                                    value={variantPrice || ''}
+                                    onChange={(e) => handleItemPriceChange(index, Number(e.target.value))}
                                   />
+                                  {itemSource !== 'MANUAL' && (
+                                    <span
+                                      className='absolute right-2 top-2.5 text-muted-foreground'
+                                      title={t('priceList.form.lockedBySource', {
+                                        defaultValue: 'Calculated from cost + markup',
+                                      })}
+                                    >
+                                      <Lock className='h-3 w-3' />
+                                    </span>
+                                  )}
                                 </div>
                                 {isBelowCost && (
                                   <div className='flex items-center gap-1 text-[10px] text-amber-600 dark:text-amber-400'>
@@ -1208,6 +1780,43 @@ export function PriceListActionDialog() {
                                   </div>
                                 )}
                               </div>
+                            </TableCell>
+
+                            {/* Tax Rate Dropdown */}
+                            <TableCell>
+                              <Select
+                                value={itemTaxId || 'NONE'}
+                                onValueChange={(val) => handleItemTaxChange(index, val === 'NONE' ? '' : val)}
+                              >
+                                <SelectTrigger className='h-8 text-xs'>
+                                  <SelectValue placeholder={t('priceList.form.noTax', { defaultValue: 'No Tax' })} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value='NONE' className='text-xs'>
+                                    {t('priceList.form.noTax', { defaultValue: 'No Tax (0%)' })}
+                                  </SelectItem>
+                                  {options?.taxRates?.map((tr) => (
+                                    <SelectItem key={tr.id} value={tr.id} className='text-xs'>
+                                      {tr.tax_type} ({getTaxRatePercentage(tr.rate)}%)
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </TableCell>
+
+                            {/* Price Before Tax (Read-Only) */}
+                            <TableCell className='text-right text-xs font-mono font-medium text-muted-foreground whitespace-nowrap bg-muted/10'>
+                              ${taxBreakdown.priceBeforeTax.toFixed(2)}
+                            </TableCell>
+
+                            {/* Tax Amount (Read-Only) */}
+                            <TableCell className='text-right text-xs font-mono text-muted-foreground whitespace-nowrap bg-muted/10'>
+                              ${taxBreakdown.taxAmount.toFixed(2)}
+                            </TableCell>
+
+                            {/* Price After Tax (Read-Only) */}
+                            <TableCell className='text-right text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap bg-muted/10'>
+                              ${taxBreakdown.priceAfterTax.toFixed(2)}
                             </TableCell>
 
                             {/* Floor Price (Min) */}
