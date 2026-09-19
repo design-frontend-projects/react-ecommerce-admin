@@ -35,18 +35,20 @@ export function RecentRefunds({ data }: RecentRefundsProps) {
 
   return (
     <div className='space-y-8'>
-      {data.map((refund) => (
-        <div key={String(refund.refund_id)} className='flex items-center gap-4'>
-          <Avatar className='h-9 w-9'>
-            <AvatarFallback className='bg-red-100 text-xs text-red-600 dark:bg-red-900/30 dark:text-red-400'>
-              RF
-            </AvatarFallback>
-          </Avatar>
-          <div className='flex flex-1 flex-wrap items-center justify-between'>
-            <div className='space-y-1'>
-              <p className='text-sm leading-none font-medium'>
-                {t('dashboard.refundNumber')} {String(refund.refund_id)}
-              </p>
+      {data.map((refund) => {
+        const refundIdentifier = refund.refund_id ?? refund.id ?? ''
+        return (
+          <div key={String(refundIdentifier)} className='flex items-center gap-4'>
+            <Avatar className='h-9 w-9'>
+              <AvatarFallback className='bg-red-100 text-xs text-red-600 dark:bg-red-900/30 dark:text-red-400'>
+                RF
+              </AvatarFallback>
+            </Avatar>
+            <div className='flex flex-1 flex-wrap items-center justify-between'>
+              <div className='space-y-1'>
+                <p className='text-sm leading-none font-medium'>
+                  {t('dashboard.refundNumber')} {String(refundIdentifier)}
+                </p>
               <div className='flex items-center gap-2'>
                 <p className='text-sm text-muted-foreground'>
                   {refund.refund_date
@@ -73,7 +75,7 @@ export function RecentRefunds({ data }: RecentRefundsProps) {
             </div>
           </div>
         </div>
-      ))}
+      )})}
     </div>
   )
 }

@@ -1,5 +1,40 @@
 # Error Log
 
+## [2026-09-19 05:12] - Postgres 42703 Undefined Column refunds.refund_id in Shift Analytics
+
+- **Type**: Integration / Database
+- **Severity**: High
+- **File**: `src/features/pos/data/dashboard-api.ts:335`, `src/features/pos/data/refund-api.ts:124`
+- **Agent**: @frontend-specialist
+- **Root Cause**: The Supabase query for the `refunds` table in `getShiftDashboardAnalytics` and `getRecentPosSales` requested `refund_id, order_id, refund_date, refund_amount, reason`. However, in the PostgreSQL database schema (`prisma/schema.prisma`), the primary key column on table `public.refunds` is `id` (UUID), and there is no column named `refund_id`. PostgreSQL threw error code `42703` (`column refunds.refund_id does not exist`) whenever a user navigated to the Shift Analytics tab.
+- **Error Message**:
+  ```json
+  {
+      "failureCount": 0,
+      "error": {
+          "code": "42703",
+          "details": null,
+          "hint": null,
+          "message": "column refunds.refund_id does not exist"
+      }
+  }
+  ```
+- **Fix Applied**:
+  1. In `src/features/pos/data/dashboard-api.ts`:
+     - Updated `ShiftRefundRow` interface to accept `id?: string` alongside `refund_id?: number | string` for backwards compatibility with tests.
+     - Changed the query on `refunds` to `.select('id, order_id, refund_date, refund_amount, reason')`.
+     - Updated `recentActivity` mapping to reference `refund.id ?? refund.refund_id`.
+  2. In `src/features/pos/data/refund-api.ts`:
+     - Updated `RefundLookupRow` interface to include `id?: string`.
+     - Updated `.select('id, order_id, ...')` across `getRecentPosSales` and `getPosSaleByTransactionNumber`.
+     - In `createRefund`, retrieved `originalTx` first to supply `tenant_id` and `created_by_user_id`, selecting `id` instead of `refund_id`.
+  3. In `src/features/dashboard/use-dashboard-data.ts` and `src/features/dashboard/components/recent-refunds.tsx`:
+     - Updated `refunds` queries to select `id` instead of `refund_id` and mapped `refund.refund_id ?? refund.id` safely.
+- **Prevention**: Always verify column names against `prisma/schema.prisma` and database migrations when writing raw Supabase client `.from('...').select('...')` queries.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-19 04:55] - Maximum Update Depth Exceeded when Assigning Users to POS Terminal
 
 - **Type**: Runtime / Logic

@@ -1,7 +1,9 @@
-import { useRef } from 'react'
-import { Printer, CheckCircle2, Download } from 'lucide-react'
+import { useRef, useState, useMemo } from 'react'
+import { Printer, CheckCircle2, Download, Mail, MessageCircle, Send } from 'lucide-react'
+import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   Dialog,
   DialogContent,
@@ -9,7 +11,13 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import { usePosStore } from '../store/use-pos-store'
 
 export interface ReceiptData {
   orderNumber: string
@@ -56,8 +64,53 @@ export function PosReceiptDialog({
   receipt,
 }: PosReceiptDialogProps) {
   const receiptRef = useRef<HTMLDivElement>(null)
+  const { customer } = usePosStore()
+
+  // Share state
+  const [whatsappPhone, setWhatsappPhone] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+  const [isWhatsappPopoverOpen, setIsWhatsappPopoverOpen] = useState(false)
+  const [isEmailPopoverOpen, setIsEmailPopoverOpen] = useState(false)
 
   if (!receipt) return null
+
+  // Generate receipt text for sharing
+  const receiptText = useMemo(() => {
+    if (!receipt) return ''
+    const lines: string[] = []
+    lines.push(`🧾 *${receipt.storeName || 'Receipt'}*`)
+    lines.push(`Order: ${receipt.orderNumber}`)
+    lines.push(
+      `Date: ${new Date(receipt.date).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}`
+    )
+    lines.push('')
+    lines.push('*Items:*')
+    receipt.items.forEach((item) => {
+      lines.push(
+        `• ${item.name} x${item.quantity} — ${formatCurrency(item.total)}`
+      )
+    })
+    lines.push('')
+    lines.push(`Subtotal: ${formatCurrency(receipt.subtotal)}`)
+    if (receipt.discountTotal && receipt.discountTotal > 0) {
+      lines.push(`Discount: -${formatCurrency(receipt.discountTotal)}`)
+    }
+    lines.push(`Tax: ${formatCurrency(receipt.taxTotal)}`)
+    lines.push(`*TOTAL: ${formatCurrency(receipt.totalAmount)}*`)
+    lines.push('')
+    lines.push('*Payments:*')
+    receipt.payments.forEach((p) => {
+      lines.push(
+        `• ${p.method.replace('_', ' ').toUpperCase()}: ${formatCurrency(p.amount)}`
+      )
+    })
+    if (receipt.changeGiven && receipt.changeGiven > 0) {
+      lines.push(`Change: ${formatCurrency(receipt.changeGiven)}`)
+    }
+    lines.push('')
+    lines.push('Thank you for your purchase! 🙏')
+    return lines.join('\n')
+  }, [receipt])
 
   const formattedDate = new Date(receipt.date).toLocaleString(undefined, {
     dateStyle: 'medium',
@@ -337,14 +390,125 @@ export function PosReceiptDialog({
           </div>
         </div>
 
-        <DialogFooter className='gap-2 sm:gap-0'>
+        <DialogFooter className='flex-wrap gap-2'>
           <Button
             type='button'
             variant='outline'
+            size='sm'
             onClick={() => onOpenChange(false)}
           >
             Close
           </Button>
+
+          {/* WhatsApp share */}
+          <Popover open={isWhatsappPopoverOpen} onOpenChange={setIsWhatsappPopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                type='button'
+                variant='outline'
+                size='sm'
+                className='gap-1.5 border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-400'
+                onClick={() => {
+                  const phone = customer?.phone?.replace(/\D/g, '')
+                  if (phone) {
+                    window.open(
+                      `https://wa.me/${phone}?text=${encodeURIComponent(receiptText)}`,
+                      '_blank'
+                    )
+                  } else {
+                    setIsWhatsappPopoverOpen(true)
+                  }
+                }}
+              >
+                <MessageCircle className='h-4 w-4' />
+                WhatsApp
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className='w-64 p-3 space-y-2' align='start'>
+              <p className='text-xs font-semibold'>Enter phone number</p>
+              <Input
+                type='tel'
+                placeholder='+1234567890'
+                value={whatsappPhone}
+                onChange={(e) => setWhatsappPhone(e.target.value)}
+                className='h-8 text-xs'
+                autoFocus
+              />
+              <Button
+                size='sm'
+                className='w-full h-7 text-xs gap-1'
+                disabled={!whatsappPhone.trim()}
+                onClick={() => {
+                  const phone = whatsappPhone.replace(/\D/g, '')
+                  if (phone) {
+                    window.open(
+                      `https://wa.me/${phone}?text=${encodeURIComponent(receiptText)}`,
+                      '_blank'
+                    )
+                    setIsWhatsappPopoverOpen(false)
+                    toast.success('Opening WhatsApp...')
+                  }
+                }}
+              >
+                <Send className='h-3 w-3' /> Send
+              </Button>
+            </PopoverContent>
+          </Popover>
+
+          {/* Email share */}
+          <Popover open={isEmailPopoverOpen} onOpenChange={setIsEmailPopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                type='button'
+                variant='outline'
+                size='sm'
+                className='gap-1.5 border-blue-500/30 text-blue-700 hover:bg-blue-500/10 dark:text-blue-400'
+                onClick={() => {
+                  const email = customer?.email
+                  if (email) {
+                    window.open(
+                      `mailto:${email}?subject=${encodeURIComponent(`Receipt - ${receipt.orderNumber}`)}&body=${encodeURIComponent(receiptText)}`,
+                      '_blank'
+                    )
+                  } else {
+                    setIsEmailPopoverOpen(true)
+                  }
+                }}
+              >
+                <Mail className='h-4 w-4' />
+                Email
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className='w-64 p-3 space-y-2' align='start'>
+              <p className='text-xs font-semibold'>Enter email address</p>
+              <Input
+                type='email'
+                placeholder='customer@example.com'
+                value={emailAddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
+                className='h-8 text-xs'
+                autoFocus
+              />
+              <Button
+                size='sm'
+                className='w-full h-7 text-xs gap-1'
+                disabled={!emailAddress.trim()}
+                onClick={() => {
+                  if (emailAddress.trim()) {
+                    window.open(
+                      `mailto:${emailAddress.trim()}?subject=${encodeURIComponent(`Receipt - ${receipt.orderNumber}`)}&body=${encodeURIComponent(receiptText)}`,
+                      '_blank'
+                    )
+                    setIsEmailPopoverOpen(false)
+                    toast.success('Opening email client...')
+                  }
+                }}
+              >
+                <Send className='h-3 w-3' /> Send
+              </Button>
+            </PopoverContent>
+          </Popover>
+
           <Button
             type='button'
             onClick={handlePrint}

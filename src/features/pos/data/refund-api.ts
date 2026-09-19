@@ -49,7 +49,8 @@ export interface CreateRefundPayload {
 }
 
 interface RefundLookupRow {
-  refund_id: number | string
+  id?: string
+  refund_id?: number | string
   order_id: string | null
   refund_date: string | null
   refund_amount: number | string | null
@@ -121,7 +122,7 @@ export async function getRecentPosSales(
   const { data: refunds, error: refundsError } = await supabase
     .from('refunds')
     .select(
-      'refund_id, order_id, refund_date, refund_amount, reason, notes, refund_status'
+      'id, order_id, refund_date, refund_amount, reason, notes, refund_status'
     )
     .in('order_id', transactionNumbers)
     .order('refund_date', { ascending: false })
@@ -134,7 +135,7 @@ export async function getRecentPosSales(
     if (!orderId || latestRefundByOrder.has(orderId)) continue
 
     latestRefundByOrder.set(orderId, {
-      refund_id: refund.refund_id,
+      refund_id: refund.id ?? refund.refund_id ?? '',
       order_id: refund.order_id,
       refund_date: refund.refund_date,
       refund_amount: refund.refund_amount ?? 0,
@@ -207,7 +208,7 @@ export async function getTransactionById(
   const { data: refunds, error: refundsError } = await supabase
     .from('refunds')
     .select(
-      'refund_id, order_id, refund_date, refund_amount, reason, notes, refund_status'
+      'id, order_id, refund_date, refund_amount, reason, notes, refund_status'
     )
     .eq('order_id', baseTx.transaction_number)
     .order('refund_date', { ascending: false })
@@ -218,7 +219,7 @@ export async function getTransactionById(
   const latestRefundRow = (refunds?.[0] ?? null) as RefundLookupRow | null
   const latestRefund: PosLatestRefund | null = latestRefundRow
     ? {
-        refund_id: latestRefundRow.refund_id,
+        refund_id: latestRefundRow.id ?? latestRefundRow.refund_id ?? '',
         order_id: latestRefundRow.order_id,
         refund_date: latestRefundRow.refund_date,
         refund_amount: latestRefundRow.refund_amount ?? 0,
@@ -242,21 +243,6 @@ export async function getTransactionById(
 export async function createRefund(
   payload: CreateRefundPayload
 ): Promise<string> {
-  const { data, error } = await supabase
-    .from('refunds')
-    .insert({
-      order_id: payload.orderId,
-      refund_amount: payload.refundAmount,
-      reason: payload.reason,
-      processed_by: payload.processedBy,
-      notes: payload.notes ?? null,
-      auth_user_id: payload.auth_user_id,
-    })
-    .select('refund_id')
-    .maybeSingle()
-
-  if (error) throw error
-
   const { data: originalTx, error: txError } = await supabase
     .from('financial_transactions')
     .select(
@@ -271,7 +257,26 @@ export async function createRefund(
       'Failed to fetch original transaction for refund sync:',
       txError
     )
-    return String((data as { refund_id: string | number }).refund_id)
+  }
+
+  const { data, error } = await supabase
+    .from('refunds')
+    .insert({
+      order_id: payload.orderId,
+      refund_amount: payload.refundAmount,
+      reason: payload.reason,
+      processed_by: payload.processedBy,
+      notes: payload.notes ?? null,
+      tenant_id: originalTx?.tenant_id,
+      created_by_user_id: payload.auth_user_id,
+    })
+    .select('id')
+    .maybeSingle()
+
+  if (error) throw error
+
+  if (!originalTx) {
+    return String((data as { id?: string | number } | null)?.id ?? '')
   }
 
   const refundNotes = [
@@ -302,5 +307,5 @@ export async function createRefund(
     console.error('Failed to create refund transaction record:', txInsertError)
   }
 
-  return String((data as { refund_id: string | number }).refund_id)
+  return String((data as { id?: string | number } | null)?.id ?? '')
 }

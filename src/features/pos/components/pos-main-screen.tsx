@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle,
+  Ban,
   Building,
+  Check,
   ChevronDown,
+  ChevronsUpDown,
   DollarSign,
   Keyboard,
   Loader2,
@@ -27,6 +30,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
 import {
   Sheet,
   SheetContent,
@@ -272,8 +288,14 @@ export function PosMainScreen() {
     [addItem]
   )
 
+  // Category combobox state
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false)
+
   // Card click handler
   const handleProductCardClick = (product: any) => {
+    // Block clicks on out-of-stock items
+    if (product.totalStock <= 0) return
+
     if (product.variants.length === 1) {
       handleAddVariant(product, product.variants[0])
     } else {
@@ -570,36 +592,114 @@ export function PosMainScreen() {
               </Button>
             </div>
 
-            {/* Category Pills */}
+            {/* Category Dropdown with Filter */}
             {categories.length > 0 && (
-              <div className='scrollbar-none flex items-center gap-1.5 overflow-x-auto py-1'>
-                <Button
-                  variant={selectedCategory === null ? 'default' : 'outline'}
-                  size='sm'
-                  onClick={() => setSelectedCategory(null)}
-                  className='h-7 shrink-0 rounded-full px-3 text-xs'
-                >
-                  All Items
-                </Button>
-                {categories.map((cat) => (
-                  <Button
-                    key={cat}
-                    variant={selectedCategory === cat ? 'default' : 'outline'}
-                    size='sm'
-                    onClick={() =>
-                      setSelectedCategory(selectedCategory === cat ? null : cat)
-                    }
-                    className='h-7 shrink-0 rounded-full px-3 text-xs'
+              <div className='flex items-center gap-2 py-1'>
+                <Popover open={isCategoryOpen} onOpenChange={setIsCategoryOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant='outline'
+                      role='combobox'
+                      aria-expanded={isCategoryOpen}
+                      size='sm'
+                      className='h-8 w-[220px] justify-between text-xs font-medium'
+                    >
+                      <span className='truncate'>
+                        {selectedCategory ?? 'All Categories'}
+                      </span>
+                      <ChevronsUpDown className='ml-1 h-3.5 w-3.5 shrink-0 opacity-50' />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className='w-[220px] p-0' align='start'>
+                    <Command>
+                      <CommandInput placeholder='Filter categories...' className='h-8 text-xs' />
+                      <CommandList>
+                        <CommandEmpty>No category found.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem
+                            value='__all__'
+                            onSelect={() => {
+                              setSelectedCategory(null)
+                              setIsCategoryOpen(false)
+                            }}
+                            className='text-xs'
+                          >
+                            <Check
+                              className={cn(
+                                'mr-2 h-3.5 w-3.5',
+                                selectedCategory === null ? 'opacity-100' : 'opacity-0'
+                              )}
+                            />
+                            All Categories
+                          </CommandItem>
+                          {categories.map((cat) => (
+                            <CommandItem
+                              key={cat}
+                              value={cat}
+                              onSelect={() => {
+                                setSelectedCategory(
+                                  selectedCategory === cat ? null : cat
+                                )
+                                setIsCategoryOpen(false)
+                              }}
+                              className='text-xs'
+                            >
+                              <Check
+                                className={cn(
+                                  'mr-2 h-3.5 w-3.5',
+                                  selectedCategory === cat ? 'opacity-100' : 'opacity-0'
+                                )}
+                              />
+                              {cat}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                {selectedCategory && (
+                  <Badge
+                    variant='secondary'
+                    className='h-6 gap-1 px-2 text-[10px] cursor-pointer hover:bg-destructive/10 hover:text-destructive'
+                    onClick={() => setSelectedCategory(null)}
                   >
-                    {cat}
-                  </Button>
-                ))}
+                    {selectedCategory}
+                    <span className='text-xs'>×</span>
+                  </Badge>
+                )}
               </div>
             )}
           </div>
 
           {/* Product Cards Grid */}
-          <div className='flex-1 overflow-y-auto p-3'>
+          <div className='relative flex-1 overflow-y-auto p-3'>
+            {/* Shift-closed overlay — blocks interaction until shift is opened */}
+            {!session && (
+              <div className='absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm'>
+                <div className='flex h-16 w-16 items-center justify-center rounded-full bg-amber-500/10 ring-2 ring-amber-500/30'>
+                  <Lock className='h-8 w-8 text-amber-600 dark:text-amber-400' />
+                </div>
+                <div className='text-center space-y-1'>
+                  <h3 className='text-lg font-bold tracking-tight'>Shift Not Open</h3>
+                  <p className='text-sm text-muted-foreground max-w-xs'>
+                    You must open a shift before you can create orders or add items to the cart.
+                  </p>
+                </div>
+                <Button
+                  size='sm'
+                  className='gap-2 font-semibold'
+                  onClick={() => {
+                    setSessionModalMode('open')
+                    setIsSessionOpen(true)
+                  }}
+                >
+                  <Lock className='h-4 w-4' />
+                  Open Shift Now
+                </Button>
+              </div>
+            )}
+
             {isLoadingProducts ? (
               <div className='flex h-full items-center justify-center'>
                 <Loader2 className='h-8 w-8 animate-spin text-muted-foreground' />
@@ -623,8 +723,10 @@ export function PosMainScreen() {
                       key={p.productId}
                       onClick={() => handleProductCardClick(p)}
                       className={cn(
-                        'group relative flex cursor-pointer flex-col justify-between overflow-hidden transition-all select-none hover:border-primary hover:shadow-md active:scale-[0.98]',
-                        !hasStock && 'opacity-65'
+                        'group relative flex flex-col justify-between overflow-hidden transition-all select-none',
+                        hasStock
+                          ? 'cursor-pointer hover:border-primary hover:shadow-md active:scale-[0.98]'
+                          : 'pointer-events-none cursor-not-allowed opacity-50 grayscale'
                       )}
                     >
                       {/* Stock status indicator stripe */}
@@ -638,6 +740,19 @@ export function PosMainScreen() {
                               : 'bg-emerald-500'
                         )}
                       />
+
+                      {/* Out-of-stock overlay badge */}
+                      {!hasStock && (
+                        <div className='absolute inset-0 z-10 flex items-center justify-center'>
+                          <Badge
+                            variant='destructive'
+                            className='gap-1 px-2 py-1 text-[10px] font-bold uppercase shadow-lg'
+                          >
+                            <Ban className='h-3 w-3' />
+                            Out of Stock
+                          </Badge>
+                        </div>
+                      )}
 
                       <CardContent className='flex h-full flex-col justify-between space-y-2 p-3'>
                         <div>

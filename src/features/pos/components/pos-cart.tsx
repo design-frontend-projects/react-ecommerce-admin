@@ -5,6 +5,7 @@ import {
   Trash2,
   Tag,
   User,
+  UserPlus,
   PauseCircle,
   CreditCard,
   Percent,
@@ -12,6 +13,7 @@ import {
   Search,
   ShoppingCart,
   ChevronDown,
+  Ticket,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
@@ -35,6 +37,8 @@ import {
 import { Label } from '@/components/ui/label'
 import { usePosStore, type PosCartItem, type PosCustomer } from '../store/use-pos-store'
 import { useCustomers } from '@/features/customers/hooks/use-customers'
+import { PosQuickCustomerDialog } from './pos-quick-customer-dialog'
+import { PromoCodeDialog } from './promo-code-dialog'
 
 interface PosCartProps {
   onOpenCheckout: () => void
@@ -67,6 +71,8 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
   const { data: customers = [] } = useCustomers()
   const [customerSearch, setCustomerSearch] = useState('')
   const [isCustomerOpen, setIsCustomerOpen] = useState(false)
+  const [isQuickCustomerOpen, setIsQuickCustomerOpen] = useState(false)
+  const [isPromoOpen, setIsPromoOpen] = useState(false)
 
   // Line item discount modal state
   const [discountingItem, setDiscountingItem] = useState<PosCartItem | null>(null)
@@ -148,7 +154,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
   return (
     <div className='flex h-full flex-col rounded-lg border bg-card shadow-sm overflow-hidden'>
       {/* Top Header: Customer selector & Clear Cart */}
-      <div className='border-b p-3 space-y-2 bg-muted/20'>
+      <div className='shrink-0 border-b p-3 space-y-2 bg-muted/20'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-2'>
             <ShoppingCart className='h-4 w-4 text-primary' />
@@ -212,6 +218,18 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
               </div>
             </Button>
           </PopoverTrigger>
+
+          {/* Quick add customer button */}
+          <Button
+            variant='outline'
+            size='icon'
+            className='h-8 w-8 shrink-0 border-dashed border-primary/30 text-primary hover:bg-primary/10'
+            onClick={() => setIsQuickCustomerOpen(true)}
+            title='Add New Customer'
+          >
+            <UserPlus className='h-3.5 w-3.5' />
+          </Button>
+
           <PopoverContent className='w-72 p-2' align='start'>
             <div className='space-y-2'>
               <div className='relative'>
@@ -264,8 +282,10 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
         </Popover>
       </div>
 
-      {/* Cart Items List */}
-      <div className='flex-1 overflow-y-auto p-2'>
+      {/* Cart Items List — scrollable middle section */}
+      <div className='min-h-0 flex-1 overflow-hidden'>
+        <ScrollArea className='h-full'>
+          <div className='p-2'>
         {items.length === 0 ? (
           <div className='flex h-full flex-col items-center justify-center text-muted-foreground p-6 text-center'>
             <ShoppingCart className='h-12 w-12 stroke-[1.5] opacity-20 mb-3' />
@@ -377,10 +397,12 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             ))}
           </div>
         )}
+          </div>
+        </ScrollArea>
       </div>
 
       {/* Cart Totals & Checkout Actions */}
-      <div className='border-t bg-card p-3 space-y-2.5 shadow-lg'>
+      <div className='shrink-0 border-t bg-card p-3 space-y-2.5 shadow-lg'>
         <div className='space-y-1.5 text-xs'>
           <div className='flex justify-between text-muted-foreground'>
             <span>Subtotal</span>
@@ -470,6 +492,38 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
               {totalDiscount > 0 ? `-${formatCurrency(totalDiscount)}` : '$0.00'}
             </span>
           </div>
+
+          {/* Promo code row */}
+          <div className='flex justify-between items-center text-muted-foreground'>
+            <div className='flex items-center gap-1.5'>
+              <Ticket className='h-3 w-3' />
+              <span>Promo Code</span>
+            </div>
+            <Button
+              variant='ghost'
+              size='sm'
+              className='h-5 px-1 text-[10px] text-primary hover:underline'
+              onClick={() => setIsPromoOpen(true)}
+            >
+              {usePosStore.getState().appliedPromotion ? 'Change' : '+ Apply'}
+            </Button>
+          </div>
+          {usePosStore.getState().appliedPromotion && (
+            <div className='flex items-center gap-1.5 text-[10px]'>
+              <Badge variant='secondary' className='h-5 px-1.5 text-[10px] gap-1 text-emerald-600 dark:text-emerald-400'>
+                <Tag className='h-2.5 w-2.5' />
+                {usePosStore.getState().appliedPromotion.code || usePosStore.getState().appliedPromotion.name}
+              </Badge>
+              <Button
+                variant='ghost'
+                size='sm'
+                className='h-4 px-0.5 text-[10px] text-rose-500 hover:text-rose-600'
+                onClick={() => usePosStore.getState().removePromotion()}
+              >
+                <X className='h-3 w-3' />
+              </Button>
+            </div>
+          )}
 
           <div className='flex justify-between text-muted-foreground'>
             <span>Taxes</span>
@@ -576,6 +630,27 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Quick Customer Dialog */}
+      <PosQuickCustomerDialog
+        open={isQuickCustomerOpen}
+        onOpenChange={setIsQuickCustomerOpen}
+        onCustomerCreated={(c) => {
+          setCustomer({
+            id: c.id,
+            name: `${c.first_name} ${c.last_name}`,
+            email: c.email,
+            phone: c.phone,
+          })
+          setIsQuickCustomerOpen(false)
+        }}
+      />
+
+      {/* Promo Code Dialog */}
+      <PromoCodeDialog
+        open={isPromoOpen}
+        onOpenChange={setIsPromoOpen}
+      />
     </div>
   )
 }

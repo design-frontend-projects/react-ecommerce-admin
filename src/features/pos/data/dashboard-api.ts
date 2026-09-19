@@ -15,7 +15,8 @@ export interface ShiftSaleTransactionRow {
 }
 
 export interface ShiftRefundRow {
-  refund_id: number | string
+  id?: string
+  refund_id?: number | string
   order_id: string | null
   refund_date: string | null
   refund_amount: number | string | null
@@ -273,14 +274,17 @@ export function buildShiftDashboardAnalytics({
       amount: toNumber(tx.total_amount),
       note: null,
     })),
-    ...filteredRefunds.map((refund) => ({
-      id: `refund-${refund.refund_id}`,
-      type: 'refund' as const,
-      reference: refund.order_id || `REF-${refund.refund_id}`,
-      timestamp: refund.refund_date || now.toISOString(),
-      amount: -Math.abs(toNumber(refund.refund_amount)),
-      note: refund.reason,
-    })),
+    ...filteredRefunds.map((refund) => {
+      const refundIdentifier = refund.id ?? refund.refund_id
+      return {
+        id: `refund-${refundIdentifier}`,
+        type: 'refund' as const,
+        reference: refund.order_id || `REF-${refundIdentifier}`,
+        timestamp: refund.refund_date || now.toISOString(),
+        amount: -Math.abs(toNumber(refund.refund_amount)),
+        note: refund.reason,
+      }
+    }),
   ]
     .sort(
       (a, b) =>
@@ -332,7 +336,7 @@ export async function getShiftDashboardAnalytics(
       .order('created_at', { ascending: false }),
     supabase
       .from('refunds')
-      .select('refund_id, order_id, refund_date, refund_amount, reason')
+      .select('id, order_id, refund_date, refund_amount, reason')
       .gte('refund_date', startAt.toISOString())
       .order('refund_date', { ascending: false }),
   ])

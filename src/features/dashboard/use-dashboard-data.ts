@@ -40,7 +40,8 @@ export interface RecentSale {
 }
 
 export interface RecentRefund {
-  refund_id: number
+  refund_id?: number | string
+  id?: string
   sale_id: string | null
   order_id: string | null
   refund_date: string
@@ -174,7 +175,7 @@ export function useDashboardData() {
       // ─── 5. Refunds table: total refund amount from refunds ───
       const { data: refundsData, error: refundsError } = await supabase
         .from('refunds')
-        .select('refund_id, refund_amount, refund_date, refund_status')
+        .select('id, refund_amount, refund_date, refund_status')
 
       if (refundsError) throw refundsError
 
@@ -262,7 +263,7 @@ export function useDashboardData() {
             new Date(a.order_date).getTime() - new Date(b.order_date).getTime()
         )
         .slice(0, 5)
-        .map((po: any) => ({
+        .map((po) => ({
           po_id: po.id,
           id: po.id,
           po_number: po.po_number,
@@ -347,7 +348,10 @@ export function useDashboardData() {
         },
         chartData,
         recentSales: (recentSalesData || []) as unknown as RecentSale[],
-        recentRefunds: (recentRefunds || []) as RecentRefund[],
+        recentRefunds: ((recentRefunds || []) as unknown as Array<Record<string, unknown>>).map((r) => ({
+          ...r,
+          refund_id: (r.refund_id as number | string | undefined) ?? (r.id as string | undefined),
+        })) as unknown as RecentRefund[],
         pendingPurchaseOrders,
         lowStockProducts,
       }
