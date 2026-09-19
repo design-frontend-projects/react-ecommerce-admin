@@ -32,7 +32,7 @@ export function useUserNotifications() {
     enabled: !!isSignedIn,
     // Real-time polling every 10 seconds when app is open
     refetchInterval: 10000,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
   })
 
   const markReadMutation = useMutation({
@@ -81,7 +81,7 @@ export function useAdminNotifications() {
       const res = (await authorizedRequest(
         getAuthToken,
         '/api/notifications?mode=admin_history'
-      )) as { data?: any[] }
+      )) as { data?: unknown[] }
       return res.data ?? []
     },
   })

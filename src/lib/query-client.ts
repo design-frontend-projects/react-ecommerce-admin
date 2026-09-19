@@ -37,9 +37,8 @@ function createAppQueryClient(): QueryClient {
             [401, 403].includes(error.response?.status ?? 0)
           )
         },
-        // Refresh aggressively: refetch when focus/connection returns so the
-        // UI reflects the server quickly after an offline period.
-        refetchOnWindowFocus: true,
+        // Do not refetch on window focus to avoid screen refreshes/flickering when switching tabs.
+        refetchOnWindowFocus: false,
         refetchOnReconnect: true,
         staleTime: QUERY_STALE_TIME,
       },
