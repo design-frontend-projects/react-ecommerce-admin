@@ -519,6 +519,20 @@ export function useSidebarData(): SidebarData {
             icon: Truck,
             items: [
               {
+                title: t('sidebar.salesInvoices', 'Sales Invoices'),
+                url: '/sales-invoices',
+                icon: Receipt,
+                roles: ADMINS,
+                permissions: ['inventory.sales.view', 'inventory.sales.manage'],
+              },
+              {
+                title: t('sidebar.invoiceReports', 'Invoice Reports'),
+                url: '/sales-invoices/reports',
+                icon: LineChart,
+                roles: ADMINS,
+                permissions: ['inventory.sales.view', 'inventory.sales.manage'],
+              },
+              {
                 title: t('sidebar.salesOrders'),
                 url: '/sales-orders',
                 icon: FileSpreadsheet,

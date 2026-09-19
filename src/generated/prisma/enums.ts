@@ -44,16 +44,41 @@ export type discount_type_enum = (typeof discount_type_enum)[keyof typeof discou
 
 export const invoice_status_enum = {
   draft: 'draft',
+  issued: 'issued',
   posted: 'posted',
   partially_paid: 'partially_paid',
   paid: 'paid',
+  overdue: 'overdue',
   cancelled: 'cancelled',
+  void: 'void',
   refunded: 'refunded',
   returned: 'returned',
   partially_returned: 'partially_returned'
 } as const
 
 export type invoice_status_enum = (typeof invoice_status_enum)[keyof typeof invoice_status_enum]
+
+
+export const invoice_type_enum = {
+  sale: 'sale',
+  credit_note: 'credit_note',
+  debit_note: 'debit_note',
+  proforma: 'proforma',
+  service: 'service'
+} as const
+
+export type invoice_type_enum = (typeof invoice_type_enum)[keyof typeof invoice_type_enum]
+
+
+export const invoice_payment_status_enum = {
+  pending: 'pending',
+  partially_paid: 'partially_paid',
+  paid: 'paid',
+  overpaid: 'overpaid',
+  refunded: 'refunded'
+} as const
+
+export type invoice_payment_status_enum = (typeof invoice_payment_status_enum)[keyof typeof invoice_payment_status_enum]
 
 
 export const movement_type_enum = {

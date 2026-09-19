@@ -192,7 +192,9 @@ export const ModelName = {
   inv_sales_invoice_discounts: 'inv_sales_invoice_discounts',
   inv_sales_invoice_item_discounts: 'inv_sales_invoice_item_discounts',
   inv_discount_approval_requests: 'inv_discount_approval_requests',
-  inv_promotion_usage_logs: 'inv_promotion_usage_logs'
+  inv_promotion_usage_logs: 'inv_promotion_usage_logs',
+  sales_invoice_payments: 'sales_invoice_payments',
+  invoice_number_sequences: 'invoice_number_sequences'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1242,21 +1244,32 @@ export const Sales_invoice_itemsScalarFieldEnum = {
   id: 'id',
   invoice_id: 'invoice_id',
   product_variant_id: 'product_variant_id',
+  product_id: 'product_id',
   line_no: 'line_no',
   description: 'description',
+  sku_snapshot: 'sku_snapshot',
+  product_name_snapshot: 'product_name_snapshot',
+  variant_name_snapshot: 'variant_name_snapshot',
+  uom_snapshot: 'uom_snapshot',
   quantity: 'quantity',
+  unit_id: 'unit_id',
   unit_price: 'unit_price',
+  gross_amount: 'gross_amount',
   discount_type: 'discount_type',
   discount_value: 'discount_value',
   discount_amount: 'discount_amount',
+  tax_rate_id: 'tax_rate_id',
+  tax_rate: 'tax_rate',
   tax_amount: 'tax_amount',
+  net_amount: 'net_amount',
   line_subtotal: 'line_subtotal',
   line_total: 'line_total',
   unit_cost: 'unit_cost',
+  warehouse_id: 'warehouse_id',
   created_at: 'created_at',
+  updated_at: 'updated_at',
   returned_quantity: 'returned_quantity',
   batch_id: 'batch_id',
-  tax_rate_id: 'tax_rate_id',
   tenant_id: 'tenant_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
@@ -1267,34 +1280,43 @@ export type Sales_invoice_itemsScalarFieldEnum = (typeof Sales_invoice_itemsScal
 
 export const Sales_invoicesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
   pos_terminal_id: 'pos_terminal_id',
   invoice_no: 'invoice_no',
+  invoice_type: 'invoice_type',
   external_reference: 'external_reference',
+  source_type: 'source_type',
+  source_id: 'source_id',
   invoice_date: 'invoice_date',
   due_date: 'due_date',
   status: 'status',
+  payment_status: 'payment_status',
+  currency_id: 'currency_id',
   subtotal: 'subtotal',
   discount_type: 'discount_type',
   discount_value: 'discount_value',
   discount_amount: 'discount_amount',
   tax_amount: 'tax_amount',
+  shipping_amount: 'shipping_amount',
   rounding_amount: 'rounding_amount',
   total_amount: 'total_amount',
   paid_amount: 'paid_amount',
   due_amount: 'due_amount',
   notes: 'notes',
+  terms: 'terms',
+  channel: 'channel',
+  channel_id: 'channel_id',
+  customer_id: 'customer_id',
+  price_list_id: 'price_list_id',
   created_by: 'created_by',
   updated_by: 'updated_by',
   posted_at: 'posted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  channel: 'channel',
-  channel_id: 'channel_id',
-  tenant_id: 'tenant_id',
-  customer_id: 'customer_id',
-  price_list_id: 'price_list_id',
+  deleted_at: 'deleted_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -3198,6 +3220,43 @@ export const Inv_promotion_usage_logsScalarFieldEnum = {
 } as const
 
 export type Inv_promotion_usage_logsScalarFieldEnum = (typeof Inv_promotion_usage_logsScalarFieldEnum)[keyof typeof Inv_promotion_usage_logsScalarFieldEnum]
+
+
+export const Sales_invoice_paymentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  invoice_id: 'invoice_id',
+  payment_method: 'payment_method',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  reference_number: 'reference_number',
+  payment_date: 'payment_date',
+  notes: 'notes',
+  financial_transaction_id: 'financial_transaction_id',
+  sales_order_payment_id: 'sales_order_payment_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Sales_invoice_paymentsScalarFieldEnum = (typeof Sales_invoice_paymentsScalarFieldEnum)[keyof typeof Sales_invoice_paymentsScalarFieldEnum]
+
+
+export const Invoice_number_sequencesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  prefix: 'prefix',
+  fiscal_year: 'fiscal_year',
+  last_number: 'last_number',
+  format_template: 'format_template',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Invoice_number_sequencesScalarFieldEnum = (typeof Invoice_number_sequencesScalarFieldEnum)[keyof typeof Invoice_number_sequencesScalarFieldEnum]
 
 
 export const SortOrder = {

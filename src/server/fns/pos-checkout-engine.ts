@@ -12,6 +12,7 @@ import { runWithTenantContext } from '@/server/context/tenant-context'
 import { ApiError } from '@/server/utils/api-error'
 import { createInventoryTransaction } from './inventory-transaction-engine'
 import { resolvePosChannelId } from './pos-pricing-resolver'
+import { generateInvoiceNumber } from './sales-invoice-engine'
 
 // ============================================================================
 // TYPES
@@ -76,12 +77,6 @@ function toDecimal(val: number | string | Prisma.Decimal | null | undefined, d =
   if (val === null || val === undefined) return new Prisma.Decimal(d)
   if (val instanceof Prisma.Decimal) return val
   return new Prisma.Decimal(val)
-}
-
-function generateInvoiceNo(): string {
-  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '')
-  const randomSuffix = Math.floor(1000 + Math.random() * 9000).toString()
-  return `INV-${dateStr}-${randomSuffix}`
 }
 
 // ============================================================================
@@ -329,19 +324,26 @@ export async function processPosSale(
       )
 
       // 7d. Create sales_invoices
-      const invoiceNo = generateInvoiceNo()
+      const invoiceNo = await generateInvoiceNumber(tenantId, input.storeId, 'INV', tx)
       const invoice = await tx.sales_invoices.create({
         data: {
           tenant_id: tenantId,
           branch_id: input.branchId ?? '00000000-0000-0000-0000-000000000000',
           store_id: input.storeId ?? null,
+          warehouse_id: input.warehouseId,
           pos_terminal_id: input.terminalId,
           invoice_no: invoiceNo,
+          invoice_type: 'sale',
+          source_type: 'POS',
+          source_id: order.id,
           invoice_date: new Date(),
           status: 'paid',
+          payment_status: 'paid',
           subtotal,
           discount_amount: toDecimal(input.orderDiscountAmount),
           tax_amount: totalTax,
+          shipping_amount: new Prisma.Decimal(0),
+          rounding_amount: new Prisma.Decimal(0),
           total_amount: totalAmount,
           paid_amount: totalAmount,
           due_amount: new Prisma.Decimal(0),
@@ -363,19 +365,51 @@ export async function processPosSale(
 
       // 7e. Create sales_invoice_items
       const invoiceItems = await Promise.all(
-        lineItems.map((li) =>
-          tx.sales_invoice_items.create({
+        lineItems.map((li, idx) => {
+          const rawInputItem = input.items[idx]
+          return tx.sales_invoice_items.create({
             data: {
               tenant_id: tenantId,
-              sales_invoice_id: invoice.id,
+              invoice_id: invoice.id,
+              line_no: idx + 1,
               product_variant_id: li.productVariantId,
+              sku_snapshot: rawInputItem?.sku ?? null,
+              product_name_snapshot: rawInputItem?.productName ?? null,
+              variant_name_snapshot: rawInputItem?.variantName ?? null,
               quantity: li.quantity,
               unit_price: li.unitPrice,
+              unit_cost: toDecimal(li.unitCost, 0),
+              gross_amount: li.quantity.times(li.unitPrice),
               discount_amount: li.discountAmount,
               tax_amount: li.taxAmount,
-              line_total: li.lineTotal,
               tax_rate_id: li.taxRateId,
+              tax_rate: new Prisma.Decimal(0),
+              net_amount: li.quantity.times(li.unitPrice).minus(li.discountAmount),
+              line_subtotal: li.lineSubtotal,
+              line_total: li.lineTotal,
+              warehouse_id: input.warehouseId,
               batch_id: li.batchId,
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        })
+      )
+
+      // 7e-1. Create sales_invoice_payments
+      await Promise.all(
+        paymentRecords.map((p) =>
+          tx.sales_invoice_payments.create({
+            data: {
+              tenant_id: tenantId,
+              invoice_id: invoice.id,
+              payment_method: p.payment_method,
+              amount: p.amount,
+              currency: 'USD',
+              status: 'completed',
+              reference_number: p.reference_number,
+              notes: p.notes,
+              sales_order_payment_id: p.id,
               created_by_user_id: tenantUserId,
               updated_by_user_id: tenantUserId,
             },
@@ -525,45 +559,35 @@ export async function processPosSale(
         })
       }
 
+      // ── 8. Post inventory deduction via central engine (INSIDE TRANSACTION) ──
+      // Runs inside tx for full ACID atomicity. If stock fails, everything rolls back.
+      await createInventoryTransaction(
+        authUserId,
+        {
+          typeCode: 'SALE_POS',
+          sourceWarehouseId: input.warehouseId,
+          sourceStoreId: input.storeId ?? null,
+          referenceType: 'sales_order',
+          referenceId: order.id,
+          notes: `POS Sale: ${order.order_number}`,
+          idempotencyKey: input.idempotencyKey
+            ? `inv-sale-${input.idempotencyKey}`
+            : undefined,
+          autoPost: true,
+          items: lineItems.map((li) => ({
+            productVariantId: li.productVariantId,
+            quantity: li.quantity,
+            unitCost: li.unitCost,
+            sourceWarehouseId: input.warehouseId,
+            batchId: li.batchId,
+            referenceItemType: 'sales_order_item',
+          })),
+        },
+        tx
+      )
+
       return { order, invoice, paymentRecords }
     })
-
-    // ── 8. Post inventory deduction via central engine ──
-    // This runs outside the main tx so that a partial failure doesn't rollback the order
-    // The inventory engine has its own atomicity guarantees
-    try {
-      await createInventoryTransaction(authUserId, {
-        typeCode: 'SALE_POS',
-        sourceWarehouseId: input.warehouseId,
-        sourceStoreId: input.storeId ?? null,
-        referenceType: 'sales_order',
-        referenceId: result.order.id,
-        notes: `POS Sale: ${result.order.order_number}`,
-        idempotencyKey: input.idempotencyKey
-          ? `inv-sale-${input.idempotencyKey}`
-          : undefined,
-        autoPost: true,
-        items: lineItems.map((li) => ({
-          productVariantId: li.productVariantId,
-          quantity: li.quantity,
-          unitCost: li.unitCost,
-          sourceWarehouseId: input.warehouseId,
-          batchId: li.batchId,
-          referenceItemType: 'sales_order_item',
-        })),
-      })
-    } catch (invError) {
-      // If inventory deduction fails, mark order with a warning but don't rollback
-      // This prevents stock data inconsistency from blocking the sale
-      // eslint-disable-next-line no-console
-      console.error('[POS Checkout] Inventory deduction failed:', invError)
-      await prisma.sales_orders.update({
-        where: { id: result.order.id },
-        data: {
-          notes: `${result.order.notes ?? ''}\n[WARNING] Inventory deduction failed: ${invError instanceof Error ? invError.message : 'Unknown error'}`.trim(),
-        },
-      })
-    }
 
     return {
       orderId: result.order.id,

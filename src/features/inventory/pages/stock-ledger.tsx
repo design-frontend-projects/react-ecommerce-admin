@@ -19,30 +19,16 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { FilterBar } from '@/components/shared/filter-bar'
-import { listMovements } from '@/server/fns/inventory-movements'
+import { fetchMovements } from '@/features/inventory-movements/data/actions'
+import type {
+  MovementRow,
+  MovementFilters,
+} from '@/features/inventory-movements/data/schema'
+import { useAuth } from '@/hooks/use-auth'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 
-interface RawMovementRow {
-  id: string
-  movement_type: string
-  movement_date: string | Date
-  qty?: number | null
-  product_variant_id?: string | null
-  store_id?: string | null
-  reference_id?: string | null
-  reference_type?: string | null
-  product_variants?: {
-    id: string
-    sku?: string | null
-  } | null
-  stores?: {
-    store_id: string
-    name?: string | null
-  } | null
-}
-
-interface LedgerMovementItem extends RawMovementRow {
+interface LedgerMovementItem extends MovementRow {
   prevBalance: number
   runningBalance: number
 }
@@ -54,6 +40,7 @@ interface StoreLookupRow {
 
 export function StockLedgerPage() {
   const { t } = useTranslation()
+  const { getToken } = useAuth()
   const user = useAuthStore((state) => state.auth.user)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedWarehouse, setSelectedWarehouse] = useState('all')
@@ -68,17 +55,22 @@ export function StockLedgerPage() {
     },
   })
 
-  // Fetch Movements from server fns
+  const filters = useMemo<MovementFilters>(
+    () => ({
+      storeId: selectedWarehouse === 'all' ? undefined : selectedWarehouse,
+      movementType:
+        selectedMovementType === 'all' ? undefined : selectedMovementType,
+      limit: 500,
+    }),
+    [selectedWarehouse, selectedMovementType]
+  )
+
+  // Fetch Movements via API route
   const { data: rawMovements, isLoading } = useQuery({
-    queryKey: ['stock-ledger-movements', user?.id, selectedWarehouse, selectedMovementType],
+    queryKey: ['stock-ledger-movements', user?.id, filters],
     queryFn: async () => {
       if (!user?.id) return []
-      const res = await listMovements(user.id, {
-        storeId: selectedWarehouse === 'all' ? undefined : selectedWarehouse,
-        movementType: selectedMovementType === 'all' ? undefined : selectedMovementType,
-        limit: 500,
-      })
-      return (res as unknown as RawMovementRow[]) || []
+      return fetchMovements(getToken, filters)
     },
     enabled: !!user?.id,
   })
@@ -95,9 +87,10 @@ export function StockLedgerPage() {
 
     const balanceTracker: Record<string, number> = {}
     const withBalances = sorted.map((m) => {
-      const key = `${m.product_variant_id}_${m.store_id}`
+      const facilityKey = m.store_id || m.warehouse_id || 'default'
+      const key = `${m.product_variant_id}_${facilityKey}`
       const prevBal = balanceTracker[key] || 0
-      const delta = Number(m.qty || 0)
+      const delta = Number(m.qty ?? m.quantity_delta ?? 0)
       const newBal = prevBal + delta
       balanceTracker[key] = newBal
 
@@ -117,20 +110,34 @@ export function StockLedgerPage() {
     return reversed.filter((item) => {
       const sku = (item.product_variants?.sku || '').toLowerCase()
       const ref = (item.reference_id || item.id || '').toLowerCase()
-      const store = (item.stores?.name || '').toLowerCase()
-      return sku.includes(term) || ref.includes(term) || store.includes(term)
+      const location = (
+        item.stores?.name ||
+        item.warehouses?.name ||
+        ''
+      ).toLowerCase()
+      return (
+        sku.includes(term) || ref.includes(term) || location.includes(term)
+      )
     })
   }, [rawMovements, searchTerm])
 
   const exportCSV = () => {
     if (!ledgerEntries.length) return
-    const headers = ['Date', 'Type', 'SKU', 'Store', 'In / Out', 'Running Balance', 'Ref']
+    const headers = [
+      'Date',
+      'Type',
+      'SKU',
+      'Store / Warehouse',
+      'In / Out',
+      'Running Balance',
+      'Ref',
+    ]
     const rows = ledgerEntries.map((e) => [
       new Date(e.movement_date).toLocaleString(),
       e.movement_type,
       e.product_variants?.sku || e.product_variant_id || '—',
-      e.stores?.name || '—',
-      String(e.qty ?? 0),
+      e.stores?.name || e.warehouses?.name || '—',
+      String(e.qty ?? e.quantity_delta ?? 0),
       String(e.runningBalance),
       e.reference_id || '—',
     ])
@@ -277,7 +284,7 @@ export function StockLedgerPage() {
                           {row.product_variants?.sku ?? row.product_variant_id?.slice(0, 8)}
                         </TableCell>
                         <TableCell className="text-muted-foreground">
-                          {row.stores?.name ?? '—'}
+                          {row.stores?.name ?? row.warehouses?.name ?? '—'}
                         </TableCell>
                         <TableCell
                           className={
@@ -287,7 +294,7 @@ export function StockLedgerPage() {
                           }
                         >
                           {isInflow ? '+' : ''}
-                          {row.qty}
+                          {row.qty ?? row.quantity_delta}
                         </TableCell>
                         <TableCell className="text-end font-bold tabular-nums text-foreground">
                           {row.runningBalance}

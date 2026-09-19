@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
-  CreditCard,
+  AlertCircle,
   Banknote,
-  Wallet,
   Building2,
+  CheckCircle,
+  CreditCard,
+  Loader2,
   Plus,
   Trash2,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
+  Wallet,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
@@ -16,16 +16,13 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
-  DialogDescription,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import {
   Select,
   SelectContent,
@@ -33,8 +30,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { usePosStore } from '../store/use-pos-store'
+import { Textarea } from '@/components/ui/textarea'
 import { usePosCheckoutMutation } from '../hooks/use-pos-queries'
+import { usePosStore } from '../store/use-pos-store'
 import type { ReceiptData } from './pos-receipt-dialog'
 
 type PaymentMethodType = 'cash' | 'card' | 'bank_transfer' | 'wallet'
@@ -60,6 +58,22 @@ export function PosCheckoutDialog({
   onOpenChange,
   onCheckoutSuccess,
 }: PosCheckoutDialogProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {open && (
+        <PosCheckoutDialogContent
+          onOpenChange={onOpenChange}
+          onCheckoutSuccess={onCheckoutSuccess}
+        />
+      )}
+    </Dialog>
+  )
+}
+
+function PosCheckoutDialogContent({
+  onOpenChange,
+  onCheckoutSuccess,
+}: Omit<PosCheckoutDialogProps, 'open'>) {
   const {
     items,
     terminal,
@@ -76,25 +90,18 @@ export function PosCheckoutDialog({
   const total = getTotalAmount()
   const checkoutMutation = usePosCheckoutMutation()
 
-  const [payments, setPayments] = useState<PaymentRow[]>([])
-  const [cashTenderedInput, setCashTenderedInput] = useState<string>('')
+  const [payments, setPayments] = useState<PaymentRow[]>([
+    {
+      id: '1',
+      method: 'cash',
+      amount: total,
+      tenderedCash: total,
+    },
+  ])
+  const [cashTenderedInput, setCashTenderedInput] = useState<string>(
+    total.toString()
+  )
   const [notes, setNotes] = useState<string>('')
-
-  // Initialize with single full payment when dialog opens
-  useEffect(() => {
-    if (open) {
-      setPayments([
-        {
-          id: '1',
-          method: 'cash',
-          amount: total,
-          tenderedCash: total,
-        },
-      ])
-      setCashTenderedInput(total.toString())
-      setNotes('')
-    }
-  }, [open, total])
 
   const totalAssignedPayments = payments.reduce((sum, p) => sum + p.amount, 0)
   const remainingToAssign = Math.max(0, total - totalAssignedPayments)
@@ -215,7 +222,7 @@ export function PosCheckoutDialog({
       // Prepare receipt data
       const receiptData: ReceiptData = {
         orderNumber: res.orderNumber || 'POS-ORDER',
-        invoiceNumber: res.invoiceNumber,
+        invoiceNumber: res.invoiceNumber || res.orderNumber,
         date: new Date(),
         storeName: terminal.name || 'Retail POS',
         cashierName: session.cashierName || 'Cashier',
@@ -245,24 +252,26 @@ export function PosCheckoutDialog({
       clearCart()
       onOpenChange(false)
       onCheckoutSuccess(receiptData)
-    } catch (err: any) {
-      toast.error(err.message || 'Checkout failed')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Checkout failed'
+      toast.error(message)
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-xl'>
+    <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-xl'>
         <DialogHeader>
           <div className='flex items-center justify-between'>
             <div>
-              <DialogTitle className='text-2xl font-bold'>Payment & Checkout</DialogTitle>
+              <DialogTitle className='text-2xl font-bold'>
+                Payment & Checkout
+              </DialogTitle>
               <DialogDescription>
                 Select payment methods or split across multiple options.
               </DialogDescription>
             </div>
             <div className='text-right'>
-              <span className='text-xs text-muted-foreground uppercase font-bold tracking-wider'>
+              <span className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
                 Total Due
               </span>
               <div className='text-2xl font-black text-primary'>
@@ -276,21 +285,23 @@ export function PosCheckoutDialog({
           {/* Payment Lines */}
           <div className='space-y-3'>
             <div className='flex items-center justify-between'>
-              <Label className='text-sm font-semibold'>Payment Split Breakdown</Label>
+              <Label className='text-sm font-semibold'>
+                Payment Split Breakdown
+              </Label>
               {remainingToAssign > 0 && (
                 <Button
                   type='button'
                   size='sm'
                   variant='outline'
                   onClick={addPaymentRow}
-                  className='h-7 text-xs gap-1'
+                  className='h-7 gap-1 text-xs'
                 >
                   <Plus className='h-3.5 w-3.5' /> Split Payment
                 </Button>
               )}
             </div>
 
-            {payments.map((p, idx) => (
+            {payments.map((p) => (
               <div
                 key={p.id}
                 className='flex flex-wrap items-center gap-2 rounded-lg border bg-muted/20 p-3'
@@ -318,19 +329,21 @@ export function PosCheckoutDialog({
                       </SelectItem>
                       <SelectItem value='bank_transfer'>
                         <div className='flex items-center gap-2'>
-                          <Building2 className='h-4 w-4 text-purple-600' /> Bank Transfer
+                          <Building2 className='h-4 w-4 text-purple-600' /> Bank
+                          Transfer
                         </div>
                       </SelectItem>
                       <SelectItem value='wallet'>
                         <div className='flex items-center gap-2'>
-                          <Wallet className='h-4 w-4 text-amber-600' /> Digital Wallet
+                          <Wallet className='h-4 w-4 text-amber-600' /> Digital
+                          Wallet
                         </div>
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className='flex-1 min-w-[120px]'>
+                <div className='min-w-[120px] flex-1'>
                   <Input
                     type='number'
                     step='0.01'
@@ -345,7 +358,7 @@ export function PosCheckoutDialog({
                 </div>
 
                 {p.method !== 'cash' && (
-                  <div className='flex-1 min-w-[130px]'>
+                  <div className='min-w-[130px] flex-1'>
                     <Input
                       type='text'
                       className='h-9 text-xs'
@@ -373,9 +386,9 @@ export function PosCheckoutDialog({
 
           {/* Cash details (Tendered & Change) if cash is included */}
           {cashPayment && (
-            <div className='rounded-lg border bg-emerald-500/5 p-4 space-y-3 border-emerald-500/20'>
+            <div className='space-y-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4'>
               <div className='flex items-center justify-between'>
-                <Label className='text-sm font-semibold flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400'>
+                <Label className='flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400'>
                   <Banknote className='h-4 w-4' /> Cash Tendered
                 </Label>
                 <span className='text-xs text-muted-foreground'>
@@ -388,14 +401,14 @@ export function PosCheckoutDialog({
                   type='number'
                   step='0.01'
                   min='0'
-                  className='h-11 text-xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400 max-w-[200px]'
+                  className='h-11 max-w-[200px] text-xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400'
                   value={cashTenderedInput}
                   onChange={(e) => setCashTenderedInput(e.target.value)}
                   placeholder='0.00'
                 />
 
                 {/* Quick denomination pills */}
-                <div className='flex flex-wrap gap-1.5 flex-1'>
+                <div className='flex flex-1 flex-wrap gap-1.5'>
                   <Button
                     type='button'
                     variant='outline'
@@ -426,8 +439,10 @@ export function PosCheckoutDialog({
               </div>
 
               {/* Change calculation */}
-              <div className='flex items-center justify-between pt-1 text-sm border-t border-emerald-500/20'>
-                <span className='font-medium text-muted-foreground'>Change Due:</span>
+              <div className='flex items-center justify-between border-t border-emerald-500/20 pt-1 text-sm'>
+                <span className='font-medium text-muted-foreground'>
+                  Change Due:
+                </span>
                 <span className='text-lg font-extrabold text-emerald-600 dark:text-emerald-400'>
                   {formatCurrency(changeDue)}
                 </span>
@@ -437,10 +452,10 @@ export function PosCheckoutDialog({
 
           {/* Balance status banner */}
           <div
-            className={`rounded-md p-3 text-xs flex items-center justify-between font-medium ${
+            className={`flex items-center justify-between rounded-md p-3 text-xs font-medium ${
               isBalanced
-                ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200'
-                : 'bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-200'
+                ? 'border border-emerald-200 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
+                : 'border border-amber-200 bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300'
             }`}
           >
             <div className='flex items-center gap-2'>
@@ -453,8 +468,8 @@ export function PosCheckoutDialog({
                 {isBalanced
                   ? 'Payment fully balanced'
                   : remainingToAssign > 0
-                  ? `${formatCurrency(remainingToAssign)} remaining to assign`
-                  : 'Cash tendered is less than required'}
+                    ? `${formatCurrency(remainingToAssign)} remaining to assign`
+                    : 'Cash tendered is less than required'}
               </span>
             </div>
             <span className='font-bold'>
@@ -463,7 +478,10 @@ export function PosCheckoutDialog({
           </div>
 
           <div className='space-y-1.5'>
-            <Label htmlFor='checkoutNotes' className='text-xs text-muted-foreground'>
+            <Label
+              htmlFor='checkoutNotes'
+              className='text-xs text-muted-foreground'
+            >
               Order Notes / Delivery Instructions (Optional)
             </Label>
             <Textarea
@@ -476,7 +494,7 @@ export function PosCheckoutDialog({
           </div>
         </div>
 
-        <DialogFooter className='gap-2 sm:gap-0 pt-2'>
+        <DialogFooter className='gap-2 pt-2 sm:gap-0'>
           <Button
             type='button'
             variant='outline'
@@ -488,20 +506,17 @@ export function PosCheckoutDialog({
             type='button'
             disabled={!isBalanced || checkoutMutation.isPending}
             onClick={handleSubmit}
-            className='h-11 px-6 text-base font-bold gap-2 bg-primary text-primary-foreground'
+            className='h-11 gap-2 bg-primary px-6 text-base font-bold text-primary-foreground'
           >
             {checkoutMutation.isPending ? (
               <>
                 <Loader2 className='h-5 w-5 animate-spin' /> Processing Sale...
               </>
             ) : (
-              <>
-                Complete Sale ({formatCurrency(total)})
-              </>
+              <>Complete Sale ({formatCurrency(total)})</>
             )}
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
   )
 }

@@ -62,6 +62,7 @@ import { Route as AuthenticatedChannelsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedCategoriesRouteRouteImport } from './routes/_authenticated/categories/route'
 import { Route as AuthenticatedBranchesRouteRouteImport } from './routes/_authenticated/branches/route'
 import { Route as AuthenticatedAppsRouteRouteImport } from './routes/_authenticated/apps/route'
+import { Route as ApiSalesInvoicesIndexRouteImport } from './routes/api/sales-invoices/index'
 import { Route as ApiFinancialTransactionsIndexRouteImport } from './routes/api/financial-transactions/index'
 import { Route as AuthenticatedWarehousesIndexRouteImport } from './routes/_authenticated/warehouses/index'
 import { Route as AuthenticatedUnitsIndexRouteImport } from './routes/_authenticated/units/index'
@@ -75,6 +76,7 @@ import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedSerialsIndexRouteImport } from './routes/_authenticated/serials/index'
 import { Route as AuthenticatedSalesShipmentsIndexRouteImport } from './routes/_authenticated/sales-shipments/index'
 import { Route as AuthenticatedSalesOrdersIndexRouteImport } from './routes/_authenticated/sales-orders/index'
+import { Route as AuthenticatedSalesInvoicesIndexRouteImport } from './routes/_authenticated/sales-invoices/index'
 import { Route as AuthenticatedResposIndexRouteImport } from './routes/_authenticated/respos/index'
 import { Route as AuthenticatedReservationsIndexRouteImport } from './routes/_authenticated/reservations/index'
 import { Route as AuthenticatedReplenishmentIndexRouteImport } from './routes/_authenticated/replenishment/index'
@@ -99,6 +101,13 @@ import { Route as ApiUsersInviteRouteImport } from './routes/api/users/invite'
 import { Route as ApiUsersCreateTenantRouteImport } from './routes/api/users/create-tenant'
 import { Route as ApiTenantOnboardRouteImport } from './routes/api/tenant/onboard'
 import { Route as ApiTenantActivityTypesRouteImport } from './routes/api/tenant/activity-types'
+import { Route as ApiSalesInvoicesVoidRouteImport } from './routes/api/sales-invoices/void'
+import { Route as ApiSalesInvoicesReportsRouteImport } from './routes/api/sales-invoices/reports'
+import { Route as ApiSalesInvoicesPaymentsRouteImport } from './routes/api/sales-invoices/payments'
+import { Route as ApiSalesInvoicesIssueRouteImport } from './routes/api/sales-invoices/issue'
+import { Route as ApiSalesInvoicesDashboardRouteImport } from './routes/api/sales-invoices/dashboard'
+import { Route as ApiSalesInvoicesCreditNoteRouteImport } from './routes/api/sales-invoices/credit-note'
+import { Route as ApiSalesInvoicesCancelRouteImport } from './routes/api/sales-invoices/cancel'
 import { Route as ApiRbacScreensRouteImport } from './routes/api/rbac/screens'
 import { Route as ApiRbacScreenButtonsRouteImport } from './routes/api/rbac/screen-buttons'
 import { Route as ApiRbacPermissionsRouteImport } from './routes/api/rbac/permissions'
@@ -153,6 +162,8 @@ import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedSalesInvoicesReportsRouteImport } from './routes/_authenticated/sales-invoices/reports'
+import { Route as AuthenticatedSalesInvoicesInvoiceIdRouteImport } from './routes/_authenticated/sales-invoices/$invoiceId'
 import { Route as AuthenticatedResposShipmentsRouteImport } from './routes/_authenticated/respos/shipments'
 import { Route as AuthenticatedResposReservationsRouteImport } from './routes/_authenticated/respos/reservations'
 import { Route as AuthenticatedResposPosRouteImport } from './routes/_authenticated/respos/pos'
@@ -520,6 +531,11 @@ const AuthenticatedCitiesIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/_authenticated/cities/index.lazy').then((d) => d.Route),
   )
+const ApiSalesInvoicesIndexRoute = ApiSalesInvoicesIndexRouteImport.update({
+  id: '/api/sales-invoices/',
+  path: '/api/sales-invoices/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiFinancialTransactionsIndexRoute =
   ApiFinancialTransactionsIndexRouteImport.update({
     id: '/api/financial-transactions/',
@@ -595,6 +611,12 @@ const AuthenticatedSalesOrdersIndexRoute =
   AuthenticatedSalesOrdersIndexRouteImport.update({
     id: '/sales-orders/',
     path: '/sales-orders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSalesInvoicesIndexRoute =
+  AuthenticatedSalesInvoicesIndexRouteImport.update({
+    id: '/sales-invoices/',
+    path: '/sales-invoices/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedResposIndexRoute =
@@ -731,6 +753,44 @@ const ApiTenantOnboardRoute = ApiTenantOnboardRouteImport.update({
 const ApiTenantActivityTypesRoute = ApiTenantActivityTypesRouteImport.update({
   id: '/api/tenant/activity-types',
   path: '/api/tenant/activity-types',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSalesInvoicesVoidRoute = ApiSalesInvoicesVoidRouteImport.update({
+  id: '/api/sales-invoices/void',
+  path: '/api/sales-invoices/void',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSalesInvoicesReportsRoute = ApiSalesInvoicesReportsRouteImport.update({
+  id: '/api/sales-invoices/reports',
+  path: '/api/sales-invoices/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSalesInvoicesPaymentsRoute =
+  ApiSalesInvoicesPaymentsRouteImport.update({
+    id: '/api/sales-invoices/payments',
+    path: '/api/sales-invoices/payments',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiSalesInvoicesIssueRoute = ApiSalesInvoicesIssueRouteImport.update({
+  id: '/api/sales-invoices/issue',
+  path: '/api/sales-invoices/issue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSalesInvoicesDashboardRoute =
+  ApiSalesInvoicesDashboardRouteImport.update({
+    id: '/api/sales-invoices/dashboard',
+    path: '/api/sales-invoices/dashboard',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiSalesInvoicesCreditNoteRoute =
+  ApiSalesInvoicesCreditNoteRouteImport.update({
+    id: '/api/sales-invoices/credit-note',
+    path: '/api/sales-invoices/credit-note',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiSalesInvoicesCancelRoute = ApiSalesInvoicesCancelRouteImport.update({
+  id: '/api/sales-invoices/cancel',
+  path: '/api/sales-invoices/cancel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRbacScreensRoute = ApiRbacScreensRouteImport.update({
@@ -1024,6 +1084,18 @@ const AuthenticatedSettingsAccountRoute =
     id: '/account',
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+const AuthenticatedSalesInvoicesReportsRoute =
+  AuthenticatedSalesInvoicesReportsRouteImport.update({
+    id: '/sales-invoices/reports',
+    path: '/sales-invoices/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSalesInvoicesInvoiceIdRoute =
+  AuthenticatedSalesInvoicesInvoiceIdRouteImport.update({
+    id: '/sales-invoices/$invoiceId',
+    path: '/sales-invoices/$invoiceId',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedResposShipmentsRoute =
   AuthenticatedResposShipmentsRouteImport.update({
@@ -1482,6 +1554,8 @@ export interface FileRoutesByFullPath {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
+  '/sales-invoices/$invoiceId': typeof AuthenticatedSalesInvoicesInvoiceIdRoute
+  '/sales-invoices/reports': typeof AuthenticatedSalesInvoicesReportsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -1536,6 +1610,13 @@ export interface FileRoutesByFullPath {
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
   '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
+  '/api/sales-invoices/cancel': typeof ApiSalesInvoicesCancelRoute
+  '/api/sales-invoices/credit-note': typeof ApiSalesInvoicesCreditNoteRoute
+  '/api/sales-invoices/dashboard': typeof ApiSalesInvoicesDashboardRoute
+  '/api/sales-invoices/issue': typeof ApiSalesInvoicesIssueRoute
+  '/api/sales-invoices/payments': typeof ApiSalesInvoicesPaymentsRoute
+  '/api/sales-invoices/reports': typeof ApiSalesInvoicesReportsRoute
+  '/api/sales-invoices/void': typeof ApiSalesInvoicesVoidRoute
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
@@ -1560,6 +1641,7 @@ export interface FileRoutesByFullPath {
   '/replenishment/': typeof AuthenticatedReplenishmentIndexRoute
   '/reservations/': typeof AuthenticatedReservationsIndexRoute
   '/respos/': typeof AuthenticatedResposIndexRoute
+  '/sales-invoices/': typeof AuthenticatedSalesInvoicesIndexRoute
   '/sales-orders/': typeof AuthenticatedSalesOrdersIndexRoute
   '/sales-shipments/': typeof AuthenticatedSalesShipmentsIndexRoute
   '/serials/': typeof AuthenticatedSerialsIndexRoute
@@ -1573,6 +1655,7 @@ export interface FileRoutesByFullPath {
   '/units/': typeof AuthenticatedUnitsIndexRoute
   '/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/api/financial-transactions/': typeof ApiFinancialTransactionsIndexRoute
+  '/api/sales-invoices/': typeof ApiSalesInvoicesIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -1689,6 +1772,8 @@ export interface FileRoutesByTo {
   '/respos/pos': typeof AuthenticatedResposPosRoute
   '/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
+  '/sales-invoices/$invoiceId': typeof AuthenticatedSalesInvoicesInvoiceIdRoute
+  '/sales-invoices/reports': typeof AuthenticatedSalesInvoicesReportsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -1743,6 +1828,13 @@ export interface FileRoutesByTo {
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
   '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
+  '/api/sales-invoices/cancel': typeof ApiSalesInvoicesCancelRoute
+  '/api/sales-invoices/credit-note': typeof ApiSalesInvoicesCreditNoteRoute
+  '/api/sales-invoices/dashboard': typeof ApiSalesInvoicesDashboardRoute
+  '/api/sales-invoices/issue': typeof ApiSalesInvoicesIssueRoute
+  '/api/sales-invoices/payments': typeof ApiSalesInvoicesPaymentsRoute
+  '/api/sales-invoices/reports': typeof ApiSalesInvoicesReportsRoute
+  '/api/sales-invoices/void': typeof ApiSalesInvoicesVoidRoute
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
@@ -1767,6 +1859,7 @@ export interface FileRoutesByTo {
   '/replenishment': typeof AuthenticatedReplenishmentIndexRoute
   '/reservations': typeof AuthenticatedReservationsIndexRoute
   '/respos': typeof AuthenticatedResposIndexRoute
+  '/sales-invoices': typeof AuthenticatedSalesInvoicesIndexRoute
   '/sales-orders': typeof AuthenticatedSalesOrdersIndexRoute
   '/sales-shipments': typeof AuthenticatedSalesShipmentsIndexRoute
   '/serials': typeof AuthenticatedSerialsIndexRoute
@@ -1780,6 +1873,7 @@ export interface FileRoutesByTo {
   '/units': typeof AuthenticatedUnitsIndexRoute
   '/warehouses': typeof AuthenticatedWarehousesIndexRoute
   '/api/financial-transactions': typeof ApiFinancialTransactionsIndexRoute
+  '/api/sales-invoices': typeof ApiSalesInvoicesIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -1901,6 +1995,8 @@ export interface FileRoutesById {
   '/_authenticated/respos/pos': typeof AuthenticatedResposPosRoute
   '/_authenticated/respos/reservations': typeof AuthenticatedResposReservationsRoute
   '/_authenticated/respos/shipments': typeof AuthenticatedResposShipmentsRoute
+  '/_authenticated/sales-invoices/$invoiceId': typeof AuthenticatedSalesInvoicesInvoiceIdRoute
+  '/_authenticated/sales-invoices/reports': typeof AuthenticatedSalesInvoicesReportsRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -1955,6 +2051,13 @@ export interface FileRoutesById {
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
   '/api/rbac/screen-buttons': typeof ApiRbacScreenButtonsRoute
   '/api/rbac/screens': typeof ApiRbacScreensRouteWithChildren
+  '/api/sales-invoices/cancel': typeof ApiSalesInvoicesCancelRoute
+  '/api/sales-invoices/credit-note': typeof ApiSalesInvoicesCreditNoteRoute
+  '/api/sales-invoices/dashboard': typeof ApiSalesInvoicesDashboardRoute
+  '/api/sales-invoices/issue': typeof ApiSalesInvoicesIssueRoute
+  '/api/sales-invoices/payments': typeof ApiSalesInvoicesPaymentsRoute
+  '/api/sales-invoices/reports': typeof ApiSalesInvoicesReportsRoute
+  '/api/sales-invoices/void': typeof ApiSalesInvoicesVoidRoute
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
@@ -1979,6 +2082,7 @@ export interface FileRoutesById {
   '/_authenticated/replenishment/': typeof AuthenticatedReplenishmentIndexRoute
   '/_authenticated/reservations/': typeof AuthenticatedReservationsIndexRoute
   '/_authenticated/respos/': typeof AuthenticatedResposIndexRoute
+  '/_authenticated/sales-invoices/': typeof AuthenticatedSalesInvoicesIndexRoute
   '/_authenticated/sales-orders/': typeof AuthenticatedSalesOrdersIndexRoute
   '/_authenticated/sales-shipments/': typeof AuthenticatedSalesShipmentsIndexRoute
   '/_authenticated/serials/': typeof AuthenticatedSerialsIndexRoute
@@ -1992,6 +2096,7 @@ export interface FileRoutesById {
   '/_authenticated/units/': typeof AuthenticatedUnitsIndexRoute
   '/_authenticated/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/api/financial-transactions/': typeof ApiFinancialTransactionsIndexRoute
+  '/api/sales-invoices/': typeof ApiSalesInvoicesIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
@@ -2112,6 +2217,8 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/reservations'
     | '/respos/shipments'
+    | '/sales-invoices/$invoiceId'
+    | '/sales-invoices/reports'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -2166,6 +2273,13 @@ export interface FileRouteTypes {
     | '/api/rbac/permissions'
     | '/api/rbac/screen-buttons'
     | '/api/rbac/screens'
+    | '/api/sales-invoices/cancel'
+    | '/api/sales-invoices/credit-note'
+    | '/api/sales-invoices/dashboard'
+    | '/api/sales-invoices/issue'
+    | '/api/sales-invoices/payments'
+    | '/api/sales-invoices/reports'
+    | '/api/sales-invoices/void'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
     | '/api/users/create-tenant'
@@ -2190,6 +2304,7 @@ export interface FileRouteTypes {
     | '/replenishment/'
     | '/reservations/'
     | '/respos/'
+    | '/sales-invoices/'
     | '/sales-orders/'
     | '/sales-shipments/'
     | '/serials/'
@@ -2203,6 +2318,7 @@ export interface FileRouteTypes {
     | '/units/'
     | '/warehouses/'
     | '/api/financial-transactions/'
+    | '/api/sales-invoices/'
     | '/cities/'
     | '/promotions/$promotionId/edit'
     | '/respos/invoice/$orderId'
@@ -2319,6 +2435,8 @@ export interface FileRouteTypes {
     | '/respos/pos'
     | '/respos/reservations'
     | '/respos/shipments'
+    | '/sales-invoices/$invoiceId'
+    | '/sales-invoices/reports'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -2373,6 +2491,13 @@ export interface FileRouteTypes {
     | '/api/rbac/permissions'
     | '/api/rbac/screen-buttons'
     | '/api/rbac/screens'
+    | '/api/sales-invoices/cancel'
+    | '/api/sales-invoices/credit-note'
+    | '/api/sales-invoices/dashboard'
+    | '/api/sales-invoices/issue'
+    | '/api/sales-invoices/payments'
+    | '/api/sales-invoices/reports'
+    | '/api/sales-invoices/void'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
     | '/api/users/create-tenant'
@@ -2397,6 +2522,7 @@ export interface FileRouteTypes {
     | '/replenishment'
     | '/reservations'
     | '/respos'
+    | '/sales-invoices'
     | '/sales-orders'
     | '/sales-shipments'
     | '/serials'
@@ -2410,6 +2536,7 @@ export interface FileRouteTypes {
     | '/units'
     | '/warehouses'
     | '/api/financial-transactions'
+    | '/api/sales-invoices'
     | '/cities'
     | '/promotions/$promotionId/edit'
     | '/respos/invoice/$orderId'
@@ -2530,6 +2657,8 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/pos'
     | '/_authenticated/respos/reservations'
     | '/_authenticated/respos/shipments'
+    | '/_authenticated/sales-invoices/$invoiceId'
+    | '/_authenticated/sales-invoices/reports'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -2584,6 +2713,13 @@ export interface FileRouteTypes {
     | '/api/rbac/permissions'
     | '/api/rbac/screen-buttons'
     | '/api/rbac/screens'
+    | '/api/sales-invoices/cancel'
+    | '/api/sales-invoices/credit-note'
+    | '/api/sales-invoices/dashboard'
+    | '/api/sales-invoices/issue'
+    | '/api/sales-invoices/payments'
+    | '/api/sales-invoices/reports'
+    | '/api/sales-invoices/void'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
     | '/api/users/create-tenant'
@@ -2608,6 +2744,7 @@ export interface FileRouteTypes {
     | '/_authenticated/replenishment/'
     | '/_authenticated/reservations/'
     | '/_authenticated/respos/'
+    | '/_authenticated/sales-invoices/'
     | '/_authenticated/sales-orders/'
     | '/_authenticated/sales-shipments/'
     | '/_authenticated/serials/'
@@ -2621,6 +2758,7 @@ export interface FileRouteTypes {
     | '/_authenticated/units/'
     | '/_authenticated/warehouses/'
     | '/api/financial-transactions/'
+    | '/api/sales-invoices/'
     | '/_authenticated/cities/'
     | '/_authenticated/promotions/$promotionId/edit'
     | '/_authenticated/respos/invoice/$orderId'
@@ -2727,9 +2865,17 @@ export interface RootRouteChildren {
   ApiPosSessionsRoute: typeof ApiPosSessionsRoute
   ApiPosTerminalUsersRoute: typeof ApiPosTerminalUsersRoute
   ApiPosTerminalsRoute: typeof ApiPosTerminalsRoute
+  ApiSalesInvoicesCancelRoute: typeof ApiSalesInvoicesCancelRoute
+  ApiSalesInvoicesCreditNoteRoute: typeof ApiSalesInvoicesCreditNoteRoute
+  ApiSalesInvoicesDashboardRoute: typeof ApiSalesInvoicesDashboardRoute
+  ApiSalesInvoicesIssueRoute: typeof ApiSalesInvoicesIssueRoute
+  ApiSalesInvoicesPaymentsRoute: typeof ApiSalesInvoicesPaymentsRoute
+  ApiSalesInvoicesReportsRoute: typeof ApiSalesInvoicesReportsRoute
+  ApiSalesInvoicesVoidRoute: typeof ApiSalesInvoicesVoidRoute
   ApiTenantActivityTypesRoute: typeof ApiTenantActivityTypesRoute
   ApiTenantOnboardRoute: typeof ApiTenantOnboardRoute
   ApiFinancialTransactionsIndexRoute: typeof ApiFinancialTransactionsIndexRoute
+  ApiSalesInvoicesIndexRoute: typeof ApiSalesInvoicesIndexRoute
   ApiCrmCustomersSegmentRoute: typeof ApiCrmCustomersSegmentRoute
   ApiInventoryPurchaseOrdersStatusRoute: typeof ApiInventoryPurchaseOrdersStatusRoute
   ApiTenantSubscriptionStatusRoute: typeof ApiTenantSubscriptionStatusRoute
@@ -3122,6 +3268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCitiesIndexLazyRouteImport
       parentRoute: typeof AuthenticatedCitiesRouteRoute
     }
+    '/api/sales-invoices/': {
+      id: '/api/sales-invoices/'
+      path: '/api/sales-invoices'
+      fullPath: '/api/sales-invoices/'
+      preLoaderRoute: typeof ApiSalesInvoicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/financial-transactions/': {
       id: '/api/financial-transactions/'
       path: '/api/financial-transactions'
@@ -3211,6 +3364,13 @@ declare module '@tanstack/react-router' {
       path: '/sales-orders'
       fullPath: '/sales-orders/'
       preLoaderRoute: typeof AuthenticatedSalesOrdersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sales-invoices/': {
+      id: '/_authenticated/sales-invoices/'
+      path: '/sales-invoices'
+      fullPath: '/sales-invoices/'
+      preLoaderRoute: typeof AuthenticatedSalesInvoicesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/respos/': {
@@ -3379,6 +3539,55 @@ declare module '@tanstack/react-router' {
       path: '/api/tenant/activity-types'
       fullPath: '/api/tenant/activity-types'
       preLoaderRoute: typeof ApiTenantActivityTypesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/void': {
+      id: '/api/sales-invoices/void'
+      path: '/api/sales-invoices/void'
+      fullPath: '/api/sales-invoices/void'
+      preLoaderRoute: typeof ApiSalesInvoicesVoidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/reports': {
+      id: '/api/sales-invoices/reports'
+      path: '/api/sales-invoices/reports'
+      fullPath: '/api/sales-invoices/reports'
+      preLoaderRoute: typeof ApiSalesInvoicesReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/payments': {
+      id: '/api/sales-invoices/payments'
+      path: '/api/sales-invoices/payments'
+      fullPath: '/api/sales-invoices/payments'
+      preLoaderRoute: typeof ApiSalesInvoicesPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/issue': {
+      id: '/api/sales-invoices/issue'
+      path: '/api/sales-invoices/issue'
+      fullPath: '/api/sales-invoices/issue'
+      preLoaderRoute: typeof ApiSalesInvoicesIssueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/dashboard': {
+      id: '/api/sales-invoices/dashboard'
+      path: '/api/sales-invoices/dashboard'
+      fullPath: '/api/sales-invoices/dashboard'
+      preLoaderRoute: typeof ApiSalesInvoicesDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/credit-note': {
+      id: '/api/sales-invoices/credit-note'
+      path: '/api/sales-invoices/credit-note'
+      fullPath: '/api/sales-invoices/credit-note'
+      preLoaderRoute: typeof ApiSalesInvoicesCreditNoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sales-invoices/cancel': {
+      id: '/api/sales-invoices/cancel'
+      path: '/api/sales-invoices/cancel'
+      fullPath: '/api/sales-invoices/cancel'
+      preLoaderRoute: typeof ApiSalesInvoicesCancelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/rbac/screens': {
@@ -3758,6 +3967,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/account'
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
+    }
+    '/_authenticated/sales-invoices/reports': {
+      id: '/_authenticated/sales-invoices/reports'
+      path: '/sales-invoices/reports'
+      fullPath: '/sales-invoices/reports'
+      preLoaderRoute: typeof AuthenticatedSalesInvoicesReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sales-invoices/$invoiceId': {
+      id: '/_authenticated/sales-invoices/$invoiceId'
+      path: '/sales-invoices/$invoiceId'
+      fullPath: '/sales-invoices/$invoiceId'
+      preLoaderRoute: typeof AuthenticatedSalesInvoicesInvoiceIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/respos/shipments': {
       id: '/_authenticated/respos/shipments'
@@ -4333,6 +4556,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposPosRoute: typeof AuthenticatedResposPosRoute
   AuthenticatedResposReservationsRoute: typeof AuthenticatedResposReservationsRoute
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
+  AuthenticatedSalesInvoicesInvoiceIdRoute: typeof AuthenticatedSalesInvoicesInvoiceIdRoute
+  AuthenticatedSalesInvoicesReportsRoute: typeof AuthenticatedSalesInvoicesReportsRoute
   AuthenticatedStockTransfersTransferIdRoute: typeof AuthenticatedStockTransfersTransferIdRoute
   AuthenticatedAccessControlIndexRoute: typeof AuthenticatedAccessControlIndexRoute
   AuthenticatedBatchesIndexRoute: typeof AuthenticatedBatchesIndexRoute
@@ -4352,6 +4577,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReplenishmentIndexRoute: typeof AuthenticatedReplenishmentIndexRoute
   AuthenticatedReservationsIndexRoute: typeof AuthenticatedReservationsIndexRoute
   AuthenticatedResposIndexRoute: typeof AuthenticatedResposIndexRoute
+  AuthenticatedSalesInvoicesIndexRoute: typeof AuthenticatedSalesInvoicesIndexRoute
   AuthenticatedSalesOrdersIndexRoute: typeof AuthenticatedSalesOrdersIndexRoute
   AuthenticatedSalesShipmentsIndexRoute: typeof AuthenticatedSalesShipmentsIndexRoute
   AuthenticatedSerialsIndexRoute: typeof AuthenticatedSerialsIndexRoute
@@ -4426,6 +4652,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedResposPosRoute: AuthenticatedResposPosRoute,
   AuthenticatedResposReservationsRoute: AuthenticatedResposReservationsRoute,
   AuthenticatedResposShipmentsRoute: AuthenticatedResposShipmentsRoute,
+  AuthenticatedSalesInvoicesInvoiceIdRoute:
+    AuthenticatedSalesInvoicesInvoiceIdRoute,
+  AuthenticatedSalesInvoicesReportsRoute:
+    AuthenticatedSalesInvoicesReportsRoute,
   AuthenticatedStockTransfersTransferIdRoute:
     AuthenticatedStockTransfersTransferIdRoute,
   AuthenticatedAccessControlIndexRoute: AuthenticatedAccessControlIndexRoute,
@@ -4450,6 +4680,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedReplenishmentIndexRoute: AuthenticatedReplenishmentIndexRoute,
   AuthenticatedReservationsIndexRoute: AuthenticatedReservationsIndexRoute,
   AuthenticatedResposIndexRoute: AuthenticatedResposIndexRoute,
+  AuthenticatedSalesInvoicesIndexRoute: AuthenticatedSalesInvoicesIndexRoute,
   AuthenticatedSalesOrdersIndexRoute: AuthenticatedSalesOrdersIndexRoute,
   AuthenticatedSalesShipmentsIndexRoute: AuthenticatedSalesShipmentsIndexRoute,
   AuthenticatedSerialsIndexRoute: AuthenticatedSerialsIndexRoute,
@@ -4796,9 +5027,17 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPosSessionsRoute: ApiPosSessionsRoute,
   ApiPosTerminalUsersRoute: ApiPosTerminalUsersRoute,
   ApiPosTerminalsRoute: ApiPosTerminalsRoute,
+  ApiSalesInvoicesCancelRoute: ApiSalesInvoicesCancelRoute,
+  ApiSalesInvoicesCreditNoteRoute: ApiSalesInvoicesCreditNoteRoute,
+  ApiSalesInvoicesDashboardRoute: ApiSalesInvoicesDashboardRoute,
+  ApiSalesInvoicesIssueRoute: ApiSalesInvoicesIssueRoute,
+  ApiSalesInvoicesPaymentsRoute: ApiSalesInvoicesPaymentsRoute,
+  ApiSalesInvoicesReportsRoute: ApiSalesInvoicesReportsRoute,
+  ApiSalesInvoicesVoidRoute: ApiSalesInvoicesVoidRoute,
   ApiTenantActivityTypesRoute: ApiTenantActivityTypesRoute,
   ApiTenantOnboardRoute: ApiTenantOnboardRoute,
   ApiFinancialTransactionsIndexRoute: ApiFinancialTransactionsIndexRoute,
+  ApiSalesInvoicesIndexRoute: ApiSalesInvoicesIndexRoute,
   ApiCrmCustomersSegmentRoute: ApiCrmCustomersSegmentRoute,
   ApiInventoryPurchaseOrdersStatusRoute: ApiInventoryPurchaseOrdersStatusRoute,
   ApiTenantSubscriptionStatusRoute: ApiTenantSubscriptionStatusRoute,

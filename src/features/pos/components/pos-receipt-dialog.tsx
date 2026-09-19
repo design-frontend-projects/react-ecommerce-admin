@@ -191,6 +191,13 @@ export function PosReceiptDialog({
               <td>Order: <strong>${receipt.orderNumber}</strong></td>
               <td style="text-align: right;">${formattedDate}</td>
             </tr>
+            ${
+              receipt.invoiceNumber
+                ? `<tr>
+                    <td colspan="2">Invoice: <strong>${receipt.invoiceNumber}</strong></td>
+                  </tr>`
+                : ''
+            }
             <tr>
               <td>Terminal: ${receipt.terminalCode || 'MAIN'}</td>
               <td style="text-align: right;">Cashier: ${receipt.cashierName || 'Cashier'}</td>
@@ -309,6 +316,9 @@ export function PosReceiptDialog({
           <div className='flex justify-between text-[11px]'>
             <div>
               <p>Order: <span className='font-bold'>{receipt.orderNumber}</span></p>
+              {receipt.invoiceNumber && (
+                <p>Invoice: <span className='font-bold text-primary'>{receipt.invoiceNumber}</span></p>
+              )}
               <p>Terminal: {receipt.terminalCode || 'POS-01'}</p>
             </div>
             <div className='text-right'>

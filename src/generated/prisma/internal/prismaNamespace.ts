@@ -525,7 +525,9 @@ export const ModelName = {
   inv_sales_invoice_discounts: 'inv_sales_invoice_discounts',
   inv_sales_invoice_item_discounts: 'inv_sales_invoice_item_discounts',
   inv_discount_approval_requests: 'inv_discount_approval_requests',
-  inv_promotion_usage_logs: 'inv_promotion_usage_logs'
+  inv_promotion_usage_logs: 'inv_promotion_usage_logs',
+  sales_invoice_payments: 'sales_invoice_payments',
+  invoice_number_sequences: 'invoice_number_sequences'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -541,7 +543,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -11053,6 +11055,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    sales_invoice_payments: {
+      payload: Prisma.$sales_invoice_paymentsPayload<ExtArgs>
+      fields: Prisma.sales_invoice_paymentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.sales_invoice_paymentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.sales_invoice_paymentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>
+        }
+        findFirst: {
+          args: Prisma.sales_invoice_paymentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.sales_invoice_paymentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>
+        }
+        findMany: {
+          args: Prisma.sales_invoice_paymentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>[]
+        }
+        create: {
+          args: Prisma.sales_invoice_paymentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>
+        }
+        createMany: {
+          args: Prisma.sales_invoice_paymentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.sales_invoice_paymentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>[]
+        }
+        delete: {
+          args: Prisma.sales_invoice_paymentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>
+        }
+        update: {
+          args: Prisma.sales_invoice_paymentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.sales_invoice_paymentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.sales_invoice_paymentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.sales_invoice_paymentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.sales_invoice_paymentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$sales_invoice_paymentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Sales_invoice_paymentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSales_invoice_payments>
+        }
+        groupBy: {
+          args: Prisma.sales_invoice_paymentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Sales_invoice_paymentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.sales_invoice_paymentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Sales_invoice_paymentsCountAggregateOutputType> | number
+        }
+      }
+    }
+    invoice_number_sequences: {
+      payload: Prisma.$invoice_number_sequencesPayload<ExtArgs>
+      fields: Prisma.invoice_number_sequencesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.invoice_number_sequencesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.invoice_number_sequencesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>
+        }
+        findFirst: {
+          args: Prisma.invoice_number_sequencesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.invoice_number_sequencesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>
+        }
+        findMany: {
+          args: Prisma.invoice_number_sequencesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>[]
+        }
+        create: {
+          args: Prisma.invoice_number_sequencesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>
+        }
+        createMany: {
+          args: Prisma.invoice_number_sequencesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.invoice_number_sequencesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>[]
+        }
+        delete: {
+          args: Prisma.invoice_number_sequencesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>
+        }
+        update: {
+          args: Prisma.invoice_number_sequencesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>
+        }
+        deleteMany: {
+          args: Prisma.invoice_number_sequencesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.invoice_number_sequencesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.invoice_number_sequencesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>[]
+        }
+        upsert: {
+          args: Prisma.invoice_number_sequencesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$invoice_number_sequencesPayload>
+        }
+        aggregate: {
+          args: Prisma.Invoice_number_sequencesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInvoice_number_sequences>
+        }
+        groupBy: {
+          args: Prisma.invoice_number_sequencesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Invoice_number_sequencesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.invoice_number_sequencesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Invoice_number_sequencesCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -12123,21 +12273,32 @@ export const Sales_invoice_itemsScalarFieldEnum = {
   id: 'id',
   invoice_id: 'invoice_id',
   product_variant_id: 'product_variant_id',
+  product_id: 'product_id',
   line_no: 'line_no',
   description: 'description',
+  sku_snapshot: 'sku_snapshot',
+  product_name_snapshot: 'product_name_snapshot',
+  variant_name_snapshot: 'variant_name_snapshot',
+  uom_snapshot: 'uom_snapshot',
   quantity: 'quantity',
+  unit_id: 'unit_id',
   unit_price: 'unit_price',
+  gross_amount: 'gross_amount',
   discount_type: 'discount_type',
   discount_value: 'discount_value',
   discount_amount: 'discount_amount',
+  tax_rate_id: 'tax_rate_id',
+  tax_rate: 'tax_rate',
   tax_amount: 'tax_amount',
+  net_amount: 'net_amount',
   line_subtotal: 'line_subtotal',
   line_total: 'line_total',
   unit_cost: 'unit_cost',
+  warehouse_id: 'warehouse_id',
   created_at: 'created_at',
+  updated_at: 'updated_at',
   returned_quantity: 'returned_quantity',
   batch_id: 'batch_id',
-  tax_rate_id: 'tax_rate_id',
   tenant_id: 'tenant_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
@@ -12148,34 +12309,43 @@ export type Sales_invoice_itemsScalarFieldEnum = (typeof Sales_invoice_itemsScal
 
 export const Sales_invoicesScalarFieldEnum = {
   id: 'id',
+  tenant_id: 'tenant_id',
   branch_id: 'branch_id',
   store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
   pos_terminal_id: 'pos_terminal_id',
   invoice_no: 'invoice_no',
+  invoice_type: 'invoice_type',
   external_reference: 'external_reference',
+  source_type: 'source_type',
+  source_id: 'source_id',
   invoice_date: 'invoice_date',
   due_date: 'due_date',
   status: 'status',
+  payment_status: 'payment_status',
+  currency_id: 'currency_id',
   subtotal: 'subtotal',
   discount_type: 'discount_type',
   discount_value: 'discount_value',
   discount_amount: 'discount_amount',
   tax_amount: 'tax_amount',
+  shipping_amount: 'shipping_amount',
   rounding_amount: 'rounding_amount',
   total_amount: 'total_amount',
   paid_amount: 'paid_amount',
   due_amount: 'due_amount',
   notes: 'notes',
+  terms: 'terms',
+  channel: 'channel',
+  channel_id: 'channel_id',
+  customer_id: 'customer_id',
+  price_list_id: 'price_list_id',
   created_by: 'created_by',
   updated_by: 'updated_by',
   posted_at: 'posted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  channel: 'channel',
-  channel_id: 'channel_id',
-  tenant_id: 'tenant_id',
-  customer_id: 'customer_id',
-  price_list_id: 'price_list_id',
+  deleted_at: 'deleted_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -14081,6 +14251,43 @@ export const Inv_promotion_usage_logsScalarFieldEnum = {
 export type Inv_promotion_usage_logsScalarFieldEnum = (typeof Inv_promotion_usage_logsScalarFieldEnum)[keyof typeof Inv_promotion_usage_logsScalarFieldEnum]
 
 
+export const Sales_invoice_paymentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  invoice_id: 'invoice_id',
+  payment_method: 'payment_method',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  reference_number: 'reference_number',
+  payment_date: 'payment_date',
+  notes: 'notes',
+  financial_transaction_id: 'financial_transaction_id',
+  sales_order_payment_id: 'sales_order_payment_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Sales_invoice_paymentsScalarFieldEnum = (typeof Sales_invoice_paymentsScalarFieldEnum)[keyof typeof Sales_invoice_paymentsScalarFieldEnum]
+
+
+export const Invoice_number_sequencesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  store_id: 'store_id',
+  prefix: 'prefix',
+  fiscal_year: 'fiscal_year',
+  last_number: 'last_number',
+  format_template: 'format_template',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Invoice_number_sequencesScalarFieldEnum = (typeof Invoice_number_sequencesScalarFieldEnum)[keyof typeof Invoice_number_sequencesScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -14447,6 +14654,34 @@ export type Enumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInputTy
  * Reference to a field of type 'void_request_status[]'
  */
 export type ListEnumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'void_request_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'invoice_type_enum'
+ */
+export type Enuminvoice_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'invoice_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'invoice_type_enum[]'
+ */
+export type ListEnuminvoice_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'invoice_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'invoice_payment_status_enum'
+ */
+export type Enuminvoice_payment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'invoice_payment_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'invoice_payment_status_enum[]'
+ */
+export type ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'invoice_payment_status_enum[]'>
     
 
 
@@ -15372,6 +15607,8 @@ export type GlobalOmitConfig = {
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsOmit
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsOmit
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsOmit
+  sales_invoice_payments?: Prisma.sales_invoice_paymentsOmit
+  invoice_number_sequences?: Prisma.invoice_number_sequencesOmit
 }
 
 /* Types for Logging */

@@ -140,7 +140,8 @@ model currencies {
   updated_at DateTime?   @default(now()) @db.Timestamptz(6)
   countries  countries[]
   tenants    tenants[]
-  price_list price_list[]
+  price_list       price_list[]
+  sales_invoices   sales_invoices[]
   purchase_orders purchase_orders[]
   inv_promotions inv_promotions[]
 }
@@ -205,6 +206,7 @@ model customers {
   updated_by_user_id String?          @db.Uuid
   customer_cards     customer_cards[]
   customer_groups    customer_groups? @relation(fields: [group_id], references: [id], onUpdate: NoAction, map: "fk_customers_customer_groups")
+  sales_invoices         sales_invoices[]
   inv_coupons            inv_coupons[]
   inv_coupon_redemptions inv_coupon_redemptions[]
   inv_promotion_usage_logs inv_promotion_usage_logs[]
@@ -1047,68 +1049,118 @@ model roles {
 }
 
 model sales_invoice_items {
-  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  invoice_id         String              @db.Uuid
-  product_variant_id String              @db.Uuid
-  line_no            Int                 @default(1)
-  description        String?             @db.VarChar(255)
-  quantity           Decimal             @db.Decimal(18, 4)
-  unit_price         Decimal             @db.Decimal(18, 4)
-  discount_type      discount_type_enum?
-  discount_value     Decimal             @default(0) @db.Decimal(18, 4)
-  discount_amount    Decimal             @default(0) @db.Decimal(18, 4)
-  tax_amount         Decimal             @default(0) @db.Decimal(18, 4)
-  line_subtotal      Decimal             @default(0) @db.Decimal(18, 4)
-  line_total         Decimal             @default(0) @db.Decimal(18, 4)
-  unit_cost          Decimal             @default(0) @db.Decimal(18, 4)
-  created_at         DateTime            @default(now()) @db.Timestamptz(6)
-  returned_quantity  Decimal             @default(0) @db.Decimal(18, 4)
-  batch_id           String?             @db.Uuid
-  tax_rate_id        String?             @db.Uuid
-  tenant_id          String              @db.Uuid
-  created_by_user_id String?             @db.Uuid
-  updated_by_user_id String?             @db.Uuid
+  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  invoice_id            String              @db.Uuid
+  product_variant_id    String              @db.Uuid
+  product_id            String?             @db.Uuid
+  line_no               Int                 @default(1)
+  description           String?             @db.VarChar(255)
+  sku_snapshot          String?             @db.VarChar(100)
+  product_name_snapshot String?             @db.VarChar(255)
+  variant_name_snapshot String?             @db.VarChar(255)
+  uom_snapshot          String?             @db.VarChar(30)
+  quantity              Decimal             @db.Decimal(18, 4)
+  unit_id               String?             @db.Uuid
+  unit_price            Decimal             @db.Decimal(18, 4)
+  gross_amount          Decimal             @default(0) @db.Decimal(18, 4)
+  discount_type         discount_type_enum?
+  discount_value        Decimal             @default(0) @db.Decimal(18, 4)
+  discount_amount       Decimal             @default(0) @db.Decimal(18, 4)
+  tax_rate_id           String?             @db.Uuid
+  tax_rate              Decimal             @default(0) @db.Decimal(8, 4)
+  tax_amount            Decimal             @default(0) @db.Decimal(18, 4)
+  net_amount            Decimal             @default(0) @db.Decimal(18, 4)
+  line_subtotal         Decimal             @default(0) @db.Decimal(18, 4)
+  line_total            Decimal             @default(0) @db.Decimal(18, 4)
+  unit_cost             Decimal             @default(0) @db.Decimal(18, 4)
+  warehouse_id          String?             @db.Uuid
+  created_at            DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime            @default(now()) @db.Timestamptz(6)
+  returned_quantity     Decimal             @default(0) @db.Decimal(18, 4)
+  batch_id              String?             @db.Uuid
+  tenant_id             String              @db.Uuid
+  created_by_user_id    String?             @db.Uuid
+  updated_by_user_id    String?             @db.Uuid
+
+  // Relations
+  sales_invoices                   sales_invoices                   @relation(fields: [invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   inv_sales_invoice_item_discounts inv_sales_invoice_item_discounts[]
+
+  @@index([invoice_id])
+  @@index([tenant_id, product_variant_id])
 }
 
 model sales_invoices {
-  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  branch_id          String              @db.Uuid
-  store_id           String?             @db.Uuid
-  pos_terminal_id    String?             @db.Uuid
-  invoice_no         String              @db.VarChar(100)
-  external_reference String?             @db.VarChar(100)
-  invoice_date       DateTime            @default(now()) @db.Timestamptz(6)
-  due_date           DateTime?           @db.Timestamptz(6)
-  status             invoice_status_enum @default(draft)
-  subtotal           Decimal             @default(0) @db.Decimal(18, 4)
+  id                 String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                       @db.Uuid
+  branch_id          String                       @db.Uuid
+  store_id           String?                      @db.Uuid
+  warehouse_id       String?                      @db.Uuid
+  pos_terminal_id    String?                      @db.Uuid
+  invoice_no         String                       @db.VarChar(100)
+  invoice_type       invoice_type_enum            @default(sale)
+  external_reference String?                      @db.VarChar(100)
+
+  // Source document reference (polymorphic: POS, MARKETPLACE_ORDER, SALES_ORDER)
+  source_type        String?                      @db.VarChar(50)
+  source_id          String?                      @db.Uuid
+
+  invoice_date       DateTime                     @default(now()) @db.Timestamptz(6)
+  due_date           DateTime?                    @db.Timestamptz(6)
+  status             invoice_status_enum          @default(draft)
+  payment_status     invoice_payment_status_enum  @default(pending)
+
+  // Financial
+  currency_id        String?                      @db.Uuid
+  subtotal           Decimal                      @default(0) @db.Decimal(18, 4)
   discount_type      discount_type_enum?
-  discount_value     Decimal             @default(0) @db.Decimal(18, 4)
-  discount_amount    Decimal             @default(0) @db.Decimal(18, 4)
-  tax_amount         Decimal             @default(0) @db.Decimal(18, 4)
-  rounding_amount    Decimal             @default(0) @db.Decimal(18, 4)
-  total_amount       Decimal             @default(0) @db.Decimal(18, 4)
-  paid_amount        Decimal             @default(0) @db.Decimal(18, 4)
-  due_amount         Decimal             @default(0) @db.Decimal(18, 4)
+  discount_value     Decimal                      @default(0) @db.Decimal(18, 4)
+  discount_amount    Decimal                      @default(0) @db.Decimal(18, 4)
+  tax_amount         Decimal                      @default(0) @db.Decimal(18, 4)
+  shipping_amount    Decimal                      @default(0) @db.Decimal(18, 4)
+  rounding_amount    Decimal                      @default(0) @db.Decimal(18, 4)
+  total_amount       Decimal                      @default(0) @db.Decimal(18, 4)
+  paid_amount        Decimal                      @default(0) @db.Decimal(18, 4)
+  due_amount         Decimal                      @default(0) @db.Decimal(18, 4)
+
   notes              String?
+  terms              String?
+  channel            String?                      @default("counter") @db.VarChar(20)
+  channel_id         String?                      @db.Uuid
+  customer_id        String?                      @db.Uuid
+  price_list_id      String?                      @db.Uuid
+
+  // Audit
   created_by         String?
   updated_by         String?
-  posted_at          DateTime?           @db.Timestamptz(6)
-  created_at         DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at         DateTime            @default(now()) @db.Timestamptz(6)
-  channel            String?             @default("counter") @db.VarChar(20)
-  channel_id         String?             @db.Uuid
-  tenant_id          String              @db.Uuid
-  customer_id        String?             @db.Uuid
-  price_list_id      String?             @db.Uuid
-  created_by_user_id String?             @db.Uuid
-  updated_by_user_id String?             @db.Uuid
-  channels           channels?           @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
-  inv_sales_invoice_discounts inv_sales_invoice_discounts[]
+  posted_at          DateTime?                    @db.Timestamptz(6)
+  created_at         DateTime                     @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                     @default(now()) @db.Timestamptz(6)
+  deleted_at         DateTime?                    @db.Timestamptz(6)
+  created_by_user_id String?                      @db.Uuid
+  updated_by_user_id String?                      @db.Uuid
+
+  // Relations
+  channels                         channels?                        @relation(fields: [channel_id], references: [id], onUpdate: NoAction)
+  warehouses                       warehouses?                      @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
+  currencies                       currencies?                      @relation(fields: [currency_id], references: [id], onUpdate: NoAction)
+  customers                        customers?                       @relation(fields: [customer_id], references: [id], onUpdate: NoAction)
+  sales_invoice_items              sales_invoice_items[]
+  sales_invoice_payments           sales_invoice_payments[]
+  inv_sales_invoice_discounts      inv_sales_invoice_discounts[]
   inv_sales_invoice_item_discounts inv_sales_invoice_item_discounts[]
-  inv_coupon_redemptions inv_coupon_redemptions[]
-  inv_promotion_usage_logs inv_promotion_usage_logs[]
-  inv_discount_approval_requests inv_discount_approval_requests[]
+  inv_coupon_redemptions           inv_coupon_redemptions[]
+  inv_promotion_usage_logs         inv_promotion_usage_logs[]
+  inv_discount_approval_requests   inv_discount_approval_requests[]
+
+  @@index([tenant_id, invoice_no], map: "idx_sales_inv_tenant_no")
+  @@index([tenant_id, status], map: "idx_sales_inv_tenant_status")
+  @@index([tenant_id, payment_status], map: "idx_sales_inv_tenant_pay_status")
+  @@index([tenant_id, customer_id], map: "idx_sales_inv_tenant_customer")
+  @@index([tenant_id, invoice_date], map: "idx_sales_inv_tenant_date")
+  @@index([tenant_id, store_id], map: "idx_sales_inv_tenant_store")
+  @@index([tenant_id, created_at(sort: Desc)], map: "idx_sales_inv_tenant_created")
+  @@index([source_type, source_id], map: "idx_sales_inv_source")
 }
 
 model sales_return_items {
@@ -2241,6 +2293,7 @@ model warehouses {
   stock_transfers_to   stock_transfers[]    @relation("transfer_destination_warehouse")
   inventory            inventory[]
   pos_terminals        pos_terminals[]
+  sales_invoices       sales_invoices[]
 
   @@index([tenant_id])
   @@index([branch_id])
@@ -2564,13 +2617,32 @@ enum discount_type_enum {
 
 enum invoice_status_enum {
   draft
+  issued
   posted
   partially_paid
   paid
+  overdue
   cancelled
+  void
   refunded
   returned
   partially_returned
+}
+
+enum invoice_type_enum {
+  sale
+  credit_note
+  debit_note
+  proforma
+  service
+}
+
+enum invoice_payment_status_enum {
+  pending
+  partially_paid
+  paid
+  overpaid
+  refunded
 }
 
 enum movement_type_enum {
@@ -3855,4 +3927,57 @@ model inv_promotion_usage_logs {
   @@index([promotion_id])
   @@index([tenant_id, customer_id])
   @@index([tenant_id, used_at])
+}
+
+// =============================================================================
+// SALES INVOICE PAYMENTS
+// =============================================================================
+
+/// Individual payment records allocated to a sales invoice.
+/// Supports split/mixed payments and links back to financial transactions.
+model sales_invoice_payments {
+  id                       String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                String                   @db.Uuid
+  invoice_id               String                   @db.Uuid
+  payment_method           payment_method_type_enum @default(cash)
+  amount                   Decimal                  @default(0) @db.Decimal(18, 4)
+  currency                 String                   @default("USD") @db.Char(3)
+  status                   payment_status_enum      @default(completed)
+  reference_number         String?                  @db.VarChar(100)
+  payment_date             DateTime                 @default(now()) @db.Timestamptz(6)
+  notes                    String?
+  financial_transaction_id String?                  @db.Uuid
+  sales_order_payment_id   String?                  @db.Uuid
+  created_at               DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime                 @default(now()) @db.Timestamptz(6)
+  created_by_user_id       String?                  @db.Uuid
+  updated_by_user_id       String?                  @db.Uuid
+
+  // Relations
+  sales_invoices           sales_invoices           @relation(fields: [invoice_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([invoice_id], map: "idx_sales_inv_pay_invoice")
+  @@index([tenant_id], map: "idx_sales_inv_pay_tenant")
+  @@index([tenant_id, invoice_id], map: "idx_sales_inv_pay_tenant_inv")
+}
+
+// =============================================================================
+// INVOICE NUMBER SEQUENCES
+// =============================================================================
+
+/// Tenant-aware, concurrency-safe invoice number sequences.
+/// Supports per-tenant, per-store, per-fiscal-year numbering.
+model invoice_number_sequences {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id       String   @db.Uuid
+  store_id        String?  @db.Uuid
+  prefix          String   @default("INV") @db.VarChar(20)
+  fiscal_year     Int?
+  last_number     Int      @default(0)
+  format_template String   @default("{prefix}-{year}-{seq}") @db.VarChar(100)
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([tenant_id, store_id, prefix, fiscal_year], map: "uq_inv_num_seq_tenant")
+  @@index([tenant_id], map: "idx_inv_num_seq_tenant")
 }

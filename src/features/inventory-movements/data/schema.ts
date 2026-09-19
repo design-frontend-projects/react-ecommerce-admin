@@ -33,6 +33,7 @@ export const movementRowSchema = z
     batch_id: z.string().nullable().optional(),
     serial_id: z.string().nullable().optional(),
     quantity_delta: safeNullableNumber,
+    qty: safeNullableNumber,
     qty_before: safeNullableNumber,
     qty_in: safeNumber(0).optional(),
     qty_out: safeNumber(0).optional(),
@@ -95,7 +96,7 @@ export const movementRowSchema = z
       .optional(),
   })
   .transform((row) => {
-    const delta = row.quantity_delta ?? 0
+    const delta = row.quantity_delta ?? row.qty ?? 0
     const qty_in =
       row.qty_in !== undefined && row.qty_in > 0
         ? row.qty_in
@@ -111,6 +112,7 @@ export const movementRowSchema = z
     return {
       ...row,
       quantity_delta: delta,
+      qty: row.qty ?? delta,
       qty_in,
       qty_out,
     }

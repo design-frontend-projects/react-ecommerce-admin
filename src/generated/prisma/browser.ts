@@ -727,3 +727,15 @@ export type inv_discount_approval_requests = Prisma.inv_discount_approval_reques
  * 
  */
 export type inv_promotion_usage_logs = Prisma.inv_promotion_usage_logsModel
+/**
+ * Model sales_invoice_payments
+ * Individual payment records allocated to a sales invoice.
+ * Supports split/mixed payments and links back to financial transactions.
+ */
+export type sales_invoice_payments = Prisma.sales_invoice_paymentsModel
+/**
+ * Model invoice_number_sequences
+ * Tenant-aware, concurrency-safe invoice number sequences.
+ * Supports per-tenant, per-store, per-fiscal-year numbering.
+ */
+export type invoice_number_sequences = Prisma.invoice_number_sequencesModel

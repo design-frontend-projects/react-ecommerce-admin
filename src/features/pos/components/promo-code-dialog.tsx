@@ -48,7 +48,7 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
     useInvPromotions({ status: 'active' })
 
   const promotions = useMemo(() => {
-    const list = promotionsData?.data ?? []
+    const list = promotionsData?.promotions ?? []
     if (!promoSearch) return list
     const q = promoSearch.toLowerCase()
     return list.filter(

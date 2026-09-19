@@ -663,6 +663,40 @@ export type Enumvoid_request_statusNullableWithAggregatesFilter<$PrismaModel = n
   _max?: Prisma.NestedEnumvoid_request_statusNullableFilter<$PrismaModel>
 }
 
+export type Enuminvoice_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_type_enum | Prisma.Enuminvoice_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_type_enumFilter<$PrismaModel> | $Enums.invoice_type_enum
+}
+
+export type Enuminvoice_payment_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_payment_status_enum | Prisma.Enuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_payment_status_enumFilter<$PrismaModel> | $Enums.invoice_payment_status_enum
+}
+
+export type Enuminvoice_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_type_enum | Prisma.Enuminvoice_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.invoice_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminvoice_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminvoice_type_enumFilter<$PrismaModel>
+}
+
+export type Enuminvoice_payment_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_payment_status_enum | Prisma.Enuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_payment_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.invoice_payment_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminvoice_payment_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminvoice_payment_status_enumFilter<$PrismaModel>
+}
+
 export type Enumsubscription_tierFilter<$PrismaModel = never> = {
   equals?: $Enums.subscription_tier | Prisma.Enumsubscription_tierFieldRefInput<$PrismaModel>
   in?: $Enums.subscription_tier[] | Prisma.ListEnumsubscription_tierFieldRefInput<$PrismaModel>
@@ -2186,6 +2220,40 @@ export type NestedEnumvoid_request_statusNullableWithAggregatesFilter<$PrismaMod
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumvoid_request_statusNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumvoid_request_statusNullableFilter<$PrismaModel>
+}
+
+export type NestedEnuminvoice_type_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_type_enum | Prisma.Enuminvoice_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_type_enumFilter<$PrismaModel> | $Enums.invoice_type_enum
+}
+
+export type NestedEnuminvoice_payment_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_payment_status_enum | Prisma.Enuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_payment_status_enumFilter<$PrismaModel> | $Enums.invoice_payment_status_enum
+}
+
+export type NestedEnuminvoice_type_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_type_enum | Prisma.Enuminvoice_type_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_type_enumWithAggregatesFilter<$PrismaModel> | $Enums.invoice_type_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminvoice_type_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminvoice_type_enumFilter<$PrismaModel>
+}
+
+export type NestedEnuminvoice_payment_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.invoice_payment_status_enum | Prisma.Enuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.invoice_payment_status_enum[] | Prisma.ListEnuminvoice_payment_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnuminvoice_payment_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.invoice_payment_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnuminvoice_payment_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnuminvoice_payment_status_enumFilter<$PrismaModel>
 }
 
 export type NestedEnumsubscription_tierFilter<$PrismaModel = never> = {
