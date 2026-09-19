@@ -21,6 +21,7 @@ vi.mock('react-i18next', () => ({
 vi.mock('@tanstack/react-router', () => ({
   useNavigate: () => vi.fn(),
   useParams: () => ({ promotionId: 'new' }),
+  useSearch: () => ({}),
   useLocation: () => ({ pathname: '/promotions/new', search: {} }),
   Link: ({ children, ...props }: { children?: React.ReactNode }) => <a {...props}>{children}</a>,
 }))
@@ -39,10 +40,17 @@ vi.mock('sonner', () => ({
 }))
 
 // Mock auth store
-vi.mock('@/stores/auth-store', () => ({
-  useAuthStore: (selector: (state: { auth: { user: { id: string } } }) => unknown) =>
-    selector({ auth: { user: { id: 'mock-user-123' } } }),
-}))
+vi.mock('@/stores/auth-store', () => {
+  const mockState = {
+    auth: {
+      user: { id: 'mock-user-123' },
+      profile: { tenant_id: '00000000-0000-0000-0000-000000000001' },
+    },
+  }
+  const store = (selector: (state: typeof mockState) => unknown) => selector(mockState)
+  store.getState = () => mockState
+  return { useAuthStore: store }
+})
 
 // Mock lookup queries
 vi.mock('@/features/promotions/hooks/use-inv-promotions', () => ({
@@ -143,30 +151,85 @@ vi.mock('@/features/channels/hooks/use-channels', () => ({
   }),
 }))
 
+// Mock branches hook
+vi.mock('@/features/branches/hooks/use-branches', () => ({
+  useBranches: () => ({
+    data: [
+      {
+        id: 'branch-1',
+        name: 'Doha Downtown Branch',
+        is_active: true,
+        cities: { name: 'Doha', countries: { name: 'Qatar' } },
+      },
+      {
+        id: 'branch-2',
+        name: 'Lusail Marina Branch',
+        is_active: true,
+        cities: { name: 'Lusail', countries: { name: 'Qatar' } },
+      },
+    ],
+    isLoading: false,
+  }),
+}))
+
+// Mock stores hook
+vi.mock('@/features/stores/hooks/use-stores', () => ({
+  useStores: () => ({
+    data: [
+      {
+        store_id: 'store-1',
+        name: 'Downtown Coffee Bar',
+        code: 'STR-DOH-01',
+        is_active: true,
+        branches: { name: 'Doha Downtown Branch' },
+        cities: { name: 'Doha' },
+      },
+      {
+        store_id: 'store-2',
+        name: 'Marina Gourmet Lounge',
+        code: 'STR-LUS-02',
+        is_active: true,
+        branches: { name: 'Lusail Marina Branch' },
+        cities: { name: 'Lusail' },
+      },
+    ],
+    isLoading: false,
+  }),
+}))
+
 describe('PromotionWizardPage - Calendar, Currency, & Scopes', () => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
 
   it('renders Step 1 with shadcn Calendar trigger buttons and currency dropdown from Currency model', async () => {
+    const user = userEvent.setup()
+
     render(
       <QueryClientProvider client={queryClient}>
         <PromotionWizardPage />
       </QueryClientProvider>
     )
 
-    // Check step 1 title
+    // Check Step 1 title
     expect(screen.getByText('Promotion Details & Identity')).toBeInTheDocument()
 
-    // Start Date Calendar button is rendered with Popover
-    const startDateButton = screen.getByRole('button', { name: /start date/i })
-    expect(startDateButton).toBeInTheDocument()
+    // Check Start Date & End Date labels
+    expect(screen.getByText(/Start Date/)).toBeInTheDocument()
+    expect(screen.getByText(/End Date/)).toBeInTheDocument()
 
-    // End Date Calendar button is rendered with Popover
-    const endDateButton = screen.getByRole('button', { name: /end date/i })
-    expect(endDateButton).toBeInTheDocument()
+    // Check Start Date & End Date trigger buttons
+    const startDateBtn = document.getElementById('startDate')
+    expect(startDateBtn).toBeInTheDocument()
 
-    // Currency selection contains currency from Currency model
+    const endDateBtn = document.getElementById('endDate')
+    expect(endDateBtn).toBeInTheDocument()
+
+    // Open start date popover to reveal quick actions
+    await user.click(startDateBtn!)
+    expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument()
+
+    // Check Currency dropdown label
     expect(screen.getByText('Currency')).toBeInTheDocument()
   })
 
@@ -194,6 +257,16 @@ describe('PromotionWizardPage - Calendar, Currency, & Scopes', () => {
     expect(screen.getByText('Eligible Categories')).toBeInTheDocument()
     expect(screen.getByText('Eligible Brands')).toBeInTheDocument()
     expect(screen.getByText('Specific Products')).toBeInTheDocument()
+
+    // Verify Branches & Stores Scope section
+    expect(screen.getByText('Branches & Stores Scope')).toBeInTheDocument()
+    const selectedLocationsBtn = screen.getByText('Selected Locations Only')
+    await user.click(selectedLocationsBtn)
+
+    // Verify Branches and Stores selectors and live preview
+    expect(screen.getByText('Branches')).toBeInTheDocument()
+    expect(screen.getByText('Stores')).toBeInTheDocument()
+    expect(screen.getByText('Selected Locations Live Preview')).toBeInTheDocument()
 
     // Verify Customer Groups & Sales Channels section
     expect(screen.getByText('Customer Groups & Sales Channels')).toBeInTheDocument()

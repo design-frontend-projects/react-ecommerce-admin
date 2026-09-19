@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { VirtualSearchableMultiSelect } from './virtual-searchable-multi-select'
 import {
   VirtualSearchableSelect,
   type SearchableOption,
@@ -7,7 +8,7 @@ import {
 
 export type { SearchableOption }
 
-export interface SearchableSelectProps extends VirtualSearchableSelectProps {}
+export type SearchableSelectProps = VirtualSearchableSelectProps
 
 /**
  * High-performance virtualized select component powered by @tanstack/react-virtual.

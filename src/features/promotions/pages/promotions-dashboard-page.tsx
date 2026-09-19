@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Plus, Ticket, ShieldCheck, BarChart3 } from 'lucide-react'
 import { Header } from '@/components/layout/header'
@@ -8,6 +9,7 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Button } from '@/components/ui/button'
+import { supabase } from '@/lib/supabase'
 import { PromotionsKpiCards } from '../components/promotions-kpi-cards'
 import { PromotionsFilters } from '../components/promotions-filters'
 import { PromotionsTable } from '../components/promotions-table'
@@ -23,10 +25,34 @@ import type { PromotionStatus } from '../types'
 export function PromotionsDashboardPage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<PromotionStatus | 'all'>('all')
   const [promoType, setPromoType] = useState('all')
   const [page, setPage] = useState(1)
+
+  // Realtime subscription for promotion updates
+  useEffect(() => {
+    const channel = supabase
+      .channel(`inv_promotions_dashboard_${Date.now()}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'inv_promotions',
+        },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ['inv_promotions'] })
+          queryClient.invalidateQueries({ queryKey: ['inv_promotion_stats'] })
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [queryClient])
 
   // Data fetching
   const { data: statsData } = usePromotionUsageStats()

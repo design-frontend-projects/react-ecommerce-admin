@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useNavigate, useParams } from '@tanstack/react-router'
+import { useNavigate, useParams, useSearch } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray, useWatch, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import {
@@ -17,6 +17,8 @@ import {
   Sliders,
   ShoppingBag,
   Building,
+  Store,
+  MapPin,
   Users,
   FileCheck2,
   Loader2,
@@ -55,9 +57,11 @@ import {
   type SearchableOption,
 } from '@/components/custom-ui/virtual-searchable-multi-select'
 import { useCurrencies } from '@/features/currencies/hooks/use-currencies'
-import { useCategoryOptions, useBrandOptions } from '@/features/products/hooks/use-product-options'
+import { useCategoryOptions, useBrandOptions, type CategoryOption, type BrandOption } from '@/features/products/hooks/use-product-options'
 import { useCustomerGroups } from '@/features/customer-groups/hooks/use-customer-groups'
 import { useChannels } from '@/features/channels/hooks/use-channels'
+import { useBranches } from '@/features/branches/hooks/use-branches'
+import { useStores } from '@/features/stores/hooks/use-stores'
 import {
   promotionFormSchema,
   type PromotionFormValues,
@@ -79,15 +83,26 @@ import type {
 interface RuleItem {
   id?: string
   action_type?: RuleActionType
-  discount_value: number | string
+  rule_type?: RuleActionType
+  ruleType?: RuleActionType
+  discount_value?: number | string
+  discountValue?: number | string
   apply_to?: string
+  applyTo?: string
   buy_quantity?: number | null
+  buyQuantity?: number | null
   get_quantity?: number | null
+  getQuantity?: number | null
   get_discount_percent?: number | string | null
+  getDiscountPercent?: number | string | null
   get_product_variant_id?: string | null
+  getProductVariantId?: string | null
   tier_min_quantity?: number | string | null
+  tierMinQuantity?: number | string | null
   tier_min_amount?: number | string | null
+  tierMinAmount?: number | string | null
   sort_order?: number | null
+  sortOrder?: number | null
 }
 
 interface ConditionItem {
@@ -136,6 +151,53 @@ interface BranchScopeItem {
   is_excluded: boolean
 }
 
+interface CustomerGroupOptionItem {
+  id: string
+  name: string
+  description?: string | null
+  discount_percentage?: number | string | null
+  discountPercentage?: number | string | null
+}
+
+interface ChannelOptionItem {
+  id: string
+  name: string
+  name_ar?: string | null
+  code?: string | null
+  description?: string | null
+}
+
+interface BranchOptionItem {
+  id: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  is_active?: boolean | null
+  cities?: {
+    name?: string | null
+    countries?: {
+      name?: string | null
+    } | null
+  } | null
+}
+
+interface StoreOptionItem {
+  id?: string
+  store_id?: string
+  name: string
+  code?: string | null
+  is_active?: boolean | null
+  branches?: {
+    name?: string | null
+  } | null
+  cities?: {
+    name?: string | null
+    countries?: {
+      name?: string | null
+    } | null
+  } | null
+}
+
 const parseDateString = (dateStr?: string | null): Date | undefined => {
   if (!dateStr) return undefined
   const parts = dateStr.split('-')
@@ -151,7 +213,9 @@ export function PromotionWizardPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const params = useParams({ strict: false }) as { promotionId?: string }
-  const isEditMode = !!params.promotionId && params.promotionId !== 'new'
+  const search = useSearch({ strict: false }) as { promotionId?: string; id?: string; edit?: string }
+  const promoId = params.promotionId || search?.promotionId || search?.id || search?.edit
+  const isEditMode = !!promoId && promoId !== 'new'
 
   const [currentStep, setCurrentStep] = useState(1)
 
@@ -200,7 +264,7 @@ export function PromotionWizardPage() {
   // Lookups and existing data
   const { data: lookups } = usePromotionLookupData()
   const { data: existingData, isLoading: promoLoading } = useInvPromotion(
-    isEditMode ? params.promotionId : undefined
+    isEditMode ? promoId : undefined
   )
 
   // Real data queries from app models
@@ -209,6 +273,8 @@ export function PromotionWizardPage() {
   const { data: brandsData, isLoading: brandsLoading } = useBrandOptions()
   const { data: customerGroupsData, isLoading: customerGroupsLoading } = useCustomerGroups()
   const { data: channelsData, isLoading: channelsLoading } = useChannels()
+  const { data: branchesData, isLoading: branchesLoading } = useBranches()
+  const { data: storesData, isLoading: storesLoading } = useStores()
 
   // Currencies list from model, falling back to lookups
   const availableCurrencies = useMemo(() => {
@@ -227,15 +293,17 @@ export function PromotionWizardPage() {
 
   // Categories formatted options for VirtualSearchableMultiSelect
   const categoryOptions: SearchableOption[] = useMemo(() => {
-    const raw = categoriesData && categoriesData.length > 0
-      ? categoriesData
-      : (lookups?.categories || [])
-    const map = new Map<string, { id: string; name: string; name_ar?: string | null; parent_id?: string | null }>()
-    raw.forEach((c) => map.set(c.id, c))
+    const raw: CategoryOption[] = (
+      categoriesData && categoriesData.length > 0
+        ? categoriesData
+        : (lookups?.categories || [])
+    ) as CategoryOption[]
+    const map = new Map<string, CategoryOption>()
+    raw.forEach((c: CategoryOption) => map.set(c.id, c))
 
-    return raw.map((cat) => {
+    return raw.map((cat: CategoryOption) => {
       let description: string | undefined = undefined
-      if ('parent_id' in cat && cat.parent_id && map.has(cat.parent_id)) {
+      if (cat.parent_id && map.has(cat.parent_id)) {
         const parent = map.get(cat.parent_id)!
         description = `${parent.name} › ${cat.name}`
       }
@@ -250,10 +318,12 @@ export function PromotionWizardPage() {
 
   // Brands formatted options for VirtualSearchableMultiSelect
   const brandOptions: SearchableOption[] = useMemo(() => {
-    const raw = brandsData && brandsData.length > 0
-      ? brandsData
-      : (lookups?.brands || [])
-    return raw.map((b) => ({
+    const raw: BrandOption[] = (
+      brandsData && brandsData.length > 0
+        ? brandsData
+        : (lookups?.brands || [])
+    ) as BrandOption[]
+    return raw.map((b: BrandOption) => ({
       id: b.id,
       name: b.name,
       name_ar: b.name_ar,
@@ -263,15 +333,13 @@ export function PromotionWizardPage() {
 
   // Customer Groups formatted options for VirtualSearchableMultiSelect
   const customerGroupOptions: SearchableOption[] = useMemo(() => {
-    const raw = customerGroupsData && customerGroupsData.length > 0
-      ? customerGroupsData
-      : (lookups?.customerGroups || [])
-    return raw.map((g) => {
-      const pct = 'discount_percentage' in g
-        ? g.discount_percentage
-        : 'discountPercentage' in g
-        ? (g as unknown as { discountPercentage?: number }).discountPercentage
-        : null
+    const raw: CustomerGroupOptionItem[] = (
+      customerGroupsData && customerGroupsData.length > 0
+        ? customerGroupsData
+        : (lookups?.customerGroups || [])
+    ) as CustomerGroupOptionItem[]
+    return raw.map((g: CustomerGroupOptionItem) => {
+      const pct = g.discount_percentage ?? g.discountPercentage ?? null
       const pctNum = pct ? Number(pct) : 0
       return {
         id: g.id,
@@ -284,10 +352,12 @@ export function PromotionWizardPage() {
 
   // Sales Channels formatted options for VirtualSearchableMultiSelect
   const channelOptions: SearchableOption[] = useMemo(() => {
-    const raw = channelsData && channelsData.length > 0
-      ? channelsData
-      : (lookups?.channels || [])
-    return raw.map((ch) => ({
+    const raw: ChannelOptionItem[] = (
+      channelsData && channelsData.length > 0
+        ? channelsData
+        : (lookups?.channels || [])
+    ) as ChannelOptionItem[]
+    return raw.map((ch: ChannelOptionItem) => ({
       id: ch.id,
       name: ch.name,
       name_ar: ch.name_ar,
@@ -306,13 +376,56 @@ export function PromotionWizardPage() {
     }))
   }, [lookups?.products])
 
+  // Branches formatted options for VirtualSearchableMultiSelect
+  const branchOptions: SearchableOption[] = useMemo(() => {
+    const raw =
+      branchesData && branchesData.length > 0
+        ? (branchesData as BranchOptionItem[])
+        : ((lookups?.branches || []) as BranchOptionItem[])
+    return raw.map((br) => {
+      const cityName = br.cities?.name
+      const countryName = br.cities?.countries?.name
+      const locationStr = [cityName, countryName].filter(Boolean).join(', ')
+      return {
+        id: br.id,
+        name: br.name,
+        description: locationStr || br.address || br.phone || undefined,
+        badge: br.is_active === false ? 'Inactive' : undefined,
+      }
+    })
+  }, [branchesData, lookups?.branches])
+
+  // Stores formatted options for VirtualSearchableMultiSelect
+  const storeOptions: SearchableOption[] = useMemo(() => {
+    const raw =
+      storesData && storesData.length > 0
+        ? (storesData as StoreOptionItem[])
+        : ((lookups?.stores || []) as StoreOptionItem[])
+    return raw.map((st) => {
+      const id = st.store_id || st.id || ''
+      const branchName = st.branches?.name
+      const cityName = st.cities?.name
+      const descParts = [
+        branchName ? `Branch: ${branchName}` : null,
+        cityName,
+      ].filter(Boolean)
+      return {
+        id,
+        name: st.name,
+        code: st.code || undefined,
+        description: descParts.length > 0 ? descParts.join(' • ') : undefined,
+        badge: st.is_active === false ? 'Inactive' : st.code || undefined,
+      }
+    })
+  }, [storesData, lookups?.stores])
+
   const createMutation = useCreatePromotion()
   const updateMutation = useUpdatePromotion()
 
   const defaultStartDate = new Date().toISOString().split('T')[0]
 
   const form = useForm<PromotionFormValues>({
-    resolver: zodResolver(promotionFormSchema),
+    resolver: zodResolver(promotionFormSchema) as Resolver<PromotionFormValues>,
     defaultValues: {
       name: '',
       code: '',
@@ -393,46 +506,60 @@ export function PromotionWizardPage() {
           : '',
         timezone: existingData.timezone || 'Asia/Qatar',
         priority: existingData.priority ?? 10,
-        currencyId: existingData.currency_id || undefined,
-        currencyCode: existingData.currency?.code || 'QAR',
-        minOrderAmount: Number(existingData.min_order_amount ?? 0),
-        maxDiscountAmount: existingData.max_discount_amount
+        currencyId: existingData.currency_id || existingData.currencyId || undefined,
+        currencyCode:
+          existingData.currency_code ||
+          existingData.currencyCode ||
+          existingData.currencies?.code ||
+          existingData.currency?.code ||
+          'QAR',
+        minOrderAmount: Number(existingData.min_order_amount ?? existingData.minOrderAmount ?? 0),
+        maxDiscountAmount: existingData.max_discount_amount != null
           ? Number(existingData.max_discount_amount)
+          : existingData.maxDiscountAmount != null
+          ? Number(existingData.maxDiscountAmount)
           : undefined,
-        usageLimit: existingData.usage_limit ?? undefined,
-        usagePerCustomer: existingData.usage_per_customer ?? 1,
-        dailyUsageLimit: existingData.daily_usage_limit ?? undefined,
-        allowStacking: existingData.allow_stacking ?? false,
-        stackingPriority: existingData.stacking_priority ?? 10,
-        maxStackingCount: existingData.max_stacking_count ?? 1,
-        requiresCoupon: existingData.requires_coupon ?? false,
-        requiresApproval: existingData.requires_approval ?? false,
-        autoApply: existingData.auto_apply ?? true,
-        scopeProductType: existingData.products?.length > 0 ? 'selected' : 'all',
-        scopeCustomerType: existingData.customer_groups?.length > 0 ? 'selected' : 'all',
-        scopeChannelType: existingData.channels?.length > 0 ? 'selected' : 'all',
+        usageLimit: existingData.usage_limit ?? existingData.usageLimit ?? undefined,
+        usagePerCustomer: existingData.usage_per_customer ?? existingData.usagePerCustomer ?? 1,
+        dailyUsageLimit: existingData.daily_usage_limit ?? existingData.dailyUsageLimit ?? undefined,
+        allowStacking: existingData.allow_stacking ?? existingData.allowStacking ?? false,
+        stackingPriority: existingData.stacking_priority ?? existingData.stackingPriority ?? 10,
+        maxStackingCount: existingData.max_stacking_count ?? existingData.maxStackingCount ?? 1,
+        requiresCoupon: existingData.requires_coupon ?? existingData.requiresCoupon ?? false,
+        requiresApproval: existingData.requires_approval ?? existingData.requiresApproval ?? false,
+        autoApply: existingData.auto_apply ?? existingData.autoApply ?? true,
+        scopeProductType: (existingData.products?.length ?? 0) > 0 ? 'selected' : 'all',
+        scopeCustomerType:
+          ((existingData.customer_groups?.length ?? 0) > 0 || (existingData.customerGroups?.length ?? 0) > 0)
+            ? 'selected'
+            : 'all',
+        scopeChannelType: (existingData.channels?.length ?? 0) > 0 ? 'selected' : 'all',
         scopeLocationType:
-          existingData.stores?.length > 0 || existingData.branches?.length > 0
+          ((existingData.stores?.length ?? 0) > 0 || (existingData.branches?.length ?? 0) > 0)
             ? 'selected'
             : 'all',
         rules:
           existingData.rules && existingData.rules.length > 0
-            ? (existingData.rules as RuleItem[]).map((r: RuleItem) => ({
+            ? (existingData.rules as unknown as RuleItem[]).map((r: RuleItem) => ({
                 id: r.id,
-                ruleType: r.action_type || 'percentage_discount',
-                discountValue: Number(r.discount_value ?? 0),
-                applyTo: r.apply_to || 'matching_items',
-                buyQuantity: r.buy_quantity ?? undefined,
-                getQuantity: r.get_quantity ?? undefined,
-                getDiscountPercent: Number(r.get_discount_percent ?? 100),
-                getProductVariantId: r.get_product_variant_id ?? undefined,
-                tierMinQuantity: r.tier_min_quantity
+                ruleType: r.rule_type || r.ruleType || r.action_type || 'percentage_discount',
+                discountValue: Number(r.discount_value ?? r.discountValue ?? 0),
+                applyTo: r.apply_to || r.applyTo || 'matching_items',
+                buyQuantity: r.buy_quantity ?? r.buyQuantity ?? undefined,
+                getQuantity: r.get_quantity ?? r.getQuantity ?? undefined,
+                getDiscountPercent: Number(r.get_discount_percent ?? r.getDiscountPercent ?? 100),
+                getProductVariantId: r.get_product_variant_id ?? r.getProductVariantId ?? undefined,
+                tierMinQuantity: r.tier_min_quantity != null
                   ? Number(r.tier_min_quantity)
+                  : r.tierMinQuantity != null
+                  ? Number(r.tierMinQuantity)
                   : undefined,
-                tierMinAmount: r.tier_min_amount
+                tierMinAmount: r.tier_min_amount != null
                   ? Number(r.tier_min_amount)
+                  : r.tierMinAmount != null
+                  ? Number(r.tierMinAmount)
                   : undefined,
-                sortOrder: r.sort_order ?? 0,
+                sortOrder: r.sort_order ?? r.sortOrder ?? 0,
               }))
             : [
                 {
@@ -497,28 +624,51 @@ export function PromotionWizardPage() {
   // Form submission
   const onSubmit = async (values: PromotionFormValues) => {
     try {
-      if (isEditMode && params.promotionId) {
+      if (isEditMode && promoId) {
         await updateMutation.mutateAsync({
-          id: params.promotionId,
+          id: promoId,
           input: values,
         })
         toast.success(
-          t('promotions.wizard.updatedSuccess', 'Promotion updated successfully')
+          t('promotions.wizard.updatedSuccess', 'Promotion updated successfully!')
         )
+        navigate({ to: `/promotions/${promoId}` })
       } else {
-        await createMutation.mutateAsync(values)
+        const created = await createMutation.mutateAsync(values)
         toast.success(
-          t('promotions.wizard.savedSuccess', 'Promotion created successfully')
+          t('promotions.wizard.createdSuccess', 'Promotion created successfully!')
         )
+        navigate({ to: `/promotions/${created.id}` })
       }
-      navigate({ to: '/promotions' })
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : t('promotions.wizard.saveFailed', 'Failed to save promotion')
       toast.error(msg)
     }
   }
 
-  const values = form.watch()
+  const watchedValues = useWatch({ control: form.control })
+  const values = (watchedValues ?? form.getValues()) as PromotionFormValues
+
+  // Lookups for previewing selected branches & stores
+  const selectedBranches = useMemo(() => {
+    const selectedIds = new Set(values.branchIds?.map((b) => b.branchId) || [])
+    if (selectedIds.size === 0) return []
+    const source =
+      branchesData && branchesData.length > 0
+        ? (branchesData as BranchOptionItem[])
+        : ((lookups?.branches || []) as BranchOptionItem[])
+    return source.filter((b) => selectedIds.has(b.id))
+  }, [branchesData, lookups?.branches, values.branchIds])
+
+  const selectedStores = useMemo(() => {
+    const selectedIds = new Set(values.storeIds?.map((s) => s.storeId) || [])
+    if (selectedIds.size === 0) return []
+    const source =
+      storesData && storesData.length > 0
+        ? (storesData as StoreOptionItem[])
+        : ((lookups?.stores || []) as StoreOptionItem[])
+    return source.filter((s) => selectedIds.has(s.store_id || s.id || ''))
+  }, [storesData, lookups?.stores, values.storeIds])
 
   const handleNext = () => {
     if (currentStep < 6) setCurrentStep(currentStep + 1)
@@ -550,7 +700,11 @@ export function PromotionWizardPage() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => navigate({ to: '/promotions' })}
+            onClick={() =>
+              isEditMode && promoId
+                ? navigate({ to: `/promotions/${promoId}` })
+                : navigate({ to: '/promotions' })
+            }
             className="h-8 w-8"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -1030,7 +1184,7 @@ export function PromotionWizardPage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 {ruleFields.map((field, idx) => {
-                  const ruleType = form.watch(`rules.${idx}.ruleType`)
+                  const ruleType = values.rules?.[idx]?.ruleType || field.ruleType
 
                   return (
                     <div
@@ -1120,7 +1274,7 @@ export function PromotionWizardPage() {
                         <div className="space-y-2">
                           <Label>{t('promotions.wizard.step2.applyTo', 'Apply To')}</Label>
                           <Select
-                            value={form.watch(`rules.${idx}.applyTo`)}
+                            value={values.rules?.[idx]?.applyTo || field.applyTo || 'matching_items'}
                             onValueChange={(val: string) =>
                               form.setValue(`rules.${idx}.applyTo`, val)
                             }
@@ -1371,85 +1525,181 @@ export function PromotionWizardPage() {
                   </div>
 
                   {values.scopeLocationType === 'selected' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                      <div className="space-y-2 p-3 rounded-lg border border-border/60">
-                        <Label className="text-xs font-semibold">
-                          {t('promotions.detailPage.branches', 'Branches')}
-                        </Label>
-                        <div className="max-h-36 overflow-y-auto space-y-1.5 pt-1">
-                          {lookups?.branches?.map((br) => {
-                            const isSelected = values.branchIds?.some(
-                              (b) => b.branchId === br.id
-                            )
-                            return (
-                              <label
-                                key={br.id}
-                                className="flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 p-1 rounded"
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={isSelected}
-                                  onChange={(e) => {
-                                    const current = values.branchIds || []
-                                    if (e.target.checked) {
-                                      form.setValue('branchIds', [
-                                        ...current,
-                                        { branchId: br.id, isExcluded: false },
-                                      ])
-                                    } else {
-                                      form.setValue(
-                                        'branchIds',
-                                        current.filter((b) => b.branchId !== br.id)
-                                      )
-                                    }
-                                  }}
-                                  className="rounded border-border"
-                                />
-                                <span>{br.name}</span>
-                              </label>
-                            )
-                          })}
+                    <div className="space-y-4 pt-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Branches Selector */}
+                        <div className="space-y-2 p-3 rounded-lg border border-border/60 bg-card">
+                          <div className="flex items-center justify-between">
+                            <Label className="text-xs font-semibold flex items-center gap-1.5">
+                              <Building className="h-3.5 w-3.5 text-primary" />
+                              {t('promotions.detailPage.branches', 'Branches')}
+                            </Label>
+                            <Badge variant="outline" className="text-[10px]">
+                              {values.branchIds?.length || 0} selected
+                            </Badge>
+                          </div>
+                          <VirtualSearchableMultiSelect
+                            values={values.branchIds?.map((b) => b.branchId) || []}
+                            onChange={(ids) => {
+                              form.setValue(
+                                'branchIds',
+                                ids.map((id) => ({ branchId: id, isExcluded: false })),
+                                { shouldDirty: true }
+                              )
+                            }}
+                            options={branchOptions}
+                            placeholder={t('promotions.wizard.step3.selectBranches', 'Select eligible branches...')}
+                            searchPlaceholder="Search branches by name, city, or country..."
+                            isLoading={branchesLoading}
+                            emptyText="No matching branches found"
+                          />
+                        </div>
+
+                        {/* Stores Selector */}
+                        <div className="space-y-2 p-3 rounded-lg border border-border/60 bg-card">
+                          <div className="flex items-center justify-between">
+                            <Label className="text-xs font-semibold flex items-center gap-1.5">
+                              <Store className="h-3.5 w-3.5 text-primary" />
+                              {t('promotions.detailPage.stores', 'Stores')}
+                            </Label>
+                            <Badge variant="outline" className="text-[10px]">
+                              {values.storeIds?.length || 0} selected
+                            </Badge>
+                          </div>
+                          <VirtualSearchableMultiSelect
+                            values={values.storeIds?.map((s) => s.storeId) || []}
+                            onChange={(ids) => {
+                              form.setValue(
+                                'storeIds',
+                                ids.map((id) => ({ storeId: id, isExcluded: false })),
+                                { shouldDirty: true }
+                              )
+                            }}
+                            options={storeOptions}
+                            placeholder={t('promotions.wizard.step3.selectStores', 'Select eligible stores...')}
+                            searchPlaceholder="Search stores by name, code, or branch..."
+                            isLoading={storesLoading}
+                            emptyText="No matching stores found"
+                          />
                         </div>
                       </div>
 
-                      <div className="space-y-2 p-3 rounded-lg border border-border/60">
-                        <Label className="text-xs font-semibold">
-                          {t('promotions.detailPage.stores', 'Stores')}
-                        </Label>
-                        <div className="max-h-36 overflow-y-auto space-y-1.5 pt-1">
-                          {lookups?.stores?.map((st) => {
-                            const isSelected = values.storeIds?.some(
-                              (s) => s.storeId === st.store_id
-                            )
-                            return (
-                              <label
-                                key={st.store_id}
-                                className="flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 p-1 rounded"
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={isSelected}
-                                  onChange={(e) => {
-                                    const current = values.storeIds || []
-                                    if (e.target.checked) {
-                                      form.setValue('storeIds', [
-                                        ...current,
-                                        { storeId: st.store_id, isExcluded: false },
-                                      ])
-                                    } else {
-                                      form.setValue(
-                                        'storeIds',
-                                        current.filter((s) => s.storeId !== st.store_id)
-                                      )
-                                    }
-                                  }}
-                                  className="rounded border-border"
-                                />
-                                <span>{st.name}</span>
-                              </label>
-                            )
-                          })}
+                      {/* Locations Live Preview */}
+                      <div className="rounded-lg border border-border/70 bg-muted/20 p-3 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-primary" />
+                            <span className="text-xs font-semibold">
+                              {t('promotions.wizard.step3.locationPreviewTitle', 'Selected Locations Live Preview')}
+                            </span>
+                          </div>
+                          <span className="text-[11px] text-muted-foreground font-medium">
+                            {selectedBranches.length} {t('promotions.detailPage.branches', 'Branches')} • {selectedStores.length} {t('promotions.detailPage.stores', 'Stores')}
+                          </span>
                         </div>
+
+                        {selectedBranches.length === 0 && selectedStores.length === 0 ? (
+                          <div className="text-xs text-muted-foreground italic py-3 text-center bg-background/50 rounded border border-dashed border-border">
+                            {t(
+                              'promotions.wizard.step3.noLocationsSelected',
+                              'No branches or stores selected yet. Pick specific branches or stores above to target them for this promotion.'
+                            )}
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                            {/* Selected Branches List */}
+                            <div className="space-y-1.5">
+                              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center justify-between">
+                                <span>{t('promotions.detailPage.branches', 'Branches')}</span>
+                                <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4">
+                                  {selectedBranches.length}
+                                </Badge>
+                              </span>
+                              {selectedBranches.length === 0 ? (
+                                <p className="text-[11px] text-muted-foreground italic py-1">None selected</p>
+                              ) : (
+                                <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                                  {selectedBranches.map((br) => {
+                                    const cityName = br.cities?.name
+                                    const countryName = br.cities?.countries?.name
+                                    const loc = [cityName, countryName].filter(Boolean).join(', ')
+                                    return (
+                                      <div
+                                        key={br.id}
+                                        className="flex items-center justify-between text-xs p-2 rounded-md bg-background border border-border/70 shadow-2xs"
+                                      >
+                                        <div className="min-w-0 pr-2">
+                                          <div className="font-medium truncate">{br.name}</div>
+                                          {(loc || br.address) && (
+                                            <div className="text-[10px] text-muted-foreground truncate">
+                                              {loc || br.address}
+                                            </div>
+                                          )}
+                                        </div>
+                                        <Badge
+                                          variant="outline"
+                                          className={cn(
+                                            'text-[10px] shrink-0 font-normal',
+                                            br.is_active === false
+                                              ? 'border-destructive/30 text-destructive'
+                                              : 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                                          )}
+                                        >
+                                          {br.is_active === false ? 'Inactive' : 'Active'}
+                                        </Badge>
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Selected Stores List */}
+                            <div className="space-y-1.5">
+                              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center justify-between">
+                                <span>{t('promotions.detailPage.stores', 'Stores')}</span>
+                                <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4">
+                                  {selectedStores.length}
+                                </Badge>
+                              </span>
+                              {selectedStores.length === 0 ? (
+                                <p className="text-[11px] text-muted-foreground italic py-1">None selected</p>
+                              ) : (
+                                <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                                  {selectedStores.map((st) => (
+                                    <div
+                                      key={st.store_id || st.id}
+                                      className="flex items-center justify-between text-xs p-2 rounded-md bg-background border border-border/70 shadow-2xs"
+                                    >
+                                      <div className="min-w-0 pr-2">
+                                        <div className="font-medium truncate">{st.name}</div>
+                                        <div className="text-[10px] text-muted-foreground truncate">
+                                          {[
+                                            st.code ? `Code: ${st.code}` : null,
+                                            st.branches?.name ? `Branch: ${st.branches.name}` : null,
+                                          ]
+                                            .filter(Boolean)
+                                            .join(' • ')}
+                                        </div>
+                                      </div>
+                                      <Badge
+                                        variant="outline"
+                                        className={cn(
+                                          'text-[10px] shrink-0 font-normal',
+                                          st.is_active === false
+                                            ? 'border-destructive/30 text-destructive'
+                                            : 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                                        )}
+                                      >
+                                        {st.is_active === false ? 'Inactive' : 'Active'}
+                                      </Badge>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -1595,7 +1845,7 @@ export function PromotionWizardPage() {
                       <div className="space-y-1.5">
                         <Label className="text-xs">{t('promotions.wizard.step4.field', 'Rule Field')}</Label>
                         <Select
-                          value={form.watch(`conditions.${idx}.field`)}
+                          value={values.conditions?.[idx]?.field || cond.field}
                           onValueChange={(val: string) =>
                             form.setValue(`conditions.${idx}.field`, val as ConditionField)
                           }
@@ -1626,7 +1876,7 @@ export function PromotionWizardPage() {
                       <div className="space-y-1.5">
                         <Label className="text-xs">{t('promotions.wizard.step4.operator', 'Operator')}</Label>
                         <Select
-                          value={form.watch(`conditions.${idx}.operator`)}
+                          value={values.conditions?.[idx]?.operator || cond.operator}
                           onValueChange={(val: string) =>
                             form.setValue(`conditions.${idx}.operator`, val as ConditionOperator)
                           }

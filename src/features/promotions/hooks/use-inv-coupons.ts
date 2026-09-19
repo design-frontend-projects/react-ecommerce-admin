@@ -1,15 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/auth-store'
 import {
-  getCoupons,
+  fetchCoupons,
   createCoupon,
   updateCoupon,
   changeCouponStatus,
   deleteCoupon,
   generateBulkCoupons,
-  type GetCouponsFilter,
-  type CouponMutationInput,
-  type BulkCouponGenerateInput,
+} from '../data/actions'
+import type {
+  GetCouponsFilter,
+  CouponMutationInput,
+  BulkCouponGenerateInput,
 } from '@/server/fns/coupons-crud'
 import type { CouponStatus } from '@/features/promotions/types'
 
@@ -20,7 +22,7 @@ export function useInvCoupons(filter: GetCouponsFilter = {}) {
     queryKey: ['inv_coupons', filter, userId],
     queryFn: async () => {
       if (!userId) throw new Error('User not authenticated')
-      return getCoupons(userId, filter)
+      return fetchCoupons(filter)
     },
     enabled: !!userId,
   })
@@ -33,7 +35,7 @@ export function useCreateCoupon() {
   return useMutation({
     mutationFn: async (input: CouponMutationInput) => {
       if (!userId) throw new Error('User not authenticated')
-      return createCoupon(userId, input)
+      return createCoupon(input)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inv_coupons'] })
@@ -49,7 +51,7 @@ export function useUpdateCoupon() {
   return useMutation({
     mutationFn: async ({ id, input }: { id: string; input: Partial<CouponMutationInput> }) => {
       if (!userId) throw new Error('User not authenticated')
-      return updateCoupon(userId, id, input)
+      return updateCoupon(id, input)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inv_coupons'] })
@@ -64,7 +66,7 @@ export function useChangeCouponStatus() {
   return useMutation({
     mutationFn: async ({ id, status }: { id: string; status: CouponStatus }) => {
       if (!userId) throw new Error('User not authenticated')
-      return changeCouponStatus(userId, id, status)
+      return changeCouponStatus(id, status)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inv_coupons'] })
@@ -79,7 +81,7 @@ export function useDeleteCoupon() {
   return useMutation({
     mutationFn: async (id: string) => {
       if (!userId) throw new Error('User not authenticated')
-      return deleteCoupon(userId, id)
+      return deleteCoupon(id)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inv_coupons'] })
@@ -94,7 +96,7 @@ export function useGenerateBulkCoupons() {
   return useMutation({
     mutationFn: async (input: BulkCouponGenerateInput) => {
       if (!userId) throw new Error('User not authenticated')
-      return generateBulkCoupons(userId, input)
+      return generateBulkCoupons(input)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inv_coupons'] })

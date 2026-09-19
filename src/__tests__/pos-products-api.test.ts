@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import prisma from '@/lib/prisma'
 import { resolvePosVariantPrices } from '@/server/fns/pos-pricing-resolver'
 import { Prisma } from '@/generated/prisma/client'
+import { buildPosProductWhere, isUuid } from '@/routes/api/pos/products'
 
 vi.mock('@/lib/prisma', () => ({
   default: {
@@ -34,6 +35,9 @@ vi.mock('@/lib/prisma', () => ({
     pos_terminals: {
       findFirst: vi.fn().mockResolvedValue(null),
       findUnique: vi.fn().mockResolvedValue(null),
+    },
+    categories: {
+      findMany: vi.fn().mockResolvedValue([]),
     },
   },
 }))
@@ -240,4 +244,85 @@ describe('POS Products API & Pricing Resolver', () => {
       variantAttributes: { size: '250g' },
     })
   })
+
+  describe('buildPosProductWhere & UUID Safety', () => {
+    const tenantId = '00000000-0000-0000-0000-000000000001'
+
+    it('identifies valid UUID vs non-UUID strings correctly', () => {
+      expect(isUuid('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')).toBe(true)
+      expect(isUuid('00000000-0000-0000-0000-000000000000')).toBe(true)
+      expect(isUuid('Fresh Meats & Poultry')).toBe(false)
+      expect(isUuid('undefined')).toBe(false)
+      expect(isUuid('')).toBe(false)
+      expect(isUuid(null)).toBe(false)
+      expect(isUuid(undefined)).toBe(false)
+    })
+
+    it('handles category name (non-UUID) via relational categories clause without assigning invalid UUID to category_id', () => {
+      const where = buildPosProductWhere({
+        tenantId,
+        categoryId: 'Fresh Meats & Poultry',
+      })
+
+      expect(where.tenant_id).toBe(tenantId)
+      expect(where.is_active).toBe(true)
+      expect(where.deleted_at).toBeNull()
+      // Critical check: category_id MUST NOT receive the non-UUID string
+      expect(where.category_id).toBeUndefined()
+      expect(where.categories).toEqual({
+        OR: [
+          { name: { equals: 'Fresh Meats & Poultry', mode: 'insensitive' } },
+          { name_ar: { equals: 'Fresh Meats & Poultry', mode: 'insensitive' } },
+        ],
+      })
+    })
+
+    it('handles category ID (valid UUID) directly on category_id', () => {
+      const categoryUuid = '123e4567-e89b-12d3-a456-426614174000'
+      const where = buildPosProductWhere({
+        tenantId,
+        categoryId: categoryUuid,
+      })
+
+      expect(where.category_id).toBe(categoryUuid)
+      expect(where.categories).toBeUndefined()
+    })
+
+    it('handles brand name (non-UUID) via relational brands clause and brand UUID directly', () => {
+      const nameWhere = buildPosProductWhere({
+        tenantId,
+        brandId: 'House Brand',
+      })
+      expect(nameWhere.brand_id).toBeUndefined()
+      expect(nameWhere.brands).toEqual({
+        name: { equals: 'House Brand', mode: 'insensitive' },
+      })
+
+      const brandUuid = '987fcdeb-51a2-43f7-9abc-def012345678'
+      const uuidWhere = buildPosProductWhere({
+        tenantId,
+        brandId: brandUuid,
+      })
+      expect(uuidWhere.brand_id).toBe(brandUuid)
+      expect(uuidWhere.brands).toBeUndefined()
+    })
+
+    it('combines category, brand, and search filters gracefully', () => {
+      const where = buildPosProductWhere({
+        tenantId,
+        categoryId: 'Fresh Meats & Poultry',
+        brandId: 'House Brand',
+        search: 'Chicken',
+        matchedVariantIds: ['var-999'],
+      })
+
+      expect(where.category_id).toBeUndefined()
+      expect(where.categories).toBeDefined()
+      expect(where.brand_id).toBeUndefined()
+      expect(where.brands).toBeDefined()
+      expect(where.OR).toBeDefined()
+      expect(where.OR?.length).toBe(4)
+    })
+  })
 })
+

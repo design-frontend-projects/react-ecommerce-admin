@@ -1,5 +1,115 @@
 # Error Log
 
+## [2026-09-19 04:20] - TypeScript Possibly Undefined Operator Comparison on Promotion Scopes
+
+- **Type**: Syntax / Type
+- **Severity**: Low
+- **File**: `src/features/promotions/pages/promotion-detail-page.tsx:558`
+- **Agent**: @frontend-specialist
+- **Root Cause**: `promo.brands` (along with `categories`, `products`, `branches`, `stores`, `channels`, `rules`, etc.) on `InvPromotion` are optional relational properties (`brands?: ...[] | undefined`). Evaluating `promo.brands?.length > 0` produces a `number | undefined` on the left-hand side of relational comparison `>`, which TypeScript flags under `strictNullChecks` / `"strict": true` with `'promo.brands.length' is possibly 'undefined'`.
+- **Error Message**:
+  ```
+  'promo.brands.length' is possibly 'undefined'.
+  ```
+- **Fix Applied**: Replaced uncoalesced length comparisons with nullish coalescing defaults: `(promo.brands?.length ?? 0) > 0` and `(promo.rules?.length ?? 0) === 0` across all scope lists and relational tabs in `src/features/promotions/pages/promotion-detail-page.tsx`.
+- **Prevention**: When checking array lengths on optional or nullable relational fields in TypeScript, always use nullish coalescing `(arr?.length ?? 0) > 0` or truthy guards `arr && arr.length > 0` so that relational operators (`>`, `<`, `===`) always operate on strictly typed numbers.
+- **Status**: Fixed
+
+---
+
+## [2026-09-19 04:15] - TypeScript Any Types and React Compiler Watch Incompatibility in Promotions Pages
+
+- **Type**: Syntax / Integration
+- **Severity**: Medium
+- **File**: `src/features/promotions/pages/promotion-detail-page.tsx`, `src/features/promotions/pages/promotion-wizard-page.tsx`
+- **Agent**: @frontend-specialist
+- **Root Cause**: 
+  1. In `promotion-detail-page.tsx` and `promotion-wizard-page.tsx`, untyped casts (`as any`) were used across rule action mappings, route navigation fallback parameters, customer group options, and channel options, violating `@typescript-eslint/no-explicit-any`.
+  2. In `promotion-wizard-page.tsx`, calling `form.watch(...)` inside array field mappings (`ruleFields.map`, `conditionFields.map`) triggered React Compiler's `react-hooks/incompatible-library` warning (`Compilation Skipped: Use of incompatible library - React Hook Form's useForm() API returns a watch() function which cannot be memoized safely`).
+- **Error Message**:
+  ```
+  error Unexpected any. Specify a different type @typescript-eslint/no-explicit-any
+  warning Compilation Skipped: Use of incompatible library react-hooks/incompatible-library
+  ```
+- **Fix Applied**:
+  1. In `src/features/promotions/types/index.ts`: Enhanced `InvPromotion` and `InvPromotionRule` with both database snake_case and application camelCase properties to eliminate untyped casts across all promotional entities.
+  2. In `promotion-detail-page.tsx`:
+     - Defined `DetailRuleItem` with optional `action_type`, `rule_type`, and `ruleType` fields.
+     - Typed TanStack Router navigation to `/_authenticated/promotions/$promotionId/edit` with `params: { promotionId: promo.id }` cleanly without `as any`.
+     - Derived `ruleAction` cleanly using optional chaining and nullish coalescing.
+  3. In `promotion-wizard-page.tsx`:
+     - Replaced inline `form.watch(...)` calls in render loops with `useWatch({ control: form.control })`, completely resolving the React Compiler memoization incompatibility.
+     - Introduced explicit interfaces `CustomerGroupOptionItem` and `ChannelOptionItem` for virtual searchable multi-select options.
+     - Updated `RuleItem` and `form.reset` prefill to handle both camelCase and snake_case API representations safely without `as any`.
+  4. Ran eslint and Vitest test suite (`src/__tests__/promotion*.ts*`), verifying 25/25 passing tests and 0 lint warnings/errors.
+- **Prevention**: Use `useWatch({ control })` instead of invoking `form.watch()` inside render loops or array mappings. Define comprehensive entity types that accommodate database snake_case naming alongside frontend camelCase naming to avoid resorting to `as any`.
+- **Status**: Fixed
+
+---
+
+## [2026-09-19 03:20] - Prisma Invalid UUID Syntax Error in /api/pos/products count() and findMany()
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/routes/api/pos/products.ts:137`
+- **Agent**: @backend-specialist
+- **Root Cause**: `src/routes/api/pos/products.ts` directly assigned the query parameter `categoryId` to Prisma's `category_id` field (`category_id: categoryId`). In PostgreSQL and Prisma, `products.category_id` is a `@db.Uuid` column. When the frontend POS catalog or category pills passed human-readable category names (e.g., `"Fresh Meats & Poultry"`), PostgreSQL rejected the query with `invalid input syntax for type uuid: "Fresh Meats & Poultry"`, causing a 500 error in `prisma.products.count()` and `prisma.products.findMany()`.
+- **Error Message**:
+  ```
+  Invalid `prisma.products.count()` invocation in
+  src/routes/api/pos/products.ts:137:27
+
+  Invalid input value: invalid input syntax for type uuid: "Fresh Meats & Poultry"
+  ```
+- **Fix Applied**:
+  1. Updated `src/routes/api/pos/products.ts`:
+     - Added `isUuid()` helper to validate PostgreSQL UUID formatting (`/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i`).
+     - Extracted `buildPosProductWhere()` query builder:
+       - If `categoryId` is a valid UUID, filter directly by `category_id: categoryId`.
+       - If `categoryId` is a human-readable name, filter safely via relational `categories: { OR: [{ name: { equals: category, mode: 'insensitive' } }, { name_ar: { equals: category, mode: 'insensitive' } }] }`.
+       - If `brandId` is a valid UUID, filter by `brand_id: brandId`, else filter via relational `brands: { name: { equals: brand, mode: 'insensitive' } }`.
+       - Validated `warehouseId` format before querying `stock_balances` to avoid invalid UUID syntax errors.
+  2. Updated `src/routes/api/pos/products.ts`:
+     - Queried tenant categories from `prisma.categories.findMany` and returned them in `data.categories`.
+  3. Updated `src/features/pos/components/pos-main-screen.tsx`:
+     - Removed inline render `setState` loop (`prevItems` tracking against unstable `[]`), wrapping `rawItems` in `useMemo`.
+     - Populated `categories` declaratively using server-returned `catalogData.categories` with fallback to item categories, eliminating infinite re-render loops and preventing connection pool exhaustion (`EMAXCONNSESSION`).
+  4. Added comprehensive test coverage in `src/__tests__/pos-products-api.test.ts` verifying UUID validation and query construction for both UUID and category/brand names.
+- **Prevention**: Never pass unvalidated string parameters directly to Prisma UUID columns. Never perform synchronous `setState` in render or effects on unstable array fallbacks (`catalogData?.items || []`) which cause infinite re-render loops and server connection pool exhaustion.
+- **Status**: Fixed
+
+---
+
+## [2026-09-19 03:15] - Prisma Client Browser Usage Error in Promotions Module
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/features/promotions/hooks/use-inv-promotions.ts:78`
+- **Agent**: @backend-specialist
+- **Root Cause**: The client-side TanStack Query hooks in `src/features/promotions/hooks/` (`use-inv-promotions.ts`, `use-inv-coupons.ts`, `use-inv-approvals.ts`, `use-discount-analytics.ts`) directly imported and executed server CRUD functions (`createPromotion`, `getPromotions`, `createCoupon`, etc.) from `@/server/fns/promotions-crud.ts`. Because these were plain TypeScript functions rather than HTTP endpoints, Vite bundled `promotions-crud.ts` into the browser bundle. When executed in the browser, accessing `@/lib/prisma` threw an error because `PrismaClient` is prohibited from running client-side.
+- **Error Message**:
+  ```
+  handle-server-error.ts:7 Error: PrismaClient cannot be used in the browser. Please use an API route or server function.
+      at Object.get (prisma.ts:37:15)
+      at resolveTenantId (tenant.ts:28:36)
+      at requireTenantId (tenant.ts:59:26)
+      at createPromotion (promotions-crud.ts:245:26)
+      at Object.mutationFn (use-inv-promotions.ts:78:14)
+  ```
+- **Fix Applied**:
+  1. Created server API routes in `src/routes/api/`:
+     - `src/routes/api/promotions.ts`: handles GET, POST (create/duplicate), PATCH (update/status), DELETE.
+     - `src/routes/api/coupons.ts`: handles GET, POST (create/bulk), PATCH (update/status), DELETE.
+     - `src/routes/api/discount-approvals.ts`: handles GET, POST (create/review).
+     - `src/routes/api/discount-reports.ts`: handles GET analytics.
+  2. Created `src/features/promotions/data/actions.ts` using `authorizedRequest` with Supabase session tokens to call the `/api/` endpoints from the browser.
+  3. Decoupled all promotion client hooks from `@/server/fns/`, ensuring zero direct Prisma imports in browser-facing bundles.
+  4. Added unit tests in `src/__tests__/promotions-api-actions.test.ts` verifying all HTTP actions and query parameters.
+- **Prevention**: Never import server-only files or Prisma utilities into client-side React hooks or components. Always establish API routes under `src/routes/api/` with `withAuth` and dispatch client calls via `authorizedRequest`.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-19 02:45] - Prisma Client Error: Unknown field `name_ar` for select statement on model `products` in /api/pos/products
 
 - **Type**: Integration

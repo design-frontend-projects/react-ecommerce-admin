@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import {
   MoreHorizontal,
   Eye,
+  Edit,
   Copy,
   Pause,
   Play,
@@ -282,6 +283,22 @@ export function PromotionsTable({
                         className="gap-2 text-xs"
                       >
                         <Eye className="h-3.5 w-3.5" /> {t('promotions.common.details', 'View Details')}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          navigate({
+                            to: '/promotions/$promotionId/edit',
+                            params: { promotionId: p.id },
+                          } as any).catch(() => {
+                            navigate({
+                              to: '/promotions/new',
+                              search: { promotionId: p.id } as any,
+                            })
+                          })
+                        }
+                        className="gap-2 text-xs"
+                      >
+                        <Edit className="h-3.5 w-3.5" /> {t('promotions.common.edit', 'Edit Promotion')}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => onDuplicate(p.id)}

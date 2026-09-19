@@ -328,6 +328,7 @@ export const posApi = {
         stockOnHand: string
         variantAttributes?: any
       }>
+      categories?: Array<{ id: string; name: string }>
       pagination: {
         page: number
         pageSize: number

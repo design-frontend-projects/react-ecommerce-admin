@@ -112,24 +112,45 @@ export interface InvPromotion {
   description?: string | null
   status: PromotionStatus
   promoType: PromotionType
+  promo_type?: PromotionType
   startDate: string
+  start_date?: string
   endDate?: string | null
+  end_date?: string | null
   timezone: string
   priority: number
   currencyId?: string | null
-  currencyCode: string
+  currency_id?: string | null
+  currencyCode?: string
+  currency_code?: string | null
+  currency?: { id: string; code: string; symbol?: string | null; name?: string | null } | null
+  currencies?: { id: string; code: string; symbol?: string | null; name?: string | null } | null
   minOrderAmount?: number
+  min_order_amount?: number | string | null
   maxDiscountAmount?: number | null
+  max_discount_amount?: number | string | null
+  current_discount_amount?: number | null
+  currentDiscountAmount?: number | null
   usageLimit?: number | null
+  usage_limit?: number | null
   usagePerCustomer?: number | null
+  usage_per_customer?: number | null
   dailyUsageLimit?: number | null
+  daily_usage_limit?: number | null
   currentUsageCount: number
+  current_usage_count?: number | null
   allowStacking: boolean
+  allow_stacking?: boolean
   stackingPriority: number
+  stacking_priority?: number
   maxStackingCount?: number | null
+  max_stacking_count?: number | null
   requiresCoupon: boolean
+  requires_coupon?: boolean
   requiresApproval: boolean
+  requires_approval?: boolean
   autoApply: boolean
+  auto_apply?: boolean
   scopeProductType: PromotionScope
   scopeCustomerType: PromotionScope
   scopeChannelType: PromotionScope
@@ -140,16 +161,18 @@ export interface InvPromotion {
   updatedAt: string
 
   // Relations
-  rules?: InvPromotionRule[]
-  conditions?: InvPromotionCondition[]
-  products?: { id: string; productId?: string | null; productVariantId?: string | null; isExcluded: boolean; productName?: string; variantSku?: string }[]
-  categories?: { id: string; categoryId: string; isExcluded: boolean; categoryName?: string }[]
-  brands?: { id: string; brandId: string; isExcluded: boolean; brandName?: string }[]
-  customerGroups?: { id: string; customerGroupId: string; isExcluded: boolean; groupName?: string }[]
-  channels?: { id: string; channelId: string; isExcluded: boolean; channelName?: string }[]
-  stores?: { id: string; storeId: string; isExcluded: boolean; storeName?: string }[]
-  branches?: { id: string; branchId: string; isExcluded: boolean; branchName?: string }[]
+  rules?: (InvPromotionRule | Record<string, unknown>)[]
+  conditions?: (InvPromotionCondition | Record<string, unknown>)[]
+  products?: { id: string; productId?: string | null; product_id?: string | null; productVariantId?: string | null; product_variant_id?: string | null; isExcluded?: boolean; is_excluded?: boolean; productName?: string; variantSku?: string }[]
+  categories?: { id: string; categoryId?: string; category_id?: string; isExcluded?: boolean; is_excluded?: boolean; categoryName?: string }[]
+  brands?: { id: string; brandId?: string; brand_id?: string; isExcluded?: boolean; is_excluded?: boolean; brandName?: string }[]
+  customerGroups?: { id: string; customerGroupId?: string; customer_group_id?: string; isExcluded?: boolean; is_excluded?: boolean; groupName?: string }[]
+  customer_groups?: { id: string; customerGroupId?: string; customer_group_id?: string; isExcluded?: boolean; is_excluded?: boolean; groupName?: string }[]
+  channels?: { id: string; channelId?: string; channel_id?: string; isExcluded?: boolean; is_excluded?: boolean; channelName?: string }[]
+  stores?: { id: string; storeId?: string; store_id?: string; isExcluded?: boolean; is_excluded?: boolean; storeName?: string }[]
+  branches?: { id: string; branchId?: string; branch_id?: string; isExcluded?: boolean; is_excluded?: boolean; branchName?: string }[]
   coupons?: InvCoupon[]
+  usage_logs?: Record<string, unknown>[]
 }
 
 export interface InvCoupon {
@@ -245,6 +268,18 @@ export interface InvDiscountApprovalRequest {
   updatedAt: string
   branchName?: string
   storeName?: string
+}
+
+export interface PromotionLookupData {
+  currencies: { id: string; code: string; name: string; symbol: string | null }[]
+  categories: { id: string; name: string; name_ar?: string | null; parent_id?: string | null }[]
+  brands: { id: string; name: string; name_ar?: string | null; code?: string | null }[]
+  customerGroups: { id: string; name: string; discountPercentage: number }[]
+  channels: { id: string; code: string; name: string }[]
+  stores: { id: string; name: string }[]
+  branches: { id: string; name: string }[]
+  products: { id: string; name: string; sku?: string | null; category_id?: string | null; brand_id?: string | null }[]
+  productVariants: { id: string; name: string; sku: string; product_id: string }[]
 }
 
 // ============================================================================

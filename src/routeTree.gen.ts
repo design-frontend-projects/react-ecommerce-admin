@@ -22,7 +22,11 @@ import { Route as CrmLayoutRouteImport } from './routes/crm/_layout'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as ApiRbacRouteImport } from './routes/api/rbac'
+import { Route as ApiPromotionsRouteImport } from './routes/api/promotions'
 import { Route as ApiNotificationsRouteImport } from './routes/api/notifications'
+import { Route as ApiDiscountReportsRouteImport } from './routes/api/discount-reports'
+import { Route as ApiDiscountApprovalsRouteImport } from './routes/api/discount-approvals'
+import { Route as ApiCouponsRouteImport } from './routes/api/coupons'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedForcePasswordChangeRouteImport } from './routes/_authenticated/force-password-change'
@@ -211,6 +215,7 @@ import { Route as ApiInventoryBatchesExpireRouteImport } from './routes/api/inve
 import { Route as ApiInventoryAdjustmentsApplyRouteImport } from './routes/api/inventory/adjustments/apply'
 import { Route as ApiCrmCustomersSegmentRouteImport } from './routes/api/crm/customers/segment'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
+import { Route as AuthenticatedPromotionsPromotionIdEditRouteImport } from './routes/_authenticated/promotions/$promotionId.edit'
 
 const CrmPipelineLazyRouteImport = createFileRoute('/crm/pipeline')()
 const CrmDashboardLazyRouteImport = createFileRoute('/crm/dashboard')()
@@ -288,9 +293,29 @@ const ApiRbacRoute = ApiRbacRouteImport.update({
   path: '/api/rbac',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPromotionsRoute = ApiPromotionsRouteImport.update({
+  id: '/api/promotions',
+  path: '/api/promotions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiNotificationsRoute = ApiNotificationsRouteImport.update({
   id: '/api/notifications',
   path: '/api/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDiscountReportsRoute = ApiDiscountReportsRouteImport.update({
+  id: '/api/discount-reports',
+  path: '/api/discount-reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDiscountApprovalsRoute = ApiDiscountApprovalsRouteImport.update({
+  id: '/api/discount-approvals',
+  path: '/api/discount-approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCouponsRoute = ApiCouponsRouteImport.update({
+  id: '/api/coupons',
+  path: '/api/coupons',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSubscriptionsRoute =
@@ -1365,6 +1390,12 @@ const AuthenticatedResposInvoiceOrderIdRoute =
     path: '/respos/invoice/$orderId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPromotionsPromotionIdEditRoute =
+  AuthenticatedPromotionsPromotionIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthenticatedPromotionsPromotionIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -1406,7 +1437,11 @@ export interface FileRoutesByFullPath {
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/coupons': typeof ApiCouponsRoute
+  '/api/discount-approvals': typeof ApiDiscountApprovalsRoute
+  '/api/discount-reports': typeof ApiDiscountReportsRoute
   '/api/notifications': typeof ApiNotificationsRoute
+  '/api/promotions': typeof ApiPromotionsRoute
   '/api/rbac': typeof ApiRbacRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
@@ -1431,7 +1466,7 @@ export interface FileRoutesByFullPath {
   '/pos/reports': typeof AuthenticatedPosReportsRoute
   '/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
   '/pos/terminals': typeof AuthenticatedPosTerminalsRoute
-  '/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRoute
+  '/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRouteWithChildren
   '/promotions/coupons': typeof AuthenticatedPromotionsCouponsRoute
   '/promotions/discount-approvals': typeof AuthenticatedPromotionsDiscountApprovalsRoute
   '/promotions/new': typeof AuthenticatedPromotionsNewRoute
@@ -1539,6 +1574,7 @@ export interface FileRoutesByFullPath {
   '/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/api/financial-transactions/': typeof ApiFinancialTransactionsIndexRoute
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
+  '/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
   '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
@@ -1608,7 +1644,11 @@ export interface FileRoutesByTo {
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/coupons': typeof ApiCouponsRoute
+  '/api/discount-approvals': typeof ApiDiscountApprovalsRoute
+  '/api/discount-reports': typeof ApiDiscountReportsRoute
   '/api/notifications': typeof ApiNotificationsRoute
+  '/api/promotions': typeof ApiPromotionsRoute
   '/api/rbac': typeof ApiRbacRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
@@ -1633,7 +1673,7 @@ export interface FileRoutesByTo {
   '/pos/reports': typeof AuthenticatedPosReportsRoute
   '/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
   '/pos/terminals': typeof AuthenticatedPosTerminalsRoute
-  '/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRoute
+  '/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRouteWithChildren
   '/promotions/coupons': typeof AuthenticatedPromotionsCouponsRoute
   '/promotions/discount-approvals': typeof AuthenticatedPromotionsDiscountApprovalsRoute
   '/promotions/new': typeof AuthenticatedPromotionsNewRoute
@@ -1741,6 +1781,7 @@ export interface FileRoutesByTo {
   '/warehouses': typeof AuthenticatedWarehousesIndexRoute
   '/api/financial-transactions': typeof ApiFinancialTransactionsIndexRoute
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
+  '/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
   '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
@@ -1814,7 +1855,11 @@ export interface FileRoutesById {
   '/_authenticated/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
+  '/api/coupons': typeof ApiCouponsRoute
+  '/api/discount-approvals': typeof ApiDiscountApprovalsRoute
+  '/api/discount-reports': typeof ApiDiscountReportsRoute
   '/api/notifications': typeof ApiNotificationsRoute
+  '/api/promotions': typeof ApiPromotionsRoute
   '/api/rbac': typeof ApiRbacRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
@@ -1840,7 +1885,7 @@ export interface FileRoutesById {
   '/_authenticated/pos/reports': typeof AuthenticatedPosReportsRoute
   '/_authenticated/pos/terminal-users': typeof AuthenticatedPosTerminalUsersRoute
   '/_authenticated/pos/terminals': typeof AuthenticatedPosTerminalsRoute
-  '/_authenticated/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRoute
+  '/_authenticated/promotions/$promotionId': typeof AuthenticatedPromotionsPromotionIdRouteWithChildren
   '/_authenticated/promotions/coupons': typeof AuthenticatedPromotionsCouponsRoute
   '/_authenticated/promotions/discount-approvals': typeof AuthenticatedPromotionsDiscountApprovalsRoute
   '/_authenticated/promotions/new': typeof AuthenticatedPromotionsNewRoute
@@ -1948,6 +1993,7 @@ export interface FileRoutesById {
   '/_authenticated/warehouses/': typeof AuthenticatedWarehousesIndexRoute
   '/api/financial-transactions/': typeof ApiFinancialTransactionsIndexRoute
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
+  '/_authenticated/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
   '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
@@ -2021,7 +2067,11 @@ export interface FileRouteTypes {
     | '/force-password-change'
     | '/notifications'
     | '/subscriptions'
+    | '/api/coupons'
+    | '/api/discount-approvals'
+    | '/api/discount-reports'
     | '/api/notifications'
+    | '/api/promotions'
     | '/api/rbac'
     | '/api/users'
     | '/auth/callback'
@@ -2154,6 +2204,7 @@ export interface FileRouteTypes {
     | '/warehouses/'
     | '/api/financial-transactions/'
     | '/cities/'
+    | '/promotions/$promotionId/edit'
     | '/respos/invoice/$orderId'
     | '/api/crm/customers/segment'
     | '/api/inventory/adjustments/apply'
@@ -2223,7 +2274,11 @@ export interface FileRouteTypes {
     | '/force-password-change'
     | '/notifications'
     | '/subscriptions'
+    | '/api/coupons'
+    | '/api/discount-approvals'
+    | '/api/discount-reports'
     | '/api/notifications'
+    | '/api/promotions'
     | '/api/rbac'
     | '/api/users'
     | '/auth/callback'
@@ -2356,6 +2411,7 @@ export interface FileRouteTypes {
     | '/warehouses'
     | '/api/financial-transactions'
     | '/cities'
+    | '/promotions/$promotionId/edit'
     | '/respos/invoice/$orderId'
     | '/api/crm/customers/segment'
     | '/api/inventory/adjustments/apply'
@@ -2428,7 +2484,11 @@ export interface FileRouteTypes {
     | '/_authenticated/force-password-change'
     | '/_authenticated/notifications'
     | '/_authenticated/subscriptions'
+    | '/api/coupons'
+    | '/api/discount-approvals'
+    | '/api/discount-reports'
     | '/api/notifications'
+    | '/api/promotions'
     | '/api/rbac'
     | '/api/users'
     | '/auth/callback'
@@ -2562,6 +2622,7 @@ export interface FileRouteTypes {
     | '/_authenticated/warehouses/'
     | '/api/financial-transactions/'
     | '/_authenticated/cities/'
+    | '/_authenticated/promotions/$promotionId/edit'
     | '/_authenticated/respos/invoice/$orderId'
     | '/api/crm/customers/segment'
     | '/api/inventory/adjustments/apply'
@@ -2610,7 +2671,11 @@ export interface RootRouteChildren {
   errors404Route: typeof errors404Route
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
+  ApiCouponsRoute: typeof ApiCouponsRoute
+  ApiDiscountApprovalsRoute: typeof ApiDiscountApprovalsRoute
+  ApiDiscountReportsRoute: typeof ApiDiscountReportsRoute
   ApiNotificationsRoute: typeof ApiNotificationsRoute
+  ApiPromotionsRoute: typeof ApiPromotionsRoute
   ApiRbacRoute: typeof ApiRbacRouteWithChildren
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
   AuthCallbackRoute: typeof AuthCallbackRoute
@@ -2770,11 +2835,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRbacRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/promotions': {
+      id: '/api/promotions'
+      path: '/api/promotions'
+      fullPath: '/api/promotions'
+      preLoaderRoute: typeof ApiPromotionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/notifications': {
       id: '/api/notifications'
       path: '/api/notifications'
       fullPath: '/api/notifications'
       preLoaderRoute: typeof ApiNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/discount-reports': {
+      id: '/api/discount-reports'
+      path: '/api/discount-reports'
+      fullPath: '/api/discount-reports'
+      preLoaderRoute: typeof ApiDiscountReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/discount-approvals': {
+      id: '/api/discount-approvals'
+      path: '/api/discount-approvals'
+      fullPath: '/api/discount-approvals'
+      preLoaderRoute: typeof ApiDiscountApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/coupons': {
+      id: '/api/coupons'
+      path: '/api/coupons'
+      fullPath: '/api/coupons'
+      preLoaderRoute: typeof ApiCouponsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/subscriptions': {
@@ -4100,6 +4193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResposInvoiceOrderIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/promotions/$promotionId/edit': {
+      id: '/_authenticated/promotions/$promotionId/edit'
+      path: '/edit'
+      fullPath: '/promotions/$promotionId/edit'
+      preLoaderRoute: typeof AuthenticatedPromotionsPromotionIdEditRouteImport
+      parentRoute: typeof AuthenticatedPromotionsPromotionIdRoute
+    }
   }
 }
 
@@ -4162,6 +4262,21 @@ const AuthenticatedSystemRouteChildren: AuthenticatedSystemRouteChildren = {
 const AuthenticatedSystemRouteWithChildren =
   AuthenticatedSystemRoute._addFileChildren(AuthenticatedSystemRouteChildren)
 
+interface AuthenticatedPromotionsPromotionIdRouteChildren {
+  AuthenticatedPromotionsPromotionIdEditRoute: typeof AuthenticatedPromotionsPromotionIdEditRoute
+}
+
+const AuthenticatedPromotionsPromotionIdRouteChildren: AuthenticatedPromotionsPromotionIdRouteChildren =
+  {
+    AuthenticatedPromotionsPromotionIdEditRoute:
+      AuthenticatedPromotionsPromotionIdEditRoute,
+  }
+
+const AuthenticatedPromotionsPromotionIdRouteWithChildren =
+  AuthenticatedPromotionsPromotionIdRoute._addFileChildren(
+    AuthenticatedPromotionsPromotionIdRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppsRouteRoute: typeof AuthenticatedAppsRouteRoute
   AuthenticatedBranchesRouteRoute: typeof AuthenticatedBranchesRouteRoute
@@ -4202,7 +4317,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPosReportsRoute: typeof AuthenticatedPosReportsRoute
   AuthenticatedPosTerminalUsersRoute: typeof AuthenticatedPosTerminalUsersRoute
   AuthenticatedPosTerminalsRoute: typeof AuthenticatedPosTerminalsRoute
-  AuthenticatedPromotionsPromotionIdRoute: typeof AuthenticatedPromotionsPromotionIdRoute
+  AuthenticatedPromotionsPromotionIdRoute: typeof AuthenticatedPromotionsPromotionIdRouteWithChildren
   AuthenticatedPromotionsCouponsRoute: typeof AuthenticatedPromotionsCouponsRoute
   AuthenticatedPromotionsDiscountApprovalsRoute: typeof AuthenticatedPromotionsDiscountApprovalsRoute
   AuthenticatedPromotionsNewRoute: typeof AuthenticatedPromotionsNewRoute
@@ -4294,7 +4409,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPosTerminalUsersRoute: AuthenticatedPosTerminalUsersRoute,
   AuthenticatedPosTerminalsRoute: AuthenticatedPosTerminalsRoute,
   AuthenticatedPromotionsPromotionIdRoute:
-    AuthenticatedPromotionsPromotionIdRoute,
+    AuthenticatedPromotionsPromotionIdRouteWithChildren,
   AuthenticatedPromotionsCouponsRoute: AuthenticatedPromotionsCouponsRoute,
   AuthenticatedPromotionsDiscountApprovalsRoute:
     AuthenticatedPromotionsDiscountApprovalsRoute,
@@ -4622,7 +4737,11 @@ const rootRouteChildren: RootRouteChildren = {
   errors404Route: errors404Route,
   errors500Route: errors500Route,
   errors503Route: errors503Route,
+  ApiCouponsRoute: ApiCouponsRoute,
+  ApiDiscountApprovalsRoute: ApiDiscountApprovalsRoute,
+  ApiDiscountReportsRoute: ApiDiscountReportsRoute,
   ApiNotificationsRoute: ApiNotificationsRoute,
+  ApiPromotionsRoute: ApiPromotionsRoute,
   ApiRbacRoute: ApiRbacRouteWithChildren,
   ApiUsersRoute: ApiUsersRouteWithChildren,
   AuthCallbackRoute: AuthCallbackRoute,

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from '@tanstack/react-router'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import {
   ArrowLeft,
@@ -27,6 +28,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { supabase } from '@/lib/supabase'
 import {
   useInvPromotion,
   useChangePromotionStatus,
@@ -42,7 +44,9 @@ import type {
 
 interface DetailRuleItem {
   id: string
-  action_type: RuleActionType
+  action_type?: RuleActionType | null
+  rule_type?: RuleActionType | null
+  ruleType?: RuleActionType | null
   discount_value: number | string
   apply_to: string
   buy_quantity?: number | null
@@ -94,10 +98,38 @@ interface DetailUsageLogItem {
 export function PromotionDetailPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const { promotionId } = useParams({ strict: false }) as { promotionId: string }
   const [activeTab, setActiveTab] = useState('rules')
 
   const { data: promo, isLoading, error } = useInvPromotion(promotionId)
+
+  // Real-time subscription to external DB changes on this promotion
+  useEffect(() => {
+    if (!promotionId) return
+
+    const channel = supabase
+      .channel(`inv_promotion_detail_${promotionId}_${Date.now()}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'inv_promotions',
+          filter: `id=eq.${promotionId}`,
+        },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ['inv_promotion', promotionId] })
+          queryClient.invalidateQueries({ queryKey: ['inv_promotions'] })
+          queryClient.invalidateQueries({ queryKey: ['inv_promotion_stats'] })
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [promotionId, queryClient])
 
   const changeStatusMutation = useChangePromotionStatus()
   const duplicateMutation = useDuplicatePromotion()
@@ -178,7 +210,15 @@ export function PromotionDetailPage() {
     }
   }
 
-  const currencyCode = promo.currency?.code || 'QAR'
+  const startDate = promo.start_date || promo.startDate
+  const endDate = promo.end_date || promo.endDate
+
+  const currencyCode =
+    promo.currency_code ||
+    promo.currencyCode ||
+    promo.currencies?.code ||
+    promo.currency?.code ||
+    'QAR'
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -269,7 +309,16 @@ export function PromotionDetailPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => navigate({ to: `/promotions/${promo.id}` })}
+              onClick={() => {
+                navigate({
+                  to: '/promotions/$promotionId/edit',
+                  params: { promotionId: promo.id },
+                }).catch(() => {
+                  navigate({
+                    to: '/promotions/new',
+                  })
+                })
+              }}
               className="gap-1.5 h-9"
             >
               <Edit className="h-4 w-4" />
@@ -354,9 +403,9 @@ export function PromotionDetailPage() {
                 {t('promotions.detailPage.activeDates', 'Active Dates')}
               </CardDescription>
               <CardTitle className="text-sm font-semibold">
-                {new Date(promo.start_date).toLocaleDateString()} -{' '}
-                {promo.end_date
-                  ? new Date(promo.end_date).toLocaleDateString()
+                {startDate ? new Date(startDate).toLocaleDateString() : '—'} -{' '}
+                {endDate
+                  ? new Date(endDate).toLocaleDateString()
                   : t('promotions.detailPage.continuous', 'Continuous')}
               </CardTitle>
             </CardHeader>
@@ -421,39 +470,41 @@ export function PromotionDetailPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                {promo.rules?.length === 0 ? (
+                {(promo.rules?.length ?? 0) === 0 ? (
                   <p className="text-xs text-muted-foreground">
                     {t('promotions.detailPage.noRules', 'No rules configured.')}
                   </p>
                 ) : (
-                  (promo.rules as DetailRuleItem[])?.map((rule: DetailRuleItem, i: number) => (
-                    <div
-                      key={rule.id || i}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-border/60 bg-muted/20 gap-3"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs font-mono">
-                            #{i + 1}
-                          </Badge>
-                          <span className="font-semibold text-sm capitalize">
-                            {rule.action_type?.replace(/_/g, ' ')}
-                          </span>
-                          <Badge variant="secondary">
-                            {rule.action_type === 'percentage_discount'
-                              ? `${rule.discount_value}% ${t('promotions.common.off', 'OFF')}`
-                              : rule.action_type === 'fixed_discount'
-                              ? `${Number(rule.discount_value)} ${currencyCode} ${t('promotions.common.off', 'OFF')}`
-                              : `Buy ${rule.buy_quantity} Get ${rule.get_quantity}`}
-                          </Badge>
+                  (promo.rules as unknown as DetailRuleItem[])?.map((rule: DetailRuleItem, i: number) => {
+                    const ruleAction = rule.action_type || rule.rule_type || rule.ruleType
+                    return (
+                      <div
+                        key={rule.id || i}
+                        className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-border/60 bg-muted/20 gap-3"
+                      >
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-xs font-mono">
+                              #{i + 1}
+                            </Badge>
+                            <span className="font-semibold text-sm capitalize">
+                              {ruleAction?.replace(/_/g, ' ')}
+                            </span>
+                            <Badge variant="secondary">
+                                {ruleAction === 'percentage_discount'
+                                  ? `${rule.discount_value}% ${t('promotions.common.off', 'OFF')}`
+                                  : (ruleAction as string) === 'fixed_discount' || (ruleAction as string) === 'fixed_amount'
+                                  ? `${Number(rule.discount_value)} ${currencyCode} ${t('promotions.common.off', 'OFF')}`
+                                  : `Buy ${rule.buy_quantity} Get ${rule.get_quantity}`}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {t('promotions.detailPage.scopeAppliesTo', {
+                              target: rule.apply_to,
+                              defaultValue: `Scope: Applies to ${rule.apply_to}`,
+                            })}
+                          </p>
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                          {t('promotions.detailPage.scopeAppliesTo', {
-                            target: rule.apply_to,
-                            defaultValue: `Scope: Applies to ${rule.apply_to}`,
-                          })}
-                        </p>
-                      </div>
 
                       {rule.tier_min_amount && (
                         <div className="text-xs text-muted-foreground">
@@ -464,8 +515,9 @@ export function PromotionDetailPage() {
                         </div>
                       )}
                     </div>
-                  ))
-                )}
+                  )
+                })
+              )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -487,7 +539,7 @@ export function PromotionDetailPage() {
                       {t('promotions.detailPage.categories', 'Categories')}
                     </span>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {promo.categories?.length > 0 ? (
+                      {(promo.categories?.length ?? 0) > 0 ? (
                         (promo.categories as DetailScopeNamedItem[]).map((c) => (
                           <Badge key={c.id} variant="secondary">
                             {c.category?.name || c.category_id}
@@ -506,7 +558,7 @@ export function PromotionDetailPage() {
                       {t('promotions.detailPage.brands', 'Brands')}
                     </span>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {promo.brands?.length > 0 ? (
+                      {(promo.brands?.length ?? 0) > 0 ? (
                         (promo.brands as DetailScopeNamedItem[]).map((b) => (
                           <Badge key={b.id} variant="secondary">
                             {b.brand?.name || b.brand_id}
@@ -525,7 +577,7 @@ export function PromotionDetailPage() {
                       {t('promotions.detailPage.products', 'Products')}
                     </span>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {promo.products?.length > 0 ? (
+                      {(promo.products?.length ?? 0) > 0 ? (
                         (promo.products as DetailScopeNamedItem[]).map((p) => (
                           <Badge key={p.id} variant="secondary">
                             {p.product?.name || p.product_id}
@@ -555,7 +607,7 @@ export function PromotionDetailPage() {
                       {t('promotions.detailPage.branches', 'Branches')}
                     </span>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {promo.branches?.length > 0 ? (
+                      {(promo.branches?.length ?? 0) > 0 ? (
                         (promo.branches as DetailScopeNamedItem[]).map((b) => (
                           <Badge key={b.id} variant="secondary">
                             {b.branch?.name || b.branch_id}
@@ -574,7 +626,7 @@ export function PromotionDetailPage() {
                       {t('promotions.detailPage.stores', 'Stores')}
                     </span>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {promo.stores?.length > 0 ? (
+                      {(promo.stores?.length ?? 0) > 0 ? (
                         (promo.stores as DetailScopeNamedItem[]).map((s) => (
                           <Badge key={s.id} variant="secondary">
                             {s.store?.name || s.store_id}
@@ -593,7 +645,7 @@ export function PromotionDetailPage() {
                       {t('promotions.detailPage.channels', 'Channels')}
                     </span>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {promo.channels?.length > 0 ? (
+                      {(promo.channels?.length ?? 0) > 0 ? (
                         (promo.channels as DetailScopeNamedItem[]).map((c) => (
                           <Badge key={c.id} variant="secondary">
                             {c.channel?.name || c.channel_id}
@@ -620,7 +672,7 @@ export function PromotionDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {promo.conditions?.length === 0 ? (
+                {(promo.conditions?.length ?? 0) === 0 ? (
                   <p className="text-xs text-muted-foreground">
                     {t(
                       'promotions.detailPage.conditionsEmpty',
@@ -671,7 +723,7 @@ export function PromotionDetailPage() {
                 </Button>
               </CardHeader>
               <CardContent>
-                {promo.coupons?.length === 0 ? (
+                {(promo.coupons?.length ?? 0) === 0 ? (
                   <p className="text-xs text-muted-foreground">
                     {t('promotions.detailPage.noCoupons', 'No coupons generated yet.')}
                   </p>
@@ -721,7 +773,7 @@ export function PromotionDetailPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {promo.usage_logs?.length === 0 ? (
+                {(promo.usage_logs?.length ?? 0) === 0 ? (
                   <p className="text-xs text-muted-foreground">
                     {t(
                       'promotions.detailPage.noLogs',
@@ -748,7 +800,7 @@ export function PromotionDetailPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y border-border/40">
-                        {(promo.usage_logs as DetailUsageLogItem[])?.map((log) => (
+                        {((promo.usage_logs as unknown) as DetailUsageLogItem[])?.map((log) => (
                           <tr key={log.id} className="hover:bg-muted/30">
                             <td className="py-2.5 px-3">
                               {new Date(log.used_at).toLocaleDateString()}

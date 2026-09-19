@@ -138,7 +138,11 @@ export function PosMainScreen() {
       pageSize: 60,
     })
 
-  const rawItems = catalogData?.items || []
+  const catalogItems = catalogData?.items
+  const rawItems = useMemo(
+    () => catalogItems ?? [],
+    [catalogItems]
+  )
 
   // Group variants by product for card grid display
   const groupedProducts = useMemo(() => {
@@ -183,14 +187,18 @@ export function PosMainScreen() {
     return Array.from(map.values())
   }, [rawItems])
 
-  // Unique categories for pills
+  // Category pills: prefer server-returned catalog categories, fallback to current items
+  const catalogCategories = catalogData?.categories
   const categories = useMemo(() => {
+    if (catalogCategories && catalogCategories.length > 0) {
+      return catalogCategories.map((c) => c.name)
+    }
     const set = new Set<string>()
     for (const item of rawItems) {
       if (item.categoryName) set.add(item.categoryName)
     }
     return Array.from(set)
-  }, [rawItems])
+  }, [catalogCategories, rawItems])
 
   // Keyboard shortcuts (F2: Search, F4: Hold, F8: Cash In/Out, F9: Checkout)
   useEffect(() => {

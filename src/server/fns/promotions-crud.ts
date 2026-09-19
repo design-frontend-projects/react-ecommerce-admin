@@ -140,6 +140,8 @@ export async function getPromotions(authUserId: string, filter: GetPromotionsFil
     return {
       data: rows.map((r) => ({
         ...r,
+        currency_code: r.currency_code ?? r.currencies?.code ?? 'QAR',
+        currencyCode: r.currency_code ?? r.currencies?.code ?? 'QAR',
         startDate: r.start_date.toISOString(),
         endDate: r.end_date ? r.end_date.toISOString() : null,
         createdAt: r.created_at.toISOString(),
@@ -161,68 +163,91 @@ export async function getPromotionById(authUserId: string, promotionId: string) 
   const tenantId = await requireTenantId(authUserId)
 
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
-    const promo = await prisma.inv_promotions.findFirst({
-      where: { id: promotionId, tenant_id: tenantId },
-      include: {
-        rules: {
-          orderBy: { sort_order: 'asc' },
-          include: {
-            free_product_variant: {
-              select: { id: true, name: true, sku: true },
+    const [promo, usageLogsAgg] = await Promise.all([
+      prisma.inv_promotions.findFirst({
+        where: { id: promotionId, tenant_id: tenantId },
+        include: {
+          rules: {
+            orderBy: { sort_order: 'asc' },
+            include: {
+              free_product_variant: {
+                select: { id: true, name: true, sku: true },
+              },
             },
           },
-        },
-        conditions: { orderBy: { sort_order: 'asc' } },
-        products: {
-          include: {
-            products: { select: { id: true, name: true, sku: true } },
-            product_variants: { select: { id: true, name: true, sku: true } },
+          conditions: { orderBy: { sort_order: 'asc' } },
+          products: {
+            include: {
+              products: { select: { id: true, name: true, sku: true } },
+              product_variants: { select: { id: true, name: true, sku: true } },
+            },
+          },
+          categories: {
+            include: {
+              categories: { select: { id: true, name: true } },
+            },
+          },
+          brands: {
+            include: {
+              brands: { select: { id: true, name: true } },
+            },
+          },
+          customer_groups: {
+            include: {
+              customer_groups: { select: { id: true, name: true } },
+            },
+          },
+          channels: {
+            include: {
+              channels: { select: { id: true, name: true } },
+            },
+          },
+          stores: {
+            include: {
+              stores: { select: { store_id: true, name: true } },
+            },
+          },
+          branches: {
+            include: {
+              branches: { select: { id: true, name: true } },
+            },
+          },
+          coupons: {
+            orderBy: { created_at: 'desc' },
+            take: 50,
+          },
+          usage_logs: {
+            orderBy: { used_at: 'desc' },
+            take: 50,
+            include: {
+              sales_invoices: { select: { invoice_no: true } },
+              sales_orders: { select: { order_number: true } },
+              customers: { select: { first_name: true, last_name: true } },
+            },
+          },
+          currencies: {
+            select: { id: true, code: true, symbol: true, name: true },
           },
         },
-        categories: {
-          include: {
-            categories: { select: { id: true, name: true } },
-          },
-        },
-        brands: {
-          include: {
-            brands: { select: { id: true, name: true } },
-          },
-        },
-        customer_groups: {
-          include: {
-            customer_groups: { select: { id: true, name: true } },
-          },
-        },
-        channels: {
-          include: {
-            channels: { select: { id: true, name: true } },
-          },
-        },
-        stores: {
-          include: {
-            stores: { select: { store_id: true, name: true } },
-          },
-        },
-        branches: {
-          include: {
-            branches: { select: { id: true, name: true } },
-          },
-        },
-        coupons: {
-          orderBy: { created_at: 'desc' },
-          take: 50,
-        },
-        currencies: {
-          select: { id: true, code: true, symbol: true, name: true },
-        },
-      },
-    })
+      }),
+      prisma.inv_promotion_usage_logs.aggregate({
+        where: { promotion_id: promotionId, tenant_id: tenantId },
+        _sum: { discount_amount: true },
+      }),
+    ])
 
     if (!promo) return null
 
+    const resolvedCurrencyCode = promo.currency_code ?? promo.currencies?.code ?? 'QAR'
+    const distributedDiscount = Number(usageLogsAgg._sum.discount_amount ?? 0)
+
     return {
       ...promo,
+      current_discount_amount: distributedDiscount,
+      currentDiscountAmount: distributedDiscount,
+      currency_code: resolvedCurrencyCode,
+      currencyCode: resolvedCurrencyCode,
+      currency: promo.currencies,
       startDate: promo.start_date.toISOString(),
       endDate: promo.end_date ? promo.end_date.toISOString() : null,
       createdAt: promo.created_at.toISOString(),
@@ -231,11 +256,22 @@ export async function getPromotionById(authUserId: string, promotionId: string) 
       maxDiscountAmount: promo.max_discount_amount ? Number(promo.max_discount_amount) : null,
       rules: promo.rules.map((r) => ({
         ...r,
+        action_type: r.rule_type,
+        ruleType: r.rule_type,
         discountValue: Number(r.discount_value),
         getDiscountPercent: r.get_discount_percent ? Number(r.get_discount_percent) : 100,
         tierMinQuantity: r.tier_min_quantity ? Number(r.tier_min_quantity) : null,
         tierMinAmount: r.tier_min_amount ? Number(r.tier_min_amount) : null,
         freeVariantName: r.free_product_variant?.name ?? r.free_product_variant?.sku ?? null,
+      })),
+      usage_logs: promo.usage_logs.map((log) => ({
+        ...log,
+        customers: log.customers
+          ? {
+              ...log.customers,
+              name: [log.customers.first_name, log.customers.last_name].filter(Boolean).join(' ') || null,
+            }
+          : null,
       })),
     }
   })
@@ -674,13 +710,13 @@ export async function duplicatePromotion(authUserId: string, promotionId: string
           getQuantity: r.get_quantity ?? undefined,
           getDiscountPercent: r.get_discount_percent ? Number(r.get_discount_percent) : undefined,
           getProductVariantId: r.get_product_variant_id ?? undefined,
-          tierMinQuantity: r.tier_min_quantity ?? undefined,
+          tierMinQuantity: r.tier_min_quantity ? Number(r.tier_min_quantity) : undefined,
           tierMinAmount: r.tier_min_amount ? Number(r.tier_min_amount) : undefined,
           sortOrder: r.sort_order,
         })) || [],
       conditions:
         existing.conditions?.map((c) => ({
-          groupId: c.group_id,
+          groupId: c.group_id ?? undefined,
           logicalOperator: c.logical_operator as 'AND' | 'OR',
           field: c.field,
           operator: c.operator,
