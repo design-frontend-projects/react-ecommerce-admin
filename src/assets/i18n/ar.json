@@ -175,7 +175,11 @@
     "saveChanges": "حفظ التغييرات",
     "warning": "تحذير!",
     "never": "أبداً",
-    "cannotBeUndone": "لا يمكن التراجع عن هذه العملية."
+    "cannotBeUndone": "لا يمكن التراجع عن هذه العملية.",
+    "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "copy": "نسخ",
+    "reset": "إعادة تعيين",
+    "unknownError": "خطأ غير معروف في قاعدة البيانات"
   },
   "installBanner": {
     "title": "تثبيت التطبيق: اضغط على",
@@ -5362,45 +5366,6 @@
       "error": "فشل حفظ العملة"
     }
   },
-  "taxRates": {
-    "title": "الضرائب والرسوم",
-    "description": "إدارة ضريبة القيمة المضافة (VAT)، والضرائب المركبة، والإعفاءات.",
-    "addTaxRate": "إضافة نسبة ضريبية",
-    "editTaxRate": "تعديل الضريبة",
-    "deleteTaxRate": "حذف الضريبة",
-    "table": {
-      "filterPlaceholder": "تصفية الضرائب...",
-      "noResults": "لم يتم العثور على نسب ضريبية."
-    },
-    "columns": {
-      "name": "اسم الضريبة",
-      "rate": "النسبة المئوية (%)",
-      "code": "رمز الضريبة",
-      "isCompound": "ضريبة مركبة",
-      "status": "الحالة",
-      "actions": "الإجراءات"
-    },
-    "form": {
-      "name": "اسم الضريبة",
-      "rate": "النسبة المئوية (%)",
-      "code": "رمز / معرف الضريبة",
-      "isCompound": "ضريبة مركبة",
-      "status": "الحالة",
-      "cancel": "إلغاء",
-      "save": "حفظ الضريبة",
-      "saving": "جاري الحفظ..."
-    },
-    "toast": {
-      "created": "تم إنشاء النسبة الضريبية بنجاح",
-      "updated": "تم تحديث النسبة الضريبية بنجاح",
-      "deleted": "تم حذف النسبة الضريبية بنجاح",
-      "error": "فشل حفظ النسبة الضريبية"
-    },
-    "delete": {
-      "title": "حذف النسبة الضريبية",
-      "description": "هل أنت متأكد من حذف هذه النسبة الضريبية؟"
-    }
-  },
   "lookups": {
     "title": "القوائم والقواميس المرجعية",
     "description": "إدارة القوائم المنسدلة، وأنواع البيانات المرجعية للنظام.",
@@ -5681,6 +5646,172 @@
       "createSuccess": "تم إنشاء قناة البيع بنجاح.",
       "updateSuccess": "تم تحديث قناة البيع بنجاح.",
       "deleteSuccess": "تم حذف قناة البيع بنجاح."
+    }
+  },
+  "taxRates": {
+    "title": "الضرائب وقواعد الرسوم",
+    "subtitle": "إدارة ضريبة القيمة المضافة والضرائب الإقليمية والتسعير الشامل عبر الدول وقنوات البيع.",
+    "addTaxRate": "إضافة معدل ضريبي",
+    "loading": "جاري تحميل المعدلات الضريبية...",
+    "errorLoading": "فشل في تحميل المعدلات الضريبية",
+    "kpi": {
+      "activeRates": "المعدلات الضريبية النشطة",
+      "ofTotal": "من إجمالي {{total}} ({{percent}}%)",
+      "averageRate": "متوسط المعدل الضريبي",
+      "standardMean": "المتوسط الحسابي",
+      "taxTypeDistribution": "شاملة / غير شاملة",
+      "incVsExc": "شامل / مضاف",
+      "jurisdictions": "النطاقات الجغرافية المغطاة",
+      "countriesAssigned": "الدول المهيأة"
+    },
+    "buttons": {
+      "simulator": "محاكي الضرائب",
+      "export": "تصدير",
+      "exportCsv": "تصدير كملف CSV",
+      "exportJson": "تصدير كملف JSON",
+      "noRatesToExport": "لا توجد معدلات ضريبية للتصدير",
+      "exportSuccess": "تم تصدير {{count}} معدلات إلى {{format}}"
+    },
+    "filters": {
+      "searchPlaceholder": "البحث في المعدلات والوصف...",
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "mode": "النوع",
+      "allModes": "جميع الأنواع",
+      "inclusive": "شاملة للضريبة",
+      "exclusive": "غير شاملة (مضافة)",
+      "validity": "الصلاحية",
+      "allValidity": "جميع التواريخ",
+      "current": "سارية حالياً",
+      "upcoming": "قادمة",
+      "expired": "منتهية",
+      "country": "الدولة",
+      "allCountries": "جميع الدول"
+    },
+    "columns": {
+      "taxType": "نوع الضريبة",
+      "noDescription": "لا يوجد وصف",
+      "rate": "النسبة (%)",
+      "jurisdiction": "النطاق الجغرافي",
+      "globalAny": "عام / دولي",
+      "type": "النوع",
+      "inclusive": "شاملة",
+      "exclusive": "مضافة",
+      "validityPeriod": "فترة الصلاحية",
+      "effective": "سارية",
+      "upcoming": "قادمة",
+      "expired": "منتهية",
+      "status": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "actions": "الإجراءات"
+    },
+    "table": {
+      "selectedCount": "تم تحديد {{count}}",
+      "totalConfigured": "إجمالي {{count}} معدلات مهيأة",
+      "clearSelection": "إلغاء التحديد",
+      "activatedSuccess": "تم تفعيل {{count}} معدلات ضريبية",
+      "deactivatedSuccess": "تم تعطيل {{count}} معدلات ضريبية",
+      "updateStatusError": "فشل في تحديث حالة المعدلات المحددة",
+      "noResults": "لم يتم العثور على معدلات ضريبية",
+      "noResultsDesc": "حاول تعديل شروط البحث أو أنشئ معدلاً ضريبياً جديداً باستخدام النماذج الجاهزة."
+    },
+    "actions": {
+      "viewDetails": "عرض التفاصيل",
+      "testSimulator": "اختبار في المحاكي",
+      "simulate": "محاكاة",
+      "edit": "تعديل",
+      "duplicate": "تكرار",
+      "activate": "تفعيل",
+      "deactivate": "تعطيل",
+      "delete": "حذف"
+    },
+    "notifications": {
+      "deactivated": "تم تعطيل المعدل الضريبي",
+      "activated": "تم تفعيل المعدل الضريبي",
+      "statusChangeError": "فشل في تغيير الحالة",
+      "duplicateSuccess": "تم نسخ {{taxType}} بنجاح",
+      "duplicateError": "فشل في نسخ المعدل الضريبي",
+      "copied": "تم نسخ {{label}} إلى الحافظة"
+    },
+    "calculator": {
+      "title": "محاكي الضرائب التفاعلي",
+      "desc": "محاكاة المبالغ الصافية والإجمالية ومبالغ الضرائب مع اختبار الخصومات.",
+      "quickPresets": "النماذج الضريبية السريعة",
+      "basePrice": "سعر الوحدة",
+      "ratePercent": "نسبة الضريبة (%)",
+      "qty": "الكمية",
+      "discount": "إجمالي الخصم",
+      "inclusiveToggle": "تسعير شامل للضريبة",
+      "inclusiveExpl": "السعر المدخل يحتوي الضريبة بداخله بالفعل.",
+      "exclusiveExpl": "تضاف الضريبة فوق السعر الصافي.",
+      "breakdown": "تفصيل الحسابات",
+      "netSubtotal": "الصافي قبل الضريبة",
+      "taxAmount": "مبلغ الضريبة",
+      "grossTotal": "الإجمالي النهائي",
+      "netRatio": "الصافي: {{percent}}%",
+      "taxRatio": "الضريبة: {{percent}}%"
+    },
+    "dialog": {
+      "createTitle": "إضافة معدل ضريبي جديد",
+      "createSubtitle": "إضافة ضريبة قيمة مضافة أو ضريبة مبيعات إقليمية.",
+      "editTitle": "تعديل المعدل الضريبي",
+      "editSubtitle": "تحديث إعدادات وصلاحية هذا المعدل الضريبي.",
+      "presets": "نماذج جاهزة سريعة",
+      "appliedPreset": "تم تطبيق النموذج: {{preset}}",
+      "previewTitle": "معاينة حية على مبلغ 100",
+      "createButton": "إنشاء المعدل الضريبي",
+      "createSuccess": "تم إنشاء المعدل الضريبي بنجاح",
+      "updateSuccess": "تم تحديث المعدل الضريبي بنجاح"
+    },
+    "form": {
+      "taxType": "اسم / نوع الضريبة",
+      "taxTypePlaceholder": "مثال: ضريبة القيمة المضافة 15%",
+      "rate": "النسبة المئوية (%)",
+      "country": "الدولة / النطاق الضريبي",
+      "selectJurisdiction": "اختر الدولة أو النطاق (اختياري)",
+      "globalNoCountry": "عام (بدون دولة محددة)",
+      "isInclusive": "شاملة للضريبة",
+      "taxIncludedInPrice": "الضريبة مشمولة في السعر",
+      "taxAddedOnTop": "تضاف الضريبة على السعر الصافي",
+      "isActive": "نشطة",
+      "availableForUse": "متاحة للاستخدام",
+      "disabledHidden": "معطلة / مخفية",
+      "effectiveFrom": "تاريخ البدء",
+      "effectiveTo": "تاريخ الانتهاء (اختياري)",
+      "description": "الوصف (اختياري)",
+      "descriptionPlaceholder": "أضف ملاحظات أو مراجع نظامية أو شروط التطبيق"
+    },
+    "details": {
+      "specs": "المواصفات",
+      "calculationMode": "طريقة الحساب",
+      "modeInclusive": "شاملة (في السعر)",
+      "modeExclusive": "غير شاملة (مضافة)",
+      "country": "الدولة / النطاق",
+      "global": "عام / غير محدد",
+      "effectiveFrom": "تاريخ البدء",
+      "effectiveTo": "تاريخ الانتهاء",
+      "indefinite": "غير محدد / مستمر",
+      "uuid": "المعرف الفريد",
+      "sampleCalculations": "عينات حسابية افتراضية",
+      "baseAmount": "المبلغ الأساسي",
+      "tax": "الضريبة",
+      "noDescription": "لم يتم توفير وصف إضافي."
+    },
+    "delete": {
+      "title": "حذف المعدل الضريبي؟",
+      "warning": "سيتم حذف الضريبة {{taxType}} ({{rate}}) نهائياً.",
+      "dependencyNotice": "ملاحظة: إذا كان هذا المعدل مرتبطاً بقوائم أسعار أو فواتير سابقة، فقد تفقد السجلات التاريخية ربطها المباشر.",
+      "success": "تم حذف المعدل الضريبي بنجاح",
+      "failed": "فشل في حذف المعدل الضريبي"
+    },
+    "bulkDelete": {
+      "title": "حذف المعدلات الضريبية المحددة؟",
+      "description": "أنت على وشك حذف {{count}} من المعدلات الضريبية. لا يمكن التراجع عن هذا الإجراء وقد يؤثر على المنتجات وقوائم الأسعار المرتبطة.",
+      "success": "تم حذف {{count}} معدلات ضريبية بنجاح",
+      "failed": "فشل في حذف المعدلات الضريبية المحددة"
     }
   }
 }

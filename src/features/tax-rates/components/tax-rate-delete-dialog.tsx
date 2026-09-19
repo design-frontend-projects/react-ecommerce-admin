@@ -21,13 +21,21 @@ export function TaxDeleteDialog() {
   const onDelete = async () => {
     if (!currentRow) return
     try {
-      await deleteMutation.mutateAsync(currentRow.tax_rate_id)
-      toast.success('Tax rate deleted successfully')
+      await deleteMutation.mutateAsync(currentRow.id)
+      toast.success(
+        t('taxRates.delete.success', {
+          defaultValue: 'Tax rate deleted successfully',
+        })
+      )
       setOpen(null)
     } catch (error: unknown) {
-      toast.error('Error', {
+      toast.error(t('common.error', { defaultValue: 'Error' }), {
         description:
-          error instanceof Error ? error.message : 'Failed to delete tax rate',
+          error instanceof Error
+            ? error.message
+            : t('taxRates.delete.failed', {
+                defaultValue: 'Failed to delete tax rate',
+              }),
       })
     }
   }
@@ -39,18 +47,43 @@ export function TaxDeleteDialog() {
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t('taxRates.delete.title', { defaultValue: 'Are you sure?' })}</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the tax
-            rate
-            {currentRow?.tax_type} ({currentRow?.rate}%) and remove it from our
-            servers.
+          <AlertDialogTitle>
+            {t('taxRates.delete.title', { defaultValue: 'Delete Tax Rate?' })}
+          </AlertDialogTitle>
+          <AlertDialogDescription className='space-y-2'>
+            <span>
+              {t(
+                'taxRates.delete.warning',
+                {
+                  taxType: currentRow?.tax_type,
+                  rate: `${currentRow?.rate}%`,
+                  defaultValue: `This will permanently delete ${currentRow?.tax_type} (${currentRow?.rate}%).`,
+                }
+              )}
+            </span>
+            <span className='block text-xs text-muted-foreground mt-1'>
+              {t(
+                'taxRates.delete.dependencyNotice',
+                {
+                  defaultValue:
+                    'Note: If this rate is attached to existing price lists or sales invoices, historic records may lose direct tax mapping.',
+                }
+              )}
+            </span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete} className='bg-red-600'>
-            Delete
+          <AlertDialogCancel>
+            {t('common.cancel', { defaultValue: 'Cancel' })}
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={onDelete}
+            className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
+            disabled={deleteMutation.isPending}
+          >
+            {deleteMutation.isPending
+              ? t('common.deleting', { defaultValue: 'Deleting...' })
+              : t('common.delete', { defaultValue: 'Delete' })}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

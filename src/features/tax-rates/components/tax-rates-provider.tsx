@@ -1,13 +1,21 @@
 import React, { useState, useCallback, useMemo } from 'react'
-import { type TaxRate } from '../hooks/use-tax-rates'
-
-type TaxDialogType = 'create' | 'edit' | 'delete' | null
+import {
+  type TaxRate,
+  type TaxRateFilterState,
+  type TaxDialogType,
+  initialFilterState,
+} from '../types'
 
 interface TaxContextType {
   open: TaxDialogType
   setOpen: (type: TaxDialogType) => void
   currentRow: TaxRate | null
   setCurrentRow: (row: TaxRate | null) => void
+  selectedRows: TaxRate[]
+  setSelectedRows: (rows: TaxRate[]) => void
+  filters: TaxRateFilterState
+  setFilters: React.Dispatch<React.SetStateAction<TaxRateFilterState>>
+  resetFilters: () => void
 }
 
 const TaxContext = React.createContext<TaxContextType | null>(null)
@@ -19,6 +27,8 @@ interface TaxProviderProps {
 export function TaxProvider({ children }: TaxProviderProps) {
   const [open, setOpen] = useState<TaxDialogType>(null)
   const [currentRow, setCurrentRow] = useState<TaxRate | null>(null)
+  const [selectedRows, setSelectedRows] = useState<TaxRate[]>([])
+  const [filters, setFilters] = useState<TaxRateFilterState>(initialFilterState)
 
   const handleSetOpen = useCallback((type: TaxDialogType) => {
     setOpen(type)
@@ -27,14 +37,23 @@ export function TaxProvider({ children }: TaxProviderProps) {
     }
   }, [])
 
+  const resetFilters = useCallback(() => {
+    setFilters(initialFilterState)
+  }, [])
+
   const value = useMemo(
     () => ({
       open,
       setOpen: handleSetOpen,
       currentRow,
       setCurrentRow,
+      selectedRows,
+      setSelectedRows,
+      filters,
+      setFilters,
+      resetFilters,
     }),
-    [open, currentRow, handleSetOpen]
+    [open, currentRow, selectedRows, filters, handleSetOpen, resetFilters]
   )
 
   return <TaxContext.Provider value={value}>{children}</TaxContext.Provider>

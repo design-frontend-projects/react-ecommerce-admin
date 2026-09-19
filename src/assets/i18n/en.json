@@ -175,7 +175,11 @@
     "saveChanges": "Save Changes",
     "warning": "Warning!",
     "never": "Never",
-    "cannotBeUndone": "This operation cannot be undone."
+    "cannotBeUndone": "This operation cannot be undone.",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "copy": "Copy",
+    "reset": "Reset",
+    "unknownError": "Unknown database error"
   },
   "installBanner": {
     "title": "Install app: Tap",
@@ -5362,45 +5366,6 @@
       "error": "Failed to save currency"
     }
   },
-  "taxRates": {
-    "title": "Tax Rates",
-    "description": "Configure sales taxes, VAT, compound rates, and exemptions.",
-    "addTaxRate": "Add Tax Rate",
-    "editTaxRate": "Edit Tax Rate",
-    "deleteTaxRate": "Delete Tax Rate",
-    "table": {
-      "filterPlaceholder": "Filter tax rates...",
-      "noResults": "No tax rates found."
-    },
-    "columns": {
-      "name": "Tax Name",
-      "rate": "Rate (%)",
-      "code": "Tax Code",
-      "isCompound": "Compound Tax",
-      "status": "Status",
-      "actions": "Actions"
-    },
-    "form": {
-      "name": "Tax Name",
-      "rate": "Percentage Rate (%)",
-      "code": "Tax Code / Identifier",
-      "isCompound": "Compound Tax",
-      "status": "Status",
-      "cancel": "Cancel",
-      "save": "Save Tax Rate",
-      "saving": "Saving..."
-    },
-    "toast": {
-      "created": "Tax rate created successfully",
-      "updated": "Tax rate updated successfully",
-      "deleted": "Tax rate deleted successfully",
-      "error": "Failed to save tax rate"
-    },
-    "delete": {
-      "title": "Delete Tax Rate",
-      "description": "Are you sure you want to delete this tax rate?"
-    }
-  },
   "lookups": {
     "title": "System Lookups",
     "description": "Manage system categories, lookup types, and reference dictionaries.",
@@ -5681,6 +5646,172 @@
       "createSuccess": "Sales channel created successfully.",
       "updateSuccess": "Sales channel updated successfully.",
       "deleteSuccess": "Sales channel deleted successfully."
+    }
+  },
+  "taxRates": {
+    "title": "Tax Rates & Rules",
+    "subtitle": "Manage VAT, regional sales taxes, and inclusive pricing across countries and channels.",
+    "addTaxRate": "Add Tax Rate",
+    "loading": "Loading tax rates...",
+    "errorLoading": "Failed to load tax rates",
+    "kpi": {
+      "activeRates": "Active Tax Rates",
+      "ofTotal": "of {{total}} total ({{percent}}%)",
+      "averageRate": "Average Active Rate",
+      "standardMean": "Standard mean",
+      "taxTypeDistribution": "Inclusive / Exclusive",
+      "incVsExc": "Inc vs Exc",
+      "jurisdictions": "Covered Jurisdictions",
+      "countriesAssigned": "Countries configured"
+    },
+    "buttons": {
+      "simulator": "Tax Simulator",
+      "export": "Export",
+      "exportCsv": "Export CSV",
+      "exportJson": "Export JSON",
+      "noRatesToExport": "No tax rates to export",
+      "exportSuccess": "Exported {{count}} tax rates to {{format}}"
+    },
+    "filters": {
+      "searchPlaceholder": "Search rates, descriptions...",
+      "status": "Status",
+      "allStatuses": "All Statuses",
+      "active": "Active",
+      "inactive": "Inactive",
+      "mode": "Mode",
+      "allModes": "All Modes",
+      "inclusive": "Inclusive",
+      "exclusive": "Exclusive",
+      "validity": "Validity",
+      "allValidity": "All Dates",
+      "current": "Currently Effective",
+      "upcoming": "Upcoming",
+      "expired": "Expired",
+      "country": "Country",
+      "allCountries": "All Countries"
+    },
+    "columns": {
+      "taxType": "Tax Type",
+      "noDescription": "No description",
+      "rate": "Rate (%)",
+      "jurisdiction": "Jurisdiction",
+      "globalAny": "Global / Any",
+      "type": "Type",
+      "inclusive": "Inclusive",
+      "exclusive": "Exclusive",
+      "validityPeriod": "Validity Period",
+      "effective": "Effective",
+      "upcoming": "Upcoming",
+      "expired": "Expired",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions"
+    },
+    "table": {
+      "selectedCount": "{{count}} selected",
+      "totalConfigured": "Total {{count}} rates configured",
+      "clearSelection": "Clear",
+      "activatedSuccess": "Activated {{count}} tax rates",
+      "deactivatedSuccess": "Deactivated {{count}} tax rates",
+      "updateStatusError": "Failed to update status for selected rates",
+      "noResults": "No tax rates found",
+      "noResultsDesc": "Try adjusting your search criteria or create a new tax rate using the quick presets."
+    },
+    "actions": {
+      "viewDetails": "View Details",
+      "testSimulator": "Test Simulator",
+      "simulate": "Simulate",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "delete": "Delete"
+    },
+    "notifications": {
+      "deactivated": "Tax rate deactivated",
+      "activated": "Tax rate activated",
+      "statusChangeError": "Failed to change status",
+      "duplicateSuccess": "Cloned {{taxType}}",
+      "duplicateError": "Failed to duplicate tax rate",
+      "copied": "{{label}} copied to clipboard"
+    },
+    "calculator": {
+      "title": "Interactive Tax Simulator",
+      "desc": "Simulate gross, net, and tax deductions with custom prices and discount rules.",
+      "quickPresets": "Quick Presets",
+      "basePrice": "Unit Price ($)",
+      "ratePercent": "Tax Rate (%)",
+      "qty": "Quantity",
+      "discount": "Total Discount ($)",
+      "inclusiveToggle": "Tax Inclusive Pricing",
+      "inclusiveExpl": "Price entered already includes the tax amount.",
+      "exclusiveExpl": "Tax is added on top of the net subtotal.",
+      "breakdown": "Calculation Breakdown",
+      "netSubtotal": "Net Subtotal",
+      "taxAmount": "Tax Amount",
+      "grossTotal": "Gross Total",
+      "netRatio": "Net: {{percent}}%",
+      "taxRatio": "Tax: {{percent}}%"
+    },
+    "dialog": {
+      "createTitle": "Create Tax Rate",
+      "createSubtitle": "Add a new standard, reduced, or regional tax rate.",
+      "editTitle": "Edit Tax Rate",
+      "editSubtitle": "Update configuration and validity for this tax rate.",
+      "presets": "Quick Presets",
+      "appliedPreset": "Applied preset: {{preset}}",
+      "previewTitle": "Live Impact Preview on $100.00 Base",
+      "createButton": "Create Tax Rate",
+      "createSuccess": "Tax rate created successfully",
+      "updateSuccess": "Tax rate updated successfully"
+    },
+    "form": {
+      "taxType": "Tax Type / Name",
+      "taxTypePlaceholder": "e.g. VAT 15%, Sales Tax",
+      "rate": "Rate (%)",
+      "country": "Country / Jurisdiction",
+      "selectJurisdiction": "Select jurisdiction (Optional)",
+      "globalNoCountry": "Global (No specific country)",
+      "isInclusive": "Tax Inclusive",
+      "taxIncludedInPrice": "Tax included in price",
+      "taxAddedOnTop": "Tax added on top",
+      "isActive": "Is Active",
+      "availableForUse": "Available for use",
+      "disabledHidden": "Disabled / Hidden",
+      "effectiveFrom": "Effective From",
+      "effectiveTo": "Effective To (Optional)",
+      "description": "Description (Optional)",
+      "descriptionPlaceholder": "Add notes, statutory references, or applicability rules"
+    },
+    "details": {
+      "specs": "Specifications",
+      "calculationMode": "Calculation Mode",
+      "modeInclusive": "Inclusive (In Price)",
+      "modeExclusive": "Exclusive (Added On)",
+      "country": "Country / Jurisdiction",
+      "global": "Global / None",
+      "effectiveFrom": "Effective From",
+      "effectiveTo": "Effective To",
+      "indefinite": "Indefinite / None",
+      "uuid": "UUID",
+      "sampleCalculations": "Sample Projections",
+      "baseAmount": "Base Amount",
+      "tax": "Tax",
+      "noDescription": "No additional description provided."
+    },
+    "delete": {
+      "title": "Delete Tax Rate?",
+      "warning": "This will permanently delete {{taxType}} ({{rate}}).",
+      "dependencyNotice": "Note: If this rate is attached to existing price lists or sales invoices, historic records may lose direct tax mapping.",
+      "success": "Tax rate deleted successfully",
+      "failed": "Failed to delete tax rate"
+    },
+    "bulkDelete": {
+      "title": "Delete Selected Tax Rates?",
+      "description": "You are about to delete {{count}} tax rates. This action cannot be undone and may affect associated products and price lists.",
+      "success": "Successfully deleted {{count}} tax rates",
+      "failed": "Failed to delete selected tax rates"
     }
   }
 }
