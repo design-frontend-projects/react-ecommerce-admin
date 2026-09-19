@@ -106,11 +106,12 @@ model cities {
   is_active  Boolean?    @default(true)
   created_at DateTime?   @default(now()) @db.Timestamptz(6)
   updated_at DateTime?   @default(now()) @db.Timestamptz(6)
-  branches   branches[]
-  countries  countries   @relation(fields: [country_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  stores     stores[]
-  suppliers  suppliers[]
-  warehouses warehouses[]
+  branches     branches[]
+  countries    countries   @relation(fields: [country_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  stores       stores[]
+  suppliers    suppliers[]
+  warehouses   warehouses[]
+  tenant_users tenant_users[]
 }
 
 model countries {
@@ -122,12 +123,13 @@ model countries {
   created_at  DateTime?   @default(now()) @db.Timestamptz(6)
   updated_at  DateTime?   @default(now()) @db.Timestamptz(6)
   currency_id String?     @db.Uuid
-  cities      cities[]
-  currencies  currencies? @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stores      stores[]
-  tax_rates   tax_rates[]
-  tenants     tenants[]
-  warehouses  warehouses[]
+  cities        cities[]
+  currencies    currencies? @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stores        stores[]
+  tax_rates     tax_rates[]
+  tenants       tenants[]
+  warehouses    warehouses[]
+  tenant_users  tenant_users[]
 }
 
 model currencies {
@@ -1291,6 +1293,7 @@ model stores {
   inv_promotion_stores inv_promotion_stores[]
   inv_promotion_usage_logs inv_promotion_usage_logs[]
   inv_discount_approval_requests inv_discount_approval_requests[]
+  tenant_users         tenant_users[]
 }
 
 model channels {
@@ -1311,6 +1314,7 @@ model channels {
   sales_orders       sales_orders[]
   inv_promotion_channels inv_promotion_channels[]
   inv_promotion_usage_logs inv_promotion_usage_logs[]
+  tenant_users       tenant_users[]
 
   @@unique([tenant_id, code])
   @@index([tenant_id])
@@ -1566,10 +1570,36 @@ model tenant_users {
   id_number           String?
   tenant_id           String?            @db.Uuid
   branch_id           String?            @db.Uuid
+
+  // ── Location / ABAC attributes ───────────────────────────────────────────
+  country_id          String?            @db.Uuid
+  city_id             String?            @db.Uuid
+  store_id            String?            @db.Uuid
+  warehouse_id        String?            @db.Uuid
+  channel_id          String?            @db.Uuid
+
+  // ── User lifecycle ───────────────────────────────────────────────────────
+  is_blocked          Boolean            @default(false)
+  blocked_at          DateTime?          @db.Timestamptz(6)
+  blocked_by          String?            @db.Uuid
+  deleted_at          DateTime?          @db.Timestamptz(6)
+  deleted_by          String?            @db.Uuid
+  last_login_at       DateTime?          @db.Timestamptz(6)
+  password_changed_at DateTime?          @db.Timestamptz(6)
+
+  // ── Relations ────────────────────────────────────────────────────────────
   branches            branches?          @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  countries           countries?         @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cities              cities?            @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stores              stores?            @relation(fields: [store_id], references: [store_id], onDelete: NoAction, onUpdate: NoAction)
+  warehouses          warehouses?        @relation(fields: [warehouse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  channels            channels?          @relation(fields: [channel_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tenants             tenants?           @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_permissions    user_permissions[]
   user_roles          user_roles[]
+
+  @@index([tenant_id, is_active], map: "idx_tenant_users_tenant_active")
+  @@index([email], map: "idx_tenant_users_email")
 }
 
 /// Renamed from `transaction_details` → `financial_transaction_details` to avoid namespace collision with the Inventory Transaction Engine.
@@ -2306,6 +2336,7 @@ model warehouses {
   inventory            inventory[]
   pos_terminals        pos_terminals[]
   sales_invoices       sales_invoices[]
+  tenant_users         tenant_users[]
 
   @@index([tenant_id])
   @@index([branch_id])

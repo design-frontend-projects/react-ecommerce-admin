@@ -68,109 +68,110 @@ function generatedButtonPermissionName(
  * Sibling of `ensureBasePermissionsSeeded()` — which it calls first so base roles and
  * permissions exist before screen mappings reference them.
  */
+let accessControlSeedPromise: Promise<void> | null = null
+
 export async function ensureAccessControlSeeded(): Promise<void> {
   if (await isCurrentSeedVersion()) return
+  if (accessControlSeedPromise) return accessControlSeedPromise
 
-  await ensureBasePermissionsSeeded()
+  accessControlSeedPromise = (async () => {
+    try {
+      if (await isCurrentSeedVersion()) return
 
-  // 1. Activity types
-  await Promise.all(
-    ACTIVITY_TYPE_SEEDS.map((activity) =>
-      prisma.business_activity_types.upsert({
-        where: { code: activity.code },
-        update: {
-          name: activity.name,
-          description: activity.description,
-          updated_at: new Date(),
-        },
-        create: {
-          code: activity.code,
-          name: activity.name,
-          description: activity.description,
-        },
-      })
-    )
-  )
-  const activityTypes = (await prisma.business_activity_types.findMany({
-    select: { id: true, code: true },
-  })) as Array<{ id: string; code: string }>
-  const activityIdByCode = new Map(activityTypes.map((a) => [a.code, a.id]))
+      await ensureBasePermissionsSeeded()
 
-  // 2. Modules + module_activity_types
-  await Promise.all(
-    MODULE_SEEDS.map((module) =>
-      prisma.app_modules.upsert({
-        where: { code: module.code },
-        update: {
-          name: module.name,
-          description: module.description,
-          sort_order: module.sortOrder,
-          updated_at: new Date(),
-        },
-        create: {
-          code: module.code,
-          name: module.name,
-          description: module.description,
-          sort_order: module.sortOrder,
-        },
-      })
-    )
-  )
-  const modules = (await prisma.app_modules.findMany({
-    select: {
-      id: true,
-      code: true,
-      module_activity_types: { select: { activity_type_id: true } },
-    },
-  })) as Array<{
-    id: string
-    code: string
-    module_activity_types: Array<{ activity_type_id: string }>
-  }>
-  const moduleIdByCode = new Map(modules.map((m) => [m.code, m.id]))
+      // 1. Activity types
+      for (const activity of ACTIVITY_TYPE_SEEDS) {
+        await prisma.business_activity_types.upsert({
+          where: { code: activity.code },
+          update: {
+            name: activity.name,
+            description: activity.description,
+            updated_at: new Date(),
+          },
+          create: {
+            code: activity.code,
+            name: activity.name,
+            description: activity.description,
+          },
+        })
+      }
+      const activityTypes = (await prisma.business_activity_types.findMany({
+        select: { id: true, code: true },
+      })) as Array<{ id: string; code: string }>
+      const activityIdByCode = new Map(activityTypes.map((a) => [a.code, a.id]))
 
-  for (const module of modules) {
-    const seed = MODULE_SEEDS.find((m) => m.code === module.code)
-    if (!seed || seed.activityTypeCodes.length === 0) continue
-    if (module.module_activity_types.length > 0) continue // mappings only when empty
-    const data = seed.activityTypeCodes
-      .map((code) => activityIdByCode.get(code))
-      .filter((id): id is string => Boolean(id))
-      .map((activityTypeId) => ({
-        module_id: module.id,
-        activity_type_id: activityTypeId,
-      }))
-    if (data.length > 0) {
-      await prisma.module_activity_types.createMany({
-        data,
-        skipDuplicates: true,
-      })
-    }
-  }
+      // 2. Modules + module_activity_types
+      for (const module of MODULE_SEEDS) {
+        await prisma.app_modules.upsert({
+          where: { code: module.code },
+          update: {
+            name: module.name,
+            description: module.description,
+            sort_order: module.sortOrder,
+            updated_at: new Date(),
+          },
+          create: {
+            code: module.code,
+            name: module.name,
+            description: module.description,
+            sort_order: module.sortOrder,
+          },
+        })
+      }
+      const modules = (await prisma.app_modules.findMany({
+        select: {
+          id: true,
+          code: true,
+          module_activity_types: { select: { activity_type_id: true } },
+        },
+      })) as Array<{
+        id: string
+        code: string
+        module_activity_types: Array<{ activity_type_id: string }>
+      }>
+      const moduleIdByCode = new Map(modules.map((m) => [m.code, m.id]))
 
-  // 3. Buttons
-  await Promise.all(
-    BUTTON_SEEDS.map((button) =>
-      prisma.permission_buttons.upsert({
-        where: { code: button.code },
-        update: {
-          name: button.name,
-          description: button.description,
-          updated_at: new Date(),
-        },
-        create: {
-          code: button.code,
-          name: button.name,
-          description: button.description,
-          is_system: true,
-        },
-      })
-    )
-  )
-  const buttons = (await prisma.permission_buttons.findMany({
-    select: { id: true, code: true },
-  })) as Array<{ id: string; code: string }>
-  const buttonIdByCode = new Map(buttons.map((b) => [b.code, b.id]))
+      for (const module of modules) {
+        const seed = MODULE_SEEDS.find((m) => m.code === module.code)
+        if (!seed || seed.activityTypeCodes.length === 0) continue
+        if (module.module_activity_types.length > 0) continue // mappings only when empty
+        const data = seed.activityTypeCodes
+          .map((code) => activityIdByCode.get(code))
+          .filter((id): id is string => Boolean(id))
+          .map((activityTypeId) => ({
+            module_id: module.id,
+            activity_type_id: activityTypeId,
+          }))
+        if (data.length > 0) {
+          await prisma.module_activity_types.createMany({
+            data,
+            skipDuplicates: true,
+          })
+        }
+      }
+
+      // 3. Buttons
+      for (const button of BUTTON_SEEDS) {
+        await prisma.permission_buttons.upsert({
+          where: { code: button.code },
+          update: {
+            name: button.name,
+            description: button.description,
+            updated_at: new Date(),
+          },
+          create: {
+            code: button.code,
+            name: button.name,
+            description: button.description,
+            is_system: true,
+          },
+        })
+      }
+      const buttons = (await prisma.permission_buttons.findMany({
+        select: { id: true, code: true },
+      })) as Array<{ id: string; code: string }>
+      const buttonIdByCode = new Map(buttons.map((b) => [b.code, b.id]))
 
   // 4. Screens (catalog upsert; is_system locked)
   for (const screen of SCREEN_SEEDS) {
@@ -325,5 +326,11 @@ export async function ensureAccessControlSeeded(): Promise<void> {
     }
   }
 
-  await markSeedVersion()
+      await markSeedVersion()
+    } finally {
+      accessControlSeedPromise = null
+    }
+  })()
+
+  return accessControlSeedPromise
 }

@@ -1,6 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { type Row } from '@tanstack/react-table'
-import { Trash2, UserPen } from 'lucide-react'
+import { Trash2, UserPen, Ban, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,6 +10,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useAuth } from '@/hooks/use-auth'
 import { type User } from '../data/schema'
 import { useUsers } from './users-provider'
 
@@ -19,6 +20,11 @@ type DataTableRowActionsProps = {
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const { setOpen, setCurrentRow } = useUsers()
+  const { has } = useAuth()
+  const canManage = has({ permission: 'users.manage' })
+
+  const isBlocked = row.original.isBlocked || row.original.status === 'suspended'
+
   return (
     <>
       <DropdownMenu modal={false}>
@@ -31,7 +37,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             <span className='sr-only'>Open menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' className='w-[160px]'>
+        <DropdownMenuContent align='end' className='w-[170px]'>
           <DropdownMenuItem
             onClick={() => {
               setCurrentRow(row.original)
@@ -43,21 +49,56 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               <UserPen size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(row.original)
-              setOpen('delete')
-            }}
-            className='text-red-500!'
-          >
-            Delete
-            <DropdownMenuShortcut>
-              <Trash2 size={16} />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+
+          {canManage && (
+            <>
+              <DropdownMenuSeparator />
+              {isBlocked ? (
+                <DropdownMenuItem
+                  onClick={() => {
+                    setCurrentRow(row.original)
+                    setOpen('unblock')
+                  }}
+                  className='text-emerald-600 dark:text-emerald-400'
+                >
+                  Unblock User
+                  <DropdownMenuShortcut>
+                    <ShieldCheck size={16} />
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() => {
+                    setCurrentRow(row.original)
+                    setOpen('block')
+                  }}
+                  className='text-amber-600 dark:text-amber-400'
+                >
+                  Block User
+                  <DropdownMenuShortcut>
+                    <Ban size={16} />
+                  </DropdownMenuShortcut>
+                </DropdownMenuItem>
+              )}
+
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  setCurrentRow(row.original)
+                  setOpen('delete')
+                }}
+                className='text-red-500!'
+              >
+                Delete
+                <DropdownMenuShortcut>
+                  <Trash2 size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
   )
 }
+

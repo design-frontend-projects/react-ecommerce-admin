@@ -1,0 +1,467 @@
+- generic:
+  - generic [aria-hidden]:
+    - link:
+      - /url: "#content"
+      - text: Skip to main content
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - list:
+              - listitem:
+                - generic:
+                  - link:
+                    - /url: /
+                    - generic:
+                      - generic: ResPOS
+                      - generic: Premium Edition
+                  - button:
+                    - generic: Toggle Sidebar
+          - generic:
+            - generic:
+              - generic: System
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /system
+                    - generic: System Management
+                - listitem:
+                  - link:
+                    - /url: /system/audit-logs
+                    - generic: Audit Logs
+            - generic:
+              - generic: General
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /
+                    - generic: Dashboard
+                - listitem:
+                  - button:
+                    - generic: POS System
+                - listitem:
+                  - link:
+                    - /url: /products
+                    - generic: Products
+                - listitem:
+                  - link:
+                    - /url: /subscriptions
+                    - generic: Subscriptions
+                - listitem:
+                  - link:
+                    - /url: /notifications
+                    - generic: Notifications
+            - generic:
+              - generic: Restaurant POS
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /respos
+                    - generic: POS Dashboard
+                - listitem:
+                  - link:
+                    - /url: /respos/pos
+                    - generic: Restaurant POS
+                - listitem:
+                  - link:
+                    - /url: /respos/captain
+                    - generic: Captain Station
+                - listitem:
+                  - link:
+                    - /url: /respos/kitchen
+                    - generic: Kitchen Display
+                - listitem:
+                  - link:
+                    - /url: /respos/menu
+                    - generic: Menu Management
+                - listitem:
+                  - link:
+                    - /url: /respos/floors
+                    - generic: Floors & Tables
+                - listitem:
+                  - link:
+                    - /url: /respos/reservations
+                    - generic: Reservations
+                - listitem:
+                  - link:
+                    - /url: /respos/analytics
+                    - generic: Analytics
+                - listitem:
+                  - link:
+                    - /url: /respos/cashier
+                    - generic: Cashier & Checkout
+                - listitem:
+                  - link:
+                    - /url: /respos/payments
+                    - generic: Payments
+                - listitem:
+                  - link:
+                    - /url: /respos/shipments
+                    - generic: Shipments
+                - listitem:
+                  - link:
+                    - /url: /payment-methods
+                    - generic: Payment Methods
+                - listitem:
+                  - button:
+                    - generic: Promotions
+                - listitem:
+                  - link:
+                    - /url: /users
+                    - generic: Users & Roles
+                - listitem:
+                  - link:
+                    - /url: /access-control
+                    - generic: Access Control
+            - generic:
+              - generic: Inventory
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /inventory/dashboard
+                    - generic: Inventory Dashboard
+                - listitem:
+                  - link:
+                    - /url: /inventory/alerts
+                    - generic: Inventory Alerts
+                - listitem:
+                  - button:
+                    - generic: Catalog & Products
+                - listitem:
+                  - button:
+                    - generic: Stock & Warehouses
+                - listitem:
+                  - button:
+                    - generic: Tracking & Batches
+                - listitem:
+                  - button:
+                    - generic: Purchasing & Inbound
+                - listitem:
+                  - button:
+                    - generic: Sales & Fulfillment
+                - listitem:
+                  - button:
+                    - generic: Valuation & Finance
+            - generic:
+              - generic: Lookups
+              - list:
+                - listitem:
+                  - link:
+                    - /url: /lookups
+                    - generic: Master Lookups
+                - listitem:
+                  - link:
+                    - /url: /countries
+                    - generic: Countries
+                - listitem:
+                  - link:
+                    - /url: /cities
+                    - generic: Cities
+                - listitem:
+                  - link:
+                    - /url: /areas
+                    - generic: Areas
+                - listitem:
+                  - link:
+                    - /url: /currencies
+                    - generic: Currencies
+                - listitem:
+                  - link:
+                    - /url: /branches
+                    - generic: Branches
+                - listitem:
+                  - link:
+                    - /url: /stores
+                    - generic: Stores
+                - listitem:
+                  - link:
+                    - /url: /channels
+                    - generic: Channels
+            - generic:
+              - generic: Other
+              - list:
+                - listitem:
+                  - button:
+                    - generic: Settings
+                - listitem:
+                  - button:
+                    - generic: Lookups
+                - listitem:
+                  - link:
+                    - /url: /help-center
+                    - generic: Help Center
+          - generic:
+            - list:
+              - listitem:
+                - button:
+                  - generic: ‪
+                  - generic:
+                    - generic: ‪ahmed
+                    - generic: ahmedmedodev@gmail.com
+          - button
+    - generic:
+      - generic:
+        - banner:
+          - generic:
+            - button:
+              - generic: Toggle Sidebar
+            - button:
+              - generic: Search...
+              - generic:
+                - generic: ⌘
+                - text: K
+            - generic:
+              - button:
+                - generic: Switch Language
+              - button:
+                - generic: Theme
+              - button:
+                - generic: SN
+            - generic:
+              - combobox:
+                - generic: Select branch
+              - button
+              - button
+              - button:
+                - generic: Install the interface.
+              - button:
+                - generic: SN
+        - main:
+          - generic:
+            - generic:
+              - generic:
+                - heading [level=2]: Users and access
+              - paragraph: Manage tenant users, assign roles, enforce location boundaries, and monitor security.
+            - generic:
+              - button:
+                - generic: Invite User
+              - button:
+                - generic: Add User
+          - generic:
+            - generic:
+              - generic: Total Users
+              - generic: "2"
+            - generic:
+              - generic: Active Users
+              - generic: "2"
+            - generic:
+              - generic: Invited
+              - generic: "0"
+            - generic:
+              - generic: Roles
+              - generic: "7"
+          - generic:
+            - tablist:
+              - tab [selected]: Users
+              - tab: Roles
+              - tab: Permissions
+            - tabpanel:
+              - generic:
+                - generic:
+                  - generic:
+                    - textbox:
+                      - /placeholder: Filter users...
+                    - generic:
+                      - button: Status
+                      - button: Role
+                  - generic:
+                    - button: View
+                - generic:
+                  - generic:
+                    - table:
+                      - rowgroup:
+                        - row:
+                          - columnheader:
+                            - checkbox
+                          - columnheader:
+                            - generic:
+                              - button:
+                                - generic: Username
+                          - columnheader:
+                            - generic: Name
+                          - columnheader:
+                            - generic:
+                              - button:
+                                - generic: Email
+                          - columnheader:
+                            - generic: Phone Number
+                          - columnheader:
+                            - generic:
+                              - button:
+                                - generic: Status
+                          - columnheader:
+                            - generic:
+                              - button:
+                                - generic: Role
+                          - columnheader
+                      - rowgroup:
+                        - row:
+                          - cell:
+                            - checkbox
+                          - cell:
+                            - generic: messi10010
+                          - cell:
+                            - generic: medo zoz
+                          - cell:
+                            - generic: messi10010@gmail.com
+                          - cell:
+                            - generic: "+201124748078"
+                          - cell:
+                            - generic: active
+                          - cell:
+                            - generic: admin
+                          - cell:
+                            - button:
+                              - generic: Open menu
+                        - row:
+                          - cell:
+                            - checkbox
+                          - cell:
+                            - generic: ahmedmedodev
+                          - cell:
+                            - generic: ‪ahmed hassan
+                          - cell:
+                            - generic: ahmedmedodev@gmail.com
+                          - cell:
+                            - generic: "+201124748078"
+                          - cell:
+                            - generic: active
+                          - cell:
+                            - generic: super_admin
+                          - cell:
+                            - button:
+                              - generic: Open menu
+                - generic:
+                  - generic: 0 of 2 row(s) selected.
+                  - generic:
+                    - generic:
+                      - paragraph: Rows per page
+                      - combobox:
+                        - generic: "10"
+                    - generic: Page 1 of 1
+                    - generic:
+                      - button [disabled]:
+                        - generic: Go to first page
+                      - button [disabled]:
+                        - generic: Go to previous page
+                      - button [disabled]:
+                        - generic: Go to next page
+                      - button [disabled]:
+                        - generic: Go to last page
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [aria-hidden]:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - dialog [ref=f1e885]:
+    - generic [ref=f1e892]:
+      - heading "Add New User" [level=2] [ref=f1e893]
+      - paragraph [ref=f1e894]: Create a new tenant user with role and operational boundaries.
+    - generic [ref=f1e896]:
+      - generic [ref=f1e897]:
+        - generic [ref=f1e902]:
+          - heading "Personal Information" [level=4] [ref=f1e903]
+          - paragraph [ref=f1e904]: Basic profile identity and contact information
+        - generic [ref=f1e905]:
+          - generic [ref=f1e906]:
+            - generic [ref=f1e907]: First Name
+            - textbox "First Name" [active] [ref=f1e908]:
+              - /placeholder: e.g. John
+          - generic [ref=f1e909]:
+            - generic [ref=f1e910]: Last Name
+            - textbox "Last Name" [ref=f1e911]:
+              - /placeholder: e.g. Doe
+          - generic [ref=f1e912]:
+            - generic [ref=f1e913]: Email
+            - textbox "Email" [ref=f1e914]:
+              - /placeholder: user@example.com
+          - generic [ref=f1e915]:
+            - generic [ref=f1e916]: Phone Number
+            - textbox "Phone Number" [ref=f1e917]:
+              - /placeholder: +966 50 123 4567
+          - generic [ref=f1e918]:
+            - generic [ref=f1e919]: National ID / Passport
+            - textbox "National ID / Passport" [ref=f1e920]:
+              - /placeholder: Enter national ID or passport number
+          - generic [ref=f1e921]:
+            - generic [ref=f1e922]: Username
+            - textbox "Username" [ref=f1e923]:
+              - /placeholder: johndoe
+      - generic [ref=f1e924]:
+        - generic [ref=f1e929]:
+          - heading "Role & Module Access" [level=4] [ref=f1e930]
+          - paragraph [ref=f1e931]: System role, primary module, and POS operation privileges
+        - generic [ref=f1e932]:
+          - generic [ref=f1e933]:
+            - generic [ref=f1e934]: Role
+            - combobox "Role" [ref=f1e935] [cursor=pointer]:
+              - generic: Select a role
+            - combobox [aria-hidden] [ref=f1e936]
+          - generic [ref=f1e937]:
+            - generic [ref=f1e938]: Primary Module
+            - combobox "Primary Module" [ref=f1e939] [cursor=pointer]:
+              - generic: Inventory Management
+            - combobox [aria-hidden] [ref=f1e940]
+          - generic [ref=f1e941]:
+            - generic [ref=f1e942]:
+              - generic [ref=f1e943]: Restaurant Staff / POS Operator
+              - paragraph [ref=f1e944]: Grant access to POS registers, captain stations, and kitchen displays
+            - switch "Restaurant Staff / POS Operator" [ref=f1e945] [cursor=pointer]
+            - checkbox [aria-hidden]
+          - generic [ref=f1e946]:
+            - generic [ref=f1e947]: POS Refund PIN Code
+            - textbox "POS Refund PIN Code" [ref=f1e951]:
+              - /placeholder: 4-6 digit numeric authorization PIN
+      - generic [ref=f1e952]:
+        - generic [ref=f1e957]:
+          - heading "Location & Scope" [level=4] [ref=f1e958]
+          - paragraph [ref=f1e959]: Assign location boundaries across branch, store, and warehouse
+        - generic [ref=f1e960]:
+          - generic [ref=f1e961]:
+            - generic [ref=f1e962]: Country
+            - combobox "Country" [ref=f1e963] [cursor=pointer]:
+              - generic: Select country (optional)
+            - combobox [aria-hidden] [ref=f1e964]
+          - generic [ref=f1e965]:
+            - generic [ref=f1e966]: City
+            - combobox "City" [ref=f1e967] [cursor=pointer]:
+              - generic: Select city (optional)
+            - combobox [aria-hidden] [ref=f1e968]
+          - generic [ref=f1e969]:
+            - generic [ref=f1e970]: Branch
+            - combobox "Branch" [ref=f1e971] [cursor=pointer]:
+              - generic: Select branch (optional)
+            - combobox [aria-hidden] [ref=f1e972]
+          - generic [ref=f1e973]:
+            - generic [ref=f1e974]: Store
+            - combobox "Store" [ref=f1e975] [cursor=pointer]:
+              - generic: Select store (optional)
+            - combobox [aria-hidden] [ref=f1e976]
+          - generic [ref=f1e977]:
+            - generic [ref=f1e978]: Warehouse
+            - combobox "Warehouse" [ref=f1e979] [cursor=pointer]:
+              - generic: Select warehouse (optional)
+            - combobox [aria-hidden] [ref=f1e980]
+          - generic [ref=f1e981]:
+            - generic [ref=f1e982]: Sales Channel
+            - combobox "Sales Channel" [ref=f1e983] [cursor=pointer]:
+              - generic: Select channel (optional)
+            - combobox [aria-hidden] [ref=f1e984]
+      - generic [ref=f1e985]:
+        - generic [ref=f1e990]:
+          - heading "Security & Controls" [level=4] [ref=f1e991]
+          - paragraph [ref=f1e992]: Configure authorization PINs and account status
+        - generic [ref=f1e993]:
+          - generic [ref=f1e994]:
+            - generic [ref=f1e995]:
+              - generic [ref=f1e996]: Account Active
+              - paragraph [ref=f1e997]: Enable or suspend login and system access for this user
+            - switch "Account Active" [checked] [ref=f1e998] [cursor=pointer]
+            - checkbox [checked] [aria-hidden]
+          - paragraph [ref=f1e1002]: A secure temporary password will be generated automatically and shown once upon creation.
+    - generic [ref=f1e1003]:
+      - button "Cancel" [ref=f1e1004] [cursor=pointer]
+      - button "Save User" [ref=f1e1005] [cursor=pointer]
+    - button "Close" [ref=f1e1006] [cursor=pointer]

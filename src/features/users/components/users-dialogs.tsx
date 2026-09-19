@@ -1,3 +1,4 @@
+import { BlockUserDialog } from './block-user-dialog'
 import { UsersActionDialog } from './users-action-dialog'
 import { UsersDeleteDialog } from './users-delete-dialog'
 import { UsersInviteDialog } from './users-invite-dialog'
@@ -10,13 +11,13 @@ export function UsersDialogs() {
       <UsersActionDialog
         key='user-add'
         open={open === 'add'}
-        onOpenChange={() => setOpen('add')}
+        onOpenChange={(isOpen) => setOpen(isOpen ? 'add' : null)}
       />
 
       <UsersInviteDialog
         key='user-invite'
         open={open === 'invite'}
-        onOpenChange={() => setOpen('invite')}
+        onOpenChange={(isOpen) => setOpen(isOpen ? 'invite' : null)}
       />
 
       {currentRow && (
@@ -24,11 +25,30 @@ export function UsersDialogs() {
           <UsersActionDialog
             key={`user-edit-${currentRow.id}`}
             open={open === 'edit'}
-            onOpenChange={() => {
-              setOpen('edit')
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
+            onOpenChange={(isOpen) => {
+              if (!isOpen) {
+                setOpen(null)
+                setTimeout(() => {
+                  setCurrentRow(null)
+                }, 500)
+              } else {
+                setOpen('edit')
+              }
+            }}
+            currentRow={currentRow}
+          />
+
+          <BlockUserDialog
+            key={`user-block-${currentRow.id}`}
+            open={open === 'block' || open === 'unblock'}
+            action={open === 'unblock' ? 'unblock' : 'block'}
+            onOpenChange={(isOpen) => {
+              if (!isOpen) {
+                setOpen(null)
+                setTimeout(() => {
+                  setCurrentRow(null)
+                }, 500)
+              }
             }}
             currentRow={currentRow}
           />
@@ -36,11 +56,15 @@ export function UsersDialogs() {
           <UsersDeleteDialog
             key={`user-delete-${currentRow.id}`}
             open={open === 'delete'}
-            onOpenChange={() => {
-              setOpen('delete')
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
+            onOpenChange={(isOpen) => {
+              if (!isOpen) {
+                setOpen(null)
+                setTimeout(() => {
+                  setCurrentRow(null)
+                }, 500)
+              } else {
+                setOpen('delete')
+              }
             }}
             currentRow={currentRow}
           />

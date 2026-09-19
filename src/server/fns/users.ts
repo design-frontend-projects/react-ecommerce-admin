@@ -43,7 +43,12 @@ export async function requireUserAccess(
 function buildUserStatus(user: {
   auth_user_id: string
   is_active: boolean | null
+  is_blocked?: boolean | null
 }) {
+  if (user.is_blocked) {
+    return 'suspended'
+  }
+
   if (!user.is_active) {
     return 'inactive'
   }
@@ -61,15 +66,18 @@ export async function getUsers(callerAuthUserId: string): Promise<User[]> {
   const tenantId = await resolveTenantId(callerAuthUserId)
 
   const dbUsers = (await prisma.tenant_users.findMany({
-    where: tenantId
-      ? {
-          OR: [
-            { tenant_id: tenantId },
-            { parent_tenant_id: tenantId },
-            { auth_user_id: callerAuthUserId },
-          ],
-        }
-      : { auth_user_id: callerAuthUserId },
+    where: {
+      ...(tenantId
+        ? {
+            OR: [
+              { tenant_id: tenantId },
+              { parent_tenant_id: tenantId },
+              { auth_user_id: callerAuthUserId },
+            ],
+          }
+        : { auth_user_id: callerAuthUserId }),
+      deleted_at: null,
+    },
     orderBy: { created_at: 'desc' },
     include: {
       user_roles: {
@@ -85,9 +93,15 @@ export async function getUsers(callerAuthUserId: string): Promise<User[]> {
     first_name: string | null
     last_name: string | null
     is_active: boolean | null
+    is_blocked: boolean
     default_role: string | null
     phone: string | null
     branch_id: string | null
+    country_id: string | null
+    city_id: string | null
+    store_id: string | null
+    warehouse_id: string | null
+    channel_id: string | null
     created_at: Date | null
     updated_at: Date | null
     user_roles: Array<{
@@ -116,6 +130,12 @@ export async function getUsers(callerAuthUserId: string): Promise<User[]> {
       roleNames,
       roleIds,
       branchId: user.branch_id ?? undefined,
+      countryId: user.country_id ?? undefined,
+      cityId: user.city_id ?? undefined,
+      storeId: user.store_id ?? undefined,
+      warehouseId: user.warehouse_id ?? undefined,
+      channelId: user.channel_id ?? undefined,
+      isBlocked: user.is_blocked,
       status: buildUserStatus(user),
       createdAt: user.created_at?.toISOString() ?? new Date().toISOString(),
       updatedAt: user.updated_at?.toISOString() ?? new Date().toISOString(),
@@ -233,3 +253,119 @@ export const deactivateUser = createServerFn({ method: 'POST' })
 
     return { success: true }
   })
+
+export const blockUser = createServerFn({ method: 'POST' })
+  .validator(
+    z.object({
+      userId: z.string(),
+      reason: z.string().optional(),
+      sessionToken: z.string(),
+    })
+  )
+  .handler(async ({ data: { userId, sessionToken } }) => {
+    const caller = await requireUserAccess(sessionToken, userId, {
+      permissions: ['users.manage'],
+    })
+
+    try {
+      await supabaseAdmin.auth.admin.updateUserById(userId, {
+        ban_duration: '876000h',
+      })
+    } catch (e) {
+      console.warn('Supabase ban error/warning:', e)
+    }
+
+    await prisma.tenant_users.updateMany({
+      where: { auth_user_id: userId },
+      data: {
+        is_blocked: true,
+        blocked_at: new Date(),
+        blocked_by: caller.userId,
+        is_active: false,
+        updated_at: new Date(),
+      },
+    })
+
+    return { success: true }
+  })
+
+export const unblockUser = createServerFn({ method: 'POST' })
+  .validator(
+    z.object({
+      userId: z.string(),
+      sessionToken: z.string(),
+    })
+  )
+  .handler(async ({ data: { userId, sessionToken } }) => {
+    await requireUserAccess(sessionToken, userId, {
+      permissions: ['users.manage'],
+    })
+
+    try {
+      await supabaseAdmin.auth.admin.updateUserById(userId, {
+        ban_duration: 'none',
+      })
+    } catch (e) {
+      console.warn('Supabase unban error/warning:', e)
+    }
+
+    await prisma.tenant_users.updateMany({
+      where: { auth_user_id: userId },
+      data: {
+        is_blocked: false,
+        blocked_at: null,
+        blocked_by: null,
+        is_active: true,
+        updated_at: new Date(),
+      },
+    })
+
+    return { success: true }
+  })
+
+export const softDeleteUser = createServerFn({ method: 'POST' })
+  .validator(
+    z.object({
+      userId: z.string(),
+      sessionToken: z.string(),
+    })
+  )
+  .handler(async ({ data: { userId, sessionToken } }) => {
+    const caller = await requireUserAccess(sessionToken, userId, {
+      permissions: ['users.manage'],
+    })
+
+    await prisma.tenant_users.updateMany({
+      where: { auth_user_id: userId },
+      data: {
+        is_active: false,
+        deleted_at: new Date(),
+        deleted_by: caller.userId,
+        updated_at: new Date(),
+      },
+    })
+
+    try {
+      await supabaseAdmin.auth.admin.deleteUser(userId)
+    } catch (e) {
+      console.warn('Supabase deleteUser error/warning:', e)
+    }
+
+    return { success: true }
+  })
+
+export const recordPasswordChanged = createServerFn({ method: 'POST' })
+  .validator(z.object({ sessionToken: z.string() }))
+  .handler(async ({ data: { sessionToken } }) => {
+    const caller = await requireAuth(sessionToken)
+    await prisma.tenant_users.updateMany({
+      where: { auth_user_id: caller.userId },
+      data: {
+        password_changed_at: new Date(),
+        updated_at: new Date(),
+      },
+    })
+    return { success: true }
+  })
+
+

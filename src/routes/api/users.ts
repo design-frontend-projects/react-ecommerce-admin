@@ -21,6 +21,17 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
     phone?: string
     roleIds?: string[]
     branchId?: string
+    countryId?: string
+    cityId?: string
+    storeId?: string
+    warehouseId?: string
+    channelId?: string
+    idNumber?: string
+    refundPinCode?: string
+    isRestaurantUser?: boolean
+    primaryModule?: 'inventory' | 'restaurant'
+    modules?: Array<'inventory' | 'restaurant'>
+    isActive?: boolean
     overrides?: Array<{ permissionId?: string; isGranted?: boolean }>
   }
 
@@ -50,6 +61,17 @@ const POST = withAuth(PERMISSIONS.USERS_MANAGE, async ({ request, auth }) => {
         phone: body.phone,
         roleIds: body.roleIds,
         branchId: body.branchId,
+        countryId: body.countryId,
+        cityId: body.cityId,
+        storeId: body.storeId,
+        warehouseId: body.warehouseId,
+        channelId: body.channelId,
+        idNumber: body.idNumber,
+        refundPinCode: body.refundPinCode,
+        isRestaurantUser: body.isRestaurantUser,
+        primaryModule: body.primaryModule,
+        modules: body.modules,
+        isActive: body.isActive,
         overrides,
       },
       { authUserId: auth.userId }

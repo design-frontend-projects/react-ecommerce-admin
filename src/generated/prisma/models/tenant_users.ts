@@ -44,6 +44,18 @@ export type Tenant_usersMinAggregateOutputType = {
   id_number: string | null
   tenant_id: string | null
   branch_id: string | null
+  country_id: string | null
+  city_id: string | null
+  store_id: string | null
+  warehouse_id: string | null
+  channel_id: string | null
+  is_blocked: boolean | null
+  blocked_at: Date | null
+  blocked_by: string | null
+  deleted_at: Date | null
+  deleted_by: string | null
+  last_login_at: Date | null
+  password_changed_at: Date | null
 }
 
 export type Tenant_usersMaxAggregateOutputType = {
@@ -66,6 +78,18 @@ export type Tenant_usersMaxAggregateOutputType = {
   id_number: string | null
   tenant_id: string | null
   branch_id: string | null
+  country_id: string | null
+  city_id: string | null
+  store_id: string | null
+  warehouse_id: string | null
+  channel_id: string | null
+  is_blocked: boolean | null
+  blocked_at: Date | null
+  blocked_by: string | null
+  deleted_at: Date | null
+  deleted_by: string | null
+  last_login_at: Date | null
+  password_changed_at: Date | null
 }
 
 export type Tenant_usersCountAggregateOutputType = {
@@ -89,6 +113,18 @@ export type Tenant_usersCountAggregateOutputType = {
   id_number: number
   tenant_id: number
   branch_id: number
+  country_id: number
+  city_id: number
+  store_id: number
+  warehouse_id: number
+  channel_id: number
+  is_blocked: number
+  blocked_at: number
+  blocked_by: number
+  deleted_at: number
+  deleted_by: number
+  last_login_at: number
+  password_changed_at: number
   _all: number
 }
 
@@ -113,6 +149,18 @@ export type Tenant_usersMinAggregateInputType = {
   id_number?: true
   tenant_id?: true
   branch_id?: true
+  country_id?: true
+  city_id?: true
+  store_id?: true
+  warehouse_id?: true
+  channel_id?: true
+  is_blocked?: true
+  blocked_at?: true
+  blocked_by?: true
+  deleted_at?: true
+  deleted_by?: true
+  last_login_at?: true
+  password_changed_at?: true
 }
 
 export type Tenant_usersMaxAggregateInputType = {
@@ -135,6 +183,18 @@ export type Tenant_usersMaxAggregateInputType = {
   id_number?: true
   tenant_id?: true
   branch_id?: true
+  country_id?: true
+  city_id?: true
+  store_id?: true
+  warehouse_id?: true
+  channel_id?: true
+  is_blocked?: true
+  blocked_at?: true
+  blocked_by?: true
+  deleted_at?: true
+  deleted_by?: true
+  last_login_at?: true
+  password_changed_at?: true
 }
 
 export type Tenant_usersCountAggregateInputType = {
@@ -158,6 +218,18 @@ export type Tenant_usersCountAggregateInputType = {
   id_number?: true
   tenant_id?: true
   branch_id?: true
+  country_id?: true
+  city_id?: true
+  store_id?: true
+  warehouse_id?: true
+  channel_id?: true
+  is_blocked?: true
+  blocked_at?: true
+  blocked_by?: true
+  deleted_at?: true
+  deleted_by?: true
+  last_login_at?: true
+  password_changed_at?: true
   _all?: true
 }
 
@@ -254,6 +326,18 @@ export type Tenant_usersGroupByOutputType = {
   id_number: string | null
   tenant_id: string | null
   branch_id: string | null
+  country_id: string | null
+  city_id: string | null
+  store_id: string | null
+  warehouse_id: string | null
+  channel_id: string | null
+  is_blocked: boolean
+  blocked_at: Date | null
+  blocked_by: string | null
+  deleted_at: Date | null
+  deleted_by: string | null
+  last_login_at: Date | null
+  password_changed_at: Date | null
   _count: Tenant_usersCountAggregateOutputType | null
   _min: Tenant_usersMinAggregateOutputType | null
   _max: Tenant_usersMaxAggregateOutputType | null
@@ -298,7 +382,24 @@ export type tenant_usersWhereInput = {
   id_number?: Prisma.StringNullableFilter<"tenant_users"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  country_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  city_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  channel_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  is_blocked?: Prisma.BoolFilter<"tenant_users"> | boolean
+  blocked_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  blocked_by?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  deleted_by?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  last_login_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  password_changed_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
+  cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  channels?: Prisma.XOR<Prisma.ChannelsNullableScalarRelationFilter, Prisma.channelsWhereInput> | null
   tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
   user_permissions?: Prisma.User_permissionsListRelationFilter
   user_roles?: Prisma.User_rolesListRelationFilter
@@ -325,7 +426,24 @@ export type tenant_usersOrderByWithRelationInput = {
   id_number?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  country_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  city_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_blocked?: Prisma.SortOrder
+  blocked_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  blocked_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  password_changed_at?: Prisma.SortOrderInput | Prisma.SortOrder
   branches?: Prisma.branchesOrderByWithRelationInput
+  countries?: Prisma.countriesOrderByWithRelationInput
+  cities?: Prisma.citiesOrderByWithRelationInput
+  stores?: Prisma.storesOrderByWithRelationInput
+  warehouses?: Prisma.warehousesOrderByWithRelationInput
+  channels?: Prisma.channelsOrderByWithRelationInput
   tenants?: Prisma.tenantsOrderByWithRelationInput
   user_permissions?: Prisma.user_permissionsOrderByRelationAggregateInput
   user_roles?: Prisma.user_rolesOrderByRelationAggregateInput
@@ -355,7 +473,24 @@ export type tenant_usersWhereUniqueInput = Prisma.AtLeast<{
   id_number?: Prisma.StringNullableFilter<"tenant_users"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  country_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  city_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  channel_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  is_blocked?: Prisma.BoolFilter<"tenant_users"> | boolean
+  blocked_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  blocked_by?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  deleted_by?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  last_login_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  password_changed_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
   branches?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  countries?: Prisma.XOR<Prisma.CountriesNullableScalarRelationFilter, Prisma.countriesWhereInput> | null
+  cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
+  stores?: Prisma.XOR<Prisma.StoresNullableScalarRelationFilter, Prisma.storesWhereInput> | null
+  warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  channels?: Prisma.XOR<Prisma.ChannelsNullableScalarRelationFilter, Prisma.channelsWhereInput> | null
   tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
   user_permissions?: Prisma.User_permissionsListRelationFilter
   user_roles?: Prisma.User_rolesListRelationFilter
@@ -382,6 +517,18 @@ export type tenant_usersOrderByWithAggregationInput = {
   id_number?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
   branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  country_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  city_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  channel_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_blocked?: Prisma.SortOrder
+  blocked_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  blocked_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  password_changed_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.tenant_usersCountOrderByAggregateInput
   _max?: Prisma.tenant_usersMaxOrderByAggregateInput
   _min?: Prisma.tenant_usersMinOrderByAggregateInput
@@ -411,6 +558,18 @@ export type tenant_usersScalarWhereWithAggregatesInput = {
   id_number?: Prisma.StringNullableWithAggregatesFilter<"tenant_users"> | string | null
   tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
   branch_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  country_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  city_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  store_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  channel_id?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  is_blocked?: Prisma.BoolWithAggregatesFilter<"tenant_users"> | boolean
+  blocked_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_users"> | Date | string | null
+  blocked_by?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_users"> | Date | string | null
+  deleted_by?: Prisma.UuidNullableWithAggregatesFilter<"tenant_users"> | string | null
+  last_login_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_users"> | Date | string | null
+  password_changed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"tenant_users"> | Date | string | null
 }
 
 export type tenant_usersCreateInput = {
@@ -432,7 +591,19 @@ export type tenant_usersCreateInput = {
   parent_tenant_id?: string | null
   refund_pin_code?: string | null
   id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
@@ -459,6 +630,18 @@ export type tenant_usersUncheckedCreateInput = {
   id_number?: string | null
   tenant_id?: string | null
   branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
 }
@@ -482,7 +665,19 @@ export type tenant_usersUpdateInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
@@ -509,6 +704,18 @@ export type tenant_usersUncheckedUpdateInput = {
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
 }
@@ -534,6 +741,18 @@ export type tenant_usersCreateManyInput = {
   id_number?: string | null
   tenant_id?: string | null
   branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
 }
 
 export type tenant_usersUpdateManyMutationInput = {
@@ -555,6 +774,13 @@ export type tenant_usersUpdateManyMutationInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type tenant_usersUncheckedUpdateManyInput = {
@@ -578,6 +804,18 @@ export type tenant_usersUncheckedUpdateManyInput = {
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type Tenant_usersListRelationFilter = {
@@ -611,6 +849,18 @@ export type tenant_usersCountOrderByAggregateInput = {
   id_number?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
+  city_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  channel_id?: Prisma.SortOrder
+  is_blocked?: Prisma.SortOrder
+  blocked_at?: Prisma.SortOrder
+  blocked_by?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  deleted_by?: Prisma.SortOrder
+  last_login_at?: Prisma.SortOrder
+  password_changed_at?: Prisma.SortOrder
 }
 
 export type tenant_usersMaxOrderByAggregateInput = {
@@ -633,6 +883,18 @@ export type tenant_usersMaxOrderByAggregateInput = {
   id_number?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
+  city_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  channel_id?: Prisma.SortOrder
+  is_blocked?: Prisma.SortOrder
+  blocked_at?: Prisma.SortOrder
+  blocked_by?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  deleted_by?: Prisma.SortOrder
+  last_login_at?: Prisma.SortOrder
+  password_changed_at?: Prisma.SortOrder
 }
 
 export type tenant_usersMinOrderByAggregateInput = {
@@ -655,6 +917,18 @@ export type tenant_usersMinOrderByAggregateInput = {
   id_number?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   branch_id?: Prisma.SortOrder
+  country_id?: Prisma.SortOrder
+  city_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
+  channel_id?: Prisma.SortOrder
+  is_blocked?: Prisma.SortOrder
+  blocked_at?: Prisma.SortOrder
+  blocked_by?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
+  deleted_by?: Prisma.SortOrder
+  last_login_at?: Prisma.SortOrder
+  password_changed_at?: Prisma.SortOrder
 }
 
 export type Tenant_usersScalarRelationFilter = {
@@ -701,6 +975,174 @@ export type tenant_usersUncheckedUpdateManyWithoutBranchesNestedInput = {
   connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
   update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutBranchesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutBranchesInput[]
   updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutBranchesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutBranchesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersCreateNestedManyWithoutCitiesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCitiesInput, Prisma.tenant_usersUncheckedCreateWithoutCitiesInput> | Prisma.tenant_usersCreateWithoutCitiesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCitiesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCitiesInput | Prisma.tenant_usersCreateOrConnectWithoutCitiesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCitiesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutCitiesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCitiesInput, Prisma.tenant_usersUncheckedCreateWithoutCitiesInput> | Prisma.tenant_usersCreateWithoutCitiesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCitiesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCitiesInput | Prisma.tenant_usersCreateOrConnectWithoutCitiesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCitiesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutCitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCitiesInput, Prisma.tenant_usersUncheckedCreateWithoutCitiesInput> | Prisma.tenant_usersCreateWithoutCitiesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCitiesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCitiesInput | Prisma.tenant_usersCreateOrConnectWithoutCitiesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutCitiesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutCitiesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCitiesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutCitiesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutCitiesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutCitiesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutCitiesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCitiesInput, Prisma.tenant_usersUncheckedCreateWithoutCitiesInput> | Prisma.tenant_usersCreateWithoutCitiesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCitiesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCitiesInput | Prisma.tenant_usersCreateOrConnectWithoutCitiesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutCitiesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutCitiesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCitiesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutCitiesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutCitiesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutCitiesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutCitiesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersCreateNestedManyWithoutCountriesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCountriesInput, Prisma.tenant_usersUncheckedCreateWithoutCountriesInput> | Prisma.tenant_usersCreateWithoutCountriesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCountriesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCountriesInput | Prisma.tenant_usersCreateOrConnectWithoutCountriesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCountriesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutCountriesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCountriesInput, Prisma.tenant_usersUncheckedCreateWithoutCountriesInput> | Prisma.tenant_usersCreateWithoutCountriesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCountriesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCountriesInput | Prisma.tenant_usersCreateOrConnectWithoutCountriesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCountriesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutCountriesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCountriesInput, Prisma.tenant_usersUncheckedCreateWithoutCountriesInput> | Prisma.tenant_usersCreateWithoutCountriesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCountriesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCountriesInput | Prisma.tenant_usersCreateOrConnectWithoutCountriesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutCountriesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutCountriesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCountriesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutCountriesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutCountriesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutCountriesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutCountriesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutCountriesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutCountriesInput, Prisma.tenant_usersUncheckedCreateWithoutCountriesInput> | Prisma.tenant_usersCreateWithoutCountriesInput[] | Prisma.tenant_usersUncheckedCreateWithoutCountriesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutCountriesInput | Prisma.tenant_usersCreateOrConnectWithoutCountriesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutCountriesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutCountriesInput[]
+  createMany?: Prisma.tenant_usersCreateManyCountriesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutCountriesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutCountriesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutCountriesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutCountriesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutStoresInput, Prisma.tenant_usersUncheckedCreateWithoutStoresInput> | Prisma.tenant_usersCreateWithoutStoresInput[] | Prisma.tenant_usersUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutStoresInput | Prisma.tenant_usersCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.tenant_usersCreateManyStoresInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutStoresInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutStoresInput, Prisma.tenant_usersUncheckedCreateWithoutStoresInput> | Prisma.tenant_usersCreateWithoutStoresInput[] | Prisma.tenant_usersUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutStoresInput | Prisma.tenant_usersCreateOrConnectWithoutStoresInput[]
+  createMany?: Prisma.tenant_usersCreateManyStoresInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutStoresInput, Prisma.tenant_usersUncheckedCreateWithoutStoresInput> | Prisma.tenant_usersCreateWithoutStoresInput[] | Prisma.tenant_usersUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutStoresInput | Prisma.tenant_usersCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutStoresInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.tenant_usersCreateManyStoresInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutStoresInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutStoresInput | Prisma.tenant_usersUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutStoresNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutStoresInput, Prisma.tenant_usersUncheckedCreateWithoutStoresInput> | Prisma.tenant_usersCreateWithoutStoresInput[] | Prisma.tenant_usersUncheckedCreateWithoutStoresInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutStoresInput | Prisma.tenant_usersCreateOrConnectWithoutStoresInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutStoresInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutStoresInput[]
+  createMany?: Prisma.tenant_usersCreateManyStoresInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutStoresInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutStoresInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutStoresInput | Prisma.tenant_usersUpdateManyWithWhereWithoutStoresInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersCreateNestedManyWithoutChannelsInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutChannelsInput, Prisma.tenant_usersUncheckedCreateWithoutChannelsInput> | Prisma.tenant_usersCreateWithoutChannelsInput[] | Prisma.tenant_usersUncheckedCreateWithoutChannelsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutChannelsInput | Prisma.tenant_usersCreateOrConnectWithoutChannelsInput[]
+  createMany?: Prisma.tenant_usersCreateManyChannelsInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutChannelsInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutChannelsInput, Prisma.tenant_usersUncheckedCreateWithoutChannelsInput> | Prisma.tenant_usersCreateWithoutChannelsInput[] | Prisma.tenant_usersUncheckedCreateWithoutChannelsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutChannelsInput | Prisma.tenant_usersCreateOrConnectWithoutChannelsInput[]
+  createMany?: Prisma.tenant_usersCreateManyChannelsInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutChannelsNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutChannelsInput, Prisma.tenant_usersUncheckedCreateWithoutChannelsInput> | Prisma.tenant_usersCreateWithoutChannelsInput[] | Prisma.tenant_usersUncheckedCreateWithoutChannelsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutChannelsInput | Prisma.tenant_usersCreateOrConnectWithoutChannelsInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutChannelsInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutChannelsInput[]
+  createMany?: Prisma.tenant_usersCreateManyChannelsInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutChannelsInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutChannelsInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutChannelsInput | Prisma.tenant_usersUpdateManyWithWhereWithoutChannelsInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutChannelsNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutChannelsInput, Prisma.tenant_usersUncheckedCreateWithoutChannelsInput> | Prisma.tenant_usersCreateWithoutChannelsInput[] | Prisma.tenant_usersUncheckedCreateWithoutChannelsInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutChannelsInput | Prisma.tenant_usersCreateOrConnectWithoutChannelsInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutChannelsInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutChannelsInput[]
+  createMany?: Prisma.tenant_usersCreateManyChannelsInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutChannelsInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutChannelsInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutChannelsInput | Prisma.tenant_usersUpdateManyWithWhereWithoutChannelsInput[]
   deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
 }
 
@@ -787,6 +1229,48 @@ export type tenant_usersUpdateOneRequiredWithoutUser_permissionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.tenant_usersUpdateToOneWithWhereWithoutUser_permissionsInput, Prisma.tenant_usersUpdateWithoutUser_permissionsInput>, Prisma.tenant_usersUncheckedUpdateWithoutUser_permissionsInput>
 }
 
+export type tenant_usersCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutWarehousesInput, Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput> | Prisma.tenant_usersCreateWithoutWarehousesInput[] | Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput | Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.tenant_usersCreateManyWarehousesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutWarehousesInput, Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput> | Prisma.tenant_usersCreateWithoutWarehousesInput[] | Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput | Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput[]
+  createMany?: Prisma.tenant_usersCreateManyWarehousesInputEnvelope
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+}
+
+export type tenant_usersUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutWarehousesInput, Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput> | Prisma.tenant_usersCreateWithoutWarehousesInput[] | Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput | Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.tenant_usersCreateManyWarehousesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutWarehousesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenant_usersCreateWithoutWarehousesInput, Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput> | Prisma.tenant_usersCreateWithoutWarehousesInput[] | Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput[]
+  connectOrCreate?: Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput | Prisma.tenant_usersCreateOrConnectWithoutWarehousesInput[]
+  upsert?: Prisma.tenant_usersUpsertWithWhereUniqueWithoutWarehousesInput | Prisma.tenant_usersUpsertWithWhereUniqueWithoutWarehousesInput[]
+  createMany?: Prisma.tenant_usersCreateManyWarehousesInputEnvelope
+  set?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  disconnect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  delete?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  connect?: Prisma.tenant_usersWhereUniqueInput | Prisma.tenant_usersWhereUniqueInput[]
+  update?: Prisma.tenant_usersUpdateWithWhereUniqueWithoutWarehousesInput | Prisma.tenant_usersUpdateWithWhereUniqueWithoutWarehousesInput[]
+  updateMany?: Prisma.tenant_usersUpdateManyWithWhereWithoutWarehousesInput | Prisma.tenant_usersUpdateManyWithWhereWithoutWarehousesInput[]
+  deleteMany?: Prisma.tenant_usersScalarWhereInput | Prisma.tenant_usersScalarWhereInput[]
+}
+
 export type tenant_usersCreateWithoutBranchesInput = {
   id?: string
   auth_user_id?: string | null
@@ -806,6 +1290,18 @@ export type tenant_usersCreateWithoutBranchesInput = {
   parent_tenant_id?: string | null
   refund_pin_code?: string | null
   id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
@@ -831,6 +1327,18 @@ export type tenant_usersUncheckedCreateWithoutBranchesInput = {
   refund_pin_code?: string | null
   id_number?: string | null
   tenant_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
 }
@@ -885,6 +1393,410 @@ export type tenant_usersScalarWhereInput = {
   id_number?: Prisma.StringNullableFilter<"tenant_users"> | string | null
   tenant_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
   branch_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  country_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  city_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  store_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  channel_id?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  is_blocked?: Prisma.BoolFilter<"tenant_users"> | boolean
+  blocked_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  blocked_by?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  deleted_by?: Prisma.UuidNullableFilter<"tenant_users"> | string | null
+  last_login_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+  password_changed_at?: Prisma.DateTimeNullableFilter<"tenant_users"> | Date | string | null
+}
+
+export type tenant_usersCreateWithoutCitiesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutCitiesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutCitiesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutCitiesInput, Prisma.tenant_usersUncheckedCreateWithoutCitiesInput>
+}
+
+export type tenant_usersCreateManyCitiesInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyCitiesInput | Prisma.tenant_usersCreateManyCitiesInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutCitiesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutCitiesInput, Prisma.tenant_usersUncheckedUpdateWithoutCitiesInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutCitiesInput, Prisma.tenant_usersUncheckedCreateWithoutCitiesInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutCitiesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutCitiesInput, Prisma.tenant_usersUncheckedUpdateWithoutCitiesInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutCitiesInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesInput>
+}
+
+export type tenant_usersCreateWithoutCountriesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutCountriesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutCountriesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutCountriesInput, Prisma.tenant_usersUncheckedCreateWithoutCountriesInput>
+}
+
+export type tenant_usersCreateManyCountriesInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyCountriesInput | Prisma.tenant_usersCreateManyCountriesInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutCountriesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutCountriesInput, Prisma.tenant_usersUncheckedUpdateWithoutCountriesInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutCountriesInput, Prisma.tenant_usersUncheckedCreateWithoutCountriesInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutCountriesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutCountriesInput, Prisma.tenant_usersUncheckedUpdateWithoutCountriesInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutCountriesInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutCountriesInput>
+}
+
+export type tenant_usersCreateWithoutStoresInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutStoresInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutStoresInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutStoresInput, Prisma.tenant_usersUncheckedCreateWithoutStoresInput>
+}
+
+export type tenant_usersCreateManyStoresInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyStoresInput | Prisma.tenant_usersCreateManyStoresInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutStoresInput, Prisma.tenant_usersUncheckedUpdateWithoutStoresInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutStoresInput, Prisma.tenant_usersUncheckedCreateWithoutStoresInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutStoresInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutStoresInput, Prisma.tenant_usersUncheckedUpdateWithoutStoresInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutStoresInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutStoresInput>
+}
+
+export type tenant_usersCreateWithoutChannelsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutChannelsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutChannelsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutChannelsInput, Prisma.tenant_usersUncheckedCreateWithoutChannelsInput>
+}
+
+export type tenant_usersCreateManyChannelsInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyChannelsInput | Prisma.tenant_usersCreateManyChannelsInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutChannelsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutChannelsInput, Prisma.tenant_usersUncheckedUpdateWithoutChannelsInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutChannelsInput, Prisma.tenant_usersUncheckedCreateWithoutChannelsInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutChannelsInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutChannelsInput, Prisma.tenant_usersUncheckedUpdateWithoutChannelsInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutChannelsInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutChannelsInput>
 }
 
 export type tenant_usersCreateWithoutTenantsInput = {
@@ -906,7 +1818,19 @@ export type tenant_usersCreateWithoutTenantsInput = {
   parent_tenant_id?: string | null
   refund_pin_code?: string | null
   id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
 }
@@ -931,6 +1855,18 @@ export type tenant_usersUncheckedCreateWithoutTenantsInput = {
   refund_pin_code?: string | null
   id_number?: string | null
   branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
 }
@@ -980,7 +1916,19 @@ export type tenant_usersCreateWithoutUser_rolesInput = {
   parent_tenant_id?: string | null
   refund_pin_code?: string | null
   id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
   user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
 }
@@ -1006,6 +1954,18 @@ export type tenant_usersUncheckedCreateWithoutUser_rolesInput = {
   id_number?: string | null
   tenant_id?: string | null
   branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
 }
 
@@ -1044,7 +2004,19 @@ export type tenant_usersUpdateWithoutUser_rolesInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
 }
@@ -1070,6 +2042,18 @@ export type tenant_usersUncheckedUpdateWithoutUser_rolesInput = {
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
 }
 
@@ -1092,7 +2076,19 @@ export type tenant_usersCreateWithoutUser_permissionsInput = {
   parent_tenant_id?: string | null
   refund_pin_code?: string | null
   id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
   tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
 }
@@ -1118,6 +2114,18 @@ export type tenant_usersUncheckedCreateWithoutUser_permissionsInput = {
   id_number?: string | null
   tenant_id?: string | null
   branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
 }
 
@@ -1156,7 +2164,19 @@ export type tenant_usersUpdateWithoutUser_permissionsInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
 }
@@ -1182,7 +2202,117 @@ export type tenant_usersUncheckedUpdateWithoutUser_permissionsInput = {
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersCreateWithoutWarehousesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutTenant_usersInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenant_usersInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenant_usersInput
+  stores?: Prisma.storesCreateNestedOneWithoutTenant_usersInput
+  channels?: Prisma.channelsCreateNestedOneWithoutTenant_usersInput
+  tenants?: Prisma.tenantsCreateNestedOneWithoutTenant_usersInput
+  user_permissions?: Prisma.user_permissionsCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersUncheckedCreateWithoutWarehousesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedCreateNestedManyWithoutTenant_usersInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutTenant_usersInput
+}
+
+export type tenant_usersCreateOrConnectWithoutWarehousesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutWarehousesInput, Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput>
+}
+
+export type tenant_usersCreateManyWarehousesInputEnvelope = {
+  data: Prisma.tenant_usersCreateManyWarehousesInput | Prisma.tenant_usersCreateManyWarehousesInput[]
+  skipDuplicates?: boolean
+}
+
+export type tenant_usersUpsertWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  update: Prisma.XOR<Prisma.tenant_usersUpdateWithoutWarehousesInput, Prisma.tenant_usersUncheckedUpdateWithoutWarehousesInput>
+  create: Prisma.XOR<Prisma.tenant_usersCreateWithoutWarehousesInput, Prisma.tenant_usersUncheckedCreateWithoutWarehousesInput>
+}
+
+export type tenant_usersUpdateWithWhereUniqueWithoutWarehousesInput = {
+  where: Prisma.tenant_usersWhereUniqueInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateWithoutWarehousesInput, Prisma.tenant_usersUncheckedUpdateWithoutWarehousesInput>
+}
+
+export type tenant_usersUpdateManyWithWhereWithoutWarehousesInput = {
+  where: Prisma.tenant_usersScalarWhereInput
+  data: Prisma.XOR<Prisma.tenant_usersUpdateManyMutationInput, Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesInput>
 }
 
 export type tenant_usersCreateManyBranchesInput = {
@@ -1205,6 +2335,18 @@ export type tenant_usersCreateManyBranchesInput = {
   refund_pin_code?: string | null
   id_number?: string | null
   tenant_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
 }
 
 export type tenant_usersUpdateWithoutBranchesInput = {
@@ -1226,6 +2368,18 @@ export type tenant_usersUpdateWithoutBranchesInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
   tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
@@ -1251,6 +2405,18 @@ export type tenant_usersUncheckedUpdateWithoutBranchesInput = {
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
 }
@@ -1275,6 +2441,578 @@ export type tenant_usersUncheckedUpdateManyWithoutBranchesInput = {
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_usersCreateManyCitiesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+}
+
+export type tenant_usersUpdateWithoutCitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutCitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutCitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_usersCreateManyCountriesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+}
+
+export type tenant_usersUpdateWithoutCountriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutCountriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutCountriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_usersCreateManyStoresInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+}
+
+export type tenant_usersUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutStoresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_usersCreateManyChannelsInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+}
+
+export type tenant_usersUpdateWithoutChannelsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutChannelsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutChannelsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type tenant_usersCreateManyTenantsInput = {
@@ -1297,6 +3035,18 @@ export type tenant_usersCreateManyTenantsInput = {
   refund_pin_code?: string | null
   id_number?: string | null
   branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  warehouse_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
 }
 
 export type tenant_usersUpdateWithoutTenantsInput = {
@@ -1318,7 +3068,19 @@ export type tenant_usersUpdateWithoutTenantsInput = {
   parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
   user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
 }
@@ -1343,6 +3105,18 @@ export type tenant_usersUncheckedUpdateWithoutTenantsInput = {
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
 }
@@ -1367,6 +3141,158 @@ export type tenant_usersUncheckedUpdateManyWithoutTenantsInput = {
   refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type tenant_usersCreateManyWarehousesInput = {
+  id?: string
+  auth_user_id?: string | null
+  email?: string | null
+  phone?: string | null
+  first_name?: string | null
+  last_name?: string | null
+  avatar_url?: string | null
+  primary_module?: $Enums.user_module | null
+  modules?: Prisma.tenant_usersCreatemodulesInput | $Enums.user_module[]
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  default_role?: string | null
+  onboarding_complete?: boolean
+  is_restuarant_user?: boolean | null
+  parent_tenant_id?: string | null
+  refund_pin_code?: string | null
+  id_number?: string | null
+  tenant_id?: string | null
+  branch_id?: string | null
+  country_id?: string | null
+  city_id?: string | null
+  store_id?: string | null
+  channel_id?: string | null
+  is_blocked?: boolean
+  blocked_at?: Date | string | null
+  blocked_by?: string | null
+  deleted_at?: Date | string | null
+  deleted_by?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+}
+
+export type tenant_usersUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateOneWithoutTenant_usersNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenant_usersNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenant_usersNestedInput
+  stores?: Prisma.storesUpdateOneWithoutTenant_usersNestedInput
+  channels?: Prisma.channelsUpdateOneWithoutTenant_usersNestedInput
+  tenants?: Prisma.tenantsUpdateOneWithoutTenant_usersNestedInput
+  user_permissions?: Prisma.user_permissionsUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user_permissions?: Prisma.user_permissionsUncheckedUpdateManyWithoutTenant_usersNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutTenant_usersNestedInput
+}
+
+export type tenant_usersUncheckedUpdateManyWithoutWarehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primary_module?: Prisma.NullableEnumuser_moduleFieldUpdateOperationsInput | $Enums.user_module | null
+  modules?: Prisma.tenant_usersUpdatemodulesInput | $Enums.user_module[]
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  default_role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_restuarant_user?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  parent_tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_pin_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blocked_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  blocked_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1430,7 +3356,24 @@ export type tenant_usersSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  country_id?: boolean
+  city_id?: boolean
+  store_id?: boolean
+  warehouse_id?: boolean
+  channel_id?: boolean
+  is_blocked?: boolean
+  blocked_at?: boolean
+  blocked_by?: boolean
+  deleted_at?: boolean
+  deleted_by?: boolean
+  last_login_at?: boolean
+  password_changed_at?: boolean
   branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  countries?: boolean | Prisma.tenant_users$countriesArgs<ExtArgs>
+  cities?: boolean | Prisma.tenant_users$citiesArgs<ExtArgs>
+  stores?: boolean | Prisma.tenant_users$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.tenant_users$warehousesArgs<ExtArgs>
+  channels?: boolean | Prisma.tenant_users$channelsArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
   user_permissions?: boolean | Prisma.tenant_users$user_permissionsArgs<ExtArgs>
   user_roles?: boolean | Prisma.tenant_users$user_rolesArgs<ExtArgs>
@@ -1458,7 +3401,24 @@ export type tenant_usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  country_id?: boolean
+  city_id?: boolean
+  store_id?: boolean
+  warehouse_id?: boolean
+  channel_id?: boolean
+  is_blocked?: boolean
+  blocked_at?: boolean
+  blocked_by?: boolean
+  deleted_at?: boolean
+  deleted_by?: boolean
+  last_login_at?: boolean
+  password_changed_at?: boolean
   branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  countries?: boolean | Prisma.tenant_users$countriesArgs<ExtArgs>
+  cities?: boolean | Prisma.tenant_users$citiesArgs<ExtArgs>
+  stores?: boolean | Prisma.tenant_users$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.tenant_users$warehousesArgs<ExtArgs>
+  channels?: boolean | Prisma.tenant_users$channelsArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_users"]>
 
@@ -1483,7 +3443,24 @@ export type tenant_usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  country_id?: boolean
+  city_id?: boolean
+  store_id?: boolean
+  warehouse_id?: boolean
+  channel_id?: boolean
+  is_blocked?: boolean
+  blocked_at?: boolean
+  blocked_by?: boolean
+  deleted_at?: boolean
+  deleted_by?: boolean
+  last_login_at?: boolean
+  password_changed_at?: boolean
   branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  countries?: boolean | Prisma.tenant_users$countriesArgs<ExtArgs>
+  cities?: boolean | Prisma.tenant_users$citiesArgs<ExtArgs>
+  stores?: boolean | Prisma.tenant_users$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.tenant_users$warehousesArgs<ExtArgs>
+  channels?: boolean | Prisma.tenant_users$channelsArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["tenant_users"]>
 
@@ -1508,11 +3485,28 @@ export type tenant_usersSelectScalar = {
   id_number?: boolean
   tenant_id?: boolean
   branch_id?: boolean
+  country_id?: boolean
+  city_id?: boolean
+  store_id?: boolean
+  warehouse_id?: boolean
+  channel_id?: boolean
+  is_blocked?: boolean
+  blocked_at?: boolean
+  blocked_by?: boolean
+  deleted_at?: boolean
+  deleted_by?: boolean
+  last_login_at?: boolean
+  password_changed_at?: boolean
 }
 
-export type tenant_usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "phone" | "first_name" | "last_name" | "avatar_url" | "primary_module" | "modules" | "is_active" | "created_at" | "updated_at" | "default_role" | "onboarding_complete" | "is_restuarant_user" | "parent_tenant_id" | "refund_pin_code" | "id_number" | "tenant_id" | "branch_id", ExtArgs["result"]["tenant_users"]>
+export type tenant_usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auth_user_id" | "email" | "phone" | "first_name" | "last_name" | "avatar_url" | "primary_module" | "modules" | "is_active" | "created_at" | "updated_at" | "default_role" | "onboarding_complete" | "is_restuarant_user" | "parent_tenant_id" | "refund_pin_code" | "id_number" | "tenant_id" | "branch_id" | "country_id" | "city_id" | "store_id" | "warehouse_id" | "channel_id" | "is_blocked" | "blocked_at" | "blocked_by" | "deleted_at" | "deleted_by" | "last_login_at" | "password_changed_at", ExtArgs["result"]["tenant_users"]>
 export type tenant_usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  countries?: boolean | Prisma.tenant_users$countriesArgs<ExtArgs>
+  cities?: boolean | Prisma.tenant_users$citiesArgs<ExtArgs>
+  stores?: boolean | Prisma.tenant_users$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.tenant_users$warehousesArgs<ExtArgs>
+  channels?: boolean | Prisma.tenant_users$channelsArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
   user_permissions?: boolean | Prisma.tenant_users$user_permissionsArgs<ExtArgs>
   user_roles?: boolean | Prisma.tenant_users$user_rolesArgs<ExtArgs>
@@ -1520,10 +3514,20 @@ export type tenant_usersInclude<ExtArgs extends runtime.Types.Extensions.Interna
 }
 export type tenant_usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  countries?: boolean | Prisma.tenant_users$countriesArgs<ExtArgs>
+  cities?: boolean | Prisma.tenant_users$citiesArgs<ExtArgs>
+  stores?: boolean | Prisma.tenant_users$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.tenant_users$warehousesArgs<ExtArgs>
+  channels?: boolean | Prisma.tenant_users$channelsArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
 }
 export type tenant_usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   branches?: boolean | Prisma.tenant_users$branchesArgs<ExtArgs>
+  countries?: boolean | Prisma.tenant_users$countriesArgs<ExtArgs>
+  cities?: boolean | Prisma.tenant_users$citiesArgs<ExtArgs>
+  stores?: boolean | Prisma.tenant_users$storesArgs<ExtArgs>
+  warehouses?: boolean | Prisma.tenant_users$warehousesArgs<ExtArgs>
+  channels?: boolean | Prisma.tenant_users$channelsArgs<ExtArgs>
   tenants?: boolean | Prisma.tenant_users$tenantsArgs<ExtArgs>
 }
 
@@ -1531,6 +3535,11 @@ export type $tenant_usersPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "tenant_users"
   objects: {
     branches: Prisma.$branchesPayload<ExtArgs> | null
+    countries: Prisma.$countriesPayload<ExtArgs> | null
+    cities: Prisma.$citiesPayload<ExtArgs> | null
+    stores: Prisma.$storesPayload<ExtArgs> | null
+    warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+    channels: Prisma.$channelsPayload<ExtArgs> | null
     tenants: Prisma.$tenantsPayload<ExtArgs> | null
     user_permissions: Prisma.$user_permissionsPayload<ExtArgs>[]
     user_roles: Prisma.$user_rolesPayload<ExtArgs>[]
@@ -1556,6 +3565,18 @@ export type $tenant_usersPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id_number: string | null
     tenant_id: string | null
     branch_id: string | null
+    country_id: string | null
+    city_id: string | null
+    store_id: string | null
+    warehouse_id: string | null
+    channel_id: string | null
+    is_blocked: boolean
+    blocked_at: Date | null
+    blocked_by: string | null
+    deleted_at: Date | null
+    deleted_by: string | null
+    last_login_at: Date | null
+    password_changed_at: Date | null
   }, ExtArgs["result"]["tenant_users"]>
   composites: {}
 }
@@ -1951,6 +3972,11 @@ readonly fields: tenant_usersFieldRefs;
 export interface Prisma__tenant_usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   branches<T extends Prisma.tenant_users$branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$branchesArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  countries<T extends Prisma.tenant_users$countriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$countriesArgs<ExtArgs>>): Prisma.Prisma__countriesClient<runtime.Types.Result.GetResult<Prisma.$countriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  cities<T extends Prisma.tenant_users$citiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$citiesArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stores<T extends Prisma.tenant_users$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$storesArgs<ExtArgs>>): Prisma.Prisma__storesClient<runtime.Types.Result.GetResult<Prisma.$storesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  warehouses<T extends Prisma.tenant_users$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  channels<T extends Prisma.tenant_users$channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$channelsArgs<ExtArgs>>): Prisma.Prisma__channelsClient<runtime.Types.Result.GetResult<Prisma.$channelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenants<T extends Prisma.tenant_users$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user_permissions<T extends Prisma.tenant_users$user_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$user_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_roles<T extends Prisma.tenant_users$user_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenant_users$user_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2003,6 +4029,18 @@ export interface tenant_usersFieldRefs {
   readonly id_number: Prisma.FieldRef<"tenant_users", 'String'>
   readonly tenant_id: Prisma.FieldRef<"tenant_users", 'String'>
   readonly branch_id: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly country_id: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly city_id: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly store_id: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly channel_id: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly is_blocked: Prisma.FieldRef<"tenant_users", 'Boolean'>
+  readonly blocked_at: Prisma.FieldRef<"tenant_users", 'DateTime'>
+  readonly blocked_by: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly deleted_at: Prisma.FieldRef<"tenant_users", 'DateTime'>
+  readonly deleted_by: Prisma.FieldRef<"tenant_users", 'String'>
+  readonly last_login_at: Prisma.FieldRef<"tenant_users", 'DateTime'>
+  readonly password_changed_at: Prisma.FieldRef<"tenant_users", 'DateTime'>
 }
     
 
@@ -2420,6 +4458,101 @@ export type tenant_users$branchesArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   include?: Prisma.branchesInclude<ExtArgs> | null
   where?: Prisma.branchesWhereInput
+}
+
+/**
+ * tenant_users.countries
+ */
+export type tenant_users$countriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the countries
+   */
+  select?: Prisma.countriesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the countries
+   */
+  omit?: Prisma.countriesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.countriesInclude<ExtArgs> | null
+  where?: Prisma.countriesWhereInput
+}
+
+/**
+ * tenant_users.cities
+ */
+export type tenant_users$citiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the cities
+   */
+  select?: Prisma.citiesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the cities
+   */
+  omit?: Prisma.citiesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.citiesInclude<ExtArgs> | null
+  where?: Prisma.citiesWhereInput
+}
+
+/**
+ * tenant_users.stores
+ */
+export type tenant_users$storesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stores
+   */
+  select?: Prisma.storesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stores
+   */
+  omit?: Prisma.storesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.storesInclude<ExtArgs> | null
+  where?: Prisma.storesWhereInput
+}
+
+/**
+ * tenant_users.warehouses
+ */
+export type tenant_users$warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the warehouses
+   */
+  select?: Prisma.warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the warehouses
+   */
+  omit?: Prisma.warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.warehousesInclude<ExtArgs> | null
+  where?: Prisma.warehousesWhereInput
+}
+
+/**
+ * tenant_users.channels
+ */
+export type tenant_users$channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the channels
+   */
+  select?: Prisma.channelsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the channels
+   */
+  omit?: Prisma.channelsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.channelsInclude<ExtArgs> | null
+  where?: Prisma.channelsWhereInput
 }
 
 /**

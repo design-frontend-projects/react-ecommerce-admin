@@ -4,7 +4,15 @@ import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
-import { createUser, fetchUsers, updateUserRoles, createTenantAction } from '../data/actions'
+import {
+  createUser,
+  fetchUsers,
+  updateUserRoles,
+  createTenantAction,
+  blockUserAction,
+  unblockUserAction,
+  deleteUserAction,
+} from '../data/actions'
 import type { CreateUserApiInput, CreateTenantApiInput } from '../data/schema'
 import type { UpdateUserRolesInput } from '../data/types'
 
@@ -133,3 +141,55 @@ export function useCreateTenant() {
     },
   })
 }
+
+export function useBlockUser() {
+  const queryClient = useQueryClient()
+
+  return useAuthMutation({
+    mutationFn: (getToken, input: { userId: string; reason?: string }) =>
+      blockUserAction(getToken, input),
+    rbac: { permission: 'users.manage' },
+    onSuccess: () => {
+      toast.success('User blocked successfully.')
+      void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to block user.')
+    },
+  })
+}
+
+export function useUnblockUser() {
+  const queryClient = useQueryClient()
+
+  return useAuthMutation({
+    mutationFn: (getToken, input: { userId: string }) =>
+      unblockUserAction(getToken, input),
+    rbac: { permission: 'users.manage' },
+    onSuccess: () => {
+      toast.success('User unblocked successfully.')
+      void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to unblock user.')
+    },
+  })
+}
+
+export function useDeleteUser() {
+  const queryClient = useQueryClient()
+
+  return useAuthMutation({
+    mutationFn: (getToken, input: { userId: string }) =>
+      deleteUserAction(getToken, input),
+    rbac: { permission: 'users.manage' },
+    onSuccess: () => {
+      toast.success('User deleted successfully.')
+      void queryClient.invalidateQueries({ queryKey: usersQueryKey })
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Unable to delete user.')
+    },
+  })
+}
+

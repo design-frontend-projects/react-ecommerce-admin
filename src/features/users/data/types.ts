@@ -12,6 +12,12 @@ export interface User {
   roleNames: string[]
   roleIds: string[]
   branchId?: string | null
+  countryId?: string | null
+  cityId?: string | null
+  storeId?: string | null
+  warehouseId?: string | null
+  channelId?: string | null
+  isBlocked?: boolean
   status: UserStatus
   createdAt: string
   updatedAt: string

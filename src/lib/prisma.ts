@@ -8,25 +8,32 @@ import type { PrismaClient as PrismaClientType } from '@/generated/prisma/client
 
 let prisma: PrismaClientType
 
+const globalForPrisma = globalThis as unknown as {
+  __prismaClient?: PrismaClientType
+}
+
 if (typeof window === 'undefined') {
-  // Use dynamic import to prevent browser bundlers from resolving this statically
-  const { PrismaClient } = await import('../generated/prisma/client')
-  const { PrismaPg } = await import('@prisma/adapter-pg')
-  const connectionString =
-    process.env.DATABASE_URL ||
-    'postgresql://postgres.qihgtllyfkoynorwazfn:qinuIGJW49YV2MHa@aws-1-eu-west-2.pooler.supabase.com:5432/postgres'
-  const adapter = new PrismaPg({ connectionString })
-
-  const { createTenantExtendedPrisma } = await import('@/server/db/tenant-prisma')
-
-  if (process.env.NODE_ENV === 'production') {
-    const rawClient = new PrismaClient({ adapter })
-    prisma = createTenantExtendedPrisma(rawClient) as unknown as PrismaClientType
+  if (globalForPrisma.__prismaClient) {
+    prisma = globalForPrisma.__prismaClient
   } else {
-    // In development, instantiate fresh client so newly generated schema models/relations are loaded immediately
+    // Use dynamic import to prevent browser bundlers from resolving this statically
+    const { PrismaClient } = await import('../generated/prisma/client')
+    const { PrismaPg } = await import('@prisma/adapter-pg')
+    const connectionString =
+      process.env.DATABASE_URL ||
+      'postgresql://postgres.qihgtllyfkoynorwazfn:qinuIGJW49YV2MHa@aws-1-eu-west-2.pooler.supabase.com:5432/postgres'
+    const adapter = new PrismaPg({
+      connectionString,
+      max: 5,
+      idleTimeoutMillis: 15000,
+      connectionTimeoutMillis: 15000,
+    })
+
+    const { createTenantExtendedPrisma } = await import('@/server/db/tenant-prisma')
     const rawClient = new PrismaClient({ adapter })
-    ;(globalThis as any).prisma = createTenantExtendedPrisma(rawClient)
-    prisma = (globalThis as any).prisma
+    const client = createTenantExtendedPrisma(rawClient) as unknown as PrismaClientType
+    globalForPrisma.__prismaClient = client
+    prisma = client
   }
 } else {
   // Browser fallback

@@ -1693,7 +1693,19 @@ export const Tenant_usersScalarFieldEnum = {
   refund_pin_code: 'refund_pin_code',
   id_number: 'id_number',
   tenant_id: 'tenant_id',
-  branch_id: 'branch_id'
+  branch_id: 'branch_id',
+  country_id: 'country_id',
+  city_id: 'city_id',
+  store_id: 'store_id',
+  warehouse_id: 'warehouse_id',
+  channel_id: 'channel_id',
+  is_blocked: 'is_blocked',
+  blocked_at: 'blocked_at',
+  blocked_by: 'blocked_by',
+  deleted_at: 'deleted_at',
+  deleted_by: 'deleted_by',
+  last_login_at: 'last_login_at',
+  password_changed_at: 'password_changed_at'
 } as const
 
 export type Tenant_usersScalarFieldEnum = (typeof Tenant_usersScalarFieldEnum)[keyof typeof Tenant_usersScalarFieldEnum]

@@ -104,6 +104,12 @@ export function NavUser({ user }: NavUserProps) {
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
+                  <Link to='/profile'>
+                    <BadgeCheck />
+                    {t('sidebar.profile', 'Profile')}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link to='/settings/account'>
                     <BadgeCheck />
                     {t('sidebar.account')}

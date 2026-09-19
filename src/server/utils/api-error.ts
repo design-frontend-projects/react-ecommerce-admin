@@ -85,5 +85,16 @@ export function handleRouteError(error: unknown, fallback: string): Response {
   if (message.startsWith('Forbidden')) {
     return jsonError(message, 403)
   }
+  if (
+    message.includes('EMAXCONNSESSION') ||
+    message.includes('pool_size') ||
+    message.includes('max clients') ||
+    message.includes('ECONNREFUSED') ||
+    message.includes('connection terminated') ||
+    message.includes('PrismaClientInitializationError') ||
+    message.includes('PrismaClientRustPanicError')
+  ) {
+    return jsonError('Database service temporarily busy. Please retry shortly.', 503)
+  }
   return jsonError(message || fallback, 400)
 }

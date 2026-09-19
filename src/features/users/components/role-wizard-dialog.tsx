@@ -25,13 +25,19 @@ const STEP_ORDER: WizardStep[] = ['details', 'permissions', 'review']
 interface RoleWizardDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  permissions: Permission[]
+  permissions?: Permission[]
+  allPermissions?: Permission[]
   isSubmitting?: boolean
   /**
    * Creates the role then assigns the selected permissions. Resolves once
    * both steps succeed so the wizard can close.
    */
-  onSubmit: (input: {
+  onSubmit?: (input: {
+    name: string
+    description?: string
+    permissionIds: string[]
+  }) => Promise<void>
+  onComplete?: (input: {
     name: string
     description?: string
     permissionIds: string[]
@@ -47,10 +53,14 @@ interface RoleWizardDialogProps {
 export function RoleWizardDialog({
   open,
   onOpenChange,
-  permissions,
+  permissions: rawPermissions,
+  allPermissions,
   isSubmitting = false,
   onSubmit,
+  onComplete,
 }: RoleWizardDialogProps) {
+  const permissions = rawPermissions ?? allPermissions ?? []
+  const submitHandler = onSubmit ?? onComplete
   const { t } = useTranslation()
   const screensQuery = useScreens(open)
 
@@ -150,11 +160,13 @@ export function RoleWizardDialog({
   }
 
   const handleCreate = async () => {
-    await onSubmit({
-      name: trimmedName,
-      description: description.trim() || undefined,
-      permissionIds: [...selected],
-    })
+    if (submitHandler) {
+      await submitHandler({
+        name: trimmedName,
+        description: description.trim() || undefined,
+        permissionIds: [...selected],
+      })
+    }
     onOpenChange(false)
   }
 

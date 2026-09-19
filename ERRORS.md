@@ -1,5 +1,25 @@
 # Error Log
 
+## [2026-09-19 23:30] - Prisma Invalid product_batches.findMany() Invocation in listBatches
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/server/fns/batches.ts:12`
+- **Agent**: @backend-specialist
+- **Root Cause**: `listBatches` attempted to use Prisma `include: { product_variants: ..., suppliers: ... }` on `prisma.product_batches.findMany()`. In `prisma/schema.prisma`, `product_batches` does not define Prisma relation fields to `product_variants` or `suppliers` (only `stock_by_location` is declared). Consequently, Prisma threw runtime error `Unknown field product_variants for include statement on model product_batches` whenever a user navigated to the `/batches` route.
+- **Error Message**:
+  ```
+  Invalid `prisma.product_batches.findMany()` invocation in
+  src\server\fns\batches.ts:12:48
+  Unknown field `product_variants` for include statement on model `product_batches`. Available options are marked with ?.
+  ?   stock_by_location?: true
+  ```
+- **Fix Applied**: Refactored `listBatches` in `src/server/fns/batches.ts` to follow the project's established pattern (as used in `src/server/fns/serials.ts`): query `product_batches` first without invalid includes, then fetch associated `product_variants`, `suppliers`, and aggregated `stock_by_location` quantities in parallel using `Promise.all`, serialize `unit_cost` to numeric values, and assemble the response. Added unit test suite in `src/__tests__/batches-server.test.ts`.
+- **Prevention**: Check `prisma/schema.prisma` before writing `include` queries to ensure relation fields exist on the model, or use mapped batch lookup queries when relations are not declared in the Prisma schema.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-19 05:12] - Postgres 42703 Undefined Column refunds.refund_id in Shift Analytics
 
 - **Type**: Integration / Database

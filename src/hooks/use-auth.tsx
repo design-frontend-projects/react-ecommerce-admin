@@ -44,6 +44,7 @@ export function useAuth() {
     isLoaded: !isInitializing,
     isSignedIn: !!session,
     userId: user?.id,
+    user,
     sessionId: session?.user?.id,
     sessionClaims: user?.app_metadata,
     has,
@@ -74,6 +75,16 @@ export function useUser() {
             unsafeMetadata: user.app_metadata || {},
             emailAddresses: user.email ? [{ emailAddress: user.email }] : [],
             primaryEmailAddress: { emailAddress: user.email },
+            imageUrl:
+              (user.user_metadata?.avatar_url as string) ||
+              (user.user_metadata?.avatarUrl as string) ||
+              (user.user_metadata?.picture as string) ||
+              '',
+            avatarUrl:
+              (user.user_metadata?.avatar_url as string) ||
+              (user.user_metadata?.avatarUrl as string) ||
+              (user.user_metadata?.picture as string) ||
+              '',
             fullName:
               `${user.user_metadata?.firstName || ''} ${user.user_metadata?.lastName || ''}`.trim(),
           }

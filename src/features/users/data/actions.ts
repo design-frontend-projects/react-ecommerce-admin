@@ -181,3 +181,37 @@ export async function createTenantAction(
   })
   return createTenantResponseSchema.parse(payload).data
 }
+
+export async function blockUserAction(
+  getToken: TokenGetter,
+  input: { userId: string; reason?: string }
+) {
+  const payload = await authorizedRequest(getToken, '/api/users/block', {
+    method: 'POST',
+    body: JSON.stringify({ ...input, action: 'block' }),
+  })
+  return payload
+}
+
+export async function unblockUserAction(
+  getToken: TokenGetter,
+  input: { userId: string }
+) {
+  const payload = await authorizedRequest(getToken, '/api/users/block', {
+    method: 'POST',
+    body: JSON.stringify({ ...input, action: 'unblock' }),
+  })
+  return payload
+}
+
+export async function deleteUserAction(
+  getToken: TokenGetter,
+  input: { userId: string }
+) {
+  const payload = await authorizedRequest(getToken, '/api/users/delete', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  })
+  return payload
+}
+

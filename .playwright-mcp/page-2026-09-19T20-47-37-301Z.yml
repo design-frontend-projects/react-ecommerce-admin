@@ -1,0 +1,268 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e12]:
+    - link "Skip to main content" [ref=f1e13] [cursor=pointer]:
+      - /url: "#content"
+    - generic [ref=f1e16]:
+      - list [ref=f1e18]:
+        - listitem [ref=f1e19]:
+          - generic [ref=f1e20]:
+            - link "ResPOS ResPOS Premium Edition" [ref=f1e524] [cursor=pointer]:
+              - /url: /
+              - img "ResPOS" [ref=f1e23]
+              - generic [ref=f1e24]:
+                - generic [ref=f1e25]: ResPOS
+                - generic [ref=f1e26]: Premium Edition
+            - button "Toggle Sidebar" [ref=f1e525] [cursor=pointer]
+      - generic [ref=f1e29]:
+        - generic [ref=f1e526]:
+          - generic [ref=f1e527]: System
+          - list [ref=f1e528]:
+            - listitem [ref=f1e529]:
+              - link "System Management" [ref=f1e530] [cursor=pointer]:
+                - /url: /system
+            - listitem [ref=f1e534]:
+              - link "Audit Logs" [ref=f1e535] [cursor=pointer]:
+                - /url: /system/audit-logs
+        - generic [ref=f1e540]:
+          - generic [ref=f1e541]: General
+          - list [ref=f1e542]:
+            - listitem [ref=f1e543]:
+              - link "Dashboard" [ref=f1e544] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f1e551]:
+              - button "POS System" [ref=f1e552] [cursor=pointer]
+            - listitem [ref=f1e559]:
+              - link "Products" [ref=f1e560] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=f1e566]:
+              - link "Subscriptions" [ref=f1e567] [cursor=pointer]:
+                - /url: /subscriptions
+            - listitem [ref=f1e571]:
+              - link "Notifications" [ref=f1e572] [cursor=pointer]:
+                - /url: /notifications
+        - generic [ref=f1e577]:
+          - generic [ref=f1e578]: Restaurant POS
+          - list [ref=f1e579]:
+            - listitem [ref=f1e580]:
+              - link "POS Dashboard" [ref=f1e581] [cursor=pointer]:
+                - /url: /respos
+            - listitem [ref=f1e588]:
+              - link "Restaurant POS" [ref=f1e589] [cursor=pointer]:
+                - /url: /respos/pos
+            - listitem [ref=f1e594]:
+              - link "Captain Station" [ref=f1e595] [cursor=pointer]:
+                - /url: /respos/captain
+            - listitem [ref=f1e599]:
+              - link "Kitchen Display" [ref=f1e600] [cursor=pointer]:
+                - /url: /respos/kitchen
+            - listitem [ref=f1e605]:
+              - link "Menu Management" [ref=f1e606] [cursor=pointer]:
+                - /url: /respos/menu
+            - listitem [ref=f1e613]:
+              - link "Floors & Tables" [ref=f1e614] [cursor=pointer]:
+                - /url: /respos/floors
+            - listitem [ref=f1e618]:
+              - link "Reservations" [ref=f1e619] [cursor=pointer]:
+                - /url: /respos/reservations
+            - listitem [ref=f1e625]:
+              - link "Analytics" [ref=f1e626] [cursor=pointer]:
+                - /url: /respos/analytics
+            - listitem [ref=f1e631]:
+              - link "Cashier & Checkout" [ref=f1e632] [cursor=pointer]:
+                - /url: /respos/cashier
+            - listitem [ref=f1e636]:
+              - link "Payments" [ref=f1e637] [cursor=pointer]:
+                - /url: /respos/payments
+            - listitem [ref=f1e641]:
+              - link "Shipments" [ref=f1e642] [cursor=pointer]:
+                - /url: /respos/shipments
+            - listitem [ref=f1e649]:
+              - link "Payment Methods" [ref=f1e650] [cursor=pointer]:
+                - /url: /payment-methods
+            - listitem [ref=f1e655]:
+              - button "Promotions" [ref=f1e656] [cursor=pointer]
+            - listitem [ref=f1e663]:
+              - link "Users & Roles" [ref=f1e664] [cursor=pointer]:
+                - /url: /users
+            - listitem [ref=f1e672]:
+              - link "Access Control" [ref=f1e673] [cursor=pointer]:
+                - /url: /access-control
+        - generic [ref=f1e678]:
+          - generic [ref=f1e679]: Inventory
+          - list [ref=f1e680]:
+            - listitem [ref=f1e681]:
+              - link "Inventory Dashboard" [ref=f1e682] [cursor=pointer]:
+                - /url: /inventory/dashboard
+            - listitem [ref=f1e689]:
+              - link "Inventory Alerts" [ref=f1e690] [cursor=pointer]:
+                - /url: /inventory/alerts
+            - listitem [ref=f1e694]:
+              - button "Catalog & Products" [ref=f1e695] [cursor=pointer]
+            - listitem [ref=f1e703]:
+              - button "Stock & Warehouses" [ref=f1e704] [cursor=pointer]
+            - listitem [ref=f1e711]:
+              - button "Tracking & Batches" [ref=f1e712] [cursor=pointer]
+            - listitem [ref=f1e720]:
+              - button "Purchasing & Inbound" [ref=f1e721] [cursor=pointer]
+            - listitem [ref=f1e729]:
+              - button "Sales & Fulfillment" [ref=f1e730] [cursor=pointer]
+            - listitem [ref=f1e739]:
+              - button "Valuation & Finance" [ref=f1e740] [cursor=pointer]
+        - generic [ref=f1e746]:
+          - generic [ref=f1e747]: Lookups
+          - list [ref=f1e748]:
+            - listitem [ref=f1e749]:
+              - link "Master Lookups" [ref=f1e750] [cursor=pointer]:
+                - /url: /lookups
+            - listitem [ref=f1e756]:
+              - link "Countries" [ref=f1e757] [cursor=pointer]:
+                - /url: /countries
+            - listitem [ref=f1e761]:
+              - link "Cities" [ref=f1e762] [cursor=pointer]:
+                - /url: /cities
+            - listitem [ref=f1e767]:
+              - link "Areas" [ref=f1e768] [cursor=pointer]:
+                - /url: /areas
+            - listitem [ref=f1e773]:
+              - link "Currencies" [ref=f1e774] [cursor=pointer]:
+                - /url: /currencies
+            - listitem [ref=f1e778]:
+              - link "Branches" [ref=f1e779] [cursor=pointer]:
+                - /url: /branches
+            - listitem [ref=f1e785]:
+              - link "Stores" [ref=f1e786] [cursor=pointer]:
+                - /url: /stores
+            - listitem [ref=f1e791]:
+              - link "Channels" [ref=f1e792] [cursor=pointer]:
+                - /url: /channels
+        - generic [ref=f1e800]:
+          - generic [ref=f1e801]: Other
+          - list [ref=f1e802]:
+            - listitem [ref=f1e803]:
+              - button "Settings" [ref=f1e804] [cursor=pointer]
+            - listitem [ref=f1e811]:
+              - button "Lookups" [ref=f1e812] [cursor=pointer]
+            - listitem [ref=f1e820]:
+              - link "Help Center" [ref=f1e821] [cursor=pointer]:
+                - /url: /help-center
+      - list [ref=f1e331]:
+        - listitem [ref=f1e332]:
+          - button "‪ ‪ahmed ahmedmedodev@gmail.com" [ref=f1e333] [cursor=pointer]:
+            - generic [ref=f1e334]: ‪
+            - generic [ref=f1e338]:
+              - generic [ref=f1e339]: ‪ahmed
+              - generic [ref=f1e340]: ahmedmedodev@gmail.com
+      - button "Toggle Sidebar" [ref=f1e344]
+    - generic [ref=f1e346]:
+      - banner [ref=f1e347]:
+        - generic [ref=f1e348]:
+          - button "Toggle Sidebar" [ref=f1e349] [cursor=pointer]
+          - button "Search... ⌘ K" [ref=f1e826] [cursor=pointer]:
+            - generic [ref=f1e352]: Search...
+            - generic:
+              - generic: ⌘
+              - text: K
+          - generic [ref=f1e353]:
+            - button "Switch Language" [ref=f1e354] [cursor=pointer]
+            - button "Theme" [ref=f1e827] [cursor=pointer]
+            - button "SN" [ref=f1e358] [cursor=pointer]
+          - generic [ref=f1e361]:
+            - combobox "Select branch" [ref=f1e828] [cursor=pointer]
+            - button "Notifications" [ref=f1e363] [cursor=pointer]
+            - button "Reorder notifications" [ref=f1e364] [cursor=pointer]
+            - button "Install the interface." [ref=f1e829] [cursor=pointer]
+            - button "SN" [ref=f1e367] [cursor=pointer]
+      - main [ref=f1e370]:
+        - generic [ref=f1e371]:
+          - generic [ref=f1e372]:
+            - heading "Users and access" [level=2] [ref=f1e830]
+            - paragraph [ref=f1e381]: Manage tenant users, assign roles, enforce location boundaries, and monitor security.
+          - generic [ref=f1e382]:
+            - button "Invite User" [ref=f1e831] [cursor=pointer]
+            - button "Add User" [ref=f1e832] [cursor=pointer]
+        - generic [ref=f1e387]:
+          - generic [ref=f1e388]:
+            - generic [ref=f1e389]: Total Users
+            - generic [ref=f1e396]: "2"
+          - generic [ref=f1e397]:
+            - generic [ref=f1e398]: Active Users
+            - generic [ref=f1e404]: "2"
+          - generic [ref=f1e405]:
+            - generic [ref=f1e406]: Invited
+            - generic [ref=f1e411]: "0"
+          - generic [ref=f1e412]:
+            - generic [ref=f1e413]: Roles
+            - generic [ref=f1e418]: "7"
+        - generic [ref=f1e419]:
+          - tablist [ref=f1e420]:
+            - tab "Users" [selected] [ref=f1e833] [cursor=pointer]
+            - tab "Roles" [ref=f1e834] [cursor=pointer]
+            - tab "Permissions" [ref=f1e835] [cursor=pointer]
+          - tabpanel "Users" [ref=f1e836]:
+            - generic [ref=f1e425]:
+              - generic [ref=f1e426]:
+                - generic [ref=f1e427]:
+                  - textbox "Filter users..." [ref=f1e428]
+                  - generic [ref=f1e429]:
+                    - button "Status" [ref=f1e430] [cursor=pointer]
+                    - button "Role" [ref=f1e431] [cursor=pointer]
+                - button "View" [ref=f1e837] [cursor=pointer]
+              - table [ref=f1e436]:
+                - rowgroup [ref=f1e437]:
+                  - row [ref=f1e838]:
+                    - columnheader [ref=f1e439]:
+                      - checkbox "Select all" [ref=f1e839] [cursor=pointer]
+                    - columnheader [ref=f1e840]:
+                      - button "Username" [ref=f1e842] [cursor=pointer]
+                    - columnheader "Name" [ref=f1e844]
+                    - columnheader [ref=f1e846]:
+                      - button "Email" [ref=f1e848] [cursor=pointer]
+                    - columnheader "Phone Number" [ref=f1e850]
+                    - columnheader [ref=f1e852]:
+                      - button "Status" [ref=f1e854] [cursor=pointer]
+                    - columnheader [ref=f1e856]:
+                      - button "Role" [ref=f1e858] [cursor=pointer]
+                    - columnheader [ref=f1e461]
+                - rowgroup [ref=f1e462]:
+                  - row [ref=f1e463]:
+                    - cell [ref=f1e464]:
+                      - checkbox "Select row" [ref=f1e860] [cursor=pointer]
+                    - cell "messi10010" [ref=f1e466]
+                    - cell "medo zoz" [ref=f1e468]
+                    - cell "messi10010@gmail.com" [ref=f1e470]
+                    - cell "+201124748078" [ref=f1e472]
+                    - cell "active" [ref=f1e474]
+                    - cell "admin" [ref=f1e477]
+                    - cell [ref=f1e484]:
+                      - button "Open menu" [ref=f1e485] [cursor=pointer]
+                  - row [ref=f1e487]:
+                    - cell [ref=f1e488]:
+                      - checkbox "Select row" [ref=f1e873] [cursor=pointer]
+                    - cell "ahmedmedodev" [ref=f1e490]
+                    - cell "‪ahmed hassan" [ref=f1e492]
+                    - cell "ahmedmedodev@gmail.com" [ref=f1e494]
+                    - cell "+201124748078" [ref=f1e496]
+                    - cell "active" [ref=f1e498]
+                    - cell "super_admin" [ref=f1e501]
+                    - cell [ref=f1e506]:
+                      - button "Open menu" [ref=f1e507] [cursor=pointer]
+              - generic [ref=f1e509]:
+                - generic [ref=f1e510]: 0 of 2 row(s) selected.
+                - generic [ref=f1e511]:
+                  - generic [ref=f1e512]:
+                    - paragraph [ref=f1e513]: Rows per page
+                    - combobox [ref=f1e514] [cursor=pointer]:
+                      - generic: "10"
+                  - generic [ref=f1e515]: Page 1 of 1
+                  - generic [ref=f1e516]:
+                    - button "Go to first page" [disabled]
+                    - button "Go to previous page" [disabled]
+                    - button "Go to next page" [disabled]
+                    - button "Go to last page" [disabled]
+  - generic [ref=f1e517]:
+    - heading "Command Palette" [level=2] [ref=f1e518]
+    - paragraph [ref=f1e519]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=f1e7]:
+    - heading "Command Palette" [level=2] [ref=f1e8]
+    - paragraph [ref=f1e9]: Search for a command to run...

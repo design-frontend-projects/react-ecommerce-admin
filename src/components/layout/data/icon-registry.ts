@@ -168,8 +168,18 @@ const ICONS: Record<string, React.ElementType> = {
   customer_groups: Users,
   customer_cards: CreditCard,
   permissions: Lock,
+  permission_matrix: Grid3X3,
+  matrix: Grid3X3,
   system_management: Wrench,
   audit_logs: LineChart,
+  sales_invoices: Receipt,
+  units: Ruler,
+  payment_methods: CreditCard,
+  brands: Tags,
+  batches: Layers,
+  serials: Barcode,
+  areas: MapPin,
+  profile: UserCog,
 }
 
 const DEFAULT_ICON: React.ElementType = LayoutDashboard

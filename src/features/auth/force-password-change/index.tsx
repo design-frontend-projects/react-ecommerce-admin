@@ -57,11 +57,23 @@ export function ForcePasswordChangeFeature() {
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true)
     try {
-      const { error } = await supabase.auth.updateUser({
+      const { error, data } = await supabase.auth.updateUser({
         password: values.password,
         data: { force_password_change: false },
       })
       if (error) throw error
+
+      // Record password changed timestamp in tenant_users
+      const { data: sessionData } = await supabase.auth.getSession()
+      const sessionToken = sessionData.session?.access_token
+      if (sessionToken) {
+        try {
+          const { recordPasswordChanged } = await import('@/server/fns/users')
+          await recordPasswordChanged({ data: { sessionToken } })
+        } catch (e) {
+          console.warn('Failed to record password_changed_at:', e)
+        }
+      }
 
       toast.success('Password updated. Welcome aboard!')
       navigate({ to: '/', replace: true })

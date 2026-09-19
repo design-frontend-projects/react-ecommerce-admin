@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
@@ -31,6 +32,9 @@ export function VariantSelectionDialog({
       <DialogContent className='max-w-2xl'>
         <DialogHeader>
           <DialogTitle>Select Variant - {productName}</DialogTitle>
+          <DialogDescription className='sr-only'>
+            Choose a variant option for {productName}
+          </DialogDescription>
         </DialogHeader>
         <div className='grid max-h-[60vh] grid-cols-2 gap-4 overflow-y-auto py-4 md:grid-cols-3'>
           {variants.map((v) => {

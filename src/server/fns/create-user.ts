@@ -30,6 +30,18 @@ export interface CreateUserInput {
   /** One or more role ids (min 1). */
   roleIds: string[]
   branchId?: string
+  /** ABAC location attributes */
+  countryId?: string
+  cityId?: string
+  storeId?: string
+  warehouseId?: string
+  channelId?: string
+  idNumber?: string
+  refundPinCode?: string
+  isRestaurantUser?: boolean
+  primaryModule?: 'inventory' | 'restaurant'
+  modules?: Array<'inventory' | 'restaurant'>
+  isActive?: boolean
   /** Optional per-user permission grant/deny overrides written to `user_permissions`. */
   overrides?: CreateUserPermissionOverride[]
 }
@@ -180,11 +192,19 @@ export async function createUser(
           last_name: input.lastName ?? null,
           phone: input.phone ?? null,
           branch_id: input.branchId || null,
-          is_active: true,
+          country_id: input.countryId || null,
+          city_id: input.cityId || null,
+          store_id: input.storeId || null,
+          warehouse_id: input.warehouseId || null,
+          is_active: input.isActive ?? true,
           default_role: primaryRole,
-          is_restuarant_user: true,
-          modules: modules as any,
-          primary_module: (modules[0] ?? null) as any,
+          is_restuarant_user: input.isRestaurantUser ?? false,
+          refund_pin_code: input.refundPinCode ?? null,
+          id_number: input.idNumber ?? null,
+          modules: (input.modules && input.modules.length > 0
+            ? input.modules
+            : modules) as any,
+          primary_module: (input.primaryModule ?? modules[0] ?? null) as any,
           tenant_id: callerTenantId,
           parent_tenant_id: callerTenantId,
           onboarding_complete: false,

@@ -11,40 +11,62 @@ export async function listBatches(authUserId: string) {
 
   const batches = await prisma.product_batches.findMany({
     where: { tenant_id: tenantId },
-    include: {
-      product_variants: {
-        select: {
-          id: true,
-          sku: true,
-          barcode: true,
-          products: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-      suppliers: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
     orderBy: { created_at: 'desc' },
   })
 
-  const sums = (await (prisma.stock_by_location as any).groupBy({
-    by: ['batch_id'],
-    where: { tenant_id: tenantId, batch_id: { not: null } },
-    _sum: { qty_on_hand: true },
-  })) as Array<{
-    batch_id: string | null
-    _sum: { qty_on_hand: unknown }
-  }>
+  if (!batches.length) {
+    return []
+  }
+
+  const variantIds = Array.from(
+    new Set(batches.map((b) => b.product_variant_id).filter(Boolean))
+  )
+  const supplierIds = Array.from(
+    new Set(
+      batches
+        .map((b) => b.supplier_id)
+        .filter((id): id is string => typeof id === 'string' && id.length > 0)
+    )
+  )
+  const batchIds = batches.map((b) => b.id)
+
+  const [variants, supplierList, sums] = await Promise.all([
+    variantIds.length
+      ? prisma.product_variants.findMany({
+          where: { id: { in: variantIds } },
+          select: {
+            id: true,
+            sku: true,
+            barcode: true,
+            products: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        })
+      : [],
+    supplierIds.length
+      ? prisma.suppliers.findMany({
+          where: { id: { in: supplierIds } },
+          select: {
+            id: true,
+            name: true,
+          },
+        })
+      : [],
+    prisma.stock_by_location.groupBy({
+      by: ['batch_id'],
+      where: { tenant_id: tenantId, batch_id: { in: batchIds } },
+      _sum: { qty_on_hand: true },
+    }),
+  ])
+
+  const variantMap = new Map(variants.map((v) => [v.id, v]))
+  const supplierMap = new Map(supplierList.map((s) => [s.id, s]))
 
   const onHandByBatch = new Map<string, number>()
-  for (const row of sums) {
+  for (const row of sums || []) {
     if (row.batch_id) {
       onHandByBatch.set(row.batch_id, Number(row._sum.qty_on_hand ?? 0))
     }
@@ -52,7 +74,10 @@ export async function listBatches(authUserId: string) {
 
   return batches.map((batch) => ({
     ...batch,
+    unit_cost: batch.unit_cost ? Number(batch.unit_cost.toString()) : 0,
     qty_on_hand: onHandByBatch.get(batch.id) ?? 0,
+    product_variants: variantMap.get(batch.product_variant_id) ?? null,
+    suppliers: batch.supplier_id ? supplierMap.get(batch.supplier_id) ?? null : null,
   }))
 }
 

@@ -201,18 +201,22 @@ function PosCheckoutDialogContent({
           sku: item.sku,
           productName: item.name,
           quantity: item.quantity,
-          unitPrice: item.unitPrice,
-          unitCost: item.unitCost,
-          discountAmount: item.discountAmount,
-          taxAmount: item.taxAmount,
+          unitPrice: Math.round(Number(item.unitPrice) * 100) / 100,
+          unitCost: Math.round(Number(item.unitCost ?? 0) * 100) / 100,
+          discountAmount: Math.round(Number(item.discountAmount ?? 0) * 100) / 100,
+          taxAmount: Math.round(Number(item.taxAmount ?? 0) * 100) / 100,
           taxRateId: item.taxRateId,
         })),
         payments: payments.map((p) => ({
           method: p.method,
-          amount: p.amount,
+          amount:
+            p.method === 'cash' && actualTendered > p.amount
+              ? actualTendered
+              : p.amount,
           referenceNumber: p.referenceNumber,
         })),
-        orderDiscountAmount: getTotalDiscountAmount(),
+        orderDiscountAmount:
+          Math.round(Number(getTotalDiscountAmount() ?? 0) * 100) / 100,
         notes: notes.trim() || undefined,
         idempotencyKey: crypto.randomUUID(),
       }

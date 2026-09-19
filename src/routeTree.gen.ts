@@ -28,6 +28,7 @@ import { Route as ApiDiscountReportsRouteImport } from './routes/api/discount-re
 import { Route as ApiDiscountApprovalsRouteImport } from './routes/api/discount-approvals'
 import { Route as ApiCouponsRouteImport } from './routes/api/coupons'
 import { Route as AuthenticatedSubscriptionsRouteImport } from './routes/_authenticated/subscriptions'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedForcePasswordChangeRouteImport } from './routes/_authenticated/force-password-change'
 import { Route as AuthenticatedCompleteAccountRouteImport } from './routes/_authenticated/complete-account'
@@ -98,7 +99,9 @@ import { Route as AuthenticatedAccessControlIndexRouteImport } from './routes/_a
 import { Route as ApiUsersRolesRouteImport } from './routes/api/users/roles'
 import { Route as ApiUsersPermissionsRouteImport } from './routes/api/users/permissions'
 import { Route as ApiUsersInviteRouteImport } from './routes/api/users/invite'
+import { Route as ApiUsersDeleteRouteImport } from './routes/api/users/delete'
 import { Route as ApiUsersCreateTenantRouteImport } from './routes/api/users/create-tenant'
+import { Route as ApiUsersBlockRouteImport } from './routes/api/users/block'
 import { Route as ApiTenantOnboardRouteImport } from './routes/api/tenant/onboard'
 import { Route as ApiTenantActivityTypesRouteImport } from './routes/api/tenant/activity-types'
 import { Route as ApiSalesInvoicesVoidRouteImport } from './routes/api/sales-invoices/void'
@@ -128,6 +131,7 @@ import { Route as ApiLookupsValuesRouteImport } from './routes/api/lookups/value
 import { Route as ApiLookupsTypesRouteImport } from './routes/api/lookups/types'
 import { Route as ApiLookupsTreeRouteImport } from './routes/api/lookups/tree'
 import { Route as ApiInventoryWarehousesRouteImport } from './routes/api/inventory/warehouses'
+import { Route as ApiInventoryValuationRouteImport } from './routes/api/inventory/valuation'
 import { Route as ApiInventoryUomsRouteImport } from './routes/api/inventory/uoms'
 import { Route as ApiInventoryTransfersRouteImport } from './routes/api/inventory/transfers'
 import { Route as ApiInventoryTransactionsRouteImport } from './routes/api/inventory/transactions'
@@ -191,6 +195,9 @@ import { Route as AuthenticatedInventoryDashboardRouteImport } from './routes/_a
 import { Route as AuthenticatedInventoryAlertsRouteImport } from './routes/_authenticated/inventory/alerts'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 import { Route as AuthenticatedAccessControlScreensRouteImport } from './routes/_authenticated/access-control/screens'
+import { Route as AuthenticatedAccessControlRolesRouteImport } from './routes/_authenticated/access-control/roles'
+import { Route as AuthenticatedAccessControlPermissionsRouteImport } from './routes/_authenticated/access-control/permissions'
+import { Route as AuthenticatedAccessControlMatrixRouteImport } from './routes/_authenticated/access-control/matrix'
 import { Route as AuthenticatedAccessControlButtonsRouteImport } from './routes/_authenticated/access-control/buttons'
 import { Route as AuthenticatedAccessControlAuditRouteImport } from './routes/_authenticated/access-control/audit'
 import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
@@ -335,6 +342,11 @@ const AuthenticatedSubscriptionsRoute =
     path: '/subscriptions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -740,9 +752,19 @@ const ApiUsersInviteRoute = ApiUsersInviteRouteImport.update({
   path: '/invite',
   getParentRoute: () => ApiUsersRoute,
 } as any)
+const ApiUsersDeleteRoute = ApiUsersDeleteRouteImport.update({
+  id: '/delete',
+  path: '/delete',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
 const ApiUsersCreateTenantRoute = ApiUsersCreateTenantRouteImport.update({
   id: '/create-tenant',
   path: '/create-tenant',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
+const ApiUsersBlockRoute = ApiUsersBlockRouteImport.update({
+  id: '/block',
+  path: '/block',
   getParentRoute: () => ApiUsersRoute,
 } as any)
 const ApiTenantOnboardRoute = ApiTenantOnboardRouteImport.update({
@@ -892,6 +914,11 @@ const ApiLookupsTreeRoute = ApiLookupsTreeRouteImport.update({
 const ApiInventoryWarehousesRoute = ApiInventoryWarehousesRouteImport.update({
   id: '/api/inventory/warehouses',
   path: '/api/inventory/warehouses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryValuationRoute = ApiInventoryValuationRouteImport.update({
+  id: '/api/inventory/valuation',
+  path: '/api/inventory/valuation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiInventoryUomsRoute = ApiInventoryUomsRouteImport.update({
@@ -1256,6 +1283,24 @@ const AuthenticatedAccessControlScreensRoute =
     path: '/access-control/screens',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAccessControlRolesRoute =
+  AuthenticatedAccessControlRolesRouteImport.update({
+    id: '/access-control/roles',
+    path: '/access-control/roles',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAccessControlPermissionsRoute =
+  AuthenticatedAccessControlPermissionsRouteImport.update({
+    id: '/access-control/permissions',
+    path: '/access-control/permissions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAccessControlMatrixRoute =
+  AuthenticatedAccessControlMatrixRouteImport.update({
+    id: '/access-control/matrix',
+    path: '/access-control/matrix',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAccessControlButtonsRoute =
   AuthenticatedAccessControlButtonsRouteImport.update({
     id: '/access-control/buttons',
@@ -1508,6 +1553,7 @@ export interface FileRoutesByFullPath {
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/api/coupons': typeof ApiCouponsRoute
   '/api/discount-approvals': typeof ApiDiscountApprovalsRoute
@@ -1527,6 +1573,9 @@ export interface FileRoutesByFullPath {
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/access-control/audit': typeof AuthenticatedAccessControlAuditRoute
   '/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
+  '/access-control/matrix': typeof AuthenticatedAccessControlMatrixRoute
+  '/access-control/permissions': typeof AuthenticatedAccessControlPermissionsRoute
+  '/access-control/roles': typeof AuthenticatedAccessControlRolesRoute
   '/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/inventory/alerts': typeof AuthenticatedInventoryAlertsRoute
@@ -1590,6 +1639,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/transactions': typeof ApiInventoryTransactionsRouteWithChildren
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
+  '/api/inventory/valuation': typeof ApiInventoryValuationRoute
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
   '/api/lookups/tree': typeof ApiLookupsTreeRoute
   '/api/lookups/types': typeof ApiLookupsTypesRoute
@@ -1619,7 +1669,9 @@ export interface FileRoutesByFullPath {
   '/api/sales-invoices/void': typeof ApiSalesInvoicesVoidRoute
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/block': typeof ApiUsersBlockRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
+  '/api/users/delete': typeof ApiUsersDeleteRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
@@ -1726,6 +1778,7 @@ export interface FileRoutesByTo {
   '/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/api/coupons': typeof ApiCouponsRoute
   '/api/discount-approvals': typeof ApiDiscountApprovalsRoute
@@ -1745,6 +1798,9 @@ export interface FileRoutesByTo {
   '/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/access-control/audit': typeof AuthenticatedAccessControlAuditRoute
   '/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
+  '/access-control/matrix': typeof AuthenticatedAccessControlMatrixRoute
+  '/access-control/permissions': typeof AuthenticatedAccessControlPermissionsRoute
+  '/access-control/roles': typeof AuthenticatedAccessControlRolesRoute
   '/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/inventory/alerts': typeof AuthenticatedInventoryAlertsRoute
@@ -1808,6 +1864,7 @@ export interface FileRoutesByTo {
   '/api/inventory/transactions': typeof ApiInventoryTransactionsRouteWithChildren
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
+  '/api/inventory/valuation': typeof ApiInventoryValuationRoute
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
   '/api/lookups/tree': typeof ApiLookupsTreeRoute
   '/api/lookups/types': typeof ApiLookupsTypesRoute
@@ -1837,7 +1894,9 @@ export interface FileRoutesByTo {
   '/api/sales-invoices/void': typeof ApiSalesInvoicesVoidRoute
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/block': typeof ApiUsersBlockRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
+  '/api/users/delete': typeof ApiUsersDeleteRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
@@ -1948,6 +2007,7 @@ export interface FileRoutesById {
   '/_authenticated/complete-account': typeof AuthenticatedCompleteAccountRoute
   '/_authenticated/force-password-change': typeof AuthenticatedForcePasswordChangeRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/subscriptions': typeof AuthenticatedSubscriptionsRoute
   '/api/coupons': typeof ApiCouponsRoute
   '/api/discount-approvals': typeof ApiDiscountApprovalsRoute
@@ -1968,6 +2028,9 @@ export interface FileRoutesById {
   '/_authenticated/_system/system-management': typeof AuthenticatedSystemSystemManagementRoute
   '/_authenticated/access-control/audit': typeof AuthenticatedAccessControlAuditRoute
   '/_authenticated/access-control/buttons': typeof AuthenticatedAccessControlButtonsRoute
+  '/_authenticated/access-control/matrix': typeof AuthenticatedAccessControlMatrixRoute
+  '/_authenticated/access-control/permissions': typeof AuthenticatedAccessControlPermissionsRoute
+  '/_authenticated/access-control/roles': typeof AuthenticatedAccessControlRolesRoute
   '/_authenticated/access-control/screens': typeof AuthenticatedAccessControlScreensRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/inventory/alerts': typeof AuthenticatedInventoryAlertsRoute
@@ -2031,6 +2094,7 @@ export interface FileRoutesById {
   '/api/inventory/transactions': typeof ApiInventoryTransactionsRouteWithChildren
   '/api/inventory/transfers': typeof ApiInventoryTransfersRouteWithChildren
   '/api/inventory/uoms': typeof ApiInventoryUomsRouteWithChildren
+  '/api/inventory/valuation': typeof ApiInventoryValuationRoute
   '/api/inventory/warehouses': typeof ApiInventoryWarehousesRouteWithChildren
   '/api/lookups/tree': typeof ApiLookupsTreeRoute
   '/api/lookups/types': typeof ApiLookupsTypesRoute
@@ -2060,7 +2124,9 @@ export interface FileRoutesById {
   '/api/sales-invoices/void': typeof ApiSalesInvoicesVoidRoute
   '/api/tenant/activity-types': typeof ApiTenantActivityTypesRoute
   '/api/tenant/onboard': typeof ApiTenantOnboardRoute
+  '/api/users/block': typeof ApiUsersBlockRoute
   '/api/users/create-tenant': typeof ApiUsersCreateTenantRoute
+  '/api/users/delete': typeof ApiUsersDeleteRoute
   '/api/users/invite': typeof ApiUsersInviteRoute
   '/api/users/permissions': typeof ApiUsersPermissionsRoute
   '/api/users/roles': typeof ApiUsersRolesRoute
@@ -2171,6 +2237,7 @@ export interface FileRouteTypes {
     | '/complete-account'
     | '/force-password-change'
     | '/notifications'
+    | '/profile'
     | '/subscriptions'
     | '/api/coupons'
     | '/api/discount-approvals'
@@ -2190,6 +2257,9 @@ export interface FileRouteTypes {
     | '/system-management'
     | '/access-control/audit'
     | '/access-control/buttons'
+    | '/access-control/matrix'
+    | '/access-control/permissions'
+    | '/access-control/roles'
     | '/access-control/screens'
     | '/errors/$error'
     | '/inventory/alerts'
@@ -2253,6 +2323,7 @@ export interface FileRouteTypes {
     | '/api/inventory/transactions'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
+    | '/api/inventory/valuation'
     | '/api/inventory/warehouses'
     | '/api/lookups/tree'
     | '/api/lookups/types'
@@ -2282,7 +2353,9 @@ export interface FileRouteTypes {
     | '/api/sales-invoices/void'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
+    | '/api/users/block'
     | '/api/users/create-tenant'
+    | '/api/users/delete'
     | '/api/users/invite'
     | '/api/users/permissions'
     | '/api/users/roles'
@@ -2389,6 +2462,7 @@ export interface FileRouteTypes {
     | '/complete-account'
     | '/force-password-change'
     | '/notifications'
+    | '/profile'
     | '/subscriptions'
     | '/api/coupons'
     | '/api/discount-approvals'
@@ -2408,6 +2482,9 @@ export interface FileRouteTypes {
     | '/system-management'
     | '/access-control/audit'
     | '/access-control/buttons'
+    | '/access-control/matrix'
+    | '/access-control/permissions'
+    | '/access-control/roles'
     | '/access-control/screens'
     | '/errors/$error'
     | '/inventory/alerts'
@@ -2471,6 +2548,7 @@ export interface FileRouteTypes {
     | '/api/inventory/transactions'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
+    | '/api/inventory/valuation'
     | '/api/inventory/warehouses'
     | '/api/lookups/tree'
     | '/api/lookups/types'
@@ -2500,7 +2578,9 @@ export interface FileRouteTypes {
     | '/api/sales-invoices/void'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
+    | '/api/users/block'
     | '/api/users/create-tenant'
+    | '/api/users/delete'
     | '/api/users/invite'
     | '/api/users/permissions'
     | '/api/users/roles'
@@ -2610,6 +2690,7 @@ export interface FileRouteTypes {
     | '/_authenticated/complete-account'
     | '/_authenticated/force-password-change'
     | '/_authenticated/notifications'
+    | '/_authenticated/profile'
     | '/_authenticated/subscriptions'
     | '/api/coupons'
     | '/api/discount-approvals'
@@ -2630,6 +2711,9 @@ export interface FileRouteTypes {
     | '/_authenticated/_system/system-management'
     | '/_authenticated/access-control/audit'
     | '/_authenticated/access-control/buttons'
+    | '/_authenticated/access-control/matrix'
+    | '/_authenticated/access-control/permissions'
+    | '/_authenticated/access-control/roles'
     | '/_authenticated/access-control/screens'
     | '/_authenticated/errors/$error'
     | '/_authenticated/inventory/alerts'
@@ -2693,6 +2777,7 @@ export interface FileRouteTypes {
     | '/api/inventory/transactions'
     | '/api/inventory/transfers'
     | '/api/inventory/uoms'
+    | '/api/inventory/valuation'
     | '/api/inventory/warehouses'
     | '/api/lookups/tree'
     | '/api/lookups/types'
@@ -2722,7 +2807,9 @@ export interface FileRouteTypes {
     | '/api/sales-invoices/void'
     | '/api/tenant/activity-types'
     | '/api/tenant/onboard'
+    | '/api/users/block'
     | '/api/users/create-tenant'
+    | '/api/users/delete'
     | '/api/users/invite'
     | '/api/users/permissions'
     | '/api/users/roles'
@@ -2850,6 +2937,7 @@ export interface RootRouteChildren {
   ApiInventoryTransactionsRoute: typeof ApiInventoryTransactionsRouteWithChildren
   ApiInventoryTransfersRoute: typeof ApiInventoryTransfersRouteWithChildren
   ApiInventoryUomsRoute: typeof ApiInventoryUomsRouteWithChildren
+  ApiInventoryValuationRoute: typeof ApiInventoryValuationRoute
   ApiInventoryWarehousesRoute: typeof ApiInventoryWarehousesRouteWithChildren
   ApiLookupsTreeRoute: typeof ApiLookupsTreeRoute
   ApiLookupsTypesRoute: typeof ApiLookupsTypesRoute
@@ -3021,6 +3109,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof AuthenticatedSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/notifications': {
@@ -3520,11 +3615,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUsersInviteRouteImport
       parentRoute: typeof ApiUsersRoute
     }
+    '/api/users/delete': {
+      id: '/api/users/delete'
+      path: '/delete'
+      fullPath: '/api/users/delete'
+      preLoaderRoute: typeof ApiUsersDeleteRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
     '/api/users/create-tenant': {
       id: '/api/users/create-tenant'
       path: '/create-tenant'
       fullPath: '/api/users/create-tenant'
       preLoaderRoute: typeof ApiUsersCreateTenantRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
+    '/api/users/block': {
+      id: '/api/users/block'
+      path: '/block'
+      fullPath: '/api/users/block'
+      preLoaderRoute: typeof ApiUsersBlockRouteImport
       parentRoute: typeof ApiUsersRoute
     }
     '/api/tenant/onboard': {
@@ -3728,6 +3837,13 @@ declare module '@tanstack/react-router' {
       path: '/api/inventory/warehouses'
       fullPath: '/api/inventory/warehouses'
       preLoaderRoute: typeof ApiInventoryWarehousesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/valuation': {
+      id: '/api/inventory/valuation'
+      path: '/api/inventory/valuation'
+      fullPath: '/api/inventory/valuation'
+      preLoaderRoute: typeof ApiInventoryValuationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/uoms': {
@@ -4171,6 +4287,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccessControlScreensRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/access-control/roles': {
+      id: '/_authenticated/access-control/roles'
+      path: '/access-control/roles'
+      fullPath: '/access-control/roles'
+      preLoaderRoute: typeof AuthenticatedAccessControlRolesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/access-control/permissions': {
+      id: '/_authenticated/access-control/permissions'
+      path: '/access-control/permissions'
+      fullPath: '/access-control/permissions'
+      preLoaderRoute: typeof AuthenticatedAccessControlPermissionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/access-control/matrix': {
+      id: '/_authenticated/access-control/matrix'
+      path: '/access-control/matrix'
+      fullPath: '/access-control/matrix'
+      preLoaderRoute: typeof AuthenticatedAccessControlMatrixRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/access-control/buttons': {
       id: '/_authenticated/access-control/buttons'
       path: '/access-control/buttons'
@@ -4525,10 +4662,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedCompleteAccountRoute: typeof AuthenticatedCompleteAccountRoute
   AuthenticatedForcePasswordChangeRoute: typeof AuthenticatedForcePasswordChangeRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSubscriptionsRoute: typeof AuthenticatedSubscriptionsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccessControlAuditRoute: typeof AuthenticatedAccessControlAuditRoute
   AuthenticatedAccessControlButtonsRoute: typeof AuthenticatedAccessControlButtonsRoute
+  AuthenticatedAccessControlMatrixRoute: typeof AuthenticatedAccessControlMatrixRoute
+  AuthenticatedAccessControlPermissionsRoute: typeof AuthenticatedAccessControlPermissionsRoute
+  AuthenticatedAccessControlRolesRoute: typeof AuthenticatedAccessControlRolesRoute
   AuthenticatedAccessControlScreensRoute: typeof AuthenticatedAccessControlScreensRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedInventoryAlertsRoute: typeof AuthenticatedInventoryAlertsRoute
@@ -4617,11 +4758,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCompleteAccountRoute: AuthenticatedCompleteAccountRoute,
   AuthenticatedForcePasswordChangeRoute: AuthenticatedForcePasswordChangeRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSubscriptionsRoute: AuthenticatedSubscriptionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccessControlAuditRoute: AuthenticatedAccessControlAuditRoute,
   AuthenticatedAccessControlButtonsRoute:
     AuthenticatedAccessControlButtonsRoute,
+  AuthenticatedAccessControlMatrixRoute: AuthenticatedAccessControlMatrixRoute,
+  AuthenticatedAccessControlPermissionsRoute:
+    AuthenticatedAccessControlPermissionsRoute,
+  AuthenticatedAccessControlRolesRoute: AuthenticatedAccessControlRolesRoute,
   AuthenticatedAccessControlScreensRoute:
     AuthenticatedAccessControlScreensRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
@@ -4737,14 +4883,18 @@ const ApiRbacRouteWithChildren =
   ApiRbacRoute._addFileChildren(ApiRbacRouteChildren)
 
 interface ApiUsersRouteChildren {
+  ApiUsersBlockRoute: typeof ApiUsersBlockRoute
   ApiUsersCreateTenantRoute: typeof ApiUsersCreateTenantRoute
+  ApiUsersDeleteRoute: typeof ApiUsersDeleteRoute
   ApiUsersInviteRoute: typeof ApiUsersInviteRoute
   ApiUsersPermissionsRoute: typeof ApiUsersPermissionsRoute
   ApiUsersRolesRoute: typeof ApiUsersRolesRoute
 }
 
 const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersBlockRoute: ApiUsersBlockRoute,
   ApiUsersCreateTenantRoute: ApiUsersCreateTenantRoute,
+  ApiUsersDeleteRoute: ApiUsersDeleteRoute,
   ApiUsersInviteRoute: ApiUsersInviteRoute,
   ApiUsersPermissionsRoute: ApiUsersPermissionsRoute,
   ApiUsersRolesRoute: ApiUsersRolesRoute,
@@ -5012,6 +5162,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryTransactionsRoute: ApiInventoryTransactionsRouteWithChildren,
   ApiInventoryTransfersRoute: ApiInventoryTransfersRouteWithChildren,
   ApiInventoryUomsRoute: ApiInventoryUomsRouteWithChildren,
+  ApiInventoryValuationRoute: ApiInventoryValuationRoute,
   ApiInventoryWarehousesRoute: ApiInventoryWarehousesRouteWithChildren,
   ApiLookupsTreeRoute: ApiLookupsTreeRoute,
   ApiLookupsTypesRoute: ApiLookupsTypesRoute,

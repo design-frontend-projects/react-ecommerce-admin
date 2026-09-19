@@ -1,16 +1,26 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ShieldPlusIcon, UsersIcon } from 'lucide-react'
+import {
+  Users as UsersIcon,
+  UserCheck,
+  Mail,
+  ShieldCheck,
+} from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-import { InviteForm } from '../blocks/invite-form'
-import { UserList } from '../blocks/user-list'
+import { Search } from '@/components/search'
+import { LanguageSwitch } from '@/components/language-switch'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { type NavigateFn } from '@/hooks/use-table-url-state'
+import { UsersTable } from '../components/users-table'
+import { UsersPrimaryButtons } from '../components/users-primary-buttons'
+import { UsersDialogs } from '../components/users-dialogs'
+import { UsersProvider } from '../components/users-provider'
 import { PermissionsManagement } from '../components/permissions-management'
-import { UsersActionDialog } from '../components/users-action-dialog'
 import { RolesManagement } from '../components/roles-management'
 import { useRBACStore } from '../data/store'
 import { useHasRole, useRBAC } from '../hooks/use-rbac'
@@ -21,15 +31,17 @@ import {
   useSetRolePermissions,
   useUpdateRole,
 } from '../hooks/use-roles-permissions'
-import { useUpdateUserRole, useUsersList } from '../hooks/use-users'
-
+import { useUsersList } from '../hooks/use-users'
 import { useSystemOwner } from '@/features/auth/hooks/use-system-owner'
 
-export function UserManagementPage() {
+type UserManagementPageProps = {
+  search?: Record<string, unknown>
+  navigate?: NavigateFn
+}
+
+function UserManagementContent({ search = {}, navigate = (() => {}) as NavigateFn }: UserManagementPageProps) {
   const { t } = useTranslation()
-  const [inviteOpen, setInviteOpen] = useState(false)
-  const [createOpen, setCreateOpen] = useState(false)
-  
+
   const { isSuperAdminOwner } = useSystemOwner()
   const isSuperAdmin = useHasRole('super_admin')
   const isNormalAdmin = useHasRole('admin')
@@ -47,7 +59,6 @@ export function UserManagementPage() {
 
   const usersQuery = useUsersList(canViewUsers)
   const rbacCatalogQuery = useRBACCatalog(canViewUsers)
-  const updateUserRoleMutation = useUpdateUserRole()
   const createRoleMutation = useCreateRole()
   const updateRoleMutation = useUpdateRole()
   const deleteRoleMutation = useDeleteRole()
@@ -94,49 +105,81 @@ export function UserManagementPage() {
   return (
     <>
       <Header fixed>
-        <div className='flex min-w-0 flex-1 items-center justify-between gap-4'>
-          <div className='flex min-w-0 flex-col gap-1'>
-            <p className='text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase'>
-              {t('users.tenantSecurity')}
-            </p>
-            <h1 className='truncate text-lg font-semibold'>{t('users.title')}</h1>
-          </div>
-          {(canManageUsers || isAdmin) && (
-            <div className='flex items-center gap-2'>
-              <Button
-                type='button'
-                variant='outline'
-                onClick={() => setCreateOpen(true)}
-              >
-                <ShieldPlusIcon className='mr-2 size-4' />
-                {t('users.createUser')}
-              </Button>
-              <Button type='button' onClick={() => setInviteOpen(true)}>
-                <UsersIcon className='mr-2 size-4' />
-                {t('users.inviteUser')}
-              </Button>
-            </div>
-          )}
+        <Search />
+        <div className='ms-auto flex items-center space-x-3 sm:space-x-4'>
+          <LanguageSwitch />
+          <ThemeSwitch />
+          <ProfileDropdown />
         </div>
       </Header>
-      <Main className='flex flex-1 flex-col gap-6'>
-        <section className='flex flex-col gap-4 rounded-2xl border border-border/70 bg-card/60 px-5 py-5'>
-          <div className='flex flex-col gap-2'>
-            <h2 className='text-2xl font-semibold tracking-tight'>
-              {t('users.bannerTitle')}
-            </h2>
-            <p className='max-w-3xl text-sm text-muted-foreground'>
-              {t('users.bannerDesc')}
+
+      <Main className='flex flex-1 flex-col gap-6 p-4 md:p-6'>
+        {/* Title & Primary Action Buttons */}
+        <div className='flex flex-wrap items-center justify-between gap-4'>
+          <div className='space-y-1'>
+            <div className='flex items-center gap-2'>
+              <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary'>
+                <UsersIcon className='h-5 w-5' />
+              </div>
+              <h2 className='text-2xl sm:text-3xl font-bold tracking-tight text-foreground'>
+                {t('users.title')}
+              </h2>
+            </div>
+            <p className='text-xs sm:text-sm text-muted-foreground'>
+              {t(
+                'users.subtitle',
+                'Manage tenant users, assign roles, enforce location boundaries, and monitor security.'
+              )}
             </p>
           </div>
-          <div className='flex flex-wrap items-center gap-3'>
-            <Badge variant='outline'>{t('users.stats.users', { count: stats.total })}</Badge>
-            <Badge variant='outline'>{t('users.stats.active', { count: stats.active })}</Badge>
-            <Badge variant='outline'>{t('users.stats.invited', { count: stats.invited })}</Badge>
-            <Badge variant='outline'>{t('users.stats.roles', { count: stats.roles })}</Badge>
-          </div>
-        </section>
+          {(canManageUsers || isAdmin) && <UsersPrimaryButtons />}
+        </div>
 
+        {/* Analytics & KPI Cards */}
+        <div className='grid grid-cols-2 gap-4 lg:grid-cols-4'>
+          <Card className='p-4'>
+            <div className='flex items-center justify-between'>
+              <span className='text-xs font-medium text-muted-foreground'>
+                {t('users.stats.totalUsers', 'Total Users')}
+              </span>
+              <UsersIcon className='h-4 w-4 text-muted-foreground' />
+            </div>
+            <div className='mt-2 text-2xl font-bold'>{stats.total}</div>
+          </Card>
+          <Card className='p-4'>
+            <div className='flex items-center justify-between'>
+              <span className='text-xs font-medium text-muted-foreground'>
+                {t('users.stats.activeUsers', 'Active Users')}
+              </span>
+              <UserCheck className='h-4 w-4 text-emerald-500' />
+            </div>
+            <div className='mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400'>
+              {stats.active}
+            </div>
+          </Card>
+          <Card className='p-4'>
+            <div className='flex items-center justify-between'>
+              <span className='text-xs font-medium text-muted-foreground'>
+                {t('users.stats.pendingInvites', 'Invited')}
+              </span>
+              <Mail className='h-4 w-4 text-amber-500' />
+            </div>
+            <div className='mt-2 text-2xl font-bold text-amber-600 dark:text-amber-400'>
+              {stats.invited}
+            </div>
+          </Card>
+          <Card className='p-4'>
+            <div className='flex items-center justify-between'>
+              <span className='text-xs font-medium text-muted-foreground'>
+                {t('users.stats.rolesCount', 'Roles')}
+              </span>
+              <ShieldCheck className='h-4 w-4 text-primary' />
+            </div>
+            <div className='mt-2 text-2xl font-bold'>{stats.roles}</div>
+          </Card>
+        </div>
+
+        {/* Tabs for Users, Roles, and Permissions */}
         <Tabs defaultValue='users' className='flex flex-col gap-4'>
           <TabsList className='grid w-full max-w-xl grid-cols-3'>
             <TabsTrigger value='users'>{t('users.tabs.users')}</TabsTrigger>
@@ -145,19 +188,10 @@ export function UserManagementPage() {
           </TabsList>
 
           <TabsContent value='users' className='m-0'>
-            <UserList
-              users={users}
-              roles={roles}
-              isLoading={usersQuery.isLoading}
-              canManageUsers={canManageUsers}
-              permissions={canManagePermissions ? permissions : []}
-              pendingUserId={updateUserRoleMutation.variables?.userId ?? null}
-              onUpdateUserRole={(userId, roleId) =>
-                updateUserRoleMutation.mutate({
-                  userId,
-                  roleIds: [roleId],
-                })
-              }
+            <UsersTable
+              data={users}
+              search={search}
+              navigate={navigate}
             />
           </TabsContent>
 
@@ -220,12 +254,15 @@ export function UserManagementPage() {
         </Tabs>
       </Main>
 
-      <InviteForm
-        open={inviteOpen}
-        onOpenChange={setInviteOpen}
-        roles={roles}
-      />
-      <UsersActionDialog open={createOpen} onOpenChange={setCreateOpen} />
+      <UsersDialogs />
     </>
+  )
+}
+
+export function UserManagementPage(props: UserManagementPageProps) {
+  return (
+    <UsersProvider>
+      <UserManagementContent {...props} />
+    </UsersProvider>
   )
 }

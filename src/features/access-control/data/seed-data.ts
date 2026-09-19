@@ -49,7 +49,7 @@ export interface ScreenButtonSeed {
   roles: string[]
 }
 
-export const SEED_VERSION = '3'
+export const SEED_VERSION = '4'
 
 export const ACTIVITY_TYPE_SEEDS: ActivityTypeSeed[] = [
   {
@@ -201,6 +201,14 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     moduleCode: 'general',
     roles: ADMINS,
     permissions: ['general.settings.manage'],
+  },
+  {
+    code: 'profile',
+    name: 'User Profile',
+    route: '/profile',
+    moduleCode: 'general',
+    roles: [],
+    permissions: [],
   },
 
   // restaurant
@@ -422,6 +430,126 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     roles: ADMINS,
     permissions: [],
   },
+  {
+    code: 'warehouses',
+    name: 'Warehouses',
+    route: '/warehouses',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'goods_receipts',
+    name: 'Goods Receipts',
+    route: '/goods-receipts',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'stock_counts',
+    name: 'Stock Counts',
+    route: '/stock-counts',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'stock_by_location',
+    name: 'Stock by Location',
+    route: '/stock-by-location',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'brands',
+    name: 'Brands',
+    route: '/brands',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'batches',
+    name: 'Batches',
+    route: '/batches',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'serials',
+    name: 'Serial Numbers',
+    route: '/serials',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'reorder_rules',
+    name: 'Reorder Rules',
+    route: '/reorder-rules',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'replenishment',
+    name: 'Replenishment',
+    route: '/replenishment',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'purchase_requisitions',
+    name: 'Purchase Requisitions',
+    route: '/purchase-requisitions',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'sales_orders',
+    name: 'Sales Orders',
+    route: '/sales-orders',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'sales_invoices',
+    name: 'Sales Invoices',
+    route: '/sales-invoices',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'sales_shipments',
+    name: 'Sales Shipments',
+    route: '/sales-shipments',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'customer_returns',
+    name: 'Customer Returns',
+    route: '/customer-returns',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'inventory_transactions',
+    name: 'Inventory Transactions',
+    route: '/inventory-transactions',
+    moduleCode: 'inventory',
+    roles: ADMINS,
+    permissions: [],
+  },
 
   // lookups
   {
@@ -465,6 +593,30 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     roles: ADMINS,
     permissions: [],
   },
+  {
+    code: 'units',
+    name: 'Units of Measure',
+    route: '/units',
+    moduleCode: 'lookups',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'payment_methods',
+    name: 'Payment Methods',
+    route: '/payment-methods',
+    moduleCode: 'lookups',
+    roles: ADMINS,
+    permissions: [],
+  },
+  {
+    code: 'areas',
+    name: 'Areas',
+    route: '/areas',
+    moduleCode: 'lookups',
+    roles: ADMINS,
+    permissions: [],
+  },
 
   // access control
   {
@@ -487,6 +639,14 @@ export const SCREEN_SEEDS: ScreenSeed[] = [
     code: 'permissions',
     name: 'Permissions',
     route: '/access-control/permissions',
+    moduleCode: 'access_control',
+    roles: ADMINS,
+    permissions: ['access_control.permissions.manage'],
+  },
+  {
+    code: 'permission_matrix',
+    name: 'Permission Matrix',
+    route: '/access-control/matrix',
     moduleCode: 'access_control',
     roles: ADMINS,
     permissions: ['access_control.permissions.manage'],

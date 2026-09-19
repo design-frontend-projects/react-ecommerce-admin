@@ -11,8 +11,8 @@ interface PermissionEditorProps {
   onSave: (roleId: string, permissionIds: string[]) => void
 }
 
-function groupPermissions(permissions: PermissionRecord[]) {
-  return permissions.reduce<Record<string, PermissionRecord[]>>(
+function groupPermissions(permissions: PermissionRecord[] = []) {
+  return (permissions || []).reduce<Record<string, PermissionRecord[]>>(
     (groups, permission) => {
       const [resource] = permission.name.split('.')
       if (!groups[resource]) {

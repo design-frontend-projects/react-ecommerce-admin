@@ -1,0 +1,271 @@
+- generic [ref=f1e1]:
+  - generic [ref=f1e12]:
+    - link "Skip to main content" [ref=f1e13] [cursor=pointer]:
+      - /url: "#content"
+    - generic [ref=f1e16]:
+      - list [ref=f1e18]:
+        - listitem [ref=f1e19]:
+          - generic [ref=f1e20]:
+            - link "ResPOS ResPOS النسخة المميزة" [ref=f1e21] [cursor=pointer]:
+              - /url: /
+              - img "ResPOS" [ref=f1e23]
+              - generic [ref=f1e24]:
+                - generic [ref=f1e25]: ResPOS
+                - generic [ref=f1e26]: النسخة المميزة
+            - button "تبديل الشريط الجانبي" [ref=f1e27] [cursor=pointer]
+      - generic [ref=f1e29]:
+        - generic [ref=f1e30]:
+          - generic [ref=f1e31]: النظام
+          - list [ref=f1e32]:
+            - listitem [ref=f1e33]:
+              - link "إدارة النظام" [ref=f1e34] [cursor=pointer]:
+                - /url: /system
+            - listitem [ref=f1e38]:
+              - link "سجلات التدقيق" [ref=f1e39] [cursor=pointer]:
+                - /url: /system/audit-logs
+        - generic [ref=f1e44]:
+          - generic [ref=f1e45]: عام
+          - list [ref=f1e46]:
+            - listitem [ref=f1e47]:
+              - link "لوحة التحكم" [ref=f1e48] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f1e55]:
+              - button "نظام نقاط البيع" [ref=f1e56] [cursor=pointer]
+            - listitem [ref=f1e63]:
+              - link "المنتجات" [ref=f1e64] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=f1e70]:
+              - link "الاشتراكات" [ref=f1e71] [cursor=pointer]:
+                - /url: /subscriptions
+            - listitem [ref=f1e75]:
+              - link "الإشعارات" [ref=f1e76] [cursor=pointer]:
+                - /url: /notifications
+        - generic [ref=f1e81]:
+          - generic [ref=f1e82]: نقاط بيع المطعم
+          - list [ref=f1e83]:
+            - listitem [ref=f1e84]:
+              - link "لوحة تحكم نقاط البيع" [ref=f1e85] [cursor=pointer]:
+                - /url: /respos
+            - listitem [ref=f1e92]:
+              - link "شاشة نقاط البيع" [ref=f1e93] [cursor=pointer]:
+                - /url: /respos/pos
+            - listitem [ref=f1e98]:
+              - link "محطة الكابتن" [ref=f1e99] [cursor=pointer]:
+                - /url: /respos/captain
+            - listitem [ref=f1e103]:
+              - link "شاشة المطبخ" [ref=f1e104] [cursor=pointer]:
+                - /url: /respos/kitchen
+            - listitem [ref=f1e109]:
+              - link "إدارة القائمة" [ref=f1e110] [cursor=pointer]:
+                - /url: /respos/menu
+            - listitem [ref=f1e117]:
+              - link "الطوابق والطاولات" [ref=f1e118] [cursor=pointer]:
+                - /url: /respos/floors
+            - listitem [ref=f1e122]:
+              - link "الحجوزات" [ref=f1e123] [cursor=pointer]:
+                - /url: /respos/reservations
+            - listitem [ref=f1e129]:
+              - link "التحليلات" [ref=f1e130] [cursor=pointer]:
+                - /url: /respos/analytics
+            - listitem [ref=f1e135]:
+              - link "الكاشير والدفع" [ref=f1e136] [cursor=pointer]:
+                - /url: /respos/cashier
+            - listitem [ref=f1e140]:
+              - link "المدفوعات" [ref=f1e141] [cursor=pointer]:
+                - /url: /respos/payments
+            - listitem [ref=f1e145]:
+              - link "الشحنات" [ref=f1e146] [cursor=pointer]:
+                - /url: /respos/shipments
+            - listitem [ref=f1e153]:
+              - link "طرق الدفع" [ref=f1e154] [cursor=pointer]:
+                - /url: /payment-methods
+            - listitem [ref=f1e159]:
+              - button "العروض الترويجية" [ref=f1e160] [cursor=pointer]
+            - listitem [ref=f1e167]:
+              - link "المستخدمين والأدوار" [ref=f1e168] [cursor=pointer]:
+                - /url: /users
+            - listitem [ref=f1e176]:
+              - link "التحكم في الوصول" [ref=f1e177] [cursor=pointer]:
+                - /url: /access-control
+        - generic [ref=f1e182]:
+          - generic [ref=f1e183]: المخزون
+          - list [ref=f1e184]:
+            - listitem [ref=f1e185]:
+              - link "لوحة تحكم المخزون" [ref=f1e186] [cursor=pointer]:
+                - /url: /inventory/dashboard
+            - listitem [ref=f1e193]:
+              - link "تنبيهات المخزون" [ref=f1e194] [cursor=pointer]:
+                - /url: /inventory/alerts
+            - listitem [ref=f1e198]:
+              - button "الكتالوج والمنتجات" [ref=f1e199] [cursor=pointer]
+            - listitem [ref=f1e207]:
+              - button "المخزون والمستودعات" [ref=f1e208] [cursor=pointer]
+            - listitem [ref=f1e215]:
+              - button "التتبع وتتبع الأثر" [ref=f1e216] [cursor=pointer]
+            - listitem [ref=f1e224]:
+              - button "المشتريات والتوريد" [ref=f1e225] [cursor=pointer]
+            - listitem [ref=f1e233]:
+              - button "المبيعات والتسليم" [ref=f1e234] [cursor=pointer]
+            - listitem [ref=f1e243]:
+              - button "التقييم والمالية" [ref=f1e244] [cursor=pointer]
+        - generic [ref=f1e250]:
+          - generic [ref=f1e251]: الجداول المرجعية
+          - list [ref=f1e252]:
+            - listitem [ref=f1e253]:
+              - link "الجداول المرجعية الرئيسية" [ref=f1e254] [cursor=pointer]:
+                - /url: /lookups
+            - listitem [ref=f1e260]:
+              - link "الدول" [ref=f1e261] [cursor=pointer]:
+                - /url: /countries
+            - listitem [ref=f1e265]:
+              - link "المدن" [ref=f1e266] [cursor=pointer]:
+                - /url: /cities
+            - listitem [ref=f1e271]:
+              - link "المناطق" [ref=f1e272] [cursor=pointer]:
+                - /url: /areas
+            - listitem [ref=f1e277]:
+              - link "العملات" [ref=f1e278] [cursor=pointer]:
+                - /url: /currencies
+            - listitem [ref=f1e282]:
+              - link "الفروع" [ref=f1e283] [cursor=pointer]:
+                - /url: /branches
+            - listitem [ref=f1e289]:
+              - link "المتاجر" [ref=f1e290] [cursor=pointer]:
+                - /url: /stores
+            - listitem [ref=f1e295]:
+              - link "Channels" [ref=f1e296] [cursor=pointer]:
+                - /url: /channels
+        - generic [ref=f1e304]:
+          - generic [ref=f1e305]: أخرى
+          - list [ref=f1e306]:
+            - listitem [ref=f1e307]:
+              - button "الإعدادات" [ref=f1e308] [cursor=pointer]
+            - listitem [ref=f1e315]:
+              - button "الجداول المرجعية" [ref=f1e316] [cursor=pointer]
+            - listitem [ref=f1e324]:
+              - link "مركز المساعدة" [ref=f1e325] [cursor=pointer]:
+                - /url: /help-center
+      - list [ref=f1e331]:
+        - listitem [ref=f1e332]:
+          - button "‪ ‪ahmed ahmedmedodev@gmail.com" [ref=f1e333] [cursor=pointer]:
+            - generic [ref=f1e334]: ‪
+            - generic [ref=f1e338]:
+              - generic [ref=f1e339]: ‪ahmed
+              - generic [ref=f1e340]: ahmedmedodev@gmail.com
+      - button "Toggle Sidebar" [ref=f1e344]
+    - generic [ref=f1e346]:
+      - banner [ref=f1e347]:
+        - generic [ref=f1e348]:
+          - button "Toggle Sidebar" [ref=f1e349] [cursor=pointer]
+          - button "بحث... ⌘ K" [ref=f1e351] [cursor=pointer]:
+            - generic [ref=f1e352]: بحث...
+            - generic:
+              - generic: ⌘
+              - text: K
+          - generic [ref=f1e353]:
+            - button "Switch Language" [expanded] [ref=f1e354] [cursor=pointer]
+            - button "المظهر" [ref=f1e356] [cursor=pointer]
+            - button "SN" [ref=f1e358] [cursor=pointer]
+          - generic [ref=f1e361]:
+            - combobox "اختر الفرع" [ref=f1e362] [cursor=pointer]
+            - button "Notifications" [ref=f1e363] [cursor=pointer]
+            - button "Reorder notifications" [ref=f1e364] [cursor=pointer]
+            - button "تثبيت الواجهة" [ref=f1e365] [cursor=pointer]
+            - button "SN" [ref=f1e367] [cursor=pointer]
+      - main [ref=f1e370]:
+        - generic [ref=f1e371]:
+          - generic [ref=f1e372]:
+            - heading "المستخدمون والوصول" [level=2] [ref=f1e380]
+            - paragraph [ref=f1e381]: Manage tenant users, assign roles, enforce location boundaries, and monitor security.
+          - generic [ref=f1e382]:
+            - button "دعوة مستخدم" [ref=f1e383] [cursor=pointer]
+            - button "إضافة مستخدم" [ref=f1e385] [cursor=pointer]
+        - generic [ref=f1e387]:
+          - generic [ref=f1e388]:
+            - generic [ref=f1e389]: Total Users
+            - generic [ref=f1e396]: "2"
+          - generic [ref=f1e397]:
+            - generic [ref=f1e398]: Active Users
+            - generic [ref=f1e404]: "2"
+          - generic [ref=f1e405]:
+            - generic [ref=f1e406]: Invited
+            - generic [ref=f1e411]: "0"
+          - generic [ref=f1e412]:
+            - generic [ref=f1e413]: Roles
+            - generic [ref=f1e418]: "7"
+        - generic [ref=f1e419]:
+          - tablist [ref=f1e420]:
+            - tab "المستخدمون" [selected] [ref=f1e421] [cursor=pointer]
+            - tab "الأدوار" [ref=f1e422] [cursor=pointer]
+            - tab "الصلاحيات" [ref=f1e423] [cursor=pointer]
+          - tabpanel "المستخدمون" [ref=f1e424]:
+            - generic [ref=f1e425]:
+              - generic [ref=f1e426]:
+                - generic [ref=f1e427]:
+                  - textbox "Filter users..." [ref=f1e428]
+                  - generic [ref=f1e429]:
+                    - button "Status" [ref=f1e430] [cursor=pointer]
+                    - button "Role" [ref=f1e431] [cursor=pointer]
+                - button "عرض" [ref=f1e433] [cursor=pointer]
+              - table [ref=f1e436]:
+                - rowgroup [ref=f1e437]:
+                  - row [ref=f1e438]:
+                    - columnheader [ref=f1e439]:
+                      - checkbox "Select all" [ref=f1e440] [cursor=pointer]
+                    - columnheader [ref=f1e441]:
+                      - button "اسم المستخدم" [ref=f1e443] [cursor=pointer]
+                    - columnheader "الاسم" [ref=f1e445]
+                    - columnheader [ref=f1e447]:
+                      - button "البريد الإلكتروني" [ref=f1e449] [cursor=pointer]
+                    - columnheader "رقم الهاتف" [ref=f1e451]
+                    - columnheader [ref=f1e453]:
+                      - button "الحالة" [ref=f1e455] [cursor=pointer]
+                    - columnheader [ref=f1e457]:
+                      - button "الدور" [ref=f1e459] [cursor=pointer]
+                    - columnheader [ref=f1e461]
+                - rowgroup [ref=f1e462]:
+                  - row [ref=f1e463]:
+                    - cell [ref=f1e464]:
+                      - checkbox "Select row" [ref=f1e465] [cursor=pointer]
+                    - cell "messi10010" [ref=f1e466]
+                    - cell "medo zoz" [ref=f1e468]
+                    - cell "messi10010@gmail.com" [ref=f1e470]
+                    - cell "+201124748078" [ref=f1e472]
+                    - cell "active" [ref=f1e474]
+                    - cell "admin" [ref=f1e477]
+                    - cell [ref=f1e484]:
+                      - button "Open menu" [ref=f1e485] [cursor=pointer]
+                  - row [ref=f1e487]:
+                    - cell [ref=f1e488]:
+                      - checkbox "Select row" [ref=f1e489] [cursor=pointer]
+                    - cell "ahmedmedodev" [ref=f1e490]
+                    - cell "‪ahmed hassan" [ref=f1e492]
+                    - cell "ahmedmedodev@gmail.com" [ref=f1e494]
+                    - cell "+201124748078" [ref=f1e496]
+                    - cell "active" [ref=f1e498]
+                    - cell "super_admin" [ref=f1e501]
+                    - cell [ref=f1e506]:
+                      - button "Open menu" [ref=f1e507] [cursor=pointer]
+              - generic [ref=f1e509]:
+                - generic [ref=f1e510]: تم تحديد 0 من أصل 2 صفوف.
+                - generic [ref=f1e511]:
+                  - generic [ref=f1e512]:
+                    - paragraph [ref=f1e513]: عدد الصفوف في الصفحة
+                    - combobox [ref=f1e514] [cursor=pointer]:
+                      - generic: "10"
+                  - generic [ref=f1e515]: الصفحة 1 من 1
+                  - generic [ref=f1e516]:
+                    - button "الذهاب إلى الصفحة الأولى" [disabled]
+                    - button "الذهاب إلى الصفحة السابقة" [disabled]
+                    - button "Go to next page" [disabled]
+                    - button "Go to last page" [disabled]
+  - generic [ref=f1e517]:
+    - heading "Command Palette" [level=2] [ref=f1e518]
+    - paragraph [ref=f1e519]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=f1e7]:
+    - heading "Command Palette" [level=2] [ref=f1e8]
+    - paragraph [ref=f1e9]: Search for a command to run...
+  - menu "Switch Language" [active] [ref=f1e521]:
+    - menuitem "English" [ref=f1e522]
+    - menuitem "العربية" [ref=f1e523]

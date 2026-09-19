@@ -172,29 +172,33 @@ async function renameLegacyPermissions() {
   }
 }
 
-export async function ensureBasePermissionsSeeded() {
-  await renameLegacyPermissions()
+let baseSeedPromise: Promise<void> | null = null
 
-  await Promise.all(
-    BASE_PERMISSION_DEFINITIONS.map((permission) => {
-      const { resource, action } = splitPermissionName(permission.name)
-      return prisma.permissions.upsert({
-        where: { name: permission.name },
-        update: {
-          description: permission.description,
-          resource,
-          action,
-          updated_at: new Date(),
-        },
-        create: {
-          name: permission.name,
-          description: permission.description,
-          resource,
-          action,
-        },
-      })
-    })
-  )
+export async function ensureBasePermissionsSeeded() {
+  if (baseSeedPromise) return baseSeedPromise
+
+  baseSeedPromise = (async () => {
+    try {
+      await renameLegacyPermissions()
+
+      for (const permission of BASE_PERMISSION_DEFINITIONS) {
+        const { resource, action } = splitPermissionName(permission.name)
+        await prisma.permissions.upsert({
+          where: { name: permission.name },
+          update: {
+            description: permission.description,
+            resource,
+            action,
+            updated_at: new Date(),
+          },
+          create: {
+            name: permission.name,
+            description: permission.description,
+            resource,
+            action,
+          },
+        })
+      }
 
   const permissions = (await prisma.permissions.findMany()) as Array<{
     id: string
@@ -247,6 +251,12 @@ export async function ensureBasePermissionsSeeded() {
       skipDuplicates: true,
     })
   }
+  } finally {
+    baseSeedPromise = null
+  }
+  })()
+
+  return baseSeedPromise
 }
 
 export async function getRolesWithPermissions(): Promise<

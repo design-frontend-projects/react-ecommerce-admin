@@ -182,21 +182,24 @@ export async function processPosSale(
     }
 
     // ── 5. Calculate totals ──
+    const round2 = (val: Prisma.Decimal) =>
+      val.toDecimalPlaces(2, Prisma.Decimal.ROUND_HALF_UP)
+
     let subtotal = new Prisma.Decimal(0)
-    let totalDiscount = toDecimal(input.orderDiscountAmount)
+    let totalDiscount = round2(toDecimal(input.orderDiscountAmount))
     let totalTax = new Prisma.Decimal(0)
 
     const lineItems = input.items.map((item, index) => {
       const qty = toDecimal(item.quantity)
-      const price = toDecimal(item.unitPrice)
-      const cost = toDecimal(item.unitCost)
-      const lineDiscount = toDecimal(item.discountAmount)
-      const lineTax = toDecimal(item.taxAmount)
-      const lineTotal = qty.times(price).minus(lineDiscount)
+      const price = round2(toDecimal(item.unitPrice))
+      const cost = round2(toDecimal(item.unitCost))
+      const lineDiscount = round2(toDecimal(item.discountAmount))
+      const lineTax = round2(toDecimal(item.taxAmount))
+      const lineTotal = round2(qty.times(price).minus(lineDiscount))
 
-      subtotal = subtotal.plus(qty.times(price))
-      totalDiscount = totalDiscount.plus(lineDiscount)
-      totalTax = totalTax.plus(lineTax)
+      subtotal = round2(subtotal.plus(qty.times(price)))
+      totalDiscount = round2(totalDiscount.plus(lineDiscount))
+      totalTax = round2(totalTax.plus(lineTax))
 
       return {
         productVariantId: item.productVariantId,
@@ -215,7 +218,9 @@ export async function processPosSale(
       }
     })
 
-    const totalAmount = subtotal.minus(toDecimal(input.orderDiscountAmount)).plus(totalTax)
+    const totalAmount = round2(
+      subtotal.minus(round2(toDecimal(input.orderDiscountAmount))).plus(totalTax)
+    )
 
     // ── 6. Validate payments ──
     if (!input.payments || input.payments.length === 0) {
@@ -226,23 +231,26 @@ export async function processPosSale(
     let cashTendered = new Prisma.Decimal(0)
 
     for (const payment of input.payments) {
-      const amt = toDecimal(payment.amount)
+      const amt = round2(toDecimal(payment.amount))
       if (amt.lte(0)) {
         throw new ApiError('Payment amounts must be greater than 0.', 400)
       }
-      totalPayments = totalPayments.plus(amt)
+      totalPayments = round2(totalPayments.plus(amt))
       if (payment.method === 'cash') {
-        cashTendered = cashTendered.plus(amt)
+        cashTendered = round2(cashTendered.plus(amt))
       }
     }
 
     // For cash-only: allow overpayment (change). For mixed/card: exact match required.
-    const cashChange = totalPayments.minus(totalAmount)
-    if (cashChange.lt(0)) {
+    let cashChange = round2(totalPayments.minus(totalAmount))
+    if (cashChange.lt(new Prisma.Decimal('-0.01'))) {
       throw new ApiError(
-        `Payment total (${totalPayments.toString()}) is less than order total (${totalAmount.toString()}).`,
+        `Payment total (${totalPayments.toFixed(2)}) is less than order total (${totalAmount.toFixed(2)}).`,
         400
       )
+    }
+    if (cashChange.lt(0)) {
+      cashChange = new Prisma.Decimal(0)
     }
 
     // If there's change, it must be from cash payment

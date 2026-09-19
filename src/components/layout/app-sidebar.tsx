@@ -39,6 +39,12 @@ function canAccessItem(
   // System owner restriction
   if (item.isSystemOwner && !isSystemOwner) return false
 
+  // If user is admin/owner/super_admin, allow all standard admin routes
+  const isTenantAdmin = normalizedRoleNames.some((r) =>
+    ['admin', 'super_admin', 'owner'].includes(r)
+  )
+  if (isTenantAdmin && !item.isSystemOwner) return true
+
   const hasRoles = item.roles && item.roles.length > 0
   const hasPermissions = item.permissions && item.permissions.length > 0
 
@@ -91,50 +97,49 @@ export function AppSidebar() {
 
   const normalizedRoleNames = currentRoleNames.map(normalizeRoleName)
 
-  // Use dynamic DB navigation if available; otherwise fallback to filtered static navigation
-  const renderedNavGroups =
-    dbNavGroups && dbNavGroups.length > 0
-      ? dbNavGroups
-      : sidebarData.navGroups
-          .map((group) => ({
-            ...group,
-            items: group.items
-              .filter((item) =>
+  // Ensure all nav items and groups from sidebarData are retained and accessible
+  const staticNavGroups = sidebarData.navGroups
+    .map((group) => ({
+      ...group,
+      items: group.items
+        .filter((item) =>
+          canAccessItem(
+            item,
+            normalizedRoleNames,
+            currentPermissionNames,
+            isSystemOwner,
+            !!isSignedIn,
+            isSuperAdminOwner
+          )
+        )
+        .map((item): NavItem => {
+          if ('items' in item && item.items) {
+            return {
+              ...item,
+              items: item.items.filter((subItem) =>
                 canAccessItem(
-                  item,
+                  subItem,
                   normalizedRoleNames,
                   currentPermissionNames,
                   isSystemOwner,
                   !!isSignedIn,
                   isSuperAdminOwner
                 )
-              )
-              .map((item): NavItem => {
-                if ('items' in item && item.items) {
-                  return {
-                    ...item,
-                    items: item.items.filter((subItem) =>
-                      canAccessItem(
-                        subItem,
-                        normalizedRoleNames,
-                        currentPermissionNames,
-                        isSystemOwner,
-                        !!isSignedIn,
-                        isSuperAdminOwner
-                      )
-                    ),
-                  }
-                }
-                return item
-              })
-              .filter((item) => {
-                if ('items' in item && item.items) {
-                  return item.items.length > 0
-                }
-                return true
-              }),
-          }))
-          .filter((group) => group.items.length > 0)
+              ),
+            }
+          }
+          return item
+        })
+        .filter((item) => {
+          if ('items' in item && item.items) {
+            return item.items.length > 0
+          }
+          return true
+        }),
+    }))
+    .filter((group) => group.items.length > 0)
+
+  const renderedNavGroups = staticNavGroups
 
   const isLoading = isSignedIn && navigationQuery.isLoading && !dbNavGroups
 
