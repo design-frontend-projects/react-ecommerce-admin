@@ -117,17 +117,19 @@ export function PosMainScreen() {
   // Sync active session from backend status
   useEffect(() => {
     if (terminalStatus?.activeSession) {
-      setSession({
-        id: terminalStatus.activeSession.id,
-        status: 'open',
-        openedAt: terminalStatus.activeSession.opened_at,
-        openingCash: Number(terminalStatus.activeSession.opening_cash || 0),
-        cashierName: terminalStatus.activeSession.cashier_name || 'Cashier',
-      })
-    } else if (terminalStatus && !terminalStatus.activeSession) {
+      if (session?.id !== terminalStatus.activeSession.id) {
+        setSession({
+          id: terminalStatus.activeSession.id,
+          status: 'open',
+          openedAt: terminalStatus.activeSession.opened_at,
+          openingCash: Number(terminalStatus.activeSession.opening_cash || 0),
+          cashierName: terminalStatus.activeSession.cashier_name || 'Cashier',
+        })
+      }
+    } else if (terminalStatus && !terminalStatus.activeSession && session !== null) {
       setSession(null)
     }
-  }, [terminalStatus, setSession])
+  }, [terminalStatus, session, setSession])
 
   // Query products with live warehouse stock
   const { data: catalogData, isLoading: isLoadingProducts } =

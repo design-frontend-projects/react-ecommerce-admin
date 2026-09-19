@@ -1,5 +1,32 @@
 # Error Log
 
+## [2026-09-19 04:55] - Maximum Update Depth Exceeded when Assigning Users to POS Terminal
+
+- **Type**: Runtime / Logic
+- **Severity**: High
+- **File**: `src/features/pos/pages/pos-terminal-users-page.tsx:892`
+- **Agent**: @frontend-specialist
+- **Root Cause**: In the POS assign cashiers modal dialog (`pos-terminal-users-page.tsx`), the list of available cashiers was wrapped inside `<form onSubmit={handleAssignSubmit}>`. Each cashier list item was a clickable `<div>` with `onClick={() => handleToggleUserSelection(u.id)}` containing a Radix `<Checkbox checked={isChecked} onCheckedChange={() => handleToggleUserSelection(u.id)} />`. Because the checkboxes were placed inside a `<form>`, Radix UI automatically mounted an internal hidden `<input type="checkbox">` (`CheckboxBubbleInput`) to synchronize standard form state. Whenever `checked` toggled, `CheckboxBubbleInput` dispatched a synthetic DOM `click` event with `bubbles: true`. This synthetic click bubbled up through the parent DOM hierarchy and triggered the outer `<div>`'s `onClick` handler, calling `handleToggleUserSelection(u.id)` again in the same cycle. This inverted the selection, re-triggered `CheckboxBubbleInput`, and produced an infinite state-setting render loop (`dispatchSetState` inside Radix `setRef`), culminating in `Error: Maximum update depth exceeded`.
+- **Error Message**:
+  ```
+  installHook.js:1 Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+      at setRef (@radix-ui/react-compose-refs)
+      at dispatchSetStateInternal (react-dom-client.development.js)
+  ```
+- **Fix Applied**:
+  1. In `src/features/pos/pages/pos-terminal-users-page.tsx`:
+     - Filtered event targets in the row `onClick` handler to ignore clicks originating from form checkboxes or inputs (`if (target.closest('[data-slot="checkbox"]') || target.tagName === 'INPUT') return;`).
+     - Added `onClick={(e) => e.stopPropagation()}` on the `<Checkbox>` component to isolate direct checkbox user interactions from the outer row.
+     - Provided `aria-label={`Select ${u.name}`}` on the `<Checkbox>` for accessibility.
+     - Guarded `assignTerminalId` fallback in `<Select value={assignTerminalId || undefined}>`.
+  2. In `src/features/pos/components/pos-main-screen.tsx`:
+     - Guarded `setSession` against redundant store dispatches when `session?.id === terminalStatus.activeSession.id`.
+  3. Created regression test suite in `src/__tests__/pos-terminal-users-assignment.test.tsx` testing both row click and direct checkbox toggling during cashier assignment, verifying complete elimination of the error.
+- **Prevention**: When placing interactive rows with nested Radix `Checkbox` elements inside forms, never attach unrestrained `onClick` handlers on parent elements that toggle the same state as the checkbox without checking `e.target` or stopping event propagation, because Radix form inputs dispatch synthetic bubbling click events to synchronize form state.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-19 04:20] - TypeScript Possibly Undefined Operator Comparison on Promotion Scopes
 
 - **Type**: Syntax / Type

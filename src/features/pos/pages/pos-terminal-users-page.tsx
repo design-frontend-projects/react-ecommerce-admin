@@ -841,7 +841,7 @@ export function PosTerminalUsersPage() {
                 Target Terminal *
               </Label>
               <Select
-                value={assignTerminalId}
+                value={assignTerminalId || undefined}
                 onValueChange={setAssignTerminalId}
               >
                 <SelectTrigger id='modalTerminal' className='text-xs sm:text-sm font-semibold'>
@@ -892,7 +892,13 @@ export function PosTerminalUsersPage() {
                     return (
                       <div
                         key={u.id}
-                        onClick={() => handleToggleUserSelection(u.id)}
+                        onClick={(e) => {
+                          const target = e.target as HTMLElement
+                          if (target.closest('[data-slot="checkbox"]') || target.tagName === 'INPUT') {
+                            return
+                          }
+                          handleToggleUserSelection(u.id)
+                        }}
                         className={cn(
                           'flex items-center justify-between rounded-md p-2 text-xs transition-colors cursor-pointer select-none',
                           isChecked ? 'bg-primary/10 border-primary/30' : 'hover:bg-muted/50',
@@ -903,7 +909,9 @@ export function PosTerminalUsersPage() {
                           <Checkbox
                             checked={isChecked}
                             onCheckedChange={() => handleToggleUserSelection(u.id)}
+                            onClick={(e) => e.stopPropagation()}
                             id={`user-${u.id}`}
+                            aria-label={`Select ${u.name}`}
                           />
                           <Avatar className='h-7 w-7'>
                             {u.avatarUrl && <AvatarImage src={u.avatarUrl} alt={u.name} />}
