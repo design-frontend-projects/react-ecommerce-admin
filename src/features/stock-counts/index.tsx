@@ -9,6 +9,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { CountsDialogs } from './components/dialogs'
 import { CountsPrimaryButtons } from './components/primary-buttons'
 import { CountsProvider } from './components/provider'
+import { CountsStats } from './components/stats'
 import { CountsTable } from './components/table'
 import { useCounts } from './hooks/use-stock-counts'
 
@@ -30,11 +31,13 @@ export function StockCounts() {
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
         <div className='flex flex-wrap items-end justify-between gap-2'>
           <div>
-            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('stockCounts.title')}</h2>
-            <p className='text-muted-foreground'>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
+              {t('stockCounts.title', 'Stock Counts & Audits')}
+            </h2>
+            <p className='text-xs sm:text-sm text-muted-foreground'>
               {t(
                 'stockCounts.description',
-                'Full and cycle counts: freeze a snapshot, count, review variances, and post the result as an adjustment.'
+                'Full warehouse and cycle counts: freeze snapshot quantities, record physical items, audit variances, and post stock adjustments.'
               )}
             </p>
           </div>
@@ -50,7 +53,10 @@ export function StockCounts() {
             <p className='font-medium'>{t('stockCounts.errorLoading', 'Error loading stock counts.')}</p>
           </div>
         ) : (
-          <CountsTable data={counts ?? []} />
+          <div className='flex flex-col gap-5'>
+            <CountsStats data={counts ?? []} />
+            <CountsTable data={counts ?? []} />
+          </div>
         )}
       </Main>
 

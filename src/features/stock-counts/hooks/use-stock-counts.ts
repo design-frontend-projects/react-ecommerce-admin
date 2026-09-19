@@ -96,6 +96,7 @@ export function useCountAction() {
       }
       toast.success(actionSuccess[variables.action] ?? t('stockCounts.toast.updated', 'Count updated successfully'))
       void queryClient.invalidateQueries({ queryKey: countsKey })
+      void queryClient.invalidateQueries({ queryKey: countKey(variables.id) })
     },
     onError: (error: Error) =>
       toast.error(t('stockCounts.toast.updateError', 'Unable to update stock count'), {

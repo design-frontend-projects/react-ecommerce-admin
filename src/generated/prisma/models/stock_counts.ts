@@ -20,18 +20,8 @@ export type stock_countsModel = runtime.Types.Result.DefaultSelection<Prisma.$st
 
 export type AggregateStock_counts = {
   _count: Stock_countsCountAggregateOutputType | null
-  _avg: Stock_countsAvgAggregateOutputType | null
-  _sum: Stock_countsSumAggregateOutputType | null
   _min: Stock_countsMinAggregateOutputType | null
   _max: Stock_countsMaxAggregateOutputType | null
-}
-
-export type Stock_countsAvgAggregateOutputType = {
-  category_id: number | null
-}
-
-export type Stock_countsSumAggregateOutputType = {
-  category_id: number | null
 }
 
 export type Stock_countsMinAggregateOutputType = {
@@ -41,7 +31,7 @@ export type Stock_countsMinAggregateOutputType = {
   store_id: string | null
   warehouse_id: string | null
   warehouse_location_id: string | null
-  category_id: number | null
+  category_id: string | null
   status: $Enums.stock_count_status_enum | null
   is_blind: boolean | null
   snapshot_at: Date | null
@@ -67,7 +57,7 @@ export type Stock_countsMaxAggregateOutputType = {
   store_id: string | null
   warehouse_id: string | null
   warehouse_location_id: string | null
-  category_id: number | null
+  category_id: string | null
   status: $Enums.stock_count_status_enum | null
   is_blind: boolean | null
   snapshot_at: Date | null
@@ -113,14 +103,6 @@ export type Stock_countsCountAggregateOutputType = {
   _all: number
 }
 
-
-export type Stock_countsAvgAggregateInputType = {
-  category_id?: true
-}
-
-export type Stock_countsSumAggregateInputType = {
-  category_id?: true
-}
 
 export type Stock_countsMinAggregateInputType = {
   id?: true
@@ -239,18 +221,6 @@ export type Stock_countsAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: Stock_countsAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: Stock_countsSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: Stock_countsMinAggregateInputType
@@ -281,8 +251,6 @@ export type stock_countsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   _count?: Stock_countsCountAggregateInputType | true
-  _avg?: Stock_countsAvgAggregateInputType
-  _sum?: Stock_countsSumAggregateInputType
   _min?: Stock_countsMinAggregateInputType
   _max?: Stock_countsMaxAggregateInputType
 }
@@ -294,7 +262,7 @@ export type Stock_countsGroupByOutputType = {
   store_id: string | null
   warehouse_id: string | null
   warehouse_location_id: string | null
-  category_id: number | null
+  category_id: string | null
   status: $Enums.stock_count_status_enum
   is_blind: boolean
   snapshot_at: Date | null
@@ -312,8 +280,6 @@ export type Stock_countsGroupByOutputType = {
   created_by_user_id: string | null
   updated_by_user_id: string | null
   _count: Stock_countsCountAggregateOutputType | null
-  _avg: Stock_countsAvgAggregateOutputType | null
-  _sum: Stock_countsSumAggregateOutputType | null
   _min: Stock_countsMinAggregateOutputType | null
   _max: Stock_countsMaxAggregateOutputType | null
 }
@@ -343,7 +309,7 @@ export type stock_countsWhereInput = {
   store_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  category_id?: Prisma.IntNullableFilter<"stock_counts"> | number | null
+  category_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   status?: Prisma.Enumstock_count_status_enumFilter<"stock_counts"> | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFilter<"stock_counts"> | boolean
   snapshot_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
@@ -361,6 +327,7 @@ export type stock_countsWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
 }
 
 export type stock_countsOrderByWithRelationInput = {
@@ -388,6 +355,7 @@ export type stock_countsOrderByWithRelationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouses?: Prisma.warehousesOrderByWithRelationInput
+  categories?: Prisma.categoriesOrderByWithRelationInput
 }
 
 export type stock_countsWhereUniqueInput = Prisma.AtLeast<{
@@ -400,7 +368,7 @@ export type stock_countsWhereUniqueInput = Prisma.AtLeast<{
   store_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouse_location_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  category_id?: Prisma.IntNullableFilter<"stock_counts"> | number | null
+  category_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   status?: Prisma.Enumstock_count_status_enumFilter<"stock_counts"> | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFilter<"stock_counts"> | boolean
   snapshot_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
@@ -418,6 +386,7 @@ export type stock_countsWhereUniqueInput = Prisma.AtLeast<{
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
   warehouses?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
 }, "id">
 
 export type stock_countsOrderByWithAggregationInput = {
@@ -445,10 +414,8 @@ export type stock_countsOrderByWithAggregationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_countsCountOrderByAggregateInput
-  _avg?: Prisma.stock_countsAvgOrderByAggregateInput
   _max?: Prisma.stock_countsMaxOrderByAggregateInput
   _min?: Prisma.stock_countsMinOrderByAggregateInput
-  _sum?: Prisma.stock_countsSumOrderByAggregateInput
 }
 
 export type stock_countsScalarWhereWithAggregatesInput = {
@@ -461,7 +428,7 @@ export type stock_countsScalarWhereWithAggregatesInput = {
   store_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   warehouse_location_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
-  category_id?: Prisma.IntNullableWithAggregatesFilter<"stock_counts"> | number | null
+  category_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_counts"> | string | null
   status?: Prisma.Enumstock_count_status_enumWithAggregatesFilter<"stock_counts"> | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolWithAggregatesFilter<"stock_counts"> | boolean
   snapshot_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_counts"> | Date | string | null
@@ -486,7 +453,6 @@ export type stock_countsCreateInput = {
   count_number?: string
   store_id?: string | null
   warehouse_location_id?: string | null
-  category_id?: number | null
   status?: $Enums.stock_count_status_enum
   is_blind?: boolean
   snapshot_at?: Date | string | null
@@ -504,6 +470,7 @@ export type stock_countsCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_countsInput
+  categories?: Prisma.categoriesCreateNestedOneWithoutStock_countsInput
 }
 
 export type stock_countsUncheckedCreateInput = {
@@ -513,7 +480,7 @@ export type stock_countsUncheckedCreateInput = {
   store_id?: string | null
   warehouse_id?: string | null
   warehouse_location_id?: string | null
-  category_id?: number | null
+  category_id?: string | null
   status?: $Enums.stock_count_status_enum
   is_blind?: boolean
   snapshot_at?: Date | string | null
@@ -538,7 +505,6 @@ export type stock_countsUpdateInput = {
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -556,6 +522,7 @@ export type stock_countsUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouses?: Prisma.warehousesUpdateOneWithoutStock_countsNestedInput
+  categories?: Prisma.categoriesUpdateOneWithoutStock_countsNestedInput
 }
 
 export type stock_countsUncheckedUpdateInput = {
@@ -565,7 +532,7 @@ export type stock_countsUncheckedUpdateInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -591,7 +558,7 @@ export type stock_countsCreateManyInput = {
   store_id?: string | null
   warehouse_id?: string | null
   warehouse_location_id?: string | null
-  category_id?: number | null
+  category_id?: string | null
   status?: $Enums.stock_count_status_enum
   is_blind?: boolean
   snapshot_at?: Date | string | null
@@ -616,7 +583,6 @@ export type stock_countsUpdateManyMutationInput = {
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -642,7 +608,7 @@ export type stock_countsUncheckedUpdateManyInput = {
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -659,6 +625,16 @@ export type stock_countsUncheckedUpdateManyInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Stock_countsListRelationFilter = {
+  every?: Prisma.stock_countsWhereInput
+  some?: Prisma.stock_countsWhereInput
+  none?: Prisma.stock_countsWhereInput
+}
+
+export type stock_countsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type stock_countsCountOrderByAggregateInput = {
@@ -685,10 +661,6 @@ export type stock_countsCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
-}
-
-export type stock_countsAvgOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
 }
 
 export type stock_countsMaxOrderByAggregateInput = {
@@ -743,18 +715,46 @@ export type stock_countsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
-export type stock_countsSumOrderByAggregateInput = {
-  category_id?: Prisma.SortOrder
+export type stock_countsCreateNestedManyWithoutCategoriesInput = {
+  create?: Prisma.XOR<Prisma.stock_countsCreateWithoutCategoriesInput, Prisma.stock_countsUncheckedCreateWithoutCategoriesInput> | Prisma.stock_countsCreateWithoutCategoriesInput[] | Prisma.stock_countsUncheckedCreateWithoutCategoriesInput[]
+  connectOrCreate?: Prisma.stock_countsCreateOrConnectWithoutCategoriesInput | Prisma.stock_countsCreateOrConnectWithoutCategoriesInput[]
+  createMany?: Prisma.stock_countsCreateManyCategoriesInputEnvelope
+  connect?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
 }
 
-export type Stock_countsListRelationFilter = {
-  every?: Prisma.stock_countsWhereInput
-  some?: Prisma.stock_countsWhereInput
-  none?: Prisma.stock_countsWhereInput
+export type stock_countsUncheckedCreateNestedManyWithoutCategoriesInput = {
+  create?: Prisma.XOR<Prisma.stock_countsCreateWithoutCategoriesInput, Prisma.stock_countsUncheckedCreateWithoutCategoriesInput> | Prisma.stock_countsCreateWithoutCategoriesInput[] | Prisma.stock_countsUncheckedCreateWithoutCategoriesInput[]
+  connectOrCreate?: Prisma.stock_countsCreateOrConnectWithoutCategoriesInput | Prisma.stock_countsCreateOrConnectWithoutCategoriesInput[]
+  createMany?: Prisma.stock_countsCreateManyCategoriesInputEnvelope
+  connect?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
 }
 
-export type stock_countsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type stock_countsUpdateManyWithoutCategoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_countsCreateWithoutCategoriesInput, Prisma.stock_countsUncheckedCreateWithoutCategoriesInput> | Prisma.stock_countsCreateWithoutCategoriesInput[] | Prisma.stock_countsUncheckedCreateWithoutCategoriesInput[]
+  connectOrCreate?: Prisma.stock_countsCreateOrConnectWithoutCategoriesInput | Prisma.stock_countsCreateOrConnectWithoutCategoriesInput[]
+  upsert?: Prisma.stock_countsUpsertWithWhereUniqueWithoutCategoriesInput | Prisma.stock_countsUpsertWithWhereUniqueWithoutCategoriesInput[]
+  createMany?: Prisma.stock_countsCreateManyCategoriesInputEnvelope
+  set?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  disconnect?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  delete?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  connect?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  update?: Prisma.stock_countsUpdateWithWhereUniqueWithoutCategoriesInput | Prisma.stock_countsUpdateWithWhereUniqueWithoutCategoriesInput[]
+  updateMany?: Prisma.stock_countsUpdateManyWithWhereWithoutCategoriesInput | Prisma.stock_countsUpdateManyWithWhereWithoutCategoriesInput[]
+  deleteMany?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
+}
+
+export type stock_countsUncheckedUpdateManyWithoutCategoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_countsCreateWithoutCategoriesInput, Prisma.stock_countsUncheckedCreateWithoutCategoriesInput> | Prisma.stock_countsCreateWithoutCategoriesInput[] | Prisma.stock_countsUncheckedCreateWithoutCategoriesInput[]
+  connectOrCreate?: Prisma.stock_countsCreateOrConnectWithoutCategoriesInput | Prisma.stock_countsCreateOrConnectWithoutCategoriesInput[]
+  upsert?: Prisma.stock_countsUpsertWithWhereUniqueWithoutCategoriesInput | Prisma.stock_countsUpsertWithWhereUniqueWithoutCategoriesInput[]
+  createMany?: Prisma.stock_countsCreateManyCategoriesInputEnvelope
+  set?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  disconnect?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  delete?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  connect?: Prisma.stock_countsWhereUniqueInput | Prisma.stock_countsWhereUniqueInput[]
+  update?: Prisma.stock_countsUpdateWithWhereUniqueWithoutCategoriesInput | Prisma.stock_countsUpdateWithWhereUniqueWithoutCategoriesInput[]
+  updateMany?: Prisma.stock_countsUpdateManyWithWhereWithoutCategoriesInput | Prisma.stock_countsUpdateManyWithWhereWithoutCategoriesInput[]
+  deleteMany?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
 }
 
 export type Enumstock_count_status_enumFieldUpdateOperationsInput = {
@@ -803,13 +803,38 @@ export type stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput = {
   deleteMany?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
 }
 
-export type stock_countsCreateWithoutWarehousesInput = {
+export type stock_countsCreateWithoutCategoriesInput = {
   id?: string
   tenant_id: string
   count_number?: string
   store_id?: string | null
   warehouse_location_id?: string | null
-  category_id?: number | null
+  status?: $Enums.stock_count_status_enum
+  is_blind?: boolean
+  snapshot_at?: Date | string | null
+  counted_by?: string | null
+  reviewed_by?: string | null
+  posted_by?: string | null
+  posted_at?: Date | string | null
+  approved_by_user_id?: string | null
+  approved_at?: Date | string | null
+  posted_adjustment_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutStock_countsInput
+}
+
+export type stock_countsUncheckedCreateWithoutCategoriesInput = {
+  id?: string
+  tenant_id: string
+  count_number?: string
+  store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
   status?: $Enums.stock_count_status_enum
   is_blind?: boolean
   snapshot_at?: Date | string | null
@@ -828,13 +853,93 @@ export type stock_countsCreateWithoutWarehousesInput = {
   updated_by_user_id?: string | null
 }
 
+export type stock_countsCreateOrConnectWithoutCategoriesInput = {
+  where: Prisma.stock_countsWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_countsCreateWithoutCategoriesInput, Prisma.stock_countsUncheckedCreateWithoutCategoriesInput>
+}
+
+export type stock_countsCreateManyCategoriesInputEnvelope = {
+  data: Prisma.stock_countsCreateManyCategoriesInput | Prisma.stock_countsCreateManyCategoriesInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_countsUpsertWithWhereUniqueWithoutCategoriesInput = {
+  where: Prisma.stock_countsWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_countsUpdateWithoutCategoriesInput, Prisma.stock_countsUncheckedUpdateWithoutCategoriesInput>
+  create: Prisma.XOR<Prisma.stock_countsCreateWithoutCategoriesInput, Prisma.stock_countsUncheckedCreateWithoutCategoriesInput>
+}
+
+export type stock_countsUpdateWithWhereUniqueWithoutCategoriesInput = {
+  where: Prisma.stock_countsWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_countsUpdateWithoutCategoriesInput, Prisma.stock_countsUncheckedUpdateWithoutCategoriesInput>
+}
+
+export type stock_countsUpdateManyWithWhereWithoutCategoriesInput = {
+  where: Prisma.stock_countsScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_countsUpdateManyMutationInput, Prisma.stock_countsUncheckedUpdateManyWithoutCategoriesInput>
+}
+
+export type stock_countsScalarWhereInput = {
+  AND?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
+  OR?: Prisma.stock_countsScalarWhereInput[]
+  NOT?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_counts"> | string
+  tenant_id?: Prisma.UuidFilter<"stock_counts"> | string
+  count_number?: Prisma.StringFilter<"stock_counts"> | string
+  store_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  warehouse_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  warehouse_location_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  category_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  status?: Prisma.Enumstock_count_status_enumFilter<"stock_counts"> | $Enums.stock_count_status_enum
+  is_blind?: Prisma.BoolFilter<"stock_counts"> | boolean
+  snapshot_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
+  counted_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
+  reviewed_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
+  posted_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
+  posted_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
+  posted_adjustment_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  notes?: Prisma.StringNullableFilter<"stock_counts"> | string | null
+  created_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
+  created_at?: Prisma.DateTimeFilter<"stock_counts"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"stock_counts"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+}
+
+export type stock_countsCreateWithoutWarehousesInput = {
+  id?: string
+  tenant_id: string
+  count_number?: string
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  status?: $Enums.stock_count_status_enum
+  is_blind?: boolean
+  snapshot_at?: Date | string | null
+  counted_by?: string | null
+  reviewed_by?: string | null
+  posted_by?: string | null
+  posted_at?: Date | string | null
+  approved_by_user_id?: string | null
+  approved_at?: Date | string | null
+  posted_adjustment_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  categories?: Prisma.categoriesCreateNestedOneWithoutStock_countsInput
+}
+
 export type stock_countsUncheckedCreateWithoutWarehousesInput = {
   id?: string
   tenant_id: string
   count_number?: string
   store_id?: string | null
   warehouse_location_id?: string | null
-  category_id?: number | null
+  category_id?: string | null
   status?: $Enums.stock_count_status_enum
   is_blind?: boolean
   snapshot_at?: Date | string | null
@@ -879,33 +984,104 @@ export type stock_countsUpdateManyWithWhereWithoutWarehousesInput = {
   data: Prisma.XOR<Prisma.stock_countsUpdateManyMutationInput, Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesInput>
 }
 
-export type stock_countsScalarWhereInput = {
-  AND?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
-  OR?: Prisma.stock_countsScalarWhereInput[]
-  NOT?: Prisma.stock_countsScalarWhereInput | Prisma.stock_countsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"stock_counts"> | string
-  tenant_id?: Prisma.UuidFilter<"stock_counts"> | string
-  count_number?: Prisma.StringFilter<"stock_counts"> | string
-  store_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  warehouse_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  warehouse_location_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  category_id?: Prisma.IntNullableFilter<"stock_counts"> | number | null
-  status?: Prisma.Enumstock_count_status_enumFilter<"stock_counts"> | $Enums.stock_count_status_enum
-  is_blind?: Prisma.BoolFilter<"stock_counts"> | boolean
-  snapshot_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
-  counted_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
-  reviewed_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
-  posted_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
-  posted_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
-  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  approved_at?: Prisma.DateTimeNullableFilter<"stock_counts"> | Date | string | null
-  posted_adjustment_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  notes?: Prisma.StringNullableFilter<"stock_counts"> | string | null
-  created_by?: Prisma.StringNullableFilter<"stock_counts"> | string | null
-  created_at?: Prisma.DateTimeFilter<"stock_counts"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"stock_counts"> | Date | string
-  created_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
-  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_counts"> | string | null
+export type stock_countsCreateManyCategoriesInput = {
+  id?: string
+  tenant_id: string
+  count_number?: string
+  store_id?: string | null
+  warehouse_id?: string | null
+  warehouse_location_id?: string | null
+  status?: $Enums.stock_count_status_enum
+  is_blind?: boolean
+  snapshot_at?: Date | string | null
+  counted_by?: string | null
+  reviewed_by?: string | null
+  posted_by?: string | null
+  posted_at?: Date | string | null
+  approved_by_user_id?: string | null
+  approved_at?: Date | string | null
+  posted_adjustment_id?: string | null
+  notes?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_countsUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  count_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
+  is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  counted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouses?: Prisma.warehousesUpdateOneWithoutStock_countsNestedInput
+}
+
+export type stock_countsUncheckedUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  count_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
+  is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  counted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_countsUncheckedUpdateManyWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  count_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
+  is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  counted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  posted_adjustment_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type stock_countsCreateManyWarehousesInput = {
@@ -914,7 +1090,7 @@ export type stock_countsCreateManyWarehousesInput = {
   count_number?: string
   store_id?: string | null
   warehouse_location_id?: string | null
-  category_id?: number | null
+  category_id?: string | null
   status?: $Enums.stock_count_status_enum
   is_blind?: boolean
   snapshot_at?: Date | string | null
@@ -939,7 +1115,6 @@ export type stock_countsUpdateWithoutWarehousesInput = {
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -956,6 +1131,7 @@ export type stock_countsUpdateWithoutWarehousesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categories?: Prisma.categoriesUpdateOneWithoutStock_countsNestedInput
 }
 
 export type stock_countsUncheckedUpdateWithoutWarehousesInput = {
@@ -964,7 +1140,7 @@ export type stock_countsUncheckedUpdateWithoutWarehousesInput = {
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -989,7 +1165,7 @@ export type stock_countsUncheckedUpdateManyWithoutWarehousesInput = {
   count_number?: Prisma.StringFieldUpdateOperationsInput | string
   store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumstock_count_status_enumFieldUpdateOperationsInput | $Enums.stock_count_status_enum
   is_blind?: Prisma.BoolFieldUpdateOperationsInput | boolean
   snapshot_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1035,6 +1211,7 @@ export type stock_countsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   warehouses?: boolean | Prisma.stock_counts$warehousesArgs<ExtArgs>
+  categories?: boolean | Prisma.stock_counts$categoriesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_counts"]>
 
 export type stock_countsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1062,6 +1239,7 @@ export type stock_countsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   warehouses?: boolean | Prisma.stock_counts$warehousesArgs<ExtArgs>
+  categories?: boolean | Prisma.stock_counts$categoriesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_counts"]>
 
 export type stock_countsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1089,6 +1267,7 @@ export type stock_countsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   warehouses?: boolean | Prisma.stock_counts$warehousesArgs<ExtArgs>
+  categories?: boolean | Prisma.stock_counts$categoriesArgs<ExtArgs>
 }, ExtArgs["result"]["stock_counts"]>
 
 export type stock_countsSelectScalar = {
@@ -1120,18 +1299,22 @@ export type stock_countsSelectScalar = {
 export type stock_countsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "count_number" | "store_id" | "warehouse_id" | "warehouse_location_id" | "category_id" | "status" | "is_blind" | "snapshot_at" | "counted_by" | "reviewed_by" | "posted_by" | "posted_at" | "approved_by_user_id" | "approved_at" | "posted_adjustment_id" | "notes" | "created_by" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_counts"]>
 export type stock_countsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   warehouses?: boolean | Prisma.stock_counts$warehousesArgs<ExtArgs>
+  categories?: boolean | Prisma.stock_counts$categoriesArgs<ExtArgs>
 }
 export type stock_countsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   warehouses?: boolean | Prisma.stock_counts$warehousesArgs<ExtArgs>
+  categories?: boolean | Prisma.stock_counts$categoriesArgs<ExtArgs>
 }
 export type stock_countsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   warehouses?: boolean | Prisma.stock_counts$warehousesArgs<ExtArgs>
+  categories?: boolean | Prisma.stock_counts$categoriesArgs<ExtArgs>
 }
 
 export type $stock_countsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_counts"
   objects: {
     warehouses: Prisma.$warehousesPayload<ExtArgs> | null
+    categories: Prisma.$categoriesPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1140,7 +1323,7 @@ export type $stock_countsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     store_id: string | null
     warehouse_id: string | null
     warehouse_location_id: string | null
-    category_id: number | null
+    category_id: string | null
     status: $Enums.stock_count_status_enum
     is_blind: boolean
     snapshot_at: Date | null
@@ -1552,6 +1735,7 @@ readonly fields: stock_countsFieldRefs;
 export interface Prisma__stock_countsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   warehouses<T extends Prisma.stock_counts$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_counts$warehousesArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  categories<T extends Prisma.stock_counts$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_counts$categoriesArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1587,7 +1771,7 @@ export interface stock_countsFieldRefs {
   readonly store_id: Prisma.FieldRef<"stock_counts", 'String'>
   readonly warehouse_id: Prisma.FieldRef<"stock_counts", 'String'>
   readonly warehouse_location_id: Prisma.FieldRef<"stock_counts", 'String'>
-  readonly category_id: Prisma.FieldRef<"stock_counts", 'Int'>
+  readonly category_id: Prisma.FieldRef<"stock_counts", 'String'>
   readonly status: Prisma.FieldRef<"stock_counts", 'stock_count_status_enum'>
   readonly is_blind: Prisma.FieldRef<"stock_counts", 'Boolean'>
   readonly snapshot_at: Prisma.FieldRef<"stock_counts", 'DateTime'>
@@ -2021,6 +2205,25 @@ export type stock_counts$warehousesArgs<ExtArgs extends runtime.Types.Extensions
    */
   include?: Prisma.warehousesInclude<ExtArgs> | null
   where?: Prisma.warehousesWhereInput
+}
+
+/**
+ * stock_counts.categories
+ */
+export type stock_counts$categoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the categories
+   */
+  select?: Prisma.categoriesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the categories
+   */
+  omit?: Prisma.categoriesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.categoriesInclude<ExtArgs> | null
+  where?: Prisma.categoriesWhereInput
 }
 
 /**
