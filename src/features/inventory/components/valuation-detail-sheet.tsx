@@ -26,16 +26,29 @@ interface ValuationDetailSheetProps {
   item: ValuationItemRow | null
   open: boolean
   onOpenChange: (open: boolean) => void
+  currencySymbol?: string
 }
 
 export function ValuationDetailSheet({
   item,
   open,
   onOpenChange,
+  currencySymbol,
 }: ValuationDetailSheetProps) {
   const { t } = useTranslation()
 
   if (!item) return null
+
+  const symbol = currencySymbol || item.currencySymbol || '$'
+  const formatPrice = (amount: number) => {
+    const formatted = amount.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+    const sym = symbol.trim()
+    const needsSpace = sym.length > 1 && !sym.endsWith(' ')
+    return needsSpace ? `${sym} ${formatted}` : `${sym}${formatted}`
+  }
 
   const avcoTotal = item.onHand * item.avcoUnitCost
   const standardTotal = item.onHand * item.standardUnitCost
@@ -112,10 +125,10 @@ export function ValuationDetailSheet({
                 {t('inventory.valuationPage.avco', 'AVCO (Average)')}
               </div>
               <div className='text-sm font-bold text-foreground'>
-                ${item.avcoUnitCost.toFixed(2)}
+                {formatPrice(item.avcoUnitCost)}
               </div>
               <div className='text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold'>
-                Total: ${avcoTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                Total: {formatPrice(avcoTotal)}
               </div>
             </div>
 
@@ -125,10 +138,10 @@ export function ValuationDetailSheet({
                 {t('inventory.valuationPage.standard', 'Standard Cost')}
               </div>
               <div className='text-sm font-bold text-foreground'>
-                ${item.standardUnitCost.toFixed(2)}
+                {formatPrice(item.standardUnitCost)}
               </div>
               <div className='text-[11px] text-blue-600 dark:text-blue-400 font-semibold'>
-                Total: ${standardTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                Total: {formatPrice(standardTotal)}
               </div>
             </div>
 
@@ -138,10 +151,10 @@ export function ValuationDetailSheet({
                 {t('inventory.valuationPage.fifo', 'FIFO Estimated')}
               </div>
               <div className='text-sm font-bold text-foreground'>
-                ${item.fifoUnitCost.toFixed(2)}
+                {formatPrice(item.fifoUnitCost)}
               </div>
               <div className='text-[11px] text-purple-600 dark:text-purple-400 font-semibold'>
-                Total: ${fifoTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                Total: {formatPrice(fifoTotal)}
               </div>
             </div>
           </div>
@@ -155,7 +168,7 @@ export function ValuationDetailSheet({
               {t('inventory.valuationPage.sellingPrice', 'Unit Selling Price')}
             </span>
             <span className='font-bold text-foreground'>
-              ${item.sellingPrice.toFixed(2)}
+              {formatPrice(item.sellingPrice)}
             </span>
           </div>
 
@@ -164,7 +177,7 @@ export function ValuationDetailSheet({
               {t('inventory.valuationPage.potentialRevenue', 'Potential Gross Revenue')}
             </span>
             <span className='font-bold text-foreground'>
-              ${item.potentialRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {formatPrice(item.potentialRevenue)}
             </span>
           </div>
 

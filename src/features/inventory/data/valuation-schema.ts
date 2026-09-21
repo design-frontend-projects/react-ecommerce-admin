@@ -36,6 +36,7 @@ export const valuationFiltersSchema = z.object({
 })
 
 export type ValuationFilters = z.infer<typeof valuationFiltersSchema>
+export type ValuationFiltersInput = z.input<typeof valuationFiltersSchema>
 
 export interface ValuationItemRow {
   id: string
@@ -73,6 +74,7 @@ export interface ValuationItemRow {
   sharePercent: number
   lastMovementAt?: string | null
   stockStatus: 'in_stock' | 'low_stock' | 'out_of_stock'
+  currencySymbol?: string
 }
 
 export interface ValuationMetrics {
@@ -91,6 +93,13 @@ export interface ValuationMetrics {
   }
 }
 
+export interface TenantCurrencyInfo {
+  currencyId: string | null
+  currencyCode: string
+  currencySymbol: string
+  currencyName?: string | null
+}
+
 export interface ValuationResponse {
   success?: boolean
   items: ValuationItemRow[]
@@ -99,6 +108,7 @@ export interface ValuationResponse {
   limit: number
   totalPages: number
   metrics: ValuationMetrics
+  currency?: TenantCurrencyInfo
 }
 
 export interface ValuationFilterLookups {
@@ -106,4 +116,5 @@ export interface ValuationFilterLookups {
   stores: Array<{ id: string; name: string }>
   categories: Array<{ id: string; name: string }>
   suppliers: Array<{ id: string; name: string; code?: string | null }>
+  currency?: TenantCurrencyInfo
 }

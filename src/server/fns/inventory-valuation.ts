@@ -1,9 +1,8 @@
 'use server'
 
-import { Prisma, type stock_condition_enum } from '@/generated/prisma/client'
-import { ApiError } from '@/server/utils/api-error'
-import { requireTenantId } from '@/server/utils/tenant'
+import type { Prisma, stock_condition_enum } from '@/generated/prisma/client'
 import { runWithTenantContext } from '@/server/context/tenant-context'
+import { requireTenantId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 
 export interface ValuationFilters {
@@ -17,7 +16,14 @@ export interface ValuationFilters {
   valuationMethod?: 'avco' | 'standard' | 'fifo' | 'retail'
   page?: number
   limit?: number
-  sortBy?: 'totalValue' | 'onHand' | 'unitCost' | 'productName' | 'sku' | 'potentialRevenue' | 'potentialMargin'
+  sortBy?:
+    | 'totalValue'
+    | 'onHand'
+    | 'unitCost'
+    | 'productName'
+    | 'sku'
+    | 'potentialRevenue'
+    | 'potentialMargin'
   sortOrder?: 'asc' | 'desc'
 }
 
@@ -57,6 +63,7 @@ export interface ValuationItemRow {
   sharePercent: number
   lastMovementAt?: string | null
   stockStatus: 'in_stock' | 'low_stock' | 'out_of_stock'
+  currencySymbol?: string
 }
 
 export interface ValuationMetrics {
@@ -75,6 +82,13 @@ export interface ValuationMetrics {
   }
 }
 
+export interface TenantCurrencyInfo {
+  currencyId: string | null
+  currencyCode: string
+  currencySymbol: string
+  currencyName?: string | null
+}
+
 export interface ValuationResponse {
   items: ValuationItemRow[]
   total: number
@@ -82,6 +96,7 @@ export interface ValuationResponse {
   limit: number
   totalPages: number
   metrics: ValuationMetrics
+  currency?: TenantCurrencyInfo
 }
 
 export interface ValuationFilterLookups {
@@ -89,6 +104,79 @@ export interface ValuationFilterLookups {
   stores: Array<{ id: string; name: string }>
   categories: Array<{ id: string; name: string }>
   suppliers: Array<{ id: string; name: string; code?: string | null }>
+  currency?: TenantCurrencyInfo
+}
+
+/**
+ * Resolve tenant's default currency ID and symbol from the database
+ */
+export async function resolveTenantDefaultCurrency(
+  tenantId: string
+): Promise<TenantCurrencyInfo> {
+  const fallbackCurrency: TenantCurrencyInfo = {
+    currencyId: null,
+    currencyCode: 'USD',
+    currencySymbol: '$',
+    currencyName: 'US Dollar',
+  }
+
+  try {
+    const tenant = await prisma.tenants.findUnique({
+      where: { id: tenantId },
+      select: {
+        id: true,
+        currency_id: true,
+        currency_code: true,
+        currencies: {
+          select: {
+            id: true,
+            code: true,
+            symbol: true,
+            name: true,
+          },
+        },
+      },
+    })
+
+    if (!tenant) return fallbackCurrency
+
+    let currency = tenant.currencies
+    if (!currency && tenant.currency_id) {
+      currency = await prisma.currencies.findUnique({
+        where: { id: tenant.currency_id },
+        select: { id: true, code: true, symbol: true, name: true },
+      })
+    }
+
+    if (!currency && tenant.currency_code) {
+      currency = await prisma.currencies.findFirst({
+        where: { code: tenant.currency_code },
+        select: { id: true, code: true, symbol: true, name: true },
+      })
+    }
+
+    if (currency) {
+      return {
+        currencyId: currency.id || tenant.currency_id || null,
+        currencyCode: currency.code || tenant.currency_code || 'USD',
+        currencySymbol: currency.symbol || '$',
+        currencyName: currency.name || null,
+      }
+    }
+
+    if (tenant.currency_code) {
+      return {
+        currencyId: tenant.currency_id || null,
+        currencyCode: tenant.currency_code,
+        currencySymbol: tenant.currency_code,
+        currencyName: null,
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to resolve tenant default currency:', err)
+  }
+
+  return fallbackCurrency
 }
 
 /**
@@ -152,71 +240,74 @@ export async function listInventoryValuation(
       where.product_variants = productVariantConditions
     }
 
-    // Fetch matching stock balance records
-    const rawBalances = await prisma.stock_balances.findMany({
-      where,
-      include: {
-        product_variants: {
-          select: {
-            id: true,
-            sku: true,
-            barcode: true,
-            name: true,
-            products: {
-              select: {
-                id: true,
-                name: true,
-                sku: true,
-                reorder_level: true,
-                category_id: true,
-                supplier_id: true,
-                categories: {
-                  select: {
-                    id: true,
-                    name: true,
+    // Fetch tenant default currency & matching stock balance records
+    const [tenantCurrency, rawBalances] = await Promise.all([
+      resolveTenantDefaultCurrency(tenantId),
+      prisma.stock_balances.findMany({
+        where,
+        include: {
+          product_variants: {
+            select: {
+              id: true,
+              sku: true,
+              barcode: true,
+              name: true,
+              products: {
+                select: {
+                  id: true,
+                  name: true,
+                  sku: true,
+                  reorder_level: true,
+                  category_id: true,
+                  supplier_id: true,
+                  categories: {
+                    select: {
+                      id: true,
+                      name: true,
+                    },
                   },
-                },
-                suppliers: {
-                  select: {
-                    id: true,
-                    name: true,
-                    code: true,
+                  suppliers: {
+                    select: {
+                      id: true,
+                      name: true,
+                      code: true,
+                    },
                   },
                 },
               },
-            },
-            price_list_items: {
-              select: {
-                price: true,
-                cost_price: true,
+              price_list_items: {
+                select: {
+                  price: true,
+                  cost_price: true,
+                },
+                take: 1,
               },
-              take: 1,
+            },
+          },
+          warehouses: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
+          warehouse_locations: {
+            select: {
+              id: true,
+              name: true,
+              code: true,
+            },
+          },
+          stores: {
+            select: {
+              store_id: true,
+              name: true,
             },
           },
         },
-        warehouses: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-          },
-        },
-        warehouse_locations: {
-          select: {
-            id: true,
-            name: true,
-            code: true,
-          },
-        },
-        stores: {
-          select: {
-            store_id: true,
-            name: true,
-          },
-        },
-      },
-      orderBy: [{ updated_at: 'desc' }],
-    })
+        orderBy: [{ updated_at: 'desc' }],
+      }),
+    ])
 
     // Process each record and calculate valuation metrics
     let grandAvcoTotal = 0
@@ -246,7 +337,8 @@ export async function listInventoryValuation(
       const sellingPrice = Number(pli?.price ?? 0)
 
       // Fallback heuristics if cost is zero
-      const safeAvco = avcoCost > 0 ? avcoCost : (sellingPrice > 0 ? sellingPrice * 0.7 : 0)
+      const safeAvco =
+        avcoCost > 0 ? avcoCost : sellingPrice > 0 ? sellingPrice * 0.7 : 0
       const safeStandard = standardCost > 0 ? standardCost : safeAvco
       // FIFO estimate: slightly adjusted or latest cost
       const safeFifo = safeAvco > 0 ? safeAvco : safeStandard
@@ -265,7 +357,7 @@ export async function listInventoryValuation(
       const potentialRevenue = onHand * sellingPrice
       const potentialMargin =
         potentialRevenue > 0
-          ? ((potentialRevenue - (onHand * safeAvco)) / potentialRevenue) * 100
+          ? ((potentialRevenue - onHand * safeAvco) / potentialRevenue) * 100
           : 0
 
       // Stock status
@@ -318,8 +410,11 @@ export async function listInventoryValuation(
         potentialRevenue,
         potentialMargin,
         sharePercent: 0, // Will be computed after total
-        lastMovementAt: b.last_movement_at ? b.last_movement_at.toISOString() : null,
+        lastMovementAt: b.last_movement_at
+          ? b.last_movement_at.toISOString()
+          : null,
         stockStatus,
+        currencySymbol: tenantCurrency.currencySymbol,
       }
     })
 
@@ -331,24 +426,34 @@ export async function listInventoryValuation(
 
     // Compute share percentages
     for (const row of mappedRows) {
-      row.sharePercent = activeTotalValuation > 0 ? (row.totalValue / activeTotalValuation) * 100 : 0
+      row.sharePercent =
+        activeTotalValuation > 0
+          ? (row.totalValue / activeTotalValuation) * 100
+          : 0
     }
 
     // Filter by stockStatus if specified
     let filteredRows = mappedRows
     if (filters.stockStatus && filters.stockStatus !== 'all') {
       if (filters.stockStatus === 'out_of_stock') {
-        filteredRows = mappedRows.filter((r) => r.stockStatus === 'out_of_stock')
+        filteredRows = mappedRows.filter(
+          (r) => r.stockStatus === 'out_of_stock'
+        )
       } else if (filters.stockStatus === 'low_stock') {
         filteredRows = mappedRows.filter((r) => r.stockStatus === 'low_stock')
       } else if (filters.stockStatus === 'in_stock') {
         filteredRows = mappedRows.filter((r) => r.stockStatus === 'in_stock')
       } else if (filters.stockStatus === 'high_value') {
         // Top 20% highest value rows or value > $500
-        const sortedByVal = [...mappedRows].sort((a, b) => b.totalValue - a.totalValue)
+        const sortedByVal = [...mappedRows].sort(
+          (a, b) => b.totalValue - a.totalValue
+        )
         const thresholdIndex = Math.max(1, Math.floor(sortedByVal.length * 0.2))
-        const highValueThreshold = sortedByVal[thresholdIndex]?.totalValue || 500
-        filteredRows = mappedRows.filter((r) => r.totalValue >= highValueThreshold)
+        const highValueThreshold =
+          sortedByVal[thresholdIndex]?.totalValue || 500
+        filteredRows = mappedRows.filter(
+          (r) => r.totalValue >= highValueThreshold
+        )
       }
     }
 
@@ -407,7 +512,9 @@ export async function listInventoryValuation(
 
     // Summary metrics
     const averageMargin =
-      grandRetailTotal > 0 ? ((grandRetailTotal - grandAvcoTotal) / grandRetailTotal) * 100 : 0
+      grandRetailTotal > 0
+        ? ((grandRetailTotal - grandAvcoTotal) / grandRetailTotal) * 100
+        : 0
 
     const metrics: ValuationMetrics = {
       totalValuation: activeTotalValuation,
@@ -432,6 +539,7 @@ export async function listInventoryValuation(
       limit,
       totalPages,
       metrics,
+      currency: tenantCurrency,
     }
   })
 }
@@ -440,38 +548,51 @@ export async function listInventoryValuation(
  * Fetch filter lookups from real database tables (warehouses, stores, categories, suppliers)
  * for the authenticated tenant.
  */
-export async function getValuationFilterLookups(authUserId: string): Promise<ValuationFilterLookups> {
+export async function getValuationFilterLookups(
+  authUserId: string
+): Promise<ValuationFilterLookups> {
   const tenantId = await requireTenantId(authUserId)
 
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
-    const [warehouses, stores, categories, suppliers] = await Promise.all([
-      prisma.warehouses.findMany({
-        where: { tenant_id: tenantId, is_active: true },
-        select: { id: true, name: true, code: true },
-        orderBy: { name: 'asc' },
-      }),
-      prisma.stores.findMany({
-        where: { tenant_id: tenantId, status: true },
-        select: { store_id: true, name: true },
-        orderBy: { name: 'asc' },
-      }),
-      prisma.categories.findMany({
-        where: { tenant_id: tenantId },
-        select: { id: true, name: true },
-        orderBy: { name: 'asc' },
-      }),
-      prisma.suppliers.findMany({
-        where: { tenant_id: tenantId, is_active: true },
-        select: { id: true, name: true, code: true },
-        orderBy: { name: 'asc' },
-      }),
-    ])
+    const [tenantCurrency, warehouses, stores, categories, suppliers] =
+      await Promise.all([
+        resolveTenantDefaultCurrency(tenantId),
+        prisma.warehouses.findMany({
+          where: { tenant_id: tenantId, is_active: true },
+          select: { id: true, name: true, code: true },
+          orderBy: { name: 'asc' },
+        }),
+        prisma.stores.findMany({
+          where: { tenant_id: tenantId, status: true },
+          select: { store_id: true, name: true },
+          orderBy: { name: 'asc' },
+        }),
+        prisma.categories.findMany({
+          where: { tenant_id: tenantId },
+          select: { id: true, name: true },
+          orderBy: { name: 'asc' },
+        }),
+        prisma.suppliers.findMany({
+          where: { tenant_id: tenantId, is_active: true },
+          select: { id: true, name: true, code: true },
+          orderBy: { name: 'asc' },
+        }),
+      ])
 
     return {
-      warehouses: warehouses.map((w) => ({ id: w.id, name: w.name, code: w.code })),
+      warehouses: warehouses.map((w) => ({
+        id: w.id,
+        name: w.name,
+        code: w.code,
+      })),
       stores: stores.map((s) => ({ id: s.store_id, name: s.name || 'Store' })),
       categories: categories.map((c) => ({ id: c.id, name: c.name })),
-      suppliers: suppliers.map((s) => ({ id: s.id, name: s.name, code: s.code })),
+      suppliers: suppliers.map((s) => ({
+        id: s.id,
+        name: s.name,
+        code: s.code,
+      })),
+      currency: tenantCurrency,
     }
   })
 }

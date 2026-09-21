@@ -1,36 +1,33 @@
-import { useState, useMemo, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useCallback, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  DollarSign,
-  Boxes,
-  PieChart as PieIcon,
-  Building2,
-  Download,
-  RotateCcw,
-  Calculator,
-  ArrowUpDown,
-  ArrowUp,
   ArrowDown,
-  Info,
+  ArrowUp,
+  ArrowUpDown,
+  Boxes,
+  Building2,
+  Calculator,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  Layers,
+  DollarSign,
+  Download,
   FileJson,
+  Info,
+  PieChart as PieIcon,
+  RotateCcw,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import {
   Select,
@@ -39,31 +36,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Skeleton } from '@/components/ui/skeleton'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-import { Search } from '@/components/search'
-import { LanguageSwitch } from '@/components/language-switch'
-import { ThemeSwitch } from '@/components/theme-switch'
 import { ProfileDropdown } from '@/components/profile-dropdown'
-import {
-  useInventoryValuation,
-  useValuationLookups,
-  useDebounce,
-} from '../hooks/use-inventory-valuation'
-import { ValuationFilterBar } from '../components/valuation-filter-bar'
+import { Search } from '@/components/search'
+import { ThemeSwitch } from '@/components/theme-switch'
 import { ValuationDetailSheet } from '../components/valuation-detail-sheet'
+import { ValuationFilterBar } from '../components/valuation-filter-bar'
 import type {
   ValuationFilters,
   ValuationItemRow,
   ValuationMethod,
 } from '../data/valuation-schema'
+import {
+  useDebounce,
+  useInventoryValuation,
+  useValuationLookups,
+} from '../hooks/use-inventory-valuation'
 
 export function InventoryValuationPage() {
   const { t } = useTranslation()
@@ -89,7 +94,9 @@ export function InventoryValuationPage() {
   })
 
   // Selected item for detail sheet
-  const [selectedItem, setSelectedItem] = useState<ValuationItemRow | null>(null)
+  const [selectedItem, setSelectedItem] = useState<ValuationItemRow | null>(
+    null
+  )
   const [detailOpen, setDetailOpen] = useState(false)
 
   // Query lookups from real database tables
@@ -98,7 +105,6 @@ export function InventoryValuationPage() {
     stores,
     categories,
     suppliers,
-    isLoading: lookupsLoading,
   } = useValuationLookups()
 
   // Merged filters including debounced search
@@ -118,15 +124,34 @@ export function InventoryValuationPage() {
     limit,
     totalPages,
     metrics,
+    currency,
     isLoading,
     isFetching,
     refetch,
   } = useInventoryValuation(activeFilters)
 
+  const currencySymbol = currency?.currencySymbol || '$'
+
+  const formatPrice = useCallback(
+    (amount: number) => {
+      const formatted = amount.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+      const sym = (currencySymbol || '$').trim()
+      const needsSpace = sym.length > 1 && !sym.endsWith(' ')
+      return needsSpace ? `${sym} ${formatted}` : `${sym}${formatted}`
+    },
+    [currencySymbol]
+  )
+
   // Handle filter changes
-  const handleFilterChange = useCallback((updates: Partial<ValuationFilters>) => {
-    setFilters((prev) => ({ ...prev, ...updates }))
-  }, [])
+  const handleFilterChange = useCallback(
+    (updates: Partial<ValuationFilters>) => {
+      setFilters((prev) => ({ ...prev, ...updates }))
+    },
+    []
+  )
 
   // Handle reset
   const handleResetFilters = useCallback(() => {
@@ -175,10 +200,10 @@ export function InventoryValuationPage() {
       'Supplier',
       'Condition',
       'On-Hand Qty',
-      'Unit Cost',
-      'Selling Price',
-      'Total Valuation',
-      'Potential Revenue',
+      `Unit Cost (${currencySymbol})`,
+      `Selling Price (${currencySymbol})`,
+      `Total Valuation (${currencySymbol})`,
+      `Potential Revenue (${currencySymbol})`,
       'Margin %',
       'Share %',
     ]
@@ -225,7 +250,8 @@ export function InventoryValuationPage() {
       items,
     }
     const dataStr =
-      'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2))
+      'data:text/json;charset=utf-8,' +
+      encodeURIComponent(JSON.stringify(exportData, null, 2))
     const downloadAnchor = document.createElement('a')
     downloadAnchor.setAttribute('href', dataStr)
     downloadAnchor.setAttribute(
@@ -252,26 +278,46 @@ export function InventoryValuationPage() {
       </Header>
 
       {/* Main Container */}
-      <Main className='flex flex-1 flex-col gap-4 sm:gap-6 max-w-7xl mx-auto w-full'>
+      <Main className='mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 sm:gap-6'>
         {/* Page Hero & Header Actions */}
-        <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+        <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
           <div>
             <div className='flex items-center gap-2'>
-              <h1 className='text-2xl font-extrabold tracking-tight sm:text-3xl flex items-center gap-2.5'>
+              <h1 className='flex items-center gap-2.5 text-2xl font-extrabold tracking-tight sm:text-3xl'>
                 <div className='flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'>
                   <DollarSign className='h-5 w-5' />
                 </div>
-                {t('inventory.valuationPage.title', 'Inventory Asset Valuation Report')}
+                {t(
+                  'inventory.valuationPage.title',
+                  'Inventory Asset Valuation Report'
+                )}
               </h1>
               <Badge
                 variant='outline'
-                className='hidden md:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-500/10 border-emerald-300 dark:border-emerald-800'
+                className='hidden items-center gap-1 border-emerald-300 bg-emerald-500/10 text-[11px] font-semibold text-emerald-700 md:inline-flex dark:border-emerald-800'
               >
-                <span className='h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse' />
-                {t('inventory.valuationPage.liveSynchronized', 'Live Ledger Synchronized')}
+                <span className='h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500' />
+                {t(
+                  'inventory.valuationPage.liveSynchronized',
+                  'Live Ledger Synchronized'
+                )}
               </Badge>
+              {currency && (
+                <Badge
+                  variant='secondary'
+                  className='hidden items-center gap-1 font-mono text-[11px] font-semibold sm:inline-flex'
+                  title={currency.currencyName || currency.currencyCode}
+                >
+                  <span className='font-bold text-foreground'>
+                    {currencySymbol}
+                  </span>
+                  <span className='text-muted-foreground'>
+                    ({currency.currencyCode})
+                  </span>
+                </Badge>
+              )}
             </div>
-            <p className='text-xs sm:text-sm text-muted-foreground mt-1'>
+            <p className='mt-1 text-xs text-muted-foreground sm:text-sm'>
               {t(
                 'inventory.valuationPage.description',
                 'Financial valuation of on-hand inventory across all facilities, categories, and costing methods.'
@@ -280,24 +326,40 @@ export function InventoryValuationPage() {
           </div>
 
           {/* Quick Action Controls */}
-          <div className='flex items-center gap-2 flex-wrap'>
+          <div className='flex flex-wrap items-center gap-2'>
             {/* Valuation Method Selector */}
-            <div className='flex items-center gap-1.5 bg-muted/40 p-1 rounded-xl border shadow-2xs'>
-              <Calculator className='h-4 w-4 text-muted-foreground ml-1.5 shrink-0' />
+            <div className='flex items-center gap-1.5 rounded-xl border bg-muted/40 p-1 shadow-2xs'>
+              <Calculator className='ml-1.5 h-4 w-4 shrink-0 text-muted-foreground' />
               <Select
                 value={currentMethod}
                 onValueChange={(val: ValuationMethod) =>
                   handleFilterChange({ valuationMethod: val, page: 1 })
                 }
               >
-                <SelectTrigger className='h-8 text-xs font-semibold border-0 bg-transparent shadow-none w-[175px]'>
-                  <SelectValue placeholder={t('inventory.valuationPage.method', 'Valuation Method')} />
+                <SelectTrigger className='h-8 w-[175px] border-0 bg-transparent text-xs font-semibold shadow-none'>
+                  <SelectValue
+                    placeholder={t(
+                      'inventory.valuationPage.method',
+                      'Valuation Method'
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='avco'>{t('inventory.valuationPage.avco', 'Weighted Average (AVCO)')}</SelectItem>
-                  <SelectItem value='standard'>{t('inventory.valuationPage.standard', 'Standard Cost')}</SelectItem>
-                  <SelectItem value='fifo'>{t('inventory.valuationPage.fifo', 'FIFO Estimated')}</SelectItem>
-                  <SelectItem value='retail'>{t('inventory.valuationPage.retail', 'Retail Realization')}</SelectItem>
+                  <SelectItem value='avco'>
+                    {t(
+                      'inventory.valuationPage.avco',
+                      'Weighted Average (AVCO)'
+                    )}
+                  </SelectItem>
+                  <SelectItem value='standard'>
+                    {t('inventory.valuationPage.standard', 'Standard Cost')}
+                  </SelectItem>
+                  <SelectItem value='fifo'>
+                    {t('inventory.valuationPage.fifo', 'FIFO Estimated')}
+                  </SelectItem>
+                  <SelectItem value='retail'>
+                    {t('inventory.valuationPage.retail', 'Retail Realization')}
+                  </SelectItem>
                 </SelectContent>
               </Select>
 
@@ -306,7 +368,7 @@ export function InventoryValuationPage() {
                   <TooltipTrigger asChild>
                     <button
                       type='button'
-                      className='p-1 text-muted-foreground hover:text-foreground rounded-sm'
+                      className='rounded-sm p-1 text-muted-foreground hover:text-foreground'
                     >
                       <Info className='h-3.5 w-3.5' />
                     </button>
@@ -327,11 +389,18 @@ export function InventoryValuationPage() {
               size='sm'
               onClick={() => refetch()}
               disabled={isFetching}
-              className='h-9 text-xs gap-1.5'
-              title={t('inventory.valuationPage.refresh', 'Refresh Live Valuation')}
+              className='h-9 gap-1.5 text-xs'
+              title={t(
+                'inventory.valuationPage.refresh',
+                'Refresh Live Valuation'
+              )}
             >
-              <RotateCcw className={`h-3.5 w-3.5 ${isFetching ? 'animate-spin' : ''}`} />
-              <span className='hidden sm:inline'>{t('inventory.valuationPage.refresh', 'Refresh')}</span>
+              <RotateCcw
+                className={`h-3.5 w-3.5 ${isFetching ? 'animate-spin' : ''}`}
+              />
+              <span className='hidden sm:inline'>
+                {t('inventory.valuationPage.refresh', 'Refresh')}
+              </span>
             </Button>
 
             {/* Export CSV */}
@@ -340,10 +409,12 @@ export function InventoryValuationPage() {
               size='sm'
               onClick={exportCSV}
               disabled={!items.length}
-              className='h-9 text-xs gap-1.5'
+              className='h-9 gap-1.5 text-xs'
             >
               <Download className='h-3.5 w-3.5' />
-              <span>{t('inventory.valuationPage.exportCsv', 'Export CSV')}</span>
+              <span>
+                {t('inventory.valuationPage.exportCsv', 'Export CSV')}
+              </span>
             </Button>
 
             {/* Export JSON */}
@@ -352,36 +423,41 @@ export function InventoryValuationPage() {
               size='sm'
               onClick={exportJSON}
               disabled={!items.length}
-              className='h-9 text-xs gap-1.5'
+              className='h-9 gap-1.5 text-xs'
             >
               <FileJson className='h-3.5 w-3.5' />
-              <span className='hidden md:inline'>{t('inventory.valuationPage.exportJson', 'JSON')}</span>
+              <span className='hidden md:inline'>
+                {t('inventory.valuationPage.exportJson', 'JSON')}
+              </span>
             </Button>
           </div>
         </div>
 
         {/* Executive KPI Metric Cards */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
           {/* Total Asset Valuation */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className='shadow-xs bg-emerald-50/25 dark:bg-emerald-950/15 border-emerald-200 dark:border-emerald-900/60 overflow-hidden relative'>
-              <CardContent className='p-4 flex items-center justify-between'>
+            <Card className='relative overflow-hidden border-emerald-200 bg-emerald-50/25 shadow-xs dark:border-emerald-900/60 dark:bg-emerald-950/15'>
+              <CardContent className='flex items-center justify-between p-4'>
                 <div className='space-y-1'>
-                  <p className='text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider'>
-                    {t('inventory.valuationPage.totalValuation', 'Total Asset Value')}
+                  <p className='text-xs font-bold tracking-wider text-emerald-800 uppercase dark:text-emerald-300'>
+                    {t(
+                      'inventory.valuationPage.totalValuation',
+                      'Total Asset Value'
+                    )}
                   </p>
                   <p className='text-2xl font-extrabold text-emerald-700 dark:text-emerald-400'>
-                    ${metrics.totalValuation.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    {formatPrice(metrics.totalValuation)}
                   </p>
                   <div className='flex items-center gap-1.5 text-[11px] text-muted-foreground'>
-                    <Badge variant='secondary' className='text-[10px] px-1 py-0 font-bold'>
+                    <Badge
+                      variant='secondary'
+                      className='px-1 py-0 text-[10px] font-bold'
+                    >
                       {currentMethod.toUpperCase()}
                     </Badge>
                     <span>
@@ -392,7 +468,7 @@ export function InventoryValuationPage() {
                     </span>
                   </div>
                 </div>
-                <div className='p-3 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'>
+                <div className='rounded-xl bg-emerald-500/10 p-3 text-emerald-600 dark:text-emerald-400'>
                   <DollarSign className='h-6 w-6' />
                 </div>
               </CardContent>
@@ -405,11 +481,14 @@ export function InventoryValuationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.05 }}
           >
-            <Card className='shadow-xs overflow-hidden'>
-              <CardContent className='p-4 flex items-center justify-between'>
+            <Card className='overflow-hidden shadow-xs'>
+              <CardContent className='flex items-center justify-between p-4'>
                 <div className='space-y-1'>
-                  <p className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
-                    {t('inventory.valuationPage.totalUnits', 'Total Stock Units')}
+                  <p className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+                    {t(
+                      'inventory.valuationPage.totalUnits',
+                      'Total Stock Units'
+                    )}
                   </p>
                   <p className='text-2xl font-extrabold text-foreground'>
                     {metrics.totalUnits.toLocaleString()}
@@ -421,7 +500,7 @@ export function InventoryValuationPage() {
                     })}
                   </p>
                 </div>
-                <div className='p-3 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400'>
+                <div className='rounded-xl bg-blue-500/10 p-3 text-blue-600 dark:text-blue-400'>
                   <Boxes className='h-6 w-6' />
                 </div>
               </CardContent>
@@ -434,23 +513,26 @@ export function InventoryValuationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <Card className='shadow-xs overflow-hidden'>
-              <CardContent className='p-4 flex items-center justify-between'>
+            <Card className='overflow-hidden shadow-xs'>
+              <CardContent className='flex items-center justify-between p-4'>
                 <div className='space-y-1'>
-                  <p className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
-                    {t('inventory.valuationPage.potentialRevenue', 'Potential Sales Revenue')}
+                  <p className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+                    {t(
+                      'inventory.valuationPage.potentialRevenue',
+                      'Potential Sales Revenue'
+                    )}
                   </p>
                   <p className='text-2xl font-extrabold text-foreground'>
-                    ${metrics.totalPotentialRevenue.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    {formatPrice(metrics.totalPotentialRevenue)}
                   </p>
                   <p className='text-[11px] text-muted-foreground'>
-                    {t('inventory.valuationPage.grossRetail', 'Gross retail realization')}
+                    {t(
+                      'inventory.valuationPage.grossRetail',
+                      'Gross retail realization'
+                    )}
                   </p>
                 </div>
-                <div className='p-3 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400'>
+                <div className='rounded-xl bg-purple-500/10 p-3 text-purple-600 dark:text-purple-400'>
                   <PieIcon className='h-6 w-6' />
                 </div>
               </CardContent>
@@ -463,11 +545,14 @@ export function InventoryValuationPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.15 }}
           >
-            <Card className='shadow-xs overflow-hidden'>
-              <CardContent className='p-4 flex items-center justify-between'>
+            <Card className='overflow-hidden shadow-xs'>
+              <CardContent className='flex items-center justify-between p-4'>
                 <div className='space-y-1'>
-                  <p className='text-xs font-semibold text-muted-foreground uppercase tracking-wider'>
-                    {t('inventory.valuationPage.potentialMargin', 'Estimated Margin')}
+                  <p className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+                    {t(
+                      'inventory.valuationPage.potentialMargin',
+                      'Estimated Margin'
+                    )}
                   </p>
                   <p className='text-2xl font-extrabold text-foreground'>
                     {metrics.averageMargin.toFixed(1)}%
@@ -475,10 +560,13 @@ export function InventoryValuationPage() {
                   <p className='text-[11px] text-muted-foreground'>
                     {metrics.lowStockCount > 0
                       ? `${metrics.lowStockCount} items near reorder level`
-                      : t('inventory.valuationPage.retailMarkup', 'Retail markup margin')}
+                      : t(
+                          'inventory.valuationPage.retailMarkup',
+                          'Retail markup margin'
+                        )}
                   </p>
                 </div>
-                <div className='p-3 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400'>
+                <div className='rounded-xl bg-amber-500/10 p-3 text-amber-600 dark:text-amber-400'>
                   <Building2 className='h-6 w-6' />
                 </div>
               </CardContent>
@@ -504,10 +592,13 @@ export function InventoryValuationPage() {
 
         {/* Valuation Table Card */}
         <Card className='shadow-xs'>
-          <CardHeader className='pb-3 flex flex-row items-center justify-between'>
+          <CardHeader className='flex flex-row items-center justify-between pb-3'>
             <div>
               <CardTitle className='text-base font-bold'>
-                {t('inventory.valuationPage.breakdown', 'Inventory Valuation Breakdown')}
+                {t(
+                  'inventory.valuationPage.breakdown',
+                  'Inventory Valuation Breakdown'
+                )}
               </CardTitle>
               <CardDescription className='text-xs'>
                 {t(
@@ -534,11 +625,19 @@ export function InventoryValuationPage() {
                 ))}
               </div>
             ) : items.length === 0 ? (
-              <div className='p-12 text-center text-sm text-muted-foreground border rounded-lg bg-muted/10 space-y-2'>
+              <div className='space-y-2 rounded-lg border bg-muted/10 p-12 text-center text-sm text-muted-foreground'>
                 <p className='font-semibold text-foreground'>
-                  {t('inventory.valuationPage.noRecords', 'No inventory valuation records match the selected filters.')}
+                  {t(
+                    'inventory.valuationPage.noRecords',
+                    'No inventory valuation records match the selected filters.'
+                  )}
                 </p>
-                <Button variant='outline' size='sm' onClick={handleResetFilters} className='text-xs mt-2'>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={handleResetFilters}
+                  className='mt-2 text-xs'
+                >
                   <RotateCcw className='mr-1.5 h-3.5 w-3.5' />
                   {t('common.reset', 'Reset Filters')}
                 </Button>
@@ -549,17 +648,24 @@ export function InventoryValuationPage() {
                   <TableHeader>
                     <TableRow className='bg-muted/40'>
                       <TableHead className='text-xs font-semibold'>
-                        {t('inventory.valuationPage.facility', 'Store / Warehouse')}
+                        {t(
+                          'inventory.valuationPage.facility',
+                          'Store / Warehouse'
+                        )}
                       </TableHead>
 
                       <TableHead
-                        className='text-xs font-semibold cursor-pointer select-none hover:text-foreground'
+                        className='cursor-pointer text-xs font-semibold select-none hover:text-foreground'
                         onClick={() => handleSort('sku')}
                       >
                         <div className='flex items-center gap-1'>
                           {t('inventory.valuationPage.sku', 'SKU')}
                           {filters.sortBy === 'sku' ? (
-                            filters.sortOrder === 'asc' ? <ArrowUp className='h-3 w-3' /> : <ArrowDown className='h-3 w-3' />
+                            filters.sortOrder === 'asc' ? (
+                              <ArrowUp className='h-3 w-3' />
+                            ) : (
+                              <ArrowDown className='h-3 w-3' />
+                            )
                           ) : (
                             <ArrowUpDown className='h-3 w-3 opacity-40' />
                           )}
@@ -567,13 +673,17 @@ export function InventoryValuationPage() {
                       </TableHead>
 
                       <TableHead
-                        className='text-xs font-semibold cursor-pointer select-none hover:text-foreground'
+                        className='cursor-pointer text-xs font-semibold select-none hover:text-foreground'
                         onClick={() => handleSort('productName')}
                       >
                         <div className='flex items-center gap-1'>
                           {t('inventory.valuationPage.product', 'Product Name')}
                           {filters.sortBy === 'productName' ? (
-                            filters.sortOrder === 'asc' ? <ArrowUp className='h-3 w-3' /> : <ArrowDown className='h-3 w-3' />
+                            filters.sortOrder === 'asc' ? (
+                              <ArrowUp className='h-3 w-3' />
+                            ) : (
+                              <ArrowDown className='h-3 w-3' />
+                            )
                           ) : (
                             <ArrowUpDown className='h-3 w-3 opacity-40' />
                           )}
@@ -585,13 +695,17 @@ export function InventoryValuationPage() {
                       </TableHead>
 
                       <TableHead
-                        className='text-xs font-semibold text-end cursor-pointer select-none hover:text-foreground'
+                        className='cursor-pointer text-end text-xs font-semibold select-none hover:text-foreground'
                         onClick={() => handleSort('onHand')}
                       >
                         <div className='flex items-center justify-end gap-1'>
                           {t('inventory.valuationPage.onHand', 'On-Hand Qty')}
                           {filters.sortBy === 'onHand' ? (
-                            filters.sortOrder === 'asc' ? <ArrowUp className='h-3 w-3' /> : <ArrowDown className='h-3 w-3' />
+                            filters.sortOrder === 'asc' ? (
+                              <ArrowUp className='h-3 w-3' />
+                            ) : (
+                              <ArrowDown className='h-3 w-3' />
+                            )
                           ) : (
                             <ArrowUpDown className='h-3 w-3 opacity-40' />
                           )}
@@ -599,13 +713,20 @@ export function InventoryValuationPage() {
                       </TableHead>
 
                       <TableHead
-                        className='text-xs font-semibold text-end cursor-pointer select-none hover:text-foreground'
+                        className='cursor-pointer text-end text-xs font-semibold select-none hover:text-foreground'
                         onClick={() => handleSort('unitCost')}
                       >
                         <div className='flex items-center justify-end gap-1'>
-                          {t('inventory.valuationPage.cost', 'Unit Cost')}
+                          <span>
+                            {t('inventory.valuationPage.cost', 'Unit Cost')} (
+                            {currencySymbol})
+                          </span>
                           {filters.sortBy === 'unitCost' ? (
-                            filters.sortOrder === 'asc' ? <ArrowUp className='h-3 w-3' /> : <ArrowDown className='h-3 w-3' />
+                            filters.sortOrder === 'asc' ? (
+                              <ArrowUp className='h-3 w-3' />
+                            ) : (
+                              <ArrowDown className='h-3 w-3' />
+                            )
                           ) : (
                             <ArrowUpDown className='h-3 w-3 opacity-40' />
                           )}
@@ -613,13 +734,23 @@ export function InventoryValuationPage() {
                       </TableHead>
 
                       <TableHead
-                        className='text-xs font-semibold text-end cursor-pointer select-none hover:text-foreground'
+                        className='cursor-pointer text-end text-xs font-semibold select-none hover:text-foreground'
                         onClick={() => handleSort('totalValue')}
                       >
                         <div className='flex items-center justify-end gap-1'>
-                          {t('inventory.valuationPage.totalCost', 'Total Valuation')}
+                          <span>
+                            {t(
+                              'inventory.valuationPage.totalCost',
+                              'Total Valuation'
+                            )}{' '}
+                            ({currencySymbol})
+                          </span>
                           {filters.sortBy === 'totalValue' ? (
-                            filters.sortOrder === 'asc' ? <ArrowUp className='h-3 w-3' /> : <ArrowDown className='h-3 w-3' />
+                            filters.sortOrder === 'asc' ? (
+                              <ArrowUp className='h-3 w-3' />
+                            ) : (
+                              <ArrowDown className='h-3 w-3' />
+                            )
                           ) : (
                             <ArrowUpDown className='h-3 w-3 opacity-40' />
                           )}
@@ -627,20 +758,30 @@ export function InventoryValuationPage() {
                       </TableHead>
 
                       <TableHead
-                        className='text-xs font-semibold text-end cursor-pointer select-none hover:text-foreground'
+                        className='cursor-pointer text-end text-xs font-semibold select-none hover:text-foreground'
                         onClick={() => handleSort('potentialRevenue')}
                       >
                         <div className='flex items-center justify-end gap-1'>
-                          {t('inventory.valuationPage.potentialRevenue', 'Revenue / Margin')}
+                          <span>
+                            {t(
+                              'inventory.valuationPage.potentialRevenue',
+                              'Revenue / Margin'
+                            )}{' '}
+                            ({currencySymbol})
+                          </span>
                           {filters.sortBy === 'potentialRevenue' ? (
-                            filters.sortOrder === 'asc' ? <ArrowUp className='h-3 w-3' /> : <ArrowDown className='h-3 w-3' />
+                            filters.sortOrder === 'asc' ? (
+                              <ArrowUp className='h-3 w-3' />
+                            ) : (
+                              <ArrowDown className='h-3 w-3' />
+                            )
                           ) : (
                             <ArrowUpDown className='h-3 w-3 opacity-40' />
                           )}
                         </div>
                       </TableHead>
 
-                      <TableHead className='text-xs font-semibold text-end w-28'>
+                      <TableHead className='w-28 text-end text-xs font-semibold'>
                         {t('inventory.valuationPage.share', '% Share')}
                       </TableHead>
                     </TableRow>
@@ -654,13 +795,15 @@ export function InventoryValuationPage() {
                           setSelectedItem(row)
                           setDetailOpen(true)
                         }}
-                        className='text-xs hover:bg-muted/40 cursor-pointer transition-colors'
+                        className='cursor-pointer text-xs transition-colors hover:bg-muted/40'
                       >
                         <TableCell className='font-medium'>
                           <div className='flex flex-col'>
-                            <span>{row.warehouseName || row.storeName || 'Default'}</span>
+                            <span>
+                              {row.warehouseName || row.storeName || 'Default'}
+                            </span>
                             {row.warehouseCode && (
-                              <span className='text-[10px] text-muted-foreground font-mono'>
+                              <span className='font-mono text-[10px] text-muted-foreground'>
                                 [{row.warehouseCode}]
                               </span>
                             )}
@@ -671,7 +814,10 @@ export function InventoryValuationPage() {
                           <div className='flex items-center gap-1.5'>
                             <span>{row.sku}</span>
                             {row.condition && row.condition !== 'good' && (
-                              <Badge variant='outline' className='text-[9px] px-1 py-0 uppercase'>
+                              <Badge
+                                variant='outline'
+                                className='px-1 py-0 text-[9px] uppercase'
+                              >
                                 {row.condition}
                               </Badge>
                             )}
@@ -679,18 +825,21 @@ export function InventoryValuationPage() {
                         </TableCell>
 
                         <TableCell>
-                          <div className='font-medium text-foreground max-w-[200px] truncate'>
+                          <div className='max-w-[200px] truncate font-medium text-foreground'>
                             {row.productName}
                           </div>
                           {row.supplierName && (
-                            <div className='text-[10px] text-muted-foreground truncate'>
+                            <div className='truncate text-[10px] text-muted-foreground'>
                               {row.supplierName}
                             </div>
                           )}
                         </TableCell>
 
                         <TableCell>
-                          <Badge variant='secondary' className='text-[10px] font-normal'>
+                          <Badge
+                            variant='secondary'
+                            className='text-[10px] font-normal'
+                          >
                             {row.categoryName}
                           </Badge>
                         </TableCell>
@@ -698,33 +847,27 @@ export function InventoryValuationPage() {
                         <TableCell className='text-end font-bold tabular-nums'>
                           <div>{row.onHand.toLocaleString()}</div>
                           {row.reserved > 0 && (
-                            <div className='text-[10px] text-muted-foreground font-normal'>
+                            <div className='text-[10px] font-normal text-muted-foreground'>
                               {row.reserved} res.
                             </div>
                           )}
                         </TableCell>
 
                         <TableCell className='text-end text-muted-foreground tabular-nums'>
-                          ${row.unitCost.toFixed(2)}
+                          {formatPrice(row.unitCost)}
                         </TableCell>
 
-                        <TableCell className='text-end font-extrabold text-foreground tabular-nums text-sm'>
-                          ${row.totalValue.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}
+                        <TableCell className='text-end text-sm font-extrabold text-foreground tabular-nums'>
+                          {formatPrice(row.totalValue)}
                         </TableCell>
 
                         <TableCell className='text-end tabular-nums'>
-                          <div>
-                            ${row.potentialRevenue.toLocaleString(undefined, {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })}
-                          </div>
+                          <div>{formatPrice(row.potentialRevenue)}</div>
                           <div
                             className={`text-[10px] font-semibold ${
-                              row.potentialMargin >= 20 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600'
+                              row.potentialMargin >= 20
+                                ? 'text-emerald-600 dark:text-emerald-400'
+                                : 'text-amber-600'
                             }`}
                           >
                             {row.potentialMargin.toFixed(1)}%
@@ -737,7 +880,10 @@ export function InventoryValuationPage() {
                               {row.sharePercent.toFixed(1)}%
                             </span>
                             <div className='w-12'>
-                              <Progress value={Math.min(100, row.sharePercent * 3)} className='h-1.5' />
+                              <Progress
+                                value={Math.min(100, row.sharePercent * 3)}
+                                className='h-1.5'
+                              />
                             </div>
                           </div>
                         </TableCell>
@@ -750,12 +896,16 @@ export function InventoryValuationPage() {
 
             {/* Pagination Controls */}
             {!isLoading && total > 0 && (
-              <div className='flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-4 border-t text-xs text-muted-foreground'>
+              <div className='mt-4 flex flex-col items-center justify-between gap-4 border-t pt-4 text-xs text-muted-foreground sm:flex-row'>
                 <div className='flex items-center gap-2'>
-                  <span>{t('inventory.valuationPage.rowsPerPage', 'Rows per page')}:</span>
+                  <span>
+                    {t('inventory.valuationPage.rowsPerPage', 'Rows per page')}:
+                  </span>
                   <Select
                     value={String(limit)}
-                    onValueChange={(val) => handleFilterChange({ limit: Number(val), page: 1 })}
+                    onValueChange={(val) =>
+                      handleFilterChange({ limit: Number(val), page: 1 })
+                    }
                   >
                     <SelectTrigger className='h-8 w-16 text-xs'>
                       <SelectValue />
@@ -845,6 +995,7 @@ export function InventoryValuationPage() {
         item={selectedItem}
         open={detailOpen}
         onOpenChange={setDetailOpen}
+        currencySymbol={currencySymbol}
       />
     </>
   )

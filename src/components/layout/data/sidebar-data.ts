@@ -250,38 +250,7 @@ export function useSidebarData(): SidebarData {
             icon: Wallet,
             roles: ADMINS,
           },
-          {
-            title: t('sidebar.promotions'),
-            icon: TrendingUp,
-            roles: ADMINS,
-            items: [
-              {
-                title: t('sidebar.allPromotions', 'All Promotions'),
-                url: '/promotions',
-                roles: ADMINS,
-              },
-              {
-                title: t('sidebar.newPromotion', 'New Promotion'),
-                url: '/promotions/new',
-                roles: ADMINS,
-              },
-              {
-                title: t('sidebar.coupons', 'Coupons & Vouchers'),
-                url: '/promotions/coupons',
-                roles: ADMINS,
-              },
-              {
-                title: t('sidebar.discountApprovals', 'Discount Approvals'),
-                url: '/promotions/discount-approvals',
-                roles: ADMINS,
-              },
-              {
-                title: t('sidebar.discountReports', 'Discount Reports'),
-                url: '/promotions/reports',
-                roles: ADMINS,
-              },
-            ],
-          },
+
           // Admin only
           {
             title: t('sidebar.usersRoles'),
@@ -411,7 +380,10 @@ export function useSidebarData(): SidebarData {
                 permissions: ['inventory.stock.view', 'inventory.stock.manage'],
               },
               {
-                title: t('sidebar.inventoryTransactions', 'Inventory Transactions'),
+                title: t(
+                  'sidebar.inventoryTransactions',
+                  'Inventory Transactions'
+                ),
                 url: '/inventory-transactions',
                 icon: ArrowLeftRight,
                 roles: ADMINS,
@@ -511,6 +483,38 @@ export function useSidebarData(): SidebarData {
                   'inventory.purchasing.view',
                   'inventory.purchasing.manage',
                 ],
+              },
+            ],
+          },
+          {
+            title: t('sidebar.promotions'),
+            icon: TrendingUp,
+            roles: ADMINS,
+            items: [
+              {
+                title: t('sidebar.allPromotions', 'All Promotions'),
+                url: '/promotions',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.newPromotion', 'New Promotion'),
+                url: '/promotions/new',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.coupons', 'Coupons & Vouchers'),
+                url: '/promotions/coupons',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.discountApprovals', 'Discount Approvals'),
+                url: '/promotions/discount-approvals',
+                roles: ADMINS,
+              },
+              {
+                title: t('sidebar.discountReports', 'Discount Reports'),
+                url: '/promotions/reports',
+                roles: ADMINS,
               },
             ],
           },

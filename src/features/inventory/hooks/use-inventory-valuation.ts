@@ -37,7 +37,7 @@ export function useDebounce<T>(value: T, delay = 350): T {
  * Hook to query inventory valuation data with server-side filters,
  * pagination, and aggregate KPI metrics.
  */
-export function useInventoryValuation(filters: ValuationFilters = {}) {
+export function useInventoryValuation(filters: Partial<ValuationFilters> = {}) {
   const query = useAuthQuery<ValuationResponse>({
     queryKey: [...valuationQueryKey, filters],
     queryFn: (getToken) => fetchInventoryValuation(getToken, filters),
@@ -68,6 +68,12 @@ export function useInventoryValuation(filters: ValuationFilters = {}) {
         retail: 0,
       },
     },
+    currency: query.data?.currency ?? {
+      currencyId: null,
+      currencyCode: 'USD',
+      currencySymbol: '$',
+      currencyName: 'US Dollar',
+    },
   }
 }
 
@@ -89,5 +95,6 @@ export function useValuationLookups() {
     stores: query.data?.stores ?? [],
     categories: query.data?.categories ?? [],
     suppliers: query.data?.suppliers ?? [],
+    currency: query.data?.currency,
   }
 }

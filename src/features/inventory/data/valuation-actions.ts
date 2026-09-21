@@ -6,7 +6,75 @@ import type {
   ValuationResponse,
   ValuationFilterLookups,
   ValuationItemRow,
+  TenantCurrencyInfo,
 } from './valuation-schema'
+
+/**
+ * Resolves tenant default currency for client queries
+ */
+export async function resolveClientTenantCurrency(
+  tenantId?: string | null
+): Promise<TenantCurrencyInfo> {
+  const fallbackCurrency: TenantCurrencyInfo = {
+    currencyId: null,
+    currencyCode: 'USD',
+    currencySymbol: '$',
+    currencyName: 'US Dollar',
+  }
+
+  if (!tenantId) return fallbackCurrency
+
+  try {
+    const { data: tenantRecord } = await supabase
+      .from('tenants')
+      .select('currency_id, currency_code, currencies(id, code, symbol, name)')
+      .eq('id', tenantId)
+      .maybeSingle()
+
+    const cur = Array.isArray(tenantRecord?.currencies)
+      ? tenantRecord.currencies[0]
+      : tenantRecord?.currencies
+
+    if (cur?.symbol) {
+      return {
+        currencyId: cur.id || tenantRecord?.currency_id || null,
+        currencyCode: cur.code || tenantRecord?.currency_code || 'USD',
+        currencySymbol: cur.symbol,
+        currencyName: cur.name || null,
+      }
+    }
+
+    if (tenantRecord?.currency_id) {
+      const { data: curRecord } = await supabase
+        .from('currencies')
+        .select('id, code, symbol, name')
+        .eq('id', tenantRecord.currency_id)
+        .maybeSingle()
+
+      if (curRecord?.symbol) {
+        return {
+          currencyId: curRecord.id,
+          currencyCode: curRecord.code,
+          currencySymbol: curRecord.symbol,
+          currencyName: curRecord.name || null,
+        }
+      }
+    }
+
+    if (tenantRecord?.currency_code) {
+      return {
+        currencyId: tenantRecord.currency_id || null,
+        currencyCode: tenantRecord.currency_code,
+        currencySymbol: tenantRecord.currency_code,
+        currencyName: null,
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to resolve client tenant currency:', err)
+  }
+
+  return fallbackCurrency
+}
 
 const BASE = '/api/inventory/valuation'
 
@@ -16,7 +84,7 @@ const BASE = '/api/inventory/valuation'
  */
 export async function fetchInventoryValuation(
   getToken: TokenGetter,
-  filters: ValuationFilters = {}
+  filters: Partial<ValuationFilters> = {}
 ): Promise<ValuationResponse> {
   const params = new URLSearchParams()
   for (const [key, value] of Object.entries(filters)) {
@@ -56,6 +124,7 @@ export async function fetchInventoryValuation(
 
   // Fallback: Direct client-side calculation with Supabase
   const tenantId = await resolveClientTenantId()
+  const tenantCurrency = await resolveClientTenantCurrency(tenantId)
   let balancesQuery = supabase
     .from('stock_balances')
     .select(
@@ -222,6 +291,7 @@ export async function fetchInventoryValuation(
       sharePercent: 0,
       lastMovementAt: b.last_movement_at || null,
       stockStatus,
+      currencySymbol: tenantCurrency.currencySymbol,
     }
   })
 
@@ -289,6 +359,7 @@ export async function fetchInventoryValuation(
         retail: grandRetailTotal,
       },
     },
+    currency: tenantCurrency,
   }
 }
 
@@ -333,5 +404,6 @@ export async function fetchValuationLookups(
     stores: (storeRes.data || []).map((s: any) => ({ id: s.store_id, name: s.name || 'Store' })),
     categories: (catRes.data || []).map((c: any) => ({ id: String(c.id), name: c.name })),
     suppliers: (supRes.data || []).map((s: any) => ({ id: s.id, name: s.name, code: s.code })),
+    currency: await resolveClientTenantCurrency(tenantId),
   }
 }
