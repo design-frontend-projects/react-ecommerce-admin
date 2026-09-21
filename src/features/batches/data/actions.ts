@@ -4,7 +4,9 @@ import {
   expireSweepResponseSchema,
   type BatchListItem,
   type BatchToggleStatus,
+  type CreateBatchInput,
   type ExpireSweepResult,
+  type UpdateBatchInput,
 } from './schema'
 
 const BASE = '/api/inventory/batches'
@@ -16,6 +18,36 @@ export async function fetchBatches(
   return batchListResponseSchema.parse(payload).data
 }
 
+export async function createBatch(
+  getToken: TokenGetter,
+  input: CreateBatchInput
+): Promise<void> {
+  await authorizedRequest(getToken, BASE, {
+    method: 'POST',
+    body: JSON.stringify(input),
+  })
+}
+
+export async function updateBatch(
+  getToken: TokenGetter,
+  id: string,
+  input: UpdateBatchInput
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}?id=${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  })
+}
+
+export async function deleteBatch(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}?id=${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  })
+}
+
 export async function setBatchStatus(
   getToken: TokenGetter,
   id: string,
@@ -23,7 +55,7 @@ export async function setBatchStatus(
 ): Promise<void> {
   await authorizedRequest(getToken, BASE, {
     method: 'POST',
-    body: JSON.stringify({ id, status }),
+    body: JSON.stringify({ action: 'status', id, status }),
   })
 }
 
