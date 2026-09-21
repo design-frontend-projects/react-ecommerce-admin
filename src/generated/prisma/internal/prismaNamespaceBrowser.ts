@@ -1666,6 +1666,7 @@ export const TenantsScalarFieldEnum = {
   metadata: 'metadata',
   country_id: 'country_id',
   currency_id: 'currency_id',
+  city_id: 'city_id',
   auth_user_id: 'auth_user_id',
   onboarding_complete: 'onboarding_complete'
 } as const

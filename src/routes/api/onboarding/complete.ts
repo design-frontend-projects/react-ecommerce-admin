@@ -48,6 +48,8 @@ const POST = withAuth(null, async ({ request, auth }) => {
         displayName: body.displayName?.trim(),
         legalName: body.legalName?.trim(),
         countryId: body.countryId.trim(),
+        cityId: body.cityId?.trim(),
+        currencyId: body.currencyId?.trim(),
         activity: body.activity.trim(),
         paymentMethod: body.paymentMethod.trim(),
         transferRef: body.transferRef?.trim(),

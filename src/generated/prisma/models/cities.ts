@@ -196,6 +196,7 @@ export type citiesWhereInput = {
   suppliers?: Prisma.SuppliersListRelationFilter
   warehouses?: Prisma.WarehousesListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
+  tenants?: Prisma.TenantsListRelationFilter
 }
 
 export type citiesOrderByWithRelationInput = {
@@ -211,6 +212,7 @@ export type citiesOrderByWithRelationInput = {
   suppliers?: Prisma.suppliersOrderByRelationAggregateInput
   warehouses?: Prisma.warehousesOrderByRelationAggregateInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
+  tenants?: Prisma.tenantsOrderByRelationAggregateInput
 }
 
 export type citiesWhereUniqueInput = Prisma.AtLeast<{
@@ -229,6 +231,7 @@ export type citiesWhereUniqueInput = Prisma.AtLeast<{
   suppliers?: Prisma.SuppliersListRelationFilter
   warehouses?: Prisma.WarehousesListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
+  tenants?: Prisma.TenantsListRelationFilter
 }, "id">
 
 export type citiesOrderByWithAggregationInput = {
@@ -267,6 +270,7 @@ export type citiesCreateInput = {
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateInput = {
@@ -281,6 +285,7 @@ export type citiesUncheckedCreateInput = {
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUpdateInput = {
@@ -295,6 +300,7 @@ export type citiesUpdateInput = {
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateInput = {
@@ -309,6 +315,7 @@ export type citiesUncheckedUpdateInput = {
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateManyInput = {
@@ -472,6 +479,22 @@ export type citiesUpdateOneWithoutSuppliersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.citiesUpdateToOneWithWhereWithoutSuppliersInput, Prisma.citiesUpdateWithoutSuppliersInput>, Prisma.citiesUncheckedUpdateWithoutSuppliersInput>
 }
 
+export type citiesCreateNestedOneWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.citiesCreateWithoutTenantsInput, Prisma.citiesUncheckedCreateWithoutTenantsInput>
+  connectOrCreate?: Prisma.citiesCreateOrConnectWithoutTenantsInput
+  connect?: Prisma.citiesWhereUniqueInput
+}
+
+export type citiesUpdateOneWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.citiesCreateWithoutTenantsInput, Prisma.citiesUncheckedCreateWithoutTenantsInput>
+  connectOrCreate?: Prisma.citiesCreateOrConnectWithoutTenantsInput
+  upsert?: Prisma.citiesUpsertWithoutTenantsInput
+  disconnect?: Prisma.citiesWhereInput | boolean
+  delete?: Prisma.citiesWhereInput | boolean
+  connect?: Prisma.citiesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.citiesUpdateToOneWithWhereWithoutTenantsInput, Prisma.citiesUpdateWithoutTenantsInput>, Prisma.citiesUncheckedUpdateWithoutTenantsInput>
+}
+
 export type citiesCreateNestedOneWithoutTenant_usersInput = {
   create?: Prisma.XOR<Prisma.citiesCreateWithoutTenant_usersInput, Prisma.citiesUncheckedCreateWithoutTenant_usersInput>
   connectOrCreate?: Prisma.citiesCreateOrConnectWithoutTenant_usersInput
@@ -515,6 +538,7 @@ export type citiesCreateWithoutBranchesInput = {
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutBranchesInput = {
@@ -528,6 +552,7 @@ export type citiesUncheckedCreateWithoutBranchesInput = {
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutBranchesInput = {
@@ -557,6 +582,7 @@ export type citiesUpdateWithoutBranchesInput = {
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutBranchesInput = {
@@ -570,6 +596,7 @@ export type citiesUncheckedUpdateWithoutBranchesInput = {
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateWithoutCountriesInput = {
@@ -583,6 +610,7 @@ export type citiesCreateWithoutCountriesInput = {
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutCountriesInput = {
@@ -596,6 +624,7 @@ export type citiesUncheckedCreateWithoutCountriesInput = {
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutCountriesInput = {
@@ -647,6 +676,7 @@ export type citiesCreateWithoutStoresInput = {
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutStoresInput = {
@@ -660,6 +690,7 @@ export type citiesUncheckedCreateWithoutStoresInput = {
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutStoresInput = {
@@ -689,6 +720,7 @@ export type citiesUpdateWithoutStoresInput = {
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutStoresInput = {
@@ -702,6 +734,7 @@ export type citiesUncheckedUpdateWithoutStoresInput = {
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateWithoutSuppliersInput = {
@@ -715,6 +748,7 @@ export type citiesCreateWithoutSuppliersInput = {
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutSuppliersInput = {
@@ -728,6 +762,7 @@ export type citiesUncheckedCreateWithoutSuppliersInput = {
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutSuppliersInput = {
@@ -757,6 +792,7 @@ export type citiesUpdateWithoutSuppliersInput = {
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutSuppliersInput = {
@@ -768,6 +804,79 @@ export type citiesUncheckedUpdateWithoutSuppliersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
+}
+
+export type citiesCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  branches?: Prisma.branchesCreateNestedManyWithoutCitiesInput
+  countries: Prisma.countriesCreateNestedOneWithoutCitiesInput
+  stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
+  suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+}
+
+export type citiesUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  country_id: string
+  is_active?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  branches?: Prisma.branchesUncheckedCreateNestedManyWithoutCitiesInput
+  stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
+  suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
+  warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+}
+
+export type citiesCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.citiesWhereUniqueInput
+  create: Prisma.XOR<Prisma.citiesCreateWithoutTenantsInput, Prisma.citiesUncheckedCreateWithoutTenantsInput>
+}
+
+export type citiesUpsertWithoutTenantsInput = {
+  update: Prisma.XOR<Prisma.citiesUpdateWithoutTenantsInput, Prisma.citiesUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.citiesCreateWithoutTenantsInput, Prisma.citiesUncheckedCreateWithoutTenantsInput>
+  where?: Prisma.citiesWhereInput
+}
+
+export type citiesUpdateToOneWithWhereWithoutTenantsInput = {
+  where?: Prisma.citiesWhereInput
+  data: Prisma.XOR<Prisma.citiesUpdateWithoutTenantsInput, Prisma.citiesUncheckedUpdateWithoutTenantsInput>
+}
+
+export type citiesUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUpdateManyWithoutCitiesNestedInput
+  countries?: Prisma.countriesUpdateOneRequiredWithoutCitiesNestedInput
+  stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
+  suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
+  warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+}
+
+export type citiesUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  country_id?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  branches?: Prisma.branchesUncheckedUpdateManyWithoutCitiesNestedInput
+  stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
+  suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
 }
@@ -783,6 +892,7 @@ export type citiesCreateWithoutTenant_usersInput = {
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutTenant_usersInput = {
@@ -796,6 +906,7 @@ export type citiesUncheckedCreateWithoutTenant_usersInput = {
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
   warehouses?: Prisma.warehousesUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutTenant_usersInput = {
@@ -825,6 +936,7 @@ export type citiesUpdateWithoutTenant_usersInput = {
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutTenant_usersInput = {
@@ -838,6 +950,7 @@ export type citiesUncheckedUpdateWithoutTenant_usersInput = {
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateWithoutWarehousesInput = {
@@ -851,6 +964,7 @@ export type citiesCreateWithoutWarehousesInput = {
   stores?: Prisma.storesCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesUncheckedCreateWithoutWarehousesInput = {
@@ -864,6 +978,7 @@ export type citiesUncheckedCreateWithoutWarehousesInput = {
   stores?: Prisma.storesUncheckedCreateNestedManyWithoutCitiesInput
   suppliers?: Prisma.suppliersUncheckedCreateNestedManyWithoutCitiesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutCitiesInput
+  tenants?: Prisma.tenantsUncheckedCreateNestedManyWithoutCitiesInput
 }
 
 export type citiesCreateOrConnectWithoutWarehousesInput = {
@@ -893,6 +1008,7 @@ export type citiesUpdateWithoutWarehousesInput = {
   stores?: Prisma.storesUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutWarehousesInput = {
@@ -906,6 +1022,7 @@ export type citiesUncheckedUpdateWithoutWarehousesInput = {
   stores?: Prisma.storesUncheckedUpdateManyWithoutCitiesNestedInput
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesCreateManyCountriesInput = {
@@ -927,6 +1044,7 @@ export type citiesUpdateWithoutCountriesInput = {
   suppliers?: Prisma.suppliersUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateWithoutCountriesInput = {
@@ -940,6 +1058,7 @@ export type citiesUncheckedUpdateWithoutCountriesInput = {
   suppliers?: Prisma.suppliersUncheckedUpdateManyWithoutCitiesNestedInput
   warehouses?: Prisma.warehousesUncheckedUpdateManyWithoutCitiesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutCitiesNestedInput
+  tenants?: Prisma.tenantsUncheckedUpdateManyWithoutCitiesNestedInput
 }
 
 export type citiesUncheckedUpdateManyWithoutCountriesInput = {
@@ -961,6 +1080,7 @@ export type CitiesCountOutputType = {
   suppliers: number
   warehouses: number
   tenant_users: number
+  tenants: number
 }
 
 export type CitiesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -969,6 +1089,7 @@ export type CitiesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   suppliers?: boolean | CitiesCountOutputTypeCountSuppliersArgs
   warehouses?: boolean | CitiesCountOutputTypeCountWarehousesArgs
   tenant_users?: boolean | CitiesCountOutputTypeCountTenant_usersArgs
+  tenants?: boolean | CitiesCountOutputTypeCountTenantsArgs
 }
 
 /**
@@ -1016,6 +1137,13 @@ export type CitiesCountOutputTypeCountTenant_usersArgs<ExtArgs extends runtime.T
   where?: Prisma.tenant_usersWhereInput
 }
 
+/**
+ * CitiesCountOutputType without action
+ */
+export type CitiesCountOutputTypeCountTenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.tenantsWhereInput
+}
+
 
 export type citiesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1030,6 +1158,7 @@ export type citiesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   suppliers?: boolean | Prisma.cities$suppliersArgs<ExtArgs>
   warehouses?: boolean | Prisma.cities$warehousesArgs<ExtArgs>
   tenant_users?: boolean | Prisma.cities$tenant_usersArgs<ExtArgs>
+  tenants?: boolean | Prisma.cities$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CitiesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cities"]>
 
@@ -1070,6 +1199,7 @@ export type citiesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   suppliers?: boolean | Prisma.cities$suppliersArgs<ExtArgs>
   warehouses?: boolean | Prisma.cities$warehousesArgs<ExtArgs>
   tenant_users?: boolean | Prisma.cities$tenant_usersArgs<ExtArgs>
+  tenants?: boolean | Prisma.cities$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.CitiesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type citiesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1088,6 +1218,7 @@ export type $citiesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     suppliers: Prisma.$suppliersPayload<ExtArgs>[]
     warehouses: Prisma.$warehousesPayload<ExtArgs>[]
     tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
+    tenants: Prisma.$tenantsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1496,6 +1627,7 @@ export interface Prisma__citiesClient<T, Null = never, ExtArgs extends runtime.T
   suppliers<T extends Prisma.cities$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   warehouses<T extends Prisma.cities$warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant_users<T extends Prisma.cities$tenant_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenants<T extends Prisma.cities$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.cities$tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2049,6 +2181,30 @@ export type cities$tenant_usersArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.Tenant_usersScalarFieldEnum | Prisma.Tenant_usersScalarFieldEnum[]
+}
+
+/**
+ * cities.tenants
+ */
+export type cities$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
+  orderBy?: Prisma.tenantsOrderByWithRelationInput | Prisma.tenantsOrderByWithRelationInput[]
+  cursor?: Prisma.tenantsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantsScalarFieldEnum | Prisma.TenantsScalarFieldEnum[]
 }
 
 /**

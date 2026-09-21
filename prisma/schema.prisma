@@ -112,6 +112,7 @@ model cities {
   suppliers    suppliers[]
   warehouses   warehouses[]
   tenant_users tenant_users[]
+  tenants      tenants[]
 }
 
 model countries {
@@ -1536,6 +1537,7 @@ model tenants {
   metadata                Json                        @default("{}")
   country_id              String?                     @db.Uuid
   currency_id             String?                     @db.Uuid
+  city_id                 String?                     @db.Uuid
   auth_user_id            String?                     @db.Uuid
   onboarding_complete     Boolean?                    @default(false)
   tenant_subscriptions    tenant_subscriptions[]      @relation("tenant_subscriptions_relation")
@@ -1544,9 +1546,13 @@ model tenants {
   tenant_users            tenant_users[]
   countries               countries?                  @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   currencies              currencies?                 @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cities                  cities?                     @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   default_branch          branches?                   @relation("tenant_default_branch", fields: [default_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([auth_user_id], map: "idx_tenants_auth_user_id")
+  @@index([country_id], map: "idx_tenants_country_id")
+  @@index([city_id], map: "idx_tenants_city_id")
+  @@index([currency_id], map: "idx_tenants_currency_id")
 }
 
 model tenant_users {

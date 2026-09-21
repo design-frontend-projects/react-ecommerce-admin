@@ -15,6 +15,7 @@ import {
   Globe,
   Laptop,
   Loader2Icon,
+  MapPin,
   Pill,
   Shirt,
   Smartphone,
@@ -52,6 +53,8 @@ const onboardingSchema = z
     displayName: z.string().trim().optional(),
     legalName: z.string().trim().optional(),
     countryId: z.string().min(1, 'Country selection is required'),
+    cityId: z.string().optional(),
+    currencyId: z.string().optional(),
     activity: z.string().min(1, 'Please select a business activity'),
     paymentMethod: z.enum(['cash', 'visa', 'mobile_transfer'], {
       message: 'Please select a payment method',
@@ -208,6 +211,8 @@ export function CompleteAccountFeature() {
       displayName: '',
       legalName: '',
       countryId: '',
+      cityId: '',
+      currencyId: '',
       activity: undefined,
       paymentMethod: undefined,
       transferRef: '',
@@ -218,6 +223,36 @@ export function CompleteAccountFeature() {
 
   const selectedCountryId = form.watch('countryId')
   const selectedCountry = countries.find((c) => c.id === selectedCountryId)
+
+  // Reset city when selected country changes
+  useEffect(() => {
+    if (selectedCountryId) {
+      form.setValue('cityId', '')
+    }
+  }, [selectedCountryId, form])
+
+  // Fetch cities for selected country
+  const { data: cities = [], isLoading: isCitiesLoading } = useQuery({
+    queryKey: ['cities', 'onboarding', selectedCountryId],
+    queryFn: async () => {
+      if (!selectedCountryId) return []
+      const { data, error } = await supabase
+        .from('cities')
+        .select('id, name, country_id')
+        .eq('country_id', selectedCountryId)
+        .order('name')
+      if (error) {
+        console.error('Failed to fetch cities:', error)
+        return []
+      }
+      return (data ?? []) as Array<{
+        id: string
+        name: string
+        country_id: string
+      }>
+    },
+    enabled: !!selectedCountryId,
+  })
 
   const onSubmit = (values: OnboardingFormValues) => {
     if (!user?.id) return
@@ -231,6 +266,8 @@ export function CompleteAccountFeature() {
       displayName: values.displayName,
       legalName: values.legalName,
       countryId: values.countryId,
+      cityId: values.cityId || undefined,
+      currencyId: values.currencyId || (selectedCountry?.currency_id ?? undefined),
       activity: values.activity,
       paymentMethod: values.paymentMethod,
       transferRef: values.transferRef,
@@ -512,6 +549,37 @@ export function CompleteAccountFeature() {
                             .
                           </span>
                         </div>
+                      )}
+
+                      {selectedCountryId && (
+                        <FormField
+                          control={form.control}
+                          name='cityId'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className='flex items-center gap-1.5'>
+                                <MapPin className='h-4 w-4 text-primary' />
+                                {t('completeAccount.city', 'Operating City')}
+                              </FormLabel>
+                              <SelectDropdown
+                                isControlled
+                                defaultValue={field.value}
+                                onValueChange={field.onChange}
+                                placeholder={t(
+                                  'completeAccount.selectCity',
+                                  'Select City (Optional)'
+                                )}
+                                isPending={isCitiesLoading}
+                                className='h-12 text-base'
+                                items={cities.map((city) => ({
+                                  label: city.name,
+                                  value: city.id,
+                                }))}
+                              />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                       )}
 
                       <div className='grid grid-cols-2 gap-3'>

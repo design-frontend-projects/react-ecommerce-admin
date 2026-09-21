@@ -26,6 +26,10 @@ const { prismaMock } = vi.hoisted(() => ({
       findUnique: vi.fn(),
       findFirst: vi.fn(),
     },
+    cities: {
+      findUnique: vi.fn(),
+      findFirst: vi.fn(),
+    },
     subscriptions: {
       findUnique: vi.fn(),
       findFirst: vi.fn(),
@@ -212,6 +216,18 @@ describe('executeCompleteTenantOnboarding', () => {
       duration_months: 1,
     } as any)
 
+    // 4. Cities lookup
+    prismaMock.cities.findUnique.mockResolvedValue({
+      id: 'city-123',
+      name: 'New York',
+      country_id: 'c-1',
+    } as any)
+    prismaMock.cities.findFirst.mockResolvedValue({
+      id: 'city-123',
+      name: 'New York',
+      country_id: 'c-1',
+    } as any)
+
     // Mock $transaction callback execution
     const mockTx = {
       tenants: {
@@ -267,6 +283,8 @@ describe('executeCompleteTenantOnboarding', () => {
       lastName: 'Doe',
       businessName: 'Awesome Bistro',
       countryId: 'c-1',
+      cityId: 'city-123',
+      currencyId: 'curr-1',
       activity: 'restaurant',
       paymentMethod: 'cash',
       subscriptionId: 'sub-1',
@@ -279,6 +297,21 @@ describe('executeCompleteTenantOnboarding', () => {
         data: expect.objectContaining({
           auth_user_id: 'auth-user-123',
           name: 'Awesome Bistro',
+          onboarding_complete: true,
+          country_id: 'c-1',
+          country_code: 'USA',
+          city_id: 'city-123',
+          currency_id: 'curr-1',
+          currency_code: 'USD',
+        }),
+      })
+    )
+    expect(mockTx.tenant_users.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          auth_user_id: 'auth-user-123',
+          country_id: 'c-1',
+          city_id: 'city-123',
           onboarding_complete: true,
         }),
       })

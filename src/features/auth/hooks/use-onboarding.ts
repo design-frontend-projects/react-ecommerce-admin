@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
+import { completeTenantOnboarding } from '@/server/fns/complete-onboarding'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@/hooks/use-auth'
-import { completeTenantOnboarding } from '@/server/fns/complete-onboarding'
 
 export interface CompleteOnboardingData {
   userId: string
@@ -15,6 +15,8 @@ export interface CompleteOnboardingData {
   displayName?: string
   legalName?: string
   countryId: string
+  cityId?: string
+  currencyId?: string
   activity: string
   paymentMethod: string
   transferRef?: string
@@ -57,6 +59,8 @@ export function useCompleteOnboarding() {
           displayName: input.displayName,
           legalName: input.legalName,
           countryId: input.countryId,
+          cityId: input.cityId,
+          currencyId: input.currencyId,
           activity: input.activity,
           paymentMethod: input.paymentMethod,
           transferRef: input.transferRef,
@@ -91,10 +95,11 @@ export function useCompleteOnboarding() {
       router.navigate({ to: '/' })
     },
     onError: (error: any) => {
-      console.error('[useCompleteOnboarding] Error:', error)
       const message =
         error?.message ||
-        (typeof error === 'string' ? error : 'Unable to complete account setup.')
+        (typeof error === 'string'
+          ? error
+          : 'Unable to complete account setup.')
       toast.error(message)
     },
   })

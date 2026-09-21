@@ -19,6 +19,8 @@ export interface CompleteTenantOnboardingInput {
   displayName?: string
   legalName?: string
   countryId: string
+  cityId?: string
+  currencyId?: string
   activity: string
   paymentMethod: string
   transferRef?: string
@@ -40,6 +42,8 @@ const inputSchema = z.object({
   displayName: z.string().optional(),
   legalName: z.string().optional(),
   countryId: z.string().min(1, 'Country selection is required.'),
+  cityId: z.string().optional(),
+  currencyId: z.string().optional(),
   activity: z.string().min(1, 'Activity is required.'),
   paymentMethod: z.string().min(1, 'Payment method is required.'),
   transferRef: z.string().optional(),
@@ -156,36 +160,135 @@ export async function executeCompleteTenantOnboarding(
     }
 
     // 2e. Resolve Currency ID & Currency Code safely (ensuring max 3 chars for Char(3))
-    let currencyId: string | null =
-      country.currencies?.id || country.currency_id || null
-    let currencyCode: string = (
-      country.currencies?.code || 'USD'
-    )
-      .slice(0, 3)
-      .toUpperCase()
+    let currencyId: string | null = null
+    let currencyCode: string = 'USD'
 
-    if (!country.currencies && currencyId) {
-      const fetchedCurrency = await prisma.currencies
-        .findUnique({
-          where: { id: currencyId },
-        })
-        .catch(() => null)
-      if (fetchedCurrency?.code) {
-        currencyCode = fetchedCurrency.code.slice(0, 3).toUpperCase()
+    const rawCurrencyInput = input.currencyId?.trim() || ''
+    if (rawCurrencyInput) {
+      const isCurrUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+        rawCurrencyInput
+      )
+      let explicitCurrency: { id: string; code: string } | null = null
+      if (isCurrUuid) {
+        try {
+          explicitCurrency = await prisma.currencies.findUnique({
+            where: { id: rawCurrencyInput },
+            select: { id: true, code: true },
+          })
+        } catch {
+          explicitCurrency = null
+        }
       }
-    } else if (!currencyId) {
-      const defaultCurrency = await prisma.currencies
-        .findFirst({
-          where: { is_active: true },
-        })
-        .catch(() => null)
-      if (defaultCurrency) {
-        currencyId = defaultCurrency.id
-        currencyCode = defaultCurrency.code.slice(0, 3).toUpperCase()
+      if (!explicitCurrency) {
+        try {
+          explicitCurrency = await prisma.currencies.findFirst({
+            where: {
+              OR: [
+                { code: { equals: rawCurrencyInput, mode: 'insensitive' } },
+                { name: { equals: rawCurrencyInput, mode: 'insensitive' } },
+              ],
+            },
+            select: { id: true, code: true },
+          })
+        } catch {
+          explicitCurrency = null
+        }
+      }
+      if (explicitCurrency) {
+        currencyId = explicitCurrency.id
+        currencyCode = explicitCurrency.code.slice(0, 3).toUpperCase()
       }
     }
 
-    // 2f. Resolve Subscription ID format & duration
+    // Fall back to country default currency if explicit currency was not resolved
+    if (!currencyId) {
+      currencyId = country.currencies?.id || country.currency_id || null
+      if (country.currencies?.code) {
+        currencyCode = country.currencies.code.slice(0, 3).toUpperCase()
+      }
+    }
+
+    if (!country.currencies && currencyId && (!currencyCode || currencyCode === 'USD')) {
+      try {
+        const fetchedCurrency = await prisma.currencies.findUnique({
+          where: { id: currencyId },
+          select: { id: true, code: true },
+        })
+        if (fetchedCurrency?.code) {
+          currencyCode = fetchedCurrency.code.slice(0, 3).toUpperCase()
+        }
+      } catch {
+        // ignore
+      }
+    } else if (!currencyId) {
+      try {
+        const defaultCurrency = await prisma.currencies.findFirst({
+          where: { is_active: true },
+          select: { id: true, code: true },
+        })
+        if (defaultCurrency) {
+          currencyId = defaultCurrency.id
+          currencyCode = defaultCurrency.code.slice(0, 3).toUpperCase()
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    // 2f. Resolve City ID safely
+    let cityId: string | null = null
+    const rawCityInput = input.cityId?.trim() || ''
+    if (rawCityInput) {
+      const isCityUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+        rawCityInput
+      )
+      type CityLookup = { id: string; country_id?: string }
+      let matchedCity: CityLookup | null = null
+
+      if (isCityUuid) {
+        try {
+          matchedCity = await prisma.cities.findUnique({
+            where: { id: rawCityInput },
+            select: { id: true, country_id: true },
+          })
+        } catch {
+          matchedCity = null
+        }
+      }
+
+      if (!matchedCity && country.id) {
+        try {
+          matchedCity = await prisma.cities.findFirst({
+            where: {
+              name: { equals: rawCityInput, mode: 'insensitive' },
+              country_id: country.id,
+            },
+            select: { id: true, country_id: true },
+          })
+        } catch {
+          matchedCity = null
+        }
+      }
+
+      if (!matchedCity) {
+        try {
+          matchedCity = await prisma.cities.findFirst({
+            where: {
+              name: { equals: rawCityInput, mode: 'insensitive' },
+            },
+            select: { id: true, country_id: true },
+          })
+        } catch {
+          matchedCity = null
+        }
+      }
+
+      if (matchedCity) {
+        cityId = matchedCity.id
+      }
+    }
+
+    // 2g. Resolve Subscription ID format & duration
     const rawSubInput = input.subscriptionId?.trim() || ''
     const isSubUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
       rawSubInput
@@ -257,6 +360,7 @@ export async function executeCompleteTenantOnboarding(
             onboarding_complete: true,
             country_id: country.id || undefined,
             country_code: country.code ? String(country.code).slice(0, 3).toUpperCase() : undefined,
+            city_id: cityId || undefined,
             currency_id: currencyId || undefined,
             currency_code: currencyCode ? String(currencyCode).slice(0, 3).toUpperCase() : 'USD',
           },
@@ -275,6 +379,7 @@ export async function executeCompleteTenantOnboarding(
             onboarding_complete: true,
             country_id: country.id || undefined,
             country_code: country.code ? String(country.code).slice(0, 3).toUpperCase() : undefined,
+            city_id: cityId || undefined,
             currency_id: currencyId || undefined,
             currency_code: currencyCode ? String(currencyCode).slice(0, 3).toUpperCase() : 'USD',
             created_by: input.authUserId,
@@ -328,6 +433,8 @@ export async function executeCompleteTenantOnboarding(
             first_name: input.firstName,
             last_name: input.lastName,
             phone: input.phone || null,
+            country_id: country.id || null,
+            city_id: cityId || null,
             is_active: true,
             is_restuarant_user: isRestaurant,
             primary_module: isRestaurant ? 'restaurant' : 'inventory',
@@ -347,6 +454,8 @@ export async function executeCompleteTenantOnboarding(
             first_name: input.firstName,
             last_name: input.lastName,
             phone: input.phone || null,
+            country_id: country.id || null,
+            city_id: cityId || null,
             is_active: true,
             is_restuarant_user: isRestaurant,
             primary_module: isRestaurant ? 'restaurant' : 'inventory',
