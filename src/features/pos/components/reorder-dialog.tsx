@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { History, Plus, Loader2, RotateCcw } from 'lucide-react'
 import { toast } from 'sonner'
@@ -35,6 +36,7 @@ type RecentTransaction = {
 }
 
 export function ReorderDialog() {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [refundingTx, setRefundingTx] = useState<RecentTransaction | null>(null)
@@ -85,7 +87,7 @@ export function ReorderDialog() {
       const qty = Number(d.quantity)
       return {
         productId: d.product_id,
-        name: d.products?.name || 'Unknown Product',
+        name: d.products?.name || t('pos.reorder.unknownProduct', 'Unknown Product'),
         sku: d.products?.sku || 'N/A',
         barcode: d.products?.barcode || null,
         unitPrice: up,
@@ -115,11 +117,11 @@ export function ReorderDialog() {
       queryClient.invalidateQueries({ queryKey: ['shift-dashboard-analytics'] })
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard_data'] })
-      toast.success('Fast refund processed successfully.')
+      toast.success(t('pos.reorder.fastRefundSuccess', 'Fast refund processed successfully.'))
       setRefundingTx(null)
     },
     onError: (err: Error) => {
-      toast.error('Failed to process fast refund: ' + err.message)
+      toast.error(t('pos.reorder.fastRefundFailed', 'Failed to process fast refund: {{message}}', { message: err.message }))
       setRefundingTx(null)
     },
   })
@@ -140,12 +142,12 @@ export function ReorderDialog() {
       <DialogTrigger asChild>
         <Button variant='outline' size='sm' className='w-full'>
           <History className='mr-2 h-4 w-4' />
-          Recent Orders
+          {t('pos.reorder.recentOrders', 'Recent Orders')}
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle>Recent Orders</DialogTitle>
+          <DialogTitle>{t('pos.reorder.title', 'Recent Orders')}</DialogTitle>
         </DialogHeader>
 
         <div className='max-h-[60vh] overflow-y-auto py-4'>
@@ -155,7 +157,7 @@ export function ReorderDialog() {
             </div>
           ) : recentTransactions?.length === 0 ? (
             <div className='py-8 text-center text-muted-foreground'>
-              No recent orders found.
+              {t('pos.reorder.noTransactions', 'No recent orders found.')}
             </div>
           ) : (
             <div className='space-y-3'>
@@ -191,11 +193,11 @@ export function ReorderDialog() {
                         ) : (
                           <RotateCcw className='mr-1 h-4 w-4' />
                         )}
-                        Refund
+                        {t('pos.reorder.refund', 'Refund')}
                       </Button>
                       <Button size='sm' onClick={() => handleReorder(tx)}>
                         <Plus className='mr-1 h-4 w-4' />
-                        Reorder
+                        {t('pos.reorder.reorderBtn', 'Reorder')}
                       </Button>
                     </div>
                   </div>

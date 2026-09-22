@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import { UserRole } from '@/types/user-role.enum'
 import { Bell, Loader2 } from 'lucide-react'
 import { useAuth, useUser } from '@/hooks/use-auth'
@@ -20,13 +21,15 @@ import {
 import { parseDimensionsLabel } from '../utils'
 
 function getVariantLabel(
-  variant: { sku: string; dimensions?: string | null } | null | undefined
+  variant: { sku: string; dimensions?: string | null } | null | undefined,
+  t: (key: string, defaultValue?: string) => string
 ) {
-  if (!variant) return 'Base product'
+  if (!variant) return t('pos.notifications.baseProduct', 'Base product')
   return parseDimensionsLabel(variant.dimensions) || variant.sku
 }
 
 export function ReorderNotificationsBell() {
+  const { t } = useTranslation()
   const { isSignedIn, isLoaded, has } = useAuth()
   const { user } = useUser()
 
@@ -52,7 +55,7 @@ export function ReorderNotificationsBell() {
           variant='ghost'
           size='icon'
           className='relative'
-          aria-label='Reorder notifications'
+          aria-label={t('pos.notifications.ariaLabel', 'Reorder notifications')}
         >
           <Bell className='h-5 w-5' />
           {pendingCount > 0 && (
@@ -67,7 +70,7 @@ export function ReorderNotificationsBell() {
       </PopoverTrigger>
       <PopoverContent className='w-96 p-0' align='end'>
         <div className='flex items-center justify-between border-b p-3'>
-          <h4 className='font-semibold'>Reorder Requests</h4>
+          <h4 className='font-semibold'>{t('pos.notifications.reorderRequests', 'Reorder Requests')}</h4>
           <Badge variant='secondary'>{pendingCount}</Badge>
         </div>
 
@@ -78,7 +81,7 @@ export function ReorderNotificationsBell() {
             </div>
           ) : pendingRequests.length === 0 ? (
             <div className='py-8 text-center text-sm text-muted-foreground'>
-              No pending reorder requests
+              {t('pos.notifications.noPendingRequests', 'No pending reorder requests')}
             </div>
           ) : (
             <div className='divide-y divide-border/50'>
@@ -86,7 +89,7 @@ export function ReorderNotificationsBell() {
                 <div key={request.id} className='space-y-2 p-3'>
                   <div className='flex items-center justify-between gap-2'>
                     <p className='line-clamp-1 text-sm font-semibold'>
-                      {request.products?.name || 'Unknown Product'}
+                      {request.products?.name || t('pos.notifications.unknownProduct', 'Unknown Product')}
                     </p>
                     <Button
                       size='sm'
@@ -100,18 +103,18 @@ export function ReorderNotificationsBell() {
                         })
                       }}
                     >
-                      Mark read
+                      {t('pos.notifications.markAsRead', 'Mark read')}
                     </Button>
                   </div>
                   <p className='text-xs text-muted-foreground'>
-                    Variant: {getVariantLabel(request.product_variants)}
+                    {t('pos.notifications.variant', 'Variant')}: {getVariantLabel(request.product_variants, t)}
                   </p>
                   <p className='text-xs text-muted-foreground'>
-                    Qty: {request.requested_quantity ?? 0} | Min:{' '}
+                    {t('pos.notifications.qty', 'Qty')}: {request.requested_quantity ?? 0} | {t('pos.notifications.min', 'Min')}:{' '}
                     {request.requested_min_stock ?? 0}
                   </p>
                   <p className='text-xs text-muted-foreground'>
-                    Requested by {request.requested_by_name}
+                    {t('pos.notifications.requestedBy', 'Requested by {{name}}', { name: request.requested_by_name })}
                     {request.requested_by_role
                       ? ` (${request.requested_by_role})`
                       : ''}

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ArrowDownLeft, ArrowUpRight, DollarSign } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -33,6 +34,7 @@ export function PosCashMovementDialog({
   open,
   onOpenChange,
 }: PosCashMovementDialogProps) {
+  const { t } = useTranslation()
   const { session } = usePosStore()
   const [type, setType] = useState<'in' | 'out'>('in')
   const [reason, setReason] = useState<string>('adjustment')
@@ -44,13 +46,15 @@ export function PosCashMovementDialog({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!session?.id) {
-      toast.error('No active session found')
+      toast.error(t('pos.cashMovement.noActiveSession', 'No active session found'))
       return
     }
 
     const numAmount = Number(amount)
     if (isNaN(numAmount) || numAmount <= 0) {
-      toast.error('Please enter a valid positive amount')
+      toast.error(
+        t('pos.cashMovement.invalidAmount', 'Please enter a valid positive amount')
+      )
       return
     }
 
@@ -64,13 +68,22 @@ export function PosCashMovementDialog({
       })
 
       toast.success(
-        `Recorded ${type === 'in' ? 'Cash In' : 'Cash Out'} of $${numAmount.toFixed(2)}`
+        t('pos.cashMovement.recordedToast', 'Recorded {{type}} of ${{amount}}', {
+          type:
+            type === 'in'
+              ? t('pos.cashMovement.cashInTab', 'Cash In')
+              : t('pos.cashMovement.cashOutTab', 'Cash Out'),
+          amount: numAmount.toFixed(2),
+        })
       )
       setAmount('')
       setNotes('')
       onOpenChange(false)
     } catch (err: any) {
-      toast.error(err.message || 'Failed to record cash movement')
+      toast.error(
+        err.message ||
+          t('pos.cashMovement.failedRecord', 'Failed to record cash movement')
+      )
     }
   }
 
@@ -80,10 +93,15 @@ export function PosCashMovementDialog({
         <DialogHeader>
           <div className='flex items-center gap-2'>
             <DollarSign className='h-5 w-5 text-primary' />
-            <DialogTitle>Drawer Cash In / Out</DialogTitle>
+            <DialogTitle>
+              {t('pos.cashMovement.title', 'Drawer Cash In / Out')}
+            </DialogTitle>
           </div>
           <DialogDescription>
-            Record non-sale cash movements in or out of the active till drawer.
+            {t(
+              'pos.cashMovement.desc',
+              'Record non-sale cash movements in or out of the active till drawer.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -99,34 +117,67 @@ export function PosCashMovementDialog({
             <TabsList className='grid w-full grid-cols-2'>
               <TabsTrigger value='in' className='gap-2 text-emerald-600 dark:text-emerald-400'>
                 <ArrowDownLeft className='h-4 w-4' />
-                Cash In (Paid In)
+                {t('pos.cashMovement.cashInTab', 'Cash In (Paid In)')}
               </TabsTrigger>
               <TabsTrigger value='out' className='gap-2 text-rose-600 dark:text-rose-400'>
                 <ArrowUpRight className='h-4 w-4' />
-                Cash Out (Paid Out)
+                {t('pos.cashMovement.cashOutTab', 'Cash Out (Paid Out)')}
               </TabsTrigger>
             </TabsList>
           </Tabs>
 
           <div className='space-y-2'>
-            <Label htmlFor='movementReason'>Reason *</Label>
+            <Label htmlFor='movementReason'>
+              {t('pos.cashMovement.reason', 'Reason *')}
+            </Label>
             <Select value={reason} onValueChange={setReason}>
               <SelectTrigger id='movementReason'>
-                <SelectValue placeholder='Select reason' />
+                <SelectValue
+                  placeholder={t('pos.cashMovement.selectReason', 'Select reason')}
+                />
               </SelectTrigger>
               <SelectContent>
                 {type === 'in' ? (
                   <>
-                    <SelectItem value='income'>General Income</SelectItem>
-                    <SelectItem value='customer_payment'>Customer Payment on Account</SelectItem>
-                    <SelectItem value='adjustment'>Float Top-Up / Adjustment</SelectItem>
+                    <SelectItem value='income'>
+                      {t('pos.cashMovement.income', 'General Income')}
+                    </SelectItem>
+                    <SelectItem value='customer_payment'>
+                      {t(
+                        'pos.cashMovement.customerPayment',
+                        'Customer Payment on Account'
+                      )}
+                    </SelectItem>
+                    <SelectItem value='adjustment'>
+                      {t(
+                        'pos.cashMovement.adjustment',
+                        'Float Top-Up / Adjustment'
+                      )}
+                    </SelectItem>
                   </>
                 ) : (
                   <>
-                    <SelectItem value='expense'>Store Expense / Petty Cash</SelectItem>
-                    <SelectItem value='payout'>Bank Deposit / Safe Drop</SelectItem>
-                    <SelectItem value='supplier_payment'>Supplier Cash Payment</SelectItem>
-                    <SelectItem value='adjustment'>Float Reduction / Adjustment</SelectItem>
+                    <SelectItem value='expense'>
+                      {t(
+                        'pos.cashMovement.expense',
+                        'Store Expense / Petty Cash'
+                      )}
+                    </SelectItem>
+                    <SelectItem value='payout'>
+                      {t('pos.cashMovement.drop', 'Bank Deposit / Safe Drop')}
+                    </SelectItem>
+                    <SelectItem value='supplier_payment'>
+                      {t(
+                        'pos.cashMovement.supplierPayment',
+                        'Supplier Cash Payment'
+                      )}
+                    </SelectItem>
+                    <SelectItem value='adjustment'>
+                      {t(
+                        'pos.cashMovement.adjustment',
+                        'Float Reduction / Adjustment'
+                      )}
+                    </SelectItem>
                   </>
                 )}
               </SelectContent>
@@ -134,7 +185,9 @@ export function PosCashMovementDialog({
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='amount'>Amount *</Label>
+            <Label htmlFor='amount'>
+              {t('pos.cashMovement.amount', 'Amount *')}
+            </Label>
             <div className='relative'>
               <DollarSign className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
               <Input
@@ -153,10 +206,15 @@ export function PosCashMovementDialog({
           </div>
 
           <div className='space-y-2'>
-            <Label htmlFor='notes'>Notes / Description</Label>
+            <Label htmlFor='notes'>
+              {t('pos.cashMovement.notes', 'Notes / Description')}
+            </Label>
             <Textarea
               id='notes'
-              placeholder='Specify reason or attach receipt voucher reference...'
+              placeholder={t(
+                'pos.cashMovement.notesPlaceholder',
+                'Specify reason or attach receipt voucher reference...'
+              )}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
@@ -169,7 +227,7 @@ export function PosCashMovementDialog({
               variant='outline'
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('pos.cashMovement.cancel', 'Cancel')}
             </Button>
             <Button
               type='submit'
@@ -181,10 +239,10 @@ export function PosCashMovementDialog({
               }
             >
               {cashMutation.isPending
-                ? 'Recording...'
+                ? t('pos.cashMovement.recording', 'Recording...')
                 : type === 'in'
-                ? 'Confirm Cash In'
-                : 'Confirm Cash Out'}
+                ? t('pos.cashMovement.confirmCashIn', 'Confirm Cash In')
+                : t('pos.cashMovement.confirmCashOut', 'Confirm Cash Out')}
             </Button>
           </DialogFooter>
         </form>

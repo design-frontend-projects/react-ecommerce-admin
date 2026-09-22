@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AlertTriangle,
   Ban,
@@ -69,6 +70,7 @@ import { PosSessionDialog } from './pos-session-dialog'
 import { VariantSelectionDialog } from './variant-selection-dialog'
 
 export function PosMainScreen() {
+  const { t } = useTranslation()
   const {
     terminal,
     session,
@@ -147,12 +149,13 @@ export function PosMainScreen() {
     }
   }, [terminalStatus, session, setSession])
 
-  // Query products with live warehouse stock
+  // Query products with live warehouse stock (store-aware)
   const { data: catalogData, isLoading: isLoadingProducts } =
     usePosProductsQuery({
       q: searchQuery,
       categoryId: selectedCategory ?? undefined,
       warehouseId: terminal?.warehouseId ?? undefined,
+      storeId: terminal?.storeId ?? undefined,
       pageSize: 60,
     })
 
@@ -195,10 +198,13 @@ export function PosMainScreen() {
         barcode: item.barcode,
         price,
         stock_quantity: stock,
+        stockAvailable: Number(item.stockAvailable || 0),
+        stockOnHand: Number(item.stockOnHand || 0),
         variantName: item.variantName,
         taxRateId: item.taxRateId,
         taxRate: Number(item.taxRate || 0),
         taxInclusive: item.taxInclusive,
+        dimensions: item.variantAttributes,
       })
     }
 
@@ -268,6 +274,16 @@ export function PosMainScreen() {
   // Add line item directly
   const handleAddVariant = useCallback(
     (product: any, variant: any) => {
+      const stockAvail = variant.stockAvailable ?? variant.stock_quantity ?? 0
+      if (stockAvail <= 0) {
+        toast.error(
+          t('pos.main.outOfStockToast', '{{name}} is out of stock', {
+            name: product.productName,
+          })
+        )
+        return
+      }
+
       addItem({
         productId: product.productId,
         productVariantId: variant.id,
@@ -279,13 +295,18 @@ export function PosMainScreen() {
         barcode: variant.barcode,
         unitPrice: variant.price,
         quantity: 1,
+        availableQuantity: stockAvail,
         taxRateId: variant.taxRateId,
         taxRate: variant.taxRate,
         taxInclusive: variant.taxInclusive,
       })
-      toast.success(`Added ${product.productName}`)
+      toast.success(
+        t('pos.main.addedToast', 'Added {{name}}', {
+          name: product.productName,
+        })
+      )
     },
-    [addItem]
+    [addItem, t]
   )
 
   // Category combobox state
@@ -323,7 +344,11 @@ export function PosMainScreen() {
 
     // 2. Search query fallback
     setSearchQuery(barcodeOrSku)
-    toast.info(`Filtered catalog for: ${barcodeOrSku}`)
+    toast.info(
+      t('pos.main.filteredCatalogToast', 'Filtered catalog for: {{query}}', {
+        query: barcodeOrSku,
+      })
+    )
   }
 
   const handleCheckoutSuccess = (receipt: ReceiptData) => {
@@ -362,44 +387,44 @@ export function PosMainScreen() {
                 )}
                 <span className='max-w-[140px] truncate sm:max-w-[200px]'>
                   {isLoadingTerminals
-                    ? 'Loading...'
+                    ? t('pos.main.loadingTerminals', 'Loading...')
                     : terminal
                       ? `${terminal.code} • ${terminal.name}`
-                      : 'Select Terminal'}
+                      : t('pos.main.selectTerminal', 'Select Terminal')}
                 </span>
                 <ChevronDown className='h-3.5 w-3.5 opacity-50' />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='start' className='w-64'>
               <DropdownMenuLabel className='text-xs'>
-                Assigned Terminals
+                {t('pos.main.assignedTerminals', 'Assigned Terminals')}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {terminals.map((t) => (
+              {terminals.map((tItem) => (
                 <DropdownMenuItem
-                  key={t.id}
+                  key={tItem.id}
                   onClick={() =>
                     setTerminal({
-                      id: t.id,
-                      name: t.name,
-                      code: t.code,
-                      storeId: t.storeId,
-                      branchId: t.branchId,
-                      warehouseId: t.warehouseId,
-                      defaultPriceListId: t.defaultPriceListId,
+                      id: tItem.id,
+                      name: tItem.name,
+                      code: tItem.code,
+                      storeId: tItem.storeId,
+                      branchId: tItem.branchId,
+                      warehouseId: tItem.warehouseId,
+                      defaultPriceListId: tItem.defaultPriceListId,
                     })
                   }
                   className='flex cursor-pointer items-center justify-between text-xs'
                 >
                   <span className='font-semibold'>
-                    {t.code} - {t.name}
+                    {tItem.code} - {tItem.name}
                   </span>
-                  {t.hasActiveSession && (
+                  {tItem.hasActiveSession && (
                     <Badge
                       variant='outline'
                       className='border-emerald-500/40 text-[9px] text-emerald-600'
                     >
-                      Active
+                      {t('pos.main.active', 'Active')}
                     </Badge>
                   )}
                 </DropdownMenuItem>
@@ -419,7 +444,7 @@ export function PosMainScreen() {
               className='h-8 gap-1.5 border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400'
             >
               <span className='h-2 w-2 animate-pulse rounded-full bg-emerald-500' />
-              <span className='hidden sm:inline'>Shift: Open •</span>
+              <span className='hidden sm:inline'>{t('pos.main.shiftOpen', 'Shift: Open •')}</span>
               <span>{session.cashierName || 'Cashier'}</span>
             </Button>
           ) : (
@@ -433,7 +458,7 @@ export function PosMainScreen() {
               className='h-8 gap-1.5 border-amber-500/30 bg-amber-500/10 text-xs font-semibold text-amber-700 hover:bg-amber-500/20 dark:text-amber-400'
             >
               <Lock className='h-3.5 w-3.5' />
-              <span>Shift Closed (Click to Open)</span>
+              <span>{t('pos.main.shiftClosed', 'Shift Closed (Click to Open)')}</span>
             </Button>
           )}
         </div>
@@ -447,10 +472,10 @@ export function PosMainScreen() {
             disabled={!session}
             onClick={() => setIsCashMovementOpen(true)}
             className='h-8 gap-1.5 text-xs'
-            title='Cash In / Out (F8)'
+            title={t('pos.main.cashInOutShort', 'Cash In / Out (F8)')}
           >
             <DollarSign className='h-3.5 w-3.5 text-emerald-600' />
-            <span className='hidden md:inline'>Cash In/Out</span>
+            <span className='hidden md:inline'>{t('pos.main.cashInOut', 'Cash In/Out')}</span>
           </Button>
 
           {/* Suspended / Held Orders */}
@@ -462,10 +487,10 @@ export function PosMainScreen() {
               setIsHeldOrdersOpen(true)
             }}
             className='relative h-8 gap-1.5 text-xs'
-            title='View Held Carts'
+            title={t('pos.main.viewHeldCarts', 'View Held Carts')}
           >
             <PauseCircle className='h-3.5 w-3.5 text-amber-500' />
-            <span className='hidden md:inline'>Held Orders</span>
+            <span className='hidden md:inline'>{t('pos.main.heldOrders', 'Held Orders')}</span>
             {heldOrders.length > 0 && (
               <span className='flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white'>
                 {heldOrders.length}
@@ -480,10 +505,10 @@ export function PosMainScreen() {
             disabled={!session}
             onClick={() => setIsReturnsOpen(true)}
             className='h-8 gap-1.5 border-rose-500/30 text-xs text-rose-600 hover:bg-rose-500/10 dark:text-rose-400'
-            title='Returns & Refunds'
+            title={t('pos.main.returnsRefunds', 'Returns & Refunds')}
           >
             <RotateCcw className='h-3.5 w-3.5' />
-            <span className='hidden md:inline'>Returns</span>
+            <span className='hidden md:inline'>{t('pos.main.returns', 'Returns')}</span>
           </Button>
 
           {/* Barcode & Manual SKU Tools */}
@@ -492,7 +517,7 @@ export function PosMainScreen() {
             size='icon'
             className='h-8 w-8 sm:hidden'
             onClick={() => setIsManualSkuOpen(true)}
-            title='Manual SKU'
+            title={t('pos.main.manualSku', 'Manual SKU')}
           >
             <Keyboard className='h-3.5 w-3.5' />
           </Button>
@@ -502,7 +527,7 @@ export function PosMainScreen() {
             size='icon'
             className='h-8 w-8 sm:hidden'
             onClick={() => setIsScannerOpen(true)}
-            title='Camera Scan'
+            title={t('pos.main.cameraScan', 'Camera Scan')}
           >
             <Scan className='h-3.5 w-3.5' />
           </Button>
@@ -528,7 +553,7 @@ export function PosMainScreen() {
             </SheetTrigger>
             <SheetContent side='right' className='w-full p-0 sm:max-w-md'>
               <SheetHeader className='sr-only'>
-                <SheetTitle>Shopping Cart</SheetTitle>
+                <SheetTitle>{t('pos.main.shoppingCart', 'Shopping Cart')}</SheetTitle>
               </SheetHeader>
               <PosCart
                 onOpenCheckout={() => {
@@ -557,7 +582,7 @@ export function PosMainScreen() {
                 <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
                 <Input
                   ref={searchInputRef}
-                  placeholder='Search by item name, SKU, or barcode (F2)...'
+                  placeholder={t('pos.main.searchPlaceholder', 'Search by item name, SKU, or barcode (F2)...')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className='h-10 pl-9 text-sm font-medium'
@@ -570,7 +595,7 @@ export function PosMainScreen() {
                     className='absolute top-1/2 right-1 h-7 -translate-y-1/2 px-2 text-xs'
                     onClick={() => setSearchQuery('')}
                   >
-                    Clear
+                    {t('pos.main.clear', 'Clear')}
                   </Button>
                 )}
               </div>
@@ -580,7 +605,7 @@ export function PosMainScreen() {
                 className='hidden h-10 gap-1.5 px-3 text-xs sm:flex'
                 onClick={() => setIsManualSkuOpen(true)}
               >
-                <Keyboard className='h-4 w-4' /> Manual SKU
+                <Keyboard className='h-4 w-4' /> {t('pos.main.manualSku', 'Manual SKU')}
               </Button>
 
               <Button
@@ -588,7 +613,7 @@ export function PosMainScreen() {
                 className='hidden h-10 gap-1.5 px-3 text-xs sm:flex'
                 onClick={() => setIsScannerOpen(true)}
               >
-                <Scan className='h-4 w-4' /> Camera
+                <Scan className='h-4 w-4' /> {t('pos.main.cameraScan', 'Camera')}
               </Button>
             </div>
 
@@ -605,16 +630,16 @@ export function PosMainScreen() {
                       className='h-8 w-[220px] justify-between text-xs font-medium'
                     >
                       <span className='truncate'>
-                        {selectedCategory ?? 'All Categories'}
+                        {selectedCategory ?? t('pos.main.allCategories', 'All Categories')}
                       </span>
                       <ChevronsUpDown className='ml-1 h-3.5 w-3.5 shrink-0 opacity-50' />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className='w-[220px] p-0' align='start'>
                     <Command>
-                      <CommandInput placeholder='Filter categories...' className='h-8 text-xs' />
+                      <CommandInput placeholder={t('pos.main.filterCategories', 'Filter categories...')} className='h-8 text-xs' />
                       <CommandList>
-                        <CommandEmpty>No category found.</CommandEmpty>
+                        <CommandEmpty>{t('pos.main.noCategoryFound', 'No category found.')}</CommandEmpty>
                         <CommandGroup>
                           <CommandItem
                             value='__all__'
@@ -630,7 +655,7 @@ export function PosMainScreen() {
                                 selectedCategory === null ? 'opacity-100' : 'opacity-0'
                               )}
                             />
-                            All Categories
+                            {t('pos.main.allCategories', 'All Categories')}
                           </CommandItem>
                           {categories.map((cat) => (
                             <CommandItem
@@ -681,9 +706,9 @@ export function PosMainScreen() {
                   <Lock className='h-8 w-8 text-amber-600 dark:text-amber-400' />
                 </div>
                 <div className='text-center space-y-1'>
-                  <h3 className='text-lg font-bold tracking-tight'>Shift Not Open</h3>
+                  <h3 className='text-lg font-bold tracking-tight'>{t('pos.main.shiftNotOpen', 'Shift Not Open')}</h3>
                   <p className='text-sm text-muted-foreground max-w-xs'>
-                    You must open a shift before you can create orders or add items to the cart.
+                    {t('pos.main.shiftNotOpenDesc', 'You must open a shift before you can create orders or add items to the cart.')}
                   </p>
                 </div>
                 <Button
@@ -695,7 +720,7 @@ export function PosMainScreen() {
                   }}
                 >
                   <Lock className='h-4 w-4' />
-                  Open Shift Now
+                  {t('pos.main.openShiftNow', 'Open Shift Now')}
                 </Button>
               </div>
             )}
@@ -707,9 +732,9 @@ export function PosMainScreen() {
             ) : groupedProducts.length === 0 ? (
               <div className='flex h-full flex-col items-center justify-center p-8 text-center text-muted-foreground'>
                 <AlertTriangle className='mb-2 h-10 w-10 opacity-30' />
-                <p className='text-sm font-semibold'>No products found</p>
+                <p className='text-sm font-semibold'>{t('pos.main.noProductsFound', 'No products found')}</p>
                 <p className='mt-1 text-xs'>
-                  Try a different search term or select another category.
+                  {t('pos.main.noProductsFoundDesc', 'Try a different search term or select another category.')}
                 </p>
               </div>
             ) : (
@@ -749,7 +774,7 @@ export function PosMainScreen() {
                             className='gap-1 px-2 py-1 text-[10px] font-bold uppercase shadow-lg'
                           >
                             <Ban className='h-3 w-3' />
-                            Out of Stock
+                            {t('pos.main.outOfStockBadge', 'Out of Stock')}
                           </Badge>
                         </div>
                       )}
@@ -782,7 +807,7 @@ export function PosMainScreen() {
                                 variant='outline'
                                 className='h-4 border-primary/30 px-1 text-[9px] font-semibold text-primary'
                               >
-                                {p.variants.length} Variants
+                                {t('pos.main.variantCount', '{{count}} Variants', { count: p.variants.length })}
                               </Badge>
                             ) : (
                               <span className='truncate'>
@@ -800,7 +825,10 @@ export function PosMainScreen() {
                                     : 'text-emerald-600 dark:text-emerald-400'
                               )}
                             >
-                              {p.totalStock} in stock
+                              {hasStock && (isLowStock
+                                ? t('pos.main.lowStockBadge', 'Low Stock ({{count}} left)', { count: p.totalStock })
+                                : t('pos.main.inStockBadge', '{{count}} in stock', { count: p.totalStock })
+                              )}
                             </span>
                           </div>
                         </div>
@@ -873,6 +901,10 @@ export function PosMainScreen() {
           variants={selectedProductForVariant.variants}
           onSelect={(_variantId, variant) => {
             handleAddVariant(selectedProductForVariant, variant)
+          }}
+          isVariantDisabled={(v) => {
+            const avail = v.stockAvailable ?? v.stock_quantity ?? 0
+            return avail <= 0
           }}
         />
       )}

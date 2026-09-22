@@ -11,6 +11,8 @@ export type PosProductVariant = {
   barcode: string | null
   price: number
   stock_quantity: number
+  stockAvailable?: number
+  stockOnHand?: number
   min_stock: number
   is_active: boolean
   dimensions?: string | null
@@ -86,7 +88,15 @@ export async function getPosProducts(): Promise<PosProduct[]> {
           barcode: variant.barcode,
           price: resolvedPrice,
           stock_quantity: resolvedStock,
-          min_stock: Number((p as { reorder_level?: number | string | null }).reorder_level || 0),
+          stockAvailable: resolvedStock,
+          stockOnHand:
+            balances?.reduce(
+              (sum, b) => sum + Number(b.qty_on_hand || 0),
+              0
+            ) ?? resolvedStock,
+          min_stock: Number(
+            (p as { reorder_level?: number | string | null }).reorder_level || 0
+          ),
           is_active: variant.is_active ?? true,
           dimensions: variant.dimensions,
         }

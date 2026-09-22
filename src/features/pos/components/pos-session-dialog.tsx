@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Lock,
   Unlock,
@@ -45,6 +46,7 @@ export function PosSessionDialog({
   mode,
   onSuccess,
 }: PosSessionDialogProps) {
+  const { t } = useTranslation()
   const { terminal, session, setSession } = usePosStore()
   const [openingCash, setOpeningCash] = useState<string>('0')
   const [actualCash, setActualCash] = useState<string>('')
@@ -79,7 +81,7 @@ export function PosSessionDialog({
   const handleOpenSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!terminal?.id) {
-      toast.error('No terminal selected')
+      toast.error(t('pos.session.noTerminalSelected', 'No terminal selected'))
       return
     }
 
@@ -98,23 +100,27 @@ export function PosSessionDialog({
         cashierName: res.session.cashier_name || 'Cashier',
       })
 
-      toast.success('POS Register session opened successfully!')
+      toast.success(
+        t('pos.session.shiftOpenedToast', 'POS Register session opened successfully!')
+      )
       onOpenChange(false)
       onSuccess?.()
     } catch (err: any) {
-      toast.error(err.message || 'Failed to open session')
+      toast.error(err.message || t('pos.session.failedOpen', 'Failed to open session'))
     }
   }
 
   const handleCloseSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!session?.id) {
-      toast.error('No active session to close')
+      toast.error(t('pos.session.noActiveSession', 'No active session to close'))
       return
     }
 
     if (actualCash === '') {
-      toast.error('Please enter the counted cash amount')
+      toast.error(
+        t('pos.session.enterCountedCash', 'Please enter the counted cash amount')
+      )
       return
     }
 
@@ -126,11 +132,13 @@ export function PosSessionDialog({
       })
 
       setSession(null)
-      toast.success('POS Session closed successfully!')
+      toast.success(
+        t('pos.session.shiftClosedToast', 'POS Session closed successfully!')
+      )
       onOpenChange(false)
       onSuccess?.()
     } catch (err: any) {
-      toast.error(err.message || 'Failed to close session')
+      toast.error(err.message || t('pos.session.failedClose', 'Failed to close session'))
     }
   }
 
@@ -193,20 +201,24 @@ export function PosSessionDialog({
               <Lock className='h-5 w-5 text-amber-500' />
             )}
             <DialogTitle>
-              {mode === 'open' ? 'Open Register Session' : 'Close Shift & Reconcile Drawer'}
+              {mode === 'open'
+                ? t('pos.session.openTitle', 'Open Register Session')
+                : t('pos.session.closeTitle', 'Close Shift & Reconcile Drawer')}
             </DialogTitle>
           </div>
           <DialogDescription>
             {mode === 'open'
-              ? `Open a new till session on terminal ${terminal?.name || terminal?.code || ''}`
-              : `Count drawer cash and close session on terminal ${terminal?.code || ''}`}
+              ? `${t('pos.session.openDesc', 'Open a new till session on terminal')} ${terminal?.name || terminal?.code || ''}`
+              : `${t('pos.session.closeDesc', 'Count drawer cash and close session on terminal')} ${terminal?.code || ''}`}
           </DialogDescription>
         </DialogHeader>
 
         {mode === 'open' ? (
           <form onSubmit={handleOpenSubmit} className='space-y-4 py-2'>
             <div className='space-y-2'>
-              <Label htmlFor='openingCash'>Opening Cash Float</Label>
+              <Label htmlFor='openingCash'>
+                {t('pos.session.openingCashFloat', 'Opening Cash Float')}
+              </Label>
               <div className='relative'>
                 <DollarSign className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
                 <Input
@@ -223,15 +235,23 @@ export function PosSessionDialog({
                 />
               </div>
               <p className='text-xs text-muted-foreground'>
-                Counted starting cash placed into the drawer at the start of your shift.
+                {t(
+                  'pos.session.openingHelp',
+                  'Counted starting cash placed into the drawer at the start of your shift.'
+                )}
               </p>
             </div>
 
             <div className='space-y-2'>
-              <Label htmlFor='openNotes'>Shift Notes (Optional)</Label>
+              <Label htmlFor='openNotes'>
+                {t('pos.session.notes', 'Shift Notes (Optional)')}
+              </Label>
               <Textarea
                 id='openNotes'
-                placeholder='Any notes regarding till condition or shift handover...'
+                placeholder={t(
+                  'pos.session.notesPlaceholder',
+                  'Any notes regarding till condition or shift handover...'
+                )}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
@@ -244,7 +264,7 @@ export function PosSessionDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('pos.session.cancel', 'Cancel')}
               </Button>
               <Button
                 type='submit'
@@ -252,7 +272,9 @@ export function PosSessionDialog({
                 className='gap-2 bg-emerald-600 hover:bg-emerald-700 text-white'
               >
                 <Unlock className='h-4 w-4' />
-                {openMutation.isPending ? 'Opening...' : 'Open Shift'}
+                {openMutation.isPending
+                  ? t('pos.session.opening', 'Opening...')
+                  : t('pos.session.openShiftBtn', 'Open Shift')}
               </Button>
             </DialogFooter>
           </form>
@@ -260,45 +282,55 @@ export function PosSessionDialog({
           <form onSubmit={handleCloseSubmit} className='space-y-4 py-2'>
             {isLoadingSummary ? (
               <div className='py-8 text-center text-sm text-muted-foreground'>
-                Calculating session metrics...
+                {t('pos.session.calculating', 'Calculating session metrics...')}
               </div>
             ) : (
               <>
                 <Card className='bg-muted/30 border-dashed'>
                   <CardContent className='p-4 space-y-2 text-xs'>
                     <div className='flex justify-between'>
-                      <span className='text-muted-foreground'>Starting Float:</span>
+                      <span className='text-muted-foreground'>
+                        {t('pos.session.summary.openingCash', 'Starting Float')}:
+                      </span>
                       <span className='font-semibold'>
                         {formatCurrency(summary?.openingCash ?? 0)}
                       </span>
                     </div>
                     <div className='flex justify-between'>
-                      <span className='text-muted-foreground'>Cash Sales:</span>
+                      <span className='text-muted-foreground'>
+                        {t('pos.session.summary.cashSales', 'Cash Sales')}:
+                      </span>
                       <span className='font-semibold text-emerald-600 dark:text-emerald-400'>
                         +{formatCurrency(summary?.cashSales ?? 0)}
                       </span>
                     </div>
                     <div className='flex justify-between'>
-                      <span className='text-muted-foreground'>Cash In (Paid In):</span>
+                      <span className='text-muted-foreground'>
+                        {t('pos.session.summary.cashIn', 'Cash In (Paid In)')}:
+                      </span>
                       <span className='font-semibold text-emerald-600 dark:text-emerald-400'>
                         +{formatCurrency(summary?.cashIn ?? 0)}
                       </span>
                     </div>
                     <div className='flex justify-between'>
-                      <span className='text-muted-foreground'>Cash Out (Paid Out):</span>
+                      <span className='text-muted-foreground'>
+                        {t('pos.session.summary.cashOut', 'Cash Out (Paid Out)')}:
+                      </span>
                       <span className='font-semibold text-rose-500'>
                         -{formatCurrency(summary?.cashOut ?? 0)}
                       </span>
                     </div>
                     <div className='flex justify-between'>
-                      <span className='text-muted-foreground'>Cash Refunds:</span>
+                      <span className='text-muted-foreground'>
+                        {t('pos.session.summary.cashRefunds', 'Cash Refunds')}:
+                      </span>
                       <span className='font-semibold text-rose-500'>
                         -{formatCurrency(summary?.cashRefunds ?? 0)}
                       </span>
                     </div>
                     <Separator />
                     <div className='flex justify-between font-bold text-sm pt-1'>
-                      <span>Expected Cash in Drawer:</span>
+                      <span>{t('pos.session.expectedCash', 'Expected Cash in Drawer')}:</span>
                       <span className='text-primary'>
                         {formatCurrency(expectedCash)}
                       </span>
@@ -308,7 +340,7 @@ export function PosSessionDialog({
 
                 <div className='space-y-2'>
                   <Label htmlFor='actualCash' className='text-sm font-semibold'>
-                    Actual Cash Counted in Drawer *
+                    {t('pos.session.countedCash', 'Actual Cash Counted in Drawer *')}
                   </Label>
                   <div className='relative'>
                     <DollarSign className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
@@ -342,10 +374,10 @@ export function PosSessionDialog({
                       <AlertTriangle className='h-4 w-4' />
                       <span>
                         {discrepancy === 0
-                          ? 'Drawer is perfectly balanced!'
+                          ? t('pos.session.balancedMsg', 'Drawer is perfectly balanced!')
                           : discrepancy > 0
-                          ? `Over by ${formatCurrency(discrepancy)}`
-                          : `Short by ${formatCurrency(Math.abs(discrepancy))}`}
+                          ? `${t('pos.session.overBy', 'Over by')} ${formatCurrency(discrepancy)}`
+                          : `${t('pos.session.shortBy', 'Short by')} ${formatCurrency(Math.abs(discrepancy))}`}
                       </span>
                     </div>
                     <span className='font-bold'>{formatCurrency(discrepancy)}</span>
@@ -353,10 +385,15 @@ export function PosSessionDialog({
                 )}
 
                 <div className='space-y-2'>
-                  <Label htmlFor='closeNotes'>Closing Notes & Discrepancy Reason</Label>
+                  <Label htmlFor='closeNotes'>
+                    {t('pos.session.closingNotes', 'Closing Notes & Discrepancy Reason')}
+                  </Label>
                   <Textarea
                     id='closeNotes'
-                    placeholder='Explain any cash variance or final shift observations...'
+                    placeholder={t(
+                      'pos.session.closingNotesPlaceholder',
+                      'Explain any cash variance or final shift observations...'
+                    )}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={2}
@@ -371,7 +408,7 @@ export function PosSessionDialog({
                     className='gap-2'
                   >
                     <Printer className='h-4 w-4' />
-                    Print Z-Report
+                    {t('pos.reports.printReport', 'Print Z-Report')}
                   </Button>
                   <Button
                     type='submit'
@@ -379,7 +416,9 @@ export function PosSessionDialog({
                     className='gap-2 bg-rose-600 hover:bg-rose-700 text-white'
                   >
                     <Lock className='h-4 w-4' />
-                    {closeMutation.isPending ? 'Closing...' : 'Confirm & Close'}
+                    {closeMutation.isPending
+                      ? t('pos.session.closing', 'Closing...')
+                      : t('pos.session.closeShiftBtn', 'Confirm & Close')}
                   </Button>
                 </DialogFooter>
               </>

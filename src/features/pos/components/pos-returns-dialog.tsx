@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Undo2,
   Search,
@@ -59,6 +60,7 @@ export function PosReturnsDialog({
   open,
   onOpenChange,
 }: PosReturnsDialogProps) {
+  const { t } = useTranslation()
   const { terminal, session } = usePosStore()
   const [searchRef, setSearchRef] = useState('')
   const [searchedOrderRef, setSearchedOrderRef] = useState('')
@@ -134,17 +136,23 @@ export function PosReturnsDialog({
 
   const handleSubmitReturn = async () => {
     if (activeReturns.length === 0) {
-      toast.error('Please select at least one item to return')
+      toast.error(
+        t('pos.returns.noItemsSelected', 'Please select at least one item to return')
+      )
       return
     }
 
     if (!terminal?.id || !terminal.warehouseId) {
-      toast.error('Terminal and warehouse configuration missing')
+      toast.error(
+        t('pos.returns.configMissing', 'Terminal and warehouse configuration missing')
+      )
       return
     }
 
     if (!session?.id) {
-      toast.error('No active session. Please open a session first.')
+      toast.error(
+        t('pos.returns.noActiveSession', 'No active session. Please open a session first.')
+      )
       return
     }
 
@@ -167,10 +175,14 @@ export function PosReturnsDialog({
         notes: notes.trim() || undefined,
       })
 
-      toast.success(`Refund of ${formatCurrency(totalRefundAmount)} processed!`)
+      toast.success(
+        t('pos.returns.refundProcessed', 'Refund of {{amount}} processed!', {
+          amount: formatCurrency(totalRefundAmount),
+        })
+      )
       onOpenChange(false)
     } catch (err: any) {
-      toast.error(err.message || 'Failed to process return')
+      toast.error(err.message || t('pos.returns.failedProcess', 'Failed to process return'))
     }
   }
 
@@ -180,10 +192,15 @@ export function PosReturnsDialog({
         <DialogHeader>
           <div className='flex items-center gap-2'>
             <RotateCcw className='h-5 w-5 text-rose-500' />
-            <DialogTitle>Return Items & Issue Refund</DialogTitle>
+            <DialogTitle>
+              {t('pos.returns.title', 'Return Items & Issue Refund')}
+            </DialogTitle>
           </div>
           <DialogDescription>
-            Search original sales order by order number or receipt code to process return.
+            {t(
+              'pos.returns.desc',
+              'Search original sales order by order number or receipt code to process return.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -192,7 +209,10 @@ export function PosReturnsDialog({
           <div className='relative flex-1'>
             <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
             <Input
-              placeholder='Scan receipt barcode or enter order # (e.g. SO-2026-0001)...'
+              placeholder={t(
+                'pos.returns.searchPlaceholder',
+                'Scan receipt barcode or enter order # (e.g. SO-2026-0001)...'
+              )}
               className='pl-9'
               value={searchRef}
               onChange={(e) => setSearchRef(e.target.value)}
@@ -200,7 +220,11 @@ export function PosReturnsDialog({
             />
           </div>
           <Button type='submit' disabled={isSearching || !searchRef}>
-            {isSearching ? <Loader2 className='h-4 w-4 animate-spin' /> : 'Lookup'}
+            {isSearching ? (
+              <Loader2 className='h-4 w-4 animate-spin' />
+            ) : (
+              t('pos.returns.searchBtn', 'Lookup')
+            )}
           </Button>
         </form>
 
@@ -210,14 +234,16 @@ export function PosReturnsDialog({
             <div className='rounded-lg border bg-muted/40 p-3 text-xs flex justify-between items-center'>
               <div>
                 <p className='font-bold text-sm'>
-                  Order: {order.order_number || order.id}
+                  {t('pos.returns.order', 'Order')}: {order.order_number || order.id}
                 </p>
                 <p className='text-muted-foreground'>
-                  Date: {new Date(order.created_at).toLocaleDateString()} • Channel: {order.channel || 'POS'}
+                  {t('pos.returns.date', 'Date')}: {new Date(order.created_at).toLocaleDateString()} • {t('pos.returns.channel', 'Channel')}: {order.channel || 'POS'}
                 </p>
               </div>
               <div className='text-right'>
-                <p className='text-muted-foreground'>Total Paid</p>
+                <p className='text-muted-foreground'>
+                  {t('pos.returns.totalPaid', 'Total Paid')}
+                </p>
                 <p className='font-bold text-base text-primary'>
                   {formatCurrency(Number(order.total_amount || 0))}
                 </p>
@@ -232,7 +258,7 @@ export function PosReturnsDialog({
                 onClick={handleSelectOrder}
                 className='w-full'
               >
-                Load Items from this Order
+                {t('pos.returns.loadItems', 'Load Items from this Order')}
               </Button>
             )}
 
@@ -248,10 +274,12 @@ export function PosReturnsDialog({
                       <div className='flex-1 min-w-0'>
                         <p className='font-semibold truncate'>{item.productName}</p>
                         <p className='text-muted-foreground'>
-                          {item.sku} • {formatCurrency(item.unitPrice)} each
+                          {item.sku} • {formatCurrency(item.unitPrice)}{' '}
+                          {t('pos.returns.each', 'each')}
                         </p>
                         <p className='text-[10px] text-muted-foreground'>
-                          Max returnable: {item.maxReturnable}
+                          {t('pos.returns.maxReturnable', 'Max returnable')}:{' '}
+                          {item.maxReturnable}
                         </p>
                       </div>
 
@@ -280,10 +308,18 @@ export function PosReturnsDialog({
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value='defective'>Defective</SelectItem>
-                            <SelectItem value='wrong_item'>Wrong Item</SelectItem>
-                            <SelectItem value='customer_mind'>Changed Mind</SelectItem>
-                            <SelectItem value='expired'>Expired</SelectItem>
+                            <SelectItem value='defective'>
+                              {t('pos.returns.reasons.defective', 'Defective')}
+                            </SelectItem>
+                            <SelectItem value='wrong_item'>
+                              {t('pos.returns.reasons.wrongItem', 'Wrong Item')}
+                            </SelectItem>
+                            <SelectItem value='customer_mind'>
+                              {t('pos.returns.reasons.customerMind', 'Changed Mind')}
+                            </SelectItem>
+                            <SelectItem value='expired'>
+                              {t('pos.returns.reasons.expired', 'Expired')}
+                            </SelectItem>
                           </SelectContent>
                         </Select>
 
@@ -302,7 +338,7 @@ export function PosReturnsDialog({
                             htmlFor={`restock-${item.productVariantId}`}
                             className='text-[10px] cursor-pointer'
                           >
-                            Restock
+                            {t('pos.returns.restock', 'Restock')}
                           </Label>
                         </div>
                       </div>
@@ -316,7 +352,9 @@ export function PosReturnsDialog({
             {activeReturns.length > 0 && (
               <div className='rounded-lg border bg-rose-500/5 p-3 border-rose-500/20 space-y-3'>
                 <div className='flex items-center justify-between'>
-                  <Label className='text-xs font-semibold'>Refund Method</Label>
+                  <Label className='text-xs font-semibold'>
+                    {t('pos.returns.refundMethod', 'Refund Method')}
+                  </Label>
                   <Select
                     value={refundMethod}
                     onValueChange={(v) => setRefundMethod(v as any)}
@@ -325,15 +363,21 @@ export function PosReturnsDialog({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value='cash'>Cash</SelectItem>
-                      <SelectItem value='card'>Card Refund</SelectItem>
-                      <SelectItem value='wallet'>Store Wallet</SelectItem>
+                      <SelectItem value='cash'>
+                        {t('pos.returns.refundCash', 'Cash')}
+                      </SelectItem>
+                      <SelectItem value='card'>
+                        {t('pos.returns.refundCard', 'Card Refund')}
+                      </SelectItem>
+                      <SelectItem value='wallet'>
+                        {t('pos.returns.refundWallet', 'Store Wallet')}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className='flex justify-between items-center text-sm font-bold pt-1 border-t border-rose-500/20'>
-                  <span>Total Refund Due:</span>
+                  <span>{t('pos.returns.totalRefund', 'Total Refund Due:')}</span>
                   <span className='text-rose-600 dark:text-rose-400 text-lg'>
                     {formatCurrency(totalRefundAmount)}
                   </span>
@@ -343,10 +387,16 @@ export function PosReturnsDialog({
 
             <div className='space-y-1.5'>
               <Label className='text-xs text-muted-foreground'>
-                Return Reason / Authorization Notes
+                {t(
+                  'pos.returns.notes',
+                  'Return Reason / Authorization Notes'
+                )}
               </Label>
               <Textarea
-                placeholder='Manager approval reference or customer comments...'
+                placeholder={t(
+                  'pos.returns.notesPlaceholder',
+                  'Manager approval reference or customer comments...'
+                )}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
@@ -355,7 +405,10 @@ export function PosReturnsDialog({
           </div>
         ) : (
           <div className='py-8 text-center text-xs text-muted-foreground'>
-            Enter a valid Order ID or Receipt Number to load customer transaction.
+            {t(
+              'pos.returns.emptyPrompt',
+              'Enter a valid Order ID or Receipt Number to load customer transaction.'
+            )}
           </div>
         )}
 
@@ -365,7 +418,7 @@ export function PosReturnsDialog({
             variant='outline'
             onClick={() => onOpenChange(false)}
           >
-            Cancel
+            {t('pos.returns.cancel', 'Cancel')}
           </Button>
           <Button
             type='button'
@@ -380,7 +433,7 @@ export function PosReturnsDialog({
             ) : (
               <Undo2 className='h-4 w-4' />
             )}
-            Process Refund ({formatCurrency(totalRefundAmount)})
+            {t('pos.returns.processReturnBtn', 'Process Refund')} ({formatCurrency(totalRefundAmount)})
           </Button>
         </DialogFooter>
       </DialogContent>

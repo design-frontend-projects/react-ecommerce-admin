@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ShoppingCart,
   LayoutDashboard,
@@ -14,6 +15,7 @@ import { PosTerminalsPage } from '../pages/pos-terminals-page'
 import { PosReportsPage } from '../pages/pos-reports-page'
 
 export function PosLayout() {
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState('checkout')
 
   return (
@@ -27,23 +29,23 @@ export function PosLayout() {
           <TabsList className='grid w-full max-w-2xl grid-cols-5 h-9'>
             <TabsTrigger value='checkout' className='gap-1.5 text-xs'>
               <ShoppingCart className='h-3.5 w-3.5' />
-              Register
+              {t('pos.tabs.register', 'Register')}
             </TabsTrigger>
             <TabsTrigger value='dashboard' className='gap-1.5 text-xs'>
               <LayoutDashboard className='h-3.5 w-3.5' />
-              Shift Analytics
+              {t('pos.tabs.shiftAnalytics', 'Shift Analytics')}
             </TabsTrigger>
             <TabsTrigger value='shipments' className='gap-1.5 text-xs'>
               <Truck className='h-3.5 w-3.5' />
-              Shipments
+              {t('pos.tabs.shipments', 'Shipments')}
             </TabsTrigger>
             <TabsTrigger value='terminals' className='gap-1.5 text-xs'>
               <Monitor className='h-3.5 w-3.5' />
-              Terminals
+              {t('pos.tabs.terminals', 'Terminals')}
             </TabsTrigger>
             <TabsTrigger value='reports' className='gap-1.5 text-xs'>
               <FileSpreadsheet className='h-3.5 w-3.5' />
-              Audit Logs
+              {t('pos.tabs.auditLogs', 'Audit Logs')}
             </TabsTrigger>
           </TabsList>
         </div>

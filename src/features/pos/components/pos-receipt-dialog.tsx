@@ -1,4 +1,5 @@
 import { useRef, useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Printer, CheckCircle2, Download, Mail, MessageCircle, Send } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
@@ -63,6 +64,7 @@ export function PosReceiptDialog({
   onOpenChange,
   receipt,
 }: PosReceiptDialogProps) {
+  const { t } = useTranslation()
   const receiptRef = useRef<HTMLDivElement>(null)
   const { customer } = usePosStore()
 
@@ -285,7 +287,9 @@ export function PosReceiptDialog({
         <DialogHeader>
           <div className='flex items-center justify-center gap-2 text-primary'>
             <CheckCircle2 className='h-6 w-6 text-emerald-500' />
-            <DialogTitle className='text-xl font-bold'>Sale Completed</DialogTitle>
+            <DialogTitle className='text-xl font-bold'>
+              {t('pos.receiptModal.saleCompleted', 'Sale Completed')}
+            </DialogTitle>
           </div>
         </DialogHeader>
 
@@ -315,15 +319,25 @@ export function PosReceiptDialog({
 
           <div className='flex justify-between text-[11px]'>
             <div>
-              <p>Order: <span className='font-bold'>{receipt.orderNumber}</span></p>
+              <p>
+                {t('pos.receiptModal.order', 'Order')}:{' '}
+                <span className='font-bold'>{receipt.orderNumber}</span>
+              </p>
               {receipt.invoiceNumber && (
-                <p>Invoice: <span className='font-bold text-primary'>{receipt.invoiceNumber}</span></p>
+                <p>
+                  {t('pos.receiptModal.invoice', 'Invoice')}:{' '}
+                  <span className='font-bold text-primary'>{receipt.invoiceNumber}</span>
+                </p>
               )}
-              <p>Terminal: {receipt.terminalCode || 'POS-01'}</p>
+              <p>
+                {t('pos.receiptModal.terminal', 'Terminal')}: {receipt.terminalCode || 'POS-01'}
+              </p>
             </div>
             <div className='text-right'>
               <p>{formattedDate}</p>
-              <p>Cashier: {receipt.cashierName || 'Cashier'}</p>
+              <p>
+                {t('pos.receiptModal.cashier', 'Cashier')}: {receipt.cashierName || 'Cashier'}
+              </p>
             </div>
           </div>
 
@@ -354,22 +368,26 @@ export function PosReceiptDialog({
           {/* Totals */}
           <div className='space-y-1'>
             <div className='flex justify-between'>
-              <span className='text-muted-foreground'>Subtotal</span>
+              <span className='text-muted-foreground'>
+                {t('pos.receiptModal.subtotal', 'Subtotal')}
+              </span>
               <span>{formatCurrency(receipt.subtotal)}</span>
             </div>
             {receipt.discountTotal && receipt.discountTotal > 0 && (
               <div className='flex justify-between text-emerald-600 dark:text-emerald-400'>
-                <span>Discount</span>
+                <span>{t('pos.receiptModal.discount', 'Discount')}</span>
                 <span>-{formatCurrency(receipt.discountTotal)}</span>
               </div>
             )}
             <div className='flex justify-between'>
-              <span className='text-muted-foreground'>Taxes</span>
+              <span className='text-muted-foreground'>
+                {t('pos.receiptModal.tax', 'Taxes')}
+              </span>
               <span>{formatCurrency(receipt.taxTotal)}</span>
             </div>
             <Separator />
             <div className='flex justify-between text-sm font-bold pt-1'>
-              <span>GRAND TOTAL</span>
+              <span>{t('pos.receiptModal.total', 'GRAND TOTAL')}</span>
               <span className='text-primary'>{formatCurrency(receipt.totalAmount)}</span>
             </div>
           </div>
@@ -379,7 +397,7 @@ export function PosReceiptDialog({
           {/* Payments */}
           <div className='space-y-1 text-[11px]'>
             <p className='font-bold text-[10px] uppercase text-muted-foreground'>
-              Payment Breakdown:
+              {t('pos.receiptModal.paymentMethodsLabel', 'Payment Breakdown:')}
             </p>
             {receipt.payments.map((p, idx) => (
               <div key={idx} className='flex justify-between'>
@@ -389,14 +407,14 @@ export function PosReceiptDialog({
             ))}
             {receipt.changeGiven && receipt.changeGiven > 0 && (
               <div className='flex justify-between font-bold text-emerald-600 dark:text-emerald-400'>
-                <span>Change Returned</span>
+                <span>{t('pos.receiptModal.change', 'Change Returned')}</span>
                 <span>{formatCurrency(receipt.changeGiven)}</span>
               </div>
             )}
           </div>
 
           <div className='text-center pt-2 text-[10px] text-muted-foreground'>
-            <p>Thank you for shopping with us!</p>
+            <p>{t('pos.receipt.thankYou', 'Thank you for shopping with us!')}</p>
           </div>
         </div>
 
@@ -407,7 +425,7 @@ export function PosReceiptDialog({
             size='sm'
             onClick={() => onOpenChange(false)}
           >
-            Close
+            {t('pos.receiptModal.close', 'Close')}
           </Button>
 
           {/* WhatsApp share */}
@@ -431,11 +449,13 @@ export function PosReceiptDialog({
                 }}
               >
                 <MessageCircle className='h-4 w-4' />
-                WhatsApp
+                {t('pos.receiptModal.shareWhatsApp', 'WhatsApp')}
               </Button>
             </PopoverTrigger>
             <PopoverContent className='w-64 p-3 space-y-2' align='start'>
-              <p className='text-xs font-semibold'>Enter phone number</p>
+              <p className='text-xs font-semibold'>
+                {t('pos.receiptModal.enterPhone', 'Enter phone number')}
+              </p>
               <Input
                 type='tel'
                 placeholder='+1234567890'
@@ -456,11 +476,13 @@ export function PosReceiptDialog({
                       '_blank'
                     )
                     setIsWhatsappPopoverOpen(false)
-                    toast.success('Opening WhatsApp...')
+                    toast.success(
+                      t('pos.receiptModal.openingWhatsApp', 'Opening WhatsApp...')
+                    )
                   }
                 }}
               >
-                <Send className='h-3 w-3' /> Send
+                <Send className='h-3 w-3' /> {t('pos.receiptModal.send', 'Send')}
               </Button>
             </PopoverContent>
           </Popover>
@@ -486,11 +508,13 @@ export function PosReceiptDialog({
                 }}
               >
                 <Mail className='h-4 w-4' />
-                Email
+                {t('pos.receiptModal.shareEmail', 'Email')}
               </Button>
             </PopoverTrigger>
             <PopoverContent className='w-64 p-3 space-y-2' align='start'>
-              <p className='text-xs font-semibold'>Enter email address</p>
+              <p className='text-xs font-semibold'>
+                {t('pos.receiptModal.enterEmail', 'Enter email address')}
+              </p>
               <Input
                 type='email'
                 placeholder='customer@example.com'
@@ -510,11 +534,13 @@ export function PosReceiptDialog({
                       '_blank'
                     )
                     setIsEmailPopoverOpen(false)
-                    toast.success('Opening email client...')
+                    toast.success(
+                      t('pos.receiptModal.openingEmail', 'Opening email client...')
+                    )
                   }
                 }}
               >
-                <Send className='h-3 w-3' /> Send
+                <Send className='h-3 w-3' /> {t('pos.receiptModal.send', 'Send')}
               </Button>
             </PopoverContent>
           </Popover>
@@ -525,7 +551,7 @@ export function PosReceiptDialog({
             className='gap-2 bg-primary text-primary-foreground'
           >
             <Printer className='h-4 w-4' />
-            Print Receipt
+            {t('pos.receiptModal.print', 'Print Receipt')}
           </Button>
         </DialogFooter>
       </DialogContent>

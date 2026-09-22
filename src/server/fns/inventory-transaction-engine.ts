@@ -412,6 +412,10 @@ export async function postInventoryTransaction(
                   : damaged
           }
         }
+        console.log(
+          `item: ${item.product_variant_id}, qty: ${item.quantity}, qty before: ${item.qty_before}`
+        )
+        consoel.info(item)
 
         if (!allowsNegative && (onHand.lt(0) || available.lt(0))) {
           throw new ApiError(

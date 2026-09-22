@@ -312,9 +312,11 @@ export const posApi = {
         productId: string
         productVariantId: string
         productName: string
+        description?: string | null
         variantName?: string | null
         sku: string
         barcode?: string | null
+        weight?: string | null
         basePrice: string
         costPrice: string
         categoryId?: string | null
@@ -326,6 +328,7 @@ export const posApi = {
         taxInclusive: boolean
         stockAvailable: string
         stockOnHand: string
+        stockReserved?: string
         variantAttributes?: any
       }>
       categories?: Array<{ id: string; name: string }>

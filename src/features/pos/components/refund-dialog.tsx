@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -55,12 +56,12 @@ import { refundFormSchema, type RefundFormValues } from '../data/schema'
 import { ManagerAuthDialog } from './manager-auth-dialog'
 
 const REFUND_REASONS = [
-  'Defective / Damaged',
-  'Wrong Item',
-  'Customer Changed Mind',
-  'Overcharged',
-  'Duplicate Transaction',
-  'Other',
+  { value: 'Defective / Damaged', key: 'pos.refunds.reasons.defective', defaultLabel: 'Defective / Damaged' },
+  { value: 'Wrong Item', key: 'pos.refunds.reasons.wrongItem', defaultLabel: 'Wrong Item' },
+  { value: 'Customer Changed Mind', key: 'pos.refunds.reasons.customerChangedMind', defaultLabel: 'Customer Changed Mind' },
+  { value: 'Overcharged', key: 'pos.refunds.reasons.overcharged', defaultLabel: 'Overcharged' },
+  { value: 'Duplicate Transaction', key: 'pos.refunds.reasons.duplicateTransaction', defaultLabel: 'Duplicate Transaction' },
+  { value: 'Other', key: 'pos.refunds.reasons.other', defaultLabel: 'Other' },
 ]
 
 type Step = 'lookup' | 'details' | 'success'
@@ -78,6 +79,7 @@ function TransactionRow({
   tx: PosTransactionRecord
   onSelect: () => void
 }) {
+  const { t } = useTranslation()
   return (
     <button
       type='button'
@@ -88,8 +90,10 @@ function TransactionRow({
         <p className='truncate text-sm font-medium'>{tx.transaction_number}</p>
         <p className='text-xs text-muted-foreground'>
           {format(new Date(tx.created_at), 'MMM d, yyyy h:mm a')} -{' '}
-          {tx.financial_transaction_details.length} item
-          {tx.financial_transaction_details.length !== 1 ? 's' : ''}
+          {tx.financial_transaction_details.length}{' '}
+          {tx.financial_transaction_details.length !== 1
+            ? t('pos.refunds.items', 'items')
+            : t('pos.refunds.item', 'item')}
         </p>
       </div>
       <div className='ml-4 flex shrink-0 items-center gap-2'>
@@ -121,6 +125,7 @@ function formatRefundStatusLabel(status: string | null) {
 }
 
 export function RefundDialog() {
+  const { t } = useTranslation()
   const selectedBranchId = useAuthStore.getState().auth.selectedBranchId
   const [open, setOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
@@ -187,10 +192,10 @@ export function RefundDialog() {
       queryClient.invalidateQueries({ queryKey: ['shift-dashboard-analytics'] })
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard_data'] })
-      toast.success('Refund processed successfully.')
+      toast.success(t('pos.refunds.refundSuccessToast', 'Refund processed successfully.'))
     },
     onError: (err: Error) => {
-      toast.error(`Failed to process refund: ${err.message}`)
+      toast.error(t('pos.refunds.refundFailedToast', 'Failed to process refund: {{message}}', { message: err.message }))
     },
   })
 
@@ -223,7 +228,7 @@ export function RefundDialog() {
 
   const handleRefundAttempt = async () => {
     if (!selectedTx) {
-      toast.error('Please select a transaction first')
+      toast.error(t('pos.refunds.selectTransactionFirstToast', 'Please select a transaction first'))
       return
     }
 
@@ -241,7 +246,7 @@ export function RefundDialog() {
 
   const handleManagerApproved = () => {
     if (!selectedTx) {
-      toast.error('No transaction selected for refund')
+      toast.error(t('pos.refunds.noTxSelectedToast', 'No transaction selected for refund'))
       return
     }
     refundMutation.mutate(form.getValues())
@@ -264,7 +269,7 @@ export function RefundDialog() {
           className='gap-1.5 border-destructive/30 text-destructive hover:bg-destructive/5'
         >
           <RotateCcw className='h-4 w-4' />
-          <span className='hidden sm:inline'>Refund</span>
+          <span className='hidden sm:inline'>{t('pos.refunds.trigger', 'Refund')}</span>
         </Button>
       </DialogTrigger>
 
@@ -272,7 +277,7 @@ export function RefundDialog() {
         <DialogHeader className='border-b bg-muted/30 px-6 pt-6 pb-4'>
           <DialogTitle className='flex items-center gap-2'>
             <RotateCcw className='h-5 w-5 text-destructive' />
-            Process Refund
+            {t('pos.refunds.title', 'Process Refund')}
           </DialogTitle>
 
           {step !== 'success' && (
@@ -282,7 +287,7 @@ export function RefundDialog() {
                   step === 'lookup' ? 'font-semibold text-foreground' : ''
                 }
               >
-                1. Find Transaction
+                {t('pos.refunds.stepFind', '1. Find Transaction')}
               </span>
               <ChevronRight className='h-3 w-3' />
               <span
@@ -290,10 +295,10 @@ export function RefundDialog() {
                   step === 'details' ? 'font-semibold text-foreground' : ''
                 }
               >
-                2. Refund Details
+                {t('pos.refunds.stepDetails', '2. Refund Details')}
               </span>
               <ChevronRight className='h-3 w-3' />
-              <span>3. Manager Auth</span>
+              <span>{t('pos.refunds.stepAuth', '3. Manager Auth')}</span>
             </div>
           )}
         </DialogHeader>
@@ -310,12 +315,12 @@ export function RefundDialog() {
               className='flex flex-col gap-4 px-6 py-5'
             >
               <div className='space-y-1'>
-                <Label>Search by Transaction Number</Label>
+                <Label>{t('pos.refunds.searchLabel', 'Search by Transaction Number')}</Label>
                 <div className='relative'>
                   <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
                   <Input
                     className='pl-9'
-                    placeholder='e.g. POS-1234567890'
+                    placeholder={t('pos.refunds.searchPlaceholder', 'e.g. POS-1234567890')}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     autoFocus
@@ -326,7 +331,7 @@ export function RefundDialog() {
               {hasSearch && refundedMatches.length > 0 && (
                 <div className='space-y-2'>
                   <Label className='text-xs tracking-wide text-muted-foreground uppercase'>
-                    Already Refunded
+                    {t('pos.refunds.alreadyRefunded', 'Already Refunded')}
                   </Label>
                   <div className='space-y-2 rounded-lg border border-amber-200 bg-amber-50/60 p-3'>
                     {refundedMatches.map((tx) => {
@@ -347,7 +352,7 @@ export function RefundDialog() {
                                       new Date(latestRefund.refund_date),
                                       'MMM d, yyyy h:mm a'
                                     )
-                                  : 'Refund date unavailable'}
+                                  : t('pos.refunds.dateUnavailable', 'Refund date unavailable')}
                               </p>
                             </div>
                             <Badge
@@ -365,7 +370,7 @@ export function RefundDialog() {
                           <div className='mt-2 grid grid-cols-1 gap-1 text-xs text-muted-foreground'>
                             <p>
                               <span className='font-medium text-foreground'>
-                                Refund ID:
+                                {t('pos.refunds.refundId', 'Refund ID:')}
                               </span>{' '}
                               {latestRefund
                                 ? `#${latestRefund.refund_id}`
@@ -373,7 +378,7 @@ export function RefundDialog() {
                             </p>
                             <p>
                               <span className='font-medium text-foreground'>
-                                Refund Amount:
+                                {t('pos.refunds.refundAmountLabel', 'Refund Amount:')}
                               </span>{' '}
                               {formatCurrency(
                                 Number(latestRefund?.refund_amount ?? 0)
@@ -381,13 +386,13 @@ export function RefundDialog() {
                             </p>
                             <p>
                               <span className='font-medium text-foreground'>
-                                Reason:
+                                {t('pos.refunds.reasonLabel', 'Reason:')}
                               </span>{' '}
                               {latestRefund?.reason || '--'}
                             </p>
                             <p className='truncate'>
                               <span className='font-medium text-foreground'>
-                                Notes:
+                                {t('pos.refunds.notesLabel', 'Notes:')}
                               </span>{' '}
                               {latestRefund?.notes || '--'}
                             </p>
@@ -401,7 +406,7 @@ export function RefundDialog() {
 
               <div className='space-y-1'>
                 <Label className='text-xs tracking-wide text-muted-foreground uppercase'>
-                  Recent Sales (Last 7 Days)
+                  {t('pos.refunds.recentSalesLabel', 'Recent Sales (Last 7 Days)')}
                 </Label>
 
                 {isSalesLoading && (
@@ -413,15 +418,15 @@ export function RefundDialog() {
                 {isSalesError && (
                   <div className='flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive'>
                     <AlertCircle className='h-4 w-4 shrink-0' />
-                    Failed to load recent transactions.
+                    {t('pos.refunds.failedLoadSales', 'Failed to load recent transactions.')}
                   </div>
                 )}
 
                 {!isSalesLoading && hasNoLookupResults && (
                   <p className='py-8 text-center text-sm text-muted-foreground'>
                     {hasSearch
-                      ? 'No transactions match your search.'
-                      : 'No recent completed sales found.'}
+                      ? t('pos.refunds.noMatchSearch', 'No transactions match your search.')
+                      : t('pos.refunds.noRecentSales', 'No recent completed sales found.')}
                   </p>
                 )}
 
@@ -431,8 +436,7 @@ export function RefundDialog() {
                   refundableTransactions.length === 0 &&
                   refundedMatches.length > 0 && (
                     <p className='rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800'>
-                      Matching transactions are already refunded and cannot be
-                      refunded again.
+                      {t('pos.refunds.alreadyRefundedAlert', 'Matching transactions are already refunded and cannot be refunded again.')}
                     </p>
                   )}
 
@@ -491,7 +495,10 @@ export function RefundDialog() {
                       className='flex justify-between text-xs text-muted-foreground'
                     >
                       <span className='mr-2 truncate'>
-                        {d.products?.name ?? `Product #${d.product_id}`}{' '}
+                        {d.products?.name ??
+                          t('pos.refunds.productFallback', 'Product #{{id}}', {
+                            id: d.product_id,
+                          })}{' '}
                         <span className='text-muted-foreground/60'>
                           x {Number(d.quantity)}
                         </span>
@@ -510,7 +517,7 @@ export function RefundDialog() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Reason for Refund{' '}
+                          {t('pos.refunds.reasonForRefund', 'Reason for Refund')}{' '}
                           <span className='text-destructive'>*</span>
                         </FormLabel>
                         <Select
@@ -519,13 +526,13 @@ export function RefundDialog() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Select a reason...' />
+                              <SelectValue placeholder={t('pos.refunds.selectReasonPlaceholder', 'Select a reason...')} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {REFUND_REASONS.map((r) => (
-                              <SelectItem key={r} value={r}>
-                                {r}
+                              <SelectItem key={r.value} value={r.value}>
+                                {t(r.key, r.defaultLabel)}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -541,7 +548,7 @@ export function RefundDialog() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Refund Amount{' '}
+                          {t('pos.refunds.refundAmount', 'Refund Amount')}{' '}
                           <span className='text-destructive'>*</span>
                         </FormLabel>
                         <FormControl>
@@ -564,7 +571,7 @@ export function RefundDialog() {
                           </div>
                         </FormControl>
                         <p className='text-xs text-muted-foreground'>
-                          Max: {formatCurrency(maxRefund)}
+                          {t('pos.refunds.max', 'Max:')} {formatCurrency(maxRefund)}
                         </p>
                         <FormMessage />
                       </FormItem>
@@ -577,14 +584,14 @@ export function RefundDialog() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Additional Notes{' '}
+                          {t('pos.refunds.additionalNotes', 'Additional Notes')}{' '}
                           <span className='text-xs text-muted-foreground'>
-                            (Optional)
+                            {t('pos.refunds.optional', '(Optional)')}
                           </span>
                         </FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder='Any additional context...'
+                            placeholder={t('pos.refunds.notesPlaceholder', 'Any additional context...')}
                             className='resize-none'
                             rows={2}
                             {...field}
@@ -604,7 +611,7 @@ export function RefundDialog() {
                   onClick={() => setStep('lookup')}
                   disabled={refundMutation.isPending}
                 >
-                  Back
+                  {t('pos.refunds.back', 'Back')}
                 </Button>
                 <Button
                   variant='destructive'
@@ -617,7 +624,7 @@ export function RefundDialog() {
                   ) : (
                     <RotateCcw className='mr-2 h-4 w-4' />
                   )}
-                  Authorize &amp; Refund
+                  {t('pos.refunds.authorizeAndRefund', 'Authorize & Refund')}
                 </Button>
               </div>
             </motion.div>
@@ -637,10 +644,10 @@ export function RefundDialog() {
                 <CheckCircle2 className='h-8 w-8 text-green-600' />
               </div>
               <div>
-                <p className='text-lg font-semibold'>Refund Processed</p>
+                <p className='text-lg font-semibold'>{t('pos.refunds.refundProcessed', 'Refund Processed')}</p>
                 {newRefundId && (
                   <p className='text-sm text-muted-foreground'>
-                    Refund #{newRefundId}
+                    {t('pos.refunds.refundNum', 'Refund #')}{newRefundId}
                   </p>
                 )}
               </div>
@@ -648,7 +655,7 @@ export function RefundDialog() {
                 className='mt-2 w-full'
                 onClick={() => handleOpenChange(false)}
               >
-                Done
+                {t('pos.refunds.done', 'Done')}
               </Button>
             </motion.div>
           )}
