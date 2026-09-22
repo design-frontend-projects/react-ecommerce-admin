@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CreditCard, Banknote, Loader2, Truck } from 'lucide-react'
@@ -47,6 +48,7 @@ export function CheckoutModal({
   onConfirm,
   isProcessing,
 }: CheckoutModalProps) {
+  const { t } = useTranslation()
   const [selectedMethod, setSelectedMethod] = useState<
     CheckoutRequestType['paymentMethod'] | null
   >(null)
@@ -93,7 +95,7 @@ export function CheckoutModal({
       <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-xl'>
         <DialogHeader>
           <DialogTitle className='text-center text-2xl font-bold'>
-            Checkout
+            {t('pos.checkoutDialog.title', 'Checkout')}
           </DialogTitle>
         </DialogHeader>
 
@@ -104,7 +106,7 @@ export function CheckoutModal({
 
           <div className='w-full space-y-4'>
             <div className='text-center text-sm font-semibold tracking-wider text-muted-foreground uppercase'>
-              Select Payment Method
+              {t('pos.checkoutDialog.selectPaymentMethod', 'Select Payment Method')}
             </div>
 
             <div className='grid w-full grid-cols-2 gap-4'>
@@ -115,7 +117,7 @@ export function CheckoutModal({
                 onClick={() => setSelectedMethod('cash')}
               >
                 <Banknote className='h-6 w-6' />
-                <span className='font-semibold'>Cash</span>
+                <span className='font-semibold'>{t('pos.checkout.cash', 'Cash')}</span>
                 {selectedMethod === 'cash' && (
                   <div className='pointer-events-none absolute inset-0 rounded bg-primary/10' />
                 )}
@@ -128,7 +130,7 @@ export function CheckoutModal({
                 onClick={() => setSelectedMethod('card')}
               >
                 <CreditCard className='h-6 w-6' />
-                <span className='font-semibold'>Card</span>
+                <span className='font-semibold'>{t('pos.checkout.card', 'Card')}</span>
                 {selectedMethod === 'card' && (
                   <div className='pointer-events-none absolute inset-0 rounded bg-primary/10' />
                 )}
@@ -141,7 +143,7 @@ export function CheckoutModal({
               <div className='flex items-center gap-2'>
                 <Truck className='h-5 w-5 text-primary' />
                 <Label htmlFor='shipment-toggle' className='font-semibold'>
-                  Shipment / Delivery
+                  {t('pos.checkout.shipmentDelivery', 'Shipment / Delivery')}
                 </Label>
               </div>
               <Switch
@@ -159,9 +161,11 @@ export function CheckoutModal({
                     name='recipientName'
                     render={({ field }) => (
                       <FormItem className='col-span-2'>
-                        <FormLabel>Recipient Name *</FormLabel>
+                        <FormLabel>
+                          {t('pos.checkout.recipientName', 'Recipient Name')} *
+                        </FormLabel>
                         <FormControl>
-                          <Input placeholder='John Doe' {...field} />
+                          <Input placeholder={t('pos.checkout.namePlaceholder', 'John Doe')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -172,9 +176,11 @@ export function CheckoutModal({
                     name='recipientPhone'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone Number *</FormLabel>
+                        <FormLabel>
+                          {t('pos.checkout.phoneNumber', 'Phone Number')} *
+                        </FormLabel>
                         <FormControl>
-                          <Input placeholder='+1234567890' {...field} />
+                          <Input placeholder={t('pos.checkout.phonePlaceholder', '+1234567890')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -185,9 +191,9 @@ export function CheckoutModal({
                     name='postalCode'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Postal Code</FormLabel>
+                        <FormLabel>{t('pos.checkout.postalCode', 'Postal Code')}</FormLabel>
                         <FormControl>
-                          <Input placeholder='12345' {...field} />
+                          <Input placeholder={t('pos.checkout.postalCodePlaceholder', '12345')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -198,10 +204,12 @@ export function CheckoutModal({
                     name='deliveryAddress'
                     render={({ field }) => (
                       <FormItem className='col-span-2'>
-                        <FormLabel>Delivery Address *</FormLabel>
+                        <FormLabel>
+                          {t('pos.checkout.deliveryAddress', 'Delivery Address')} *
+                        </FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder='Street, Building, Apartment...'
+                            placeholder={t('pos.checkout.addressPlaceholder', 'Street, Building, Apartment...')}
                             className='min-h-[80px]'
                             {...field}
                           />
@@ -215,9 +223,9 @@ export function CheckoutModal({
                     name='city'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>City</FormLabel>
+                        <FormLabel>{t('pos.checkout.city', 'City')}</FormLabel>
                         <FormControl>
-                          <Input placeholder='New York' {...field} />
+                          <Input placeholder={t('pos.checkout.cityPlaceholder', 'New York')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -228,9 +236,9 @@ export function CheckoutModal({
                     name='state'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>State / Province</FormLabel>
+                        <FormLabel>{t('pos.checkout.stateProvince', 'State / Province')}</FormLabel>
                         <FormControl>
-                          <Input placeholder='NY' {...field} />
+                          <Input placeholder={t('pos.checkout.statePlaceholder', 'NY')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -241,10 +249,10 @@ export function CheckoutModal({
                     name='notes'
                     render={({ field }) => (
                       <FormItem className='col-span-2'>
-                        <FormLabel>Delivery Notes</FormLabel>
+                        <FormLabel>{t('pos.checkout.deliveryNotes', 'Delivery Notes')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='Gate code, landmark, etc.'
+                            placeholder={t('pos.checkout.notesPlaceholder', 'Gate code, landmark, etc.')}
                             {...field}
                           />
                         </FormControl>
@@ -264,7 +272,7 @@ export function CheckoutModal({
             onClick={() => handleOpenChange(false)}
             disabled={isProcessing}
           >
-            Cancel
+            {t('pos.checkout.cancel', 'Cancel')}
           </Button>
           <Button
             size='lg'
@@ -275,10 +283,10 @@ export function CheckoutModal({
             {isProcessing ? (
               <>
                 <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                Processing...
+                {t('pos.checkoutDialog.processing', 'Processing...')}
               </>
             ) : (
-              'Confirm Payment'
+              t('pos.checkoutDialog.confirmPayment', 'Confirm Payment')
             )}
           </Button>
         </DialogFooter>

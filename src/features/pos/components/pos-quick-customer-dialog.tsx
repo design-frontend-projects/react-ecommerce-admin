@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -54,6 +55,7 @@ export function PosQuickCustomerDialog({
   onOpenChange,
   onCustomerCreated,
 }: PosQuickCustomerDialogProps) {
+  const { t } = useTranslation()
   const createCustomerMutation = useCreateCustomer()
 
   const form = useForm<QuickCustomerFormValues>({
@@ -77,7 +79,9 @@ export function PosQuickCustomerDialog({
 
       if (result) {
         toast.success(
-          `Customer ${values.first_name} ${values.last_name} created`
+          t('pos.quickCustomer.createdToast', 'Customer {{name}} created', {
+            name: `${values.first_name} ${values.last_name}`,
+          })
         )
         onCustomerCreated({
           id: String(result.id),
@@ -89,7 +93,10 @@ export function PosQuickCustomerDialog({
         form.reset()
       }
     } catch (err: any) {
-      toast.error(err.message || 'Failed to create customer')
+      toast.error(
+        err.message ||
+          t('pos.quickCustomer.failedCreate', 'Failed to create customer')
+      )
     }
   }
 
@@ -109,10 +116,13 @@ export function PosQuickCustomerDialog({
             </div>
             <div>
               <DialogTitle className='text-sm font-bold'>
-                Quick Add Customer
+                {t('pos.quickCustomer.title', 'Quick Add Customer')}
               </DialogTitle>
               <DialogDescription className='text-xs'>
-                Create a new customer for this sale.
+                {t(
+                  'pos.quickCustomer.desc',
+                  'Create a new customer for this sale.'
+                )}
               </DialogDescription>
             </div>
           </div>
@@ -126,7 +136,9 @@ export function PosQuickCustomerDialog({
                 name='first_name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs'>First Name *</FormLabel>
+                    <FormLabel className='text-xs'>
+                      {t('pos.quickCustomer.firstName', 'First Name *')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -144,7 +156,9 @@ export function PosQuickCustomerDialog({
                 name='last_name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs'>Last Name *</FormLabel>
+                    <FormLabel className='text-xs'>
+                      {t('pos.quickCustomer.lastName', 'Last Name *')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -163,7 +177,9 @@ export function PosQuickCustomerDialog({
               name='phone'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs'>Phone</FormLabel>
+                  <FormLabel className='text-xs'>
+                    {t('pos.quickCustomer.phone', 'Phone')}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -181,7 +197,9 @@ export function PosQuickCustomerDialog({
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs'>Email</FormLabel>
+                  <FormLabel className='text-xs'>
+                    {t('pos.quickCustomer.email', 'Email')}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -205,7 +223,7 @@ export function PosQuickCustomerDialog({
                   onOpenChange(false)
                 }}
               >
-                Cancel
+                {t('pos.quickCustomer.cancel', 'Cancel')}
               </Button>
               <Button
                 type='submit'
@@ -216,12 +234,12 @@ export function PosQuickCustomerDialog({
                 {createCustomerMutation.isPending ? (
                   <>
                     <Loader2 className='h-3.5 w-3.5 animate-spin' />
-                    Creating...
+                    {t('pos.quickCustomer.creating', 'Creating...')}
                   </>
                 ) : (
                   <>
                     <UserPlus className='h-3.5 w-3.5' />
-                    Create & Select
+                    {t('pos.quickCustomer.saveCustomer', 'Create & Select')}
                   </>
                 )}
               </Button>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Minus, Trash2, CreditCard, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -20,6 +21,7 @@ import { RefundDialog } from './refund-dialog'
 import { ReorderDialog } from './reorder-dialog'
 
 export function BasketView() {
+  const { t } = useTranslation()
   const {
     items,
     updateQuantity,
@@ -44,9 +46,9 @@ export function BasketView() {
   const taxLabel = (() => {
     const allInclusive = taxRates.length > 0 && taxRates.every((t: any) => t.is_inclusive)
     const allExclusive = taxRates.length > 0 && taxRates.every((t: any) => !t.is_inclusive)
-    if (allInclusive) return 'Tax (Included)'
-    if (allExclusive) return 'Tax'
-    return 'Tax (Mixed)'
+    if (allInclusive) return t('pos.cartSection.taxIncluded', 'Tax (Included)')
+    if (allExclusive) return t('pos.cartSection.taxes', 'Tax')
+    return t('pos.cartSection.taxMixed', 'Tax (Mixed)')
   })()
   const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0)
   const hasMissingVariantItems = items.some((item) => !item.productVariantId)
@@ -93,7 +95,9 @@ export function BasketView() {
     onSuccess: (data: CheckoutResponse) => {
       if (!data.success) {
         toast.error(
-          `Checkout failed: ${data.error?.message || 'Unknown error'}`
+          t('pos.cartSection.checkoutFailed', 'Checkout failed: {{message}}', {
+            message: data.error?.message || 'Unknown error',
+          })
         )
         return
       }
@@ -114,9 +118,9 @@ export function BasketView() {
         total: total,
       }
 
-      toast.success('Transaction completed!', {
+      toast.success(t('pos.cartSection.transactionCompleted', 'Transaction completed!'), {
         action: {
-          label: 'Print Receipt',
+          label: t('pos.receipt.print', 'Print Receipt'),
           onClick: () => printReceipt(receiptData),
         },
       })
@@ -126,7 +130,7 @@ export function BasketView() {
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
     },
     onError: (error: Error) => {
-      toast.error(`Checkout failed: ${error.message}`)
+      toast.error(t('pos.cartSection.checkoutFailed', 'Checkout failed: {{message}}', { message: error.message }))
     },
   })
 
@@ -142,7 +146,7 @@ export function BasketView() {
     shipment?: ShipmentType
   }) => {
     if (!selectedBranchId) {
-      toast.error('Please select a branch before checkout.')
+      toast.error(t('pos.cartSection.selectBranchFirst', 'Please select a branch before checkout.'))
       return
     }
 
@@ -156,7 +160,11 @@ export function BasketView() {
         invalidItems.length > 3 ? ` and ${invalidItems.length - 3} more` : ''
 
       toast.error(
-        `Checkout blocked: ${invalidItems.length} item(s) missing variant ID (${preview}${suffix}).`
+        t('pos.cartSection.checkoutBlockedMissingVariant', 'Checkout blocked: {{count}} item(s) missing variant ID ({{preview}}{{suffix}}).', {
+          count: invalidItems.length,
+          preview,
+          suffix,
+        })
       )
       return
     }
@@ -182,12 +190,12 @@ export function BasketView() {
         <div className='mb-3 flex items-start justify-between gap-2'>
           <div>
             <h2 className='text-lg font-semibold tracking-tight'>
-              Current Order
+              {t('pos.cartSection.currentOrder', 'Current Order')}
             </h2>
             <p className='text-xs text-muted-foreground'>
               {items.length === 0
-                ? 'Basket is empty'
-                : `${items.length} line${items.length === 1 ? '' : 's'} | ${totalUnits} item${totalUnits === 1 ? '' : 's'}`}
+                ? t('pos.cartSection.cartEmpty', 'Basket is empty')
+                : t('pos.cartSection.summaryLinesUnits', '{{lines}} line(s) | {{units}} item(s)', { lines: items.length, units: totalUnits })}
             </p>
           </div>
           <Badge variant='secondary' className='font-semibold tabular-nums'>
@@ -209,7 +217,7 @@ export function BasketView() {
               className='h-7 px-2 text-xs'
               onClick={() => setItemView('detailed')}
             >
-              Detailed
+              {t('pos.cartSection.detailedView', 'Detailed')}
             </Button>
             <Button
               type='button'
@@ -218,13 +226,13 @@ export function BasketView() {
               className='h-7 px-2 text-xs'
               onClick={() => setItemView('compact')}
             >
-              Compact
+              {t('pos.cartSection.compactView', 'Compact')}
             </Button>
           </div>
 
           {items.length > 0 && (
             <Button variant='outline' size='sm' onClick={clearBasket}>
-              Clear
+              {t('pos.cartSection.clear', 'Clear')}
             </Button>
           )}
         </div>
@@ -234,10 +242,10 @@ export function BasketView() {
         {items.length === 0 ? (
           <div className='flex h-full flex-col items-center justify-center px-4 py-20 text-center'>
             <p className='text-sm font-medium text-foreground'>
-              No items in the basket yet
+              {t('pos.cartSection.noItemsYet', 'No items in the basket yet')}
             </p>
             <p className='mt-1 text-xs text-muted-foreground'>
-              Scan a barcode or select a product to begin.
+              {t('pos.cartSection.scanToBegin', 'Scan a barcode or select a product to begin.')}
             </p>
           </div>
         ) : (
@@ -262,7 +270,7 @@ export function BasketView() {
                     </p>
                     {itemView === 'detailed' && (
                       <p className='mt-0.5 truncate text-xs text-muted-foreground'>
-                        SKU: {item.sku}
+                        {t('pos.cartSection.sku', 'SKU:')} {item.sku}
                       </p>
                     )}
 
@@ -297,7 +305,7 @@ export function BasketView() {
                           itemView === 'compact' && 'mt-1'
                         )}
                       >
-                        Discount {getDiscountLabel(item.discount)}
+                        {t('pos.cartSection.discount', 'Discount')} {getDiscountLabel(item.discount)}
                       </Badge>
                     )}
                   </div>
@@ -338,7 +346,7 @@ export function BasketView() {
                           item.productVariantId
                         )
                       }
-                      aria-label={`Decrease quantity for ${item.name}`}
+                      aria-label={t('pos.cartSection.decreaseQty', 'Decrease quantity for {{name}}', { name: item.name })}
                     >
                       <Minus />
                     </Button>
@@ -357,7 +365,7 @@ export function BasketView() {
                           item.productVariantId
                         )
                       }
-                      aria-label={`Increase quantity for ${item.name}`}
+                      aria-label={t('pos.cartSection.increaseQty', 'Increase quantity for {{name}}', { name: item.name })}
                     >
                       <Plus />
                     </Button>
@@ -371,7 +379,7 @@ export function BasketView() {
                     onClick={() =>
                       removeItem(item.productId, item.productVariantId)
                     }
-                    aria-label={`Remove ${item.name}`}
+                    aria-label={t('pos.cartSection.removeItem', 'Remove {{name}}', { name: item.name })}
                   >
                     <Trash2 />
                   </Button>
@@ -385,12 +393,12 @@ export function BasketView() {
       <div className='rounded-b-lg border-t bg-muted/20 p-4'>
         <div className='flex flex-col gap-2'>
           <div className='flex justify-between text-sm text-muted-foreground'>
-            <span>Subtotal</span>
+            <span>{t('pos.cartSection.subtotal', 'Subtotal')}</span>
             <span className='tabular-nums'>{formatCurrency(subtotal)}</span>
           </div>
           {cartDiscount > 0 && (
             <div className='flex justify-between text-sm text-orange-500'>
-              <span>Discount</span>
+              <span>{t('pos.cartSection.discount', 'Discount')}</span>
               <span className='tabular-nums'>
                 -{formatCurrency(cartDiscount)}
               </span>
@@ -405,7 +413,7 @@ export function BasketView() {
         </div>
         <Separator className='my-2' />
         <div className='flex items-center justify-between text-2xl font-bold'>
-          <span>Total</span>
+          <span>{t('pos.cartSection.total', 'Total')}</span>
           <span className='tabular-nums'>{formatCurrency(total)}</span>
         </div>
 
@@ -423,7 +431,7 @@ export function BasketView() {
           ) : (
             <CreditCard data-icon='inline-start' />
           )}
-          Pay {formatCurrency(total)}
+          {t('pos.cartSection.pay', 'Pay')} {formatCurrency(total)}
         </Button>
       </div>
       <CheckoutModal

@@ -91,7 +91,7 @@ export function buildPosProductWhere({
  * - Product name (fuzzy/contains)
  * - Category filter (by UUID or name)
  * - Brand filter (by UUID or name)
- * - Live stock availability from warehouse
+ * - Live stock availability from stock_balances (store + linked warehouses)
  */
 const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
   try {
@@ -104,9 +104,11 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
     const brandParam =
       url.searchParams.get('brandId') ?? url.searchParams.get('brand')
     const warehouseParam = url.searchParams.get('warehouseId')
+    const storeParam = url.searchParams.get('storeId')
     const validWarehouseId = isUuid(warehouseParam)
       ? warehouseParam.trim()
       : null
+    const validStoreId = isUuid(storeParam) ? storeParam.trim() : null
     const page = Math.max(1, Number(url.searchParams.get('page') ?? 1))
     const pageSize = Math.min(
       Math.max(1, Number(url.searchParams.get('pageSize') ?? 50)),
@@ -117,6 +119,20 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
     return await runWithTenantContext(
       { tenantId, userId: auth.userId },
       async () => {
+        // ── Resolve store-linked warehouse IDs for stock lookups ──
+        let storeWarehouseIds: string[] = []
+        if (validStoreId) {
+          const storeWarehouses = await prisma.store_warehouses.findMany({
+            where: {
+              store_id: validStoreId,
+              tenant_id: tenantId,
+              is_active: true,
+            },
+            select: { warehouse_id: true },
+          })
+          storeWarehouseIds = storeWarehouses.map((sw) => sw.warehouse_id)
+        }
+
         let matchedVariantIds: string[] = []
         if (search.length > 0) {
           // Look up secondary barcodes from product_barcodes table
@@ -174,23 +190,6 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
                       select: { price: true, cost_price: true },
                       take: 1,
                     },
-                    // Stock at specified warehouse
-                    ...(validWarehouseId
-                      ? {
-                          stock_balances: {
-                            where: {
-                              warehouse_id: validWarehouseId,
-                              tenant_id: tenantId,
-                            },
-                            select: {
-                              qty_on_hand: true,
-                              qty_available: true,
-                              qty_reserved: true,
-                            },
-                            take: 1,
-                          },
-                        }
-                      : {}),
                   },
                   orderBy: { sku: 'asc' },
                 },
@@ -217,6 +216,80 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
             }),
           ])
 
+        // ── Collect all variant IDs across products ──
+        const allVariantIds = products.flatMap((p) =>
+          p.product_variants.map((v) => v.id)
+        )
+
+        // ── Query stock_balances for all variants at once ──
+        // Scope: by store_id OR by linked warehouse IDs OR by direct warehouseId
+        let stockBalances: Array<{
+          product_variant_id: string
+          qty_on_hand: any
+          qty_available: any
+          qty_reserved: any
+        }> = []
+
+        if (allVariantIds.length > 0) {
+          // Build the OR conditions for stock balance lookup
+          const stockOrConditions: any[] = []
+
+          if (validStoreId) {
+            // Direct store stock_balances
+            stockOrConditions.push({ store_id: validStoreId })
+          }
+
+          if (storeWarehouseIds.length > 0) {
+            // Stock at warehouses linked to this store
+            stockOrConditions.push({ warehouse_id: { in: storeWarehouseIds } })
+          } else if (validWarehouseId) {
+            // Fallback to direct warehouse param
+            stockOrConditions.push({ warehouse_id: validWarehouseId })
+          }
+
+          const stockWhere: Prisma.stock_balancesWhereInput = {
+            tenant_id: tenantId,
+            product_variant_id: { in: allVariantIds },
+            ...(stockOrConditions.length > 0 ? { OR: stockOrConditions } : {}),
+          }
+
+          stockBalances = await prisma.stock_balances.findMany({
+            where: stockWhere,
+            select: {
+              product_variant_id: true,
+              qty_on_hand: true,
+              qty_available: true,
+              qty_reserved: true,
+            },
+          })
+        }
+
+        // ── Aggregate stock per variant (sum across all matching balance rows) ──
+        const stockMap = new Map<
+          string,
+          { totalAvailable: number; totalOnHand: number; totalReserved: number }
+        >()
+
+        for (const sb of stockBalances) {
+          const variantId = sb.product_variant_id
+          const existing = stockMap.get(variantId) ?? {
+            totalAvailable: 0,
+            totalOnHand: 0,
+            totalReserved: 0,
+          }
+          const onHand = Number(sb.qty_on_hand ?? 0)
+          const reserved = Number(sb.qty_reserved ?? 0)
+          const available =
+            sb.qty_available != null
+              ? Number(sb.qty_available)
+              : Math.max(0, onHand - reserved)
+
+          existing.totalAvailable += available
+          existing.totalOnHand += onHand
+          existing.totalReserved += reserved
+          stockMap.set(variantId, existing)
+        }
+
         // Flatten and enrich for POS display
         const items = products.flatMap((p) => {
           if (!p.product_variants || p.product_variants.length === 0) {
@@ -226,9 +299,11 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
                 productId: p.id,
                 productVariantId: p.id,
                 productName: p.name,
+                description: p.description ?? null,
                 variantName: null,
                 sku: p.sku,
                 barcode: p.barcode,
+                weight: null,
                 basePrice: priceItem?.price?.toString() ?? '0',
                 costPrice: priceItem?.cost_price?.toString() ?? '0',
                 categoryId: p.category_id,
@@ -240,13 +315,14 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
                 taxInclusive: activeTaxRate?.is_inclusive ?? false,
                 stockAvailable: '0',
                 stockOnHand: '0',
+                stockReserved: '0',
                 variantAttributes: null,
               },
             ]
           }
 
           return p.product_variants.map((v) => {
-            const stock = (v as any).stock_balances?.[0]
+            const stock = stockMap.get(v.id)
             const priceItem =
               (v as any).price_list_items?.[0] ??
               (p as any).price_list_items?.[0]
@@ -254,9 +330,11 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
               productId: p.id,
               productVariantId: v.id,
               productName: p.name,
+              description: p.description ?? null,
               variantName: v.name,
               sku: v.sku,
               barcode: v.barcode ?? p.barcode,
+              weight: v.weight?.toString() ?? null,
               basePrice: priceItem?.price?.toString() ?? '0',
               costPrice: priceItem?.cost_price?.toString() ?? '0',
               categoryId: p.category_id,
@@ -266,8 +344,9 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
               taxRateId: activeTaxRate?.id ?? null,
               taxRate: activeTaxRate?.rate?.toString() ?? '0',
               taxInclusive: activeTaxRate?.is_inclusive ?? false,
-              stockAvailable: stock?.qty_available?.toString() ?? '0',
-              stockOnHand: stock?.qty_on_hand?.toString() ?? '0',
+              stockAvailable: stock?.totalAvailable?.toString() ?? '0',
+              stockOnHand: stock?.totalOnHand?.toString() ?? '0',
+              stockReserved: stock?.totalReserved?.toString() ?? '0',
               variantAttributes: v.dimensions,
             }
           })

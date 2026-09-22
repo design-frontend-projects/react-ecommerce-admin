@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ShieldCheck, XCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -25,6 +26,7 @@ export function ManagerAuthDialog({
   onSuccess,
   isLoading = false,
 }: ManagerAuthDialogProps) {
+  const { t } = useTranslation()
   const [pin, setPin] = useState('')
   const [error, setError] = useState(false)
 
@@ -49,12 +51,14 @@ export function ManagerAuthDialog({
     if (pin === CORRECT_PIN) {
       onSuccess()
       setPin('')
-      toast.success('Manager authorized')
+      toast.success(
+        t('pos.managerAuth.authorizedToast', 'Manager authorized')
+      )
       onOpenChange(false)
     } else {
       setError(true)
       setPin('')
-      toast.error('Invalid PIN')
+      toast.error(t('pos.managerAuth.invalidPin', 'Invalid PIN'))
     }
   }
 
@@ -66,10 +70,13 @@ export function ManagerAuthDialog({
             <ShieldCheck className='h-6 w-6 text-primary' />
           </div>
           <DialogTitle className='text-center'>
-            Manager Authorization Required
+            {t('pos.managerAuth.title', 'Manager Authorization Required')}
           </DialogTitle>
           <DialogDescription className='text-center'>
-            Please enter your 4-digit PIN to authorize this action.
+            {t(
+              'pos.managerAuth.desc',
+              'Please enter your 4-digit PIN to authorize this action.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -105,7 +112,7 @@ export function ManagerAuthDialog({
             onClick={() => onOpenChange(false)}
             disabled={isLoading}
           >
-            Cancel
+            {t('pos.cartSection.cancel', 'Cancel')}
           </Button>
         </div>
       </DialogContent>

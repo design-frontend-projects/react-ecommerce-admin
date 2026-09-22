@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,7 @@ export function ManualSkuDialog({
   onOpenChange,
   onSearch,
 }: ManualSkuDialogProps) {
+  const { t } = useTranslation()
   const [sku, setSku] = useState('')
 
   const handleKeyPress = (key: string) => {
@@ -49,9 +51,14 @@ export function ManualSkuDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-w-md sm:max-w-lg'>
         <DialogHeader>
-          <DialogTitle>Manual Item Entry</DialogTitle>
+          <DialogTitle>
+            {t('pos.manualSku.title', 'Manual Item Entry')}
+          </DialogTitle>
           <DialogDescription>
-            Enter the product SKU or barcode using the numpad or keyboard.
+            {t(
+              'pos.manualSku.desc',
+              'Enter the product SKU or barcode using the numpad or keyboard.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -60,7 +67,7 @@ export function ManualSkuDialog({
             value={sku}
             onChange={(e) => setSku(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder='Enter SKU...'
+            placeholder={t('pos.manualSku.placeholder', 'Enter SKU...')}
             className='h-16 text-center text-3xl font-bold tracking-widest'
             autoFocus
           />

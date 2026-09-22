@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Delete } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -14,6 +15,7 @@ export function Numpad({
   onEnter,
   disabled = false,
 }: NumpadProps) {
+  const { t } = useTranslation()
   const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0']
 
   return (
@@ -36,7 +38,7 @@ export function Numpad({
         className='h-16 text-2xl font-medium text-destructive'
         onClick={onBackspace}
         disabled={disabled}
-        aria-label='Backspace'
+        aria-label={t('pos.numpad.backspace', 'Backspace')}
       >
         <Delete className='h-6 w-6' />
       </Button>
@@ -48,7 +50,7 @@ export function Numpad({
           onClick={onEnter}
           disabled={disabled}
         >
-          Enter
+          {t('pos.numpad.enter', 'Enter')}
         </Button>
       )}
     </div>

@@ -26,6 +26,7 @@ export interface PosCartItem {
   unitPrice: number
   unitCost?: number
   quantity: number
+  availableQuantity?: number // stock available from stock_balances
   taxRateId?: string | null
   taxRate?: number
   taxInclusive?: boolean
@@ -109,6 +110,7 @@ interface PosState {
       'id' | 'subtotal' | 'discountAmount' | 'taxAmount' | 'total'
     >
   ) => void
+  hasStockErrors: () => boolean
   removeItem: (lineId: string) => void
   updateQuantity: (lineId: string, quantity: number) => void
   updateItemPrice: (lineId: string, newUnitPrice: number) => void
@@ -205,12 +207,21 @@ export const usePosStore = create<PosState>()(
 
           if (existing) {
             const updatedQty = existing.quantity + newItem.quantity
+            // Cap to available stock if defined
+            const maxQty =
+              existing.availableQuantity != null
+                ? existing.availableQuantity
+                : Infinity
+            const clampedQty = Math.min(updatedQty, maxQty)
+            if (clampedQty <= 0) return {}
             const updatedItems = state.items.map((i) =>
               i.id === existing.id
                 ? calculateItemTotals(
                     {
                       ...i,
-                      quantity: updatedQty,
+                      quantity: clampedQty,
+                      availableQuantity:
+                        newItem.availableQuantity ?? existing.availableQuantity,
                     },
                     existing.id
                   )
@@ -222,6 +233,13 @@ export const usePosStore = create<PosState>()(
           const created = calculateItemTotals(newItem)
           return { items: [...state.items, created] }
         }),
+
+      hasStockErrors: () => {
+        return get().items.some(
+          (i) =>
+            i.availableQuantity != null && i.quantity > i.availableQuantity
+        )
+      },
 
       removeItem: (lineId) =>
         set((state) => ({

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Tag,
   Search,
@@ -38,6 +39,7 @@ interface PromoCodeDialogProps {
 }
 
 export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
+  const { t } = useTranslation()
   const { applyPromotion, removePromotion, appliedPromotion } = usePosStore()
   const [loading, setLoading] = useState(false)
   const [code, setCode] = useState('')
@@ -67,11 +69,15 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
     try {
       const promo = await validatePosPromotion(codeToUse)
       applyPromotion(promo)
-      toast.success('Promotion applied successfully!')
+      toast.success(
+        t('pos.promotions.successToast', 'Promotion applied successfully!')
+      )
       onOpenChange(false)
       setCode('')
     } catch (err: any) {
-      toast.error(err.message || 'Invalid promotion code')
+      toast.error(
+        err.message || t('pos.promotions.invalidToast', 'Invalid promotion code')
+      )
     } finally {
       setLoading(false)
     }
@@ -104,14 +110,18 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
       discount_value: discountVal,
       is_inv_promotion: true,
     })
-    toast.success(`Promotion "${promo.name}" applied!`)
+    toast.success(
+      t('pos.promotions.appliedToast', 'Promotion "{{name}}" applied!', {
+        name: promo.name,
+      })
+    )
     onOpenChange(false)
   }
 
   const handleRemove = () => {
     removePromotion()
     setCode('')
-    toast.success('Promotion removed')
+    toast.success(t('pos.promotions.removedToast', 'Promotion removed'))
   }
 
   const formatPromoDiscount = (promo: any) => {
@@ -150,10 +160,13 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
             </div>
             <div>
               <DialogTitle className='text-sm font-bold'>
-                Promotions & Coupons
+                {t('pos.promotions.title', 'Promotions & Coupons')}
               </DialogTitle>
               <DialogDescription className='text-xs'>
-                Browse active promotions or enter a promo code.
+                {t(
+                  'pos.promotions.desc',
+                  'Browse active promotions or enter a promo code.'
+                )}
               </DialogDescription>
             </div>
           </div>
@@ -166,14 +179,14 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
               <Check className='h-4 w-4 text-emerald-600' />
               <div>
                 <p className='text-xs font-semibold text-emerald-700 dark:text-emerald-400'>
-                  Active:{' '}
+                  {t('pos.promotions.active', 'Active:')}{' '}
                   {appliedPromotion.code || appliedPromotion.name}
                 </p>
                 <p className='text-[10px] text-muted-foreground'>
                   {appliedPromotion.discount_type === 'fixed'
                     ? formatCurrency(Number(appliedPromotion.discount_value))
                     : `${appliedPromotion.discount_value}%`}{' '}
-                  off
+                  {t('pos.promotions.off', 'off')}
                 </p>
               </div>
             </div>
@@ -184,7 +197,7 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
               onClick={handleRemove}
             >
               <X className='mr-1 h-3 w-3' />
-              Remove
+              {t('pos.promotions.remove', 'Remove')}
             </Button>
           </div>
         )}
@@ -193,11 +206,11 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
           <TabsList className='grid w-full grid-cols-2 h-9'>
             <TabsTrigger value='browse' className='text-xs gap-1.5'>
               <Ticket className='h-3.5 w-3.5' />
-              Browse Promotions
+              {t('pos.promotions.browsePromosTab', 'Browse Promotions')}
             </TabsTrigger>
             <TabsTrigger value='enter' className='text-xs gap-1.5'>
               <Tag className='h-3.5 w-3.5' />
-              Enter Code
+              {t('pos.promotions.enterCodeTab', 'Enter Code')}
             </TabsTrigger>
           </TabsList>
 
@@ -206,7 +219,10 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
             <div className='relative mb-3'>
               <Search className='absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground' />
               <Input
-                placeholder='Search promotions...'
+                placeholder={t(
+                  'pos.promotions.searchPromosPlaceholder',
+                  'Search promotions...'
+                )}
                 value={promoSearch}
                 onChange={(e) => setPromoSearch(e.target.value)}
                 className='h-8 pl-8 text-xs'
@@ -222,10 +238,16 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
                 <div className='flex flex-col items-center justify-center py-12 text-center text-muted-foreground'>
                   <Ticket className='h-8 w-8 opacity-20 mb-2' />
                   <p className='text-xs font-semibold'>
-                    No active promotions found
+                    {t(
+                      'pos.promotions.noPromotionsFound',
+                      'No active promotions found'
+                    )}
                   </p>
                   <p className='text-[10px] mt-1'>
-                    Try a different search or enter a code manually.
+                    {t(
+                      'pos.promotions.noPromosDesc',
+                      'Try a different search or enter a code manually.'
+                    )}
                   </p>
                 </div>
               ) : (
@@ -270,7 +292,8 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
                               ) : (
                                 <Percent className='h-3 w-3' />
                               )}
-                              {formatPromoDiscount(promo)} OFF
+                              {formatPromoDiscount(promo)}{' '}
+                              {t('pos.promotions.offCaps', 'OFF')}
                             </Badge>
                           </div>
 
@@ -300,7 +323,7 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
                           {isApplied && (
                             <div className='flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400'>
                               <Check className='h-3 w-3' />
-                              Currently Applied
+                              {t('pos.promotions.applied', 'Currently Applied')}
                             </div>
                           )}
                         </CardContent>
@@ -316,12 +339,15 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
           <TabsContent value='enter' className='mt-3 space-y-4'>
             <div className='space-y-2'>
               <Label className='text-xs font-semibold'>
-                Promotion / Coupon Code
+                {t('pos.promotions.codeLabel', 'Promotion / Coupon Code')}
               </Label>
               <Input
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder='e.g. SUMMER2026'
+                placeholder={t(
+                  'pos.promotions.codePlaceholder',
+                  'e.g. SUMMER2026'
+                )}
                 disabled={loading}
                 className='h-10 text-sm font-medium font-mono uppercase tracking-wider'
                 onKeyDown={(e) => {
@@ -333,8 +359,10 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
                 autoFocus
               />
               <p className='text-[10px] text-muted-foreground'>
-                Enter the code from a coupon, promotion card, or marketing
-                campaign.
+                {t(
+                  'pos.promotions.codeHelp',
+                  'Enter the code from a coupon, promotion card, or marketing campaign.'
+                )}
               </p>
             </div>
 
@@ -345,7 +373,7 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
                 onClick={() => onOpenChange(false)}
                 disabled={loading}
               >
-                Cancel
+                {t('pos.cartSection.cancel', 'Cancel')}
               </Button>
               <Button
                 size='sm'
@@ -356,12 +384,12 @@ export function PromoCodeDialog({ open, onOpenChange }: PromoCodeDialogProps) {
                 {loading ? (
                   <>
                     <Loader2 className='h-3.5 w-3.5 animate-spin' />
-                    Validating...
+                    {t('pos.promotions.validating', 'Validating...')}
                   </>
                 ) : (
                   <>
                     <Tag className='h-3.5 w-3.5' />
-                    Apply Code
+                    {t('pos.promotions.applyCodeBtn', 'Apply Code')}
                   </>
                 )}
               </Button>

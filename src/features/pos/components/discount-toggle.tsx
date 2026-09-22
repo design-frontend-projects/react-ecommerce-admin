@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Tag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,6 +20,7 @@ interface DiscountToggleProps {
 }
 
 export function DiscountToggle({ productId }: DiscountToggleProps) {
+  const { t } = useTranslation()
   const {
     applyItemDiscount,
     applyCartDiscount,
@@ -53,10 +55,6 @@ export function DiscountToggle({ productId }: DiscountToggleProps) {
   const handleRemove = () => {
     if (productId !== undefined) {
       // Removing item discount logic hasn't been explicitly implemented as a separate function.
-      // But we can apply an override of zero. Better to add remove logic to store or just pass 0 here.
-      // Easiest is to extend applyItemDiscount, but let's just make it simple: 0 is nullifying it practically.
-      // I'll leave this to a new action, but let's clear it via passing "no discount" logic.
-      // Actually we didn't add "removeItemDiscount" to the store... Just leaving remove for cart for now.
     } else {
       removeCartDiscount()
     }
@@ -72,13 +70,17 @@ export function DiscountToggle({ productId }: DiscountToggleProps) {
       <DialogTrigger asChild>
         <Button variant='outline' size='sm' className='w-full'>
           <Tag className='mr-2 h-4 w-4' />
-          {hasCartDiscount ? 'Edit Discount' : 'Add Discount'}
+          {hasCartDiscount
+            ? t('pos.cartSection.editDiscount', 'Edit Discount')
+            : t('pos.cartSection.addDiscount', 'Add Discount')}
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>
-            {productId !== undefined ? 'Item' : 'Cart'} Discount
+            {productId !== undefined
+              ? t('pos.cartSection.itemDiscount', 'Item Discount')
+              : t('pos.cartSection.cartDiscount', 'Cart Discount')}
           </DialogTitle>
         </DialogHeader>
         <div className='space-y-6 py-4'>
@@ -91,16 +93,16 @@ export function DiscountToggle({ productId }: DiscountToggleProps) {
           >
             <div className='flex items-center space-x-2'>
               <RadioGroupItem value='percentage' id='pct' />
-              <Label htmlFor='pct'>Percentage (%)</Label>
+              <Label htmlFor='pct'>{t('pos.cartSection.percentageDiscount', 'Percentage (%)')}</Label>
             </div>
             <div className='flex items-center space-x-2'>
               <RadioGroupItem value='fixed' id='fixed' />
-              <Label htmlFor='fixed'>Fixed Amount ($)</Label>
+              <Label htmlFor='fixed'>{t('pos.cartSection.fixedDiscount', 'Fixed Amount ($)')}</Label>
             </div>
           </RadioGroup>
 
           <div className='space-y-2'>
-            <Label>Value</Label>
+            <Label>{t('pos.cartSection.discountValue', 'Value')}</Label>
             <Input
               type='number'
               min='0'
@@ -109,8 +111,8 @@ export function DiscountToggle({ productId }: DiscountToggleProps) {
               onChange={(e) => setDiscountValue(e.target.value)}
               placeholder={
                 discountType === 'percentage'
-                  ? 'e.g. 10 for 10%'
-                  : 'e.g. 5 for $5 off'
+                  ? t('pos.cartSection.percentagePlaceholder', 'e.g. 10 for 10%')
+                  : t('pos.cartSection.fixedPlaceholder', 'e.g. 5 for $5 off')
               }
             />
           </div>
@@ -118,13 +120,13 @@ export function DiscountToggle({ productId }: DiscountToggleProps) {
         <div className='flex justify-end gap-2'>
           {hasCartDiscount && (
             <Button variant='destructive' onClick={handleRemove}>
-              Remove
+              {t('pos.cartSection.remove', 'Remove')}
             </Button>
           )}
           <Button variant='outline' onClick={() => setOpen(false)}>
-            Cancel
+            {t('pos.cartSection.cancel', 'Cancel')}
           </Button>
-          <Button onClick={handleApply}>Apply</Button>
+          <Button onClick={handleApply}>{t('pos.cartSection.apply', 'Apply')}</Button>
         </div>
       </DialogContent>
       <ManagerAuthDialog

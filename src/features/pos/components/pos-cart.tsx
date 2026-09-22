@@ -1,42 +1,44 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
-  Plus,
-  Minus,
-  Trash2,
-  Tag,
-  User,
-  UserPlus,
-  PauseCircle,
+  AlertTriangle,
+  ChevronDown,
   CreditCard,
-  Percent,
-  X,
+  Minus,
+  Package,
+  PauseCircle,
+  Plus,
   Search,
   ShoppingCart,
-  ChevronDown,
+  Tag,
   Ticket,
+  Trash2,
+  User,
+  UserPlus,
+  X,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { usePosStore, type PosCartItem, type PosCustomer } from '../store/use-pos-store'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import { useCustomers } from '@/features/customers/hooks/use-customers'
+import { usePosStore, type PosCartItem } from '../store/use-pos-store'
 import { PosQuickCustomerDialog } from './pos-quick-customer-dialog'
 import { PromoCodeDialog } from './promo-code-dialog'
 
@@ -46,6 +48,7 @@ interface PosCartProps {
 }
 
 export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
+  const { t } = useTranslation()
   const {
     items,
     customer,
@@ -59,14 +62,15 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
     cartDiscount,
     clearCart,
     getSubtotal,
-    getItemDiscountAmount,
-    getCartDiscountAmount,
     getTotalDiscountAmount,
     getTaxAmount,
     getTotalAmount,
     getItemCount,
+    hasStockErrors,
     heldOrders,
   } = usePosStore()
+
+  const stockErrorsExist = hasStockErrors()
 
   const { data: customers = [] } = useCustomers()
   const [customerSearch, setCustomerSearch] = useState('')
@@ -75,13 +79,19 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
   const [isPromoOpen, setIsPromoOpen] = useState(false)
 
   // Line item discount modal state
-  const [discountingItem, setDiscountingItem] = useState<PosCartItem | null>(null)
-  const [lineDiscountType, setLineDiscountType] = useState<'percentage' | 'fixed'>('percentage')
+  const [discountingItem, setDiscountingItem] = useState<PosCartItem | null>(
+    null
+  )
+  const [lineDiscountType, setLineDiscountType] = useState<
+    'percentage' | 'fixed'
+  >('percentage')
   const [lineDiscountValue, setLineDiscountValue] = useState<string>('')
 
   // Cart-level discount popover state
   const [isCartDiscountOpen, setIsCartDiscountOpen] = useState(false)
-  const [cartDiscountType, setCartDiscountType] = useState<'percentage' | 'fixed'>('percentage')
+  const [cartDiscountType, setCartDiscountType] = useState<
+    'percentage' | 'fixed'
+  >('percentage')
   const [cartDiscountValue, setCartDiscountValue] = useState<string>('')
 
   const subtotal = getSubtotal()
@@ -109,7 +119,11 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
     })
     setIsCustomerOpen(false)
     setCustomerSearch('')
-    toast.success(`Customer set to ${c.first_name} ${c.last_name}`)
+    toast.success(
+      t('pos.cartSection.customerSet', 'Customer set to {{name}}', {
+        name: `${c.first_name} ${c.last_name}`,
+      })
+    )
   }
 
   const handleClearCustomer = () => {
@@ -120,7 +134,9 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
     if (!discountingItem) return
     const val = Number(lineDiscountValue)
     if (isNaN(val) || val <= 0) {
-      toast.error('Please enter a valid discount value')
+      toast.error(
+        t('pos.cartSection.validDiscountError', 'Please enter a valid discount value')
+      )
       return
     }
 
@@ -131,13 +147,17 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
 
     setDiscountingItem(null)
     setLineDiscountValue('')
-    toast.success('Line discount applied')
+    toast.success(
+      t('pos.cartSection.lineDiscountApplied', 'Line discount applied')
+    )
   }
 
   const handleApplyCartDiscount = () => {
     const val = Number(cartDiscountValue)
     if (isNaN(val) || val <= 0) {
-      toast.error('Please enter a valid discount value')
+      toast.error(
+        t('pos.cartSection.validDiscountError', 'Please enter a valid discount value')
+      )
       return
     }
 
@@ -148,18 +168,25 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
 
     setIsCartDiscountOpen(false)
     setCartDiscountValue('')
-    toast.success('Cart discount applied')
+    toast.success(
+      t('pos.cartSection.cartDiscountApplied', 'Cart discount applied')
+    )
   }
 
   return (
-    <div className='flex h-full flex-col rounded-lg border bg-card shadow-sm overflow-hidden'>
+    <div className='flex h-full flex-col overflow-hidden rounded-lg border bg-card shadow-sm'>
       {/* Top Header: Customer selector & Clear Cart */}
-      <div className='shrink-0 border-b p-3 space-y-2 bg-muted/20'>
+      <div className='shrink-0 space-y-2 border-b bg-muted/20 p-3'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-2'>
             <ShoppingCart className='h-4 w-4 text-primary' />
-            <h2 className='font-bold text-sm'>Current Cart</h2>
-            <Badge variant='secondary' className='h-5 px-1.5 text-xs font-semibold'>
+            <h2 className='text-sm font-bold'>
+              {t('pos.cartSection.title', 'Current Cart')}
+            </h2>
+            <Badge
+              variant='secondary'
+              className='h-5 px-1.5 text-xs font-semibold'
+            >
               {itemCount}
             </Badge>
           </div>
@@ -169,11 +196,13 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
               <Button
                 variant='outline'
                 size='sm'
-                className='h-7 text-xs gap-1 border-amber-500/40 text-amber-600 dark:text-amber-400'
+                className='h-7 gap-1 border-amber-500/40 text-xs text-amber-600 dark:text-amber-400'
                 onClick={onOpenHold}
               >
                 <PauseCircle className='h-3.5 w-3.5' />
-                Held ({heldOrders.length})
+                {t('pos.cartSection.heldCount', 'Held ({{count}})', {
+                  count: heldOrders.length,
+                })}
               </Button>
             )}
 
@@ -184,7 +213,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                 className='h-7 text-xs text-muted-foreground hover:text-rose-500'
                 onClick={clearCart}
               >
-                Clear
+                {t('pos.cartSection.clearCart', 'Clear')}
               </Button>
             )}
           </div>
@@ -196,25 +225,27 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             <Button
               variant='outline'
               size='sm'
-              className='w-full justify-between h-8 text-xs font-normal'
+              className='h-8 w-full justify-between text-xs font-normal'
             >
               <div className='flex items-center gap-2 truncate'>
-                <User className='h-3.5 w-3.5 text-muted-foreground shrink-0' />
+                <User className='h-3.5 w-3.5 shrink-0 text-muted-foreground' />
                 <span className='truncate font-medium'>
-                  {customer ? customer.name : 'Walk-in Customer'}
+                  {customer
+                    ? customer.name
+                    : t('pos.cartSection.walkInCustomer', 'Walk-in Customer')}
                 </span>
               </div>
               <div className='flex items-center gap-1'>
                 {customer && (
                   <X
-                    className='h-3.5 w-3.5 text-muted-foreground hover:text-foreground shrink-0'
+                    className='h-3.5 w-3.5 shrink-0 text-muted-foreground hover:text-foreground'
                     onClick={(e) => {
                       e.stopPropagation()
                       handleClearCustomer()
                     }}
                   />
                 )}
-                <ChevronDown className='h-3.5 w-3.5 opacity-50 shrink-0' />
+                <ChevronDown className='h-3.5 w-3.5 shrink-0 opacity-50' />
               </div>
             </Button>
           </PopoverTrigger>
@@ -225,7 +256,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             size='icon'
             className='h-8 w-8 shrink-0 border-dashed border-primary/30 text-primary hover:bg-primary/10'
             onClick={() => setIsQuickCustomerOpen(true)}
-            title='Add New Customer'
+            title={t('pos.cartSection.addNewCustomer', 'Add New Customer')}
           >
             <UserPlus className='h-3.5 w-3.5' />
           </Button>
@@ -233,9 +264,12 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
           <PopoverContent className='w-72 p-2' align='start'>
             <div className='space-y-2'>
               <div className='relative'>
-                <Search className='absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground' />
+                <Search className='absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground' />
                 <Input
-                  placeholder='Search customer...'
+                  placeholder={t(
+                    'pos.cartSection.searchCustomerPlaceholder',
+                    'Search customer...'
+                  )}
                   value={customerSearch}
                   onChange={(e) => setCustomerSearch(e.target.value)}
                   className='h-8 pl-7 text-xs'
@@ -248,13 +282,16 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                   <Button
                     variant={customer === null ? 'secondary' : 'ghost'}
                     size='sm'
-                    className='w-full justify-start text-xs h-8 font-normal'
+                    className='h-8 w-full justify-start text-xs font-normal'
                     onClick={() => {
                       setCustomer(null)
                       setIsCustomerOpen(false)
                     }}
                   >
-                    Walk-in Customer (Default)
+                    {t(
+                      'pos.cartSection.walkInCustomerDefault',
+                      'Walk-in Customer (Default)'
+                    )}
                   </Button>
 
                   {filteredCustomers.map((c) => (
@@ -262,7 +299,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                       key={c.id}
                       variant={customer?.id === c.id ? 'secondary' : 'ghost'}
                       size='sm'
-                      className='w-full justify-start text-xs h-auto py-1.5 font-normal flex-col items-start'
+                      className='h-auto w-full flex-col items-start justify-start py-1.5 text-xs font-normal'
                       onClick={() => handleSelectCustomer(c)}
                     >
                       <span className='font-semibold'>
@@ -286,169 +323,248 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
       <div className='min-h-0 flex-1 overflow-hidden'>
         <ScrollArea className='h-full'>
           <div className='p-2'>
-        {items.length === 0 ? (
-          <div className='flex h-full flex-col items-center justify-center text-muted-foreground p-6 text-center'>
-            <ShoppingCart className='h-12 w-12 stroke-[1.5] opacity-20 mb-3' />
-            <p className='text-sm font-semibold'>Cart is empty</p>
-            <p className='text-xs text-muted-foreground/80 mt-1 max-w-[200px]'>
-              Scan a barcode or click items from the catalog to start a sale.
-            </p>
-          </div>
-        ) : (
-          <div className='space-y-2'>
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className='group rounded-lg border bg-card p-2.5 shadow-sm transition-all hover:border-primary/40 space-y-2'
-              >
-                <div className='flex justify-between items-start gap-2'>
-                  <div className='min-w-0 flex-1'>
-                    <div className='font-semibold text-xs leading-tight line-clamp-2'>
-                      {item.name}
-                    </div>
-                    <div className='flex items-center gap-1.5 mt-0.5'>
-                      <span className='text-[10px] text-muted-foreground'>
-                        {item.sku}
-                      </span>
-                      <span className='text-[10px] text-muted-foreground'>•</span>
-                      <span className='text-[11px] font-medium'>
-                        {formatCurrency(item.unitPrice)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className='text-right shrink-0'>
-                    <div className='font-bold text-xs'>
-                      {formatCurrency(item.total)}
-                    </div>
-                    {item.discountAmount > 0 && (
-                      <div className='text-[10px] text-emerald-600 dark:text-emerald-400 font-medium'>
-                        -{formatCurrency(item.discountAmount)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Quantity Controls & Line Discount */}
-                <div className='flex items-center justify-between pt-1 border-t border-muted/50'>
-                  <div className='flex items-center gap-1 bg-muted/30 rounded-md p-0.5 border'>
-                    <Button
-                      size='icon'
-                      variant='ghost'
-                      className='h-6 w-6 rounded-sm'
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    >
-                      <Minus className='h-3 w-3' />
-                    </Button>
-                    <span className='w-7 text-center text-xs font-bold'>
-                      {item.quantity}
-                    </span>
-                    <Button
-                      size='icon'
-                      variant='ghost'
-                      className='h-6 w-6 rounded-sm'
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    >
-                      <Plus className='h-3 w-3' />
-                    </Button>
-                  </div>
-
-                  <div className='flex items-center gap-1'>
-                    {item.discount ? (
-                      <Badge
-                        variant='secondary'
-                        className='h-6 px-1.5 text-[10px] cursor-pointer hover:bg-destructive/10 hover:text-destructive gap-1'
-                        onClick={() => removeItemDiscount(item.id)}
-                        title='Click to remove discount'
-                      >
-                        {item.discount.type === 'percentage'
-                          ? `${item.discount.value}% off`
-                          : `-${formatCurrency(item.discount.value)}`}
-                        <X className='h-3 w-3' />
-                      </Badge>
-                    ) : (
-                      <Button
-                        variant='ghost'
-                        size='icon'
-                        className='h-6 w-6 text-muted-foreground hover:text-foreground'
-                        onClick={() => {
-                          setDiscountingItem(item)
-                          setLineDiscountType('percentage')
-                          setLineDiscountValue('')
-                        }}
-                        title='Apply line discount'
-                      >
-                        <Tag className='h-3 w-3' />
-                      </Button>
-                    )}
-
-                    <Button
-                      variant='ghost'
-                      size='icon'
-                      className='h-6 w-6 text-muted-foreground hover:text-rose-500'
-                      onClick={() => removeItem(item.id)}
-                      title='Remove line'
-                    >
-                      <Trash2 className='h-3 w-3' />
-                    </Button>
-                  </div>
-                </div>
+            {items.length === 0 ? (
+              <div className='flex h-full flex-col items-center justify-center p-6 text-center text-muted-foreground'>
+                <ShoppingCart className='mb-3 h-12 w-12 stroke-[1.5] opacity-20' />
+                <p className='text-sm font-semibold'>{t('pos.cartSection.cartEmpty', 'Cart is empty')}</p>
+                <p className='mt-1 max-w-[200px] text-xs text-muted-foreground/80'>
+                  {t(
+                    'pos.cartSection.cartEmptyDesc',
+                    'Scan a barcode or click items from the catalog to start a sale.'
+                  )}
+                </p>
               </div>
-            ))}
-          </div>
-        )}
+            ) : (
+              <div className='space-y-2'>
+                {items.map((item) => {
+                  const hasAvailableStock = item.availableQuantity != null
+                  const isOverStock =
+                    hasAvailableStock &&
+                    item.quantity > (item.availableQuantity ?? 0)
+                  const isAtMax =
+                    hasAvailableStock &&
+                    item.quantity >= (item.availableQuantity ?? 0)
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`group space-y-2 rounded-lg border bg-card p-2.5 shadow-sm transition-all hover:border-primary/40 ${isOverStock ? 'border-destructive/50 bg-destructive/5' : ''}`}
+                    >
+                      <div className='flex items-start justify-between gap-2'>
+                        <div className='min-w-0 flex-1'>
+                          <div className='line-clamp-2 text-xs leading-tight font-semibold'>
+                            {item.name}
+                          </div>
+                          <div className='mt-0.5 flex items-center gap-1.5'>
+                            <span className='text-[10px] text-muted-foreground'>
+                              {item.sku}
+                            </span>
+                            <span className='text-[10px] text-muted-foreground'>
+                              •
+                            </span>
+                            <span className='text-[11px] font-medium'>
+                              {formatCurrency(item.unitPrice)}
+                            </span>
+                          </div>
+                          {/* Stock badge */}
+                          {hasAvailableStock && (
+                            <div className='mt-1 flex items-center gap-1'>
+                              <Package className='h-3 w-3 text-muted-foreground' />
+                              <span
+                                className={`text-[10px] font-medium ${isOverStock ? 'text-destructive' : 'text-muted-foreground'}`}
+                              >
+                                {t('pos.cartSection.available', 'Available: {{count}}', {
+                                  count: item.availableQuantity,
+                                })}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className='shrink-0 text-right'>
+                          <div className='text-xs font-bold'>
+                            {formatCurrency(item.total)}
+                          </div>
+                          {item.discountAmount > 0 && (
+                            <div className='text-[10px] font-medium text-emerald-600 dark:text-emerald-400'>
+                              -{formatCurrency(item.discountAmount)}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Quantity Controls & Line Discount */}
+                      <div className='flex items-center justify-between border-t border-muted/50 pt-1'>
+                        <div className='flex items-center gap-1 rounded-md border bg-muted/30 p-0.5'>
+                          <Button
+                            size='icon'
+                            variant='ghost'
+                            className='h-6 w-6 rounded-sm'
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity - 1)
+                            }
+                          >
+                            <Minus className='h-3 w-3' />
+                          </Button>
+                          <span
+                            className={`w-7 text-center text-xs font-bold ${isOverStock ? 'text-destructive' : ''}`}
+                          >
+                            {item.quantity}
+                          </span>
+                          <Button
+                            size='icon'
+                            variant='ghost'
+                            className='h-6 w-6 rounded-sm'
+                            disabled={isAtMax}
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity + 1)
+                            }
+                            title={
+                              isAtMax
+                                ? t('pos.cartSection.maxStockTooltip', 'Max stock: {{max}}', {
+                                    max: item.availableQuantity,
+                                  })
+                                : undefined
+                            }
+                          >
+                            <Plus className='h-3 w-3' />
+                          </Button>
+                        </div>
+
+                        <div className='flex items-center gap-1'>
+                          {item.discount ? (
+                            <Badge
+                              variant='secondary'
+                              className='h-6 cursor-pointer gap-1 px-1.5 text-[10px] hover:bg-destructive/10 hover:text-destructive'
+                              onClick={() => removeItemDiscount(item.id)}
+                              title={t(
+                                'pos.cartSection.removeDiscountTooltip',
+                                'Click to remove discount'
+                              )}
+                            >
+                              {item.discount.type === 'percentage'
+                                ? t('pos.cartSection.percentOff', '{{percent}}% off', {
+                                    percent: item.discount.value,
+                                  })
+                                : `-${formatCurrency(item.discount.value)}`}
+                              <X className='h-3 w-3' />
+                            </Badge>
+                          ) : (
+                            <Button
+                              variant='ghost'
+                              size='icon'
+                              className='h-6 w-6 text-muted-foreground hover:text-foreground'
+                              onClick={() => {
+                                setDiscountingItem(item)
+                                setLineDiscountType('percentage')
+                                setLineDiscountValue('')
+                              }}
+                              title={t(
+                                'pos.cartSection.applyLineDiscount',
+                                'Apply line discount'
+                              )}
+                            >
+                              <Tag className='h-3 w-3' />
+                            </Button>
+                          )}
+
+                          <Button
+                            variant='ghost'
+                            size='icon'
+                            className='h-6 w-6 text-muted-foreground hover:text-rose-500'
+                            onClick={() => removeItem(item.id)}
+                            title={t('pos.cartSection.removeLine', 'Remove line')}
+                          >
+                            <Trash2 className='h-3 w-3' />
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Inline stock error */}
+                      {isOverStock && (
+                        <div className='flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1.5 text-[11px] font-medium text-destructive'>
+                          <AlertTriangle className='h-3.5 w-3.5 shrink-0' />
+                          <span>
+                            {t(
+                              'pos.cartSection.exceedsStock',
+                              'Exceeds available stock ({{max}}). Reduce quantity to proceed.',
+                              { max: item.availableQuantity }
+                            )}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </ScrollArea>
       </div>
 
       {/* Cart Totals & Checkout Actions */}
-      <div className='shrink-0 border-t bg-card p-3 space-y-2.5 shadow-lg'>
+      <div className='shrink-0 space-y-2.5 border-t bg-card p-3 shadow-lg'>
         <div className='space-y-1.5 text-xs'>
           <div className='flex justify-between text-muted-foreground'>
-            <span>Subtotal</span>
+            <span>{t('pos.cartSection.subtotal', 'Subtotal')}</span>
             <span>{formatCurrency(subtotal)}</span>
           </div>
 
           {/* Cart-level discount row */}
-          <div className='flex justify-between items-center text-muted-foreground'>
+          <div className='flex items-center justify-between text-muted-foreground'>
             <div className='flex items-center gap-1.5'>
-              <span>Order Discount</span>
-              <Popover open={isCartDiscountOpen} onOpenChange={setIsCartDiscountOpen}>
+              <span>{t('pos.cartSection.orderDiscount', 'Order Discount')}</span>
+              <Popover
+                open={isCartDiscountOpen}
+                onOpenChange={setIsCartDiscountOpen}
+              >
                 <PopoverTrigger asChild>
                   <Button
                     variant='ghost'
                     size='sm'
                     className='h-5 px-1 text-[10px] text-primary hover:underline'
                   >
-                    {cartDiscount ? 'Edit' : '+ Add'}
+                    {cartDiscount
+                      ? t('pos.cartSection.edit', 'Edit')
+                      : t('pos.cartSection.add', '+ Add')}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className='w-64 p-3 space-y-3' align='start'>
-                  <h4 className='font-bold text-xs'>Order Level Discount</h4>
+                <PopoverContent className='w-64 space-y-3 p-3' align='start'>
+                  <h4 className='text-xs font-bold'>
+                    {t('pos.cartSection.orderLevelDiscount', 'Order Level Discount')}
+                  </h4>
                   <div className='flex gap-2'>
                     <Button
                       type='button'
                       size='sm'
-                      variant={cartDiscountType === 'percentage' ? 'default' : 'outline'}
-                      className='flex-1 h-7 text-xs'
+                      variant={
+                        cartDiscountType === 'percentage'
+                          ? 'default'
+                          : 'outline'
+                      }
+                      className='h-7 flex-1 text-xs'
                       onClick={() => setCartDiscountType('percentage')}
                     >
-                      Percent (%)
+                      {t('pos.cartSection.percent', 'Percent (%)')}
                     </Button>
                     <Button
                       type='button'
                       size='sm'
-                      variant={cartDiscountType === 'fixed' ? 'default' : 'outline'}
-                      className='flex-1 h-7 text-xs'
+                      variant={
+                        cartDiscountType === 'fixed' ? 'default' : 'outline'
+                      }
+                      className='h-7 flex-1 text-xs'
                       onClick={() => setCartDiscountType('fixed')}
                     >
-                      Fixed ($)
+                      {t('pos.cartSection.fixed', 'Fixed ($)')}
                     </Button>
                   </div>
                   <Input
                     type='number'
                     min='0'
-                    placeholder={cartDiscountType === 'percentage' ? '10%' : '5.00'}
+                    placeholder={
+                      cartDiscountType === 'percentage' ? '10%' : '5.00'
+                    }
                     className='h-8 text-xs'
                     value={cartDiscountValue}
                     onChange={(e) => setCartDiscountValue(e.target.value)}
@@ -466,7 +582,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                           setIsCartDiscountOpen(false)
                         }}
                       >
-                        Remove
+                        {t('pos.cartSection.remove', 'Remove')}
                       </Button>
                     )}
                     <Button
@@ -475,7 +591,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                       className='h-7 text-xs'
                       onClick={handleApplyCartDiscount}
                     >
-                      Apply
+                      {t('pos.cartSection.applyBtn', 'Apply')}
                     </Button>
                   </div>
                 </PopoverContent>
@@ -485,19 +601,21 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             <span
               className={
                 totalDiscount > 0
-                  ? 'text-emerald-600 dark:text-emerald-400 font-semibold'
+                  ? 'font-semibold text-emerald-600 dark:text-emerald-400'
                   : ''
               }
             >
-              {totalDiscount > 0 ? `-${formatCurrency(totalDiscount)}` : '$0.00'}
+              {totalDiscount > 0
+                ? `-${formatCurrency(totalDiscount)}`
+                : '$0.00'}
             </span>
           </div>
 
           {/* Promo code row */}
-          <div className='flex justify-between items-center text-muted-foreground'>
+          <div className='flex items-center justify-between text-muted-foreground'>
             <div className='flex items-center gap-1.5'>
               <Ticket className='h-3 w-3' />
-              <span>Promo Code</span>
+              <span>{t('pos.cartSection.promoCode', 'Promo Code')}</span>
             </div>
             <Button
               variant='ghost'
@@ -505,14 +623,20 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
               className='h-5 px-1 text-[10px] text-primary hover:underline'
               onClick={() => setIsPromoOpen(true)}
             >
-              {usePosStore.getState().appliedPromotion ? 'Change' : '+ Apply'}
+              {usePosStore.getState().appliedPromotion
+                ? t('pos.cartSection.change', 'Change')
+                : t('pos.cartSection.apply', '+ Apply')}
             </Button>
           </div>
           {usePosStore.getState().appliedPromotion && (
             <div className='flex items-center gap-1.5 text-[10px]'>
-              <Badge variant='secondary' className='h-5 px-1.5 text-[10px] gap-1 text-emerald-600 dark:text-emerald-400'>
+              <Badge
+                variant='secondary'
+                className='h-5 gap-1 px-1.5 text-[10px] text-emerald-600 dark:text-emerald-400'
+              >
                 <Tag className='h-2.5 w-2.5' />
-                {usePosStore.getState().appliedPromotion.code || usePosStore.getState().appliedPromotion.name}
+                {usePosStore.getState().appliedPromotion.code ||
+                  usePosStore.getState().appliedPromotion.name}
               </Badge>
               <Button
                 variant='ghost'
@@ -526,15 +650,17 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
           )}
 
           <div className='flex justify-between text-muted-foreground'>
-            <span>Taxes</span>
+            <span>{t('pos.cartSection.taxes', 'Taxes')}</span>
             <span>{formatCurrency(tax)}</span>
           </div>
 
           <Separator />
 
-          <div className='flex justify-between items-baseline pt-1'>
-            <span className='font-bold text-sm tracking-tight'>TOTAL</span>
-            <span className='text-2xl font-black text-primary tracking-tight'>
+          <div className='flex items-baseline justify-between pt-1'>
+            <span className='text-sm font-bold tracking-tight'>
+              {t('pos.cartSection.total', 'TOTAL')}
+            </span>
+            <span className='text-2xl font-black tracking-tight text-primary'>
               {formatCurrency(total)}
             </span>
           </div>
@@ -545,23 +671,30 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
           <Button
             type='button'
             variant='outline'
-            className='col-span-1 h-11 text-xs font-semibold gap-1 px-2 border-amber-500/30 hover:bg-amber-500/10'
+            className='col-span-1 h-11 gap-1 border-amber-500/30 px-2 text-xs font-semibold hover:bg-amber-500/10'
             disabled={items.length === 0}
             onClick={onOpenHold}
-            title='Hold / Suspend Cart (F4)'
+            title={t('pos.cartSection.holdTooltip', 'Hold / Suspend Cart (F4)')}
           >
             <PauseCircle className='h-4 w-4 text-amber-500' />
-            <span className='hidden sm:inline'>Hold</span>
+            <span className='hidden sm:inline'>{t('pos.cartSection.hold', 'Hold')}</span>
           </Button>
 
           <Button
             type='button'
-            disabled={items.length === 0}
+            disabled={items.length === 0 || stockErrorsExist}
             onClick={onOpenCheckout}
-            className='col-span-3 h-11 text-base font-extrabold gap-2 bg-primary text-primary-foreground shadow-md hover:shadow-lg transition-all active:scale-[0.98]'
+            className='col-span-3 h-11 gap-2 bg-primary text-base font-extrabold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.98]'
+            title={
+              stockErrorsExist ? t('pos.cartSection.fixStockErrors', 'Fix Stock Errors') : undefined
+            }
           >
             <CreditCard className='h-5 w-5' />
-            Pay (F9) • {formatCurrency(total)}
+            {stockErrorsExist
+              ? t('pos.cartSection.fixStockErrors', 'Fix Stock Errors')
+              : t('pos.cartSection.payF9', 'Pay (F9) • {{amount}}', {
+                  amount: formatCurrency(total),
+                })}
           </Button>
         </div>
       </div>
@@ -574,7 +707,9 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
         <DialogContent className='sm:max-w-xs'>
           <DialogHeader>
             <DialogTitle className='text-sm font-bold'>
-              Discount for {discountingItem?.name}
+              {t('pos.cartSection.lineDiscountTitle', 'Discount for {{name}}', {
+                name: discountingItem?.name,
+              })}
             </DialogTitle>
           </DialogHeader>
           <div className='space-y-3 py-2'>
@@ -582,24 +717,26 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
               <Button
                 type='button'
                 size='sm'
-                variant={lineDiscountType === 'percentage' ? 'default' : 'outline'}
-                className='flex-1 h-8 text-xs'
+                variant={
+                  lineDiscountType === 'percentage' ? 'default' : 'outline'
+                }
+                className='h-8 flex-1 text-xs'
                 onClick={() => setLineDiscountType('percentage')}
               >
-                Percent (%)
+                {t('pos.cartSection.percent', 'Percent (%)')}
               </Button>
               <Button
                 type='button'
                 size='sm'
                 variant={lineDiscountType === 'fixed' ? 'default' : 'outline'}
-                className='flex-1 h-8 text-xs'
+                className='h-8 flex-1 text-xs'
                 onClick={() => setLineDiscountType('fixed')}
               >
-                Fixed ($)
+                {t('pos.cartSection.fixed', 'Fixed ($)')}
               </Button>
             </div>
             <div className='space-y-1'>
-              <Label className='text-xs'>Discount Value</Label>
+              <Label className='text-xs'>{t('pos.cartSection.discountValue', 'Discount Value')}</Label>
               <Input
                 type='number'
                 min='0'
@@ -618,14 +755,10 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
               size='sm'
               onClick={() => setDiscountingItem(null)}
             >
-              Cancel
+              {t('pos.cartSection.cancel', 'Cancel')}
             </Button>
-            <Button
-              type='button'
-              size='sm'
-              onClick={handleApplyLineDiscount}
-            >
-              Apply Discount
+            <Button type='button' size='sm' onClick={handleApplyLineDiscount}>
+              {t('pos.cartSection.applyDiscountBtn', 'Apply Discount')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -647,10 +780,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
       />
 
       {/* Promo Code Dialog */}
-      <PromoCodeDialog
-        open={isPromoOpen}
-        onOpenChange={setIsPromoOpen}
-      />
+      <PromoCodeDialog open={isPromoOpen} onOpenChange={setIsPromoOpen} />
     </div>
   )
 }

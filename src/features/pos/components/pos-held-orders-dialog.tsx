@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Clock, Play, Trash2, PauseCircle, Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
@@ -33,6 +34,7 @@ export function PosHeldOrdersDialog({
   onOpenChange,
   mode = 'view',
 }: PosHeldOrdersDialogProps) {
+  const { t } = useTranslation()
   const {
     items,
     terminal,
@@ -66,7 +68,7 @@ export function PosHeldOrdersDialog({
   const handleHoldSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (items.length === 0) {
-      toast.error('Cannot hold an empty cart')
+      toast.error(t('pos.heldOrders.emptyCartError', 'Cannot hold an empty cart'))
       return
     }
 
@@ -94,7 +96,11 @@ export function PosHeldOrdersDialog({
       }
     }
 
-    toast.success(`Cart held with reference "${ref}"`)
+    toast.success(
+      t('pos.heldOrders.cartHeldToast', 'Cart held with reference "{{ref}}"', {
+        ref,
+      })
+    )
     setReference('')
     onOpenChange(false)
   }
@@ -103,7 +109,10 @@ export function PosHeldOrdersDialog({
     if (items.length > 0) {
       if (
         !window.confirm(
-          'Your active cart has items. Resuming will replace the active cart. Continue?'
+          t(
+            'pos.heldOrders.resumeConfirm',
+            'Your active cart has items. Resuming will replace the active cart. Continue?'
+          )
         )
       ) {
         return
@@ -112,14 +121,18 @@ export function PosHeldOrdersDialog({
 
     const ok = resumeHeldCart(order.id)
     if (ok) {
-      toast.success(`Resumed cart "${order.reference}"`)
+      toast.success(
+        t('pos.heldOrders.resumedCart', 'Resumed cart "{{ref}}"', {
+          ref: order.reference,
+        })
+      )
       onOpenChange(false)
     }
   }
 
   const handleDiscard = (orderId: string) => {
     discardHeldCart(orderId)
-    toast.info('Held order discarded')
+    toast.info(t('pos.heldOrders.discardedToast', 'Held order discarded'))
   }
 
   return (
@@ -128,10 +141,15 @@ export function PosHeldOrdersDialog({
         <DialogHeader>
           <div className='flex items-center gap-2'>
             <PauseCircle className='h-5 w-5 text-amber-500' />
-            <DialogTitle>Suspended & Held Orders</DialogTitle>
+            <DialogTitle>
+              {t('pos.heldOrders.title', 'Suspended & Held Orders')}
+            </DialogTitle>
           </div>
           <DialogDescription>
-            Temporarily park active carts to serve another customer and resume anytime.
+            {t(
+              'pos.heldOrders.desc',
+              'Temporarily park active carts to serve another customer and resume anytime.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -144,7 +162,9 @@ export function PosHeldOrdersDialog({
             className='gap-1.5'
           >
             <Clock className='h-4 w-4' />
-            Held Orders ({allHeldOrders.length})
+            {t('pos.heldOrders.heldCartsTab', 'Held Orders ({{count}})', {
+              count: allHeldOrders.length,
+            })}
           </Button>
           <Button
             type='button'
@@ -155,33 +175,43 @@ export function PosHeldOrdersDialog({
             className='gap-1.5'
           >
             <Plus className='h-4 w-4' />
-            Hold Active Cart ({items.length} items)
+            {t('pos.heldOrders.holdActiveTab', 'Hold Active Cart ({{count}} items)', {
+              count: items.length,
+            })}
           </Button>
         </div>
 
         {activeTab === 'hold' ? (
           <form onSubmit={handleHoldSubmit} className='space-y-4 py-2'>
             <div className='space-y-2'>
-              <Label htmlFor='holdRef'>Reference Label *</Label>
+              <Label htmlFor='holdRef'>
+                {t('pos.heldOrders.referenceLabel', 'Reference Label *')}
+              </Label>
               <Input
                 id='holdRef'
-                placeholder='e.g., Table 5, John Doe, Blue Shirt'
+                placeholder={t(
+                  'pos.heldOrders.referencePlaceholder',
+                  'e.g., Table 5, John Doe, Blue Shirt'
+                )}
                 value={reference}
                 onChange={(e) => setReference(e.target.value)}
                 autoFocus
               />
               <p className='text-xs text-muted-foreground'>
-                A tag or name to easily identify this cart when resuming.
+                {t(
+                  'pos.heldOrders.referenceHelp',
+                  'A tag or name to easily identify this cart when resuming.'
+                )}
               </p>
             </div>
 
             <div className='rounded-md border bg-muted/40 p-3 text-xs space-y-1'>
               <div className='flex justify-between'>
-                <span>Items in cart:</span>
+                <span>{t('pos.heldOrders.itemsInCart', 'Items in cart:')}</span>
                 <span className='font-semibold'>{items.length}</span>
               </div>
               <div className='flex justify-between font-bold text-sm'>
-                <span>Cart Total:</span>
+                <span>{t('pos.heldOrders.cartTotal', 'Cart Total:')}</span>
                 <span className='text-primary'>{formatCurrency(getTotalAmount())}</span>
               </div>
             </div>
@@ -192,13 +222,13 @@ export function PosHeldOrdersDialog({
                 variant='outline'
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {t('pos.heldOrders.cancel', 'Cancel')}
               </Button>
               <Button
                 type='submit'
                 className='bg-amber-600 hover:bg-amber-700 text-white'
               >
-                Hold Order (F4)
+                {t('pos.heldOrders.holdCartBtn', 'Hold Order (F4)')}
               </Button>
             </div>
           </form>
@@ -207,9 +237,14 @@ export function PosHeldOrdersDialog({
             {allHeldOrders.length === 0 ? (
               <div className='py-12 text-center text-muted-foreground'>
                 <PauseCircle className='mx-auto h-10 w-10 opacity-30 mb-2' />
-                <p className='text-sm font-medium'>No held orders</p>
+                <p className='text-sm font-medium'>
+                  {t('pos.heldOrders.noHeldCarts', 'No held orders')}
+                </p>
                 <p className='text-xs mt-1'>
-                  Use &apos;Hold Cart&apos; to park an active transaction.
+                  {t(
+                    'pos.heldOrders.noHeldCartsDesc',
+                    "Use 'Hold Cart' to park an active transaction."
+                  )}
                 </p>
               </div>
             ) : (
@@ -232,7 +267,11 @@ export function PosHeldOrdersDialog({
                           )}
                         </div>
                         <div className='flex items-center gap-3 text-xs text-muted-foreground'>
-                          <span>{order.items.length} item(s)</span>
+                          <span>
+                            {t('pos.heldOrders.itemsCount', '{{count}} items', {
+                              count: order.items.length,
+                            })}
+                          </span>
                           <span>•</span>
                           <span>
                             {new Date(order.createdAt).toLocaleTimeString([], {
@@ -255,7 +294,7 @@ export function PosHeldOrdersDialog({
                           onClick={() => handleResume(order)}
                         >
                           <Play className='h-3.5 w-3.5' />
-                          Resume
+                          {t('pos.heldOrders.resume', 'Resume')}
                         </Button>
                         <Button
                           size='icon'
