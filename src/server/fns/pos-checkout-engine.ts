@@ -163,9 +163,20 @@ export async function processPosSale(
         product_variant_id: { in: variantIds },
         warehouse_id: input.warehouseId,
         tenant_id: tenantId,
+        OR: [
+          { store_id: input.storeId ?? null },
+          { store_id: null },
+        ],
       },
     })
-    const stockMap = new Map(stockBalances.map((sb) => [sb.product_variant_id, sb]))
+    // Pick the best balance per variant (highest qty_available)
+    const stockMap = new Map<string, (typeof stockBalances)[number]>()
+    for (const sb of stockBalances) {
+      const existing = stockMap.get(sb.product_variant_id)
+      if (!existing || (sb.qty_available ?? sb.qty_on_hand).gt(existing.qty_available ?? existing.qty_on_hand)) {
+        stockMap.set(sb.product_variant_id, sb)
+      }
+    }
 
     for (const item of input.items) {
       const qty = toDecimal(item.quantity)

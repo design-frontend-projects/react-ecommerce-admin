@@ -324,7 +324,9 @@ export async function postInventoryTransaction(
         const sStoreId = item.source_store_id ?? txn.source_store_id
         const sLocationId = item.source_location_id ?? txn.source_location_id
 
-        // Find or create source stock balance
+        // Find source stock balance using two-tier lookup:
+        // Tier 1: Exact match on all fields (warehouse + store + location + condition + batch)
+        // Tier 2: Relaxed match on core identifiers only (warehouse), pick highest qty_on_hand
         let sourceBalance = await tx.stock_balances.findFirst({
           where: {
             tenant_id: tenantId,
@@ -338,6 +340,19 @@ export async function postInventoryTransaction(
         })
 
         if (!sourceBalance) {
+          // Tier 2: Relaxed fallback — find best matching balance in the same warehouse
+          sourceBalance = await tx.stock_balances.findFirst({
+            where: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+              warehouse_id: sWarehouseId,
+            },
+            orderBy: { qty_on_hand: 'desc' },
+          })
+        }
+
+        if (!sourceBalance) {
+          // No balance exists at all — create a new zero balance
           sourceBalance = await tx.stock_balances.create({
             data: {
               tenant_id: tenantId,
@@ -412,10 +427,7 @@ export async function postInventoryTransaction(
                   : damaged
           }
         }
-        console.log(
-          `item: ${item.product_variant_id}, qty: ${item.quantity}, qty before: ${item.qty_before}`
-        )
-        consoel.info(item)
+
 
         if (!allowsNegative && (onHand.lt(0) || available.lt(0))) {
           throw new ApiError(

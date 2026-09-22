@@ -1,10 +1,9 @@
 import { useRef, useState, useMemo } from 'react'
+import { Printer, CheckCircle2, Mail, MessageCircle, Send } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Printer, CheckCircle2, Download, Mail, MessageCircle, Send } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Dialog,
   DialogContent,
@@ -12,6 +11,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
@@ -74,9 +74,8 @@ export function PosReceiptDialog({
   const [isWhatsappPopoverOpen, setIsWhatsappPopoverOpen] = useState(false)
   const [isEmailPopoverOpen, setIsEmailPopoverOpen] = useState(false)
 
-  if (!receipt) return null
-
   // Generate receipt text for sharing
+  // ⚠️ All hooks MUST be called before any early return (Rules of Hooks)
   const receiptText = useMemo(() => {
     if (!receipt) return ''
     const lines: string[] = []
@@ -114,10 +113,14 @@ export function PosReceiptDialog({
     return lines.join('\n')
   }, [receipt])
 
-  const formattedDate = new Date(receipt.date).toLocaleString(undefined, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  })
+  const formattedDate = receipt
+    ? new Date(receipt.date).toLocaleString(undefined, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
+    : ''
+
+  if (!receipt) return null
 
   const handlePrint = () => {
     const printWindow = window.open('', '_blank')
@@ -296,10 +299,10 @@ export function PosReceiptDialog({
         {/* Receipt paper view */}
         <div
           ref={receiptRef}
-          className='rounded-md border bg-card p-4 font-mono text-xs shadow-inner space-y-3'
+          className='space-y-3 rounded-md border bg-card p-4 font-mono text-xs shadow-inner'
         >
-          <div className='text-center space-y-0.5'>
-            <h3 className='font-bold text-sm font-sans tracking-tight'>
+          <div className='space-y-0.5 text-center'>
+            <h3 className='font-sans text-sm font-bold tracking-tight'>
               {receipt.storeName || 'Bluewave Retail Store'}
             </h3>
             {receipt.storeAddress && (
@@ -309,7 +312,7 @@ export function PosReceiptDialog({
               <p className='text-muted-foreground'>Tel: {receipt.storePhone}</p>
             )}
             {receipt.taxNumber && (
-              <p className='text-muted-foreground text-[10px]'>
+              <p className='text-[10px] text-muted-foreground'>
                 Tax ID: {receipt.taxNumber}
               </p>
             )}
@@ -326,17 +329,21 @@ export function PosReceiptDialog({
               {receipt.invoiceNumber && (
                 <p>
                   {t('pos.receiptModal.invoice', 'Invoice')}:{' '}
-                  <span className='font-bold text-primary'>{receipt.invoiceNumber}</span>
+                  <span className='font-bold text-primary'>
+                    {receipt.invoiceNumber}
+                  </span>
                 </p>
               )}
               <p>
-                {t('pos.receiptModal.terminal', 'Terminal')}: {receipt.terminalCode || 'POS-01'}
+                {t('pos.receiptModal.terminal', 'Terminal')}:{' '}
+                {receipt.terminalCode || 'POS-01'}
               </p>
             </div>
             <div className='text-right'>
               <p>{formattedDate}</p>
               <p>
-                {t('pos.receiptModal.cashier', 'Cashier')}: {receipt.cashierName || 'Cashier'}
+                {t('pos.receiptModal.cashier', 'Cashier')}:{' '}
+                {receipt.cashierName || 'Cashier'}
               </p>
             </div>
           </div>
@@ -346,9 +353,9 @@ export function PosReceiptDialog({
           {/* Line items */}
           <div className='space-y-1.5'>
             {receipt.items.map((item, idx) => (
-              <div key={idx} className='flex justify-between items-start'>
+              <div key={idx} className='flex items-start justify-between'>
                 <div className='flex-1 pr-2'>
-                  <p className='font-medium line-clamp-1'>{item.name}</p>
+                  <p className='line-clamp-1 font-medium'>{item.name}</p>
                   <p className='text-[10px] text-muted-foreground'>
                     {item.quantity} x {formatCurrency(item.unitPrice)}
                     {item.discountAmount && item.discountAmount > 0
@@ -356,7 +363,7 @@ export function PosReceiptDialog({
                       : ''}
                   </p>
                 </div>
-                <div className='font-semibold text-right'>
+                <div className='text-right font-semibold'>
                   {formatCurrency(item.total)}
                 </div>
               </div>
@@ -386,9 +393,11 @@ export function PosReceiptDialog({
               <span>{formatCurrency(receipt.taxTotal)}</span>
             </div>
             <Separator />
-            <div className='flex justify-between text-sm font-bold pt-1'>
+            <div className='flex justify-between pt-1 text-sm font-bold'>
               <span>{t('pos.receiptModal.total', 'GRAND TOTAL')}</span>
-              <span className='text-primary'>{formatCurrency(receipt.totalAmount)}</span>
+              <span className='text-primary'>
+                {formatCurrency(receipt.totalAmount)}
+              </span>
             </div>
           </div>
 
@@ -396,13 +405,15 @@ export function PosReceiptDialog({
 
           {/* Payments */}
           <div className='space-y-1 text-[11px]'>
-            <p className='font-bold text-[10px] uppercase text-muted-foreground'>
+            <p className='text-[10px] font-bold text-muted-foreground uppercase'>
               {t('pos.receiptModal.paymentMethodsLabel', 'Payment Breakdown:')}
             </p>
             {receipt.payments.map((p, idx) => (
               <div key={idx} className='flex justify-between'>
                 <span className='capitalize'>{p.method.replace('_', ' ')}</span>
-                <span className='font-semibold'>{formatCurrency(p.amount)}</span>
+                <span className='font-semibold'>
+                  {formatCurrency(p.amount)}
+                </span>
               </div>
             ))}
             {receipt.changeGiven && receipt.changeGiven > 0 && (
@@ -413,8 +424,10 @@ export function PosReceiptDialog({
             )}
           </div>
 
-          <div className='text-center pt-2 text-[10px] text-muted-foreground'>
-            <p>{t('pos.receipt.thankYou', 'Thank you for shopping with us!')}</p>
+          <div className='pt-2 text-center text-[10px] text-muted-foreground'>
+            <p>
+              {t('pos.receipt.thankYou', 'Thank you for shopping with us!')}
+            </p>
           </div>
         </div>
 
@@ -429,7 +442,10 @@ export function PosReceiptDialog({
           </Button>
 
           {/* WhatsApp share */}
-          <Popover open={isWhatsappPopoverOpen} onOpenChange={setIsWhatsappPopoverOpen}>
+          <Popover
+            open={isWhatsappPopoverOpen}
+            onOpenChange={setIsWhatsappPopoverOpen}
+          >
             <PopoverTrigger asChild>
               <Button
                 type='button'
@@ -452,7 +468,7 @@ export function PosReceiptDialog({
                 {t('pos.receiptModal.shareWhatsApp', 'WhatsApp')}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className='w-64 p-3 space-y-2' align='start'>
+            <PopoverContent className='w-64 space-y-2 p-3' align='start'>
               <p className='text-xs font-semibold'>
                 {t('pos.receiptModal.enterPhone', 'Enter phone number')}
               </p>
@@ -466,7 +482,7 @@ export function PosReceiptDialog({
               />
               <Button
                 size='sm'
-                className='w-full h-7 text-xs gap-1'
+                className='h-7 w-full gap-1 text-xs'
                 disabled={!whatsappPhone.trim()}
                 onClick={() => {
                   const phone = whatsappPhone.replace(/\D/g, '')
@@ -477,18 +493,25 @@ export function PosReceiptDialog({
                     )
                     setIsWhatsappPopoverOpen(false)
                     toast.success(
-                      t('pos.receiptModal.openingWhatsApp', 'Opening WhatsApp...')
+                      t(
+                        'pos.receiptModal.openingWhatsApp',
+                        'Opening WhatsApp...'
+                      )
                     )
                   }
                 }}
               >
-                <Send className='h-3 w-3' /> {t('pos.receiptModal.send', 'Send')}
+                <Send className='h-3 w-3' />{' '}
+                {t('pos.receiptModal.send', 'Send')}
               </Button>
             </PopoverContent>
           </Popover>
 
           {/* Email share */}
-          <Popover open={isEmailPopoverOpen} onOpenChange={setIsEmailPopoverOpen}>
+          <Popover
+            open={isEmailPopoverOpen}
+            onOpenChange={setIsEmailPopoverOpen}
+          >
             <PopoverTrigger asChild>
               <Button
                 type='button'
@@ -511,7 +534,7 @@ export function PosReceiptDialog({
                 {t('pos.receiptModal.shareEmail', 'Email')}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className='w-64 p-3 space-y-2' align='start'>
+            <PopoverContent className='w-64 space-y-2 p-3' align='start'>
               <p className='text-xs font-semibold'>
                 {t('pos.receiptModal.enterEmail', 'Enter email address')}
               </p>
@@ -525,7 +548,7 @@ export function PosReceiptDialog({
               />
               <Button
                 size='sm'
-                className='w-full h-7 text-xs gap-1'
+                className='h-7 w-full gap-1 text-xs'
                 disabled={!emailAddress.trim()}
                 onClick={() => {
                   if (emailAddress.trim()) {
@@ -535,12 +558,16 @@ export function PosReceiptDialog({
                     )
                     setIsEmailPopoverOpen(false)
                     toast.success(
-                      t('pos.receiptModal.openingEmail', 'Opening email client...')
+                      t(
+                        'pos.receiptModal.openingEmail',
+                        'Opening email client...'
+                      )
                     )
                   }
                 }}
               >
-                <Send className='h-3 w-3' /> {t('pos.receiptModal.send', 'Send')}
+                <Send className='h-3 w-3' />{' '}
+                {t('pos.receiptModal.send', 'Send')}
               </Button>
             </PopoverContent>
           </Popover>
