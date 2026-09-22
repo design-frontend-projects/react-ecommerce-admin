@@ -288,118 +288,121 @@ function PosCheckoutDialogContent({
   }
 
   return (
-    <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-xl'>
-        <DialogHeader>
-          <div className='flex items-center justify-between'>
-            <div>
-              <DialogTitle className='text-2xl font-bold'>
-                {t('pos.checkout.title', 'Payment & Checkout')}
-              </DialogTitle>
-              <DialogDescription>
-                {t(
-                  'pos.checkout.description',
-                  'Select payment methods or split across multiple options.'
-                )}
-              </DialogDescription>
-            </div>
-            <div className='text-right'>
-              <span className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
-                {t('pos.checkout.totalDue', 'Total Due')}
-              </span>
-              <div className='text-2xl font-black text-primary'>
-                {formatCurrency(total)}
-              </div>
+    <DialogContent className='flex max-h-[90dvh] w-[95vw] sm:max-w-xl flex-col p-0 overflow-hidden'>
+      {/* Pinned Sticky Header */}
+      <DialogHeader className='shrink-0 border-b bg-card p-4 sm:p-5'>
+        <div className='flex items-center justify-between gap-3'>
+          <div>
+            <DialogTitle className='text-xl sm:text-2xl font-bold'>
+              {t('pos.checkout.title', 'Payment & Checkout')}
+            </DialogTitle>
+            <DialogDescription className='text-xs sm:text-sm'>
+              {t(
+                'pos.checkout.description',
+                'Select payment methods or split across multiple options.'
+              )}
+            </DialogDescription>
+          </div>
+          <div className='text-right shrink-0'>
+            <span className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+              {t('pos.checkout.totalDue', 'Total Due')}
+            </span>
+            <div className='text-xl sm:text-2xl font-black text-primary'>
+              {formatCurrency(total)}
             </div>
           </div>
-        </DialogHeader>
+        </div>
+      </DialogHeader>
 
-        <div className='space-y-4 py-2'>
-          {/* Payment Lines */}
-          <div className='space-y-3'>
-            <div className='flex items-center justify-between'>
-              <Label className='text-sm font-semibold'>
-                {t('pos.checkout.splitBreakdown', 'Payment Split Breakdown')}
-              </Label>
-              {remainingToAssign > 0 && (
-                <Button
-                  type='button'
-                  size='sm'
-                  variant='outline'
-                  onClick={addPaymentRow}
-                  className='h-7 gap-1 text-xs'
-                >
-                  <Plus className='h-3.5 w-3.5' /> {t('pos.checkout.splitPayment', 'Split Payment')}
-                </Button>
-              )}
-            </div>
-
-            {payments.map((p) => (
-              <div
-                key={p.id}
-                className='flex flex-wrap items-center gap-2 rounded-lg border bg-muted/20 p-3'
+      {/* Scrollable Middle Body */}
+      <div className='flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-5 space-y-4'>
+        {/* Payment Lines */}
+        <div className='space-y-3'>
+          <div className='flex items-center justify-between'>
+            <Label className='text-sm font-semibold'>
+              {t('pos.checkout.splitBreakdown', 'Payment Split Breakdown')}
+            </Label>
+            {remainingToAssign > 0 && (
+              <Button
+                type='button'
+                size='sm'
+                variant='outline'
+                onClick={addPaymentRow}
+                className='h-7 gap-1 text-xs'
               >
-                <div className='w-36'>
-                  <Select
-                    value={p.method}
-                    onValueChange={(val) =>
-                      handleMethodChange(p.id, val as PaymentMethodType)
-                    }
-                  >
-                    <SelectTrigger className='h-9'>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value='cash'>
-                        <div className='flex items-center gap-2'>
-                          <Banknote className='h-4 w-4 text-emerald-600' /> {t('pos.checkout.cash', 'Cash')}
-                        </div>
-                      </SelectItem>
-                      <SelectItem value='card'>
-                        <div className='flex items-center gap-2'>
-                          <CreditCard className='h-4 w-4 text-blue-600' /> {t('pos.checkout.card', 'Card')}
-                        </div>
-                      </SelectItem>
-                      <SelectItem value='bank_transfer'>
-                        <div className='flex items-center gap-2'>
-                          <Building2 className='h-4 w-4 text-purple-600' /> {t('pos.checkout.bankTransfer', 'Bank Transfer')}
-                        </div>
-                      </SelectItem>
-                      <SelectItem value='wallet'>
-                        <div className='flex items-center gap-2'>
-                          <Wallet className='h-4 w-4 text-amber-600' /> {t('pos.checkout.wallet', 'Digital Wallet')}
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <Plus className='h-3.5 w-3.5' /> {t('pos.checkout.splitPayment', 'Split Payment')}
+              </Button>
+            )}
+          </div>
 
-                <div className='min-w-[120px] flex-1'>
+          {payments.map((p) => (
+            <div
+              key={p.id}
+              className='grid grid-cols-1 sm:grid-cols-12 items-center gap-2 rounded-lg border bg-muted/20 p-2.5 sm:p-3'
+            >
+              <div className='sm:col-span-4'>
+                <Select
+                  value={p.method}
+                  onValueChange={(val) =>
+                    handleMethodChange(p.id, val as PaymentMethodType)
+                  }
+                >
+                  <SelectTrigger className='h-9'>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='cash'>
+                      <div className='flex items-center gap-2'>
+                        <Banknote className='h-4 w-4 text-emerald-600' /> {t('pos.checkout.cash', 'Cash')}
+                      </div>
+                    </SelectItem>
+                    <SelectItem value='card'>
+                      <div className='flex items-center gap-2'>
+                        <CreditCard className='h-4 w-4 text-blue-600' /> {t('pos.checkout.card', 'Card')}
+                      </div>
+                    </SelectItem>
+                    <SelectItem value='bank_transfer'>
+                      <div className='flex items-center gap-2'>
+                        <Building2 className='h-4 w-4 text-purple-600' /> {t('pos.checkout.bankTransfer', 'Bank Transfer')}
+                      </div>
+                    </SelectItem>
+                    <SelectItem value='wallet'>
+                      <div className='flex items-center gap-2'>
+                        <Wallet className='h-4 w-4 text-amber-600' /> {t('pos.checkout.wallet', 'Digital Wallet')}
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className={p.method !== 'cash' ? 'sm:col-span-4' : payments.length > 1 ? 'sm:col-span-7' : 'sm:col-span-8'}>
+                <Input
+                  type='number'
+                  step='0.01'
+                  min='0.01'
+                  className='h-9 font-semibold'
+                  value={p.amount}
+                  onChange={(e) =>
+                    handleAmountChange(p.id, Number(e.target.value) || 0)
+                  }
+                  placeholder={t('pos.checkout.amount', 'Amount')}
+                />
+              </div>
+
+              {p.method !== 'cash' && (
+                <div className={payments.length > 1 ? 'sm:col-span-3' : 'sm:col-span-4'}>
                   <Input
-                    type='number'
-                    step='0.01'
-                    min='0.01'
-                    className='h-9 font-semibold'
-                    value={p.amount}
-                    onChange={(e) =>
-                      handleAmountChange(p.id, Number(e.target.value) || 0)
-                    }
-                    placeholder={t('pos.checkout.amount', 'Amount')}
+                    type='text'
+                    className='h-9 text-xs'
+                    placeholder={t('pos.checkout.referencePlaceholder', 'Ref / Auth #')}
+                    value={p.referenceNumber || ''}
+                    onChange={(e) => handleRefChange(p.id, e.target.value)}
                   />
                 </div>
+              )}
 
-                {p.method !== 'cash' && (
-                  <div className='min-w-[130px] flex-1'>
-                    <Input
-                      type='text'
-                      className='h-9 text-xs'
-                      placeholder={t('pos.checkout.referencePlaceholder', 'Ref / Auth #')}
-                      value={p.referenceNumber || ''}
-                      onChange={(e) => handleRefChange(p.id, e.target.value)}
-                    />
-                  </div>
-                )}
-
-                {payments.length > 1 && (
+              {payments.length > 1 && (
+                <div className='flex justify-end sm:col-span-1'>
                   <Button
                     type='button'
                     size='icon'
@@ -409,144 +412,146 @@ function PosCheckoutDialogContent({
                   >
                     <Trash2 className='h-4 w-4' />
                   </Button>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Cash details (Tendered & Change) if cash is included */}
-          {cashPayment && (
-            <div className='space-y-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4'>
-              <div className='flex items-center justify-between'>
-                <Label className='flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400'>
-                  <Banknote className='h-4 w-4' /> {t('pos.checkout.amountTendered', 'Cash Tendered')}
-                </Label>
-                <span className='text-xs text-muted-foreground'>
-                  {t('pos.checkout.requiredCash', 'Required cash')}: {formatCurrency(cashRequired)}
-                </span>
-              </div>
-
-              <div className='flex items-center gap-3'>
-                <Input
-                  type='number'
-                  step='0.01'
-                  min='0'
-                  className='h-11 max-w-[200px] text-xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400'
-                  value={cashTenderedInput}
-                  onChange={(e) => setCashTenderedInput(e.target.value)}
-                  placeholder='0.00'
-                />
-
-                {/* Quick denomination pills */}
-                <div className='flex flex-1 flex-wrap gap-1.5'>
-                  <Button
-                    type='button'
-                    variant='outline'
-                    size='sm'
-                    className='h-8 text-xs font-semibold'
-                    onClick={() => handleQuickCash(cashRequired)}
-                  >
-                    {t('pos.checkout.exact', 'Exact')}
-                  </Button>
-                  {QUICK_CASH_DENOMINATIONS.map((amt) => {
-                    if (amt >= cashRequired) {
-                      return (
-                        <Button
-                          key={amt}
-                          type='button'
-                          variant='outline'
-                          size='sm'
-                          className='h-8 text-xs font-semibold'
-                          onClick={() => handleQuickCash(amt)}
-                        >
-                          ${amt}
-                        </Button>
-                      )
-                    }
-                    return null
-                  })}
                 </div>
-              </div>
-
-              {/* Change calculation */}
-              <div className='flex items-center justify-between border-t border-emerald-500/20 pt-1 text-sm'>
-                <span className='font-medium text-muted-foreground'>
-                  {t('pos.checkout.changeDue', 'Change Due')}:
-                </span>
-                <span className='text-lg font-extrabold text-emerald-600 dark:text-emerald-400'>
-                  {formatCurrency(changeDue)}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Balance status banner */}
-          <div
-            className={`flex items-center justify-between rounded-md p-3 text-xs font-medium ${
-              isBalanced
-                ? 'border border-emerald-200 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
-                : 'border border-amber-200 bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300'
-            }`}
-          >
-            <div className='flex items-center gap-2'>
-              {isBalanced ? (
-                <CheckCircle className='h-4 w-4 text-emerald-600' />
-              ) : (
-                <AlertCircle className='h-4 w-4 text-amber-600' />
               )}
-              <span>
-                {isBalanced
-                  ? t('pos.checkout.paymentBalanced', 'Payment fully balanced')
-                  : remainingToAssign > 0
-                    ? `${formatCurrency(remainingToAssign)} ${t('pos.checkout.remainingToAssign', 'remaining to assign')}`
-                    : t('pos.checkout.cashUnderpaidError', 'Cash tendered is less than required')}
-              </span>
             </div>
-            <span className='font-bold'>
-              {formatCurrency(totalAssignedPayments)} / {formatCurrency(total)}
-            </span>
-          </div>
-
-          <div className='space-y-1.5'>
-            <Label
-              htmlFor='checkoutNotes'
-              className='text-xs text-muted-foreground'
-            >
-              {t('pos.checkout.orderNotes', 'Order Notes / Delivery Instructions (Optional)')}
-            </Label>
-            <Textarea
-              id='checkoutNotes'
-              placeholder={t('pos.checkout.orderNotesPlaceholder', 'Add reference or special instructions...')}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={2}
-            />
-          </div>
+          ))}
         </div>
 
-        <DialogFooter className='gap-2 pt-2 sm:gap-0'>
-          <Button
-            type='button'
-            variant='outline'
-            onClick={() => onOpenChange(false)}
-          >
-            {t('pos.checkout.cancel', 'Cancel')}
-          </Button>
-          <Button
-            type='button'
-            disabled={!isBalanced || checkoutMutation.isPending}
-            onClick={handleSubmit}
-            className='h-11 gap-2 bg-primary px-6 text-base font-bold text-primary-foreground'
-          >
-            {checkoutMutation.isPending ? (
-              <>
-                <Loader2 className='h-5 w-5 animate-spin' /> {t('pos.checkout.processing', 'Processing Sale...')}
-              </>
+        {/* Cash details (Tendered & Change) if cash is included */}
+        {cashPayment && (
+          <div className='space-y-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3.5 sm:p-4'>
+            <div className='flex items-center justify-between'>
+              <Label className='flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400'>
+                <Banknote className='h-4 w-4' /> {t('pos.checkout.amountTendered', 'Cash Tendered')}
+              </Label>
+              <span className='text-xs text-muted-foreground'>
+                {t('pos.checkout.requiredCash', 'Required cash')}: {formatCurrency(cashRequired)}
+              </span>
+            </div>
+
+            <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-3'>
+              <Input
+                type='number'
+                step='0.01'
+                min='0'
+                className='h-11 sm:max-w-[180px] text-xl font-bold tracking-tight text-emerald-700 dark:text-emerald-400'
+                value={cashTenderedInput}
+                onChange={(e) => setCashTenderedInput(e.target.value)}
+                placeholder='0.00'
+              />
+
+              {/* Quick denomination pills */}
+              <div className='grid grid-cols-3 sm:flex sm:flex-wrap gap-1.5 flex-1'>
+                <Button
+                  type='button'
+                  variant='outline'
+                  size='sm'
+                  className='h-8 text-xs font-semibold'
+                  onClick={() => handleQuickCash(cashRequired)}
+                >
+                  {t('pos.checkout.exact', 'Exact')}
+                </Button>
+                {QUICK_CASH_DENOMINATIONS.map((amt) => {
+                  if (amt >= cashRequired) {
+                    return (
+                      <Button
+                        key={amt}
+                        type='button'
+                        variant='outline'
+                        size='sm'
+                        className='h-8 text-xs font-semibold'
+                        onClick={() => handleQuickCash(amt)}
+                      >
+                        ${amt}
+                      </Button>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            </div>
+
+            {/* Change calculation */}
+            <div className='flex items-center justify-between border-t border-emerald-500/20 pt-1 text-sm'>
+              <span className='font-medium text-muted-foreground'>
+                {t('pos.checkout.changeDue', 'Change Due')}:
+              </span>
+              <span className='text-lg font-extrabold text-emerald-600 dark:text-emerald-400'>
+                {formatCurrency(changeDue)}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Balance status banner */}
+        <div
+          className={`flex items-center justify-between rounded-md p-3 text-xs font-medium ${
+            isBalanced
+              ? 'border border-emerald-200 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
+              : 'border border-amber-200 bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300'
+          }`}
+        >
+          <div className='flex items-center gap-2'>
+            {isBalanced ? (
+              <CheckCircle className='h-4 w-4 text-emerald-600 shrink-0' />
             ) : (
-              <>{t('pos.checkout.completeSale', 'Complete Sale')} ({formatCurrency(total)})</>
+              <AlertCircle className='h-4 w-4 text-amber-600 shrink-0' />
             )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+            <span>
+              {isBalanced
+                ? t('pos.checkout.paymentBalanced', 'Payment fully balanced')
+                : remainingToAssign > 0
+                  ? `${formatCurrency(remainingToAssign)} ${t('pos.checkout.remainingToAssign', 'remaining to assign')}`
+                  : t('pos.checkout.cashUnderpaidError', 'Cash tendered is less than required')}
+            </span>
+          </div>
+          <span className='font-bold shrink-0'>
+            {formatCurrency(totalAssignedPayments)} / {formatCurrency(total)}
+          </span>
+        </div>
+
+        <div className='space-y-1.5'>
+          <Label
+            htmlFor='checkoutNotes'
+            className='text-xs text-muted-foreground'
+          >
+            {t('pos.checkout.orderNotes', 'Order Notes / Delivery Instructions (Optional)')}
+          </Label>
+          <Textarea
+            id='checkoutNotes'
+            placeholder={t('pos.checkout.orderNotesPlaceholder', 'Add reference or special instructions...')}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            rows={2}
+          />
+        </div>
+      </div>
+
+      {/* Pinned Sticky Footer */}
+      <DialogFooter className='shrink-0 border-t bg-muted/20 p-3 sm:p-4 flex-row justify-end gap-2'>
+        <Button
+          type='button'
+          variant='outline'
+          onClick={() => onOpenChange(false)}
+        >
+          {t('pos.checkout.cancel', 'Cancel')}
+        </Button>
+        <Button
+          type='button'
+          disabled={!isBalanced || checkoutMutation.isPending}
+          onClick={handleSubmit}
+          className='h-10 sm:h-11 gap-2 bg-primary px-5 sm:px-6 text-sm sm:text-base font-bold text-primary-foreground'
+        >
+          {checkoutMutation.isPending ? (
+            <>
+              <Loader2 className='h-5 w-5 animate-spin' /> {t('pos.checkout.processing', 'Processing Sale...')}
+            </>
+          ) : (
+            <>{t('pos.checkout.completeSale', 'Complete Sale')} ({formatCurrency(total)})</>
+          )}
+        </Button>
+      </DialogFooter>
+    </DialogContent>
   )
 }

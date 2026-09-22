@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { useCustomers } from '@/features/customers/hooks/use-customers'
+import { useCustomers, type Customer } from '@/features/customers/hooks/use-customers'
 import { usePosStore, type PosCartItem } from '../store/use-pos-store'
 import { PosQuickCustomerDialog } from './pos-quick-customer-dialog'
 import { PromoCodeDialog } from './promo-code-dialog'
@@ -109,7 +109,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
     return name.includes(q) || phone.includes(q) || email.includes(q)
   })
 
-  const handleSelectCustomer = (c: any) => {
+  const handleSelectCustomer = (c: Customer) => {
     setCustomer({
       id: c.id,
       name: `${c.first_name} ${c.last_name}`,
@@ -220,35 +220,93 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
         </div>
 
         {/* Customer Button / Picker */}
-        <Popover open={isCustomerOpen} onOpenChange={setIsCustomerOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant='outline'
-              size='sm'
-              className='h-8 w-full justify-between text-xs font-normal'
-            >
-              <div className='flex items-center gap-2 truncate'>
-                <User className='h-3.5 w-3.5 shrink-0 text-muted-foreground' />
-                <span className='truncate font-medium'>
-                  {customer
-                    ? customer.name
-                    : t('pos.cartSection.walkInCustomer', 'Walk-in Customer')}
-                </span>
-              </div>
-              <div className='flex items-center gap-1'>
-                {customer && (
-                  <X
-                    className='h-3.5 w-3.5 shrink-0 text-muted-foreground hover:text-foreground'
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleClearCustomer()
-                    }}
+        <div className='flex items-center gap-1.5'>
+          <Popover open={isCustomerOpen} onOpenChange={setIsCustomerOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant='outline'
+                size='sm'
+                className='h-8 flex-1 justify-between text-xs font-normal'
+              >
+                <div className='flex items-center gap-2 truncate'>
+                  <User className='h-3.5 w-3.5 shrink-0 text-muted-foreground' />
+                  <span className='truncate font-medium'>
+                    {customer
+                      ? customer.name
+                      : t('pos.cartSection.walkInCustomer', 'Walk-in Customer')}
+                  </span>
+                </div>
+                <div className='flex items-center gap-1'>
+                  {customer && (
+                    <X
+                      className='h-3.5 w-3.5 shrink-0 text-muted-foreground hover:text-foreground'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleClearCustomer()
+                      }}
+                    />
+                  )}
+                  <ChevronDown className='h-3.5 w-3.5 shrink-0 opacity-50' />
+                </div>
+              </Button>
+            </PopoverTrigger>
+
+            <PopoverContent className='w-72 p-2' align='start'>
+              <div className='space-y-2'>
+                <div className='relative'>
+                  <Search className='absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground' />
+                  <Input
+                    placeholder={t(
+                      'pos.cartSection.searchCustomerPlaceholder',
+                      'Search customer...'
+                    )}
+                    value={customerSearch}
+                    onChange={(e) => setCustomerSearch(e.target.value)}
+                    className='h-8 pl-7 text-xs'
+                    autoFocus
                   />
-                )}
-                <ChevronDown className='h-3.5 w-3.5 shrink-0 opacity-50' />
+                </div>
+
+                <ScrollArea className='h-48'>
+                  <div className='space-y-1'>
+                    <Button
+                      variant={customer === null ? 'secondary' : 'ghost'}
+                      size='sm'
+                      className='h-8 w-full justify-start text-xs font-normal'
+                      onClick={() => {
+                        setCustomer(null)
+                        setIsCustomerOpen(false)
+                      }}
+                    >
+                      {t(
+                        'pos.cartSection.walkInCustomerDefault',
+                        'Walk-in Customer (Default)'
+                      )}
+                    </Button>
+
+                    {filteredCustomers.map((c) => (
+                      <Button
+                        key={c.id}
+                        variant={customer?.id === c.id ? 'secondary' : 'ghost'}
+                        size='sm'
+                        className='h-auto w-full flex-col items-start justify-start py-1.5 text-xs font-normal'
+                        onClick={() => handleSelectCustomer(c)}
+                      >
+                        <span className='font-semibold'>
+                          {c.first_name} {c.last_name}
+                        </span>
+                        {c.phone && (
+                          <span className='text-[10px] text-muted-foreground'>
+                            {c.phone}
+                          </span>
+                        )}
+                      </Button>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
-            </Button>
-          </PopoverTrigger>
+            </PopoverContent>
+          </Popover>
 
           {/* Quick add customer button */}
           <Button
@@ -260,71 +318,15 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
           >
             <UserPlus className='h-3.5 w-3.5' />
           </Button>
-
-          <PopoverContent className='w-72 p-2' align='start'>
-            <div className='space-y-2'>
-              <div className='relative'>
-                <Search className='absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground' />
-                <Input
-                  placeholder={t(
-                    'pos.cartSection.searchCustomerPlaceholder',
-                    'Search customer...'
-                  )}
-                  value={customerSearch}
-                  onChange={(e) => setCustomerSearch(e.target.value)}
-                  className='h-8 pl-7 text-xs'
-                  autoFocus
-                />
-              </div>
-
-              <ScrollArea className='h-48'>
-                <div className='space-y-1'>
-                  <Button
-                    variant={customer === null ? 'secondary' : 'ghost'}
-                    size='sm'
-                    className='h-8 w-full justify-start text-xs font-normal'
-                    onClick={() => {
-                      setCustomer(null)
-                      setIsCustomerOpen(false)
-                    }}
-                  >
-                    {t(
-                      'pos.cartSection.walkInCustomerDefault',
-                      'Walk-in Customer (Default)'
-                    )}
-                  </Button>
-
-                  {filteredCustomers.map((c) => (
-                    <Button
-                      key={c.id}
-                      variant={customer?.id === c.id ? 'secondary' : 'ghost'}
-                      size='sm'
-                      className='h-auto w-full flex-col items-start justify-start py-1.5 text-xs font-normal'
-                      onClick={() => handleSelectCustomer(c)}
-                    >
-                      <span className='font-semibold'>
-                        {c.first_name} {c.last_name}
-                      </span>
-                      {c.phone && (
-                        <span className='text-[10px] text-muted-foreground'>
-                          {c.phone}
-                        </span>
-                      )}
-                    </Button>
-                  ))}
-                </div>
-              </ScrollArea>
-            </div>
-          </PopoverContent>
-        </Popover>
+        </div>
       </div>
 
       {/* Cart Items List — scrollable middle section */}
       <div className='min-h-0 flex-1 overflow-hidden'>
-        <ScrollArea className='h-full'>
+        <ScrollArea className='h-full overscroll-contain'>
           <div className='p-2'>
             {items.length === 0 ? (
-              <div className='flex h-full flex-col items-center justify-center p-6 text-center text-muted-foreground'>
+              <div className='flex h-64 min-h-[200px] flex-col items-center justify-center p-6 text-center text-muted-foreground'>
                 <ShoppingCart className='mb-3 h-12 w-12 stroke-[1.5] opacity-20' />
                 <p className='text-sm font-semibold'>{t('pos.cartSection.cartEmpty', 'Cart is empty')}</p>
                 <p className='mt-1 max-w-[200px] text-xs text-muted-foreground/80'>
@@ -352,7 +354,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                     >
                       <div className='flex items-start justify-between gap-2'>
                         <div className='min-w-0 flex-1'>
-                          <div className='line-clamp-2 text-xs leading-tight font-semibold'>
+                          <div className='line-clamp-2 text-xs leading-tight font-semibold break-words'>
                             {item.name}
                           </div>
                           <div className='mt-0.5 flex items-center gap-1.5'>
@@ -399,12 +401,12 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                           <Button
                             size='icon'
                             variant='ghost'
-                            className='h-6 w-6 rounded-sm'
+                            className='h-7 w-7 rounded-sm'
                             onClick={() =>
                               updateQuantity(item.id, item.quantity - 1)
                             }
                           >
-                            <Minus className='h-3 w-3' />
+                            <Minus className='h-3.5 w-3.5' />
                           </Button>
                           <span
                             className={`w-7 text-center text-xs font-bold ${isOverStock ? 'text-destructive' : ''}`}
@@ -414,7 +416,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                           <Button
                             size='icon'
                             variant='ghost'
-                            className='h-6 w-6 rounded-sm'
+                            className='h-7 w-7 rounded-sm'
                             disabled={isAtMax}
                             onClick={() =>
                               updateQuantity(item.id, item.quantity + 1)
@@ -427,7 +429,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
                                 : undefined
                             }
                           >
-                            <Plus className='h-3 w-3' />
+                            <Plus className='h-3.5 w-3.5' />
                           </Button>
                         </div>
 
@@ -657,10 +659,10 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
           <Separator />
 
           <div className='flex items-baseline justify-between pt-1'>
-            <span className='text-sm font-bold tracking-tight'>
+            <span className='text-xs sm:text-sm font-bold tracking-tight'>
               {t('pos.cartSection.total', 'TOTAL')}
             </span>
-            <span className='text-2xl font-black tracking-tight text-primary'>
+            <span className='text-xl sm:text-2xl font-black tracking-tight text-primary'>
               {formatCurrency(total)}
             </span>
           </div>
@@ -676,7 +678,7 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             onClick={onOpenHold}
             title={t('pos.cartSection.holdTooltip', 'Hold / Suspend Cart (F4)')}
           >
-            <PauseCircle className='h-4 w-4 text-amber-500' />
+            <PauseCircle className='h-4 w-4 text-amber-500 shrink-0' />
             <span className='hidden sm:inline'>{t('pos.cartSection.hold', 'Hold')}</span>
           </Button>
 
@@ -684,17 +686,19 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             type='button'
             disabled={items.length === 0 || stockErrorsExist}
             onClick={onOpenCheckout}
-            className='col-span-3 h-11 gap-2 bg-primary text-base font-extrabold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.98]'
+            className='col-span-3 h-11 gap-1.5 sm:gap-2 bg-primary px-3 text-sm sm:text-base font-extrabold text-primary-foreground shadow-md transition-all hover:shadow-lg active:scale-[0.98]'
             title={
               stockErrorsExist ? t('pos.cartSection.fixStockErrors', 'Fix Stock Errors') : undefined
             }
           >
-            <CreditCard className='h-5 w-5' />
-            {stockErrorsExist
-              ? t('pos.cartSection.fixStockErrors', 'Fix Stock Errors')
-              : t('pos.cartSection.payF9', 'Pay (F9) • {{amount}}', {
-                  amount: formatCurrency(total),
-                })}
+            <CreditCard className='h-4 w-4 sm:h-5 sm:w-5 shrink-0' />
+            <span className='truncate'>
+              {stockErrorsExist
+                ? t('pos.cartSection.fixStockErrors', 'Fix Stock Errors')
+                : t('pos.cartSection.payF9', 'Pay (F9) • {{amount}}', {
+                    amount: formatCurrency(total),
+                  })}
+            </span>
           </Button>
         </div>
       </div>

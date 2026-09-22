@@ -49,7 +49,7 @@ export function VariantSelectionDialog({
             )}
           </DialogDescription>
         </DialogHeader>
-        <div className='grid max-h-[60vh] grid-cols-1 gap-3 overflow-y-auto py-3 sm:grid-cols-2 md:grid-cols-3'>
+        <div className='grid max-h-[60vh] grid-cols-1 gap-3 overflow-y-auto overscroll-contain py-3 sm:grid-cols-2 md:grid-cols-3'>
           {variants.map((v) => {
             const price = Number(v.price ?? 0)
             const disabled = isVariantDisabled?.(v) ?? false

@@ -58,6 +58,7 @@ import {
   usePosTerminalStatus,
 } from '../hooks/use-pos-queries'
 import { usePosStore } from '../store/use-pos-store'
+import type { PosProductVariant } from '../data/api'
 import { BarcodeScannerListener } from './barcode-scanner-listener'
 import { ManualSkuDialog } from './manual-sku-dialog'
 import { PosCart } from './pos-cart'
@@ -68,6 +69,35 @@ import { PosReceiptDialog, type ReceiptData } from './pos-receipt-dialog'
 import { PosReturnsDialog } from './pos-returns-dialog'
 import { PosSessionDialog } from './pos-session-dialog'
 import { VariantSelectionDialog } from './variant-selection-dialog'
+
+export interface PosVariantDetail {
+  id: string
+  sku: string
+  barcode?: string | null
+  price: number
+  stock_quantity: number
+  stockAvailable: number
+  stockOnHand: number
+  variantName?: string | null
+  taxRateId?: string | null
+  taxRate: number
+  taxInclusive?: boolean | null
+  min_stock?: number
+  is_active?: boolean
+  dimensions?: Record<string, unknown> | string | null
+}
+
+export interface GroupedProduct {
+  productId: string
+  productName: string
+  categoryName?: string | null
+  brandName?: string | null
+  imageUrl?: string | null
+  variants: PosVariantDetail[]
+  minPrice: number
+  maxPrice: number
+  totalStock: number
+}
 
 export function PosMainScreen() {
   const { t } = useTranslation()
@@ -114,7 +144,7 @@ export function PosMainScreen() {
   // Multi-variant dialog state
   const [isVariantOpen, setIsVariantOpen] = useState(false)
   const [selectedProductForVariant, setSelectedProductForVariant] =
-    useState<any>(null)
+    useState<GroupedProduct | null>(null)
 
   // Auto-select first terminal if none active
   useEffect(() => {
@@ -167,7 +197,7 @@ export function PosMainScreen() {
 
   // Group variants by product for card grid display
   const groupedProducts = useMemo(() => {
-    const map = new Map<string, any>()
+    const map = new Map<string, GroupedProduct>()
 
     for (const item of rawItems) {
       if (!map.has(item.productId)) {
@@ -205,6 +235,8 @@ export function PosMainScreen() {
         taxRate: Number(item.taxRate || 0),
         taxInclusive: item.taxInclusive,
         dimensions: item.variantAttributes,
+        min_stock: 0,
+        is_active: true,
       })
     }
 
@@ -273,7 +305,7 @@ export function PosMainScreen() {
 
   // Add line item directly
   const handleAddVariant = useCallback(
-    (product: any, variant: any) => {
+    (product: GroupedProduct, variant: PosVariantDetail) => {
       const stockAvail = variant.stockAvailable ?? variant.stock_quantity ?? 0
       if (stockAvail <= 0) {
         toast.error(
@@ -292,13 +324,13 @@ export function PosMainScreen() {
             ? `${product.productName} (${variant.variantName})`
             : product.productName,
         sku: variant.sku,
-        barcode: variant.barcode,
+        barcode: variant.barcode ?? undefined,
         unitPrice: variant.price,
         quantity: 1,
         availableQuantity: stockAvail,
-        taxRateId: variant.taxRateId,
+        taxRateId: variant.taxRateId ?? undefined,
         taxRate: variant.taxRate,
-        taxInclusive: variant.taxInclusive,
+        taxInclusive: variant.taxInclusive ?? undefined,
       })
       toast.success(
         t('pos.main.addedToast', 'Added {{name}}', {
@@ -313,7 +345,7 @@ export function PosMainScreen() {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
 
   // Card click handler
-  const handleProductCardClick = (product: any) => {
+  const handleProductCardClick = (product: GroupedProduct) => {
     // Block clicks on out-of-stock items
     if (product.totalStock <= 0) return
 
@@ -333,7 +365,7 @@ export function PosMainScreen() {
     // 1. Look for variant match
     for (const p of groupedProducts) {
       const match = p.variants.find(
-        (v: any) =>
+        (v: PosVariantDetail) =>
           v.barcode?.toLowerCase() === code || v.sku.toLowerCase() === code
       )
       if (match) {
@@ -358,7 +390,7 @@ export function PosMainScreen() {
   }
 
   return (
-    <div className='flex h-[calc(100vh-3.5rem)] flex-col overflow-hidden bg-background'>
+    <div className='flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background'>
       {/* Scanner & Shortcut Listeners */}
       <BarcodeScannerListener onScan={handleBarcodeScan} />
       <QRCodeScanner
@@ -369,30 +401,30 @@ export function PosMainScreen() {
       />
 
       {/* ── Top POS Control Bar ── */}
-      <header className='flex shrink-0 items-center justify-between gap-3 border-b bg-card px-4 py-2 shadow-xs'>
+      <header className='flex shrink-0 items-center justify-between gap-2 sm:gap-3 border-b bg-card px-2.5 sm:px-4 py-2 shadow-xs'>
         {/* Terminal & Store Badge */}
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-1.5 sm:gap-2 min-w-0'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant='outline'
                 size='sm'
                 disabled={isLoadingTerminals}
-                className='h-8 gap-2 border-primary/20 text-xs font-semibold hover:border-primary'
+                className='h-8 gap-1.5 sm:gap-2 border-primary/20 text-xs font-semibold hover:border-primary px-2 sm:px-3'
               >
                 {isLoadingTerminals ? (
                   <Loader2 className='h-3.5 w-3.5 animate-spin text-primary' />
                 ) : (
-                  <Building className='h-3.5 w-3.5 text-primary' />
+                  <Building className='h-3.5 w-3.5 text-primary shrink-0' />
                 )}
-                <span className='max-w-[140px] truncate sm:max-w-[200px]'>
+                <span className='max-w-[110px] truncate xs:max-w-[150px] sm:max-w-[200px]'>
                   {isLoadingTerminals
                     ? t('pos.main.loadingTerminals', 'Loading...')
                     : terminal
                       ? `${terminal.code} • ${terminal.name}`
                       : t('pos.main.selectTerminal', 'Select Terminal')}
                 </span>
-                <ChevronDown className='h-3.5 w-3.5 opacity-50' />
+                <ChevronDown className='h-3.5 w-3.5 opacity-50 shrink-0' />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='start' className='w-64'>
@@ -441,11 +473,11 @@ export function PosMainScreen() {
                 setSessionModalMode('close')
                 setIsSessionOpen(true)
               }}
-              className='h-8 gap-1.5 border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400'
+              className='h-8 gap-1.5 border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400 px-2 sm:px-2.5'
             >
-              <span className='h-2 w-2 animate-pulse rounded-full bg-emerald-500' />
+              <span className='h-2 w-2 shrink-0 animate-pulse rounded-full bg-emerald-500' />
               <span className='hidden sm:inline'>{t('pos.main.shiftOpen', 'Shift: Open •')}</span>
-              <span>{session.cashierName || 'Cashier'}</span>
+              <span className='max-w-[70px] truncate sm:max-w-none'>{session.cashierName || 'Cashier'}</span>
             </Button>
           ) : (
             <Button
@@ -455,26 +487,27 @@ export function PosMainScreen() {
                 setSessionModalMode('open')
                 setIsSessionOpen(true)
               }}
-              className='h-8 gap-1.5 border-amber-500/30 bg-amber-500/10 text-xs font-semibold text-amber-700 hover:bg-amber-500/20 dark:text-amber-400'
+              className='h-8 gap-1.5 border-amber-500/30 bg-amber-500/10 text-xs font-semibold text-amber-700 hover:bg-amber-500/20 dark:text-amber-400 px-2 sm:px-2.5'
             >
-              <Lock className='h-3.5 w-3.5' />
-              <span>{t('pos.main.shiftClosed', 'Shift Closed (Click to Open)')}</span>
+              <Lock className='h-3.5 w-3.5 shrink-0' />
+              <span className='hidden sm:inline'>{t('pos.main.shiftClosed', 'Shift Closed (Click to Open)')}</span>
+              <span className='sm:hidden'>{t('pos.main.shiftClosedShort', 'Closed')}</span>
             </Button>
           )}
         </div>
 
         {/* Quick Action Buttons */}
-        <div className='flex items-center gap-1.5 sm:gap-2'>
+        <div className='flex items-center gap-1 sm:gap-2 shrink-0'>
           {/* Cash Movement */}
           <Button
             variant='outline'
             size='sm'
             disabled={!session}
             onClick={() => setIsCashMovementOpen(true)}
-            className='h-8 gap-1.5 text-xs'
+            className='h-8 gap-1.5 text-xs px-2 sm:px-2.5'
             title={t('pos.main.cashInOutShort', 'Cash In / Out (F8)')}
           >
-            <DollarSign className='h-3.5 w-3.5 text-emerald-600' />
+            <DollarSign className='h-3.5 w-3.5 text-emerald-600 shrink-0' />
             <span className='hidden md:inline'>{t('pos.main.cashInOut', 'Cash In/Out')}</span>
           </Button>
 
@@ -486,10 +519,10 @@ export function PosMainScreen() {
               setHeldOrdersMode('view')
               setIsHeldOrdersOpen(true)
             }}
-            className='relative h-8 gap-1.5 text-xs'
+            className='relative h-8 gap-1.5 text-xs px-2 sm:px-2.5'
             title={t('pos.main.viewHeldCarts', 'View Held Carts')}
           >
-            <PauseCircle className='h-3.5 w-3.5 text-amber-500' />
+            <PauseCircle className='h-3.5 w-3.5 text-amber-500 shrink-0' />
             <span className='hidden md:inline'>{t('pos.main.heldOrders', 'Held Orders')}</span>
             {heldOrders.length > 0 && (
               <span className='flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white'>
@@ -504,10 +537,10 @@ export function PosMainScreen() {
             size='sm'
             disabled={!session}
             onClick={() => setIsReturnsOpen(true)}
-            className='h-8 gap-1.5 border-rose-500/30 text-xs text-rose-600 hover:bg-rose-500/10 dark:text-rose-400'
+            className='h-8 gap-1.5 border-rose-500/30 text-xs text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 px-2 sm:px-2.5'
             title={t('pos.main.returnsRefunds', 'Returns & Refunds')}
           >
-            <RotateCcw className='h-3.5 w-3.5' />
+            <RotateCcw className='h-3.5 w-3.5 shrink-0' />
             <span className='hidden md:inline'>{t('pos.main.returns', 'Returns')}</span>
           </Button>
 
@@ -540,7 +573,7 @@ export function PosMainScreen() {
                 className='relative h-8 gap-1.5 bg-primary px-2.5 font-bold text-primary-foreground lg:hidden'
               >
                 <ShoppingCart className='h-4 w-4' />
-                <span>{formatCurrency(getTotalAmount())}</span>
+                <span className='text-xs'>{formatCurrency(getTotalAmount())}</span>
                 {items.length > 0 && (
                   <Badge
                     variant='secondary'
@@ -572,11 +605,11 @@ export function PosMainScreen() {
       </header>
 
       {/* ── Main Catalog & Cart Layout ── */}
-      <div className='flex flex-1 gap-3 overflow-hidden p-3'>
+      <div className='flex flex-1 min-h-0 gap-2 sm:gap-3 overflow-hidden p-2 sm:p-3'>
         {/* Left / Center: Catalog, Search & Categories */}
-        <div className='flex flex-1 flex-col overflow-hidden rounded-lg border bg-card shadow-xs'>
+        <div className='flex flex-1 min-h-0 flex-col overflow-hidden rounded-lg border bg-card shadow-xs'>
           {/* Search bar & Action triggers */}
-          <div className='space-y-2 border-b bg-muted/10 p-3'>
+          <div className='space-y-2 border-b bg-muted/10 p-2.5 sm:p-3'>
             <div className='flex items-center gap-2'>
               <div className='relative flex-1'>
                 <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground' />
@@ -698,7 +731,7 @@ export function PosMainScreen() {
           </div>
 
           {/* Product Cards Grid */}
-          <div className='relative flex-1 overflow-y-auto p-3'>
+          <div className='relative flex-1 min-h-0 overflow-y-auto overscroll-contain p-2 sm:p-3'>
             {/* Shift-closed overlay — blocks interaction until shift is opened */}
             {!session && (
               <div className='absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm'>
@@ -738,7 +771,7 @@ export function PosMainScreen() {
                 </p>
               </div>
             ) : (
-              <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
+              <div className='grid grid-cols-2 gap-2 sm:gap-2.5 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
                 {groupedProducts.map((p) => {
                   const hasStock = p.totalStock > 0
                   const isLowStock = p.totalStock > 0 && p.totalStock <= 5
@@ -842,7 +875,7 @@ export function PosMainScreen() {
         </div>
 
         {/* Right: Desktop Cart Pane */}
-        <aside className='hidden w-96 shrink-0 flex-col overflow-hidden lg:flex'>
+        <aside className='hidden w-80 xl:w-96 shrink-0 flex-col overflow-hidden lg:flex min-h-0'>
           <PosCart
             onOpenCheckout={() => setIsCheckoutOpen(true)}
             onOpenHold={() => {
@@ -852,6 +885,28 @@ export function PosMainScreen() {
           />
         </aside>
       </div>
+
+      {/* Docked Mobile Bottom Cart Summary Bar (visible only when cart has items on <lg viewports) */}
+      {items.length > 0 && (
+        <div className='flex shrink-0 items-center justify-between border-t bg-card px-3 py-2 shadow-lg lg:hidden'>
+          <div className='flex items-center gap-2'>
+            <Badge variant='secondary' className='h-6 px-2 text-xs font-bold'>
+              {getItemCount()} {getItemCount() === 1 ? 'item' : 'items'}
+            </Badge>
+            <div className='text-sm font-black text-primary'>
+              {formatCurrency(getTotalAmount())}
+            </div>
+          </div>
+          <Button
+            size='sm'
+            className='h-8 gap-1.5 font-bold shadow-xs'
+            onClick={() => setIsMobileCartOpen(true)}
+          >
+            <ShoppingCart className='h-4 w-4' />
+            <span>{t('pos.main.viewCart', 'View Cart')}</span>
+          </Button>
+        </div>
+      )}
 
       {/* ── Dialog Modals ── */}
       <PosCheckoutDialog
@@ -898,9 +953,12 @@ export function PosMainScreen() {
           open={isVariantOpen}
           onOpenChange={setIsVariantOpen}
           productName={selectedProductForVariant.productName}
-          variants={selectedProductForVariant.variants}
+          variants={selectedProductForVariant.variants as unknown as PosProductVariant[]}
           onSelect={(_variantId, variant) => {
-            handleAddVariant(selectedProductForVariant, variant)
+            handleAddVariant(
+              selectedProductForVariant,
+              variant as unknown as PosVariantDetail
+            )
           }}
           isVariantDisabled={(v) => {
             const avail = v.stockAvailable ?? v.stock_quantity ?? 0
