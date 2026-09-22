@@ -1,14 +1,9 @@
+import { useState, useRef } from 'react'
 import { Link } from '@tanstack/react-router'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+import { AlertCircle, RefreshCw } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { LanguageSwitch } from '@/components/language-switch'
@@ -18,64 +13,91 @@ import { TopNav } from '@/components/layout/top-nav'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { Analytics } from './components/analytics'
-import { LowQuantityProducts } from './components/low-quantity-products'
-import { Overview } from './components/overview'
-import { PendingPurchaseOrders } from './components/pending-purchase-orders'
-import { PurchaseOrderAnalytics } from './components/purchase-order-analytics'
-import { RecentRefunds } from './components/recent-refunds'
-import { RecentSales } from './components/recent-sales'
-import { useDashboardData } from './use-dashboard-data'
+
+import { useDashboardAnalytics } from './hooks/use-dashboard-analytics'
+import { DashboardSkeleton } from './components/dashboard-skeleton'
+import { EmptyDashboard } from './components/empty-dashboard'
+import { CommandCenterHeader } from './components/command-center-header'
+import { CriticalAlertsBar } from './components/critical-alerts-bar'
+import { KpiGrid } from './components/kpi-grid'
+import { SalesTrendChart } from './components/sales-trend-chart'
+import { CategoryDonutChart } from './components/category-donut-chart'
+import { StockAlertsTable } from './components/stock-alerts-table'
+import { OverduePoTable } from './components/overdue-po-table'
+import { TopMoversList } from './components/top-movers-list'
 
 export function Dashboard() {
   const { t } = useTranslation()
   const { isSignedIn } = useAuth()
-  const { data: dashboardData, isLoading } = useDashboardData()
+
+  // Filter state
+  const [warehouseId, setWarehouseId] = useState<string>('all')
+  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d')
+  const [activeTableFilter, setActiveTableFilter] = useState<string>('all')
+  const [sideTab, setSideTab] = useState<'overdue' | 'movers'>('overdue')
+
+  // Ref to scroll to tables when alert clicked
+  const tablesRef = useRef<HTMLDivElement>(null)
+
+  const {
+    data: dashboardData,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isRefetching,
+  } = useDashboardAnalytics({ warehouseId, timeRange })
 
   const topNav = [
     {
-      title: t('dashboard.overview'),
-      href: 'dashboard/overview',
+      title: t('dashboard.overview', 'Overview'),
+      href: '/',
       isActive: true,
       disabled: false,
     },
     {
-      title: t('dashboard.client'),
-      href: 'dashboard/customers',
+      title: t('sidebar.products', 'Products'),
+      href: '/dashboard/products',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
     {
-      title: t('sidebar.products'),
-      href: 'dashboard/products',
+      title: 'Valuation',
+      href: '/inventory-valuation',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
     {
-      title: t('sidebar.settings'),
-      href: 'dashboard/settings',
+      title: 'Movements',
+      href: '/inventory-movements',
       isActive: false,
-      disabled: true,
+      disabled: false,
+    },
+    {
+      title: 'Purchase Orders',
+      href: '/purchase-orders',
+      isActive: false,
+      disabled: false,
     },
   ]
 
-  if (isLoading) {
-    return (
-      <div className='flex h-full w-full items-center justify-center'>
-        <Trans i18nKey='dashboard.loading' />
-      </div>
-    )
+  const handleCriticalAlertClick = (
+    type: 'all' | 'out_of_stock' | 'low_stock' | 'expired' | 'overdue'
+  ) => {
+    if (type === 'overdue') {
+      setSideTab('overdue')
+    } else {
+      setActiveTableFilter(type === 'expired' ? 'expiry' : type)
+    }
+    tablesRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
-
-  const { stats, chartData, recentRefunds, pendingPurchaseOrders } =
-    dashboardData || {}
 
   return (
     <>
-      {/* ===== Top Heading ===== */}
+      {/* Top Application Header */}
       <Header>
         <TopNav links={topNav} />
-        <div className='ms-auto flex items-center space-x-4'>
+        <div className='ms-auto flex items-center space-x-3'>
           <Search />
           <LanguageSwitch />
           <ThemeSwitch />
@@ -83,386 +105,144 @@ export function Dashboard() {
           {isSignedIn && <ProfileDropdown />}
           {!isSignedIn && (
             <Button asChild size='sm'>
-              <Link to='/sign-in'>Sign in</Link>
+              <Link to='/sign-in'>Sign In</Link>
             </Button>
           )}
         </div>
       </Header>
 
-      {/* ===== Main ===== */}
-      <Main>
-        <div className='mb-2 flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight'>
-            <Trans i18nKey='dashboard.overview' />
-          </h1>
-          <div className='flex items-center space-x-2'>
-            <Button>
-              <Trans i18nKey='dashboard.download' />
+      {/* Main Content Area */}
+      <Main className='pb-12'>
+        {isLoading ? (
+          <DashboardSkeleton />
+        ) : isError ? (
+          <div className='flex flex-col items-center justify-center min-h-[50vh] p-6 text-center animate-in fade-in-50 duration-300'>
+            <div className='w-14 h-14 rounded-2xl bg-destructive/10 text-destructive flex items-center justify-center mb-4'>
+              <AlertCircle className='w-7 h-7' />
+            </div>
+            <h3 className='text-lg font-bold text-foreground mb-1'>
+              Failed to load inventory analytics
+            </h3>
+            <p className='text-sm text-muted-foreground max-w-md mb-6'>
+              {error?.message ||
+                'An unexpected error occurred while communicating with the database.'}
+            </p>
+            <Button
+              onClick={() => refetch()}
+              disabled={isRefetching}
+              className='gap-2 text-xs font-medium'
+            >
+              <RefreshCw
+                className={`w-3.5 h-3.5 ${isRefetching ? 'animate-spin' : ''}`}
+              />
+              <span>{isRefetching ? 'Re-connecting...' : 'Try Again'}</span>
             </Button>
           </div>
-        </div>
-        <Tabs
-          orientation='vertical'
-          defaultValue='overview'
-          className='space-y-4'
-        >
-          <div className='w-full overflow-x-auto pb-2'>
-            <TabsList>
-              <TabsTrigger value='overview'>
-                <Trans i18nKey='dashboard.overview' />
-              </TabsTrigger>
-              <TabsTrigger value='analytics'>
-                <Trans i18nKey='dashboard.analytics' />
-              </TabsTrigger>
-              <TabsTrigger value='reports' disabled>
-                <Trans i18nKey='dashboard.reports' />
-              </TabsTrigger>
-              <TabsTrigger value='notifications' disabled>
-                <Trans i18nKey='dashboard.notifications' />
-              </TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value='overview' className='space-y-4'>
-            {/* ─── Row 1: Primary KPIs ─── */}
-            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-              {/* Total Revenue */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.totalRevenue' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-muted-foreground'
-                  >
-                    <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    $
-                    {stats?.totalRevenue
-                      ? stats.totalRevenue.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
-                      : '0.00'}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    {t('dashboard.totalRevenueDescription')}
-                  </p>
-                </CardContent>
-              </Card>
+        ) : !dashboardData ||
+          (dashboardData.kpis.totalInventoryValue === 0 &&
+            dashboardData.kpis.activeSkus === 0 &&
+            dashboardData.kpis.totalSkus === 0) ? (
+          <EmptyDashboard
+            onRefresh={() => refetch()}
+            isRefetching={isRefetching}
+          />
+        ) : (
+          <div className='flex flex-col gap-6 animate-in fade-in-50 duration-500'>
+            {/* 1. Command Center Header & Telemetry Filter Bar */}
+            <CommandCenterHeader
+              warehouses={dashboardData.warehouses}
+              selectedWarehouseId={warehouseId}
+              onWarehouseChange={setWarehouseId}
+              timeRange={timeRange}
+              onTimeRangeChange={setTimeRange}
+              onRefresh={() => refetch()}
+              isRefetching={isRefetching}
+              lastUpdated={dashboardData.lastUpdated}
+            />
 
-              {/* Total Sales */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.totalSales' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-muted-foreground'
-                  >
-                    <path d='M3 3v18h18' />
-                    <path d='M7 15l4-4 4 4 4-6' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    {stats?.totalSales || 0}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    {t('dashboard.totalSalesDescription')}
-                  </p>
-                </CardContent>
-              </Card>
+            {/* 2. Critical Action Alerts Banner */}
+            <CriticalAlertsBar
+              alerts={dashboardData.criticalAlerts}
+              onSelectFilter={handleCriticalAlertClick}
+            />
 
-              {/* Total Refunds */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.totalRefunds' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-red-500'
-                  >
-                    <polyline points='1 4 1 10 7 10' />
-                    <path d='M3.51 15a9 9 0 1 0 2.13-9.36L1 10' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold text-red-500'>
-                    ${' '}
-                    {stats?.totalRefundAmount
-                      ? stats.totalRefundAmount.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
-                      : '0.00'}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    {stats?.totalRefunds || 0} {t('dashboard.refundsProcessed')}
-                  </p>
-                </CardContent>
-              </Card>
+            {/* 3. High-Impact KPI Grid (6 Metric Cards) */}
+            <KpiGrid
+              kpis={dashboardData.kpis}
+              currency={dashboardData.currency}
+              onCardClick={(key) => {
+                if (key === 'pending_pos') setSideTab('overdue')
+                if (key === 'stock_health') setActiveTableFilter('low_stock')
+                if (key === 'expiry_alerts') setActiveTableFilter('expiry')
+                tablesRef.current?.scrollIntoView({ behavior: 'smooth' })
+              }}
+            />
 
-              {/* Pending Orders */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.pendingOrders' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-amber-500'
-                  >
-                    <circle cx='12' cy='12' r='10' />
-                    <path d='M12 6v6l4 2' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold text-amber-600'>
-                    {stats?.pendingOrdersCount || 0}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    <Trans i18nKey='dashboard.pendingOrdersDescription' />
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* ─── Row 2: Secondary KPIs ─── */}
-            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-              {/* Customers */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.customers' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-muted-foreground'
-                  >
-                    <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
-                    <circle cx='9' cy='7' r='4' />
-                    <path d='M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    {stats?.activeCustomers || 0}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    <Link to='/customers' className='hover:underline'>
-                      <Trans i18nKey='dashboard.viewAllCustomers' />
-                    </Link>
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Suppliers */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.suppliers' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-muted-foreground'
-                  >
-                    <path d='M22 12h-4l-3 9L9 3l-3 9H2' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    {stats?.totalSuppliers || 0}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    <Trans i18nKey='dashboard.viewActiveSuppliers' />
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Total Purchase Orders */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.purchaseOrders' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-muted-foreground'
-                  >
-                    <rect width='20' height='14' x='2' y='5' rx='2' />
-                    <path d='M2 10h20' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    {stats?.totalPurchaseOrders || 0}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    <Trans i18nKey='dashboard.totalPurchaseOrdersDescription' />
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Received Items & Amount */}
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    <Trans i18nKey='dashboard.receivedItems' />
-                  </CardTitle>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    className='h-4 w-4 text-green-500'
-                  >
-                    <path d='M22 11.08V12a10 10 0 1 1-5.93-9.14' />
-                    <polyline points='22 4 12 14.01 9 11.01' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold text-green-600'>
-                    {stats?.totalReceivedItems || 0}
-                  </div>
-                  <p className='text-xs text-muted-foreground'>
-                    <Trans i18nKey='dashboard.receivedItemsDescription' />$
-                    {stats?.totalReceivedAmount
-                      ? stats.totalReceivedAmount.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
-                      : '0.00'}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* ─── Row 3: Charts & Recent Sales ─── */}
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-4'>
-                <CardHeader>
-                  <CardTitle>
-                    <Trans i18nKey='dashboard.overview' />
-                  </CardTitle>
-                  <CardDescription>
-                    <Trans i18nKey='dashboard.monthlySalesVsRefunds' />
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className='ps-2'>
-                  <Overview data={chartData || []} />
-                </CardContent>
-              </Card>
-              <Card className='col-span-1 lg:col-span-3'>
-                <CardHeader>
-                  <CardTitle>
-                    <Trans i18nKey='dashboard.recentSales' />
-                  </CardTitle>
-                  <CardDescription>
-                    <Trans i18nKey='dashboard.recentSalesDescription' />
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RecentSales data={dashboardData?.recentSales || []} />
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* ─── Row 4: Refunds, Pending POs & Low Stock ─── */}
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-3'>
-              <Card className='col-span-1'>
-                <CardHeader>
-                  <CardTitle>
-                    <Trans i18nKey='dashboard.recentRefunds' />
-                  </CardTitle>
-                  <CardDescription>
-                    <Trans i18nKey='dashboard.recentRefundsDescription' />
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RecentRefunds data={recentRefunds || []} />
-                </CardContent>
-              </Card>
-              <Card className='col-span-1'>
-                <CardHeader>
-                  <CardTitle>
-                    <Trans i18nKey='dashboard.pendingPurchaseOrders' />
-                  </CardTitle>
-                  <CardDescription>
-                    <Trans i18nKey='dashboard.pendingPurchaseOrdersDescription' />
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <PendingPurchaseOrders data={pendingPurchaseOrders || []} />
-                </CardContent>
-              </Card>
-              <div className='col-span-1'>
-                <LowQuantityProducts
-                  data={dashboardData?.lowStockProducts || []}
+            {/* 4. Analytics Visualizations Row */}
+            <div className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
+              <div className='lg:col-span-8'>
+                <SalesTrendChart
+                  data7Days={dashboardData.salesTrend7Days}
+                  data30Days={dashboardData.salesTrend30Days}
+                  currency={dashboardData.currency}
+                />
+              </div>
+              <div className='lg:col-span-4'>
+                <CategoryDonutChart
+                  categories={dashboardData.categoryBreakdown}
+                  currency={dashboardData.currency}
                 />
               </div>
             </div>
-          </TabsContent>
-          <TabsContent value='analytics' className='space-y-4'>
-            <Analytics />
-            <div className='pt-4'>
-              <h2 className='mb-4 text-xl font-bold tracking-tight'>
-                <Trans i18nKey='dashboard.purchaseOrders' />
-              </h2>
-              <PurchaseOrderAnalytics />
+
+            {/* 5. Actionable Operations & Supply Chain Tables Row */}
+            <div ref={tablesRef} className='grid grid-cols-1 lg:grid-cols-12 gap-6'>
+              {/* Left Column: Stock & Replenishment Alerts */}
+              <div className='lg:col-span-7 xl:col-span-8'>
+                <StockAlertsTable
+                  alerts={dashboardData.stockAlerts}
+                  currency={dashboardData.currency}
+                  initialFilter={activeTableFilter}
+                />
+              </div>
+
+              {/* Right Column: Delayed POs & Velocity Movers */}
+              <div className='lg:col-span-5 xl:col-span-4 space-y-6'>
+                <Tabs
+                  value={sideTab}
+                  onValueChange={(val) => setSideTab(val as 'overdue' | 'movers')}
+                  className='w-full'
+                >
+                  <TabsList className='grid grid-cols-2 w-full mb-3 bg-muted/60 p-1'>
+                    <TabsTrigger
+                      value='overdue'
+                      className='text-xs font-medium data-[state=active]:bg-background'
+                    >
+                      Delayed POs ({dashboardData.overduePurchaseOrders.length})
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value='movers'
+                      className='text-xs font-medium data-[state=active]:bg-background'
+                    >
+                      Top Movers ({dashboardData.topMovers.length})
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value='overdue' className='m-0'>
+                    <OverduePoTable
+                      orders={dashboardData.overduePurchaseOrders}
+                      currency={dashboardData.currency}
+                    />
+                  </TabsContent>
+
+                  <TabsContent value='movers' className='m-0'>
+                    <TopMoversList movers={dashboardData.topMovers} />
+                  </TabsContent>
+                </Tabs>
+              </div>
             </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
       </Main>
     </>
   )
