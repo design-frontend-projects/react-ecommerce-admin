@@ -4,7 +4,7 @@ import { SalesOrderPrintPage } from '@/features/sales-orders/pages/sales-order-p
 
 const printSearchSchema = z.object({
   template: z.enum(['commercial', 'packing_slip']).optional().default('commercial'),
-  autoPrint: z.string().optional(),
+  autoPrint: z.union([z.boolean(), z.string()]).optional(),
 })
 
 export const Route = createFileRoute('/_authenticated/sales-orders/$orderId/print')({

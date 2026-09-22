@@ -55,6 +55,8 @@ export const TENANT_SCOPED_MODELS = new Set([
   'inv_sales_invoice_item_discounts',
   'inv_discount_approval_requests',
   'inv_promotion_usage_logs',
+  'reorder_rules',
+  'reorder_suggestions',
 ])
 
 /**

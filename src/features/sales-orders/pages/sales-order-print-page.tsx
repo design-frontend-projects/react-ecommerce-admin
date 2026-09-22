@@ -33,11 +33,17 @@ interface SalesOrderPrintPageProps {
 export function SalesOrderPrintPage({ orderId: propOrderId }: SalesOrderPrintPageProps) {
   const { t } = useTranslation()
   const params = useParams({ strict: false }) as { orderId?: string }
-  const search = useSearch({ strict: false }) as { template?: string; autoPrint?: string }
+  const search = useSearch({ strict: false }) as {
+    template?: 'commercial' | 'packing_slip'
+    autoPrint?: boolean | string
+  }
 
   const orderId = propOrderId || params.orderId
   const initialTemplate = search?.template === 'packing_slip' ? 'packing_slip' : 'commercial'
-  const shouldAutoPrint = search?.autoPrint === 'true'
+  const shouldAutoPrint =
+    search?.autoPrint === true ||
+    search?.autoPrint === 'true' ||
+    search?.autoPrint === '1'
 
   const [activeTemplate, setActiveTemplate] = useState<'commercial' | 'packing_slip'>(initialTemplate)
   const [zoomLevel, setZoomLevel] = useState<number>(100)
