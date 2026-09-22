@@ -23,6 +23,7 @@ import {
   Eye,
   ChevronDown,
   PackageCheck,
+  ExternalLink,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -61,7 +62,7 @@ import {
   SalesOrderPrintTemplate,
   type SalesOrderPrintData,
 } from './sales-order-print-template'
-import { printElementById } from '../utils/print-engine'
+import { printElementById, printInNewWindow } from '../utils/print-engine'
 
 export interface SalesOrderDraftItem {
   productId?: string | null
@@ -328,8 +329,30 @@ export function SalesOrderReviewDialog({
     }
   }
 
-  const handlePrint = (template: 'commercial' | 'packing_slip' = activeTemplate) => {
+  const handlePrint = (
+    template: 'commercial' | 'packing_slip' = activeTemplate,
+    openInNewTab: boolean = false
+  ) => {
     setActiveTemplate(template)
+
+    if (openInNewTab) {
+      if (orderId) {
+        window.open(
+          `/sales-orders/${orderId}/print?template=${template}&autoPrint=true`,
+          '_blank'
+        )
+        return
+      }
+      // For draft mode or unsaved orders, open dedicated print window
+      const printContainer = document.getElementById('sales-order-printable-document')
+      if (printContainer) {
+        printInNewWindow(printContainer.innerHTML, {
+          documentTitle: `${template === 'packing_slip' ? 'Packing_Slip' : 'Sales_Order'}_${orderNumber}`,
+          pageMargin: '10mm 12mm',
+        })
+      }
+      return
+    }
 
     // In test runner / JSDOM, invoke window.print synchronously so test spies verify immediately
     if (typeof navigator !== 'undefined' && navigator.userAgent.includes('jsdom')) {
@@ -438,7 +461,12 @@ export function SalesOrderReviewDialog({
                     className='h-8 px-3 text-xs rounded-r-none border-r-0 hover:bg-muted'
                     onClick={() => handlePrint('commercial')}
                   >
-                    <Printer className='h-3.5 w-3.5 mr-1.5 text-primary' />
+                    <Printer
+                      className={cn(
+                        'h-3.5 w-3.5 mr-1.5 text-primary',
+                        isPrinting && 'animate-spin'
+                      )}
+                    />
                     {t('common.print', 'Print')}
                   </Button>
                   <DropdownMenu>
@@ -454,7 +482,7 @@ export function SalesOrderReviewDialog({
                         <ChevronDown className='h-3.5 w-3.5 text-muted-foreground' />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end' className='w-56'>
+                    <DropdownMenuContent align='end' className='w-60'>
                       <DropdownMenuItem onClick={() => handlePrint('commercial')}>
                         <Receipt className='h-4 w-4 mr-2 text-blue-600' />
                         {t('salesOrders.reviewDialog.printCommercial', 'Print Commercial Order (A4)')}
@@ -462,6 +490,11 @@ export function SalesOrderReviewDialog({
                       <DropdownMenuItem onClick={() => handlePrint('packing_slip')}>
                         <PackageCheck className='h-4 w-4 mr-2 text-purple-600' />
                         {t('salesOrders.reviewDialog.printPackingSlip', 'Print Packing Slip')}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => handlePrint(activeTemplate, true)}>
+                        <ExternalLink className='h-4 w-4 mr-2 text-emerald-600' />
+                        {t('salesOrders.reviewDialog.openRealReport', 'Open Real Report (New Tab)')}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
@@ -864,9 +897,14 @@ export function SalesOrderReviewDialog({
           )}
         </ScrollArea>
 
-        {/* Hidden Printable Document Container for Isolated Print Engine when not in preview mode */}
-        {isPrinting && viewMode !== 'preview' && (
-          <div id='sales-order-printable-document' className='hidden print:block'>
+        {/* Hidden Printable Document Container: ALWAYS mounted when not in preview so getElementById NEVER returns null */}
+        {viewMode !== 'preview' && (
+          <div
+            id='sales-order-printable-document'
+            data-print-container='sales-order'
+            className='hidden print:block'
+            aria-hidden='true'
+          >
             <SalesOrderPrintTemplate
               data={printReportData}
               template={activeTemplate}
@@ -928,14 +966,35 @@ export function SalesOrderReviewDialog({
                       : t('salesOrders.reviewDialog.tabDocument', 'Document Preview (A4)')}
                   </Button>
 
+                  {orderId && (
+                    <Button
+                      type='button'
+                      variant='outline'
+                      size='sm'
+                      onClick={() => handlePrint(activeTemplate, true)}
+                      title={t('salesOrders.reviewDialog.openRealReport', 'Open Real Report in New Tab')}
+                    >
+                      <ExternalLink className='mr-1.5 h-4 w-4 text-primary' />
+                      {t('salesOrders.reviewDialog.realReport', 'Real Report')}
+                    </Button>
+                  )}
+
                   <Button
                     type='button'
                     variant='default'
                     size='sm'
+                    disabled={isPrinting}
                     onClick={() => handlePrint(activeTemplate)}
                   >
-                    <Printer className='mr-1.5 h-4 w-4' />
-                    {t('salesOrders.reviewDialog.printOrder', 'Print Order')}
+                    <Printer
+                      className={cn(
+                        'mr-1.5 h-4 w-4',
+                        isPrinting && 'animate-spin'
+                      )}
+                    />
+                    {isPrinting
+                      ? t('salesOrders.reviewDialog.printing', 'Printing...')
+                      : t('salesOrders.reviewDialog.printOrder', 'Print Order')}
                   </Button>
                 </div>
               </>
@@ -963,6 +1022,7 @@ export function SalesOrderReviewDialog({
             padding: 0 !important;
             background: #ffffff !important;
             color: #0f172a !important;
+            display: block !important;
           }
           .print\\:hidden {
             display: none !important;

@@ -121,15 +121,15 @@ describe('Sales Order Review Dialog & Schemas', () => {
     expect(screen.getByText('DRAFT-PREVIEW')).toBeDefined()
 
     // Checks customer info
-    expect(screen.getByText('Sarah Connor')).toBeDefined()
-    expect(screen.getByText('Downtown Flagship')).toBeDefined()
+    expect(screen.getAllByText('Sarah Connor').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Downtown Flagship').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Online Web Store').length).toBeGreaterThan(0)
-    expect(screen.getByText('Central Logistics Hub')).toBeDefined()
+    expect(screen.getAllByText('Central Logistics Hub').length).toBeGreaterThan(0)
 
     // Checks item details
-    expect(screen.getByText('Artisan Espresso Blend')).toBeDefined()
-    expect(screen.getByText('ESP-500G')).toBeDefined()
-    expect(screen.getByText('bag')).toBeDefined()
+    expect(screen.getAllByText('Artisan Espresso Blend').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('ESP-500G').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('bag').length).toBeGreaterThan(0)
 
     // Checks totals
     expect(screen.getAllByText('$73.50').length).toBeGreaterThan(0)

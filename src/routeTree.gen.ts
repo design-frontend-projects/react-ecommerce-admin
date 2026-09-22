@@ -166,6 +166,7 @@ import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedSalesOrdersReportsRouteImport } from './routes/_authenticated/sales-orders/reports'
 import { Route as AuthenticatedSalesInvoicesReportsRouteImport } from './routes/_authenticated/sales-invoices/reports'
 import { Route as AuthenticatedSalesInvoicesInvoiceIdRouteImport } from './routes/_authenticated/sales-invoices/$invoiceId'
 import { Route as AuthenticatedResposShipmentsRouteImport } from './routes/_authenticated/respos/shipments'
@@ -232,6 +233,7 @@ import { Route as ApiInventoryCustomerReturnsReceiveRouteImport } from './routes
 import { Route as ApiInventoryBatchesExpireRouteImport } from './routes/api/inventory/batches/expire'
 import { Route as ApiInventoryAdjustmentsApplyRouteImport } from './routes/api/inventory/adjustments/apply'
 import { Route as ApiCrmCustomersSegmentRouteImport } from './routes/api/crm/customers/segment'
+import { Route as AuthenticatedSalesOrdersOrderIdPrintRouteImport } from './routes/_authenticated/sales-orders/$orderId/print'
 import { Route as AuthenticatedResposInvoiceOrderIdRouteImport } from './routes/_authenticated/respos/invoice.$orderId'
 import { Route as AuthenticatedPromotionsPromotionIdEditRouteImport } from './routes/_authenticated/promotions/$promotionId.edit'
 
@@ -1112,6 +1114,12 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedSalesOrdersReportsRoute =
+  AuthenticatedSalesOrdersReportsRouteImport.update({
+    id: '/sales-orders/reports',
+    path: '/sales-orders/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSalesInvoicesReportsRoute =
   AuthenticatedSalesInvoicesReportsRouteImport.update({
     id: '/sales-invoices/reports',
@@ -1501,6 +1509,12 @@ const ApiCrmCustomersSegmentRoute = ApiCrmCustomersSegmentRouteImport.update({
   path: '/api/crm/customers/segment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSalesOrdersOrderIdPrintRoute =
+  AuthenticatedSalesOrdersOrderIdPrintRouteImport.update({
+    id: '/sales-orders/$orderId/print',
+    path: '/sales-orders/$orderId/print',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedResposInvoiceOrderIdRoute =
   AuthenticatedResposInvoiceOrderIdRouteImport.update({
     id: '/respos/invoice/$orderId',
@@ -1605,6 +1619,7 @@ export interface FileRoutesByFullPath {
   '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/sales-invoices/$invoiceId': typeof AuthenticatedSalesInvoicesInvoiceIdRoute
   '/sales-invoices/reports': typeof AuthenticatedSalesInvoicesReportsRoute
+  '/sales-orders/reports': typeof AuthenticatedSalesOrdersReportsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -1711,6 +1726,7 @@ export interface FileRoutesByFullPath {
   '/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
+  '/sales-orders/$orderId/print': typeof AuthenticatedSalesOrdersOrderIdPrintRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
   '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
   '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
@@ -1830,6 +1846,7 @@ export interface FileRoutesByTo {
   '/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/sales-invoices/$invoiceId': typeof AuthenticatedSalesInvoicesInvoiceIdRoute
   '/sales-invoices/reports': typeof AuthenticatedSalesInvoicesReportsRoute
+  '/sales-orders/reports': typeof AuthenticatedSalesOrdersReportsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -1936,6 +1953,7 @@ export interface FileRoutesByTo {
   '/cities': typeof AuthenticatedCitiesIndexLazyRoute
   '/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
+  '/sales-orders/$orderId/print': typeof AuthenticatedSalesOrdersOrderIdPrintRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
   '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
   '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
@@ -2060,6 +2078,7 @@ export interface FileRoutesById {
   '/_authenticated/respos/shipments': typeof AuthenticatedResposShipmentsRoute
   '/_authenticated/sales-invoices/$invoiceId': typeof AuthenticatedSalesInvoicesInvoiceIdRoute
   '/_authenticated/sales-invoices/reports': typeof AuthenticatedSalesInvoicesReportsRoute
+  '/_authenticated/sales-orders/reports': typeof AuthenticatedSalesOrdersReportsRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -2166,6 +2185,7 @@ export interface FileRoutesById {
   '/_authenticated/cities/': typeof AuthenticatedCitiesIndexLazyRoute
   '/_authenticated/promotions/$promotionId/edit': typeof AuthenticatedPromotionsPromotionIdEditRoute
   '/_authenticated/respos/invoice/$orderId': typeof AuthenticatedResposInvoiceOrderIdRoute
+  '/_authenticated/sales-orders/$orderId/print': typeof AuthenticatedSalesOrdersOrderIdPrintRoute
   '/api/crm/customers/segment': typeof ApiCrmCustomersSegmentRoute
   '/api/inventory/adjustments/apply': typeof ApiInventoryAdjustmentsApplyRoute
   '/api/inventory/batches/expire': typeof ApiInventoryBatchesExpireRoute
@@ -2289,6 +2309,7 @@ export interface FileRouteTypes {
     | '/respos/shipments'
     | '/sales-invoices/$invoiceId'
     | '/sales-invoices/reports'
+    | '/sales-orders/reports'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -2395,6 +2416,7 @@ export interface FileRouteTypes {
     | '/cities/'
     | '/promotions/$promotionId/edit'
     | '/respos/invoice/$orderId'
+    | '/sales-orders/$orderId/print'
     | '/api/crm/customers/segment'
     | '/api/inventory/adjustments/apply'
     | '/api/inventory/batches/expire'
@@ -2514,6 +2536,7 @@ export interface FileRouteTypes {
     | '/respos/shipments'
     | '/sales-invoices/$invoiceId'
     | '/sales-invoices/reports'
+    | '/sales-orders/reports'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -2620,6 +2643,7 @@ export interface FileRouteTypes {
     | '/cities'
     | '/promotions/$promotionId/edit'
     | '/respos/invoice/$orderId'
+    | '/sales-orders/$orderId/print'
     | '/api/crm/customers/segment'
     | '/api/inventory/adjustments/apply'
     | '/api/inventory/batches/expire'
@@ -2743,6 +2767,7 @@ export interface FileRouteTypes {
     | '/_authenticated/respos/shipments'
     | '/_authenticated/sales-invoices/$invoiceId'
     | '/_authenticated/sales-invoices/reports'
+    | '/_authenticated/sales-orders/reports'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -2849,6 +2874,7 @@ export interface FileRouteTypes {
     | '/_authenticated/cities/'
     | '/_authenticated/promotions/$promotionId/edit'
     | '/_authenticated/respos/invoice/$orderId'
+    | '/_authenticated/sales-orders/$orderId/print'
     | '/api/crm/customers/segment'
     | '/api/inventory/adjustments/apply'
     | '/api/inventory/batches/expire'
@@ -4084,6 +4110,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/sales-orders/reports': {
+      id: '/_authenticated/sales-orders/reports'
+      path: '/sales-orders/reports'
+      fullPath: '/sales-orders/reports'
+      preLoaderRoute: typeof AuthenticatedSalesOrdersReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/sales-invoices/reports': {
       id: '/_authenticated/sales-invoices/reports'
       path: '/sales-invoices/reports'
@@ -4546,6 +4579,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCrmCustomersSegmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/sales-orders/$orderId/print': {
+      id: '/_authenticated/sales-orders/$orderId/print'
+      path: '/sales-orders/$orderId/print'
+      fullPath: '/sales-orders/$orderId/print'
+      preLoaderRoute: typeof AuthenticatedSalesOrdersOrderIdPrintRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/respos/invoice/$orderId': {
       id: '/_authenticated/respos/invoice/$orderId'
       path: '/respos/invoice/$orderId'
@@ -4699,6 +4739,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedResposShipmentsRoute: typeof AuthenticatedResposShipmentsRoute
   AuthenticatedSalesInvoicesInvoiceIdRoute: typeof AuthenticatedSalesInvoicesInvoiceIdRoute
   AuthenticatedSalesInvoicesReportsRoute: typeof AuthenticatedSalesInvoicesReportsRoute
+  AuthenticatedSalesOrdersReportsRoute: typeof AuthenticatedSalesOrdersReportsRoute
   AuthenticatedStockTransfersTransferIdRoute: typeof AuthenticatedStockTransfersTransferIdRoute
   AuthenticatedAccessControlIndexRoute: typeof AuthenticatedAccessControlIndexRoute
   AuthenticatedBatchesIndexRoute: typeof AuthenticatedBatchesIndexRoute
@@ -4731,6 +4772,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUnitsIndexRoute: typeof AuthenticatedUnitsIndexRoute
   AuthenticatedWarehousesIndexRoute: typeof AuthenticatedWarehousesIndexRoute
   AuthenticatedResposInvoiceOrderIdRoute: typeof AuthenticatedResposInvoiceOrderIdRoute
+  AuthenticatedSalesOrdersOrderIdPrintRoute: typeof AuthenticatedSalesOrdersOrderIdPrintRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -4802,6 +4844,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedSalesInvoicesInvoiceIdRoute,
   AuthenticatedSalesInvoicesReportsRoute:
     AuthenticatedSalesInvoicesReportsRoute,
+  AuthenticatedSalesOrdersReportsRoute: AuthenticatedSalesOrdersReportsRoute,
   AuthenticatedStockTransfersTransferIdRoute:
     AuthenticatedStockTransfersTransferIdRoute,
   AuthenticatedAccessControlIndexRoute: AuthenticatedAccessControlIndexRoute,
@@ -4842,6 +4885,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedWarehousesIndexRoute: AuthenticatedWarehousesIndexRoute,
   AuthenticatedResposInvoiceOrderIdRoute:
     AuthenticatedResposInvoiceOrderIdRoute,
+  AuthenticatedSalesOrdersOrderIdPrintRoute:
+    AuthenticatedSalesOrdersOrderIdPrintRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
