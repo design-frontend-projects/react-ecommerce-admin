@@ -43,6 +43,19 @@ const checkoutSchema = z.object({
   orderDiscountAmount: z.union([z.number().nonnegative(), z.string()]).optional(),
   notes: z.string().optional(),
   idempotencyKey: z.string().optional(),
+  isShipment: z.boolean().optional(),
+  shipment: z
+    .object({
+      recipientName: z.string().optional(),
+      recipientPhone: z.string().optional(),
+      deliveryAddress: z.string().optional(),
+      city: z.string().optional(),
+      state: z.string().optional(),
+      postalCode: z.string().optional(),
+      carrier: z.string().optional(),
+      notes: z.string().optional(),
+    })
+    .optional(),
 })
 
 const POST = withAuth(PERMISSIONS.POS_SELL, async ({ request, auth }) => {

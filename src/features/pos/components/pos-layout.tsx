@@ -15,10 +15,11 @@ import { ShiftDashboard } from './shift-dashboard'
 import { NonRestaurantShipmentsBoard } from './non-restaurant-shipments-board'
 import { PosTerminalsPage } from '../pages/pos-terminals-page'
 import { PosReportsPage } from '../pages/pos-reports-page'
+import { usePosStore } from '../store/use-pos-store'
 
 export function PosLayout() {
   const { t } = useTranslation()
-  const [activeTab, setActiveTab] = useState('checkout')
+  const { activeTab, setActiveTab } = usePosStore()
 
   return (
     <div className='flex h-[100dvh] max-h-[100dvh] min-h-0 flex-1 flex-col overflow-hidden bg-muted/10 p-1.5 sm:p-2.5 md:p-3'>

@@ -96,6 +96,10 @@ interface PosState {
   // Held Orders
   heldOrders: HeldOrder[]
 
+  // Active Layout Tab
+  activeTab: string
+  setActiveTab: (tab: string) => void
+
   // Actions
   setTerminal: (terminal: PosTerminalContext | null) => void
   setSession: (session: PosSessionContext | null) => void
@@ -192,7 +196,9 @@ export const usePosStore = create<PosState>()(
       appliedPromotion: undefined,
       taxRates: [],
       heldOrders: [],
+      activeTab: 'checkout',
 
+      setActiveTab: (activeTab) => set({ activeTab }),
       setTerminal: (terminal) => set({ terminal }),
       setSession: (session) => set({ session }),
       setCustomer: (customer) => set({ customer }),

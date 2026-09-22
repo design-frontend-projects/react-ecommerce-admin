@@ -44,6 +44,17 @@ export interface PosCheckoutPayment {
   notes?: string
 }
 
+export interface PosCheckoutShipment {
+  recipientName?: string
+  recipientPhone?: string
+  deliveryAddress?: string
+  city?: string
+  state?: string
+  postalCode?: string
+  carrier?: string
+  notes?: string
+}
+
 export interface PosCheckoutInput {
   terminalId: string
   sessionId: string
@@ -60,6 +71,8 @@ export interface PosCheckoutInput {
   appliedPromotionIds?: string[]
   notes?: string
   idempotencyKey?: string
+  isShipment?: boolean
+  shipment?: PosCheckoutShipment
 }
 
 export interface PosCheckoutResult {
@@ -71,6 +84,7 @@ export interface PosCheckoutResult {
   payments: Array<{ method: string; amount: string }>
   cashChange: string
   isDuplicate: boolean
+  shipmentId?: string | null
 }
 
 function toDecimal(val: number | string | Prisma.Decimal | null | undefined, d = 0): Prisma.Decimal {
@@ -382,6 +396,33 @@ export async function processPosSale(
         data: { sales_invoice_id: invoice.id },
       })
 
+      // 7d-1. Create shipment if requested
+      let shipmentRecord = null
+      if (input.isShipment && input.shipment) {
+        const serializedNotes = JSON.stringify({
+          recipientName: input.shipment.recipientName,
+          recipientPhone: input.shipment.recipientPhone,
+          deliveryAddress: input.shipment.deliveryAddress,
+          city: input.shipment.city,
+          state: input.shipment.state,
+          postalCode: input.shipment.postalCode,
+          notes: input.shipment.notes,
+        })
+
+        shipmentRecord = await tx.shipments.create({
+          data: {
+            tenant_id: tenantId,
+            sales_invoice_id: invoice.id,
+            order_id: order.id,
+            carrier: input.shipment.carrier || null,
+            status: 'prepared',
+            notes: serializedNotes,
+            created_by_user_id: tenantUserId,
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+
       // 7e. Create sales_invoice_items
       const invoiceItems = await Promise.all(
         lineItems.map((li, idx) => {
@@ -605,7 +646,7 @@ export async function processPosSale(
         tx
       )
 
-      return { order, invoice, paymentRecords }
+      return { order, invoice, paymentRecords, shipmentRecord }
     })
 
     return {
@@ -620,6 +661,7 @@ export async function processPosSale(
       })),
       cashChange: cashChange.toString(),
       isDuplicate: false,
+      shipmentId: result.shipmentRecord?.id ?? null,
     }
   })
 }

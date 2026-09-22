@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AlertCircle,
@@ -9,10 +9,12 @@ import {
   Loader2,
   Plus,
   Trash2,
+  Truck,
   Wallet,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
+import { useQueryClient } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,6 +26,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 import {
   Select,
   SelectContent,
@@ -104,6 +107,27 @@ function PosCheckoutDialogContent({
     total.toString()
   )
   const [notes, setNotes] = useState<string>('')
+
+  // Shipment / Delivery state
+  const queryClient = useQueryClient()
+  const [isShipmentEnabled, setIsShipmentEnabled] = useState(false)
+  const [recipientName, setRecipientName] = useState(customer?.name || '')
+  const [recipientPhone, setRecipientPhone] = useState(customer?.phone || '')
+  const [deliveryAddress, setDeliveryAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [stateVal, setStateVal] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [carrier, setCarrier] = useState('')
+  const [shipmentNotes, setShipmentNotes] = useState('')
+
+  useEffect(() => {
+    if (customer?.name && !recipientName) {
+      setRecipientName(customer.name)
+    }
+    if (customer?.phone && !recipientPhone) {
+      setRecipientPhone(customer.phone)
+    }
+  }, [customer])
 
   const totalAssignedPayments = payments.reduce((sum, p) => sum + p.amount, 0)
   const remainingToAssign = Math.max(0, total - totalAssignedPayments)
@@ -241,9 +265,32 @@ function PosCheckoutDialogContent({
           Math.round(Number(getTotalDiscountAmount() ?? 0) * 100) / 100,
         notes: notes.trim() || undefined,
         idempotencyKey: crypto.randomUUID(),
+        isShipment: isShipmentEnabled,
+        shipment: isShipmentEnabled
+          ? {
+              recipientName: recipientName.trim() || customer?.name || undefined,
+              recipientPhone: recipientPhone.trim() || customer?.phone || undefined,
+              deliveryAddress: deliveryAddress.trim() || undefined,
+              city: city.trim() || undefined,
+              state: stateVal.trim() || undefined,
+              postalCode: postalCode.trim() || undefined,
+              carrier: carrier.trim() || undefined,
+              notes: shipmentNotes.trim() || undefined,
+            }
+          : undefined,
       }
 
       const res = await checkoutMutation.mutateAsync(payload)
+
+      if (isShipmentEnabled) {
+        queryClient.invalidateQueries({ queryKey: ['non-restaurant-shipments'] })
+        toast.success(
+          t(
+            'pos.checkout.shipmentCreated',
+            'Order sent with shipment! Track it in the Shipments tab.'
+          )
+        )
+      }
 
       // Prepare receipt data
       const receiptData: ReceiptData = {
@@ -253,6 +300,21 @@ function PosCheckoutDialogContent({
         storeName: terminal.name || 'Retail POS',
         cashierName: session.cashierName || 'Cashier',
         terminalCode: terminal.code,
+        customerName: customer?.name || undefined,
+        customerPhone: customer?.phone || undefined,
+        isShipment: isShipmentEnabled,
+        shipmentDetails: isShipmentEnabled
+          ? {
+              recipientName: recipientName.trim() || customer?.name || undefined,
+              recipientPhone: recipientPhone.trim() || customer?.phone || undefined,
+              deliveryAddress: deliveryAddress.trim() || undefined,
+              city: city.trim() || undefined,
+              state: stateVal.trim() || undefined,
+              postalCode: postalCode.trim() || undefined,
+              carrier: carrier.trim() || undefined,
+              notes: shipmentNotes.trim() || undefined,
+            }
+          : undefined,
         items: items.map((i) => ({
           name: i.name,
           sku: i.sku,
@@ -509,6 +571,120 @@ function PosCheckoutDialogContent({
           <span className='font-bold shrink-0'>
             {formatCurrency(totalAssignedPayments)} / {formatCurrency(total)}
           </span>
+        </div>
+
+        {/* Shipment / Delivery Option */}
+        <div className='rounded-lg border bg-muted/20 p-3.5 space-y-3'>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2.5'>
+              <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0'>
+                <Truck className='h-4 w-4' />
+              </div>
+              <div>
+                <Label htmlFor='shipment-toggle' className='text-sm font-semibold cursor-pointer'>
+                  {t('pos.checkout.sendWithShipment', 'Send with Shipment / Delivery')}
+                </Label>
+                <p className='text-xs text-muted-foreground'>
+                  {t('pos.checkout.sendWithShipmentDesc', 'Create delivery tracking displayed in the Shipments tab')}
+                </p>
+              </div>
+            </div>
+            <Switch
+              id='shipment-toggle'
+              checked={isShipmentEnabled}
+              onCheckedChange={setIsShipmentEnabled}
+            />
+          </div>
+
+          {isShipmentEnabled && (
+            <div className='space-y-3 pt-2.5 border-t border-border/50'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-2.5'>
+                <div className='space-y-1'>
+                  <Label className='text-xs font-medium'>
+                    {t('pos.checkout.recipientName', 'Recipient Name')}
+                  </Label>
+                  <Input
+                    value={recipientName}
+                    onChange={(e) => setRecipientName(e.target.value)}
+                    placeholder={customer?.name || t('pos.checkout.recipientNamePlaceholder', 'Customer / Recipient name')}
+                    className='h-8 text-xs'
+                  />
+                </div>
+                <div className='space-y-1'>
+                  <Label className='text-xs font-medium'>
+                    {t('pos.checkout.recipientPhone', 'Recipient Phone')}
+                  </Label>
+                  <Input
+                    type='tel'
+                    value={recipientPhone}
+                    onChange={(e) => setRecipientPhone(e.target.value)}
+                    placeholder={customer?.phone || t('pos.checkout.recipientPhonePlaceholder', '+1234567890')}
+                    className='h-8 text-xs'
+                  />
+                </div>
+              </div>
+
+              <div className='space-y-1'>
+                <Label className='text-xs font-medium'>
+                  {t('pos.checkout.deliveryAddress', 'Delivery Address')}
+                </Label>
+                <Input
+                  value={deliveryAddress}
+                  onChange={(e) => setDeliveryAddress(e.target.value)}
+                  placeholder={t('pos.checkout.deliveryAddressPlaceholder', 'Street address, building, apt / suite')}
+                  className='h-8 text-xs'
+                />
+              </div>
+
+              <div className='grid grid-cols-1 sm:grid-cols-3 gap-2'>
+                <div className='space-y-1'>
+                  <Label className='text-xs font-medium'>
+                    {t('pos.checkout.city', 'City')}
+                  </Label>
+                  <Input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder={t('pos.checkout.cityPlaceholder', 'City')}
+                    className='h-8 text-xs'
+                  />
+                </div>
+                <div className='space-y-1'>
+                  <Label className='text-xs font-medium'>
+                    {t('pos.checkout.state', 'State / Region')}
+                  </Label>
+                  <Input
+                    value={stateVal}
+                    onChange={(e) => setStateVal(e.target.value)}
+                    placeholder={t('pos.checkout.statePlaceholder', 'State')}
+                    className='h-8 text-xs'
+                  />
+                </div>
+                <div className='space-y-1'>
+                  <Label className='text-xs font-medium'>
+                    {t('pos.checkout.carrier', 'Carrier')}
+                  </Label>
+                  <Input
+                    value={carrier}
+                    onChange={(e) => setCarrier(e.target.value)}
+                    placeholder={t('pos.checkout.carrierPlaceholder', 'e.g. Courier')}
+                    className='h-8 text-xs'
+                  />
+                </div>
+              </div>
+
+              <div className='space-y-1'>
+                <Label className='text-xs font-medium'>
+                  {t('pos.checkout.shippingNotes', 'Delivery Instructions / Notes')}
+                </Label>
+                <Input
+                  value={shipmentNotes}
+                  onChange={(e) => setShipmentNotes(e.target.value)}
+                  placeholder={t('pos.checkout.shippingNotesPlaceholder', 'Gate code, delivery window, etc.')}
+                  className='h-8 text-xs'
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className='space-y-1.5'>

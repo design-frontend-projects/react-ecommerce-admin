@@ -1,5 +1,15 @@
-import { useRef, useState, useMemo } from 'react'
-import { Printer, CheckCircle2, Mail, MessageCircle, Send } from 'lucide-react'
+import { useRef, useState, useMemo, useEffect } from 'react'
+import {
+  Printer,
+  CheckCircle2,
+  Mail,
+  MessageCircle,
+  Send,
+  User,
+  Phone,
+  Truck,
+  ExternalLink,
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { formatCurrency } from '@/lib/utils'
@@ -9,6 +19,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
@@ -31,6 +42,19 @@ export interface ReceiptData {
   taxNumber?: string
   cashierName?: string
   terminalCode?: string
+  customerName?: string
+  customerPhone?: string
+  isShipment?: boolean
+  shipmentDetails?: {
+    recipientName?: string
+    recipientPhone?: string
+    deliveryAddress?: string
+    city?: string
+    state?: string
+    postalCode?: string
+    carrier?: string
+    notes?: string
+  }
   items: Array<{
     name: string
     sku?: string
@@ -66,13 +90,23 @@ export function PosReceiptDialog({
 }: PosReceiptDialogProps) {
   const { t } = useTranslation()
   const receiptRef = useRef<HTMLDivElement>(null)
-  const { customer } = usePosStore()
+  const { customer, setActiveTab } = usePosStore()
 
   // Share state
   const [whatsappPhone, setWhatsappPhone] = useState('')
   const [emailAddress, setEmailAddress] = useState('')
   const [isWhatsappPopoverOpen, setIsWhatsappPopoverOpen] = useState(false)
   const [isEmailPopoverOpen, setIsEmailPopoverOpen] = useState(false)
+
+  // Prefill phone and email when receipt changes or dialog opens
+  useEffect(() => {
+    if (open && receipt) {
+      const phone = receipt.customerPhone || customer?.phone || ''
+      setWhatsappPhone(phone)
+      const email = customer?.email || ''
+      setEmailAddress(email)
+    }
+  }, [open, receipt, customer])
 
   // Generate receipt text for sharing
   // ⚠️ All hooks MUST be called before any early return (Rules of Hooks)
@@ -81,6 +115,15 @@ export function PosReceiptDialog({
     const lines: string[] = []
     lines.push(`🧾 *${receipt.storeName || 'Receipt'}*`)
     lines.push(`Order: ${receipt.orderNumber}`)
+    if (receipt.customerName) {
+      lines.push(`Customer: ${receipt.customerName}`)
+      if (receipt.customerPhone) {
+        lines.push(`Phone: ${receipt.customerPhone}`)
+      }
+    }
+    if (receipt.isShipment && receipt.shipmentDetails?.deliveryAddress) {
+      lines.push(`Shipment: ${receipt.shipmentDetails.deliveryAddress}`)
+    }
     lines.push(
       `Date: ${new Date(receipt.date).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}`
     )
@@ -207,6 +250,24 @@ export function PosReceiptDialog({
               <td>Terminal: ${receipt.terminalCode || 'MAIN'}</td>
               <td style="text-align: right;">Cashier: ${receipt.cashierName || 'Cashier'}</td>
             </tr>
+            ${
+              receipt.customerName
+                ? `<tr>
+                    <td>Customer: <strong>${receipt.customerName}</strong></td>
+                    <td style="text-align: right;">${receipt.customerPhone ? `Tel: <strong>${receipt.customerPhone}</strong>` : ''}</td>
+                  </tr>`
+                : ''
+            }
+            ${
+              receipt.isShipment && receipt.shipmentDetails?.deliveryAddress
+                ? `<tr>
+                    <td colspan="2" style="padding-top: 4px; border-top: 1px dotted #888;">
+                      Shipment: <strong>${receipt.shipmentDetails.deliveryAddress}</strong>
+                      ${receipt.shipmentDetails.carrier ? ` (${receipt.shipmentDetails.carrier})` : ''}
+                    </td>
+                  </tr>`
+                : ''
+            }
           </table>
 
           <div class="divider"></div>
@@ -293,6 +354,9 @@ export function PosReceiptDialog({
             <DialogTitle className='text-xl font-bold'>
               {t('pos.receiptModal.saleCompleted', 'Sale Completed')}
             </DialogTitle>
+            <DialogDescription className='sr-only'>
+              {t('pos.receiptModal.receiptDetails', 'Receipt and invoice details for completed sale')}
+            </DialogDescription>
           </div>
         </DialogHeader>
 
@@ -347,6 +411,69 @@ export function PosReceiptDialog({
               </p>
             </div>
           </div>
+
+          {/* Customer details - name and phone only */}
+          {receipt.customerName && (
+            <>
+              <Separator className='border-dashed' />
+              <div className='flex items-center justify-between rounded-md bg-muted/40 px-2.5 py-1.5 font-sans text-xs'>
+                <div className='flex items-center gap-2'>
+                  <div className='flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary shrink-0'>
+                    <User className='h-3.5 w-3.5' />
+                  </div>
+                  <div>
+                    <span className='font-semibold text-foreground'>{receipt.customerName}</span>
+                    {receipt.customerPhone && (
+                      <span className='ml-2 text-muted-foreground font-mono text-[11px]'>
+                        ({receipt.customerPhone})
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <span className='text-[10px] font-semibold text-muted-foreground uppercase tracking-wider'>
+                  {t('pos.receiptModal.customer', 'Customer')}
+                </span>
+              </div>
+            </>
+          )}
+
+          {/* Shipment details if order was sent with shipment */}
+          {receipt.isShipment && (
+            <>
+              <Separator className='border-dashed' />
+              <div className='flex items-center justify-between rounded-md bg-blue-500/10 px-2.5 py-1.5 font-sans text-xs border border-blue-500/20'>
+                <div className='flex items-center gap-2'>
+                  <div className='flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 shrink-0'>
+                    <Truck className='h-3.5 w-3.5' />
+                  </div>
+                  <div>
+                    <div className='font-semibold text-blue-900 dark:text-blue-300'>
+                      {t('pos.receiptModal.shipmentOrder', 'Shipment / Delivery Order')}
+                    </div>
+                    {receipt.shipmentDetails?.deliveryAddress && (
+                      <div className='text-[10px] text-muted-foreground line-clamp-1'>
+                        {receipt.shipmentDetails.deliveryAddress}
+                        {receipt.shipmentDetails.carrier ? ` • ${receipt.shipmentDetails.carrier}` : ''}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='sm'
+                  className='h-6 text-[11px] text-blue-600 hover:text-blue-700 px-1.5 gap-1 shrink-0'
+                  onClick={() => {
+                    onOpenChange(false)
+                    setActiveTab('shipments')
+                  }}
+                >
+                  <span>{t('pos.receiptModal.shipmentTab', 'Shipments Tab')}</span>
+                  <ExternalLink className='h-3 w-3' />
+                </Button>
+              </div>
+            </>
+          )}
 
           <Separator className='border-dashed' />
 
@@ -453,36 +580,39 @@ export function PosReceiptDialog({
                 size='sm'
                 className='gap-1.5 border-emerald-500/30 text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-400'
                 onClick={() => {
-                  const phone = customer?.phone?.replace(/\D/g, '')
-                  if (phone) {
-                    window.open(
-                      `https://wa.me/${phone}?text=${encodeURIComponent(receiptText)}`,
-                      '_blank'
-                    )
-                  } else {
-                    setIsWhatsappPopoverOpen(true)
+                  const targetPhone = (whatsappPhone || receipt.customerPhone || customer?.phone || '').trim()
+                  if (targetPhone) {
+                    setWhatsappPhone(targetPhone)
                   }
+                  setIsWhatsappPopoverOpen(true)
                 }}
               >
                 <MessageCircle className='h-4 w-4' />
                 {t('pos.receiptModal.shareWhatsApp', 'WhatsApp')}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className='w-64 space-y-2 p-3' align='start'>
-              <p className='text-xs font-semibold'>
-                {t('pos.receiptModal.enterPhone', 'Enter phone number')}
-              </p>
+            <PopoverContent className='w-72 space-y-2.5 p-3' align='start'>
+              <div className='flex items-center justify-between'>
+                <p className='text-xs font-semibold'>
+                  {t('pos.receiptModal.enterPhone', 'WhatsApp Phone Number')}
+                </p>
+                {(receipt.customerPhone || customer?.phone) && (
+                  <span className='text-[10px] text-emerald-600 dark:text-emerald-400 font-medium'>
+                    {t('pos.receiptModal.customerMatched', 'Customer Phone')}
+                  </span>
+                )}
+              </div>
               <Input
                 type='tel'
                 placeholder='+1234567890'
                 value={whatsappPhone}
                 onChange={(e) => setWhatsappPhone(e.target.value)}
-                className='h-8 text-xs'
+                className='h-8 text-xs font-medium'
                 autoFocus
               />
               <Button
                 size='sm'
-                className='h-7 w-full gap-1 text-xs'
+                className='h-7 w-full gap-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white'
                 disabled={!whatsappPhone.trim()}
                 onClick={() => {
                   const phone = whatsappPhone.replace(/\D/g, '')
@@ -571,6 +701,22 @@ export function PosReceiptDialog({
               </Button>
             </PopoverContent>
           </Popover>
+
+          {receipt.isShipment && (
+            <Button
+              type='button'
+              variant='secondary'
+              size='sm'
+              className='gap-1.5 border border-blue-500/20 text-blue-700 hover:bg-blue-500/10 dark:text-blue-400'
+              onClick={() => {
+                onOpenChange(false)
+                setActiveTab('shipments')
+              }}
+            >
+              <Truck className='h-4 w-4' />
+              {t('pos.receiptModal.viewShipments', 'Shipments Tab')}
+            </Button>
+          )}
 
           <Button
             type='button'

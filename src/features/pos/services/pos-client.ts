@@ -372,6 +372,17 @@ export const posApi = {
     orderDiscountAmount?: number | string
     notes?: string
     idempotencyKey?: string
+    isShipment?: boolean
+    shipment?: {
+      recipientName?: string
+      recipientPhone?: string
+      deliveryAddress?: string
+      city?: string
+      state?: string
+      postalCode?: string
+      carrier?: string
+      notes?: string
+    }
   }) => {
     return apiRequest<{
       orderId: string
@@ -381,6 +392,7 @@ export const posApi = {
       receipt: any
       inventoryTransactionId: string
       isDuplicate?: boolean
+      shipmentId?: string | null
     }>('/api/pos/checkout', {
       method: 'POST',
       body: JSON.stringify(payload),
