@@ -729,12 +729,16 @@ export async function getInvoiceById(authUserId: string, invoiceId: string) {
         customers: {
           select: {
             id: true,
-            customer_type: true,
+            code: true,
             first_name: true,
             last_name: true,
-            company_name: true,
             email: true,
             phone: true,
+            address_line1: true,
+            city: true,
+            state: true,
+            postal_code: true,
+            country: true,
           },
         },
         warehouses: {
@@ -823,7 +827,7 @@ export async function listSalesInvoices(authUserId: string, filters: ListSalesIn
             OR: [
               { first_name: { contains: s, mode: 'insensitive' } },
               { last_name: { contains: s, mode: 'insensitive' } },
-              { company_name: { contains: s, mode: 'insensitive' } },
+              { code: { contains: s, mode: 'insensitive' } },
               { email: { contains: s, mode: 'insensitive' } },
               { phone: { contains: s, mode: 'insensitive' } },
             ],
@@ -848,10 +852,9 @@ export async function listSalesInvoices(authUserId: string, filters: ListSalesIn
           customers: {
             select: {
               id: true,
-              customer_type: true,
+              code: true,
               first_name: true,
               last_name: true,
-              company_name: true,
               email: true,
               phone: true,
             },
@@ -939,7 +942,7 @@ export async function getInvoiceDashboardStats(
         orderBy: { created_at: 'desc' },
         include: {
           customers: {
-            select: { first_name: true, last_name: true, company_name: true },
+            select: { first_name: true, last_name: true },
           },
         },
       }),
@@ -1007,7 +1010,7 @@ export async function getInvoiceReports(authUserId: string, params: InvoiceRepor
           orderBy: { due_date: 'asc' },
           include: {
             customers: {
-              select: { id: true, first_name: true, last_name: true, company_name: true, phone: true, email: true },
+              select: { id: true, code: true, first_name: true, last_name: true, phone: true, email: true },
             },
           },
         })
@@ -1101,7 +1104,7 @@ export async function getInvoiceReports(authUserId: string, params: InvoiceRepor
           orderBy: { invoice_date: 'desc' },
           include: {
             customers: {
-              select: { id: true, first_name: true, last_name: true, company_name: true },
+              select: { id: true, code: true, first_name: true, last_name: true },
             },
           },
         })

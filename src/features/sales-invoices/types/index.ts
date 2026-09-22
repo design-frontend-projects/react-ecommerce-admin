@@ -35,12 +35,19 @@ export type PaymentMethod =
 
 export interface CustomerSummary {
   id: string
+  code?: string | null
   customer_type?: string | null
   first_name?: string | null
   last_name?: string | null
   company_name?: string | null
   email?: string | null
   phone?: string | null
+  address_line1?: string | null
+  address_line2?: string | null
+  city?: string | null
+  state?: string | null
+  postal_code?: string | null
+  country?: string | null
 }
 
 export interface SalesInvoiceItem {

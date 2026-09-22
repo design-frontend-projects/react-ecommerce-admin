@@ -1,15 +1,13 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import type { InvoiceDashboardStats } from '../types'
 import {
   DollarSign,
-  TrendingUp,
-  AlertTriangle,
   Receipt,
   CheckCircle2,
   Clock,
-  ArrowUpRight,
 } from 'lucide-react'
 
 interface InvoiceDashboardCardsProps {
@@ -23,6 +21,8 @@ export const InvoiceDashboardCards: React.FC<InvoiceDashboardCardsProps> = ({
   isLoading,
   onFilterStatus,
 }) => {
+  const { t } = useTranslation()
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -41,49 +41,59 @@ export const InvoiceDashboardCards: React.FC<InvoiceDashboardCardsProps> = ({
     }).format(val)
   }
 
+  const recoveryRate = stats?.totalInvoiced
+    ? Math.round(((stats.totalPaid || 0) / stats.totalInvoiced) * 100)
+    : 0
+
   const cards = [
     {
-      title: 'Total Invoiced',
+      title: t('salesInvoices.dashboard.totalInvoiced', 'Total Invoiced'),
       value: formatCurrency(stats?.totalInvoiced),
-      subtitle: `${stats?.totalInvoicesCount || 0} commercial invoices`,
+      subtitle: t('salesInvoices.dashboard.commercialInvoices', '{{count}} commercial invoices', {
+        count: stats?.totalInvoicesCount || 0,
+      }),
       icon: Receipt,
       iconColor: 'text-blue-500',
       bgGlow: 'from-blue-500/10 via-transparent to-transparent',
       borderColor: 'border-blue-500/20',
-      badge: 'All Invoices',
+      badge: t('salesInvoices.dashboard.badgeAll', 'All Invoices'),
       badgeColor: 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300',
     },
     {
-      title: 'Total Collected',
+      title: t('salesInvoices.dashboard.totalCollected', 'Total Collected'),
       value: formatCurrency(stats?.totalPaid),
-      subtitle: `${stats?.totalInvoiced ? Math.round(((stats.totalPaid || 0) / stats.totalInvoiced) * 100) : 0}% recovery rate`,
+      subtitle: t('salesInvoices.dashboard.recoveryRate', '{{rate}}% recovery rate', {
+        rate: recoveryRate,
+      }),
       icon: CheckCircle2,
       iconColor: 'text-emerald-500',
       bgGlow: 'from-emerald-500/10 via-transparent to-transparent',
       borderColor: 'border-emerald-500/20',
-      badge: 'Paid',
+      badge: t('salesInvoices.dashboard.badgePaid', 'Paid'),
       badgeColor: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
     },
     {
-      title: 'Outstanding Receivables',
+      title: t('salesInvoices.dashboard.outstandingReceivables', 'Outstanding Receivables'),
       value: formatCurrency(stats?.totalDue),
-      subtitle: 'Awaiting customer payment',
+      subtitle: t('salesInvoices.dashboard.awaitingPayment', 'Awaiting customer payment'),
       icon: Clock,
       iconColor: 'text-amber-500',
       bgGlow: 'from-amber-500/10 via-transparent to-transparent',
       borderColor: 'border-amber-500/20',
-      badge: 'Due',
+      badge: t('salesInvoices.dashboard.badgeDue', 'Due'),
       badgeColor: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
     },
     {
-      title: 'Tax Collected',
+      title: t('salesInvoices.dashboard.taxCollected', 'Tax Collected'),
       value: formatCurrency(stats?.totalTax),
-      subtitle: `Discounts given: ${formatCurrency(stats?.totalDiscount)}`,
+      subtitle: t('salesInvoices.dashboard.discountsGiven', 'Discounts given: {{amount}}', {
+        amount: formatCurrency(stats?.totalDiscount),
+      }),
       icon: DollarSign,
       iconColor: 'text-purple-500',
       bgGlow: 'from-purple-500/10 via-transparent to-transparent',
       borderColor: 'border-purple-500/20',
-      badge: 'Tax / VAT',
+      badge: t('salesInvoices.dashboard.badgeTax', 'Tax / VAT'),
       badgeColor: 'bg-purple-50 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300',
     },
   ]
@@ -128,14 +138,18 @@ export const InvoiceDashboardCards: React.FC<InvoiceDashboardCardsProps> = ({
 
       {stats?.statusBreakdown && stats.statusBreakdown.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pt-1 pb-2">
-          <span className="text-xs font-medium text-muted-foreground mr-1">Quick Filters:</span>
+          <span className="text-xs font-medium text-muted-foreground mr-1">
+            {t('salesInvoices.dashboard.quickFilters', 'Quick Filters:')}
+          </span>
           {stats.statusBreakdown.map((sb) => (
             <button
               key={sb.status}
               onClick={() => onFilterStatus?.(sb.status)}
               className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full border border-border/80 bg-background hover:bg-muted/80 transition-colors shadow-2xs font-medium"
             >
-              <span className="capitalize">{sb.status.replace('_', ' ')}</span>
+              <span className="capitalize">
+                {t(`salesInvoices.badges.status.${sb.status}`, sb.status.replace('_', ' '))}
+              </span>
               <span className="px-1.5 py-0.2 rounded-full bg-muted text-[10px] text-muted-foreground font-semibold">
                 {sb.count}
               </span>

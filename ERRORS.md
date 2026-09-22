@@ -1,5 +1,32 @@
 # Error Log
 
+## [2026-09-23 00:55] - Prisma Unknown field customer_type and company_name in sales-invoice-engine.ts
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/server/fns/sales-invoice-engine.ts:716`
+- **Agent**: @backend-specialist
+- **Root Cause**: `getInvoiceById`, `listSalesInvoices`, `getInvoiceDashboardStats`, and `getInvoiceReports` attempted to select or filter by `customer_type` and `company_name` on the `customers` relation (`include: { customers: { select: { customer_type: true, company_name: true } } }`). In `prisma/schema.prisma` lines 187–217, the `customers` model does not contain `customer_type` or `company_name` fields (it has `first_name`, `last_name`, `code`, `customer_type_id`, `email`, `phone`, and address fields). Prisma Client threw runtime error `Unknown field customer_type for select statement on model customers` whenever a user viewed an invoice by ID.
+- **Error Message**:
+  ```
+  Invalid `prisma.sales_invoices.findFirst()` invocation in
+  src\server\fns\sales-invoice-engine.ts:716:49
+  Unknown field `customer_type` for select statement on model `customers`. Available options are marked with ?.
+  ```
+- **Fix Applied**:
+  1. In `src/server/fns/sales-invoice-engine.ts`:
+     - In `getInvoiceById`: replaced `customer_type: true` and `company_name: true` with valid model fields (`code: true`, `address_line1: true`, `city: true`, `state: true`, `postal_code: true`, `country: true`).
+     - In `listSalesInvoices`: replaced `{ company_name: { contains: s, mode: 'insensitive' } }` in `where.OR` with `{ code: { contains: s, mode: 'insensitive' } }`, and removed `customer_type: true` and `company_name: true` from the `customers` select statement.
+     - In `getInvoiceDashboardStats`: removed `company_name: true` from the `customers` select statement.
+     - In `getInvoiceReports`: removed `company_name: true` from `outstanding` and `sales` report queries, including valid `code: true`.
+  2. In `src/features/sales-invoices/types/index.ts`:
+     - Updated `CustomerSummary` to include `code?: string | null` and address fields while retaining optional fallback fields for backward compatibility.
+  3. Created unit test suite in `src/__tests__/sales-invoice-query.test.ts` verifying all Prisma invoice queries construct valid customer selections without `customer_type` or `company_name`.
+- **Prevention**: Always verify model schema definitions in `prisma/schema.prisma` before writing `select`, `include`, or `where` clauses against relations in Prisma server functions.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-19 23:30] - Prisma Invalid product_batches.findMany() Invocation in listBatches
 
 - **Type**: Integration

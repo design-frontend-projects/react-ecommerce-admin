@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -31,6 +32,8 @@ export const VoidInvoiceDialog: React.FC<VoidInvoiceDialogProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -55,26 +58,38 @@ export const VoidInvoiceDialog: React.FC<VoidInvoiceDialogProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-purple-700 dark:text-purple-400">
             <Ban className="w-5 h-5" />
-            Void Posted Invoice
+            {t('salesInvoices.dialogs.void.title', 'Void Posted Invoice')}
           </DialogTitle>
           <DialogDescription>
-            Voiding invoice <strong className="text-foreground">{invoice.invoice_no}</strong> maintains an audit trail in compliance with commercial accounting standards.
+            {t(
+              'salesInvoices.dialogs.void.description',
+              'Voiding invoice {{invoiceNo}} maintains an audit trail in compliance with commercial accounting standards.',
+              { invoiceNo: invoice.invoice_no }
+            )}
           </DialogDescription>
         </DialogHeader>
 
         <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-3 flex gap-2.5 text-xs text-amber-800 dark:text-amber-300">
           <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
           <span>
-            Voiding an invoice marks the financial record as nullified. A comprehensive justification is required for tax and audit records.
+            {t(
+              'salesInvoices.dialogs.void.warning',
+              'Voiding an invoice marks the financial record as nullified. A comprehensive justification is required for tax and audit records.'
+            )}
           </span>
         </div>
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 pt-1">
           <div className="space-y-1.5">
-            <Label htmlFor="voidReason">Accounting Justification / Reason</Label>
+            <Label htmlFor="voidReason">
+              {t('salesInvoices.dialogs.void.reasonLabel', 'Accounting Justification / Reason')}
+            </Label>
             <Textarea
               id="voidReason"
-              placeholder="e.g. Invoiced under incorrect legal entity; re-issuing under revised tax registration..."
+              placeholder={t(
+                'salesInvoices.dialogs.void.reasonPlaceholder',
+                'e.g. Invoiced under incorrect legal entity; re-issuing under revised tax registration...'
+              )}
               rows={3}
               {...register('reason')}
               className="text-sm resize-none"
@@ -91,14 +106,16 @@ export const VoidInvoiceDialog: React.FC<VoidInvoiceDialogProps> = ({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              {t('salesInvoices.dialogs.void.cancel', 'Cancel')}
             </Button>
             <Button
               type="submit"
               className="bg-purple-800 hover:bg-purple-900 text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Voiding...' : 'Confirm Void'}
+              {isSubmitting
+                ? t('salesInvoices.dialogs.void.voiding', 'Voiding...')
+                : t('salesInvoices.dialogs.void.confirmVoid', 'Confirm Void')}
             </Button>
           </DialogFooter>
         </form>

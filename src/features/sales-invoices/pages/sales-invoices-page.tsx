@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from '@tanstack/react-router'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { LanguageSwitch } from '@/components/language-switch'
 import { Button } from '@/components/ui/button'
 import { InvoiceDashboardCards } from '../components/invoice-dashboard-cards'
 import { InvoiceFiltersBar } from '../components/invoice-filters-bar'
@@ -23,9 +25,10 @@ import {
   useCreateCreditNote,
 } from '../hooks/use-sales-invoices'
 import type { InvoiceFiltersState, SalesInvoice } from '../types'
-import { Receipt, LineChart, Plus } from 'lucide-react'
+import { Receipt, LineChart } from 'lucide-react'
 
 export const SalesInvoicesPage: React.FC = () => {
+  const { t } = useTranslation()
   const [filters, setFilters] = useState<InvoiceFiltersState>({
     page: 1,
     pageSize: 15,
@@ -76,9 +79,12 @@ export const SalesInvoicesPage: React.FC = () => {
       <Header>
         <div className="flex items-center gap-2">
           <Receipt className="h-5 w-5 text-primary" />
-          <h1 className="text-lg font-semibold tracking-tight">Sales Invoices</h1>
+          <h1 className="text-lg font-semibold tracking-tight">
+            {t('salesInvoices.page.title', 'Sales Invoices')}
+          </h1>
         </div>
         <div className="ml-auto flex items-center space-x-4">
+          <LanguageSwitch />
           <ThemeSwitch />
           <ProfileDropdown />
         </div>
@@ -90,10 +96,13 @@ export const SalesInvoicesPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-bold tracking-tight text-foreground">
-                Invoices & Financial Receivables
+                {t('salesInvoices.page.subtitle', 'Invoices & Financial Receivables')}
               </h2>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Multi-tenant commercial document management for POS and Sales Orders
+                {t(
+                  'salesInvoices.page.description',
+                  'Multi-tenant commercial document management for POS and Sales Orders'
+                )}
               </p>
             </div>
 
@@ -101,7 +110,7 @@ export const SalesInvoicesPage: React.FC = () => {
               <Button variant="outline" size="sm" asChild>
                 <Link to="/sales-invoices/reports">
                   <LineChart className="w-4 h-4 mr-1.5" />
-                  Financial Reports
+                  {t('salesInvoices.page.financialReports', 'Financial Reports')}
                 </Link>
               </Button>
             </div>

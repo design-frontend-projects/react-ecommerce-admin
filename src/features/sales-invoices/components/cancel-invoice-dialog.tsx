@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -31,6 +32,8 @@ export const CancelInvoiceDialog: React.FC<CancelInvoiceDialogProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -55,19 +58,28 @@ export const CancelInvoiceDialog: React.FC<CancelInvoiceDialogProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-destructive">
             <AlertCircle className="w-5 h-5" />
-            Cancel Invoice
+            {t('salesInvoices.dialogs.cancel.title', 'Cancel Invoice')}
           </DialogTitle>
           <DialogDescription>
-            Are you sure you want to cancel invoice <strong className="text-foreground">{invoice.invoice_no}</strong>? This action cannot be reversed.
+            {t(
+              'salesInvoices.dialogs.cancel.description',
+              'Are you sure you want to cancel invoice {{invoiceNo}}? This action cannot be reversed.',
+              { invoiceNo: invoice.invoice_no }
+            )}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 pt-1">
           <div className="space-y-1.5">
-            <Label htmlFor="cancelReason">Reason for Cancellation</Label>
+            <Label htmlFor="cancelReason">
+              {t('salesInvoices.dialogs.cancel.reasonLabel', 'Reason for Cancellation')}
+            </Label>
             <Textarea
               id="cancelReason"
-              placeholder="e.g. Order cancelled by client, duplicate document issued..."
+              placeholder={t(
+                'salesInvoices.dialogs.cancel.reasonPlaceholder',
+                'e.g. Order cancelled by client, duplicate document issued...'
+              )}
               rows={3}
               {...register('reason')}
               className="text-sm resize-none"
@@ -84,14 +96,16 @@ export const CancelInvoiceDialog: React.FC<CancelInvoiceDialogProps> = ({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Back
+              {t('salesInvoices.dialogs.cancel.back', 'Back')}
             </Button>
             <Button
               type="submit"
               variant="destructive"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Cancelling...' : 'Confirm Cancellation'}
+              {isSubmitting
+                ? t('salesInvoices.dialogs.cancel.cancelling', 'Cancelling...')
+                : t('salesInvoices.dialogs.cancel.confirmCancellation', 'Confirm Cancellation')}
             </Button>
           </DialogFooter>
         </form>

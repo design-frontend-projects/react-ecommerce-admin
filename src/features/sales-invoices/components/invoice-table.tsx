@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   useReactTable,
   getCoreRowModel,
@@ -70,11 +71,13 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
   onCreateCreditNote,
   onPrintInvoice,
 }) => {
+  const { t } = useTranslation()
+
   const columns = useMemo<ColumnDef<SalesInvoice>[]>(
     () => [
       {
         accessorKey: 'invoice_no',
-        header: 'Invoice #',
+        header: () => t('salesInvoices.table.invoiceNo', 'Invoice #'),
         cell: ({ row }) => {
           const inv = row.original
           return (
@@ -99,7 +102,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       },
       {
         accessorKey: 'invoice_date',
-        header: 'Date',
+        header: () => t('salesInvoices.table.date', 'Date'),
         cell: ({ row }) => {
           const inv = row.original
           return (
@@ -109,7 +112,9 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
               </span>
               {inv.due_date && (
                 <span className="text-[11px] text-muted-foreground">
-                  Due: {new Date(inv.due_date).toLocaleDateString()}
+                  {t('salesInvoices.table.dueDate', 'Due: {{date}}', {
+                    date: new Date(inv.due_date).toLocaleDateString(),
+                  })}
                 </span>
               )}
             </div>
@@ -118,13 +123,20 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       },
       {
         accessorKey: 'customer',
-        header: 'Customer',
+        header: () => t('salesInvoices.table.customer', 'Customer'),
         cell: ({ row }) => {
           const c = row.original.customers
           if (!c) {
-            return <span className="text-xs text-muted-foreground italic">Walk-in Customer</span>
+            return (
+              <span className="text-xs text-muted-foreground italic">
+                {t('salesInvoices.table.walkInCustomer', 'Walk-in Customer')}
+              </span>
+            )
           }
-          const name = c.company_name || [c.first_name, c.last_name].filter(Boolean).join(' ') || 'Customer'
+          const name =
+            c.company_name ||
+            [c.first_name, c.last_name].filter(Boolean).join(' ') ||
+            t('salesInvoices.table.retailCustomer', 'Customer')
           return (
             <div className="flex flex-col text-xs">
               <span className="font-medium text-foreground">{name}</span>
@@ -135,17 +147,17 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       },
       {
         accessorKey: 'status',
-        header: 'Status',
+        header: () => t('salesInvoices.table.status', 'Status'),
         cell: ({ row }) => <InvoiceStatusBadge status={row.original.status} />,
       },
       {
         accessorKey: 'payment_status',
-        header: 'Payment',
+        header: () => t('salesInvoices.table.payment', 'Payment'),
         cell: ({ row }) => <PaymentStatusBadge status={row.original.payment_status} />,
       },
       {
         accessorKey: 'total_amount',
-        header: () => <div className="text-right">Total</div>,
+        header: () => <div className="text-right">{t('salesInvoices.table.total', 'Total')}</div>,
         cell: ({ row }) => (
           <div className="text-right font-semibold text-foreground text-sm">
             ${row.original.total_amount.toFixed(2)}
@@ -154,7 +166,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       },
       {
         accessorKey: 'paid_amount',
-        header: () => <div className="text-right">Paid</div>,
+        header: () => <div className="text-right">{t('salesInvoices.table.paid', 'Paid')}</div>,
         cell: ({ row }) => (
           <div className="text-right text-xs text-emerald-600 dark:text-emerald-400 font-medium">
             ${row.original.paid_amount.toFixed(2)}
@@ -163,7 +175,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       },
       {
         accessorKey: 'due_amount',
-        header: () => <div className="text-right">Due</div>,
+        header: () => <div className="text-right">{t('salesInvoices.table.due', 'Due')}</div>,
         cell: ({ row }) => {
           const due = row.original.due_amount
           return (
@@ -191,12 +203,16 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
+                    <span className="sr-only">
+                      {t('salesInvoices.table.openMenu', 'Open menu')}
+                    </span>
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuLabel className="text-xs">Invoice Actions</DropdownMenuLabel>
+                  <DropdownMenuLabel className="text-xs">
+                    {t('salesInvoices.table.invoiceActions', 'Invoice Actions')}
+                  </DropdownMenuLabel>
                   <DropdownMenuItem asChild>
                     <Link
                       to="/sales-invoices/$invoiceId"
@@ -204,7 +220,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                       className="cursor-pointer gap-2"
                     >
                       <Eye className="w-4 h-4 text-blue-500" />
-                      View Invoice
+                      {t('salesInvoices.table.viewInvoice', 'View Invoice')}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -212,7 +228,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                     className="cursor-pointer gap-2"
                   >
                     <Printer className="w-4 h-4 text-slate-500" />
-                    Print / Thermal
+                    {t('salesInvoices.table.printThermal', 'Print / Thermal')}
                   </DropdownMenuItem>
 
                   {!isVoidOrCancelled && inv.due_amount > 0 && (
@@ -221,7 +237,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                       className="cursor-pointer gap-2 text-emerald-600 focus:text-emerald-700"
                     >
                       <CreditCard className="w-4 h-4" />
-                      Record Payment
+                      {t('salesInvoices.table.recordPayment', 'Record Payment')}
                     </DropdownMenuItem>
                   )}
 
@@ -231,7 +247,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                       className="cursor-pointer gap-2 text-blue-600"
                     >
                       <CheckCircle className="w-4 h-4" />
-                      Issue Invoice
+                      {t('salesInvoices.table.issueInvoice', 'Issue Invoice')}
                     </DropdownMenuItem>
                   )}
 
@@ -243,7 +259,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                       className="cursor-pointer gap-2 text-amber-600"
                     >
                       <ArrowLeftRight className="w-4 h-4" />
-                      Credit Note
+                      {t('salesInvoices.table.creditNote', 'Credit Note')}
                     </DropdownMenuItem>
                   )}
 
@@ -253,7 +269,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                       className="cursor-pointer gap-2 text-destructive focus:text-destructive"
                     >
                       <XCircle className="w-4 h-4" />
-                      Cancel Invoice
+                      {t('salesInvoices.table.cancelInvoice', 'Cancel Invoice')}
                     </DropdownMenuItem>
                   )}
 
@@ -263,7 +279,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
                       className="cursor-pointer gap-2 text-purple-700 focus:text-purple-800"
                     >
                       <Ban className="w-4 h-4" />
-                      Void (Accounting)
+                      {t('salesInvoices.table.voidAccounting', 'Void (Accounting)')}
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuContent>
@@ -274,6 +290,7 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       },
     ],
     [
+      t,
       onCancelInvoice,
       onCreateCreditNote,
       onIssueInvoice,
@@ -334,7 +351,10 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-28 text-center text-muted-foreground">
-                  No sales invoices found matching your criteria.
+                  {t(
+                    'salesInvoices.table.noResults',
+                    'No sales invoices found matching your criteria.'
+                  )}
                 </TableCell>
               </TableRow>
             )}
@@ -345,8 +365,11 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
       {/* Pagination Controls */}
       <div className="flex items-center justify-between px-2 text-xs text-muted-foreground">
         <div>
-          Showing {data.length > 0 ? (page - 1) * pageSize + 1 : 0} to{' '}
-          {Math.min(page * pageSize, totalCount)} of {totalCount} invoices
+          {t('salesInvoices.table.pagination', 'Showing {{from}} to {{to}} of {{total}} invoices', {
+            from: data.length > 0 ? (page - 1) * pageSize + 1 : 0,
+            to: Math.min(page * pageSize, totalCount),
+            total: totalCount,
+          })}
         </div>
         <div className="flex items-center gap-1.5">
           <Button
@@ -359,7 +382,10 @@ export const InvoiceTable: React.FC<InvoiceTableProps> = ({
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <span className="px-2 font-medium text-foreground">
-            Page {page} of {Math.max(1, totalPages)}
+            {t('salesInvoices.table.pageOf', 'Page {{page}} of {{totalPages}}', {
+              page,
+              totalPages: Math.max(1, totalPages),
+            })}
           </span>
           <Button
             variant="outline"

@@ -1,24 +1,21 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from '@tanstack/react-router'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useInvoiceReports } from '../hooks/use-sales-invoices'
-import { InvoiceStatusBadge, PaymentStatusBadge } from './invoice-status-badge'
+import { InvoiceStatusBadge } from './invoice-status-badge'
 import {
   FileText,
-  DollarSign,
-  TrendingUp,
-  Percent,
-  Receipt,
   Calendar,
-  Download,
   Printer,
   ArrowLeft,
 } from 'lucide-react'
 
 export const InvoiceReportsView: React.FC = () => {
+  const { t } = useTranslation()
   const [reportType, setReportType] = useState<'sales' | 'outstanding' | 'tax' | 'discount' | 'pos'>('sales')
   const [dateFrom, setDateFrom] = useState<string>('')
   const [dateTo, setDateTo] = useState<string>('')
@@ -48,16 +45,19 @@ export const InvoiceReportsView: React.FC = () => {
           <Button variant="outline" size="sm" asChild>
             <Link to="/sales-invoices">
               <ArrowLeft className="w-4 h-4 mr-1" />
-              Invoices
+              {t('salesInvoices.detail.backToInvoices', 'Invoices')}
             </Link>
           </Button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
               <FileText className="w-6 h-6 text-primary" />
-              Commercial & Financial Reports
+              {t('salesInvoices.reports.pageTitle', 'Commercial & Financial Reports')}
             </h1>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Financial auditing, receivables tracking, tax liability, and discount analysis
+              {t(
+                'salesInvoices.reports.pageDescription',
+                'Financial auditing, receivables tracking, tax liability, and discount analysis'
+              )}
             </p>
           </div>
         </div>
@@ -65,7 +65,7 @@ export const InvoiceReportsView: React.FC = () => {
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={handlePrint} className="gap-1.5">
             <Printer className="w-4 h-4" />
-            Print Report
+            {t('salesInvoices.reports.printReport', 'Print Report')}
           </Button>
         </div>
       </div>
@@ -78,11 +78,21 @@ export const InvoiceReportsView: React.FC = () => {
           className="w-full md:w-auto"
         >
           <TabsList className="grid grid-cols-3 sm:grid-cols-5 h-9">
-            <TabsTrigger value="sales" className="text-xs">Sales</TabsTrigger>
-            <TabsTrigger value="outstanding" className="text-xs">Outstanding</TabsTrigger>
-            <TabsTrigger value="tax" className="text-xs">Tax / VAT</TabsTrigger>
-            <TabsTrigger value="discount" className="text-xs">Discounts</TabsTrigger>
-            <TabsTrigger value="pos" className="text-xs">POS Channel</TabsTrigger>
+            <TabsTrigger value="sales" className="text-xs">
+              {t('salesInvoices.reports.tabs.sales', 'Sales')}
+            </TabsTrigger>
+            <TabsTrigger value="outstanding" className="text-xs">
+              {t('salesInvoices.reports.tabs.outstanding', 'Outstanding')}
+            </TabsTrigger>
+            <TabsTrigger value="tax" className="text-xs">
+              {t('salesInvoices.reports.tabs.tax', 'Tax / VAT')}
+            </TabsTrigger>
+            <TabsTrigger value="discount" className="text-xs">
+              {t('salesInvoices.reports.tabs.discount', 'Discounts')}
+            </TabsTrigger>
+            <TabsTrigger value="pos" className="text-xs">
+              {t('salesInvoices.reports.tabs.pos', 'POS Channel')}
+            </TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -93,18 +103,18 @@ export const InvoiceReportsView: React.FC = () => {
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
               className="h-8 text-xs w-36 pl-7"
-              title="From Date"
+              title={t('salesInvoices.filters.fromDate', 'From Date')}
             />
             <Calendar className="w-3.5 h-3.5 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           </div>
-          <span className="text-xs text-muted-foreground">to</span>
+          <span className="text-xs text-muted-foreground">{t('salesInvoices.filters.to', 'to')}</span>
           <div className="relative">
             <Input
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
               className="h-8 text-xs w-36 pl-7"
-              title="To Date"
+              title={t('salesInvoices.filters.toDate', 'To Date')}
             />
             <Calendar className="w-3.5 h-3.5 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           </div>
@@ -117,27 +127,39 @@ export const InvoiceReportsView: React.FC = () => {
           {reportType === 'sales' && (
             <>
               <Card className="p-4 bg-blue-50/40 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900">
-                <div className="text-xs text-muted-foreground font-semibold">Total Sales Billed</div>
+                <div className="text-xs text-muted-foreground font-semibold">
+                  {t('salesInvoices.reports.kpi.totalSalesBilled', 'Total Sales Billed')}
+                </div>
                 <div className="text-2xl font-bold text-foreground mt-1">
                   {formatCurrency(data.summary.totalAmount)}
                 </div>
                 <div className="text-[11px] text-muted-foreground mt-1">
-                  Across {data.summary.invoiceCount || 0} invoices
+                  {t('salesInvoices.reports.kpi.acrossInvoices', 'Across {{count}} invoices', {
+                    count: data.summary.invoiceCount || 0,
+                  })}
                 </div>
               </Card>
               <Card className="p-4 bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900">
-                <div className="text-xs text-muted-foreground font-semibold">Total Collected</div>
+                <div className="text-xs text-muted-foreground font-semibold">
+                  {t('salesInvoices.reports.kpi.totalCollected', 'Total Collected')}
+                </div>
                 <div className="text-2xl font-bold text-emerald-600 mt-1">
                   {formatCurrency(data.summary.totalPaid)}
                 </div>
-                <div className="text-[11px] text-muted-foreground mt-1">Cash & card receipts</div>
+                <div className="text-[11px] text-muted-foreground mt-1">
+                  {t('salesInvoices.reports.kpi.cashCardReceipts', 'Cash & card receipts')}
+                </div>
               </Card>
               <Card className="p-4 bg-amber-50/40 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900">
-                <div className="text-xs text-muted-foreground font-semibold">Total Due</div>
+                <div className="text-xs text-muted-foreground font-semibold">
+                  {t('salesInvoices.reports.kpi.totalDue', 'Total Due')}
+                </div>
                 <div className="text-2xl font-bold text-amber-600 mt-1">
                   {formatCurrency(data.summary.totalDue)}
                 </div>
-                <div className="text-[11px] text-muted-foreground mt-1">Awaiting settlement</div>
+                <div className="text-[11px] text-muted-foreground mt-1">
+                  {t('salesInvoices.reports.kpi.awaitingSettlement', 'Awaiting settlement')}
+                </div>
               </Card>
             </>
           )}
@@ -145,11 +167,19 @@ export const InvoiceReportsView: React.FC = () => {
           {reportType === 'outstanding' && (
             <>
               <Card className="p-4 bg-amber-50/40 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900">
-                <div className="text-xs text-muted-foreground font-semibold">Total Unpaid Balance</div>
+                <div className="text-xs text-muted-foreground font-semibold">
+                  {t('salesInvoices.reports.kpi.totalUnpaidBalance', 'Total Unpaid Balance')}
+                </div>
                 <div className="text-2xl font-bold text-amber-600 mt-1">
                   {formatCurrency(data.summary.totalDue)}
                 </div>
-                <div className="text-[11px] text-muted-foreground mt-1">Across {data.summary.invoiceCount || 0} overdue/pending invoices</div>
+                <div className="text-[11px] text-muted-foreground mt-1">
+                  {t(
+                    'salesInvoices.reports.kpi.acrossOverdueInvoices',
+                    'Across {{count}} overdue/pending invoices',
+                    { count: data.summary.invoiceCount || 0 }
+                  )}
+                </div>
               </Card>
             </>
           )}
@@ -157,39 +187,62 @@ export const InvoiceReportsView: React.FC = () => {
           {reportType === 'tax' && (
             <>
               <Card className="p-4 bg-purple-50/40 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900">
-                <div className="text-xs text-muted-foreground font-semibold">Total Tax Collected</div>
+                <div className="text-xs text-muted-foreground font-semibold">
+                  {t('salesInvoices.reports.kpi.totalTaxCollected', 'Total Tax Collected')}
+                </div>
                 <div className="text-2xl font-bold text-purple-600 mt-1">
                   {formatCurrency(data.summary.totalTax)}
                 </div>
-                <div className="text-[11px] text-muted-foreground mt-1">VAT & local sales tax</div>
+                <div className="text-[11px] text-muted-foreground mt-1">
+                  {t('salesInvoices.reports.kpi.vatLocalTax', 'VAT & local sales tax')}
+                </div>
               </Card>
               <Card className="p-4">
-                <div className="text-xs text-muted-foreground font-semibold">Taxable Base Amount</div>
+                <div className="text-xs text-muted-foreground font-semibold">
+                  {t('salesInvoices.reports.kpi.taxableBaseAmount', 'Taxable Base Amount')}
+                </div>
                 <div className="text-2xl font-bold text-foreground mt-1">
                   {formatCurrency(data.summary.taxableAmount)}
                 </div>
-                <div className="text-[11px] text-muted-foreground mt-1">Net revenue before tax</div>
+                <div className="text-[11px] text-muted-foreground mt-1">
+                  {t('salesInvoices.reports.kpi.netRevenueBeforeTax', 'Net revenue before tax')}
+                </div>
               </Card>
             </>
           )}
 
           {reportType === 'discount' && (
             <Card className="p-4 bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900">
-              <div className="text-xs text-muted-foreground font-semibold">Total Discounts Allowed</div>
+              <div className="text-xs text-muted-foreground font-semibold">
+                {t('salesInvoices.reports.kpi.totalDiscountsAllowed', 'Total Discounts Allowed')}
+              </div>
               <div className="text-2xl font-bold text-emerald-600 mt-1">
                 {formatCurrency(data.summary.totalDiscount)}
               </div>
-              <div className="text-[11px] text-muted-foreground mt-1">Coupons, promos & manual discounts</div>
+              <div className="text-[11px] text-muted-foreground mt-1">
+                {t(
+                  'salesInvoices.reports.kpi.couponsPromosDiscounts',
+                  'Coupons, promos & manual discounts'
+                )}
+              </div>
             </Card>
           )}
 
           {reportType === 'pos' && (
             <Card className="p-4 bg-blue-50/40 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900">
-              <div className="text-xs text-muted-foreground font-semibold">Total POS Sales</div>
+              <div className="text-xs text-muted-foreground font-semibold">
+                {t('salesInvoices.reports.kpi.totalPosSales', 'Total POS Sales')}
+              </div>
               <div className="text-2xl font-bold text-foreground mt-1">
                 {formatCurrency(data.summary.totalSales)}
               </div>
-              <div className="text-[11px] text-muted-foreground mt-1">{data.summary.count || 0} store checkout receipts</div>
+              <div className="text-[11px] text-muted-foreground mt-1">
+                {t(
+                  'salesInvoices.reports.kpi.storeCheckoutReceipts',
+                  '{{count}} store checkout receipts',
+                  { count: data.summary.count || 0 }
+                )}
+              </div>
             </Card>
           )}
         </div>
@@ -199,30 +252,34 @@ export const InvoiceReportsView: React.FC = () => {
       <Card className="shadow-xs overflow-hidden">
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-semibold capitalize">
-            {reportType.replace('_', ' ')} Breakdown
+            {t('salesInvoices.reports.breakdown', '{{type}} Breakdown', {
+              type: t(`salesInvoices.reports.tabs.${reportType}`, reportType),
+            })}
           </CardTitle>
           <CardDescription className="text-xs">
-            {data?.items?.length || 0} records found
+            {t('salesInvoices.reports.recordsFound', '{{count}} records found', {
+              count: data?.items?.length || 0,
+            })}
           </CardDescription>
         </CardHeader>
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead className="bg-muted/50 border-y text-[10px] uppercase font-semibold text-muted-foreground">
               <tr>
-                <th className="py-2.5 px-4">Invoice #</th>
-                <th className="py-2.5 px-4">Date</th>
-                <th className="py-2.5 px-4">Customer</th>
-                <th className="py-2.5 px-4">Status</th>
-                <th className="py-2.5 px-4 text-right">Total</th>
-                <th className="py-2.5 px-4 text-right">Paid</th>
-                <th className="py-2.5 px-4 text-right">Due</th>
+                <th className="py-2.5 px-4">{t('salesInvoices.table.invoiceNo', 'Invoice #')}</th>
+                <th className="py-2.5 px-4">{t('salesInvoices.table.date', 'Date')}</th>
+                <th className="py-2.5 px-4">{t('salesInvoices.table.customer', 'Customer')}</th>
+                <th className="py-2.5 px-4">{t('salesInvoices.table.status', 'Status')}</th>
+                <th className="py-2.5 px-4 text-right">{t('salesInvoices.table.total', 'Total')}</th>
+                <th className="py-2.5 px-4 text-right">{t('salesInvoices.table.paid', 'Paid')}</th>
+                <th className="py-2.5 px-4 text-right">{t('salesInvoices.table.due', 'Due')}</th>
               </tr>
             </thead>
             <tbody className="divide-y text-foreground">
               {isLoading ? (
                 <tr>
                   <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                    Generating report data...
+                    {t('salesInvoices.reports.generating', 'Generating report data...')}
                   </td>
                 </tr>
               ) : data?.items?.length ? (
@@ -244,8 +301,8 @@ export const InvoiceReportsView: React.FC = () => {
                       {item.customers
                         ? item.customers.company_name ||
                           [item.customers.first_name, item.customers.last_name].filter(Boolean).join(' ') ||
-                          'Customer'
-                        : 'Walk-in'}
+                          t('salesInvoices.table.retailCustomer', 'Customer')
+                        : t('salesInvoices.table.walkInCustomer', 'Walk-in')}
                     </td>
                     <td className="py-3 px-4">
                       <InvoiceStatusBadge status={item.status} />
@@ -264,7 +321,10 @@ export const InvoiceReportsView: React.FC = () => {
               ) : (
                 <tr>
                   <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                    No transactions found for this report period.
+                    {t(
+                      'salesInvoices.reports.noTransactions',
+                      'No transactions found for this report period.'
+                    )}
                   </td>
                 </tr>
               )}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -36,7 +37,6 @@ import {
   Clock,
   DollarSign,
   Package,
-  ShieldAlert,
 } from 'lucide-react'
 
 interface InvoiceDetailViewProps {
@@ -44,6 +44,7 @@ interface InvoiceDetailViewProps {
 }
 
 export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice }) => {
+  const { t } = useTranslation()
   const [showPaymentDialog, setShowPaymentDialog] = useState(false)
   const [showCancelDialog, setShowCancelDialog] = useState(false)
   const [showVoidDialog, setShowVoidDialog] = useState(false)
@@ -63,8 +64,8 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
   const customerName = invoice.customers
     ? invoice.customers.company_name ||
       [invoice.customers.first_name, invoice.customers.last_name].filter(Boolean).join(' ') ||
-      'Retail Customer'
-    : 'Walk-in Customer'
+      t('salesInvoices.table.retailCustomer', 'Retail Customer')
+    : t('salesInvoices.table.walkInCustomer', 'Walk-in Customer')
 
   return (
     <div className="space-y-6 pb-12">
@@ -74,7 +75,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
           <Button variant="outline" size="sm" asChild>
             <Link to="/sales-invoices">
               <ArrowLeft className="w-4 h-4 mr-1" />
-              Invoices
+              {t('salesInvoices.detail.backToInvoices', 'Invoices')}
             </Link>
           </Button>
           <div>
@@ -86,7 +87,11 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               <InvoiceTypeBadge type={invoice.invoice_type} />
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Commercial invoice issued via {invoice.source_type} channel
+              {t(
+                'salesInvoices.detail.channelSubtitle',
+                'Commercial invoice issued via {{channel}} channel',
+                { channel: invoice.source_type }
+              )}
             </p>
           </div>
         </div>
@@ -100,7 +105,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
             className="gap-1.5"
           >
             <Printer className="w-4 h-4" />
-            Print / Receipt
+            {t('salesInvoices.detail.printReceipt', 'Print / Receipt')}
           </Button>
 
           {isDraft && (
@@ -111,7 +116,9 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               className="gap-1.5 bg-blue-600 hover:bg-blue-700 text-white"
             >
               <CheckCircle className="w-4 h-4" />
-              {issueInvoice.isPending ? 'Issuing...' : 'Issue Invoice'}
+              {issueInvoice.isPending
+                ? t('salesInvoices.detail.issuing', 'Issuing...')
+                : t('salesInvoices.detail.issueInvoice', 'Issue Invoice')}
             </Button>
           )}
 
@@ -122,7 +129,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               className="gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs"
             >
               <CreditCard className="w-4 h-4" />
-              Record Payment
+              {t('salesInvoices.detail.recordPayment', 'Record Payment')}
             </Button>
           )}
 
@@ -134,7 +141,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               className="gap-1.5 text-amber-600 border-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/20"
             >
               <ArrowLeftRight className="w-4 h-4" />
-              Credit Note
+              {t('salesInvoices.detail.creditNote', 'Credit Note')}
             </Button>
           )}
 
@@ -146,7 +153,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               className="gap-1.5 text-destructive border-destructive/40 hover:bg-destructive/10"
             >
               <XCircle className="w-4 h-4" />
-              Cancel
+              {t('salesInvoices.detail.cancel', 'Cancel')}
             </Button>
           )}
 
@@ -158,7 +165,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               className="gap-1.5 text-purple-700 border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/20"
             >
               <Ban className="w-4 h-4" />
-              Void
+              {t('salesInvoices.detail.void', 'Void')}
             </Button>
           )}
         </div>
@@ -168,29 +175,39 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
       <Card className="border-border shadow-xs">
         <CardContent className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-border">
           <div className="space-y-1">
-            <span className="text-xs text-muted-foreground font-medium">Invoice Status</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              {t('salesInvoices.detail.invoiceStatus', 'Invoice Status')}
+            </span>
             <div>
               <InvoiceStatusBadge status={invoice.status} />
             </div>
           </div>
           <div className="space-y-1 pt-3 md:pt-0 md:pl-4">
-            <span className="text-xs text-muted-foreground font-medium">Payment Status</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              {t('salesInvoices.detail.paymentStatus', 'Payment Status')}
+            </span>
             <div>
               <PaymentStatusBadge status={invoice.payment_status} />
             </div>
           </div>
           <div className="space-y-1 pt-3 md:pt-0 md:pl-4">
-            <span className="text-xs text-muted-foreground font-medium">Invoice Date</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              {t('salesInvoices.detail.invoiceDate', 'Invoice Date')}
+            </span>
             <div className="text-sm font-semibold flex items-center gap-1.5 text-foreground">
               <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
               {new Date(invoice.invoice_date).toLocaleDateString()}
             </div>
           </div>
           <div className="space-y-1 pt-3 md:pt-0 md:pl-4">
-            <span className="text-xs text-muted-foreground font-medium">Due Date</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              {t('salesInvoices.detail.dueDate', 'Due Date')}
+            </span>
             <div className="text-sm font-semibold flex items-center gap-1.5 text-foreground">
               <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-              {invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : 'Immediate'}
+              {invoice.due_date
+                ? new Date(invoice.due_date).toLocaleDateString()
+                : t('salesInvoices.detail.immediate', 'Immediate')}
             </div>
           </div>
         </CardContent>
@@ -203,20 +220,30 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
               <User className="w-4 h-4 text-primary" />
-              Customer / Bill-To
+              {t('salesInvoices.detail.customerBillTo', 'Customer / Bill-To')}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-xs space-y-1.5">
             <div className="text-sm font-bold text-foreground">{customerName}</div>
             {invoice.customers?.email && (
-              <div className="text-muted-foreground">Email: {invoice.customers.email}</div>
+              <div className="text-muted-foreground">
+                {t('salesInvoices.detail.email', 'Email: {{email}}', {
+                  email: invoice.customers.email,
+                })}
+              </div>
             )}
             {invoice.customers?.phone && (
-              <div className="text-muted-foreground">Phone: {invoice.customers.phone}</div>
+              <div className="text-muted-foreground">
+                {t('salesInvoices.detail.phone', 'Phone: {{phone}}', {
+                  phone: invoice.customers.phone,
+                })}
+              </div>
             )}
             {invoice.customers?.customer_type && (
               <div className="text-muted-foreground capitalize">
-                Type: {invoice.customers.customer_type}
+                {t('salesInvoices.detail.type', 'Type: {{type}}', {
+                  type: invoice.customers.customer_type,
+                })}
               </div>
             )}
           </CardContent>
@@ -227,28 +254,38 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
               <Building className="w-4 h-4 text-primary" />
-              Origin & Logistics
+              {t('salesInvoices.detail.originLogistics', 'Origin & Logistics')}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-xs space-y-1.5">
             <div>
-              <span className="text-muted-foreground">Channel: </span>
+              <span className="text-muted-foreground">
+                {t('salesInvoices.detail.channel', 'Channel:')}{' '}
+              </span>
               <strong className="text-foreground">{invoice.channels?.name || invoice.source_type}</strong>
             </div>
             {invoice.warehouses && (
               <div>
-                <span className="text-muted-foreground">Fulfillment Warehouse: </span>
-                <strong className="text-foreground">{invoice.warehouses.name} ({invoice.warehouses.code})</strong>
+                <span className="text-muted-foreground">
+                  {t('salesInvoices.detail.fulfillmentWarehouse', 'Fulfillment Warehouse:')}{' '}
+                </span>
+                <strong className="text-foreground">
+                  {invoice.warehouses.name} ({invoice.warehouses.code})
+                </strong>
               </div>
             )}
             {invoice.source_id && (
               <div>
-                <span className="text-muted-foreground">Source Ref ID: </span>
+                <span className="text-muted-foreground">
+                  {t('salesInvoices.detail.sourceRefId', 'Source Ref ID:')}{' '}
+                </span>
                 <span className="font-mono text-[11px]">{invoice.source_id}</span>
               </div>
             )}
             <div>
-              <span className="text-muted-foreground">Created: </span>
+              <span className="text-muted-foreground">
+                {t('salesInvoices.detail.created', 'Created:')}{' '}
+              </span>
               <span>{new Date(invoice.created_at).toLocaleString()}</span>
             </div>
           </CardContent>
@@ -260,20 +297,22 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-semibold flex items-center gap-2">
             <Package className="w-4 h-4 text-primary" />
-            Invoice Items ({invoice.sales_invoice_items?.length || 0})
+            {t('salesInvoices.detail.invoiceItems', 'Invoice Items ({{count}})', {
+              count: invoice.sales_invoice_items?.length || 0,
+            })}
           </CardTitle>
         </CardHeader>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-muted/50 text-muted-foreground font-semibold uppercase tracking-wider text-[10px] border-y">
               <tr>
-                <th className="py-3 px-4 w-10">#</th>
-                <th className="py-3 px-4">Item & SKU Snapshot</th>
-                <th className="py-3 px-4 text-right w-20">Qty</th>
-                <th className="py-3 px-4 text-right w-28">Unit Price</th>
-                <th className="py-3 px-4 text-right w-24">Discount</th>
-                <th className="py-3 px-4 text-right w-24">Tax</th>
-                <th className="py-3 px-4 text-right w-28">Line Total</th>
+                <th className="py-3 px-4 w-10">{t('salesInvoices.detail.lineNo', '#')}</th>
+                <th className="py-3 px-4">{t('salesInvoices.detail.itemSkuSnapshot', 'Item & SKU Snapshot')}</th>
+                <th className="py-3 px-4 text-right w-20">{t('salesInvoices.detail.qty', 'Qty')}</th>
+                <th className="py-3 px-4 text-right w-28">{t('salesInvoices.detail.unitPrice', 'Unit Price')}</th>
+                <th className="py-3 px-4 text-right w-24">{t('salesInvoices.detail.discount', 'Discount')}</th>
+                <th className="py-3 px-4 text-right w-24">{t('salesInvoices.detail.tax', 'Tax')}</th>
+                <th className="py-3 px-4 text-right w-28">{t('salesInvoices.detail.lineTotal', 'Line Total')}</th>
               </tr>
             </thead>
             <tbody className="divide-y text-foreground">
@@ -282,10 +321,18 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
                   <td className="py-3.5 px-4 text-muted-foreground">{item.line_no || idx + 1}</td>
                   <td className="py-3.5 px-4">
                     <div className="font-medium text-foreground">
-                      {item.product_name_snapshot || item.description || 'Product Item'}
+                      {item.product_name_snapshot ||
+                        item.description ||
+                        t('salesInvoices.detail.productItemFallback', 'Product Item')}
                     </div>
                     <div className="text-[11px] text-muted-foreground flex items-center gap-2 mt-0.5">
-                      {item.sku_snapshot && <span className="font-mono">SKU: {item.sku_snapshot}</span>}
+                      {item.sku_snapshot && (
+                        <span className="font-mono">
+                          {t('salesInvoices.detail.sku', 'SKU: {{sku}}', {
+                            sku: item.sku_snapshot,
+                          })}
+                        </span>
+                      )}
                       {item.variant_name_snapshot && <span>• {item.variant_name_snapshot}</span>}
                       {item.uom_snapshot && <span>• {item.uom_snapshot}</span>}
                     </div>
@@ -316,7 +363,9 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
             <CardTitle className="text-sm font-semibold flex items-center justify-between">
               <span className="flex items-center gap-2">
                 <CreditCard className="w-4 h-4 text-primary" />
-                Recorded Payments ({invoice.sales_invoice_payments?.length || 0})
+                {t('salesInvoices.detail.recordedPayments', 'Recorded Payments ({{count}})', {
+                  count: invoice.sales_invoice_payments?.length || 0,
+                })}
               </span>
               {!isVoidOrCancelled && invoice.due_amount > 0 && (
                 <Button
@@ -325,7 +374,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
                   onClick={() => setShowPaymentDialog(true)}
                   className="h-7 text-xs text-emerald-600 border-emerald-300"
                 >
-                  + Add Payment
+                  {t('salesInvoices.detail.addPayment', '+ Add Payment')}
                 </Button>
               )}
             </CardTitle>
@@ -335,10 +384,10 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               <table className="w-full text-xs text-left">
                 <thead className="bg-muted/40 text-muted-foreground border-y text-[10px] uppercase font-semibold">
                   <tr>
-                    <th className="py-2.5 px-4">Method</th>
-                    <th className="py-2.5 px-4">Date</th>
-                    <th className="py-2.5 px-4">Reference</th>
-                    <th className="py-2.5 px-4 text-right">Amount</th>
+                    <th className="py-2.5 px-4">{t('salesInvoices.detail.method', 'Method')}</th>
+                    <th className="py-2.5 px-4">{t('salesInvoices.detail.paymentDate', 'Date')}</th>
+                    <th className="py-2.5 px-4">{t('salesInvoices.detail.reference', 'Reference')}</th>
+                    <th className="py-2.5 px-4 text-right">{t('salesInvoices.detail.amount', 'Amount')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
@@ -346,7 +395,10 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
                     <tr key={p.id} className="hover:bg-muted/20">
                       <td className="py-2.5 px-4 capitalize font-medium flex items-center gap-1.5">
                         <CreditCard className="w-3 h-3 text-muted-foreground" />
-                        {p.payment_method.replace('_', ' ')}
+                        {t(
+                          `salesInvoices.dialogs.recordPayment.methods.${p.payment_method}`,
+                          p.payment_method.replace('_', ' ')
+                        )}
                       </td>
                       <td className="py-2.5 px-4 text-muted-foreground">
                         {new Date(p.payment_date).toLocaleDateString()}
@@ -363,7 +415,10 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
               </table>
             ) : (
               <div className="p-6 text-center text-xs text-muted-foreground">
-                No payments have been recorded for this invoice yet.
+                {t(
+                  'salesInvoices.detail.noPayments',
+                  'No payments have been recorded for this invoice yet.'
+                )}
               </div>
             )}
           </CardContent>
@@ -374,32 +429,32 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-semibold flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-primary" />
-              Financial Breakdown
+              {t('salesInvoices.detail.financialBreakdown', 'Financial Breakdown')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-xs">
             <div className="flex justify-between text-muted-foreground">
-              <span>Gross Subtotal</span>
+              <span>{t('salesInvoices.detail.grossSubtotal', 'Gross Subtotal')}</span>
               <span className="font-medium text-foreground">${invoice.subtotal.toFixed(2)}</span>
             </div>
 
             {invoice.discount_amount > 0 && (
               <div className="flex justify-between text-emerald-600 font-medium">
-                <span>Total Discounts</span>
+                <span>{t('salesInvoices.detail.totalDiscounts', 'Total Discounts')}</span>
                 <span>-${invoice.discount_amount.toFixed(2)}</span>
               </div>
             )}
 
             {invoice.tax_amount > 0 && (
               <div className="flex justify-between text-muted-foreground">
-                <span>Tax / VAT</span>
+                <span>{t('salesInvoices.detail.taxVat', 'Tax / VAT')}</span>
                 <span className="font-medium text-foreground">${invoice.tax_amount.toFixed(2)}</span>
               </div>
             )}
 
             {invoice.shipping_amount > 0 && (
               <div className="flex justify-between text-muted-foreground">
-                <span>Shipping</span>
+                <span>{t('salesInvoices.detail.shipping', 'Shipping')}</span>
                 <span className="font-medium text-foreground">${invoice.shipping_amount.toFixed(2)}</span>
               </div>
             )}
@@ -407,17 +462,17 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
             <Separator />
 
             <div className="flex justify-between text-base font-bold text-foreground pt-1">
-              <span>Total Amount</span>
+              <span>{t('salesInvoices.detail.totalAmount', 'Total Amount')}</span>
               <span>${invoice.total_amount.toFixed(2)}</span>
             </div>
 
             <div className="flex justify-between text-xs text-emerald-600 pt-1 font-semibold">
-              <span>Paid to Date</span>
+              <span>{t('salesInvoices.detail.paidToDate', 'Paid to Date')}</span>
               <span>${invoice.paid_amount.toFixed(2)}</span>
             </div>
 
             <div className="flex justify-between items-center p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 font-bold text-sm">
-              <span>Balance Due</span>
+              <span>{t('salesInvoices.detail.balanceDue', 'Balance Due')}</span>
               <span>${invoice.due_amount.toFixed(2)}</span>
             </div>
           </CardContent>
@@ -430,13 +485,17 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({ invoice })
           <CardContent className="p-4 space-y-2 text-xs">
             {invoice.terms && (
               <div>
-                <span className="font-semibold text-foreground">Commercial Terms: </span>
+                <span className="font-semibold text-foreground">
+                  {t('salesInvoices.detail.commercialTerms', 'Commercial Terms:')}{' '}
+                </span>
                 <span className="text-muted-foreground">{invoice.terms}</span>
               </div>
             )}
             {invoice.notes && (
               <div>
-                <span className="font-semibold text-foreground">Internal Notes: </span>
+                <span className="font-semibold text-foreground">
+                  {t('salesInvoices.detail.internalNotes', 'Internal Notes:')}{' '}
+                </span>
                 <span className="text-muted-foreground whitespace-pre-wrap">{invoice.notes}</span>
               </div>
             )}

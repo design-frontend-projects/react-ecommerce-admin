@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -22,7 +23,7 @@ import {
 } from '@/components/ui/select'
 import { recordPaymentSchema, type RecordPaymentFormData } from '../schemas'
 import type { SalesInvoice } from '../types'
-import { CreditCard, DollarSign, Wallet, Building, CheckCircle2 } from 'lucide-react'
+import { DollarSign } from 'lucide-react'
 
 interface RecordPaymentDialogProps {
   invoice: SalesInvoice | null
@@ -39,6 +40,8 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -82,25 +85,35 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <DollarSign className="w-5 h-5 text-emerald-600" />
-            Record Invoice Payment
+            {t('salesInvoices.dialogs.recordPayment.title', 'Record Invoice Payment')}
           </DialogTitle>
           <DialogDescription>
-            Record an incoming payment for invoice <strong className="text-foreground">{invoice.invoice_no}</strong>.
+            {t(
+              'salesInvoices.dialogs.recordPayment.description',
+              'Record an incoming payment for invoice {{invoiceNo}}.',
+              { invoiceNo: invoice.invoice_no }
+            )}
           </DialogDescription>
         </DialogHeader>
 
         {/* Invoice Summary Pill */}
         <div className="rounded-lg bg-muted/60 p-3 flex justify-between items-center text-sm border">
           <div>
-            <div className="text-xs text-muted-foreground">Total Invoiced</div>
+            <div className="text-xs text-muted-foreground">
+              {t('salesInvoices.dialogs.recordPayment.totalInvoiced', 'Total Invoiced')}
+            </div>
             <div className="font-semibold text-foreground">${invoice.total_amount.toFixed(2)}</div>
           </div>
           <div>
-            <div className="text-xs text-muted-foreground">Already Paid</div>
+            <div className="text-xs text-muted-foreground">
+              {t('salesInvoices.dialogs.recordPayment.alreadyPaid', 'Already Paid')}
+            </div>
             <div className="font-semibold text-emerald-600">${invoice.paid_amount.toFixed(2)}</div>
           </div>
           <div>
-            <div className="text-xs text-muted-foreground">Amount Due</div>
+            <div className="text-xs text-muted-foreground">
+              {t('salesInvoices.dialogs.recordPayment.amountDue', 'Amount Due')}
+            </div>
             <div className="font-bold text-amber-600">${invoice.due_amount.toFixed(2)}</div>
           </div>
         </div>
@@ -108,20 +121,37 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 pt-1">
           {/* Payment Method */}
           <div className="space-y-1.5">
-            <Label htmlFor="paymentMethod">Payment Method</Label>
+            <Label htmlFor="paymentMethod">
+              {t('salesInvoices.dialogs.recordPayment.paymentMethod', 'Payment Method')}
+            </Label>
             <Select
               value={selectedMethod}
               onValueChange={(val: any) => setValue('paymentMethod', val)}
             >
               <SelectTrigger id="paymentMethod" className="h-9">
-                <SelectValue placeholder="Select method" />
+                <SelectValue
+                  placeholder={t(
+                    'salesInvoices.dialogs.recordPayment.selectMethod',
+                    'Select method'
+                  )}
+                />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cash">Cash</SelectItem>
-                <SelectItem value="card">Credit / Debit Card</SelectItem>
-                <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                <SelectItem value="wallet">Digital Wallet</SelectItem>
-                <SelectItem value="cheque">Cheque</SelectItem>
+                <SelectItem value="cash">
+                  {t('salesInvoices.dialogs.recordPayment.methods.cash', 'Cash')}
+                </SelectItem>
+                <SelectItem value="card">
+                  {t('salesInvoices.dialogs.recordPayment.methods.card', 'Credit / Debit Card')}
+                </SelectItem>
+                <SelectItem value="bank_transfer">
+                  {t('salesInvoices.dialogs.recordPayment.methods.bank_transfer', 'Bank Transfer')}
+                </SelectItem>
+                <SelectItem value="wallet">
+                  {t('salesInvoices.dialogs.recordPayment.methods.wallet', 'Digital Wallet')}
+                </SelectItem>
+                <SelectItem value="cheque">
+                  {t('salesInvoices.dialogs.recordPayment.methods.cheque', 'Cheque')}
+                </SelectItem>
               </SelectContent>
             </Select>
             {errors.paymentMethod && (
@@ -132,14 +162,20 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
           {/* Amount with quick "Pay Full Due" button */}
           <div className="space-y-1.5">
             <div className="flex justify-between items-center">
-              <Label htmlFor="amount">Amount ($)</Label>
+              <Label htmlFor="amount">
+                {t('salesInvoices.dialogs.recordPayment.amountLabel', 'Amount ($)')}
+              </Label>
               {invoice.due_amount > 0 && (
                 <button
                   type="button"
                   onClick={() => setValue('amount', invoice.due_amount)}
                   className="text-xs text-primary hover:underline font-medium"
                 >
-                  Pay Full Due (${invoice.due_amount.toFixed(2)})
+                  {t(
+                    'salesInvoices.dialogs.recordPayment.payFullDue',
+                    'Pay Full Due ({{amount}})',
+                    { amount: `$${invoice.due_amount.toFixed(2)}` }
+                  )}
                 </button>
               )}
             </div>
@@ -158,10 +194,18 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
 
           {/* Reference Number */}
           <div className="space-y-1.5">
-            <Label htmlFor="referenceNumber">Reference / Authorization #</Label>
+            <Label htmlFor="referenceNumber">
+              {t(
+                'salesInvoices.dialogs.recordPayment.referenceNumber',
+                'Reference / Authorization #'
+              )}
+            </Label>
             <Input
               id="referenceNumber"
-              placeholder="e.g. TXN-98428, Check #102"
+              placeholder={t(
+                'salesInvoices.dialogs.recordPayment.referencePlaceholder',
+                'e.g. TXN-98428, Check #102'
+              )}
               {...register('referenceNumber')}
               className="h-9"
             />
@@ -169,7 +213,9 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
 
           {/* Payment Date */}
           <div className="space-y-1.5">
-            <Label htmlFor="paymentDate">Payment Date</Label>
+            <Label htmlFor="paymentDate">
+              {t('salesInvoices.dialogs.recordPayment.paymentDate', 'Payment Date')}
+            </Label>
             <Input
               id="paymentDate"
               type="date"
@@ -180,10 +226,15 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
 
           {/* Notes */}
           <div className="space-y-1.5">
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes">
+              {t('salesInvoices.dialogs.recordPayment.notes', 'Notes')}
+            </Label>
             <Textarea
               id="notes"
-              placeholder="Optional payment notes..."
+              placeholder={t(
+                'salesInvoices.dialogs.recordPayment.notesPlaceholder',
+                'Optional payment notes...'
+              )}
               rows={2}
               {...register('notes')}
               className="text-sm resize-none"
@@ -197,14 +248,16 @@ export const RecordPaymentDialog: React.FC<RecordPaymentDialogProps> = ({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              {t('salesInvoices.dialogs.recordPayment.cancel', 'Cancel')}
             </Button>
             <Button
               type="submit"
               className="bg-emerald-600 hover:bg-emerald-700 text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Recording...' : 'Confirm Payment'}
+              {isSubmitting
+                ? t('salesInvoices.dialogs.recordPayment.recording', 'Recording...')
+                : t('salesInvoices.dialogs.recordPayment.confirmPayment', 'Confirm Payment')}
             </Button>
           </DialogFooter>
         </form>
