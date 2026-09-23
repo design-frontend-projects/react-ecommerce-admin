@@ -1,4 +1,4 @@
-import { DollarSign, Boxes, ShieldCheck, ShoppingCart, CalendarAlert, ArrowUpDown } from 'lucide-react'
+import { DollarSign, Boxes, ShieldCheck, ShoppingCart, CalendarClock, ArrowUpDown } from 'lucide-react'
 import { KpiCard } from './kpi-card'
 import type { DashboardKPIs, DashboardCurrency } from '../types'
 
@@ -92,7 +92,7 @@ export function KpiGrid({ kpis, currency, onCardClick }: KpiGridProps) {
         title='Expiry Alerts'
         value={`${kpis.expiringBatchesCount + kpis.expiredBatchesCount}`}
         subValue={`${kpis.expiredBatchesCount} expired, ${kpis.expiringBatchesCount} <30 days`}
-        icon={<CalendarAlert className='w-4 h-4' />}
+        icon={<CalendarClock className='w-4 h-4' />}
         accentColor='rose'
         onClick={() => onCardClick?.('expiry_alerts')}
       />

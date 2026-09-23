@@ -327,6 +327,9 @@ export async function processPosReturn(
       }
 
       return returnOrder
+    }, {
+      maxWait: 10000,
+      timeout: 30000,
     })
 
     // 5. Restock inventory via central engine (SALE_RETURN)

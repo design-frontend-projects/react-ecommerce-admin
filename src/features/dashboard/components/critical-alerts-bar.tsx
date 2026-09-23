@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   AlertTriangle,
   AlertOctagon,
-  CalendarAlert,
+  CalendarX,
   ClockAlert,
   CheckCircle2,
   ChevronDown,
@@ -111,7 +111,7 @@ export function CriticalAlertsBar({ alerts, onSelectFilter }: CriticalAlertsBarP
                 onClick={() => onSelectFilter?.('expired')}
                 className='inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-400 border border-rose-500/30 transition-all cursor-pointer'
               >
-                <CalendarAlert className='w-3.5 h-3.5' />
+                <CalendarX className='w-3.5 h-3.5' />
                 <span>{alerts.expiredCount} Batches Expired</span>
               </button>
             )}

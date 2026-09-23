@@ -216,20 +216,19 @@ export async function closePosSession(authUserId: string, input: CloseSessionInp
       throw new ApiError('Only the session cashier can close this session.', 403)
     }
 
-    // Calculate expected cash from movements
-    const movements = await prisma.pos_cash_movements.findMany({
-      where: { session_id: session.id, tenant_id: tenantId },
+    const sessionWithMovements = await prisma.pos_sessions.findFirst({
+      where: { id: session.id, tenant_id: tenantId },
+      include: {
+        pos_cash_movements: { orderBy: { created_at: 'asc' } },
+      },
     })
 
-    let expectedCash = new Prisma.Decimal(0)
-    for (const mv of movements) {
-      if (mv.type === 'in') {
-        expectedCash = expectedCash.plus(mv.amount)
-      } else {
-        expectedCash = expectedCash.minus(mv.amount)
-      }
-    }
+    const metrics = await calculateSessionFinancialMetrics(
+      tenantId,
+      sessionWithMovements || session
+    )
 
+    const expectedCash = new Prisma.Decimal(metrics.expectedCash)
     const actualCash = toDecimal(input.actualCash)
     const cashDifference = actualCash.minus(expectedCash)
 
@@ -242,8 +241,8 @@ export async function closePosSession(authUserId: string, input: CloseSessionInp
           session_id: session.id,
           type: 'out',
           reason: 'closing',
-          amount: expectedCash.abs(),
-          notes: input.notes ?? 'Session closing',
+          amount: actualCash.abs(),
+          notes: input.notes ?? 'Session closing reconciliation',
           created_by_user_id: tenantUserId,
           updated_by_user_id: tenantUserId,
         },
@@ -362,15 +361,289 @@ export async function listSessions(authUserId: string, filters: SessionFilters =
       prisma.pos_sessions.count({ where }),
     ])
 
+    const formattedSessions = sessions.map((s) => ({
+      ...s,
+      discrepancy: s.cash_difference,
+    }))
+
     return {
-      data: sessions,
+      data: formattedSessions,
       pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
     }
   })
 }
 
 /**
- * Gets session summary for the Z-Report (closing summary).
+ * Helper to compute financial metrics for a POS session by inspecting
+ * sales orders, invoices, payments, and cash movements compared to the shift timeframe.
+ */
+async function calculateSessionFinancialMetrics(
+  tenantId: string,
+  session: {
+    id: string
+    terminal_id: string
+    opening_cash: Prisma.Decimal | number | string
+    actual_cash?: Prisma.Decimal | number | string | null
+    cash_difference?: Prisma.Decimal | number | string | null
+    opened_at: Date
+    closed_at?: Date | null
+    pos_cash_movements?: Array<{
+      id: string
+      type: string
+      reason: string
+      amount: Prisma.Decimal | number | string
+      created_at: Date
+    }>
+  }
+) {
+  const shiftOpenedAt = new Date(session.opened_at)
+  const shiftClosedAt = session.closed_at ? new Date(session.closed_at) : new Date()
+
+  // 1. Query sales orders created during this shift on this terminal or directly linked to this session
+  const salesOrders = await prisma.sales_orders.findMany({
+    where: {
+      tenant_id: tenantId,
+      status: { in: ['completed', 'confirmed'] },
+      OR: [
+        { pos_session_id: session.id },
+        {
+          pos_terminal_id: session.terminal_id,
+          created_at: {
+            gte: shiftOpenedAt,
+            ...(session.closed_at ? { lte: session.closed_at } : {}),
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      order_number: true,
+      total_amount: true,
+      discount_amount: true,
+      tax_amount: true,
+      payment_status: true,
+      created_at: true,
+      sales_order_payments: {
+        select: {
+          id: true,
+          payment_method: true,
+          amount: true,
+          status: true,
+          created_at: true,
+        },
+      },
+    },
+  })
+
+  // 2. Query corresponding sales invoices generated during this shift
+  const orderIds = salesOrders.map((o) => o.id)
+  const salesInvoices = await prisma.sales_invoices.findMany({
+    where: {
+      tenant_id: tenantId,
+      status: { not: 'cancelled' },
+      OR: [
+        ...(orderIds.length > 0 ? [{ source_id: { in: orderIds } }] : []),
+        {
+          pos_terminal_id: session.terminal_id,
+          created_at: {
+            gte: shiftOpenedAt,
+            ...(session.closed_at ? { lte: session.closed_at } : {}),
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      invoice_no: true,
+      total_amount: true,
+      paid_amount: true,
+      status: true,
+      payment_status: true,
+      created_at: true,
+    },
+  })
+
+  // 3. Query direct payments assigned to this session id
+  const directPayments = await prisma.sales_order_payments.findMany({
+    where: {
+      tenant_id: tenantId,
+      session_id: session.id,
+      status: { in: ['completed', 'refunded'] },
+    },
+    select: {
+      id: true,
+      payment_method: true,
+      amount: true,
+      status: true,
+      created_at: true,
+      sales_order_id: true,
+    },
+  })
+
+  // 4. Merge & deduplicate payments
+  const paymentMap = new Map<
+    string,
+    { id: string; method: string; amount: number; status: string }
+  >()
+
+  for (const order of salesOrders) {
+    for (const p of order.sales_order_payments) {
+      if (p.status === 'completed' || p.status === 'refunded') {
+        paymentMap.set(p.id, {
+          id: p.id,
+          method: p.payment_method,
+          amount: Number(p.amount),
+          status: p.status,
+        })
+      }
+    }
+  }
+
+  for (const p of directPayments) {
+    paymentMap.set(p.id, {
+      id: p.id,
+      method: p.payment_method,
+      amount: Number(p.amount),
+      status: p.status,
+    })
+  }
+
+  const allPayments = Array.from(paymentMap.values())
+
+  // 5. Cash movements calculation
+  const movements = session.pos_cash_movements ?? []
+  const openingCash = Number(session.opening_cash || 0)
+
+  let cashIn = 0
+  let cashOut = 0
+  let cashRefundsFromMovements = 0
+  let cashSalesFromMovements = 0
+
+  for (const mv of movements) {
+    const amt = Number(mv.amount)
+    if (mv.type === 'in') {
+      if (mv.reason === 'sale') {
+        cashSalesFromMovements += amt
+      } else if (mv.reason !== 'opening') {
+        cashIn += amt
+      }
+    } else if (mv.type === 'out') {
+      if (mv.reason === 'customer_refund') {
+        cashRefundsFromMovements += amt
+      } else if (mv.reason !== 'closing') {
+        cashOut += amt
+      }
+    }
+  }
+
+  // Payment method aggregates
+  const completedPayments = allPayments.filter((p) => p.status === 'completed')
+  const cashSalesFromPayments = completedPayments
+    .filter((p) => p.method === 'cash')
+    .reduce((sum, p) => sum + p.amount, 0)
+  const cardSales = completedPayments
+    .filter((p) => p.method === 'card')
+    .reduce((sum, p) => sum + p.amount, 0)
+  const otherSales = completedPayments
+    .filter((p) => p.method !== 'cash' && p.method !== 'card')
+    .reduce((sum, p) => sum + p.amount, 0)
+
+  const refundedCashPayments = allPayments
+    .filter((p) => p.method === 'cash' && (p.status === 'refunded' || p.amount < 0))
+    .reduce((sum, p) => sum + Math.abs(p.amount), 0)
+
+  const cashSales = Math.max(cashSalesFromPayments, cashSalesFromMovements)
+  const cashRefunds = Math.max(refundedCashPayments, cashRefundsFromMovements)
+
+  // Expected cash in drawer: Opening Float + Cash Sales + Cash In - Cash Out - Cash Refunds
+  const expectedCash = openingCash + cashSales + cashIn - cashOut - cashRefunds
+
+  let totalSales = completedPayments.reduce((sum, p) => sum + p.amount, 0)
+  if (totalSales === 0 && salesOrders.length > 0) {
+    totalSales = salesOrders.reduce((sum, o) => sum + Number(o.total_amount), 0)
+  }
+
+  // Payment Breakdown
+  const methodGroup = new Map<string, { total: number; count: number }>()
+  for (const p of completedPayments) {
+    const existing = methodGroup.get(p.method) || { total: 0, count: 0 }
+    existing.total += p.amount
+    existing.count += 1
+    methodGroup.set(p.method, existing)
+  }
+  if (!methodGroup.has('cash') && cashSales > 0) {
+    methodGroup.set('cash', { total: cashSales, count: salesOrders.length || 1 })
+  }
+  const paymentBreakdown = Array.from(methodGroup.entries()).map(([method, val]) => ({
+    method,
+    total: val.total.toFixed(2),
+    count: val.count,
+  }))
+
+  const actualCash =
+    session.actual_cash != null ? Number(session.actual_cash) : expectedCash
+  const discrepancy =
+    session.cash_difference != null
+      ? Number(session.cash_difference)
+      : actualCash - expectedCash
+
+  const shiftDurationMinutes = Math.max(
+    0,
+    Math.round((shiftClosedAt.getTime() - shiftOpenedAt.getTime()) / (1000 * 60))
+  )
+
+  return {
+    openingCash,
+    cashSales,
+    cardSales,
+    otherSales,
+    totalSales,
+    cashIn,
+    cashOut,
+    cashRefunds,
+    expectedCash,
+    actualCash,
+    discrepancy,
+    ordersCount: salesOrders.length,
+    invoicesCount: salesInvoices.length,
+    shiftTimeframe: {
+      openedAt: shiftOpenedAt,
+      closedAt: session.closed_at ?? null,
+      isOpen: !session.closed_at,
+      durationMinutes: shiftDurationMinutes,
+    },
+    sales: {
+      totalSales: totalSales.toFixed(2),
+      totalDiscounts: salesOrders
+        .reduce((sum, o) => sum + Number(o.discount_amount || 0), 0)
+        .toFixed(2),
+      totalTax: salesOrders
+        .reduce((sum, o) => sum + Number(o.tax_amount || 0), 0)
+        .toFixed(2),
+      orderCount: salesOrders.length,
+      invoiceCount: salesInvoices.length,
+    },
+    paymentBreakdown,
+    orders: salesOrders.map((o) => ({
+      id: o.id,
+      orderNumber: o.order_number,
+      total: Number(o.total_amount),
+      paymentStatus: o.payment_status,
+      createdAt: o.created_at,
+    })),
+    invoices: salesInvoices.map((inv) => ({
+      id: inv.id,
+      invoiceNo: inv.invoice_no,
+      total: Number(inv.total_amount),
+      status: inv.status,
+      paymentStatus: inv.payment_status,
+      createdAt: inv.created_at,
+    })),
+  }
+}
+
+/**
+ * Gets session summary for the Z-Report and shift reconciliation modal.
  */
 export async function getSessionSummary(authUserId: string, sessionId: string) {
   const tenantId = await requireTenantId(authUserId)
@@ -388,43 +661,13 @@ export async function getSessionSummary(authUserId: string, sessionId: string) {
       throw new ApiError('Session not found.', 404)
     }
 
-    // Aggregate sales for this session
-    const salesAgg = await prisma.sales_orders.aggregate({
-      where: {
-        pos_session_id: sessionId,
-        tenant_id: tenantId,
-        status: 'completed',
-      },
-      _sum: { total_amount: true, discount_amount: true, tax_amount: true },
-      _count: { id: true },
-    })
-
-    // Aggregate payments by method
-    const paymentsByMethod = await prisma.sales_order_payments.groupBy({
-      by: ['payment_method'],
-      where: {
-        session_id: sessionId,
-        tenant_id: tenantId,
-        status: 'completed',
-      },
-      _sum: { amount: true },
-      _count: { id: true },
-    })
+    const metrics = await calculateSessionFinancialMetrics(tenantId, session)
 
     return {
       session,
-      sales: {
-        totalSales: salesAgg._sum.total_amount?.toString() ?? '0',
-        totalDiscounts: salesAgg._sum.discount_amount?.toString() ?? '0',
-        totalTax: salesAgg._sum.tax_amount?.toString() ?? '0',
-        orderCount: salesAgg._count.id,
-      },
-      paymentBreakdown: paymentsByMethod.map((pm) => ({
-        method: pm.payment_method,
-        total: pm._sum.amount?.toString() ?? '0',
-        count: pm._count.id,
-      })),
+      ...metrics,
       cashMovements: session.pos_cash_movements,
     }
   })
 }
+

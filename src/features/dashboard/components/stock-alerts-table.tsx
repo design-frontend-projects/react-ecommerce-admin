@@ -3,7 +3,8 @@ import { Link } from '@tanstack/react-router'
 import {
   AlertTriangle,
   AlertOctagon,
-  CalendarAlert,
+  CalendarX,
+  CalendarClock,
   Search,
   ShoppingCart,
   ArrowRight,
@@ -263,7 +264,7 @@ export function StockAlertsTable({
                           variant='outline'
                           className='bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30 text-[11px] gap-1'
                         >
-                          <CalendarAlert className='w-3 h-3' />
+                          <CalendarX className='w-3 h-3' />
                           Expired
                         </Badge>
                       )}
@@ -272,7 +273,7 @@ export function StockAlertsTable({
                           variant='outline'
                           className='bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/30 text-[11px] gap-1'
                         >
-                          <CalendarAlert className='w-3 h-3' />
+                          <CalendarClock className='w-3 h-3' />
                           Expires {item.daysToExpiry !== undefined ? `in ${item.daysToExpiry}d` : 'Soon'}
                         </Badge>
                       )}

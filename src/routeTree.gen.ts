@@ -157,6 +157,7 @@ import { Route as ApiInventoryBatchesRouteImport } from './routes/api/inventory/
 import { Route as ApiInventoryAdjustmentsRouteImport } from './routes/api/inventory/adjustments'
 import { Route as ApiFinancialTransactionsStatusRouteImport } from './routes/api/financial-transactions/status'
 import { Route as ApiFinancialTransactionsRefundRouteImport } from './routes/api/financial-transactions/refund'
+import { Route as ApiDashboardAnalyticsRouteImport } from './routes/api/dashboard/analytics'
 import { Route as ApiCrmSyncTransactionRouteImport } from './routes/api/crm/sync-transaction'
 import { Route as ApiAuthProvisionSignupRouteImport } from './routes/api/auth/provision-signup'
 import { Route as ApiAccessControlNavigationRouteImport } from './routes/api/access-control/navigation'
@@ -1062,6 +1063,11 @@ const ApiFinancialTransactionsRefundRoute =
     path: '/api/financial-transactions/refund',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiDashboardAnalyticsRoute = ApiDashboardAnalyticsRouteImport.update({
+  id: '/api/dashboard/analytics',
+  path: '/api/dashboard/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCrmSyncTransactionRoute = ApiCrmSyncTransactionRouteImport.update({
   id: '/api/crm/sync-transaction',
   path: '/api/crm/sync-transaction',
@@ -1629,6 +1635,7 @@ export interface FileRoutesByFullPath {
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/dashboard/analytics': typeof ApiDashboardAnalyticsRoute
   '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
   '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
@@ -1856,6 +1863,7 @@ export interface FileRoutesByTo {
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/dashboard/analytics': typeof ApiDashboardAnalyticsRoute
   '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
   '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
@@ -2088,6 +2096,7 @@ export interface FileRoutesById {
   '/api/access-control/navigation': typeof ApiAccessControlNavigationRoute
   '/api/auth/provision-signup': typeof ApiAuthProvisionSignupRoute
   '/api/crm/sync-transaction': typeof ApiCrmSyncTransactionRoute
+  '/api/dashboard/analytics': typeof ApiDashboardAnalyticsRoute
   '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
   '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
@@ -2319,6 +2328,7 @@ export interface FileRouteTypes {
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
+    | '/api/dashboard/analytics'
     | '/api/financial-transactions/refund'
     | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
@@ -2546,6 +2556,7 @@ export interface FileRouteTypes {
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
+    | '/api/dashboard/analytics'
     | '/api/financial-transactions/refund'
     | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
@@ -2777,6 +2788,7 @@ export interface FileRouteTypes {
     | '/api/access-control/navigation'
     | '/api/auth/provision-signup'
     | '/api/crm/sync-transaction'
+    | '/api/dashboard/analytics'
     | '/api/financial-transactions/refund'
     | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
@@ -2938,6 +2950,7 @@ export interface RootRouteChildren {
   ApiAccessControlNavigationRoute: typeof ApiAccessControlNavigationRoute
   ApiAuthProvisionSignupRoute: typeof ApiAuthProvisionSignupRoute
   ApiCrmSyncTransactionRoute: typeof ApiCrmSyncTransactionRoute
+  ApiDashboardAnalyticsRoute: typeof ApiDashboardAnalyticsRoute
   ApiFinancialTransactionsRefundRoute: typeof ApiFinancialTransactionsRefundRoute
   ApiFinancialTransactionsStatusRoute: typeof ApiFinancialTransactionsStatusRoute
   ApiInventoryAdjustmentsRoute: typeof ApiInventoryAdjustmentsRouteWithChildren
@@ -4045,6 +4058,13 @@ declare module '@tanstack/react-router' {
       path: '/api/financial-transactions/refund'
       fullPath: '/api/financial-transactions/refund'
       preLoaderRoute: typeof ApiFinancialTransactionsRefundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/dashboard/analytics': {
+      id: '/api/dashboard/analytics'
+      path: '/api/dashboard/analytics'
+      fullPath: '/api/dashboard/analytics'
+      preLoaderRoute: typeof ApiDashboardAnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/crm/sync-transaction': {
@@ -5179,6 +5199,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAccessControlNavigationRoute: ApiAccessControlNavigationRoute,
   ApiAuthProvisionSignupRoute: ApiAuthProvisionSignupRoute,
   ApiCrmSyncTransactionRoute: ApiCrmSyncTransactionRoute,
+  ApiDashboardAnalyticsRoute: ApiDashboardAnalyticsRoute,
   ApiFinancialTransactionsRefundRoute: ApiFinancialTransactionsRefundRoute,
   ApiFinancialTransactionsStatusRoute: ApiFinancialTransactionsStatusRoute,
   ApiInventoryAdjustmentsRoute: ApiInventoryAdjustmentsRouteWithChildren,

@@ -80,6 +80,7 @@ export interface PosCheckoutResult {
   orderNumber: string
   invoiceId: string | null
   invoiceNo: string | null
+  invoiceNumber?: string | null
   totalAmount: string
   payments: Array<{ method: string; amount: string }>
   cashChange: string
@@ -286,11 +287,18 @@ export async function processPosSale(
     // Resolve POS channel
     const posChannelId = await resolvePosChannelId(tenantId)
 
+    // Pre-generate invoice number and IDs to minimize round trips inside transaction
+    const invoiceNo = await generateInvoiceNumber(tenantId, input.storeId, 'INV')
+    const orderId = crypto.randomUUID()
+    const invoiceId = crypto.randomUUID()
+
     // ── 7. Atomic Transaction: Create order, invoice, payments, inventory ──
     const result = await prisma.$transaction(async (tx) => {
       // 7a. Create sales_orders
       const order = await tx.sales_orders.create({
         data: {
+          id: orderId,
+          sales_invoice_id: invoiceId,
           tenant_id: tenantId,
           customer_id: input.customerId ?? null,
           branch_id: input.branchId ?? null,
@@ -319,7 +327,7 @@ export async function processPosSale(
       await tx.sales_order_items.createMany({
         data: lineItems.map((li) => ({
           tenant_id: tenantId,
-          sales_order_id: order.id,
+          sales_order_id: orderId,
           product_variant_id: li.productVariantId,
           line_no: li.lineNo,
           qty_ordered: li.quantity,
@@ -337,29 +345,28 @@ export async function processPosSale(
       })
 
       // 7c. Create sales_order_payments
-      const paymentRecords = await Promise.all(
-        input.payments.map((p) =>
-          tx.sales_order_payments.create({
-            data: {
-              tenant_id: tenantId,
-              sales_order_id: order.id,
-              session_id: input.sessionId,
-              payment_method: p.method,
-              amount: toDecimal(p.amount),
-              status: 'completed',
-              reference_number: p.referenceNumber ?? null,
-              notes: p.notes ?? null,
-              created_by_user_id: tenantUserId,
-              updated_by_user_id: tenantUserId,
-            },
-          })
-        )
-      )
+      const orderPaymentsData = input.payments.map((p) => ({
+        id: crypto.randomUUID(),
+        tenant_id: tenantId,
+        sales_order_id: orderId,
+        session_id: input.sessionId,
+        payment_method: p.method,
+        amount: toDecimal(p.amount),
+        status: 'completed' as const,
+        reference_number: p.referenceNumber ?? null,
+        notes: p.notes ?? null,
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
+      }))
+
+      await tx.sales_order_payments.createMany({
+        data: orderPaymentsData,
+      })
 
       // 7d. Create sales_invoices
-      const invoiceNo = await generateInvoiceNumber(tenantId, input.storeId, 'INV', tx)
       const invoice = await tx.sales_invoices.create({
         data: {
+          id: invoiceId,
           tenant_id: tenantId,
           branch_id: input.branchId ?? '00000000-0000-0000-0000-000000000000',
           store_id: input.storeId ?? null,
@@ -368,7 +375,7 @@ export async function processPosSale(
           invoice_no: invoiceNo,
           invoice_type: 'sale',
           source_type: 'POS',
-          source_id: order.id,
+          source_id: orderId,
           invoice_date: new Date(),
           status: 'paid',
           payment_status: 'paid',
@@ -390,12 +397,6 @@ export async function processPosSale(
         },
       })
 
-      // Link invoice to order
-      await tx.sales_orders.update({
-        where: { id: order.id },
-        data: { sales_invoice_id: invoice.id },
-      })
-
       // 7d-1. Create shipment if requested
       let shipmentRecord = null
       if (input.isShipment && input.shipment) {
@@ -412,8 +413,8 @@ export async function processPosSale(
         shipmentRecord = await tx.shipments.create({
           data: {
             tenant_id: tenantId,
-            sales_invoice_id: invoice.id,
-            order_id: order.id,
+            sales_invoice_id: invoiceId,
+            order_id: orderId,
             carrier: input.shipment.carrier || null,
             status: 'prepared',
             notes: serializedNotes,
@@ -424,63 +425,64 @@ export async function processPosSale(
       }
 
       // 7e. Create sales_invoice_items
-      const invoiceItems = await Promise.all(
-        lineItems.map((li, idx) => {
-          const rawInputItem = input.items[idx]
-          return tx.sales_invoice_items.create({
-            data: {
-              tenant_id: tenantId,
-              invoice_id: invoice.id,
-              line_no: idx + 1,
-              product_variant_id: li.productVariantId,
-              sku_snapshot: rawInputItem?.sku ?? null,
-              product_name_snapshot: rawInputItem?.productName ?? null,
-              variant_name_snapshot: rawInputItem?.variantName ?? null,
-              quantity: li.quantity,
-              unit_price: li.unitPrice,
-              unit_cost: toDecimal(li.unitCost, 0),
-              gross_amount: li.quantity.times(li.unitPrice),
-              discount_amount: li.discountAmount,
-              tax_amount: li.taxAmount,
-              tax_rate_id: li.taxRateId,
-              tax_rate: new Prisma.Decimal(0),
-              net_amount: li.quantity.times(li.unitPrice).minus(li.discountAmount),
-              line_subtotal: li.lineSubtotal,
-              line_total: li.lineTotal,
-              warehouse_id: input.warehouseId,
-              batch_id: li.batchId,
-              created_by_user_id: tenantUserId,
-              updated_by_user_id: tenantUserId,
-            },
-          })
-        })
-      )
+      const invoiceItemsData = lineItems.map((li, idx) => {
+        const rawInputItem = input.items[idx]
+        return {
+          id: crypto.randomUUID(),
+          tenant_id: tenantId,
+          invoice_id: invoiceId,
+          line_no: idx + 1,
+          product_variant_id: li.productVariantId,
+          sku_snapshot: rawInputItem?.sku ?? null,
+          product_name_snapshot: rawInputItem?.productName ?? null,
+          variant_name_snapshot: rawInputItem?.variantName ?? null,
+          quantity: li.quantity,
+          unit_price: li.unitPrice,
+          unit_cost: toDecimal(li.unitCost, 0),
+          gross_amount: li.quantity.times(li.unitPrice),
+          discount_amount: li.discountAmount,
+          tax_amount: li.taxAmount,
+          tax_rate_id: li.taxRateId,
+          tax_rate: new Prisma.Decimal(0),
+          net_amount: li.quantity.times(li.unitPrice).minus(li.discountAmount),
+          line_subtotal: li.lineSubtotal,
+          line_total: li.lineTotal,
+          warehouse_id: input.warehouseId,
+          batch_id: li.batchId,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
+        }
+      })
+
+      await tx.sales_invoice_items.createMany({
+        data: invoiceItemsData,
+      })
 
       // 7e-1. Create sales_invoice_payments
-      await Promise.all(
-        paymentRecords.map((p) =>
-          tx.sales_invoice_payments.create({
-            data: {
-              tenant_id: tenantId,
-              invoice_id: invoice.id,
-              payment_method: p.payment_method,
-              amount: p.amount,
-              currency: 'USD',
-              status: 'completed',
-              reference_number: p.reference_number,
-              notes: p.notes,
-              sales_order_payment_id: p.id,
-              created_by_user_id: tenantUserId,
-              updated_by_user_id: tenantUserId,
-            },
-          })
-        )
-      )
+      const invoicePaymentsData = orderPaymentsData.map((p) => ({
+        id: crypto.randomUUID(),
+        tenant_id: tenantId,
+        invoice_id: invoiceId,
+        payment_method: p.payment_method,
+        amount: p.amount,
+        currency: 'USD',
+        status: 'completed' as const,
+        reference_number: p.reference_number,
+        notes: p.notes,
+        sales_order_payment_id: p.id,
+        created_by_user_id: tenantUserId,
+        updated_by_user_id: tenantUserId,
+      }))
+
+      await tx.sales_invoice_payments.createMany({
+        data: invoicePaymentsData,
+      })
 
       // 7e-2. Record item-level discounts
+      const itemDiscountsData: any[] = []
       for (let i = 0; i < lineItems.length; i++) {
         const li = lineItems[i]
-        const invItem = invoiceItems[i]
+        const invItem = invoiceItemsData[i]
         const rawInputItem = input.items[i]
         if (li.discountAmount.gt(0)) {
           const discountSource = rawInputItem?.couponId
@@ -491,24 +493,28 @@ export async function processPosSale(
           const discountType = rawInputItem?.discountType === 'fixed' ? 'fixed' : 'percentage'
           const finalUnitPrice = li.lineTotal.dividedBy(li.quantity)
 
-          await tx.inv_sales_invoice_item_discounts.create({
-            data: {
-              tenant_id: tenantId,
-              sales_invoice_item_id: invItem.id,
-              sales_invoice_id: invoice.id,
-              promotion_id: rawInputItem?.promotionId ?? null,
-              promotion_rule_id: rawInputItem?.promotionRuleId ?? null,
-              coupon_id: rawInputItem?.couponId ?? null,
-              discount_source: discountSource as inv_discount_source_enum,
-              discount_type: discountType as discount_type_enum,
-              discount_rate: rawInputItem?.discountRate ? toDecimal(rawInputItem.discountRate) : null,
-              discount_amount: li.discountAmount,
-              original_unit_price: li.unitPrice,
-              final_unit_price: finalUnitPrice,
-              quantity: li.quantity,
-            },
+          itemDiscountsData.push({
+            tenant_id: tenantId,
+            sales_invoice_item_id: invItem.id,
+            sales_invoice_id: invoiceId,
+            promotion_id: rawInputItem?.promotionId ?? null,
+            promotion_rule_id: rawInputItem?.promotionRuleId ?? null,
+            coupon_id: rawInputItem?.couponId ?? null,
+            discount_source: discountSource as inv_discount_source_enum,
+            discount_type: discountType as discount_type_enum,
+            discount_rate: rawInputItem?.discountRate ? toDecimal(rawInputItem.discountRate) : null,
+            discount_amount: li.discountAmount,
+            original_unit_price: li.unitPrice,
+            final_unit_price: finalUnitPrice,
+            quantity: li.quantity,
           })
         }
+      }
+
+      if (itemDiscountsData.length > 0) {
+        await tx.inv_sales_invoice_item_discounts.createMany({
+          data: itemDiscountsData,
+        })
       }
 
       // 7e-3. Record Coupon Redemption if coupon was supplied
@@ -529,8 +535,8 @@ export async function processPosSale(
               coupon_id: appliedCouponRecord.id,
               promotion_id: appliedCouponRecord.promotion_id,
               customer_id: input.customerId ?? null,
-              sales_invoice_id: invoice.id,
-              sales_order_id: order.id,
+              sales_invoice_id: invoiceId,
+              sales_order_id: orderId,
               discount_amount: toDecimal(input.orderDiscountAmount),
               created_by_user_id: tenantUserId,
             },
@@ -552,7 +558,7 @@ export async function processPosSale(
         await tx.inv_sales_invoice_discounts.create({
           data: {
             tenant_id: tenantId,
-            sales_invoice_id: invoice.id,
+            sales_invoice_id: invoiceId,
             promotion_id: promoId,
             coupon_id: appliedCouponRecord?.id ?? null,
             discount_source: discountSource as inv_discount_source_enum,
@@ -568,8 +574,8 @@ export async function processPosSale(
             data: {
               tenant_id: tenantId,
               promotion_id: promoId,
-              sales_invoice_id: invoice.id,
-              sales_order_id: order.id,
+              sales_invoice_id: invoiceId,
+              sales_order_id: orderId,
               customer_id: input.customerId ?? null,
               discount_amount: orderDiscountDec,
               channel_id: posChannelId,
@@ -602,7 +608,7 @@ export async function processPosSale(
             reason: 'sale',
             amount: cashSaleAmount,
             reference_type: 'sales_order',
-            reference_id: order.id,
+            reference_id: orderId,
             notes: `Sale ${order.order_number}`,
             created_by_user_id: tenantUserId,
             updated_by_user_id: tenantUserId,
@@ -628,17 +634,20 @@ export async function processPosSale(
           sourceWarehouseId: input.warehouseId,
           sourceStoreId: input.storeId ?? null,
           referenceType: 'sales_order',
-          referenceId: order.id,
+          referenceId: orderId,
           notes: `POS Sale: ${order.order_number}`,
           idempotencyKey: input.idempotencyKey
             ? `inv-sale-${input.idempotencyKey}`
             : undefined,
           autoPost: true,
-          items: lineItems.map((li) => ({
+          items: lineItems.map((li, idx) => ({
             productVariantId: li.productVariantId,
             quantity: li.quantity,
             unitCost: li.unitCost,
             sourceWarehouseId: input.warehouseId,
+            stockBalanceId: stockMap.get(li.productVariantId)?.id,
+            skuSnapshot: input.items[idx]?.sku ?? li.sku,
+            productNameSnapshot: input.items[idx]?.productName ?? li.productName,
             batchId: li.batchId,
             referenceItemType: 'sales_order_item',
           })),
@@ -646,7 +655,15 @@ export async function processPosSale(
         tx
       )
 
-      return { order, invoice, paymentRecords, shipmentRecord }
+      return {
+        order,
+        invoice,
+        paymentRecords: orderPaymentsData,
+        shipmentRecord,
+      }
+    }, {
+      maxWait: 15000,
+      timeout: 30000,
     })
 
     return {
@@ -654,6 +671,7 @@ export async function processPosSale(
       orderNumber: result.order.order_number,
       invoiceId: result.invoice.id,
       invoiceNo: result.invoice.invoice_no,
+      invoiceNumber: result.invoice.invoice_no,
       totalAmount: totalAmount.toString(),
       payments: result.paymentRecords.map((p) => ({
         method: p.payment_method,

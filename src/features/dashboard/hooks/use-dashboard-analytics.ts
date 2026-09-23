@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/hooks/use-auth'
-import { getDashboardAnalyticsData } from '@/server/fns/dashboard-analytics'
+import { fetchDashboardAnalytics } from '../data/analytics-api'
 import type { DashboardAnalytics } from '../types'
 
 export interface UseDashboardAnalyticsOptions {
@@ -18,7 +18,7 @@ export function useDashboardAnalytics(options: UseDashboardAnalyticsOptions = {}
       if (!userId) {
         throw new Error('User not authenticated')
       }
-      return getDashboardAnalyticsData(userId, {
+      return fetchDashboardAnalytics({
         warehouseId: warehouseId === 'all' ? undefined : warehouseId,
         timeRange,
       })

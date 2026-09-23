@@ -1,5 +1,105 @@
 # Error Log
 
+## [2026-09-23 01:40] - Prisma Interactive Transaction Timeout in POS Checkout with Shipment
+
+- **Type**: Integration / Database
+- **Severity**: High
+- **File**: `src/server/fns/pos-checkout-engine.ts:290`, `src/server/fns/inventory-transaction-engine.ts:330`
+- **Agent**: @backend-specialist
+- **Root Cause**: When completing a POS checkout with shipment enabled, the engine executed 25+ sequential interactive queries inside `prisma.$transaction(async (tx) => { ... })` over a remote Supabase pooler connection (`eu-west-2`). When shipment was selected, extra operations (`tx.shipments.create`, serializing recipient details) and unoptimized item-by-item round-trips (two-tier stock balance lookups, item discount insertions, individual payment creations, and re-fetching newly created inventory transactions) pushed the transaction runtime over the default 5000 ms threshold (5339 ms passed), causing Prisma to reject `tx.stock_balances.findFirst()` with `Transaction API error: A query cannot be executed on an expired transaction`.
+- **Error Message**:
+  ```
+  Invalid `tx.stock_balances.findFirst()` invocation in
+  src/server/fns/inventory-transaction-engine.ts:330:53
+  Transaction API error: A query cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 5339 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+      at apiRequest (pos-client.ts:52:11)
+  ```
+- **Fix Applied**:
+  1. In `src/server/fns/pos-checkout-engine.ts`:
+     - Pre-generated UUIDs (`orderId`, `invoiceId`) and generated `invoiceNo` outside the transaction to eliminate the subsequent `sales_orders.update` query and avoid holding sequence table locks.
+     - Replaced item-by-item inserts with single-trip `createMany` calls for `sales_order_payments`, `sales_invoice_payments`, `sales_invoice_items`, and `inv_sales_invoice_item_discounts`.
+     - Provided pre-resolved `stockBalanceId`, `skuSnapshot`, and `productNameSnapshot` directly to `createInventoryTransaction` to bypass variant queries and enable O(1) indexed stock balance lookup.
+     - Configured explicit `{ maxWait: 15000, timeout: 30000 }` on `prisma.$transaction`.
+  2. In `src/server/fns/inventory-transaction-engine.ts`:
+     - Added Tier 0 direct primary-key lookup (`tx.stock_balances.findFirst({ where: { id: item.stock_balance_id } })`) in `postInventoryTransaction` to eliminate slow multi-column scans.
+     - Avoided redundant `db.product_variants.findMany` when snapshots are already supplied on items.
+     - Passed `createdTxn` into `postInventoryTransaction` as `preloadedTxn` to eliminate redundant database re-fetching of the transaction header, items, and rules.
+     - Configured explicit `{ maxWait: 15000, timeout: 30000 }` on standalone transaction execution.
+  3. Added unit tests in `src/__tests__/pos-checkout-engine.test.ts` covering POS checkout with and without shipment.
+- **Prevention**: Pre-calculate sequence numbers and UUIDs before entering interactive transactions, batch array inserts using `createMany`, pass pre-resolved record IDs to child engines, and always configure explicit `timeout` and `maxWait` parameters for multi-step interactive transactions communicating over remote network poolers.
+- **Status**: Fixed
+
+---
+
+## [2026-09-23 01:35] - PrismaClient Cannot Be Used in Browser in use-dashboard-analytics.ts
+
+- **Type**: Integration / Architecture
+- **Severity**: Critical
+- **File**: `src/features/dashboard/hooks/use-dashboard-analytics.ts:19`
+- **Agent**: @fullstack-specialist
+- **Root Cause**: `use-dashboard-analytics.ts` directly imported and executed `getDashboardAnalyticsData` from `src/server/fns/dashboard-analytics.ts` inside a client-side React Query `queryFn`. `getDashboardAnalyticsData` executes Prisma queries (`requireTenantId`, `prisma.$queryRawUnsafe`). When bundled into the browser by Vite, `@/lib/prisma` returns a browser fallback Proxy that throws `Error: PrismaClient cannot be used in the browser. Please use an API route or server function.` whenever any property on `prisma` is accessed.
+- **Error Message**:
+  ```
+  Error: PrismaClient cannot be used in the browser. Please use an API route or server function.
+      at Object.get (http://localhost:5191/src/lib/prisma.ts:33:19)
+      at resolveTenantId (http://localhost:5191/src/server/utils/tenant.ts:19:37)
+      at requireTenantId (http://localhost:5191/src/server/utils/tenant.ts:57:28)
+      at getDashboardAnalyticsData (http://localhost:5191/src/server/fns/dashboard-analytics.ts:61:28)
+      at queryFn (http://localhost:5191/src/features/dashboard/hooks/use-dashboard-analytics.ts:19:20)
+  ```
+- **Fix Applied**:
+  1. Created server-side API route in `src/routes/api/dashboard/analytics.ts` using `createFileRoute('/api/dashboard/analytics')` and `withAuth(null, ...)` to handle `GET` requests and invoke `getDashboardAnalyticsData` within Node.js server context.
+  2. Created client fetcher in `src/features/dashboard/data/analytics-api.ts` using `authorizedRequest` with Supabase auth bearer token.
+  3. Updated `useDashboardAnalytics` in `src/features/dashboard/hooks/use-dashboard-analytics.ts` to call `fetchDashboardAnalytics`, completely removing server function and Prisma imports from the browser bundle.
+  4. Added test verification in `src/__tests__/dashboard-components.test.tsx`.
+- **Prevention**: Never import server-only functions (`src/server/fns/*`) that depend on Prisma or database connections directly into client hooks or React components. Always proxy database requests through `/api/*` endpoints with `withAuth` and `authorizedRequest`.
+- **Status**: Fixed
+
+---
+
+## [2026-09-23 01:30] - SyntaxError: lucide-react Does Not Provide Export CalendarAlert in Dashboard Components
+
+- **Type**: Syntax / Runtime
+- **Severity**: Critical
+- **File**: `src/features/dashboard/components/critical-alerts-bar.tsx:6`, `src/features/dashboard/components/kpi-grid.tsx:1`, `src/features/dashboard/components/stock-alerts-table.tsx:6`
+- **Agent**: @frontend-specialist
+- **Root Cause**: `critical-alerts-bar.tsx`, `kpi-grid.tsx`, and `stock-alerts-table.tsx` imported `CalendarAlert` from `lucide-react`. The `lucide-react` package (v0.561.0) does not export an icon named `CalendarAlert` (the standard icons are `CalendarX` and `CalendarClock`). When navigating to the dashboard route (`/` or `__root__/`), Vite failed module resolution and React threw `SyntaxError: The requested module '/node_modules/.vite/deps/lucide-react.js' does not provide an export named 'CalendarAlert'`, triggering the `<CatchBoundaryImpl>` error boundary and blocking dashboard rendering.
+- **Error Message**:
+  ```
+  SyntaxError: The requested module '/node_modules/.vite/deps/lucide-react.js?v=38585b79' does not provide an export named 'CalendarAlert' (at critical-alerts-bar.tsx:6:3)
+  The above error occurred in the <Lazy> component.
+  React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundaryImpl.
+  Warning: Error in route match: __root__/
+  ```
+- **Fix Applied**:
+  1. In `src/features/dashboard/components/critical-alerts-bar.tsx`: replaced `CalendarAlert` with valid `CalendarX` for the expired batches alert badge.
+  2. In `src/features/dashboard/components/kpi-grid.tsx`: replaced `CalendarAlert` with valid `CalendarClock` for the expiry alerts KPI card.
+  3. In `src/features/dashboard/components/stock-alerts-table.tsx`: replaced `CalendarAlert` with `CalendarX` (expired badges) and `CalendarClock` (expiring soon badges).
+  4. Added component test suite in `src/__tests__/dashboard-components.test.tsx` verifying clean rendering of all three dashboard components.
+- **Prevention**: Use only documented Lucide icons or check exports against `lucide-react` before introducing new icon imports in components.
+- **Status**: Fixed
+
+---
+
+## [2026-09-23 01:25] - Prisma Transaction API Timeout in POS Checkout & Inventory Posting
+
+- **Type**: Integration / Database
+- **Severity**: High
+- **File**: `src/server/fns/pos-checkout-engine.ts:290`, `src/server/fns/inventory-transaction-engine.ts:635`, `src/server/fns/pos-return-engine.ts:236`
+- **Agent**: @backend-specialist
+- **Root Cause**: In `pos-checkout-engine.ts`, interactive transactions (`prisma.$transaction(async (tx) => { ... })`) executed sequential operations across orders, line items, payments, invoice creation, invoice items, invoice payments, coupon redemptions, promotions, cash movements, session updates, and inventory transaction auto-posting (stock balance updates, legacy movement ledgers, and audit logs). Because the database pooler is located in remote AWS `eu-west-2` and Prisma defaults interactive transaction timeouts to 5000 ms, multi-step queries exceeded 5000 ms (elapsed 5351 ms) and failed with `A query cannot be executed on an expired transaction`.
+- **Error Message**:
+  ```
+  Invalid `tx.inventory_movements.create()` invocation in
+  src/server/fns/inventory-transaction-engine.ts:635:36
+  Transaction API error: A query cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 5351 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+  ```
+- **Fix Applied**: Configured explicit Prisma interactive transaction options `{ maxWait: 10000, timeout: 30000 }` on `prisma.$transaction(...)` in `pos-checkout-engine.ts`, `inventory-transaction-engine.ts`, and `pos-return-engine.ts`.
+- **Prevention**: For complex, multi-entity interactive transactions involving sequential DB roundtrips over remote database connections (Supabase poolers), explicitly supply `maxWait` and `timeout` options to `$transaction`.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-23 00:55] - Prisma Unknown field customer_type and company_name in sales-invoice-engine.ts
 
 - **Type**: Integration

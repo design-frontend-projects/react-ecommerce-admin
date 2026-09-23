@@ -20,6 +20,8 @@ export interface InventoryTransactionItemInput {
   quantity: number | string | Prisma.Decimal
   unitCost?: number | string | Prisma.Decimal
   stockBalanceId?: string | null
+  skuSnapshot?: string | null
+  productNameSnapshot?: string | null
   sourceWarehouseId?: string | null
   sourceStoreId?: string | null
   sourceLocationId?: string | null
@@ -177,14 +179,20 @@ export async function createInventoryTransaction(
     let totalQty = new Prisma.Decimal(0)
     let totalCost = new Prisma.Decimal(0)
 
-    const variantIds = [...new Set(input.items.map((i) => i.productVariantId))]
-    const variants = await db.product_variants.findMany({
-      where: { id: { in: variantIds } },
-      include: {
-        products: { select: { name: true } },
-      },
-    })
-    const variantMap = new Map(variants.map((v) => [v.id, v]))
+    const missingSnapshot = input.items.some(
+      (i) => !i.skuSnapshot || !i.productNameSnapshot
+    )
+    let variantMap = new Map<string, any>()
+    if (missingSnapshot) {
+      const variantIds = [...new Set(input.items.map((i) => i.productVariantId))]
+      const variants = await db.product_variants.findMany({
+        where: { id: { in: variantIds } },
+        include: {
+          products: { select: { name: true } },
+        },
+      })
+      variantMap = new Map(variants.map((v) => [v.id, v]))
+    }
 
     const preparedItems = input.items.map((item, index) => {
       const qty = toDecimal(item.quantity)
@@ -195,6 +203,9 @@ export async function createInventoryTransaction(
       totalCost = totalCost.plus(lineCost)
 
       const variant = variantMap.get(item.productVariantId)
+      const skuSnapshot = item.skuSnapshot ?? variant?.sku ?? null
+      const productNameSnapshot =
+        item.productNameSnapshot ?? variant?.products?.name ?? variant?.sku ?? null
 
       return {
         tenant_id: tenantId,
@@ -203,8 +214,8 @@ export async function createInventoryTransaction(
         quantity: qty,
         unit_cost: cost,
         total_cost: lineCost,
-        sku_snapshot: variant?.sku ?? null,
-        product_name_snapshot: variant?.products?.name ?? variant?.sku ?? null,
+        sku_snapshot: skuSnapshot,
+        product_name_snapshot: productNameSnapshot,
         source_warehouse_id:
           item.sourceWarehouseId ?? input.sourceWarehouseId ?? null,
         source_store_id: item.sourceStoreId ?? input.sourceStoreId ?? null,
@@ -264,7 +275,12 @@ export async function createInventoryTransaction(
 
     // 6. If autoPost is requested (or configured on type), post immediately
     if (input.autoPost || txnType.auto_post) {
-      return await postInventoryTransaction(authUserId, createdTxn.id, client)
+      return await postInventoryTransaction(
+        authUserId,
+        createdTxn.id,
+        client,
+        createdTxn
+      )
     }
 
     return { transaction: createdTxn, isDuplicate: false }
@@ -278,22 +294,25 @@ export async function createInventoryTransaction(
 export async function postInventoryTransaction(
   authUserId: string,
   transactionId: string,
-  client?: Prisma.TransactionClient
+  client?: Prisma.TransactionClient,
+  preloadedTxn?: any
 ) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
   const executePosting = async (tx: Prisma.TransactionClient) => {
-    // 1. Fetch transaction with items and type rules
-    const txn = await tx.inventory_transactions.findFirst({
-      where: { id: transactionId, tenant_id: tenantId },
-      include: {
-        items: true,
-        transaction_type: {
-          include: { rules: true },
+    // 1. Fetch transaction with items and type rules (or reuse preloaded)
+    const txn =
+      preloadedTxn ??
+      (await tx.inventory_transactions.findFirst({
+        where: { id: transactionId, tenant_id: tenantId },
+        include: {
+          items: true,
+          transaction_type: {
+            include: { rules: true },
+          },
         },
-      },
-    })
+      }))
 
     if (!txn) {
       throw new ApiError('Inventory transaction not found.', 404)
@@ -325,19 +344,32 @@ export async function postInventoryTransaction(
         const sLocationId = item.source_location_id ?? txn.source_location_id
 
         // Find source stock balance using two-tier lookup:
+        // Tier 0: Direct indexed ID lookup if stock_balance_id is known
         // Tier 1: Exact match on all fields (warehouse + store + location + condition + batch)
         // Tier 2: Relaxed match on core identifiers only (warehouse), pick highest qty_on_hand
-        let sourceBalance = await tx.stock_balances.findFirst({
-          where: {
-            tenant_id: tenantId,
-            product_variant_id: item.product_variant_id,
-            warehouse_id: sWarehouseId,
-            store_id: sStoreId,
-            location_id: sLocationId,
-            condition: item.condition,
-            batch_id: item.batch_id,
-          },
-        })
+        let sourceBalance: any = null
+        if (item.stock_balance_id) {
+          sourceBalance = await tx.stock_balances.findFirst({
+            where: {
+              id: item.stock_balance_id,
+              tenant_id: tenantId,
+            },
+          })
+        }
+
+        if (!sourceBalance) {
+          sourceBalance = await tx.stock_balances.findFirst({
+            where: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+              warehouse_id: sWarehouseId,
+              store_id: sStoreId,
+              location_id: sLocationId,
+              condition: item.condition,
+              batch_id: item.batch_id,
+            },
+          })
+        }
 
         if (!sourceBalance) {
           // Tier 2: Relaxed fallback — find best matching balance in the same warehouse
@@ -709,6 +741,9 @@ export async function postInventoryTransaction(
     }
     return await prisma.$transaction(async (tx) => {
       return await executePosting(tx)
+    }, {
+      maxWait: 10000,
+      timeout: 30000,
     })
   })
 }

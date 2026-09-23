@@ -62,7 +62,7 @@ export function PosReportsPage() {
     0
   )
   const totalDiscrepancies = sessions.reduce(
-    (sum: number, s: any) => sum + Math.abs(Number(s.discrepancy || 0)),
+    (sum: number, s: any) => sum + Math.abs(Number(s.discrepancy ?? s.cash_difference ?? 0)),
     0
   )
   const openSessionsCount = sessions.filter(
@@ -223,11 +223,11 @@ export function PosReportsPage() {
                 </TableRow>
               ) : (
                 sessions.map((s: any) => {
-                  const variance = Number(s.discrepancy || 0)
+                  const variance = Number(s.discrepancy ?? s.cash_difference ?? 0)
                   return (
                     <TableRow key={s.id} className='text-xs'>
                       <TableCell className='font-mono font-semibold'>
-                        {s.pos_terminals?.code || 'POS'}
+                        {s.terminal?.code || s.pos_terminals?.code || 'POS'}
                       </TableCell>
                       <TableCell className='font-medium'>
                         {s.cashier_name || 'Cashier'}
@@ -255,7 +255,7 @@ export function PosReportsPage() {
                           : '—'}
                       </TableCell>
                       <TableCell className='text-right font-bold'>
-                        {s.discrepancy != null ? (
+                        {s.discrepancy != null || s.cash_difference != null ? (
                           <span
                             className={
                               variance === 0
