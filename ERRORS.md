@@ -1,5 +1,28 @@
 # Error Log
 
+## [2026-09-23 23:25] - Prisma Unknown field location_code for select statement on model warehouse_locations
+
+- **Type**: Integration
+- **Severity**: High
+- **File**: `src/server/fns/batches.ts:101`
+- **Agent**: @backend-specialist
+- **Root Cause**: In `src/server/fns/batches.ts`, `listBatches` queried `stock_by_location.findMany` with `warehouse_locations: { select: { id: true, location_code: true, aisle: true, shelf: true } }`. In `prisma/schema.prisma`, `warehouse_locations` defines `code` and `name` (no `location_code`, `aisle`, or `shelf` fields exist on `warehouse_locations`). When navigating to `/batches`, Prisma rejected the query with `Unknown field location_code for select statement on model warehouse_locations`.
+- **Error Message**:
+  ```
+  Invalid `prisma.stock_by_location.findMany()` invocation in
+  src\server\fns\batches.ts:85:30
+
+  Unknown field `location_code` for select statement on model `warehouse_locations`. Available options are marked with ?.
+  ```
+- **Fix Applied**:
+  1. Updated `src/server/fns/batches.ts`: changed `warehouse_locations` selection to valid fields `id: true`, `code: true`, `name: true`.
+  2. Mapped `location_code: row.warehouse_locations?.code ?? '—'` and set `aisle: null, shelf: null` to conform with `batchLocationSchema`.
+  3. Updated test mock in `src/__tests__/batches-server.test.ts` to use `code: 'A-01'` and verified with Vitest.
+- **Prevention**: Always inspect the Prisma model schema (`model warehouse_locations` in `prisma/schema.prisma`) for available field names before writing `select` clauses on relational models.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-23 01:40] - Prisma Interactive Transaction Timeout in POS Checkout with Shipment
 
 - **Type**: Integration / Database

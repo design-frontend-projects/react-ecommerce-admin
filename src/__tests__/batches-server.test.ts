@@ -69,13 +69,6 @@ describe('listBatches server function', () => {
       },
     ]
 
-    const mockStockGroupBy = [
-      {
-        batch_id: 'batch-uuid-1',
-        _sum: { qty_on_hand: 120 },
-      },
-    ]
-
     vi.mocked(prisma.product_batches.findMany).mockResolvedValue(
       mockBatches as unknown as Awaited<ReturnType<typeof prisma.product_batches.findMany>>
     )
@@ -96,12 +89,11 @@ describe('listBatches server function', () => {
         warehouses: { id: 'wh-1', name: 'Main WH', code: 'WH1' },
         warehouse_locations: {
           id: 'loc-1',
-          location_code: 'A-01',
-          aisle: 'A',
-          shelf: '1',
+          code: 'A-01',
+          name: 'Section A1',
         },
       },
-    ] as any)
+    ] as unknown as Awaited<ReturnType<typeof prisma.stock_by_location.findMany>>)
 
     const result = await listBatches('auth-user-1')
 
@@ -122,6 +114,17 @@ describe('listBatches server function', () => {
         id: 'sup-1',
         name: 'Arabica Traders Ltd',
       },
+      locations: [
+        expect.objectContaining({
+          warehouse_id: 'wh-1',
+          warehouse_name: 'Main WH',
+          warehouse_code: 'WH1',
+          location_code: 'A-01',
+          condition: 'good',
+          qty_on_hand: 120,
+          qty_reserved: 0,
+        }),
+      ],
     })
   })
 
