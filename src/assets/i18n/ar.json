@@ -6754,5 +6754,181 @@
         "creating": "جارٍ الإنشاء..."
       }
     }
+  },
+  "inventoryTransactions": {
+    "title": "حركات المخزون",
+    "description": "محرك معاملات غير قابل للتغيير يفرض تحولات ذرية للمخزون وسجل التدقيق وتقييم القواعد.",
+    "newTransaction": "معاملة جديدة",
+    "metrics": {
+      "totalTransactions": "إجمالي المعاملات",
+      "ledgerEntries": "قيود دفتر الأستاذ",
+      "inboundPage": "الوارد (الصفحة)",
+      "receiptsAndAdditions": "الاستلامات والإضافات",
+      "outboundPage": "الصادر (الصفحة)",
+      "dispatchesAndDeductions": "الإرساليات والخصومات",
+      "draftPending": "مسودة / معلّق",
+      "awaitingCommit": "في انتظار الترحيل"
+    },
+    "filters": {
+      "searchPlaceholder": "بحث برقم المعاملة أو المرجع أو الملاحظات...",
+      "allStatuses": "جميع الحالات",
+      "allTypes": "جميع الأنواع",
+      "posted": "مرحّل",
+      "draft": "مسودة",
+      "pending": "معلّق",
+      "cancelled": "ملغي",
+      "reversed": "معكوس",
+      "purchaseReceipt": "إيصال شراء",
+      "posSale": "بيع نقطة البيع",
+      "salesOrderFulfillment": "تنفيذ أمر البيع",
+      "transferShipment": "شحنة تحويل",
+      "transferReceipt": "إيصال تحويل",
+      "adjustmentIn": "تعديل وارد",
+      "adjustmentOut": "تعديل صادر",
+      "damageWriteOff": "شطب تالف",
+      "expiryScrap": "إتلاف منتهي الصلاحية",
+      "openingBalance": "رصيد افتتاحي"
+    },
+    "table": {
+      "transactionNumber": "رقم المعاملة",
+      "type": "النوع",
+      "status": "الحالة",
+      "totalQty": "إجمالي الكمية",
+      "valuation": "التقييم",
+      "date": "التاريخ",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "posted": "مرحّل",
+      "draft": "مسودة",
+      "pending": "معلّق",
+      "cancelled": "ملغي",
+      "reversed": "معكوس",
+      "pendingApproval": "في انتظار الموافقة"
+    },
+    "direction": {
+      "inbound": "وارد ↓",
+      "outbound": "صادر ↑",
+      "internal": "داخلي ⇄",
+      "neutral": "محايد •"
+    },
+    "actions": {
+      "viewDetails": "عرض التفاصيل",
+      "postTransaction": "ترحيل المعاملة",
+      "cancelTransaction": "إلغاء المعاملة",
+      "reverseTransaction": "عكس المعاملة"
+    },
+    "empty": {
+      "title": "لم يتم العثور على حركات مخزون",
+      "description": "قم بترحيل إيصالات الشراء أو المبيعات أو تعديلات المخزون أو أنشئ معاملة يدوية لتسجيل حركات المخزون.",
+      "createButton": "إنشاء معاملة"
+    },
+    "error": {
+      "loadFailed": "فشل في تحميل حركات المخزون."
+    },
+    "pagination": {
+      "pageOf": "صفحة {{page}} من {{totalPages}} ({{total}} معاملة)",
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "createDialog": {
+      "title": "معاملة مخزون جديدة",
+      "transactionType": "نوع المعاملة",
+      "selectType": "اختر النوع",
+      "sourceWarehouse": "المستودع المصدر",
+      "selectSourceWarehouse": "اختر المستودع المصدر",
+      "destinationWarehouse": "المستودع الوجهة",
+      "selectDestWarehouse": "اختر المستودع الوجهة",
+      "remarksNotes": "ملاحظات / تعليقات",
+      "remarksPlaceholder": "ملاحظات اختيارية أو الغرض من المعاملة...",
+      "itemsToTransact": "الأصناف للمعاملة",
+      "addItem": "إضافة صنف",
+      "selectProductVariant": "اختر متغير المنتج",
+      "qty": "الكمية",
+      "cost": "التكلفة",
+      "autoPostLabel": "ترحيل فوري (تطبيق تحولات المخزون الآن). إذا لم يتم التحديد، يُحفظ كمسودة.",
+      "cancel": "إلغاء",
+      "postTransaction": "ترحيل المعاملة",
+      "saveDraft": "حفظ كمسودة",
+      "types": {
+        "adjustmentIn": "تعديل مخزون (زيادة)",
+        "adjustmentOut": "تعديل مخزون (نقصان)",
+        "openingBalance": "رصيد مخزون افتتاحي",
+        "damageWriteOff": "شطب مخزون تالف",
+        "expiryScrap": "إتلاف مخزون منتهي الصلاحية",
+        "purchaseReceipt": "إيصال شراء مباشر",
+        "transferShipment": "إرسال تحويل مستودعي"
+      }
+    },
+    "detailDialog": {
+      "transactionDetails": "تفاصيل المعاملة",
+      "transactionType": "نوع المعاملة",
+      "totalQuantity": "إجمالي الكمية",
+      "itemLines": "{{count}} سطر أصناف",
+      "totalValuation": "إجمالي التقييم",
+      "createdDate": "تاريخ الإنشاء",
+      "postedLabel": "تم الترحيل: {{date}}",
+      "notes": "ملاحظات: ",
+      "lineItems": "بنود الأصناف ({{count}})",
+      "auditTrail": "مسار التدقيق ({{count}})",
+      "variantSku": "المتغير / SKU",
+      "quantity": "الكمية",
+      "unitCost": "تكلفة الوحدة",
+      "total": "الإجمالي",
+      "stockSnapshot": "لقطة المخزون",
+      "condition": "الحالة",
+      "conditionGood": "جيد",
+      "auditAction": "الإجراء: {{action}}",
+      "auditEntity": "الكيان: {{entityType}} ({{entityId}})",
+      "noAuditLogs": "لا توجد سجلات تدقيق مسجلة لهذه المعاملة.",
+      "cancelTransaction": "إلغاء المعاملة",
+      "postCommitStock": "ترحيل / تنفيذ المخزون",
+      "reverseTransaction": "عكس المعاملة",
+      "close": "إغلاق"
+    },
+    "reverseDialog": {
+      "title": "عكس حركة المخزون",
+      "description": "سيؤدي عكس هذه المعاملة إلى إنشاء معاملة معاكسة تعيد أرصدة المخزون إلى حالتها السابقة. سيبقى كلا السجلين الأصلي والعكسي في سجل التدقيق غير القابل للتغيير.",
+      "reasonLabel": "سبب العكس (مطلوب)",
+      "reasonPlaceholder": "مثال: تم إدخال عدد خاطئ، إلغاء مرتجع، ترحيل مكرر...",
+      "cancel": "إلغاء",
+      "confirmReversal": "تأكيد العكس"
+    },
+    "cancelDialog": {
+      "title": "إلغاء حركة المخزون",
+      "description": "هل أنت متأكد من إلغاء مسودة المعاملة هذه؟ سيتم تعليم المعاملة كملغاة دون تعديل أي أرصدة مخزون.",
+      "reasonLabel": "سبب الإلغاء (اختياري)",
+      "reasonPlaceholder": "مثال: مسودة مهجورة، رقم أمر غير صحيح...",
+      "back": "رجوع",
+      "confirmCancel": "تأكيد الإلغاء"
+    }
+  },
+  "inventoryMovements": {
+    "title": "تحركات المخزون",
+    "description": "دفتر التدقيق غير القابل للتغيير لكل معاملة مخزون — المشتريات والمبيعات والتحويلات والتعديلات.",
+    "filters": {
+      "allMovementTypes": "جميع أنواع الحركة",
+      "allWarehouses": "جميع المستودعات",
+      "allWarehousesStores": "جميع المستودعات / المتاجر"
+    },
+    "table": {
+      "date": "التاريخ",
+      "type": "النوع",
+      "variantSku": "المتغير / SKU",
+      "warehouseStore": "المستودع / المتجر",
+      "in": "وارد",
+      "out": "صادر",
+      "unitCost": "تكلفة الوحدة",
+      "reference": "المرجع"
+    },
+    "empty": {
+      "noMovements": "لم يتم العثور على حركات."
+    },
+    "error": {
+      "loadFailed": "خطأ في تحميل الحركات."
+    },
+    "reference": {
+      "txn": "معاملة"
+    }
   }
 }

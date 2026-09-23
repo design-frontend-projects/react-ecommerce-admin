@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Dialog,
   DialogContent,
@@ -33,20 +34,41 @@ interface CreateTransactionDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
-const AVAILABLE_TYPES = [
-  { code: 'ADJUSTMENT_IN', name: 'Stock Adjustment (Increase)', direction: 'inbound' },
-  { code: 'ADJUSTMENT_OUT', name: 'Stock Adjustment (Decrease)', direction: 'outbound' },
-  { code: 'OPENING_BALANCE', name: 'Opening Stock Baseline', direction: 'inbound' },
-  { code: 'DAMAGE_WRITE_OFF', name: 'Damaged Stock Write-Off', direction: 'outbound' },
-  { code: 'EXPIRY_SCRAP', name: 'Expired Stock Scrap', direction: 'outbound' },
-  { code: 'PURCHASE_RECEIPT', name: 'Direct Purchase Receipt', direction: 'inbound' },
-  { code: 'TRANSFER_SHIPMENT', name: 'Warehouse Transfer Dispatch', direction: 'internal' },
-]
+const AVAILABLE_TYPE_CODES = [
+  'ADJUSTMENT_IN',
+  'ADJUSTMENT_OUT',
+  'OPENING_BALANCE',
+  'DAMAGE_WRITE_OFF',
+  'EXPIRY_SCRAP',
+  'PURCHASE_RECEIPT',
+  'TRANSFER_SHIPMENT',
+] as const
+
+const TYPE_DIRECTIONS: Record<string, string> = {
+  ADJUSTMENT_IN: 'inbound',
+  ADJUSTMENT_OUT: 'outbound',
+  OPENING_BALANCE: 'inbound',
+  DAMAGE_WRITE_OFF: 'outbound',
+  EXPIRY_SCRAP: 'outbound',
+  PURCHASE_RECEIPT: 'inbound',
+  TRANSFER_SHIPMENT: 'internal',
+}
+
+const TYPE_I18N_KEYS: Record<string, string> = {
+  ADJUSTMENT_IN: 'inventoryTransactions.createDialog.types.adjustmentIn',
+  ADJUSTMENT_OUT: 'inventoryTransactions.createDialog.types.adjustmentOut',
+  OPENING_BALANCE: 'inventoryTransactions.createDialog.types.openingBalance',
+  DAMAGE_WRITE_OFF: 'inventoryTransactions.createDialog.types.damageWriteOff',
+  EXPIRY_SCRAP: 'inventoryTransactions.createDialog.types.expiryScrap',
+  PURCHASE_RECEIPT: 'inventoryTransactions.createDialog.types.purchaseReceipt',
+  TRANSFER_SHIPMENT: 'inventoryTransactions.createDialog.types.transferShipment',
+}
 
 export function CreateTransactionDialog({
   open,
   onOpenChange,
 }: CreateTransactionDialogProps) {
+  const { t } = useTranslation()
   const [typeCode, setTypeCode] = useState('ADJUSTMENT_IN')
   const [sourceWarehouseId, setSourceWarehouseId] = useState<string>('')
   const [destWarehouseId, setDestWarehouseId] = useState<string>('')
@@ -61,10 +83,10 @@ export function CreateTransactionDialog({
   const { data: variants = [] } = useVariantOptions()
   const createMutation = useCreateInventoryTransaction()
 
-  const selectedType = AVAILABLE_TYPES.find((t) => t.code === typeCode)
-  const isInbound = selectedType?.direction === 'inbound'
-  const isOutbound = selectedType?.direction === 'outbound'
-  const isInternal = selectedType?.direction === 'internal'
+  const direction = TYPE_DIRECTIONS[typeCode] ?? 'inbound'
+  const isInbound = direction === 'inbound'
+  const isOutbound = direction === 'outbound'
+  const isInternal = direction === 'internal'
 
   const handleAddItem = () => {
     setItems((prev) => [
@@ -126,7 +148,7 @@ export function CreateTransactionDialog({
         <DialogHeader>
           <div className='flex items-center gap-2'>
             <PackagePlus className='h-5 w-5 text-primary' />
-            <DialogTitle>New Inventory Transaction</DialogTitle>
+            <DialogTitle>{t('inventoryTransactions.createDialog.title')}</DialogTitle>
           </div>
         </DialogHeader>
 
@@ -134,15 +156,15 @@ export function CreateTransactionDialog({
           {/* Header configuration */}
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div className='space-y-2'>
-              <Label>Transaction Type</Label>
+              <Label>{t('inventoryTransactions.createDialog.transactionType')}</Label>
               <Select value={typeCode} onValueChange={setTypeCode}>
                 <SelectTrigger>
-                  <SelectValue placeholder='Select type' />
+                  <SelectValue placeholder={t('inventoryTransactions.createDialog.selectType')} />
                 </SelectTrigger>
                 <SelectContent>
-                  {AVAILABLE_TYPES.map((t) => (
-                    <SelectItem key={t.code} value={t.code}>
-                      {t.name}
+                  {AVAILABLE_TYPE_CODES.map((code) => (
+                    <SelectItem key={code} value={code}>
+                      {t(TYPE_I18N_KEYS[code])}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -151,10 +173,10 @@ export function CreateTransactionDialog({
 
             {(isOutbound || isInternal) && (
               <div className='space-y-2'>
-                <Label>Source Warehouse</Label>
+                <Label>{t('inventoryTransactions.createDialog.sourceWarehouse')}</Label>
                 <Select value={sourceWarehouseId} onValueChange={setSourceWarehouseId}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select source warehouse' />
+                    <SelectValue placeholder={t('inventoryTransactions.createDialog.selectSourceWarehouse')} />
                   </SelectTrigger>
                   <SelectContent>
                     {warehouses.map((w) => (
@@ -169,10 +191,10 @@ export function CreateTransactionDialog({
 
             {(isInbound || isInternal) && (
               <div className='space-y-2'>
-                <Label>Destination Warehouse</Label>
+                <Label>{t('inventoryTransactions.createDialog.destinationWarehouse')}</Label>
                 <Select value={destWarehouseId} onValueChange={setDestWarehouseId}>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select destination warehouse' />
+                    <SelectValue placeholder={t('inventoryTransactions.createDialog.selectDestWarehouse')} />
                   </SelectTrigger>
                   <SelectContent>
                     {warehouses.map((w) => (
@@ -187,9 +209,9 @@ export function CreateTransactionDialog({
           </div>
 
           <div className='space-y-2'>
-            <Label>Remarks / Notes</Label>
+            <Label>{t('inventoryTransactions.createDialog.remarksNotes')}</Label>
             <Textarea
-              placeholder='Optional notes or transaction purpose...'
+              placeholder={t('inventoryTransactions.createDialog.remarksPlaceholder')}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
@@ -199,7 +221,7 @@ export function CreateTransactionDialog({
           {/* Line items section */}
           <div className='space-y-3'>
             <div className='flex items-center justify-between'>
-              <Label className='text-sm font-semibold'>Items to Transact</Label>
+              <Label className='text-sm font-semibold'>{t('inventoryTransactions.createDialog.itemsToTransact')}</Label>
               <Button
                 type='button'
                 variant='outline'
@@ -208,7 +230,7 @@ export function CreateTransactionDialog({
                 className='h-8'
               >
                 <Plus className='h-3.5 w-3.5 me-1' />
-                Add Item
+                {t('inventoryTransactions.createDialog.addItem')}
               </Button>
             </div>
 
@@ -224,7 +246,7 @@ export function CreateTransactionDialog({
                       onValueChange={(val) => handleItemChange(idx, 'productVariantId', val)}
                     >
                       <SelectTrigger className='h-9'>
-                        <SelectValue placeholder='Select Product Variant' />
+                        <SelectValue placeholder={t('inventoryTransactions.createDialog.selectProductVariant')} />
                       </SelectTrigger>
                       <SelectContent>
                         {variants.map((v) => (
@@ -241,7 +263,7 @@ export function CreateTransactionDialog({
                       type='number'
                       step='any'
                       min='0.0001'
-                      placeholder='Qty'
+                      placeholder={t('inventoryTransactions.createDialog.qty')}
                       className='h-9 font-mono'
                       value={item.quantity}
                       onChange={(e) => handleItemChange(idx, 'quantity', e.target.value)}
@@ -254,7 +276,7 @@ export function CreateTransactionDialog({
                       type='number'
                       step='any'
                       min='0'
-                      placeholder='Cost'
+                      placeholder={t('inventoryTransactions.createDialog.cost')}
                       className='h-9 font-mono'
                       value={item.unitCost}
                       onChange={(e) => handleItemChange(idx, 'unitCost', e.target.value)}
@@ -283,7 +305,7 @@ export function CreateTransactionDialog({
               onCheckedChange={(checked) => setAutoPost(Boolean(checked))}
             />
             <Label htmlFor='autoPost' className='text-sm font-normal cursor-pointer'>
-              Post immediately (apply stock mutations now). If unchecked, saves as Draft.
+              {t('inventoryTransactions.createDialog.autoPostLabel')}
             </Label>
           </div>
 
@@ -293,7 +315,7 @@ export function CreateTransactionDialog({
               variant='outline'
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t('inventoryTransactions.createDialog.cancel')}
             </Button>
             <Button
               type='submit'
@@ -303,7 +325,7 @@ export function CreateTransactionDialog({
               {createMutation.isPending && (
                 <Loader2 className='h-4 w-4 animate-spin me-1.5' />
               )}
-              {autoPost ? 'Post Transaction' : 'Save Draft'}
+              {autoPost ? t('inventoryTransactions.createDialog.postTransaction') : t('inventoryTransactions.createDialog.saveDraft')}
             </Button>
           </div>
         </form>

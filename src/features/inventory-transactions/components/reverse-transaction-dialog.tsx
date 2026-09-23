@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -26,6 +27,7 @@ export function ReverseTransactionDialog({
   onOpenChange,
   onSuccess,
 }: ReverseTransactionDialogProps) {
+  const { t } = useTranslation()
   const [reason, setReason] = useState('')
   const reverseMutation = useReverseInventoryTransaction()
 
@@ -52,20 +54,18 @@ export function ReverseTransactionDialog({
         <AlertDialogHeader>
           <div className='flex items-center gap-2 text-purple-600'>
             <RotateCcw className='h-5 w-5' />
-            <AlertDialogTitle>Reverse Inventory Transaction</AlertDialogTitle>
+            <AlertDialogTitle>{t('inventoryTransactions.reverseDialog.title')}</AlertDialogTitle>
           </div>
           <AlertDialogDescription>
-            Reversing this transaction will create an offsetting inverted transaction that
-            restores the stock balances to their previous states. Both original and reversal
-            records will remain in the immutable audit history.
+            {t('inventoryTransactions.reverseDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <div className='space-y-2 py-2'>
-          <Label htmlFor='reversal-reason'>Reason for Reversal (Required)</Label>
+          <Label htmlFor='reversal-reason'>{t('inventoryTransactions.reverseDialog.reasonLabel')}</Label>
           <Textarea
             id='reversal-reason'
-            placeholder='e.g., Wrong count entered, return cancelled, duplicate post...'
+            placeholder={t('inventoryTransactions.reverseDialog.reasonPlaceholder')}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             rows={3}
@@ -78,7 +78,7 @@ export function ReverseTransactionDialog({
             onClick={() => onOpenChange(false)}
             disabled={reverseMutation.isPending}
           >
-            Cancel
+            {t('inventoryTransactions.reverseDialog.cancel')}
           </Button>
           <Button
             onClick={handleConfirm}
@@ -88,7 +88,7 @@ export function ReverseTransactionDialog({
             {reverseMutation.isPending && (
               <Loader2 className='h-4 w-4 animate-spin me-1.5' />
             )}
-            Confirm Reversal
+            {t('inventoryTransactions.reverseDialog.confirmReversal')}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -99,18 +99,17 @@ export function InventoryMovements() {
         <div>
           <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('inventoryMovements.title')}</h2>
           <p className='text-muted-foreground'>
-            The immutable audit ledger of every stock transaction — purchases, sales,
-            transfers, and adjustments.
+            {t('inventoryMovements.description')}
           </p>
         </div>
 
         <div className='flex flex-wrap gap-2'>
           <Select value={movementType} onValueChange={setMovementType}>
             <SelectTrigger className='w-56'>
-              <SelectValue placeholder='All movement types' />
+              <SelectValue placeholder={t('inventoryMovements.filters.allMovementTypes')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={ALL}>All movement types</SelectItem>
+              <SelectItem value={ALL}>{t('inventoryMovements.filters.allMovementTypes')}</SelectItem>
               {MOVEMENT_TYPES.map((type) => (
                 <SelectItem key={type} value={type} className='capitalize'>
                   {type.replace(/_/g, ' ')}
@@ -120,10 +119,10 @@ export function InventoryMovements() {
           </Select>
           <Select value={warehouseId} onValueChange={setWarehouseId}>
             <SelectTrigger className='w-56'>
-              <SelectValue placeholder='All warehouses' />
+              <SelectValue placeholder={t('inventoryMovements.filters.allWarehouses')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={ALL}>All warehouses / stores</SelectItem>
+              <SelectItem value={ALL}>{t('inventoryMovements.filters.allWarehousesStores')}</SelectItem>
               {locationOptions.map((loc) => (
                 <SelectItem key={loc.id} value={loc.id}>
                   {loc.name}
@@ -139,21 +138,21 @@ export function InventoryMovements() {
           </div>
         ) : error ? (
           <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>Error loading movements.</p>
+            <p className='font-medium'>{t('inventoryMovements.error.loadFailed')}</p>
           </div>
         ) : (
           <div className='overflow-hidden rounded-md border'>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Variant / SKU</TableHead>
-                  <TableHead>Warehouse / Store</TableHead>
-                  <TableHead className='text-end'>In</TableHead>
-                  <TableHead className='text-end'>Out</TableHead>
-                  <TableHead className='text-end'>Unit Cost</TableHead>
-                  <TableHead>Reference</TableHead>
+                  <TableHead>{t('inventoryMovements.table.date')}</TableHead>
+                  <TableHead>{t('inventoryMovements.table.type')}</TableHead>
+                  <TableHead>{t('inventoryMovements.table.variantSku')}</TableHead>
+                  <TableHead>{t('inventoryMovements.table.warehouseStore')}</TableHead>
+                  <TableHead className='text-end'>{t('inventoryMovements.table.in')}</TableHead>
+                  <TableHead className='text-end'>{t('inventoryMovements.table.out')}</TableHead>
+                  <TableHead className='text-end'>{t('inventoryMovements.table.unitCost')}</TableHead>
+                  <TableHead>{t('inventoryMovements.table.reference')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -198,7 +197,7 @@ export function InventoryMovements() {
                               to='/inventory-transactions'
                               className='font-medium text-primary hover:underline inline-flex items-center gap-1 text-xs'
                             >
-                              <span>{movement.source_document_type ?? 'Txn'}</span>
+                              <span>{movement.source_document_type ?? t('inventoryMovements.reference.txn')}</span>
                               <span className='text-[10px] text-muted-foreground font-mono'>→</span>
                             </Link>
                           ) : (
@@ -215,7 +214,7 @@ export function InventoryMovements() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={8} className='h-24 text-center'>
-                      No movements found.
+                      {t('inventoryMovements.empty.noMovements')}
                     </TableCell>
                   </TableRow>
                 )}
@@ -227,4 +226,3 @@ export function InventoryMovements() {
     </>
   )
 }
-

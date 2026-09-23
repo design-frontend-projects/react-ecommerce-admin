@@ -6754,5 +6754,181 @@
         "creating": "Creating..."
       }
     }
+  },
+  "inventoryTransactions": {
+    "title": "Inventory Transactions",
+    "description": "Immutable transaction engine ledger enforcing atomic stock mutations, audit history, and rule evaluation.",
+    "newTransaction": "New Transaction",
+    "metrics": {
+      "totalTransactions": "Total Transactions",
+      "ledgerEntries": "Ledger entries",
+      "inboundPage": "Inbound (Page)",
+      "receiptsAndAdditions": "Receipts & additions",
+      "outboundPage": "Outbound (Page)",
+      "dispatchesAndDeductions": "Dispatches & deductions",
+      "draftPending": "Draft / Pending",
+      "awaitingCommit": "Awaiting commit"
+    },
+    "filters": {
+      "searchPlaceholder": "Search transaction #, reference, or notes...",
+      "allStatuses": "All Statuses",
+      "allTypes": "All Types",
+      "posted": "Posted",
+      "draft": "Draft",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "reversed": "Reversed",
+      "purchaseReceipt": "Purchase Receipt",
+      "posSale": "POS Sale",
+      "salesOrderFulfillment": "Sales Order Fulfillment",
+      "transferShipment": "Transfer Shipment",
+      "transferReceipt": "Transfer Receipt",
+      "adjustmentIn": "Adjustment In",
+      "adjustmentOut": "Adjustment Out",
+      "damageWriteOff": "Damage Write-Off",
+      "expiryScrap": "Expiry Scrap",
+      "openingBalance": "Opening Balance"
+    },
+    "table": {
+      "transactionNumber": "Transaction #",
+      "type": "Type",
+      "status": "Status",
+      "totalQty": "Total Qty",
+      "valuation": "Valuation",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "status": {
+      "posted": "Posted",
+      "draft": "Draft",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "reversed": "Reversed",
+      "pendingApproval": "Pending Approval"
+    },
+    "direction": {
+      "inbound": "Inbound ↓",
+      "outbound": "Outbound ↑",
+      "internal": "Internal ⇄",
+      "neutral": "Neutral •"
+    },
+    "actions": {
+      "viewDetails": "View Details",
+      "postTransaction": "Post Transaction",
+      "cancelTransaction": "Cancel Transaction",
+      "reverseTransaction": "Reverse Transaction"
+    },
+    "empty": {
+      "title": "No inventory transactions found",
+      "description": "Post purchase receipts, sales, stock adjustments or create a manual transaction to record inventory movements.",
+      "createButton": "Create Transaction"
+    },
+    "error": {
+      "loadFailed": "Failed to load inventory transactions."
+    },
+    "pagination": {
+      "pageOf": "Page {{page}} of {{totalPages}} ({{total}} transactions)",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "createDialog": {
+      "title": "New Inventory Transaction",
+      "transactionType": "Transaction Type",
+      "selectType": "Select type",
+      "sourceWarehouse": "Source Warehouse",
+      "selectSourceWarehouse": "Select source warehouse",
+      "destinationWarehouse": "Destination Warehouse",
+      "selectDestWarehouse": "Select destination warehouse",
+      "remarksNotes": "Remarks / Notes",
+      "remarksPlaceholder": "Optional notes or transaction purpose...",
+      "itemsToTransact": "Items to Transact",
+      "addItem": "Add Item",
+      "selectProductVariant": "Select Product Variant",
+      "qty": "Qty",
+      "cost": "Cost",
+      "autoPostLabel": "Post immediately (apply stock mutations now). If unchecked, saves as Draft.",
+      "cancel": "Cancel",
+      "postTransaction": "Post Transaction",
+      "saveDraft": "Save Draft",
+      "types": {
+        "adjustmentIn": "Stock Adjustment (Increase)",
+        "adjustmentOut": "Stock Adjustment (Decrease)",
+        "openingBalance": "Opening Stock Baseline",
+        "damageWriteOff": "Damaged Stock Write-Off",
+        "expiryScrap": "Expired Stock Scrap",
+        "purchaseReceipt": "Direct Purchase Receipt",
+        "transferShipment": "Warehouse Transfer Dispatch"
+      }
+    },
+    "detailDialog": {
+      "transactionDetails": "Transaction Details",
+      "transactionType": "Transaction Type",
+      "totalQuantity": "Total Quantity",
+      "itemLines": "{{count}} item lines",
+      "totalValuation": "Total Valuation",
+      "createdDate": "Created Date",
+      "postedLabel": "Posted: {{date}}",
+      "notes": "Notes: ",
+      "lineItems": "Line Items ({{count}})",
+      "auditTrail": "Audit Trail ({{count}})",
+      "variantSku": "Variant / SKU",
+      "quantity": "Quantity",
+      "unitCost": "Unit Cost",
+      "total": "Total",
+      "stockSnapshot": "Stock Snapshot",
+      "condition": "Condition",
+      "conditionGood": "good",
+      "auditAction": "Action: {{action}}",
+      "auditEntity": "Entity: {{entityType}} ({{entityId}})",
+      "noAuditLogs": "No audit logs recorded for this transaction.",
+      "cancelTransaction": "Cancel Transaction",
+      "postCommitStock": "Post / Commit Stock",
+      "reverseTransaction": "Reverse Transaction",
+      "close": "Close"
+    },
+    "reverseDialog": {
+      "title": "Reverse Inventory Transaction",
+      "description": "Reversing this transaction will create an offsetting inverted transaction that restores the stock balances to their previous states. Both original and reversal records will remain in the immutable audit history.",
+      "reasonLabel": "Reason for Reversal (Required)",
+      "reasonPlaceholder": "e.g., Wrong count entered, return cancelled, duplicate post...",
+      "cancel": "Cancel",
+      "confirmReversal": "Confirm Reversal"
+    },
+    "cancelDialog": {
+      "title": "Cancel Inventory Transaction",
+      "description": "Are you sure you want to cancel this draft transaction? This will mark the transaction as cancelled without mutating any stock balances.",
+      "reasonLabel": "Reason for Cancellation (Optional)",
+      "reasonPlaceholder": "e.g., Abandoned draft, incorrect order number...",
+      "back": "Back",
+      "confirmCancel": "Confirm Cancel"
+    }
+  },
+  "inventoryMovements": {
+    "title": "Inventory Movements",
+    "description": "The immutable audit ledger of every stock transaction — purchases, sales, transfers, and adjustments.",
+    "filters": {
+      "allMovementTypes": "All movement types",
+      "allWarehouses": "All warehouses",
+      "allWarehousesStores": "All warehouses / stores"
+    },
+    "table": {
+      "date": "Date",
+      "type": "Type",
+      "variantSku": "Variant / SKU",
+      "warehouseStore": "Warehouse / Store",
+      "in": "In",
+      "out": "Out",
+      "unitCost": "Unit Cost",
+      "reference": "Reference"
+    },
+    "empty": {
+      "noMovements": "No movements found."
+    },
+    "error": {
+      "loadFailed": "Error loading movements."
+    },
+    "reference": {
+      "txn": "Txn"
+    }
   }
 }

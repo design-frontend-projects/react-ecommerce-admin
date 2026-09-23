@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AlertDialog,
   AlertDialogContent,
@@ -26,6 +27,7 @@ export function CancelTransactionDialog({
   onOpenChange,
   onSuccess,
 }: CancelTransactionDialogProps) {
+  const { t } = useTranslation()
   const [reason, setReason] = useState('')
   const cancelMutation = useCancelInventoryTransaction()
 
@@ -52,19 +54,18 @@ export function CancelTransactionDialog({
         <AlertDialogHeader>
           <div className='flex items-center gap-2 text-destructive'>
             <XCircle className='h-5 w-5' />
-            <AlertDialogTitle>Cancel Inventory Transaction</AlertDialogTitle>
+            <AlertDialogTitle>{t('inventoryTransactions.cancelDialog.title')}</AlertDialogTitle>
           </div>
           <AlertDialogDescription>
-            Are you sure you want to cancel this draft transaction? This will mark the
-            transaction as cancelled without mutating any stock balances.
+            {t('inventoryTransactions.cancelDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <div className='space-y-2 py-2'>
-          <Label htmlFor='cancel-reason'>Reason for Cancellation (Optional)</Label>
+          <Label htmlFor='cancel-reason'>{t('inventoryTransactions.cancelDialog.reasonLabel')}</Label>
           <Textarea
             id='cancel-reason'
-            placeholder='e.g., Abandoned draft, incorrect order number...'
+            placeholder={t('inventoryTransactions.cancelDialog.reasonPlaceholder')}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             rows={2}
@@ -77,7 +78,7 @@ export function CancelTransactionDialog({
             onClick={() => onOpenChange(false)}
             disabled={cancelMutation.isPending}
           >
-            Back
+            {t('inventoryTransactions.cancelDialog.back')}
           </Button>
           <Button
             variant='destructive'
@@ -87,7 +88,7 @@ export function CancelTransactionDialog({
             {cancelMutation.isPending && (
               <Loader2 className='h-4 w-4 animate-spin me-1.5' />
             )}
-            Confirm Cancel
+            {t('inventoryTransactions.cancelDialog.confirmCancel')}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
