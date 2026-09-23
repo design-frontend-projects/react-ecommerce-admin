@@ -176,11 +176,33 @@ export const useBasket = create<BasketState>((set, get) => ({
 
     let discountAmount = 0
     if (appliedPromotion) {
+      const minOrder = Number(
+        appliedPromotion.min_order_amount ??
+        appliedPromotion.minOrderAmount ??
+        0
+      )
+      if (minOrder > 0 && subtotal < minOrder) {
+        return 0
+      }
+
       if (appliedPromotion.discount_type === 'fixed') {
         discountAmount = Number(appliedPromotion.discount_value)
       } else if (appliedPromotion.discount_type === 'percentage') {
         discountAmount =
           subtotal * (Number(appliedPromotion.discount_value) / 100)
+      }
+
+      const maxDiscount =
+        appliedPromotion.max_discount_amount !== undefined &&
+        appliedPromotion.max_discount_amount !== null
+          ? Number(appliedPromotion.max_discount_amount)
+          : appliedPromotion.maxDiscountAmount !== undefined &&
+              appliedPromotion.maxDiscountAmount !== null
+            ? Number(appliedPromotion.maxDiscountAmount)
+            : null
+
+      if (maxDiscount !== null && maxDiscount > 0) {
+        discountAmount = Math.min(discountAmount, maxDiscount)
       }
     } else if (cartDiscount) {
       if (cartDiscount.type === 'fixed') {

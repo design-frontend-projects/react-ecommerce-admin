@@ -35,6 +35,7 @@ async function getToken(): Promise<string | null> {
 
 export interface PromotionsListResult {
   promotions: InvPromotion[]
+  data?: InvPromotion[]
   totalCount: number
   page: number
   pageSize: number
@@ -58,9 +59,18 @@ export async function fetchPromotions(
   const url = `/api/promotions${params.toString() ? `?${params.toString()}` : ''}`
   const res = (await authorizedRequest(getToken, url)) as {
     success: boolean
-    data: PromotionsListResult
+    data: any
   }
-  return res.data
+  const rows: InvPromotion[] = res.data?.data || res.data?.promotions || []
+  return {
+    ...res.data,
+    data: rows,
+    promotions: rows,
+    totalCount: res.data?.totalCount ?? rows.length,
+    page: res.data?.page ?? 1,
+    pageSize: res.data?.pageSize ?? (rows.length || 20),
+    totalPages: res.data?.totalPages ?? 1,
+  }
 }
 
 export async function fetchPromotionById(id: string): Promise<InvPromotion> {

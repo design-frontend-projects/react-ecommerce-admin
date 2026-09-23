@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Plus, Minus, Trash2, CreditCard, Loader2 } from 'lucide-react'
+import { Plus, Minus, Trash2, CreditCard, Loader2, Ticket } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { cn, formatCurrency } from '@/lib/utils'
@@ -37,6 +37,7 @@ export function BasketView() {
   const { selectedBranchId } = useAuthStore((state) => state.auth)
   const queryClient = useQueryClient()
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [isPromoOpen, setIsPromoOpen] = useState(false)
   const [itemView, setItemView] = useState<'detailed' | 'compact'>('detailed')
 
   const subtotal = getSubtotal()
@@ -206,7 +207,21 @@ export function BasketView() {
         <div className='flex flex-wrap items-center gap-2'>
           <RefundDialog />
           <ReorderDialog />
-          <PromoCodeDialog />
+          <Button
+            type='button'
+            variant='outline'
+            size='sm'
+            className='h-8 text-xs gap-1.5'
+            onClick={() => setIsPromoOpen(true)}
+          >
+            <Ticket className='h-3.5 w-3.5 text-primary' />
+            <span>
+              {appliedPromotion
+                ? appliedPromotion.code || appliedPromotion.name
+                : t('pos.promotions.title', 'Promotions & Discounts')}
+            </span>
+          </Button>
+          <PromoCodeDialog open={isPromoOpen} onOpenChange={setIsPromoOpen} />
           <DiscountToggle />
 
           <div className='ml-auto inline-flex items-center gap-1 rounded-md border bg-muted/40 p-1'>

@@ -395,12 +395,36 @@ export const usePosStore = create<PosState>()(
 
         let discount = 0
         if (appliedPromotion) {
+          // Check min_order_amount if specified
+          const minOrder = Number(
+            appliedPromotion.min_order_amount ??
+            appliedPromotion.minOrderAmount ??
+            0
+          )
+          if (minOrder > 0 && subtotalAfterItemDiscounts < minOrder) {
+            return 0
+          }
+
           if (appliedPromotion.discount_type === 'fixed') {
             discount = Number(appliedPromotion.discount_value || 0)
           } else if (appliedPromotion.discount_type === 'percentage') {
             discount =
               subtotalAfterItemDiscounts *
               (Number(appliedPromotion.discount_value || 0) / 100)
+          }
+
+          // Check max_discount_amount if specified
+          const maxDiscount =
+            appliedPromotion.max_discount_amount !== undefined &&
+            appliedPromotion.max_discount_amount !== null
+              ? Number(appliedPromotion.max_discount_amount)
+              : appliedPromotion.maxDiscountAmount !== undefined &&
+                  appliedPromotion.maxDiscountAmount !== null
+                ? Number(appliedPromotion.maxDiscountAmount)
+                : null
+
+          if (maxDiscount !== null && maxDiscount > 0) {
+            discount = Math.min(discount, maxDiscount)
           }
         } else if (cartDiscount) {
           if (cartDiscount.type === 'fixed') {

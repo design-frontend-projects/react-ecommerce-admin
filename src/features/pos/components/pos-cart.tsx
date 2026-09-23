@@ -65,6 +65,8 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
     getTotalDiscountAmount,
     getTaxAmount,
     getTotalAmount,
+    appliedPromotion,
+    removePromotion,
     getItemCount,
     hasStockErrors,
     heldOrders,
@@ -613,38 +615,50 @@ export function PosCart({ onOpenCheckout, onOpenHold }: PosCartProps) {
             </span>
           </div>
 
-          {/* Promo code row */}
+          {/* Promotions & Discounts row */}
           <div className='flex items-center justify-between text-muted-foreground'>
             <div className='flex items-center gap-1.5'>
-              <Ticket className='h-3 w-3' />
-              <span>{t('pos.cartSection.promoCode', 'Promo Code')}</span>
+              <Ticket className='h-3 w-3 text-primary' />
+              <span className='font-medium text-foreground/85'>
+                {t('pos.promotions.title', 'Promotions & Discounts')}
+              </span>
             </div>
             <Button
               variant='ghost'
               size='sm'
-              className='h-5 px-1 text-[10px] text-primary hover:underline'
+              className='h-5 px-1 text-[10px] text-primary hover:underline font-semibold'
               onClick={() => setIsPromoOpen(true)}
             >
-              {usePosStore.getState().appliedPromotion
+              {appliedPromotion
                 ? t('pos.cartSection.change', 'Change')
-                : t('pos.cartSection.apply', '+ Apply')}
+                : t('pos.cartSection.browse', '+ Browse')}
             </Button>
           </div>
-          {usePosStore.getState().appliedPromotion && (
-            <div className='flex items-center gap-1.5 text-[10px]'>
-              <Badge
-                variant='secondary'
-                className='h-5 gap-1 px-1.5 text-[10px] text-emerald-600 dark:text-emerald-400'
-              >
-                <Tag className='h-2.5 w-2.5' />
-                {usePosStore.getState().appliedPromotion.code ||
-                  usePosStore.getState().appliedPromotion.name}
-              </Badge>
+          {appliedPromotion && (
+            <div className='flex items-center justify-between gap-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/5 px-2 py-1 text-[10px]'>
+              <div className='flex items-center gap-1.5 min-w-0 flex-1'>
+                <Badge
+                  variant='secondary'
+                  className='h-4.5 gap-1 px-1.5 text-[9px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
+                >
+                  <Tag className='h-2.5 w-2.5' />
+                  <span className='truncate max-w-[130px]'>
+                    {appliedPromotion.code || appliedPromotion.name}
+                  </span>
+                </Badge>
+                <span className='text-[10px] text-emerald-600 dark:text-emerald-400 font-medium'>
+                  {appliedPromotion.discount_type === 'fixed'
+                    ? formatCurrency(Number(appliedPromotion.discount_value))
+                    : `${appliedPromotion.discount_value}%`}{' '}
+                  off
+                </span>
+              </div>
               <Button
                 variant='ghost'
                 size='sm'
-                className='h-4 px-0.5 text-[10px] text-rose-500 hover:text-rose-600'
-                onClick={() => usePosStore.getState().removePromotion()}
+                className='h-4 w-4 p-0 text-rose-500 hover:text-rose-600 hover:bg-rose-500/10'
+                onClick={() => removePromotion()}
+                title={t('pos.promotions.remove', 'Remove')}
               >
                 <X className='h-3 w-3' />
               </Button>
