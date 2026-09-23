@@ -54,8 +54,6 @@ export type ProductsMinAggregateOutputType = {
   tracking_mode: $Enums.tracking_mode_enum | null
   is_stock_item: boolean | null
   reorderable: boolean | null
-  tax_code: string | null
-  tax_classification_id: string | null
   is_batch_tracked: boolean | null
   is_serial_tracked: boolean | null
   product_type: $Enums.product_type_enum | null
@@ -89,8 +87,6 @@ export type ProductsMaxAggregateOutputType = {
   tracking_mode: $Enums.tracking_mode_enum | null
   is_stock_item: boolean | null
   reorderable: boolean | null
-  tax_code: string | null
-  tax_classification_id: string | null
   is_batch_tracked: boolean | null
   is_serial_tracked: boolean | null
   product_type: $Enums.product_type_enum | null
@@ -124,8 +120,6 @@ export type ProductsCountAggregateOutputType = {
   tracking_mode: number
   is_stock_item: number
   reorderable: number
-  tax_code: number
-  tax_classification_id: number
   is_batch_tracked: number
   is_serial_tracked: number
   product_type: number
@@ -169,8 +163,6 @@ export type ProductsMinAggregateInputType = {
   tracking_mode?: true
   is_stock_item?: true
   reorderable?: true
-  tax_code?: true
-  tax_classification_id?: true
   is_batch_tracked?: true
   is_serial_tracked?: true
   product_type?: true
@@ -204,8 +196,6 @@ export type ProductsMaxAggregateInputType = {
   tracking_mode?: true
   is_stock_item?: true
   reorderable?: true
-  tax_code?: true
-  tax_classification_id?: true
   is_batch_tracked?: true
   is_serial_tracked?: true
   product_type?: true
@@ -239,8 +229,6 @@ export type ProductsCountAggregateInputType = {
   tracking_mode?: true
   is_stock_item?: true
   reorderable?: true
-  tax_code?: true
-  tax_classification_id?: true
   is_batch_tracked?: true
   is_serial_tracked?: true
   product_type?: true
@@ -361,8 +349,6 @@ export type ProductsGroupByOutputType = {
   tracking_mode: $Enums.tracking_mode_enum
   is_stock_item: boolean | null
   reorderable: boolean | null
-  tax_code: string | null
-  tax_classification_id: string | null
   is_batch_tracked: boolean
   is_serial_tracked: boolean
   product_type: $Enums.product_type_enum
@@ -419,8 +405,6 @@ export type productsWhereInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFilter<"products"> | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.BoolNullableFilter<"products"> | boolean | null
   reorderable?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  tax_code?: Prisma.StringNullableFilter<"products"> | string | null
-  tax_classification_id?: Prisma.UuidNullableFilter<"products"> | string | null
   is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
@@ -438,7 +422,6 @@ export type productsWhereInput = {
   brands?: Prisma.XOR<Prisma.BrandsNullableScalarRelationFilter, Prisma.brandsWhereInput> | null
   categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   product_types?: Prisma.XOR<Prisma.Product_typesNullableScalarRelationFilter, Prisma.product_typesWhereInput> | null
-  tax_classifications?: Prisma.XOR<Prisma.Tax_classificationsNullableScalarRelationFilter, Prisma.tax_classificationsWhereInput> | null
   suppliers?: Prisma.XOR<Prisma.SuppliersNullableScalarRelationFilter, Prisma.suppliersWhereInput> | null
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
   inventory?: Prisma.InventoryListRelationFilter
@@ -467,8 +450,6 @@ export type productsOrderByWithRelationInput = {
   tracking_mode?: Prisma.SortOrder
   is_stock_item?: Prisma.SortOrderInput | Prisma.SortOrder
   reorderable?: Prisma.SortOrderInput | Prisma.SortOrder
-  tax_code?: Prisma.SortOrderInput | Prisma.SortOrder
-  tax_classification_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
@@ -486,7 +467,6 @@ export type productsOrderByWithRelationInput = {
   brands?: Prisma.brandsOrderByWithRelationInput
   categories?: Prisma.categoriesOrderByWithRelationInput
   product_types?: Prisma.product_typesOrderByWithRelationInput
-  tax_classifications?: Prisma.tax_classificationsOrderByWithRelationInput
   suppliers?: Prisma.suppliersOrderByWithRelationInput
   purchase_order_items?: Prisma.purchase_order_itemsOrderByRelationAggregateInput
   inventory?: Prisma.inventoryOrderByRelationAggregateInput
@@ -519,8 +499,6 @@ export type productsWhereUniqueInput = Prisma.AtLeast<{
   tracking_mode?: Prisma.Enumtracking_mode_enumFilter<"products"> | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.BoolNullableFilter<"products"> | boolean | null
   reorderable?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  tax_code?: Prisma.StringNullableFilter<"products"> | string | null
-  tax_classification_id?: Prisma.UuidNullableFilter<"products"> | string | null
   is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
@@ -537,7 +515,6 @@ export type productsWhereUniqueInput = Prisma.AtLeast<{
   brands?: Prisma.XOR<Prisma.BrandsNullableScalarRelationFilter, Prisma.brandsWhereInput> | null
   categories?: Prisma.XOR<Prisma.CategoriesNullableScalarRelationFilter, Prisma.categoriesWhereInput> | null
   product_types?: Prisma.XOR<Prisma.Product_typesNullableScalarRelationFilter, Prisma.product_typesWhereInput> | null
-  tax_classifications?: Prisma.XOR<Prisma.Tax_classificationsNullableScalarRelationFilter, Prisma.tax_classificationsWhereInput> | null
   suppliers?: Prisma.XOR<Prisma.SuppliersNullableScalarRelationFilter, Prisma.suppliersWhereInput> | null
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
   inventory?: Prisma.InventoryListRelationFilter
@@ -566,8 +543,6 @@ export type productsOrderByWithAggregationInput = {
   tracking_mode?: Prisma.SortOrder
   is_stock_item?: Prisma.SortOrderInput | Prisma.SortOrder
   reorderable?: Prisma.SortOrderInput | Prisma.SortOrder
-  tax_code?: Prisma.SortOrderInput | Prisma.SortOrder
-  tax_classification_id?: Prisma.SortOrderInput | Prisma.SortOrder
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
@@ -609,8 +584,6 @@ export type productsScalarWhereWithAggregatesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumWithAggregatesFilter<"products"> | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.BoolNullableWithAggregatesFilter<"products"> | boolean | null
   reorderable?: Prisma.BoolNullableWithAggregatesFilter<"products"> | boolean | null
-  tax_code?: Prisma.StringNullableWithAggregatesFilter<"products"> | string | null
-  tax_classification_id?: Prisma.UuidNullableWithAggregatesFilter<"products"> | string | null
   is_batch_tracked?: Prisma.BoolWithAggregatesFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolWithAggregatesFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumWithAggregatesFilter<"products"> | $Enums.product_type_enum
@@ -642,7 +615,6 @@ export type productsCreateInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -657,7 +629,6 @@ export type productsCreateInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -686,8 +657,6 @@ export type productsUncheckedCreateInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -726,7 +695,6 @@ export type productsUpdateInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -741,7 +709,6 @@ export type productsUpdateInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -770,8 +737,6 @@ export type productsUncheckedUpdateInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -812,8 +777,6 @@ export type productsCreateManyInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -845,7 +808,6 @@ export type productsUpdateManyMutationInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -876,8 +838,6 @@ export type productsUncheckedUpdateManyInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -931,8 +891,6 @@ export type productsCountOrderByAggregateInput = {
   tracking_mode?: Prisma.SortOrder
   is_stock_item?: Prisma.SortOrder
   reorderable?: Prisma.SortOrder
-  tax_code?: Prisma.SortOrder
-  tax_classification_id?: Prisma.SortOrder
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
@@ -970,8 +928,6 @@ export type productsMaxOrderByAggregateInput = {
   tracking_mode?: Prisma.SortOrder
   is_stock_item?: Prisma.SortOrder
   reorderable?: Prisma.SortOrder
-  tax_code?: Prisma.SortOrder
-  tax_classification_id?: Prisma.SortOrder
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
@@ -1005,8 +961,6 @@ export type productsMinOrderByAggregateInput = {
   tracking_mode?: Prisma.SortOrder
   is_stock_item?: Prisma.SortOrder
   reorderable?: Prisma.SortOrder
-  tax_code?: Prisma.SortOrder
-  tax_classification_id?: Prisma.SortOrder
   is_batch_tracked?: Prisma.SortOrder
   is_serial_tracked?: Prisma.SortOrder
   product_type?: Prisma.SortOrder
@@ -1118,48 +1072,6 @@ export type Enumtracking_mode_enumFieldUpdateOperationsInput = {
 
 export type Enumproduct_type_enumFieldUpdateOperationsInput = {
   set?: $Enums.product_type_enum
-}
-
-export type productsCreateNestedManyWithoutTax_classificationsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTax_classificationsInput, Prisma.productsUncheckedCreateWithoutTax_classificationsInput> | Prisma.productsCreateWithoutTax_classificationsInput[] | Prisma.productsUncheckedCreateWithoutTax_classificationsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTax_classificationsInput | Prisma.productsCreateOrConnectWithoutTax_classificationsInput[]
-  createMany?: Prisma.productsCreateManyTax_classificationsInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUncheckedCreateNestedManyWithoutTax_classificationsInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTax_classificationsInput, Prisma.productsUncheckedCreateWithoutTax_classificationsInput> | Prisma.productsCreateWithoutTax_classificationsInput[] | Prisma.productsUncheckedCreateWithoutTax_classificationsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTax_classificationsInput | Prisma.productsCreateOrConnectWithoutTax_classificationsInput[]
-  createMany?: Prisma.productsCreateManyTax_classificationsInputEnvelope
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-}
-
-export type productsUpdateManyWithoutTax_classificationsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTax_classificationsInput, Prisma.productsUncheckedCreateWithoutTax_classificationsInput> | Prisma.productsCreateWithoutTax_classificationsInput[] | Prisma.productsUncheckedCreateWithoutTax_classificationsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTax_classificationsInput | Prisma.productsCreateOrConnectWithoutTax_classificationsInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutTax_classificationsInput | Prisma.productsUpsertWithWhereUniqueWithoutTax_classificationsInput[]
-  createMany?: Prisma.productsCreateManyTax_classificationsInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutTax_classificationsInput | Prisma.productsUpdateWithWhereUniqueWithoutTax_classificationsInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutTax_classificationsInput | Prisma.productsUpdateManyWithWhereWithoutTax_classificationsInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
-}
-
-export type productsUncheckedUpdateManyWithoutTax_classificationsNestedInput = {
-  create?: Prisma.XOR<Prisma.productsCreateWithoutTax_classificationsInput, Prisma.productsUncheckedCreateWithoutTax_classificationsInput> | Prisma.productsCreateWithoutTax_classificationsInput[] | Prisma.productsUncheckedCreateWithoutTax_classificationsInput[]
-  connectOrCreate?: Prisma.productsCreateOrConnectWithoutTax_classificationsInput | Prisma.productsCreateOrConnectWithoutTax_classificationsInput[]
-  upsert?: Prisma.productsUpsertWithWhereUniqueWithoutTax_classificationsInput | Prisma.productsUpsertWithWhereUniqueWithoutTax_classificationsInput[]
-  createMany?: Prisma.productsCreateManyTax_classificationsInputEnvelope
-  set?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  disconnect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  delete?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  connect?: Prisma.productsWhereUniqueInput | Prisma.productsWhereUniqueInput[]
-  update?: Prisma.productsUpdateWithWhereUniqueWithoutTax_classificationsInput | Prisma.productsUpdateWithWhereUniqueWithoutTax_classificationsInput[]
-  updateMany?: Prisma.productsUpdateManyWithWhereWithoutTax_classificationsInput | Prisma.productsUpdateManyWithWhereWithoutTax_classificationsInput[]
-  deleteMany?: Prisma.productsScalarWhereInput | Prisma.productsScalarWhereInput[]
 }
 
 export type productsCreateNestedManyWithoutProduct_typesInput = {
@@ -1408,7 +1320,6 @@ export type productsCreateWithoutCategoriesInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1422,7 +1333,6 @@ export type productsCreateWithoutCategoriesInput = {
   base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -1451,8 +1361,6 @@ export type productsUncheckedCreateWithoutCategoriesInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1521,8 +1429,6 @@ export type productsScalarWhereInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFilter<"products"> | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.BoolNullableFilter<"products"> | boolean | null
   reorderable?: Prisma.BoolNullableFilter<"products"> | boolean | null
-  tax_code?: Prisma.StringNullableFilter<"products"> | string | null
-  tax_classification_id?: Prisma.UuidNullableFilter<"products"> | string | null
   is_batch_tracked?: Prisma.BoolFilter<"products"> | boolean
   is_serial_tracked?: Prisma.BoolFilter<"products"> | boolean
   product_type?: Prisma.Enumproduct_type_enumFilter<"products"> | $Enums.product_type_enum
@@ -1554,7 +1460,6 @@ export type productsCreateWithoutPrice_listInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1569,7 +1474,6 @@ export type productsCreateWithoutPrice_listInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -1597,8 +1501,6 @@ export type productsUncheckedCreateWithoutPrice_listInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1652,7 +1554,6 @@ export type productsUpdateWithoutPrice_listInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -1667,7 +1568,6 @@ export type productsUpdateWithoutPrice_listInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -1695,8 +1595,6 @@ export type productsUncheckedUpdateWithoutPrice_listInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -1734,7 +1632,6 @@ export type productsCreateWithoutPrice_list_itemsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1749,7 +1646,6 @@ export type productsCreateWithoutPrice_list_itemsInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -1777,8 +1673,6 @@ export type productsUncheckedCreateWithoutPrice_list_itemsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1832,7 +1726,6 @@ export type productsUpdateWithoutPrice_list_itemsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -1847,7 +1740,6 @@ export type productsUpdateWithoutPrice_list_itemsInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -1875,8 +1767,6 @@ export type productsUncheckedUpdateWithoutPrice_list_itemsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -1914,7 +1804,6 @@ export type productsCreateWithoutProduct_variantsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -1928,7 +1817,6 @@ export type productsCreateWithoutProduct_variantsInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -1957,8 +1845,6 @@ export type productsUncheckedCreateWithoutProduct_variantsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2012,7 +1898,6 @@ export type productsUpdateWithoutProduct_variantsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2026,7 +1911,6 @@ export type productsUpdateWithoutProduct_variantsInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -2055,8 +1939,6 @@ export type productsUncheckedUpdateWithoutProduct_variantsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2074,114 +1956,6 @@ export type productsUncheckedUpdateWithoutProduct_variantsInput = {
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
   price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutProductsNestedInput
   inv_promotion_products?: Prisma.inv_promotion_productsUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsCreateWithoutTax_classificationsInput = {
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  has_expiration?: boolean | null
-  is_marketplace?: boolean | null
-  tracking_mode?: $Enums.tracking_mode_enum
-  is_stock_item?: boolean | null
-  reorderable?: boolean | null
-  tax_code?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  deleted_at?: Date | string | null
-  id?: string
-  tenant_id: string
-  created_by_user_id?: string | null
-  updated_by_user_id?: string | null
-  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsCreateNestedManyWithoutProductsInput
-  base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
-  brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
-  categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
-  price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutProductsInput
-  inv_promotion_products?: Prisma.inv_promotion_productsCreateNestedManyWithoutProductsInput
-}
-
-export type productsUncheckedCreateWithoutTax_classificationsInput = {
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  has_expiration?: boolean | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  tracking_mode?: $Enums.tracking_mode_enum
-  is_stock_item?: boolean | null
-  reorderable?: boolean | null
-  tax_code?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  product_type_id?: string | null
-  deleted_at?: Date | string | null
-  id?: string
-  tenant_id: string
-  supplier_id?: string | null
-  category_id?: string | null
-  created_by_user_id?: string | null
-  updated_by_user_id?: string | null
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProductsInput
-  product_variants?: Prisma.product_variantsUncheckedCreateNestedManyWithoutProductsInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProductsInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProductsInput
-  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutProductsInput
-  price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutProductsInput
-  inv_promotion_products?: Prisma.inv_promotion_productsUncheckedCreateNestedManyWithoutProductsInput
-}
-
-export type productsCreateOrConnectWithoutTax_classificationsInput = {
-  where: Prisma.productsWhereUniqueInput
-  create: Prisma.XOR<Prisma.productsCreateWithoutTax_classificationsInput, Prisma.productsUncheckedCreateWithoutTax_classificationsInput>
-}
-
-export type productsCreateManyTax_classificationsInputEnvelope = {
-  data: Prisma.productsCreateManyTax_classificationsInput | Prisma.productsCreateManyTax_classificationsInput[]
-  skipDuplicates?: boolean
-}
-
-export type productsUpsertWithWhereUniqueWithoutTax_classificationsInput = {
-  where: Prisma.productsWhereUniqueInput
-  update: Prisma.XOR<Prisma.productsUpdateWithoutTax_classificationsInput, Prisma.productsUncheckedUpdateWithoutTax_classificationsInput>
-  create: Prisma.XOR<Prisma.productsCreateWithoutTax_classificationsInput, Prisma.productsUncheckedCreateWithoutTax_classificationsInput>
-}
-
-export type productsUpdateWithWhereUniqueWithoutTax_classificationsInput = {
-  where: Prisma.productsWhereUniqueInput
-  data: Prisma.XOR<Prisma.productsUpdateWithoutTax_classificationsInput, Prisma.productsUncheckedUpdateWithoutTax_classificationsInput>
-}
-
-export type productsUpdateManyWithWhereWithoutTax_classificationsInput = {
-  where: Prisma.productsScalarWhereInput
-  data: Prisma.XOR<Prisma.productsUpdateManyMutationInput, Prisma.productsUncheckedUpdateManyWithoutTax_classificationsInput>
 }
 
 export type productsCreateWithoutProduct_typesInput = {
@@ -2202,7 +1976,6 @@ export type productsCreateWithoutProduct_typesInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2216,7 +1989,6 @@ export type productsCreateWithoutProduct_typesInput = {
   base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -2245,8 +2017,6 @@ export type productsUncheckedCreateWithoutProduct_typesInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2310,7 +2080,6 @@ export type productsCreateWithoutInventoryInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2325,7 +2094,6 @@ export type productsCreateWithoutInventoryInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
@@ -2353,8 +2121,6 @@ export type productsUncheckedCreateWithoutInventoryInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2408,7 +2174,6 @@ export type productsUpdateWithoutInventoryInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2423,7 +2188,6 @@ export type productsUpdateWithoutInventoryInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
@@ -2451,8 +2215,6 @@ export type productsUncheckedUpdateWithoutInventoryInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2490,7 +2252,6 @@ export type productsCreateWithoutPos_reorder_requestsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2504,7 +2265,6 @@ export type productsCreateWithoutPos_reorder_requestsInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -2533,8 +2293,6 @@ export type productsUncheckedCreateWithoutPos_reorder_requestsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2588,7 +2346,6 @@ export type productsUpdateWithoutPos_reorder_requestsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2602,7 +2359,6 @@ export type productsUpdateWithoutPos_reorder_requestsInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -2631,8 +2387,6 @@ export type productsUncheckedUpdateWithoutPos_reorder_requestsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2670,7 +2424,6 @@ export type productsCreateWithoutPurchase_order_itemsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2685,7 +2438,6 @@ export type productsCreateWithoutPurchase_order_itemsInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
@@ -2713,8 +2465,6 @@ export type productsUncheckedCreateWithoutPurchase_order_itemsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2768,7 +2518,6 @@ export type productsUpdateWithoutPurchase_order_itemsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2783,7 +2532,6 @@ export type productsUpdateWithoutPurchase_order_itemsInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
@@ -2811,8 +2559,6 @@ export type productsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -2850,7 +2596,6 @@ export type productsCreateWithoutSuppliersInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2865,7 +2610,6 @@ export type productsCreateWithoutSuppliersInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
   price_list?: Prisma.price_listCreateNestedManyWithoutProductsInput
@@ -2893,8 +2637,6 @@ export type productsUncheckedCreateWithoutSuppliersInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2958,7 +2700,6 @@ export type productsCreateWithoutBrandsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -2972,7 +2713,6 @@ export type productsCreateWithoutBrandsInput = {
   base_uom?: Prisma.uomsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -3000,8 +2740,6 @@ export type productsUncheckedCreateWithoutBrandsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3066,7 +2804,6 @@ export type productsCreateWithoutBase_uomInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3080,7 +2817,6 @@ export type productsCreateWithoutBase_uomInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -3108,8 +2844,6 @@ export type productsUncheckedCreateWithoutBase_uomInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3174,7 +2908,6 @@ export type productsCreateWithoutInv_promotion_productsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3189,7 +2922,6 @@ export type productsCreateWithoutInv_promotion_productsInput = {
   brands?: Prisma.brandsCreateNestedOneWithoutProductsInput
   categories?: Prisma.categoriesCreateNestedOneWithoutProductsInput
   product_types?: Prisma.product_typesCreateNestedOneWithoutProductsInput
-  tax_classifications?: Prisma.tax_classificationsCreateNestedOneWithoutProductsInput
   suppliers?: Prisma.suppliersCreateNestedOneWithoutProductsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProductsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProductsInput
@@ -3217,8 +2949,6 @@ export type productsUncheckedCreateWithoutInv_promotion_productsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3272,7 +3002,6 @@ export type productsUpdateWithoutInv_promotion_productsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3287,7 +3016,6 @@ export type productsUpdateWithoutInv_promotion_productsInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -3315,8 +3043,6 @@ export type productsUncheckedUpdateWithoutInv_promotion_productsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3356,8 +3082,6 @@ export type productsCreateManyCategoriesInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3388,7 +3112,6 @@ export type productsUpdateWithoutCategoriesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3402,7 +3125,6 @@ export type productsUpdateWithoutCategoriesInput = {
   base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -3431,8 +3153,6 @@ export type productsUncheckedUpdateWithoutCategoriesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3472,8 +3192,6 @@ export type productsUncheckedUpdateManyWithoutCategoriesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3482,156 +3200,6 @@ export type productsUncheckedUpdateManyWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type productsCreateManyTax_classificationsInput = {
-  name: string
-  description?: string | null
-  sku: string
-  barcode?: string | null
-  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: string | null
-  is_active?: boolean | null
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  store_id?: string | null
-  has_variants?: boolean | null
-  is_deleted?: boolean | null
-  has_expiration?: boolean | null
-  is_marketplace?: boolean | null
-  base_uom_id?: string | null
-  brand_id?: string | null
-  tracking_mode?: $Enums.tracking_mode_enum
-  is_stock_item?: boolean | null
-  reorderable?: boolean | null
-  tax_code?: string | null
-  is_batch_tracked?: boolean
-  is_serial_tracked?: boolean
-  product_type?: $Enums.product_type_enum
-  product_type_id?: string | null
-  deleted_at?: Date | string | null
-  id?: string
-  tenant_id: string
-  supplier_id?: string | null
-  category_id?: string | null
-  created_by_user_id?: string | null
-  updated_by_user_id?: string | null
-}
-
-export type productsUpdateWithoutTax_classificationsInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
-  is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUpdateManyWithoutProductsNestedInput
-  base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
-  brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
-  categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
-  price_list_items?: Prisma.price_list_itemsUpdateManyWithoutProductsNestedInput
-  inv_promotion_products?: Prisma.inv_promotion_productsUpdateManyWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateWithoutTax_classificationsInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
-  is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  product_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProductsNestedInput
-  product_variants?: Prisma.product_variantsUncheckedUpdateManyWithoutProductsNestedInput
-  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProductsNestedInput
-  price_list?: Prisma.price_listUncheckedUpdateManyWithoutProductsNestedInput
-  price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutProductsNestedInput
-  inv_promotion_products?: Prisma.inv_promotion_productsUncheckedUpdateManyWithoutProductsNestedInput
-}
-
-export type productsUncheckedUpdateManyWithoutTax_classificationsInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sku?: Prisma.StringFieldUpdateOperationsInput | string
-  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  dimensions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  has_variants?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_deleted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  is_marketplace?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  base_uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brand_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
-  is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
-  product_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -3656,8 +3224,6 @@ export type productsCreateManyProduct_typesInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3688,7 +3254,6 @@ export type productsUpdateWithoutProduct_typesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3702,7 +3267,6 @@ export type productsUpdateWithoutProduct_typesInput = {
   base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -3731,8 +3295,6 @@ export type productsUncheckedUpdateWithoutProduct_typesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3772,8 +3334,6 @@ export type productsUncheckedUpdateManyWithoutProduct_typesInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3806,8 +3366,6 @@ export type productsCreateManySuppliersInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3838,7 +3396,6 @@ export type productsUpdateWithoutSuppliersInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3853,7 +3410,6 @@ export type productsUpdateWithoutSuppliersInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutProductsNestedInput
@@ -3881,8 +3437,6 @@ export type productsUncheckedUpdateWithoutSuppliersInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3922,8 +3476,6 @@ export type productsUncheckedUpdateManyWithoutSuppliersInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -3955,8 +3507,6 @@ export type productsCreateManyBrandsInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -3988,7 +3538,6 @@ export type productsUpdateWithoutBrandsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -4002,7 +3551,6 @@ export type productsUpdateWithoutBrandsInput = {
   base_uom?: Prisma.uomsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -4030,8 +3578,6 @@ export type productsUncheckedUpdateWithoutBrandsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -4071,8 +3617,6 @@ export type productsUncheckedUpdateManyWithoutBrandsInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -4105,8 +3649,6 @@ export type productsCreateManyBase_uomInput = {
   tracking_mode?: $Enums.tracking_mode_enum
   is_stock_item?: boolean | null
   reorderable?: boolean | null
-  tax_code?: string | null
-  tax_classification_id?: string | null
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: $Enums.product_type_enum
@@ -4138,7 +3680,6 @@ export type productsUpdateWithoutBase_uomInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -4152,7 +3693,6 @@ export type productsUpdateWithoutBase_uomInput = {
   brands?: Prisma.brandsUpdateOneWithoutProductsNestedInput
   categories?: Prisma.categoriesUpdateOneWithoutProductsNestedInput
   product_types?: Prisma.product_typesUpdateOneWithoutProductsNestedInput
-  tax_classifications?: Prisma.tax_classificationsUpdateOneWithoutProductsNestedInput
   suppliers?: Prisma.suppliersUpdateOneWithoutProductsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProductsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProductsNestedInput
@@ -4180,8 +3720,6 @@ export type productsUncheckedUpdateWithoutBase_uomInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -4221,8 +3759,6 @@ export type productsUncheckedUpdateManyWithoutBase_uomInput = {
   tracking_mode?: Prisma.Enumtracking_mode_enumFieldUpdateOperationsInput | $Enums.tracking_mode_enum
   is_stock_item?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   reorderable?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  tax_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tax_classification_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_batch_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_serial_tracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   product_type?: Prisma.Enumproduct_type_enumFieldUpdateOperationsInput | $Enums.product_type_enum
@@ -4341,8 +3877,6 @@ export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tracking_mode?: boolean
   is_stock_item?: boolean
   reorderable?: boolean
-  tax_code?: boolean
-  tax_classification_id?: boolean
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
@@ -4360,7 +3894,6 @@ export type productsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
   categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
   product_types?: boolean | Prisma.products$product_typesArgs<ExtArgs>
-  tax_classifications?: boolean | Prisma.products$tax_classificationsArgs<ExtArgs>
   suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.products$purchase_order_itemsArgs<ExtArgs>
   inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
@@ -4390,8 +3923,6 @@ export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   tracking_mode?: boolean
   is_stock_item?: boolean
   reorderable?: boolean
-  tax_code?: boolean
-  tax_classification_id?: boolean
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
@@ -4407,7 +3938,6 @@ export type productsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
   categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
   product_types?: boolean | Prisma.products$product_typesArgs<ExtArgs>
-  tax_classifications?: boolean | Prisma.products$tax_classificationsArgs<ExtArgs>
   suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
@@ -4431,8 +3961,6 @@ export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   tracking_mode?: boolean
   is_stock_item?: boolean
   reorderable?: boolean
-  tax_code?: boolean
-  tax_classification_id?: boolean
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
@@ -4448,7 +3976,6 @@ export type productsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
   categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
   product_types?: boolean | Prisma.products$product_typesArgs<ExtArgs>
-  tax_classifications?: boolean | Prisma.products$tax_classificationsArgs<ExtArgs>
   suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
 }, ExtArgs["result"]["products"]>
 
@@ -4472,8 +3999,6 @@ export type productsSelectScalar = {
   tracking_mode?: boolean
   is_stock_item?: boolean
   reorderable?: boolean
-  tax_code?: boolean
-  tax_classification_id?: boolean
   is_batch_tracked?: boolean
   is_serial_tracked?: boolean
   product_type?: boolean
@@ -4487,7 +4012,7 @@ export type productsSelectScalar = {
   updated_by_user_id?: boolean
 }
 
-export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "sku" | "barcode" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "store_id" | "has_variants" | "is_deleted" | "has_expiration" | "is_marketplace" | "base_uom_id" | "brand_id" | "tracking_mode" | "is_stock_item" | "reorderable" | "tax_code" | "tax_classification_id" | "is_batch_tracked" | "is_serial_tracked" | "product_type" | "product_type_id" | "deleted_at" | "id" | "tenant_id" | "supplier_id" | "category_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["products"]>
+export type productsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"name" | "description" | "sku" | "barcode" | "weight" | "dimensions" | "is_active" | "created_at" | "updated_at" | "store_id" | "has_variants" | "is_deleted" | "has_expiration" | "is_marketplace" | "base_uom_id" | "brand_id" | "tracking_mode" | "is_stock_item" | "reorderable" | "is_batch_tracked" | "is_serial_tracked" | "product_type" | "product_type_id" | "deleted_at" | "id" | "tenant_id" | "supplier_id" | "category_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["products"]>
 export type productsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pos_reorder_requests?: boolean | Prisma.products$pos_reorder_requestsArgs<ExtArgs>
   product_variants?: boolean | Prisma.products$product_variantsArgs<ExtArgs>
@@ -4495,7 +4020,6 @@ export type productsInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
   categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
   product_types?: boolean | Prisma.products$product_typesArgs<ExtArgs>
-  tax_classifications?: boolean | Prisma.products$tax_classificationsArgs<ExtArgs>
   suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.products$purchase_order_itemsArgs<ExtArgs>
   inventory?: boolean | Prisma.products$inventoryArgs<ExtArgs>
@@ -4509,7 +4033,6 @@ export type productsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
   categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
   product_types?: boolean | Prisma.products$product_typesArgs<ExtArgs>
-  tax_classifications?: boolean | Prisma.products$tax_classificationsArgs<ExtArgs>
   suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
 }
 export type productsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4517,7 +4040,6 @@ export type productsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   brands?: boolean | Prisma.products$brandsArgs<ExtArgs>
   categories?: boolean | Prisma.products$categoriesArgs<ExtArgs>
   product_types?: boolean | Prisma.products$product_typesArgs<ExtArgs>
-  tax_classifications?: boolean | Prisma.products$tax_classificationsArgs<ExtArgs>
   suppliers?: boolean | Prisma.products$suppliersArgs<ExtArgs>
 }
 
@@ -4530,7 +4052,6 @@ export type $productsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     brands: Prisma.$brandsPayload<ExtArgs> | null
     categories: Prisma.$categoriesPayload<ExtArgs> | null
     product_types: Prisma.$product_typesPayload<ExtArgs> | null
-    tax_classifications: Prisma.$tax_classificationsPayload<ExtArgs> | null
     suppliers: Prisma.$suppliersPayload<ExtArgs> | null
     purchase_order_items: Prisma.$purchase_order_itemsPayload<ExtArgs>[]
     inventory: Prisma.$inventoryPayload<ExtArgs>[]
@@ -4558,8 +4079,6 @@ export type $productsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     tracking_mode: $Enums.tracking_mode_enum
     is_stock_item: boolean | null
     reorderable: boolean | null
-    tax_code: string | null
-    tax_classification_id: string | null
     is_batch_tracked: boolean
     is_serial_tracked: boolean
     product_type: $Enums.product_type_enum
@@ -4971,7 +4490,6 @@ export interface Prisma__productsClient<T, Null = never, ExtArgs extends runtime
   brands<T extends Prisma.products$brandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$brandsArgs<ExtArgs>>): Prisma.Prisma__brandsClient<runtime.Types.Result.GetResult<Prisma.$brandsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   categories<T extends Prisma.products$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$categoriesArgs<ExtArgs>>): Prisma.Prisma__categoriesClient<runtime.Types.Result.GetResult<Prisma.$categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   product_types<T extends Prisma.products$product_typesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$product_typesArgs<ExtArgs>>): Prisma.Prisma__product_typesClient<runtime.Types.Result.GetResult<Prisma.$product_typesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tax_classifications<T extends Prisma.products$tax_classificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$tax_classificationsArgs<ExtArgs>>): Prisma.Prisma__tax_classificationsClient<runtime.Types.Result.GetResult<Prisma.$tax_classificationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   suppliers<T extends Prisma.products$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$suppliersArgs<ExtArgs>>): Prisma.Prisma__suppliersClient<runtime.Types.Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   purchase_order_items<T extends Prisma.products$purchase_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$purchase_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory<T extends Prisma.products$inventoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.products$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5026,8 +4544,6 @@ export interface productsFieldRefs {
   readonly tracking_mode: Prisma.FieldRef<"products", 'tracking_mode_enum'>
   readonly is_stock_item: Prisma.FieldRef<"products", 'Boolean'>
   readonly reorderable: Prisma.FieldRef<"products", 'Boolean'>
-  readonly tax_code: Prisma.FieldRef<"products", 'String'>
-  readonly tax_classification_id: Prisma.FieldRef<"products", 'String'>
   readonly is_batch_tracked: Prisma.FieldRef<"products", 'Boolean'>
   readonly is_serial_tracked: Prisma.FieldRef<"products", 'Boolean'>
   readonly product_type: Prisma.FieldRef<"products", 'product_type_enum'>
@@ -5561,25 +5077,6 @@ export type products$product_typesArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.product_typesInclude<ExtArgs> | null
   where?: Prisma.product_typesWhereInput
-}
-
-/**
- * products.tax_classifications
- */
-export type products$tax_classificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the tax_classifications
-   */
-  select?: Prisma.tax_classificationsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the tax_classifications
-   */
-  omit?: Prisma.tax_classificationsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.tax_classificationsInclude<ExtArgs> | null
-  where?: Prisma.tax_classificationsWhereInput
 }
 
 /**

@@ -186,6 +186,7 @@ export async function resolvePosVariantPrices(
               name: true,
             },
           },
+          tax_rates: true,
         },
       }),
       prisma.tax_rates.findFirst({
@@ -228,7 +229,11 @@ export async function resolvePosVariantPrices(
       const stock = stockMap.get(v.id)
       const basePrice = priceItem?.price ?? new Prisma.Decimal(0)
 
-      const effectiveTax = priceItem?.tax_rates ?? priceItem?.price_list?.tax_rates ?? activeTaxRate
+      const effectiveTax =
+        priceItem?.tax_rates ??
+        v.tax_rates ??
+        priceItem?.price_list?.tax_rates ??
+        activeTaxRate
 
       return {
         productVariantId: v.id,

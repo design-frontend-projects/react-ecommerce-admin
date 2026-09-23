@@ -59,7 +59,7 @@ export const useProducts = () => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color), tax_classifications(id, name, name_ar, rate, code)'
+          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
@@ -82,7 +82,7 @@ export const useProduct = (id?: string | number | null) => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color), tax_classifications(id, name, name_ar, rate, code)'
+          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .eq('id', productId)
         .maybeSingle()
@@ -320,6 +320,7 @@ export const useCreateProductWithVariants = () => {
           sku: v.sku,
           barcode: v.barcode || null,
           name: v.name || v.attributes_label || null,
+          tax_rate_id: v.tax_rate_id || null,
           weight: v.weight ?? null,
           uom_id: v.uom_id || null,
           dimensions: v.attributes_label
@@ -541,6 +542,7 @@ export const useUpdateProductWithVariants = () => {
         sku: v.sku,
         barcode: v.barcode || null,
         name: v.name || v.attributes_label || null,
+        tax_rate_id: v.tax_rate_id || null,
         weight: v.weight ?? null,
         uom_id: v.uom_id || null,
         dimensions: v.attributes_label

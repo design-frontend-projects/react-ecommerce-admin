@@ -49,4 +49,11 @@ if (typeof window === 'undefined') {
   ) as unknown as PrismaClientType
 }
 
+// Allow HMR to clear cached client during development
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    delete globalForPrisma.__prismaClient
+  })
+}
+
 export default prisma

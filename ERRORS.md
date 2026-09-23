@@ -1,5 +1,28 @@
 # Error Log
 
+## [2026-09-24 00:55] - Prisma Unknown field tax_rate_id for select statement on model product_variants in POS Products API
+
+- **Type**: Integration / Runtime
+- **Severity**: High
+- **File**: `src/routes/api/pos/products.ts:161`
+- **Agent**: @backend-specialist
+- **Root Cause**: The active development server (`pnpm run dev`) was started prior to applying migration `20260924010000_move_tax_to_product_variants` and regenerating the Prisma Client (`src/generated/prisma`). In `src/lib/prisma.ts`, `prisma` is cached on `globalThis.__prismaClient` as a singleton to avoid connection exhaustion. Because Vite HMR reloads files without flushing Node's `globalThis` or the Node ESM module cache, the in-memory PrismaClient instance remained on the old schema definition where `tax_rate_id` and `tax_rates` did not exist on `product_variants`. When loading `/pos`, `/api/pos/products` executed a `select` containing `tax_rate_id` and `tax_rates` on `product_variants`, causing Prisma's in-memory validation engine to throw `Unknown field tax_rate_id for select statement on model product_variants`.
+- **Error Message**:
+  ```
+  Invalid `prisma.products.findMany()` invocation in
+  src\routes\api\pos\products.ts:161:29
+
+  Unknown field `tax_rate_id` for select statement on model `product_variants`. Available options are marked with ?.
+  ```
+- **Fix Applied**:
+  1. Verified that the migration has been applied to Supabase and that `src/generated/prisma` already contains `tax_rate_id` and `tax_rates` on `product_variants` (verified with live test queries).
+  2. Added Vite HMR cache invalidation in `src/lib/prisma.ts` via `import.meta.hot.dispose(() => { delete globalForPrisma.__prismaClient })`.
+  3. Notified user to restart `pnpm run dev` in the terminal to force Node to load the updated Prisma Client into memory.
+- **Prevention**: Whenever schema migrations alter model columns and `prisma generate` is run, always restart `pnpm run dev` to ensure Node.js reloads the generated Prisma client.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-23 23:25] - Prisma Unknown field location_code for select statement on model warehouse_locations
 
 - **Type**: Integration

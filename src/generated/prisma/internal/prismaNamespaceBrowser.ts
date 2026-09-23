@@ -70,7 +70,6 @@ export const ModelName = {
   price_list_assignments: 'price_list_assignments',
   product_variants: 'product_variants',
   products: 'products',
-  tax_classifications: 'tax_classifications',
   product_types: 'product_types',
   inventory: 'inventory',
   pos_reorder_requests: 'pos_reorder_requests',
@@ -546,6 +545,7 @@ export const Product_variantsScalarFieldEnum = {
   updated_at: 'updated_at',
   uom_id: 'uom_id',
   product_id: 'product_id',
+  tax_rate_id: 'tax_rate_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -573,8 +573,6 @@ export const ProductsScalarFieldEnum = {
   tracking_mode: 'tracking_mode',
   is_stock_item: 'is_stock_item',
   reorderable: 'reorderable',
-  tax_code: 'tax_code',
-  tax_classification_id: 'tax_classification_id',
   is_batch_tracked: 'is_batch_tracked',
   is_serial_tracked: 'is_serial_tracked',
   product_type: 'product_type',
@@ -589,21 +587,6 @@ export const ProductsScalarFieldEnum = {
 } as const
 
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
-
-
-export const Tax_classificationsScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  name_ar: 'name_ar',
-  rate: 'rate',
-  description: 'description',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Tax_classificationsScalarFieldEnum = (typeof Tax_classificationsScalarFieldEnum)[keyof typeof Tax_classificationsScalarFieldEnum]
 
 
 export const Product_typesScalarFieldEnum = {

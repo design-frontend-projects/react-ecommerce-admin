@@ -32,8 +32,9 @@ export const checkoutRequestSchema = z.object({
   taxTotal: z.number().min(0).optional().default(0),
   notes: z.string().optional(),
   isShipment: z.boolean().default(false),
-  shipment: shipmentSchema.optional(),
-  promotionId: z.number().int().positive().optional(),
+  promotionId: z.union([z.string(), z.number()]).optional(),
+  couponId: z.string().optional(),
+  couponCode: z.string().optional(),
 })
 
 export type CheckoutRequestType = z.infer<typeof checkoutRequestSchema>

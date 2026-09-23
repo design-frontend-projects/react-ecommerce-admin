@@ -37,6 +37,13 @@ vi.mock('@/lib/prisma', () => {
     inv_coupon_redemptions: {
       create: vi.fn(),
     },
+    inv_promotions: {
+      findFirst: vi.fn(),
+      update: vi.fn(),
+    },
+    inv_promotion_usage_logs: {
+      create: vi.fn(),
+    },
     pos_cash_movements: {
       create: vi.fn(),
     },
@@ -267,6 +274,167 @@ describe('POS Checkout Engine with Shipment', () => {
 
     expect(mockTx.shipments.create).not.toHaveBeenCalled()
     expect(result.shipmentId).toBeNull()
+    expect(result.orderNumber).toBe('SO-000123')
+  })
+
+  it('records coupon redemption, increments coupon usages, creates promotion usage log and increments promotion current_usage_count', async () => {
+    const couponId = 'coupon-uuid-101'
+    const promoId = 'promo-uuid-202'
+    const couponCode = 'SAVE10'
+
+    mockTx.inv_coupons.findFirst.mockResolvedValue({
+      id: couponId,
+      promotion_id: promoId,
+      code: couponCode,
+    })
+
+    const input = {
+      terminalId,
+      sessionId,
+      warehouseId,
+      couponCode,
+      orderDiscountAmount: 5,
+      items: [
+        {
+          productVariantId: variantId,
+          sku: 'SKU-COFFEE-01',
+          productName: 'Coffee Beans',
+          quantity: 1,
+          unitPrice: 20,
+          unitCost: 10,
+          discountAmount: 0,
+          taxAmount: 2,
+        },
+      ],
+      payments: [
+        {
+          method: 'cash' as const,
+          amount: 17, // 20 - 5 + 2 = 17
+        },
+      ],
+    }
+
+    const result = await processPosSale(userId, input)
+
+    // Coupon redemption created
+    expect(mockTx.inv_coupon_redemptions.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          coupon_id: couponId,
+          promotion_id: promoId,
+          discount_amount: expect.any(Prisma.Decimal),
+        }),
+      })
+    )
+
+    // Coupon current_usages incremented
+    expect(mockTx.inv_coupons.update).toHaveBeenCalledWith({
+      where: { id: couponId },
+      data: { current_usages: { increment: 1 } },
+    })
+
+    // Invoice-level discount recorded with coupon source
+    expect(mockTx.inv_sales_invoice_discounts.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          promotion_id: promoId,
+          coupon_id: couponId,
+          discount_source: 'coupon',
+          reason: `Coupon: ${couponCode}`,
+        }),
+      })
+    )
+
+    // Promotion usage log created
+    expect(mockTx.inv_promotion_usage_logs.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          promotion_id: promoId,
+          discount_amount: expect.any(Prisma.Decimal),
+        }),
+      })
+    )
+
+    // Promotion current_usage_count incremented (and NO current_discount_amount)
+    expect(mockTx.inv_promotions.update).toHaveBeenCalledWith({
+      where: { id: promoId },
+      data: {
+        current_usage_count: { increment: 1 },
+      },
+    })
+
+    expect(result.orderNumber).toBe('SO-000123')
+  })
+
+  it('records promotion usage and increments current_usage_count when direct promo code is supplied without coupon', async () => {
+    const promoId = 'promo-direct-303'
+    const promoCode = 'SUMMERPROMO'
+
+    mockTx.inv_coupons.findFirst.mockResolvedValue(null)
+    mockTx.inv_promotions.findFirst.mockResolvedValue({
+      id: promoId,
+    })
+
+    const input = {
+      terminalId,
+      sessionId,
+      warehouseId,
+      couponCode: promoCode,
+      orderDiscountAmount: 3,
+      items: [
+        {
+          productVariantId: variantId,
+          sku: 'SKU-COFFEE-01',
+          productName: 'Coffee Beans',
+          quantity: 1,
+          unitPrice: 15,
+          unitCost: 8,
+          discountAmount: 0,
+          taxAmount: 1.5,
+        },
+      ],
+      payments: [
+        {
+          method: 'cash' as const,
+          amount: 13.5,
+        },
+      ],
+    }
+
+    const result = await processPosSale(userId, input)
+
+    // Coupon redemption should NOT be called
+    expect(mockTx.inv_coupon_redemptions.create).not.toHaveBeenCalled()
+    expect(mockTx.inv_coupons.update).not.toHaveBeenCalled()
+
+    // Invoice discount recorded with promotion source
+    expect(mockTx.inv_sales_invoice_discounts.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          promotion_id: promoId,
+          coupon_id: null,
+          discount_source: 'promotion',
+        }),
+      })
+    )
+
+    // Promotion usage log created
+    expect(mockTx.inv_promotion_usage_logs.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          promotion_id: promoId,
+        }),
+      })
+    )
+
+    // Promotion current_usage_count incremented
+    expect(mockTx.inv_promotions.update).toHaveBeenCalledWith({
+      where: { id: promoId },
+      data: {
+        current_usage_count: { increment: 1 },
+      },
+    })
+
     expect(result.orderNumber).toBe('SO-000123')
   })
 })

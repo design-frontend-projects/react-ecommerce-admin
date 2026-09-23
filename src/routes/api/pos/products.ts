@@ -186,6 +186,15 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
                     barcode: true,
                     weight: true,
                     dimensions: true,
+                    tax_rate_id: true,
+                    tax_rates: {
+                      select: {
+                        id: true,
+                        tax_type: true,
+                        rate: true,
+                        is_inclusive: true,
+                      },
+                    },
                     price_list_items: {
                       select: { price: true, cost_price: true },
                       take: 1,
@@ -326,6 +335,7 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
             const priceItem =
               (v as any).price_list_items?.[0] ??
               (p as any).price_list_items?.[0]
+            const effectiveTax = (v as any).tax_rates ?? activeTaxRate
             return {
               productId: p.id,
               productVariantId: v.id,
@@ -341,9 +351,9 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
               categoryName: p.categories?.name ?? null,
               brandName: p.brands?.name ?? null,
               imageUrl: null,
-              taxRateId: activeTaxRate?.id ?? null,
-              taxRate: activeTaxRate?.rate?.toString() ?? '0',
-              taxInclusive: activeTaxRate?.is_inclusive ?? false,
+              taxRateId: effectiveTax?.id ?? null,
+              taxRate: effectiveTax?.rate?.toString() ?? '0',
+              taxInclusive: effectiveTax?.is_inclusive ?? false,
               stockAvailable: stock?.totalAvailable?.toString() ?? '0',
               stockOnHand: stock?.totalOnHand?.toString() ?? '0',
               stockReserved: stock?.totalReserved?.toString() ?? '0',

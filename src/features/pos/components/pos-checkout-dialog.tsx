@@ -85,6 +85,7 @@ function PosCheckoutDialogContent({
     session,
     customer,
     priceListId,
+    appliedPromotion,
     getTotalAmount,
     getSubtotal,
     getTotalDiscountAmount,
@@ -252,6 +253,9 @@ function PosCheckoutDialogContent({
           discountAmount: Math.round(Number(item.discountAmount ?? 0) * 100) / 100,
           taxAmount: Math.round(Number(item.taxAmount ?? 0) * 100) / 100,
           taxRateId: item.taxRateId,
+          promotionId: item.discount ? (appliedPromotion?.promotion_id ?? null) : null,
+          discountType: item.discount?.type ?? null,
+          discountRate: item.discount?.value ?? null,
         })),
         payments: payments.map((p) => ({
           method: p.method,
@@ -263,6 +267,11 @@ function PosCheckoutDialogContent({
         })),
         orderDiscountAmount:
           Math.round(Number(getTotalDiscountAmount() ?? 0) * 100) / 100,
+        couponCode: appliedPromotion?.code || undefined,
+        appliedCouponId: appliedPromotion?.coupon_id || undefined,
+        appliedPromotionIds: appliedPromotion?.promotion_id
+          ? [appliedPromotion.promotion_id]
+          : undefined,
         notes: notes.trim() || undefined,
         idempotencyKey: crypto.randomUUID(),
         isShipment: isShipmentEnabled,
@@ -281,6 +290,13 @@ function PosCheckoutDialogContent({
       }
 
       const res = await checkoutMutation.mutateAsync(payload)
+
+      queryClient.invalidateQueries({ queryKey: ['pos-products'] })
+      queryClient.invalidateQueries({ queryKey: ['inv-promotions'] })
+      queryClient.invalidateQueries({ queryKey: ['promotions'] })
+      queryClient.invalidateQueries({ queryKey: ['pos-sessions'] })
+      queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })
+      queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
 
       if (isShipmentEnabled) {
         queryClient.invalidateQueries({ queryKey: ['non-restaurant-shipments'] })
@@ -302,6 +318,7 @@ function PosCheckoutDialogContent({
         terminalCode: terminal.code,
         customerName: customer?.name || undefined,
         customerPhone: customer?.phone || undefined,
+        promotionCode: appliedPromotion?.code || appliedPromotion?.name || undefined,
         isShipment: isShipmentEnabled,
         shipmentDetails: isShipmentEnabled
           ? {

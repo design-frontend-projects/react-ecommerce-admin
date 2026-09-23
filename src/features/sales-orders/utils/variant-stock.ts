@@ -327,23 +327,57 @@ export function getVariantLocationBreakdown(
 export interface TaxResolutionResult {
   taxRate: number
   taxType: string
-  source: 'product_tax_code' | 'tax_rate_table' | 'none'
+  source: 'variant_tax_rate' | 'product_tax_code' | 'tax_rate_table' | 'none'
   label: string
 }
 
 /**
- * Extracts the applicable tax percentage from product's tax_code or active tax rates.
+ * Extracts the applicable tax percentage from variant's tax_rates, tax_rate_id, or legacy product tax_code.
  * Examples: "VAT_20" -> 20%, "VAT_14" -> 14%, "TAX_10" -> 10%, "15" -> 15%.
  */
 export function extractTaxRate(
-  product?: { tax_code?: string | null; tax_classification_id?: string | null } | null,
-  activeTaxRates?: Array<{ tax_type: string; rate: number | string; is_active?: boolean }>
+  itemOrProduct?: {
+    tax_code?: string | null
+    tax_classification_id?: string | null
+    tax_rate_id?: string | null
+    tax_rates?: { id?: string; tax_type?: string; rate?: number | string | null; is_active?: boolean } | null
+  } | null,
+  activeTaxRates?: Array<{ id?: string; tax_type: string; rate: number | string; is_active?: boolean }>
 ): TaxResolutionResult {
-  if (!product) return { taxRate: 0, taxType: '', source: 'none', label: '' }
+  if (!itemOrProduct) return { taxRate: 0, taxType: '', source: 'none', label: '' }
 
-  const code = (product.tax_code || '').trim()
+  // 1. Check direct variant tax_rates object
+  if (itemOrProduct.tax_rates && itemOrProduct.tax_rates.rate != null) {
+    const rate = Number(itemOrProduct.tax_rates.rate)
+    const taxType = itemOrProduct.tax_rates.tax_type || 'Tax'
+    return {
+      taxRate: rate,
+      taxType,
+      source: 'variant_tax_rate',
+      label: `${taxType} (${rate}%)`,
+    }
+  }
+
+  // 2. Check variant tax_rate_id against activeTaxRates
+  if (itemOrProduct.tax_rate_id && activeTaxRates && activeTaxRates.length > 0) {
+    const matched = activeTaxRates.find(
+      (t) => (t as any).id === itemOrProduct.tax_rate_id && t.is_active !== false
+    )
+    if (matched) {
+      const rate = Number(matched.rate)
+      return {
+        taxRate: rate,
+        taxType: matched.tax_type,
+        source: 'tax_rate_table',
+        label: `${matched.tax_type} (${rate}%)`,
+      }
+    }
+  }
+
+  // 3. Backward-compatible tax_code lookup
+  const code = (itemOrProduct.tax_code || '').trim()
   if (code) {
-    // 1. Check if tax_code matches an entry in activeTaxRates table
+    // 3a. Check if tax_code matches an entry in activeTaxRates table
     if (activeTaxRates && activeTaxRates.length > 0) {
       const matched = activeTaxRates.find(
         (t) => t.tax_type.toLowerCase() === code.toLowerCase() && t.is_active !== false
@@ -359,7 +393,7 @@ export function extractTaxRate(
       }
     }
 
-    // 2. Parse numbers from tax_code like "VAT_20" -> 20, "VAT_14" -> 14, "TAX_10" -> 10, "15" -> 15
+    // 3b. Parse numbers from tax_code like "VAT_20" -> 20, "VAT_14" -> 14, "TAX_10" -> 10, "15" -> 15
     const match = code.match(/(\d+(\.\d+)?)/)
     if (match) {
       const rate = parseFloat(match[1])
@@ -409,11 +443,19 @@ export interface TaxPreviewInfo {
  * Supports both (product, qty, unitPrice, discount, activeTaxRates) and numeric parameter overloads.
  */
 export function computeTaxPreview(
-  productOrQty: { tax_code?: string | null } | number | null | undefined,
+  productOrQty:
+    | {
+        tax_code?: string | null
+        tax_rate_id?: string | null
+        tax_rates?: { id?: string; tax_type?: string; rate?: number | string | null; is_active?: boolean } | null
+      }
+    | number
+    | null
+    | undefined,
   qtyOrUnitPrice: number,
   unitPriceOrDiscount: number,
   discountOrTaxRate: number,
-  taxRatesOrType?: Array<{ tax_type: string; rate: number | string; name?: string | null; is_active?: boolean }> | string
+  taxRatesOrType?: Array<{ id?: string; tax_type: string; rate: number | string; name?: string | null; is_active?: boolean }> | string
 ): TaxPreviewInfo {
   if (typeof productOrQty === 'object' || productOrQty === null || productOrQty === undefined) {
     const product = productOrQty
@@ -430,11 +472,13 @@ export function computeTaxPreview(
     const gross = net + lineTax
 
     const matchedRate = activeTaxRates.find(
-      (t) => t.tax_type.toLowerCase() === (product?.tax_code || '').trim().toLowerCase()
+      (t) =>
+        (t as any).id === (product as any)?.tax_rate_id ||
+        t.tax_type.toLowerCase() === ((product as any)?.tax_code || '').trim().toLowerCase()
     )
 
     return {
-      taxCode: product?.tax_code || (rate > 0 ? taxRes.taxType : null),
+      taxCode: (product as any)?.tax_code || (rate > 0 ? taxRes.taxType : null),
       taxRatePercent: rate,
       calculatedTax: lineTax,
       taxName: matchedRate?.name || (rate > 0 ? taxRes.label : null),

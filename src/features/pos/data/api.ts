@@ -932,23 +932,62 @@ export async function createPosTransaction(
     }
 
     // Insert promotion usage & discounts
-    if (payload.promotionId) {
+    let couponRecord: any = null
+    if (payload.couponId) {
+      const { data } = await supabase
+        .from('inv_coupons')
+        .select('id, promotion_id, code, current_usages, tenant_id')
+        .eq('id', payload.couponId)
+        .maybeSingle()
+      couponRecord = data
+    } else if (payload.couponCode) {
+      const { data } = await supabase
+        .from('inv_coupons')
+        .select('id, promotion_id, code, current_usages, tenant_id')
+        .ilike('code', payload.couponCode.trim())
+        .maybeSingle()
+      couponRecord = data
+    }
+
+    if (couponRecord) {
+      await supabase.from('inv_coupon_redemptions').insert({
+        tenant_id: couponRecord.tenant_id,
+        coupon_id: couponRecord.id,
+        promotion_id: couponRecord.promotion_id,
+        customer_id: payload.customerId || null,
+        sales_invoice_id: invoice.id,
+        discount_amount: payload.discountTotal || 0,
+      })
+
+      await supabase
+        .from('inv_coupons')
+        .update({
+          current_usages: (couponRecord.current_usages || 0) + 1,
+        })
+        .eq('id', couponRecord.id)
+    }
+
+    const effectivePromoId = couponRecord?.promotion_id || payload.promotionId
+    if (effectivePromoId) {
       const { data: invPromo } = await supabase
         .from('inv_promotions')
         .select('id, current_usage_count, tenant_id')
-        .eq('id', payload.promotionId)
+        .eq('id', effectivePromoId)
         .maybeSingle()
 
       if (invPromo) {
         // Record ERP sales invoice discount
-        await supabase.from('inv_sales_invoice_discounts').insert({
-          tenant_id: invPromo.tenant_id,
-          sales_invoice_id: invoice.id,
-          promotion_id: invPromo.id,
-          source: 'promotion',
-          discount_amount: payload.discountTotal || 0,
-          notes: 'POS Applied Promotion',
-        })
+        if ((payload.discountTotal || 0) > 0) {
+          await supabase.from('inv_sales_invoice_discounts').insert({
+            tenant_id: invPromo.tenant_id,
+            sales_invoice_id: invoice.id,
+            promotion_id: invPromo.id,
+            coupon_id: couponRecord?.id || null,
+            discount_source: couponRecord ? 'coupon' : 'promotion',
+            discount_amount: payload.discountTotal || 0,
+            reason: couponRecord ? `Coupon: ${couponRecord.code}` : 'POS Applied Promotion',
+          })
+        }
 
         // Record ERP promotion usage log
         await supabase.from('inv_promotion_usage_logs').insert({
@@ -973,12 +1012,12 @@ export async function createPosTransaction(
         const { error: promoUsageError } = await supabase
           .from('promotion_usage')
           .insert({
-            promotion_id: payload.promotionId,
+            promotion_id: effectivePromoId,
             customer_id: payload.customerId || null,
             res_order_id: restaurantOrderId || null,
           })
         if (promoUsageError) {
-          console.warn('Failed to record promotion usage', promoUsageError) // eslint-disable-line no-console
+          console.warn('Could not record legacy promo usage:', promoUsageError.message)
         }
       }
     }

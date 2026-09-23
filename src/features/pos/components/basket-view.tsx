@@ -91,6 +91,8 @@ export function BasketView() {
         taxTotal: tax,
         items: checkoutItems,
         promotionId: appliedPromotion?.promotion_id,
+        couponId: appliedPromotion?.coupon_id,
+        couponCode: appliedPromotion?.code,
       } as any)
     },
     onSuccess: (data: CheckoutResponse) => {
@@ -129,6 +131,8 @@ export function BasketView() {
       queryClient.invalidateQueries({ queryKey: ['pos-products'] })
       queryClient.invalidateQueries({ queryKey: ['shift-metrics'] })
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['inv-promotions'] })
+      queryClient.invalidateQueries({ queryKey: ['promotions'] })
     },
     onError: (error: Error) => {
       toast.error(t('pos.cartSection.checkoutFailed', 'Checkout failed: {{message}}', { message: error.message }))

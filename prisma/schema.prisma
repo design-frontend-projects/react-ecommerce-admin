@@ -383,10 +383,12 @@ model product_variants {
   updated_at           DateTime?              @default(now()) @db.Timestamptz(6)
   uom_id               String?                @db.Uuid
   product_id           String                 @db.Uuid
+  tax_rate_id          String?                @db.Uuid
   created_by_user_id   String?                @db.Uuid
   updated_by_user_id   String?                @db.Uuid
   pos_reorder_requests pos_reorder_requests[]
   products             products               @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_variants_products")
+  tax_rates            tax_rates?             @relation(fields: [tax_rate_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
   purchase_order_items purchase_order_items[]
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
@@ -422,8 +424,6 @@ model products {
   tracking_mode          tracking_mode_enum     @default(none)
   is_stock_item          Boolean?               @default(true)
   reorderable            Boolean?               @default(true)
-  tax_code               String?
-  tax_classification_id  String?                @db.Uuid
   is_batch_tracked       Boolean                @default(false)
   is_serial_tracked      Boolean                @default(false)
   product_type           product_type_enum      @default(simple)
@@ -441,26 +441,12 @@ model products {
   brands                 brands?                @relation(fields: [brand_id], references: [id], onUpdate: NoAction)
   categories             categories?            @relation(fields: [category_id], references: [id], onUpdate: NoAction)
   product_types          product_types?         @relation(fields: [product_type_id], references: [id], onUpdate: NoAction)
-  tax_classifications    tax_classifications?   @relation(fields: [tax_classification_id], references: [id], onUpdate: NoAction)
   suppliers              suppliers?             @relation(fields: [supplier_id], references: [id], onUpdate: NoAction)
   purchase_order_items   purchase_order_items[]
   inventory              inventory[]
   price_list             price_list[]
   price_list_items       price_list_items[]
   inv_promotion_products inv_promotion_products[]
-}
-
-model tax_classifications {
-  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  code        String     @unique @db.VarChar(50)
-  name        String     @db.VarChar(100)
-  name_ar     String?    @db.VarChar(100)
-  rate        Decimal    @default(0.00) @db.Decimal(5, 2)
-  description String?
-  is_active   Boolean?   @default(true)
-  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime?  @default(now()) @db.Timestamptz(6)
-  products    products[]
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -1437,6 +1423,7 @@ model tax_rates {
   countries          countries? @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   price_list         price_list[]
   price_list_items   price_list_items[]
+  product_variants   product_variants[]
 }
 
 model tenant_subscriptions {

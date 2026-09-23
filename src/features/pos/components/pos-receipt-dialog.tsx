@@ -44,6 +44,7 @@ export interface ReceiptData {
   terminalCode?: string
   customerName?: string
   customerPhone?: string
+  promotionCode?: string
   isShipment?: boolean
   shipmentDetails?: {
     recipientName?: string
@@ -509,7 +510,14 @@ export function PosReceiptDialog({
             </div>
             {receipt.discountTotal && receipt.discountTotal > 0 && (
               <div className='flex justify-between text-emerald-600 dark:text-emerald-400'>
-                <span>{t('pos.receiptModal.discount', 'Discount')}</span>
+                <span className='flex items-center gap-1.5'>
+                  <span>{t('pos.receiptModal.discount', 'Discount')}</span>
+                  {receipt.promotionCode && (
+                    <span className='rounded bg-emerald-500/10 px-1 py-0.5 text-[9px] font-semibold uppercase'>
+                      ({receipt.promotionCode})
+                    </span>
+                  )}
+                </span>
                 <span>-{formatCurrency(receipt.discountTotal)}</span>
               </div>
             )}

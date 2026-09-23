@@ -1,33 +1,29 @@
-import { useState, useEffect, useMemo } from 'react'
-import { useForm, useFieldArray, type Resolver } from 'react-hook-form'
+import { useEffect, useMemo, useState } from 'react'
+import { useFieldArray, useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslation } from 'react-i18next'
-import { format } from 'date-fns'
 import {
-  Scan as LucideScan,
-  Plus,
-  Trash2,
-  Calendar as CalendarIcon,
-  Layers,
-  Package,
-  DollarSign,
-  Truck,
-  Sliders,
-  FolderTree,
-  Table as TableIcon,
-  LayoutGrid,
-  Copy,
-  Sparkles,
-  Loader2,
   CheckCircle2,
+  Copy,
+  DollarSign,
+  FolderTree,
+  Layers,
+  LayoutGrid,
+  Loader2,
+  Scan as LucideScan,
+  Package,
+  Plus,
+  Sliders,
+  Sparkles,
+  Table as TableIcon,
+  Trash2,
+  Truck,
   XCircle,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar } from '@/components/ui/calendar'
 import {
   Dialog,
   DialogContent,
@@ -47,11 +43,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -59,8 +50,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { Textarea } from '@/components/ui/textarea'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Table,
   TableBody,
@@ -69,31 +58,33 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { SearchableSelect } from '@/components/custom-ui/searchable-select'
-import { TaxClassificationSelect } from './tax-classification-select'
-import {
-  useBrandOptions,
-  useCategoryOptions,
-  formatCategorySearchableOptions,
-  useSupplierOptions,
-  useUomOptions,
-  useProductTypeOptions,
-} from '../hooks/use-product-options'
 import {
   productActionFormSchema,
-  type ProductActionFormData,
   type Product,
+  type ProductActionFormData,
   type ProductType,
   type TrackingMode,
   type VariantRowFormData,
 } from '../data/schema'
 import {
-  useProduct,
+  formatCategorySearchableOptions,
+  useBrandOptions,
+  useCategoryOptions,
+  useProductTypeOptions,
+  useSupplierOptions,
+  useUomOptions,
+} from '../hooks/use-product-options'
+import {
   useCreateProductWithVariants,
+  useProduct,
   useUpdateProductWithVariants,
 } from '../hooks/use-products'
 import { BarcodeDisplay } from './barcode-display'
+import { TaxRateSelect } from './tax-rate-select'
 
 interface Props {
   currentRow?: Product | null
@@ -105,11 +96,17 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const { t } = useTranslation()
   const isEdit = Boolean(currentRow)
   const [isBaseScannerOpen, setIsBaseScannerOpen] = useState(false)
-  const [scanningVariantIndex, setScanningVariantIndex] = useState<number | null>(null)
+  const [scanningVariantIndex, setScanningVariantIndex] = useState<
+    number | null
+  >(null)
   const [activeTab, setActiveTab] = useState('basic')
-  const [variantViewMode, setVariantViewMode] = useState<'table' | 'cards'>('table')
+  const [variantViewMode, setVariantViewMode] = useState<'table' | 'cards'>(
+    'table'
+  )
 
-  const targetProductId = currentRow?.id || (currentRow?.product_id ? String(currentRow.product_id) : null)
+  const targetProductId =
+    currentRow?.id ||
+    (currentRow?.product_id ? String(currentRow.product_id) : null)
 
   // Fetch fresh product with all variants and relationships when editing
   const { data: freshProduct, isLoading: isFreshLoading } = useProduct(
@@ -136,8 +133,14 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   const { data: suppliers = [] } = useSupplierOptions()
   const { data: productTypes = [] } = useProductTypeOptions()
 
-  const getInitialVariants = (product?: Product | null): VariantRowFormData[] => {
-    if (!product || !product.product_variants || product.product_variants.length === 0) {
+  const getInitialVariants = (
+    product?: Product | null
+  ): VariantRowFormData[] => {
+    if (
+      !product ||
+      !product.product_variants ||
+      product.product_variants.length === 0
+    ) {
       return []
     }
     return product.product_variants.map((v) => {
@@ -157,6 +160,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         sku: v.sku,
         barcode: v.barcode || '',
         name: v.name || '',
+        tax_rate_id: (v as any).tax_rate_id || null,
+        tax_rates: (v as any).tax_rates || null,
         weight: v.weight ? Number(v.weight) : null,
         dimensions: dimLabel,
         is_active: v.is_active ?? true,
@@ -168,7 +173,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   }
 
   const form = useForm<ProductActionFormData>({
-    resolver: zodResolver(productActionFormSchema) as Resolver<ProductActionFormData>,
+    resolver: zodResolver(
+      productActionFormSchema
+    ) as Resolver<ProductActionFormData>,
     defaultValues: {
       name: '',
       description: '',
@@ -181,8 +188,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       product_type: 'simple',
       product_type_id: null,
       tracking_mode: 'none',
-      tax_code: '',
-      tax_classification_id: null,
       weight: null,
       dimensions: '',
       is_active: true,
@@ -204,8 +209,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         const existingVariants = getInitialVariants(activeProduct)
         const hasExistingVariants = Boolean(
           activeProduct.has_variants === true ||
-            existingVariants.length > 0 ||
-            activeProduct.product_type === 'variant'
+          existingVariants.length > 0 ||
+          activeProduct.product_type === 'variant'
         )
 
         form.reset({
@@ -219,9 +224,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           supplier_id: activeProduct.supplier_id || null,
           product_type: (activeProduct.product_type as ProductType) || 'simple',
           product_type_id: activeProduct.product_type_id || null,
-          tracking_mode: (activeProduct.tracking_mode as TrackingMode) || 'none',
-          tax_code: activeProduct.tax_code || '',
-          tax_classification_id: activeProduct.tax_classification_id || null,
+          tracking_mode:
+            (activeProduct.tracking_mode as TrackingMode) || 'none',
           weight: activeProduct.weight ? Number(activeProduct.weight) : null,
           dimensions: activeProduct.dimensions || '',
           is_active: activeProduct.is_active ?? true,
@@ -247,8 +251,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           product_type: 'simple',
           product_type_id: null,
           tracking_mode: 'none',
-          tax_code: '',
-          tax_classification_id: null,
           weight: null,
           dimensions: '',
           is_active: true,
@@ -279,12 +281,17 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   // Auto-seed first variant if variants enabled and list is empty
   useEffect(() => {
-    if ((hasVariants || productType === 'variant') && fields.length === 0 && open) {
+    if (
+      (hasVariants || productType === 'variant') &&
+      fields.length === 0 &&
+      open
+    ) {
       const currentValues = form.getValues()
       append({
         sku: currentValues.sku ? `${currentValues.sku}-V1` : '',
         barcode: '',
         name: 'Default',
+        tax_rate_id: null,
         weight: currentValues.weight || null,
         dimensions: currentValues.dimensions || '',
         is_active: true,
@@ -298,7 +305,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
   // Calculated metrics for variants summary
   const variantMetrics = useMemo(() => {
     const total = watchedVariants.length
-    const activeCount = watchedVariants.filter((v) => v.is_active !== false).length
+    const activeCount = watchedVariants.filter(
+      (v) => v.is_active !== false
+    ).length
 
     return {
       total,
@@ -315,6 +324,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         : `SKU-V${nextIdx}`,
       barcode: '',
       name: `Variant ${nextIdx}`,
+      tax_rate_id: null,
       weight: currentValues.weight || null,
       dimensions: currentValues.dimensions || '',
       is_active: true,
@@ -332,6 +342,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       sku: item.sku ? `${item.sku}-COPY` : `SKU-V${nextIdx}`,
       barcode: '',
       name: item.name ? `${item.name} (Copy)` : `Variant ${nextIdx}`,
+      tax_rate_id: item.tax_rate_id || null,
       weight: item.weight || null,
       dimensions: item.dimensions || '',
       is_active: item.is_active ?? true,
@@ -346,7 +357,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   const handleGenerateSkuForVariant = (index: number) => {
     const baseSku = form.getValues('sku') || 'PRD'
-    const label = form.getValues(`variants.${index}.attributes_label`) || `V${index + 1}`
+    const label =
+      form.getValues(`variants.${index}.attributes_label`) || `V${index + 1}`
     const sanitized = label.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase()
     form.setValue(`variants.${index}.sku`, `${baseSku}-${sanitized}`)
   }
@@ -360,7 +372,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         (currentRow?.product_id ? String(currentRow.product_id) : null)
 
       const isVariantsConfigured = Boolean(
-        hasVariants || productType === 'variant' || (variants && variants.length > 0)
+        hasVariants ||
+        productType === 'variant' ||
+        (variants && variants.length > 0)
       )
 
       const cleanedBase: Partial<Product> = {
@@ -411,9 +425,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   const showVariantsTab = Boolean(
     hasVariants ||
-      productType === 'variant' ||
-      fields.length > 0 ||
-      (activeProduct?.product_variants && activeProduct.product_variants.length > 0)
+    productType === 'variant' ||
+    fields.length > 0 ||
+    (activeProduct?.product_variants &&
+      activeProduct.product_variants.length > 0)
   )
 
   return (
@@ -429,11 +444,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           <div className='flex items-center justify-between'>
             <div>
               <DialogTitle className='text-xl font-bold'>
-                {isEdit ? t('products.editProduct') : t('products.createProduct')}
+                {isEdit
+                  ? t('products.editProduct')
+                  : t('products.createProduct')}
               </DialogTitle>
-              <DialogDescription>
-                {t('products.description')}
-              </DialogDescription>
+              <DialogDescription>{t('products.description')}</DialogDescription>
             </div>
             {isFreshLoading && (
               <div className='flex items-center gap-2 text-xs text-muted-foreground'>
@@ -456,7 +471,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
               className='flex flex-1 flex-col overflow-hidden'
             >
               <div className='border-b bg-muted/30 px-6'>
-                <TabsList className='h-11 w-full justify-start gap-2 bg-transparent p-0 overflow-x-auto'>
+                <TabsList className='h-11 w-full justify-start gap-2 overflow-x-auto bg-transparent p-0'>
                   <TabsTrigger
                     value='basic'
                     className='gap-1.5 data-[state=active]:bg-background data-[state=active]:shadow-xs'
@@ -557,7 +572,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           <div className='flex gap-2'>
                             <FormControl>
                               <Input
-                                placeholder={t('products.form.barcodePlaceholder')}
+                                placeholder={t(
+                                  'products.form.barcodePlaceholder'
+                                )}
                                 {...field}
                                 value={field.value || ''}
                               />
@@ -605,8 +622,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormLabel>{t('products.form.description')}</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder={t('products.form.descriptionPlaceholder')}
-                            className='resize-y min-h-[100px]'
+                            placeholder={t(
+                              'products.form.descriptionPlaceholder'
+                            )}
+                            className='min-h-[100px] resize-y'
                             {...field}
                             value={field.value || ''}
                           />
@@ -616,7 +635,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                     )}
                   />
 
-                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2'>
+                  <div className='grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2'>
                     <FormField
                       control={form.control}
                       name='is_active'
@@ -625,7 +644,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           <div className='space-y-0.5'>
                             <FormLabel>{t('products.form.status')}</FormLabel>
                             <FormDescription>
-                              {field.value ? t('products.form.active') : t('products.form.inactive')}
+                              {field.value
+                                ? t('products.form.active')
+                                : t('products.form.inactive')}
                             </FormDescription>
                           </div>
                           <FormControl>
@@ -644,7 +665,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.isMarketplace')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.isMarketplace')}
+                            </FormLabel>
                             <FormDescription>
                               {t('products.form.isMarketplaceDesc')}
                             </FormDescription>
@@ -677,9 +700,13 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               onChange={(val) => field.onChange(val)}
                               options={categoryOptions}
                               placeholder={t('products.form.selectCategory')}
-                              searchPlaceholder={t('products.form.searchCategory', {
-                                defaultValue: 'Search category (English or العربية)...',
-                              })}
+                              searchPlaceholder={t(
+                                'products.form.searchCategory',
+                                {
+                                  defaultValue:
+                                    'Search category (English or العربية)...',
+                                }
+                              )}
                               emptyText={t('products.form.noCategoryFound', {
                                 defaultValue: 'No category found.',
                               })}
@@ -706,9 +733,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               onChange={(val) => field.onChange(val)}
                               options={brands}
                               placeholder={t('products.form.selectBrand')}
-                              searchPlaceholder={t('products.form.searchBrand', {
-                                defaultValue: 'Search brand...',
-                              })}
+                              searchPlaceholder={t(
+                                'products.form.searchBrand',
+                                {
+                                  defaultValue: 'Search brand...',
+                                }
+                              )}
                               emptyText={t('products.form.noBrandFound', {
                                 defaultValue: 'No brand found.',
                               })}
@@ -730,16 +760,23 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <FormItem>
                           <FormLabel>{t('products.form.unit')}</FormLabel>
                           <Select
-                            onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                            onValueChange={(val) =>
+                              field.onChange(val === 'none' ? null : val)
+                            }
                             value={field.value || 'none'}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder={t('products.form.selectUnit')} />
+                                <SelectValue
+                                  placeholder={t('products.form.selectUnit')}
+                                />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value='none' className='text-muted-foreground italic'>
+                              <SelectItem
+                                value='none'
+                                className='text-muted-foreground italic'
+                              >
                                 -- {t('common.none', 'None')} --
                               </SelectItem>
                               {uoms.map((u) => (
@@ -767,9 +804,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               onChange={(val) => field.onChange(val)}
                               options={suppliers}
                               placeholder={t('products.form.selectSupplier')}
-                              searchPlaceholder={t('products.form.searchSupplier', {
-                                defaultValue: 'Search supplier...',
-                              })}
+                              searchPlaceholder={t(
+                                'products.form.searchSupplier',
+                                {
+                                  defaultValue: 'Search supplier...',
+                                }
+                              )}
                               emptyText={t('products.form.noSupplierFound', {
                                 defaultValue: 'No supplier found.',
                               })}
@@ -781,18 +821,23 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                     />
                   </div>
 
-                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 pt-2'>
+                  <div className='grid grid-cols-1 gap-4 pt-2 sm:grid-cols-2'>
                     {/* Product Type Enum */}
                     <FormField
                       control={form.control}
                       name='product_type'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('products.form.productType')}</FormLabel>
+                          <FormLabel>
+                            {t('products.form.productType')}
+                          </FormLabel>
                           <Select
                             onValueChange={(val) => {
                               field.onChange(val)
-                              if (val === 'variant' && !form.getValues('has_variants')) {
+                              if (
+                                val === 'variant' &&
+                                !form.getValues('has_variants')
+                              ) {
                                 form.setValue('has_variants', true)
                               }
                             }}
@@ -800,7 +845,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder={t('products.form.selectProductType')} />
+                                <SelectValue
+                                  placeholder={t(
+                                    'products.form.selectProductType'
+                                  )}
+                                />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -831,26 +880,41 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       control={form.control}
                       name='product_type_id'
                       render={({ field }) => {
-                        const selectedType = productTypes.find((pt) => pt.id === field.value)
+                        const selectedType = productTypes.find(
+                          (pt) => pt.id === field.value
+                        )
                         return (
                           <FormItem>
-                            <FormLabel>{t('products.form.productTypeClassification')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.productTypeClassification')}
+                            </FormLabel>
                             <Select
-                              onValueChange={(val) => field.onChange(val === 'none' ? null : val)}
+                              onValueChange={(val) =>
+                                field.onChange(val === 'none' ? null : val)
+                              }
                               value={field.value || 'none'}
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder={t('products.form.selectProductType')}>
+                                  <SelectValue
+                                    placeholder={t(
+                                      'products.form.selectProductType'
+                                    )}
+                                  >
                                     {selectedType ? (
                                       <div className='flex items-center gap-2 truncate'>
                                         {selectedType.color && (
                                           <span
-                                            className='h-2.5 w-2.5 rounded-full shrink-0'
-                                            style={{ backgroundColor: selectedType.color }}
+                                            className='h-2.5 w-2.5 shrink-0 rounded-full'
+                                            style={{
+                                              backgroundColor:
+                                                selectedType.color,
+                                            }}
                                           />
                                         )}
-                                        <span className='font-medium'>{selectedType.name}</span>
+                                        <span className='font-medium'>
+                                          {selectedType.name}
+                                        </span>
                                         {selectedType.name_ar && (
                                           <span className='text-xs text-muted-foreground'>
                                             ({selectedType.name_ar})
@@ -866,8 +930,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value='none' className='text-muted-foreground italic'>
-                                  -- {t('common.none', 'None / Unclassified')} --
+                                <SelectItem
+                                  value='none'
+                                  className='text-muted-foreground italic'
+                                >
+                                  -- {t('common.none', 'None / Unclassified')}{' '}
+                                  --
                                 </SelectItem>
                                 {productTypes.map((pt) => (
                                   <SelectItem key={pt.id} value={pt.id}>
@@ -875,11 +943,15 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                       <div className='flex items-center gap-2'>
                                         {pt.color && (
                                           <span
-                                            className='h-2.5 w-2.5 rounded-full shrink-0'
-                                            style={{ backgroundColor: pt.color }}
+                                            className='h-2.5 w-2.5 shrink-0 rounded-full'
+                                            style={{
+                                              backgroundColor: pt.color,
+                                            }}
                                           />
                                         )}
-                                        <span className='font-medium text-foreground'>{pt.name}</span>
+                                        <span className='font-medium text-foreground'>
+                                          {pt.name}
+                                        </span>
                                         {pt.name_ar && (
                                           <span className='text-xs text-muted-foreground'>
                                             ({pt.name_ar})
@@ -887,7 +959,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                         )}
                                       </div>
                                       {pt.description && (
-                                        <span className='text-[11px] text-muted-foreground line-clamp-1'>
+                                        <span className='line-clamp-1 text-[11px] text-muted-foreground'>
                                           {pt.description}
                                         </span>
                                       )}
@@ -920,14 +992,20 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       name='tracking_mode'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('products.form.trackingMode')}</FormLabel>
+                          <FormLabel>
+                            {t('products.form.trackingMode')}
+                          </FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             value={field.value || 'none'}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder={t('products.form.selectTrackingMode')} />
+                                <SelectValue
+                                  placeholder={t(
+                                    'products.form.selectTrackingMode'
+                                  )}
+                                />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -941,7 +1019,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                 {t('products.enums.trackingMode.serial')}
                               </SelectItem>
                               <SelectItem value='batch_and_serial'>
-                                {t('products.enums.trackingMode.batch_and_serial')}
+                                {t(
+                                  'products.enums.trackingMode.batch_and_serial'
+                                )}
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -951,14 +1031,16 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                     />
                   </div>
 
-                  <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 pt-2'>
+                  <div className='grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2'>
                     <FormField
                       control={form.control}
                       name='is_stock_item'
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.isStockItem')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.isStockItem')}
+                            </FormLabel>
                             <FormDescription className='text-xs'>
                               {t('products.form.isStockItemDesc')}
                             </FormDescription>
@@ -979,7 +1061,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.reorderable')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.reorderable')}
+                            </FormLabel>
                             <FormDescription className='text-xs'>
                               {t('products.form.reorderableDesc')}
                             </FormDescription>
@@ -1000,7 +1084,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.isBatchTracked')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.isBatchTracked')}
+                            </FormLabel>
                             <FormDescription className='text-xs'>
                               {t('products.form.isBatchTrackedDesc')}
                             </FormDescription>
@@ -1021,7 +1107,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.isSerialTracked')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.isSerialTracked')}
+                            </FormLabel>
                             <FormDescription className='text-xs'>
                               {t('products.form.isSerialTrackedDesc')}
                             </FormDescription>
@@ -1042,7 +1130,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.hasVariants')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.hasVariants')}
+                            </FormLabel>
                             <FormDescription className='text-xs'>
                               {t('products.form.hasVariantsDesc')}
                             </FormDescription>
@@ -1068,7 +1158,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       render={({ field }) => (
                         <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs'>
                           <div className='space-y-0.5'>
-                            <FormLabel>{t('products.form.hasExpiration')}</FormLabel>
+                            <FormLabel>
+                              {t('products.form.hasExpiration')}
+                            </FormLabel>
                             <FormDescription className='text-xs'>
                               {t('products.form.hasExpirationDesc')}
                             </FormDescription>
@@ -1086,52 +1178,44 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
                   {hasExpiration && (
                     <div className='rounded-lg border border-amber-200 bg-amber-50/50 p-3 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300'>
-                      {t('products.form.expirationTrackedOnVariants', 'Expiration dates are tracked per variant in the Variants tab.')}
+                      {t(
+                        'products.form.expirationTrackedOnVariants',
+                        'Expiration dates are tracked per variant in the Variants tab.'
+                      )}
                     </div>
                   )}
                 </TabsContent>
 
                 {/* ── TAB 4: PRICING & TAX ────────────────────────────── */}
                 <TabsContent value='pricing' className='m-0 space-y-4'>
-                  <div className='rounded-md border border-blue-200 bg-blue-50/50 p-3 text-xs text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300'>
-                    {t('products.form.pricingNotice', 'Product pricing is managed independently through the Price List module.')}
-                  </div>
-                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                    <FormField
-                      control={form.control}
-                      name='tax_code'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t('products.form.taxCode')}</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder={t('products.form.taxCodePlaceholder')}
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
+                  <div className='space-y-2 rounded-md border border-blue-200 bg-blue-50/50 p-4 text-xs text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300'>
+                    <p className='text-sm font-semibold'>
+                      {t(
+                        'products.form.pricingNoticeTitle',
+                        'Pricing & Tax Rates are Variant-Based'
                       )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='tax_classification_id'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t('products.form.taxClassification', 'Tax Classification')}</FormLabel>
-                          <FormControl>
-                            <TaxClassificationSelect
-                              value={field.value}
-                              onChange={(val) => field.onChange(val)}
-                              placeholder={t('products.form.selectTaxClassification', 'Select tax classification')}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
+                    </p>
+                    <p>
+                      {t(
+                        'products.form.pricingNoticeDesc',
+                        'Tax rates and selling prices are assigned directly per product variant. You can configure the tax rate for each variant in the Variants tab, and manage multi-currency pricing in the Price List module.'
                       )}
-                    />
+                    </p>
+                    {showVariantsTab && (
+                      <Button
+                        type='button'
+                        variant='outline'
+                        size='sm'
+                        className='mt-2 h-7 gap-1.5 bg-background text-xs text-foreground'
+                        onClick={() => setActiveTab('variants')}
+                      >
+                        <Layers className='h-3.5 w-3.5' />
+                        {t(
+                          'products.form.configureVariantTaxes',
+                          'Go to Variants & Taxes'
+                        )}
+                      </Button>
+                    )}
                   </div>
                 </TabsContent>
 
@@ -1173,7 +1257,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           <FormLabel>{t('products.form.dimensions')}</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder={t('products.form.dimensionsPlaceholder')}
+                              placeholder={t(
+                                'products.form.dimensionsPlaceholder'
+                              )}
                               {...field}
                               value={field.value || ''}
                             />
@@ -1204,7 +1290,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <div className='flex items-center rounded-lg border bg-muted/40 p-0.5 text-xs'>
                           <Button
                             type='button'
-                            variant={variantViewMode === 'table' ? 'secondary' : 'ghost'}
+                            variant={
+                              variantViewMode === 'table'
+                                ? 'secondary'
+                                : 'ghost'
+                            }
                             size='sm'
                             className='h-7 gap-1 px-2.5 text-xs shadow-none'
                             onClick={() => setVariantViewMode('table')}
@@ -1214,7 +1304,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           </Button>
                           <Button
                             type='button'
-                            variant={variantViewMode === 'cards' ? 'secondary' : 'ghost'}
+                            variant={
+                              variantViewMode === 'cards'
+                                ? 'secondary'
+                                : 'ghost'
+                            }
                             size='sm'
                             className='h-7 gap-1 px-2.5 text-xs shadow-none'
                             onClick={() => setVariantViewMode('cards')}
@@ -1244,8 +1338,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           {t('products.form.totalVariants')}
                         </span>
                         <div className='mt-0.5 flex items-baseline gap-1.5'>
-                          <span className='text-lg font-bold'>{variantMetrics.total}</span>
-                          <span className='text-[11px] text-muted-foreground'>items</span>
+                          <span className='text-lg font-bold'>
+                            {variantMetrics.total}
+                          </span>
+                          <span className='text-[11px] text-muted-foreground'>
+                            items
+                          </span>
                         </div>
                       </div>
 
@@ -1262,23 +1360,38 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                           </span>
                         </div>
                       </div>
-
                     </div>
 
                     {/* MODE 1: Table Preview Matrix */}
                     {variantViewMode === 'table' && (
-                      <div className='rounded-md border bg-card overflow-hidden'>
+                      <div className='overflow-hidden rounded-md border bg-card'>
                         <Table>
                           <TableHeader className='bg-muted/50'>
                             <TableRow>
                               <TableHead className='w-[60px] text-center'>
                                 {t('products.columns.status')}
                               </TableHead>
-                              <TableHead>{t('products.form.variantLabel')}</TableHead>
-                              <TableHead>{t('products.form.variantSku')}</TableHead>
-                              <TableHead>{t('products.form.variantBarcode')}</TableHead>
-                              <TableHead>{t('products.form.variantUom')}</TableHead>
-                              <TableHead className='min-w-[130px]'>{t('products.form.expirationDate', 'Expiry Date')}</TableHead>
+                              <TableHead>
+                                {t('products.form.variantLabel')}
+                              </TableHead>
+                              <TableHead>
+                                {t('products.form.variantSku')}
+                              </TableHead>
+                              <TableHead>
+                                {t('products.form.variantBarcode')}
+                              </TableHead>
+                              <TableHead>
+                                {t('products.form.variantUom')}
+                              </TableHead>
+                              <TableHead className='min-w-[130px]'>
+                                {t('products.form.taxRate', 'Tax Rate')}
+                              </TableHead>
+                              <TableHead className='min-w-[130px]'>
+                                {t(
+                                  'products.form.expirationDate',
+                                  'Expiry Date'
+                                )}
+                              </TableHead>
                               <TableHead className='w-[80px] text-right'>
                                 {t('products.columns.actions')}
                               </TableHead>
@@ -1290,7 +1403,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               const uomObj = uoms.find((u) => u.id === v.uom_id)
 
                               return (
-                                <TableRow key={field.id} className='hover:bg-muted/30'>
+                                <TableRow
+                                  key={field.id}
+                                  className='hover:bg-muted/30'
+                                >
                                   <TableCell className='text-center'>
                                     <FormField
                                       control={form.control}
@@ -1326,7 +1442,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                       name={`variants.${index}.sku`}
                                       render={({ field: vField }) => (
                                         <Input
-                                          className='h-8 text-xs font-mono'
+                                          className='h-8 font-mono text-xs'
                                           placeholder='SKU'
                                           {...vField}
                                         />
@@ -1340,7 +1456,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                       name={`variants.${index}.barcode`}
                                       render={({ field: vField }) => (
                                         <Input
-                                          className='h-8 text-xs font-mono'
+                                          className='h-8 font-mono text-xs'
                                           placeholder='Barcode'
                                           {...vField}
                                           value={vField.value || ''}
@@ -1349,8 +1465,28 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                     />
                                   </TableCell>
 
-                                  <TableCell className='text-xs text-muted-foreground whitespace-nowrap'>
+                                  <TableCell className='text-xs whitespace-nowrap text-muted-foreground'>
                                     {uomObj ? `${uomObj.code}` : '—'}
+                                  </TableCell>
+
+                                  <TableCell className='min-w-[140px]'>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.tax_rate_id`}
+                                      render={({ field: vField }) => (
+                                        <TaxRateSelect
+                                          value={vField.value}
+                                          onChange={(val) =>
+                                            vField.onChange(val)
+                                          }
+                                          size='sm'
+                                          placeholder={t(
+                                            'products.form.selectTaxRate',
+                                            'Select tax rate...'
+                                          )}
+                                        />
+                                      )}
+                                    />
                                   </TableCell>
 
                                   <TableCell>
@@ -1362,8 +1498,19 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                           type='date'
                                           className='h-8 text-xs'
                                           {...vField}
-                                          value={vField.value ? String(vField.value).slice(0, 10) : ''}
-                                          onChange={(e) => vField.onChange(e.target.value || null)}
+                                          value={
+                                            vField.value
+                                              ? String(vField.value).slice(
+                                                  0,
+                                                  10
+                                                )
+                                              : ''
+                                          }
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.value || null
+                                            )
+                                          }
                                         />
                                       )}
                                     />
@@ -1376,8 +1523,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                         variant='ghost'
                                         size='icon'
                                         className='h-7 w-7 text-muted-foreground hover:text-foreground'
-                                        title={t('products.form.duplicateVariant')}
-                                        onClick={() => handleDuplicateVariant(index)}
+                                        title={t(
+                                          'products.form.duplicateVariant'
+                                        )}
+                                        onClick={() =>
+                                          handleDuplicateVariant(index)
+                                        }
                                       >
                                         <Copy className='h-3.5 w-3.5' />
                                       </Button>
@@ -1407,23 +1558,36 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                     {variantViewMode === 'cards' && (
                       <div className='space-y-4 pr-1'>
                         {fields.map((field, index) => (
-                          <Card key={field.id} className='relative shadow-xs border-muted-foreground/20'>
+                          <Card
+                            key={field.id}
+                            className='relative border-muted-foreground/20 shadow-xs'
+                          >
                             <CardHeader className='flex flex-row items-center justify-between border-b bg-muted/20 px-4 py-2.5'>
                               <div className='flex items-center gap-2'>
-                                <Badge variant='outline' className='font-mono text-xs'>
+                                <Badge
+                                  variant='outline'
+                                  className='font-mono text-xs'
+                                >
                                   #{index + 1}
                                 </Badge>
                                 <CardTitle className='text-sm font-semibold'>
-                                  {form.watch(`variants.${index}.attributes_label`) ||
-                                    `Variant ${index + 1}`}
+                                  {form.watch(
+                                    `variants.${index}.attributes_label`
+                                  ) || `Variant ${index + 1}`}
                                 </CardTitle>
                                 {form.watch(`variants.${index}.is_active`) ? (
-                                  <Badge variant='default' className='h-5 px-1.5 text-[10px] gap-1'>
+                                  <Badge
+                                    variant='default'
+                                    className='h-5 gap-1 px-1.5 text-[10px]'
+                                  >
                                     <CheckCircle2 className='h-3 w-3' />
                                     {t('products.form.active')}
                                   </Badge>
                                 ) : (
-                                  <Badge variant='secondary' className='h-5 px-1.5 text-[10px] gap-1'>
+                                  <Badge
+                                    variant='secondary'
+                                    className='h-5 gap-1 px-1.5 text-[10px]'
+                                  >
                                     <XCircle className='h-3 w-3' />
                                     {t('products.form.inactive')}
                                   </Badge>
@@ -1468,7 +1632,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                       </FormLabel>
                                       <FormControl>
                                         <Input
-                                          placeholder={t('products.form.variantLabelPlaceholder')}
+                                          placeholder={t(
+                                            'products.form.variantLabelPlaceholder'
+                                          )}
                                           {...vField}
                                           value={vField.value || ''}
                                         />
@@ -1492,7 +1658,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                           variant='ghost'
                                           size='sm'
                                           className='h-4 px-1 text-[10px] text-primary hover:bg-transparent'
-                                          onClick={() => handleGenerateSkuForVariant(index)}
+                                          onClick={() =>
+                                            handleGenerateSkuForVariant(index)
+                                          }
                                         >
                                           <Sparkles className='me-0.5 h-3 w-3' />
                                           {t('products.form.generateSku')}
@@ -1528,7 +1696,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                           size='icon'
                                           className='h-9 w-9 shrink-0'
                                           title='Scan Barcode'
-                                          onClick={() => setScanningVariantIndex(index)}
+                                          onClick={() =>
+                                            setScanningVariantIndex(index)
+                                          }
                                         >
                                           <LucideScan className='h-3.5 w-3.5' />
                                         </Button>
@@ -1557,8 +1727,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                 />
                               </div>
 
-                              {/* Row 2: Unit of Measure, Weight, Dimensions, Expiration Date */}
-                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4'>
+                              {/* Row 2: Unit of Measure, Tax Rate, Weight, Dimensions, Expiration Date */}
+                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5'>
                                 <FormField
                                   control={form.control}
                                   name={`variants.${index}.uom_id`}
@@ -1569,14 +1739,18 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                       </FormLabel>
                                       <Select
                                         onValueChange={(val) =>
-                                          vField.onChange(val === 'none' ? null : val)
+                                          vField.onChange(
+                                            val === 'none' ? null : val
+                                          )
                                         }
                                         value={vField.value || 'none'}
                                       >
                                         <FormControl>
                                           <SelectTrigger className='h-9 text-xs'>
                                             <SelectValue
-                                              placeholder={t('products.form.selectVariantUom')}
+                                              placeholder={t(
+                                                'products.form.selectVariantUom'
+                                              )}
                                             />
                                           </SelectTrigger>
                                         </FormControl>
@@ -1585,7 +1759,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                             value='none'
                                             className='text-muted-foreground italic'
                                           >
-                                            -- {t('common.none', 'Inherit Base Unit')} --
+                                            --{' '}
+                                            {t(
+                                              'common.none',
+                                              'Inherit Base Unit'
+                                            )}{' '}
+                                            --
                                           </SelectItem>
                                           {uoms.map((u) => (
                                             <SelectItem key={u.id} value={u.id}>
@@ -1594,6 +1773,31 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                           ))}
                                         </SelectContent>
                                       </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.tax_rate_id`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.taxRate', 'Tax Rate')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <TaxRateSelect
+                                          value={vField.value}
+                                          onChange={(val) =>
+                                            vField.onChange(val)
+                                          }
+                                          placeholder={t(
+                                            'products.form.selectVariantTaxRate',
+                                            'Select tax rate...'
+                                          )}
+                                        />
+                                      </FormControl>
                                       <FormMessage />
                                     </FormItem>
                                   )}
@@ -1656,15 +1860,29 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                   render={({ field: vField }) => (
                                     <FormItem>
                                       <FormLabel className='text-xs'>
-                                        {t('products.form.expirationDate', 'Expiry Date')}
+                                        {t(
+                                          'products.form.expirationDate',
+                                          'Expiry Date'
+                                        )}
                                       </FormLabel>
                                       <FormControl>
                                         <Input
                                           type='date'
                                           className='h-9 text-xs'
                                           {...vField}
-                                          value={vField.value ? String(vField.value).slice(0, 10) : ''}
-                                          onChange={(e) => vField.onChange(e.target.value || null)}
+                                          value={
+                                            vField.value
+                                              ? String(vField.value).slice(
+                                                  0,
+                                                  10
+                                                )
+                                              : ''
+                                          }
+                                          onChange={(e) =>
+                                            vField.onChange(
+                                              e.target.value || null
+                                            )
+                                          }
                                         />
                                       </FormControl>
                                       <FormMessage />
@@ -1677,7 +1895,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               {form.watch(`variants.${index}.barcode`) && (
                                 <div className='pt-1'>
                                   <BarcodeDisplay
-                                    value={form.watch(`variants.${index}.barcode`) || ''}
+                                    value={
+                                      form.watch(`variants.${index}.barcode`) ||
+                                      ''
+                                    }
                                     type='barcode'
                                   />
                                 </div>

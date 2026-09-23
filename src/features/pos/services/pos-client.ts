@@ -362,6 +362,11 @@ export const posApi = {
       taxAmount?: number | string
       taxRateId?: string | null
       batchId?: string | null
+      promotionId?: string | null
+      promotionRuleId?: string | null
+      couponId?: string | null
+      discountType?: 'percentage' | 'fixed' | null
+      discountRate?: number | string | null
     }>
     payments: Array<{
       method: 'cash' | 'card' | 'bank_transfer' | 'wallet' | 'cheque' | 'mixed'
@@ -370,6 +375,9 @@ export const posApi = {
       notes?: string
     }>
     orderDiscountAmount?: number | string
+    couponCode?: string | null
+    appliedCouponId?: string | null
+    appliedPromotionIds?: string[]
     notes?: string
     idempotencyKey?: string
     isShipment?: boolean

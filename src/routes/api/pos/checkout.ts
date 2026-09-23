@@ -27,6 +27,11 @@ const checkoutSchema = z.object({
         taxAmount: z.union([z.number().nonnegative(), z.string()]).optional(),
         taxRateId: z.string().uuid().nullable().optional(),
         batchId: z.string().uuid().nullable().optional(),
+        promotionId: z.string().uuid().nullable().optional(),
+        promotionRuleId: z.string().uuid().nullable().optional(),
+        couponId: z.string().uuid().nullable().optional(),
+        discountType: z.enum(['percentage', 'fixed']).nullable().optional(),
+        discountRate: z.union([z.number(), z.string()]).nullable().optional(),
       })
     )
     .min(1, 'At least one item is required'),
@@ -41,6 +46,9 @@ const checkoutSchema = z.object({
     )
     .min(1, 'At least one payment is required'),
   orderDiscountAmount: z.union([z.number().nonnegative(), z.string()]).optional(),
+  couponCode: z.string().nullable().optional(),
+  appliedCouponId: z.string().uuid().nullable().optional(),
+  appliedPromotionIds: z.array(z.string().uuid()).optional(),
   notes: z.string().optional(),
   idempotencyKey: z.string().optional(),
   isShipment: z.boolean().optional(),

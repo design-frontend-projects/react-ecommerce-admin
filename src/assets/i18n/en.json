@@ -1979,6 +1979,16 @@
     "viewProduct": "Product Details",
     "deleteProduct": "Delete Product",
     "errorLoading": "Error loading products.",
+    "taxRate": "Tax Rate",
+    "selectVariantTaxRate": "Select tax rate for this variant...",
+    "searchTaxRates": "Search tax rates...",
+    "noTaxRatesFound": "No tax rates found.",
+    "inclusiveTax": "Inclusive",
+    "exclusiveTax": "Exclusive",
+    "noTaxAssigned": "No Tax Assigned (0%)",
+    "pricingNoticeTitle": "Variant-Level Pricing & Tax",
+    "pricingNoticeDesc": "Standard tax rates and variant prices are configured per variant in the Variants tab below.",
+    "configureVariantTaxes": "Configure Variant Taxes",
     "tabs": {
       "all": "All Products",
       "active": "Active",
@@ -2049,6 +2059,16 @@
       "taxCodePlaceholder": "e.g. VAT-20",
       "taxClassification": "Tax Classification",
       "selectTaxClassification": "Select tax classification",
+      "taxRate": "Tax Rate",
+      "selectVariantTaxRate": "Select tax rate for this variant...",
+      "searchTaxRates": "Search tax rates...",
+      "noTaxRatesFound": "No tax rates found.",
+      "inclusiveTax": "Inclusive",
+      "exclusiveTax": "Exclusive",
+      "noTaxAssigned": "No Tax Assigned (0%)",
+      "pricingNoticeTitle": "Variant-Level Pricing & Tax",
+      "pricingNoticeDesc": "Standard tax rates and variant prices are configured per variant in the Variants tab below.",
+      "configureVariantTaxes": "Configure Variant Taxes",
       "reorderLevel": "Reorder Level",
       "reorderLevelPlaceholder": "e.g. 10",
       "isStockItem": "Stock Item",
@@ -4408,10 +4428,23 @@
   },
   "inventoryMovements": {
     "title": "Inventory Movements",
-    "description": "Comprehensive audit trail of all inventory transactions and stock movements.",
+    "description": "The immutable audit ledger of every stock transaction — purchases, sales, transfers, and adjustments.",
+    "filters": {
+      "allMovementTypes": "All movement types",
+      "allWarehouses": "All warehouses",
+      "allWarehousesStores": "All warehouses / stores"
+    },
     "table": {
       "filterPlaceholder": "Filter movements by product or reference...",
-      "noResults": "No movement history found."
+      "noResults": "No movement history found.",
+      "date": "Date",
+      "type": "Type",
+      "variantSku": "Variant / SKU",
+      "warehouseStore": "Warehouse / Store",
+      "in": "In",
+      "out": "Out",
+      "unitCost": "Unit Cost",
+      "reference": "Reference"
     },
     "columns": {
       "timestamp": "Date & Time",
@@ -4429,6 +4462,15 @@
       "transferOut": "Transfer Out",
       "adjustment": "Stock Adjustment",
       "return": "Customer Return"
+    },
+    "empty": {
+      "noMovements": "No movements found."
+    },
+    "error": {
+      "loadFailed": "Error loading movements."
+    },
+    "reference": {
+      "txn": "Txn"
     }
   },
   "batches": {
@@ -6901,34 +6943,6 @@
       "reasonPlaceholder": "e.g., Abandoned draft, incorrect order number...",
       "back": "Back",
       "confirmCancel": "Confirm Cancel"
-    }
-  },
-  "inventoryMovements": {
-    "title": "Inventory Movements",
-    "description": "The immutable audit ledger of every stock transaction — purchases, sales, transfers, and adjustments.",
-    "filters": {
-      "allMovementTypes": "All movement types",
-      "allWarehouses": "All warehouses",
-      "allWarehousesStores": "All warehouses / stores"
-    },
-    "table": {
-      "date": "Date",
-      "type": "Type",
-      "variantSku": "Variant / SKU",
-      "warehouseStore": "Warehouse / Store",
-      "in": "In",
-      "out": "Out",
-      "unitCost": "Unit Cost",
-      "reference": "Reference"
-    },
-    "empty": {
-      "noMovements": "No movements found."
-    },
-    "error": {
-      "loadFailed": "Error loading movements."
-    },
-    "reference": {
-      "txn": "Txn"
     }
   }
 }

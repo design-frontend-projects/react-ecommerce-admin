@@ -286,40 +286,55 @@ export function useProductTypeOptions() {
   })
 }
 
-export interface TaxClassificationOption {
+import { getAuthTenantAndUser } from '@/lib/client-tenant'
+
+export interface TaxRateOption {
   id: string
-  code: string
-  name: string
-  name_ar?: string | null
+  tax_type: string
   rate: number
   description?: string | null
+  is_inclusive?: boolean | null
 }
 
+// Deprecated alias for backwards compatibility
+export type TaxClassificationOption = TaxRateOption
+
 /**
- * Hook to fetch active tax classifications with rates from tax_classifications table.
+ * Hook to fetch active tax rates from tax_rates table.
  */
-export function useTaxClassificationOptions() {
+export function useTaxRateOptions() {
   const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
-  return useQuery<TaxClassificationOption[]>({
-    queryKey: ['tax_classifications', 'options'],
+  const { tenantId } = getAuthTenantAndUser()
+
+  return useQuery<TaxRateOption[]>({
+    queryKey: ['tax_rates', 'options', tenantId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('tax_classifications')
-        .select('id, code, name, name_ar, rate, description')
+      let query = supabase
+        .from('tax_rates')
+        .select('id, tax_type, rate, description, is_inclusive')
         .eq('is_active', true)
         .order('rate', { ascending: false })
 
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      const { data, error } = await query
       if (error) throw error
       return ((data ?? []) as Array<Record<string, unknown>>).map((d) => ({
         id: String(d.id),
-        code: String(d.code),
-        name: String(d.name),
-        name_ar: d.name_ar ? String(d.name_ar) : null,
+        tax_type: String(d.tax_type),
         rate: Number(d.rate || 0),
         description: d.description ? String(d.description) : null,
+        is_inclusive: Boolean(d.is_inclusive),
       }))
     },
     enabled: authEnabled,
   })
 }
+
+/**
+ * @deprecated Use useTaxRateOptions instead.
+ */
+export const useTaxClassificationOptions = useTaxRateOptions
 

@@ -17,14 +17,12 @@ export const trackingModeEnum = z.enum([
 ])
 export type TrackingMode = z.infer<typeof trackingModeEnum>
 
-export interface TaxClassification {
+export interface TaxRateBrief {
   id: string
-  code: string
-  name: string
-  name_ar?: string | null
+  tax_type: string
   rate: number | string
   description?: string | null
-  is_active?: boolean | null
+  is_inclusive?: boolean | null
 }
 
 export const productVariantSchema = z.object({
@@ -34,6 +32,7 @@ export const productVariantSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().max(100).optional().nullable(),
   name: z.string().max(200).optional().nullable(),
+  tax_rate_id: z.string().uuid().optional().nullable().or(z.literal('')),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.any().optional().nullable(),
   is_active: z.boolean().default(true),
@@ -43,6 +42,7 @@ export const productVariantSchema = z.object({
   updated_at: z.string().optional().nullable(),
   attributes_label: z.string().optional(),
   // Joined relation fields
+  tax_rates: z.custom<TaxRateBrief>().optional().nullable(),
   price_list_items: z.array(z.any()).optional(),
   stock_balances: z.array(z.any()).optional(),
 })
@@ -53,6 +53,8 @@ export const variantRowSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(100),
   barcode: z.string().optional().nullable(),
   name: z.string().optional().nullable(),
+  tax_rate_id: z.string().uuid().optional().nullable().or(z.literal('')),
+  tax_rates: z.custom<TaxRateBrief>().optional().nullable(),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.string().optional().nullable(),
   is_active: z.boolean().default(true),
@@ -88,8 +90,6 @@ export const productSchema = z.object({
   tracking_mode: trackingModeEnum.default('none'),
   is_stock_item: z.boolean().default(true),
   reorderable: z.boolean().default(true),
-  tax_code: z.string().optional().nullable(),
-  tax_classification_id: z.string().uuid().optional().nullable().or(z.literal('')),
   is_batch_tracked: z.boolean().default(false),
   is_serial_tracked: z.boolean().default(false),
   product_variants: z.array(productVariantSchema).optional(),
@@ -103,7 +103,6 @@ export type Product = z.infer<typeof productSchema> & {
   base_uom?: { id?: string; name: string; code?: string } | null
   suppliers?: { id?: string; name: string; code?: string | null } | null
   product_types?: { id?: string; name: string; name_ar?: string | null; code?: string | null; icon?: string | null; color?: string | null } | null
-  tax_classifications?: TaxClassification | null
 }
 
 export const baseProductSchema = z.object({
@@ -118,8 +117,6 @@ export const baseProductSchema = z.object({
   product_type: productTypeEnum.default('simple'),
   product_type_id: z.string().uuid().optional().nullable().or(z.literal('')),
   tracking_mode: trackingModeEnum.default('none'),
-  tax_code: z.string().optional().nullable(),
-  tax_classification_id: z.string().uuid().optional().nullable().or(z.literal('')),
   weight: z.coerce.number().optional().nullable(),
   dimensions: z.string().max(50).optional().nullable(),
   is_active: z.boolean().default(true),

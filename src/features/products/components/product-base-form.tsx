@@ -1,12 +1,10 @@
-import { useEffect, useState, useMemo } from 'react'
-import { format } from 'date-fns'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CalendarIcon, Scan as LucideScan, Layers } from 'lucide-react'
+import { Layers, Scan as LucideScan } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
   FormControl,
@@ -18,11 +16,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -33,7 +26,6 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { SearchableSelect } from '@/components/custom-ui/searchable-select'
-import { TaxClassificationSelect } from './tax-classification-select'
 import { useProductWizardStore } from '../context/product-wizard-store'
 import {
   baseProductSchema,
@@ -42,12 +34,12 @@ import {
   type TrackingMode,
 } from '../data/schema'
 import {
+  formatCategorySearchableOptions,
   useBrandOptions,
   useCategoryOptions,
-  formatCategorySearchableOptions,
+  useProductTypeOptions,
   useSupplierOptions,
   useUomOptions,
-  useProductTypeOptions,
 } from '../hooks/use-product-options'
 import { BarcodeDisplay } from './barcode-display'
 
@@ -91,8 +83,6 @@ export function ProductBaseForm({
       product_type: 'simple',
       product_type_id: null,
       tracking_mode: 'none',
-      tax_code: '',
-      tax_classification_id: null,
       weight: null,
       dimensions: '',
       is_active: true,
@@ -323,7 +313,8 @@ export function ProductBaseForm({
                         options={categoryOptions}
                         placeholder={t('products.form.selectCategory')}
                         searchPlaceholder={t('products.form.searchCategory', {
-                          defaultValue: 'Search category (English or العربية)...',
+                          defaultValue:
+                            'Search category (English or العربية)...',
                         })}
                         emptyText={t('products.form.noCategoryFound', {
                           defaultValue: 'No category found.',
@@ -528,52 +519,20 @@ export function ProductBaseForm({
            ========================================================================= */}
         {currentStep === 3 && (
           <div className='animate-in space-y-4 duration-200 fade-in-50'>
-            {/* Pricing & Tax */}
-            <div className='space-y-3'>
-              <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
-                {t('products.form.pricingAndTax')}
-              </h4>
-              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-                <FormField
-                  control={form.control}
-                  name='tax_code'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('products.form.taxCode')}</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={t('products.form.taxCodePlaceholder')}
-                          {...field}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='tax_classification_id'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {t('products.form.taxClassification')}
-                      </FormLabel>
-                      <FormControl>
-                        <TaxClassificationSelect
-                          value={field.value}
-                          onChange={(val) => field.onChange(val)}
-                          placeholder={t(
-                            'products.form.selectTaxClassification'
-                          )}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+            {/* Pricing & Tax Notice */}
+            <div className='space-y-1.5 rounded-md border border-blue-200 bg-blue-50/50 p-4 text-xs text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300'>
+              <p className='text-sm font-semibold'>
+                {t(
+                  'products.form.pricingNoticeTitle',
+                  'Pricing & Tax Rates are Variant-Based'
+                )}
+              </p>
+              <p>
+                {t(
+                  'products.form.pricingNoticeDesc',
+                  'Tax rates and selling prices are assigned directly per product variant in the next step. You can configure the tax rate for each variant in the Variants step.'
+                )}
+              </p>
             </div>
 
             {/* Inventory & Tracking */}

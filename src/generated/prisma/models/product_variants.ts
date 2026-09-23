@@ -47,6 +47,7 @@ export type Product_variantsMinAggregateOutputType = {
   updated_at: Date | null
   uom_id: string | null
   product_id: string | null
+  tax_rate_id: string | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
@@ -64,6 +65,7 @@ export type Product_variantsMaxAggregateOutputType = {
   updated_at: Date | null
   uom_id: string | null
   product_id: string | null
+  tax_rate_id: string | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
@@ -82,6 +84,7 @@ export type Product_variantsCountAggregateOutputType = {
   updated_at: number
   uom_id: number
   product_id: number
+  tax_rate_id: number
   created_by_user_id: number
   updated_by_user_id: number
   _all: number
@@ -109,6 +112,7 @@ export type Product_variantsMinAggregateInputType = {
   updated_at?: true
   uom_id?: true
   product_id?: true
+  tax_rate_id?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
@@ -126,6 +130,7 @@ export type Product_variantsMaxAggregateInputType = {
   updated_at?: true
   uom_id?: true
   product_id?: true
+  tax_rate_id?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
@@ -144,6 +149,7 @@ export type Product_variantsCountAggregateInputType = {
   updated_at?: true
   uom_id?: true
   product_id?: true
+  tax_rate_id?: true
   created_by_user_id?: true
   updated_by_user_id?: true
   _all?: true
@@ -249,6 +255,7 @@ export type Product_variantsGroupByOutputType = {
   updated_at: Date | null
   uom_id: string | null
   product_id: string
+  tax_rate_id: string | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
   _count: Product_variantsCountAggregateOutputType | null
@@ -290,10 +297,12 @@ export type product_variantsWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"product_variants"> | Date | string | null
   uom_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   product_id?: Prisma.UuidFilter<"product_variants"> | string
+  tax_rate_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   pos_reorder_requests?: Prisma.Pos_reorder_requestsListRelationFilter
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
+  tax_rates?: Prisma.XOR<Prisma.Tax_ratesNullableScalarRelationFilter, Prisma.tax_ratesWhereInput> | null
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
   reorder_rules?: Prisma.Reorder_rulesListRelationFilter
   reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
@@ -321,10 +330,12 @@ export type product_variantsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   pos_reorder_requests?: Prisma.pos_reorder_requestsOrderByRelationAggregateInput
   products?: Prisma.productsOrderByWithRelationInput
+  tax_rates?: Prisma.tax_ratesOrderByWithRelationInput
   purchase_order_items?: Prisma.purchase_order_itemsOrderByRelationAggregateInput
   reorder_rules?: Prisma.reorder_rulesOrderByRelationAggregateInput
   reorder_suggestions?: Prisma.reorder_suggestionsOrderByRelationAggregateInput
@@ -355,10 +366,12 @@ export type product_variantsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"product_variants"> | Date | string | null
   uom_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   product_id?: Prisma.UuidFilter<"product_variants"> | string
+  tax_rate_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   pos_reorder_requests?: Prisma.Pos_reorder_requestsListRelationFilter
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
+  tax_rates?: Prisma.XOR<Prisma.Tax_ratesNullableScalarRelationFilter, Prisma.tax_ratesWhereInput> | null
   purchase_order_items?: Prisma.Purchase_order_itemsListRelationFilter
   reorder_rules?: Prisma.Reorder_rulesListRelationFilter
   reorder_suggestions?: Prisma.Reorder_suggestionsListRelationFilter
@@ -386,6 +399,7 @@ export type product_variantsOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.product_variantsCountOrderByAggregateInput
@@ -412,6 +426,7 @@ export type product_variantsScalarWhereWithAggregatesInput = {
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"product_variants"> | Date | string | null
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"product_variants"> | string | null
   product_id?: Prisma.UuidWithAggregatesFilter<"product_variants"> | string
+  tax_rate_id?: Prisma.UuidNullableWithAggregatesFilter<"product_variants"> | string | null
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_variants"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"product_variants"> | string | null
 }
@@ -433,6 +448,7 @@ export type product_variantsCreateInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -460,6 +476,7 @@ export type product_variantsUncheckedCreateInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -493,6 +510,7 @@ export type product_variantsUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -520,6 +538,7 @@ export type product_variantsUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -550,6 +569,7 @@ export type product_variantsCreateManyInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -585,6 +605,7 @@ export type product_variantsUncheckedUpdateManyInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -608,6 +629,7 @@ export type product_variantsCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -629,6 +651,7 @@ export type product_variantsMaxOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -646,6 +669,7 @@ export type product_variantsMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
   product_id?: Prisma.SortOrder
+  tax_rate_id?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
@@ -771,6 +795,48 @@ export type product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput = {
   delete?: Prisma.product_variantsWhereInput | boolean
   connect?: Prisma.product_variantsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.product_variantsUpdateToOneWithWhereWithoutPurchase_order_itemsInput, Prisma.product_variantsUpdateWithoutPurchase_order_itemsInput>, Prisma.product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput>
+}
+
+export type product_variantsCreateNestedManyWithoutTax_ratesInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutTax_ratesInput, Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput> | Prisma.product_variantsCreateWithoutTax_ratesInput[] | Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput | Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput[]
+  createMany?: Prisma.product_variantsCreateManyTax_ratesInputEnvelope
+  connect?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+}
+
+export type product_variantsUncheckedCreateNestedManyWithoutTax_ratesInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutTax_ratesInput, Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput> | Prisma.product_variantsCreateWithoutTax_ratesInput[] | Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput | Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput[]
+  createMany?: Prisma.product_variantsCreateManyTax_ratesInputEnvelope
+  connect?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+}
+
+export type product_variantsUpdateManyWithoutTax_ratesNestedInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutTax_ratesInput, Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput> | Prisma.product_variantsCreateWithoutTax_ratesInput[] | Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput | Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput[]
+  upsert?: Prisma.product_variantsUpsertWithWhereUniqueWithoutTax_ratesInput | Prisma.product_variantsUpsertWithWhereUniqueWithoutTax_ratesInput[]
+  createMany?: Prisma.product_variantsCreateManyTax_ratesInputEnvelope
+  set?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  disconnect?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  delete?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  connect?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  update?: Prisma.product_variantsUpdateWithWhereUniqueWithoutTax_ratesInput | Prisma.product_variantsUpdateWithWhereUniqueWithoutTax_ratesInput[]
+  updateMany?: Prisma.product_variantsUpdateManyWithWhereWithoutTax_ratesInput | Prisma.product_variantsUpdateManyWithWhereWithoutTax_ratesInput[]
+  deleteMany?: Prisma.product_variantsScalarWhereInput | Prisma.product_variantsScalarWhereInput[]
+}
+
+export type product_variantsUncheckedUpdateManyWithoutTax_ratesNestedInput = {
+  create?: Prisma.XOR<Prisma.product_variantsCreateWithoutTax_ratesInput, Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput> | Prisma.product_variantsCreateWithoutTax_ratesInput[] | Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput[]
+  connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput | Prisma.product_variantsCreateOrConnectWithoutTax_ratesInput[]
+  upsert?: Prisma.product_variantsUpsertWithWhereUniqueWithoutTax_ratesInput | Prisma.product_variantsUpsertWithWhereUniqueWithoutTax_ratesInput[]
+  createMany?: Prisma.product_variantsCreateManyTax_ratesInputEnvelope
+  set?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  disconnect?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  delete?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  connect?: Prisma.product_variantsWhereUniqueInput | Prisma.product_variantsWhereUniqueInput[]
+  update?: Prisma.product_variantsUpdateWithWhereUniqueWithoutTax_ratesInput | Prisma.product_variantsUpdateWithWhereUniqueWithoutTax_ratesInput[]
+  updateMany?: Prisma.product_variantsUpdateManyWithWhereWithoutTax_ratesInput | Prisma.product_variantsUpdateManyWithWhereWithoutTax_ratesInput[]
+  deleteMany?: Prisma.product_variantsScalarWhereInput | Prisma.product_variantsScalarWhereInput[]
 }
 
 export type product_variantsCreateNestedOneWithoutStock_balancesInput = {
@@ -906,6 +972,7 @@ export type product_variantsCreateWithoutPrice_list_itemsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -932,6 +999,7 @@ export type product_variantsUncheckedCreateWithoutPrice_list_itemsInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -980,6 +1048,7 @@ export type product_variantsUpdateWithoutPrice_list_itemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -1006,6 +1075,7 @@ export type product_variantsUncheckedUpdateWithoutPrice_list_itemsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1037,6 +1107,7 @@ export type product_variantsCreateWithoutProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -1063,6 +1134,7 @@ export type product_variantsUncheckedCreateWithoutProductsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   uom_id?: string | null
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1122,6 +1194,7 @@ export type product_variantsScalarWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"product_variants"> | Date | string | null
   uom_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   product_id?: Prisma.UuidFilter<"product_variants"> | string
+  tax_rate_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_variants"> | string | null
 }
@@ -1143,6 +1216,7 @@ export type product_variantsCreateWithoutInventoryInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -1169,6 +1243,7 @@ export type product_variantsUncheckedCreateWithoutInventoryInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1217,6 +1292,7 @@ export type product_variantsUpdateWithoutInventoryInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -1243,6 +1319,7 @@ export type product_variantsUncheckedUpdateWithoutInventoryInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1274,6 +1351,7 @@ export type product_variantsCreateWithoutPos_reorder_requestsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -1301,6 +1379,7 @@ export type product_variantsUncheckedCreateWithoutPos_reorder_requestsInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1348,6 +1427,7 @@ export type product_variantsUpdateWithoutPos_reorder_requestsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -1375,6 +1455,7 @@ export type product_variantsUncheckedUpdateWithoutPos_reorder_requestsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1407,6 +1488,7 @@ export type product_variantsCreateWithoutPurchase_order_itemsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProduct_variantsInput
@@ -1433,6 +1515,7 @@ export type product_variantsUncheckedCreateWithoutPurchase_order_itemsInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1481,6 +1564,7 @@ export type product_variantsUpdateWithoutPurchase_order_itemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProduct_variantsNestedInput
@@ -1507,6 +1591,7 @@ export type product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1520,6 +1605,92 @@ export type product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   inv_promotion_products?: Prisma.inv_promotion_productsUncheckedUpdateManyWithoutProduct_variantsNestedInput
   inv_promotion_rules_free?: Prisma.inv_promotion_rulesUncheckedUpdateManyWithoutFree_product_variantNestedInput
+}
+
+export type product_variantsCreateWithoutTax_ratesInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  expiration_date?: Date | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
+  products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
+  inventory?: Prisma.inventoryCreateNestedManyWithoutProduct_variantsInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutProduct_variantsInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutProduct_variantsInput
+  price_list_items?: Prisma.price_list_itemsCreateNestedManyWithoutProduct_variantsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutProduct_variantsInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsCreateNestedManyWithoutProduct_variantsInput
+  inv_promotion_products?: Prisma.inv_promotion_productsCreateNestedManyWithoutProduct_variantsInput
+  inv_promotion_rules_free?: Prisma.inv_promotion_rulesCreateNestedManyWithoutFree_product_variantInput
+}
+
+export type product_variantsUncheckedCreateWithoutTax_ratesInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  expiration_date?: Date | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutProduct_variantsInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutProduct_variantsInput
+  price_list_items?: Prisma.price_list_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  inv_promotion_products?: Prisma.inv_promotion_productsUncheckedCreateNestedManyWithoutProduct_variantsInput
+  inv_promotion_rules_free?: Prisma.inv_promotion_rulesUncheckedCreateNestedManyWithoutFree_product_variantInput
+}
+
+export type product_variantsCreateOrConnectWithoutTax_ratesInput = {
+  where: Prisma.product_variantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutTax_ratesInput, Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput>
+}
+
+export type product_variantsCreateManyTax_ratesInputEnvelope = {
+  data: Prisma.product_variantsCreateManyTax_ratesInput | Prisma.product_variantsCreateManyTax_ratesInput[]
+  skipDuplicates?: boolean
+}
+
+export type product_variantsUpsertWithWhereUniqueWithoutTax_ratesInput = {
+  where: Prisma.product_variantsWhereUniqueInput
+  update: Prisma.XOR<Prisma.product_variantsUpdateWithoutTax_ratesInput, Prisma.product_variantsUncheckedUpdateWithoutTax_ratesInput>
+  create: Prisma.XOR<Prisma.product_variantsCreateWithoutTax_ratesInput, Prisma.product_variantsUncheckedCreateWithoutTax_ratesInput>
+}
+
+export type product_variantsUpdateWithWhereUniqueWithoutTax_ratesInput = {
+  where: Prisma.product_variantsWhereUniqueInput
+  data: Prisma.XOR<Prisma.product_variantsUpdateWithoutTax_ratesInput, Prisma.product_variantsUncheckedUpdateWithoutTax_ratesInput>
+}
+
+export type product_variantsUpdateManyWithWhereWithoutTax_ratesInput = {
+  where: Prisma.product_variantsScalarWhereInput
+  data: Prisma.XOR<Prisma.product_variantsUpdateManyMutationInput, Prisma.product_variantsUncheckedUpdateManyWithoutTax_ratesInput>
 }
 
 export type product_variantsCreateWithoutStock_balancesInput = {
@@ -1539,6 +1710,7 @@ export type product_variantsCreateWithoutStock_balancesInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -1565,6 +1737,7 @@ export type product_variantsUncheckedCreateWithoutStock_balancesInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1613,6 +1786,7 @@ export type product_variantsUpdateWithoutStock_balancesInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -1639,6 +1813,7 @@ export type product_variantsUncheckedUpdateWithoutStock_balancesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1671,6 +1846,7 @@ export type product_variantsCreateWithoutPurchase_requisition_itemsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -1697,6 +1873,7 @@ export type product_variantsUncheckedCreateWithoutPurchase_requisition_itemsInpu
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1745,6 +1922,7 @@ export type product_variantsUpdateWithoutPurchase_requisition_itemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -1771,6 +1949,7 @@ export type product_variantsUncheckedUpdateWithoutPurchase_requisition_itemsInpu
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1803,6 +1982,7 @@ export type product_variantsCreateWithoutReorder_rulesInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProduct_variantsInput
@@ -1829,6 +2009,7 @@ export type product_variantsUncheckedCreateWithoutReorder_rulesInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -1877,6 +2058,7 @@ export type product_variantsUpdateWithoutReorder_rulesInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProduct_variantsNestedInput
@@ -1903,6 +2085,7 @@ export type product_variantsUncheckedUpdateWithoutReorder_rulesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -1935,6 +2118,7 @@ export type product_variantsCreateWithoutReorder_suggestionsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   inventory?: Prisma.inventoryCreateNestedManyWithoutProduct_variantsInput
@@ -1961,6 +2145,7 @@ export type product_variantsUncheckedCreateWithoutReorder_suggestionsInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -2009,6 +2194,7 @@ export type product_variantsUpdateWithoutReorder_suggestionsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   inventory?: Prisma.inventoryUpdateManyWithoutProduct_variantsNestedInput
@@ -2035,6 +2221,7 @@ export type product_variantsUncheckedUpdateWithoutReorder_suggestionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -2067,6 +2254,7 @@ export type product_variantsCreateWithoutStock_by_locationInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -2093,6 +2281,7 @@ export type product_variantsUncheckedCreateWithoutStock_by_locationInput = {
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -2141,6 +2330,7 @@ export type product_variantsUpdateWithoutStock_by_locationInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -2167,6 +2357,7 @@ export type product_variantsUncheckedUpdateWithoutStock_by_locationInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -2199,6 +2390,7 @@ export type product_variantsCreateWithoutInventory_transaction_itemsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -2225,6 +2417,7 @@ export type product_variantsUncheckedCreateWithoutInventory_transaction_itemsInp
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -2273,6 +2466,7 @@ export type product_variantsUpdateWithoutInventory_transaction_itemsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -2299,6 +2493,7 @@ export type product_variantsUncheckedUpdateWithoutInventory_transaction_itemsInp
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -2331,6 +2526,7 @@ export type product_variantsCreateWithoutInv_promotion_rules_freeInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -2357,6 +2553,7 @@ export type product_variantsUncheckedCreateWithoutInv_promotion_rules_freeInput 
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -2405,6 +2602,7 @@ export type product_variantsUpdateWithoutInv_promotion_rules_freeInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -2431,6 +2629,7 @@ export type product_variantsUncheckedUpdateWithoutInv_promotion_rules_freeInput 
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -2463,6 +2662,7 @@ export type product_variantsCreateWithoutInv_promotion_productsInput = {
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsCreateNestedManyWithoutProduct_variantsInput
   products: Prisma.productsCreateNestedOneWithoutProduct_variantsInput
+  tax_rates?: Prisma.tax_ratesCreateNestedOneWithoutProduct_variantsInput
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutProduct_variantsInput
   reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutProduct_variantsInput
   reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutProduct_variantsInput
@@ -2489,6 +2689,7 @@ export type product_variantsUncheckedCreateWithoutInv_promotion_productsInput = 
   updated_at?: Date | string | null
   uom_id?: string | null
   product_id: string
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedCreateNestedManyWithoutProduct_variantsInput
@@ -2537,6 +2738,7 @@ export type product_variantsUpdateWithoutInv_promotion_productsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -2563,6 +2765,7 @@ export type product_variantsUncheckedUpdateWithoutInv_promotion_productsInput = 
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -2591,6 +2794,7 @@ export type product_variantsCreateManyProductsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   uom_id?: string | null
+  tax_rate_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
@@ -2611,6 +2815,7 @@ export type product_variantsUpdateWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
+  tax_rates?: Prisma.tax_ratesUpdateOneWithoutProduct_variantsNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
   reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
   reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
@@ -2637,6 +2842,7 @@ export type product_variantsUncheckedUpdateWithoutProductsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
@@ -2666,6 +2872,103 @@ export type product_variantsUncheckedUpdateManyWithoutProductsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tax_rate_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type product_variantsCreateManyTax_ratesInput = {
+  id?: string
+  tenant_id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  weight?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: boolean | null
+  expiration_date?: Date | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  uom_id?: string | null
+  product_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type product_variantsUpdateWithoutTax_ratesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUpdateManyWithoutProduct_variantsNestedInput
+  products?: Prisma.productsUpdateOneRequiredWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutProduct_variantsNestedInput
+  inventory?: Prisma.inventoryUpdateManyWithoutProduct_variantsNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutProduct_variantsNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutProduct_variantsNestedInput
+  price_list_items?: Prisma.price_list_itemsUpdateManyWithoutProduct_variantsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutProduct_variantsNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUpdateManyWithoutProduct_variantsNestedInput
+  inv_promotion_products?: Prisma.inv_promotion_productsUpdateManyWithoutProduct_variantsNestedInput
+  inv_promotion_rules_free?: Prisma.inv_promotion_rulesUpdateManyWithoutFree_product_variantNestedInput
+}
+
+export type product_variantsUncheckedUpdateWithoutTax_ratesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_reorder_requests?: Prisma.pos_reorder_requestsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  price_list_items?: Prisma.price_list_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  inventory_transaction_items?: Prisma.inventory_transaction_itemsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  inv_promotion_products?: Prisma.inv_promotion_productsUncheckedUpdateManyWithoutProduct_variantsNestedInput
+  inv_promotion_rules_free?: Prisma.inv_promotion_rulesUncheckedUpdateManyWithoutFree_product_variantNestedInput
+}
+
+export type product_variantsUncheckedUpdateManyWithoutTax_ratesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  weight?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dimensions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  is_active?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -2814,10 +3117,12 @@ export type product_variantsSelect<ExtArgs extends runtime.Types.Extensions.Inte
   updated_at?: boolean
   uom_id?: boolean
   product_id?: boolean
+  tax_rate_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   pos_reorder_requests?: boolean | Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.product_variants$tax_ratesArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.product_variants$purchase_order_itemsArgs<ExtArgs>
   reorder_rules?: boolean | Prisma.product_variants$reorder_rulesArgs<ExtArgs>
   reorder_suggestions?: boolean | Prisma.product_variants$reorder_suggestionsArgs<ExtArgs>
@@ -2846,9 +3151,11 @@ export type product_variantsSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   updated_at?: boolean
   uom_id?: boolean
   product_id?: boolean
+  tax_rate_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.product_variants$tax_ratesArgs<ExtArgs>
 }, ExtArgs["result"]["product_variants"]>
 
 export type product_variantsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2865,9 +3172,11 @@ export type product_variantsSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   updated_at?: boolean
   uom_id?: boolean
   product_id?: boolean
+  tax_rate_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.product_variants$tax_ratesArgs<ExtArgs>
 }, ExtArgs["result"]["product_variants"]>
 
 export type product_variantsSelectScalar = {
@@ -2884,14 +3193,16 @@ export type product_variantsSelectScalar = {
   updated_at?: boolean
   uom_id?: boolean
   product_id?: boolean
+  tax_rate_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type product_variantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "sku" | "barcode" | "name" | "weight" | "dimensions" | "is_active" | "expiration_date" | "created_at" | "updated_at" | "uom_id" | "product_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_variants"]>
+export type product_variantsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "sku" | "barcode" | "name" | "weight" | "dimensions" | "is_active" | "expiration_date" | "created_at" | "updated_at" | "uom_id" | "product_id" | "tax_rate_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_variants"]>
 export type product_variantsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pos_reorder_requests?: boolean | Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.product_variants$tax_ratesArgs<ExtArgs>
   purchase_order_items?: boolean | Prisma.product_variants$purchase_order_itemsArgs<ExtArgs>
   reorder_rules?: boolean | Prisma.product_variants$reorder_rulesArgs<ExtArgs>
   reorder_suggestions?: boolean | Prisma.product_variants$reorder_suggestionsArgs<ExtArgs>
@@ -2907,9 +3218,11 @@ export type product_variantsInclude<ExtArgs extends runtime.Types.Extensions.Int
 }
 export type product_variantsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.product_variants$tax_ratesArgs<ExtArgs>
 }
 export type product_variantsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
+  tax_rates?: boolean | Prisma.product_variants$tax_ratesArgs<ExtArgs>
 }
 
 export type $product_variantsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2917,6 +3230,7 @@ export type $product_variantsPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     pos_reorder_requests: Prisma.$pos_reorder_requestsPayload<ExtArgs>[]
     products: Prisma.$productsPayload<ExtArgs>
+    tax_rates: Prisma.$tax_ratesPayload<ExtArgs> | null
     purchase_order_items: Prisma.$purchase_order_itemsPayload<ExtArgs>[]
     reorder_rules: Prisma.$reorder_rulesPayload<ExtArgs>[]
     reorder_suggestions: Prisma.$reorder_suggestionsPayload<ExtArgs>[]
@@ -2943,6 +3257,7 @@ export type $product_variantsPayload<ExtArgs extends runtime.Types.Extensions.In
     updated_at: Date | null
     uom_id: string | null
     product_id: string
+    tax_rate_id: string | null
     created_by_user_id: string | null
     updated_by_user_id: string | null
   }, ExtArgs["result"]["product_variants"]>
@@ -3341,6 +3656,7 @@ export interface Prisma__product_variantsClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   pos_reorder_requests<T extends Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$pos_reorder_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_reorder_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   products<T extends Prisma.productsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.productsDefaultArgs<ExtArgs>>): Prisma.Prisma__productsClient<runtime.Types.Result.GetResult<Prisma.$productsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tax_rates<T extends Prisma.product_variants$tax_ratesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$tax_ratesArgs<ExtArgs>>): Prisma.Prisma__tax_ratesClient<runtime.Types.Result.GetResult<Prisma.$tax_ratesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   purchase_order_items<T extends Prisma.product_variants$purchase_order_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$purchase_order_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_order_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reorder_rules<T extends Prisma.product_variants$reorder_rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$reorder_rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_rulesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reorder_suggestions<T extends Prisma.product_variants$reorder_suggestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variants$reorder_suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$reorder_suggestionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3394,6 +3710,7 @@ export interface product_variantsFieldRefs {
   readonly updated_at: Prisma.FieldRef<"product_variants", 'DateTime'>
   readonly uom_id: Prisma.FieldRef<"product_variants", 'String'>
   readonly product_id: Prisma.FieldRef<"product_variants", 'String'>
+  readonly tax_rate_id: Prisma.FieldRef<"product_variants", 'String'>
   readonly created_by_user_id: Prisma.FieldRef<"product_variants", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"product_variants", 'String'>
 }
@@ -3818,6 +4135,25 @@ export type product_variants$pos_reorder_requestsArgs<ExtArgs extends runtime.Ty
   take?: number
   skip?: number
   distinct?: Prisma.Pos_reorder_requestsScalarFieldEnum | Prisma.Pos_reorder_requestsScalarFieldEnum[]
+}
+
+/**
+ * product_variants.tax_rates
+ */
+export type product_variants$tax_ratesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tax_rates
+   */
+  select?: Prisma.tax_ratesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tax_rates
+   */
+  omit?: Prisma.tax_ratesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tax_ratesInclude<ExtArgs> | null
+  where?: Prisma.tax_ratesWhereInput
 }
 
 /**

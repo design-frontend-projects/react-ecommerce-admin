@@ -1979,6 +1979,16 @@
     "viewProduct": "تفاصيل المنتج",
     "deleteProduct": "حذف المنتج",
     "errorLoading": "حدث خطأ أثناء تحميل المنتجات.",
+    "taxRate": "معدل الضريبة",
+    "selectVariantTaxRate": "اختر معدل الضريبة لهذا المتغير...",
+    "searchTaxRates": "البحث في معدلات الضريبة...",
+    "noTaxRatesFound": "لم يتم العثور على معدلات ضريبية.",
+    "inclusiveTax": "شامل الضريبة",
+    "exclusiveTax": "غير شامل الضريبة",
+    "noTaxAssigned": "بدون ضريبة (0%)",
+    "pricingNoticeTitle": "التسعير والضريبة على مستوى المتغير",
+    "pricingNoticeDesc": "يتم ضبط معدلات الضريبة وأسعار المتغيرات بشكل فردي في علامة تبويب المتغيرات أدناه.",
+    "configureVariantTaxes": "ضبط ضرائب المتغيرات",
     "tabs": {
       "all": "جميع المنتجات",
       "active": "نشط",
@@ -2049,6 +2059,16 @@
       "taxCodePlaceholder": "مثال: VAT-15",
       "taxClassification": "التصنيف الضريبي",
       "selectTaxClassification": "اختر التصنيف الضريبي",
+      "taxRate": "معدل الضريبة",
+      "selectVariantTaxRate": "اختر معدل الضريبة لهذا المتغير...",
+      "searchTaxRates": "البحث في معدلات الضريبة...",
+      "noTaxRatesFound": "لم يتم العثور على معدلات ضريبية.",
+      "inclusiveTax": "شامل الضريبة",
+      "exclusiveTax": "غير شامل الضريبة",
+      "noTaxAssigned": "بدون ضريبة (0%)",
+      "pricingNoticeTitle": "التسعير والضريبة على مستوى المتغير",
+      "pricingNoticeDesc": "يتم ضبط معدلات الضريبة وأسعار المتغيرات بشكل فردي في علامة تبويب المتغيرات أدناه.",
+      "configureVariantTaxes": "ضبط ضرائب المتغيرات",
       "reorderLevel": "حد إعادة الطلب",
       "reorderLevelPlaceholder": "مثال: 10",
       "isStockItem": "صنف مخزني",
@@ -4408,10 +4428,23 @@
   },
   "inventoryMovements": {
     "title": "حركات المخزون",
-    "description": "سجل تدقيق كامل لجميع حركات الإدخال والإخراج والتحويل للمنتجات.",
+    "description": "دفتر التدقيق غير القابل للتغيير لكل معاملة مخزون — المشتريات والمبيعات والتحويلات والتعديلات.",
+    "filters": {
+      "allMovementTypes": "جميع أنواع الحركة",
+      "allWarehouses": "جميع المستودعات",
+      "allWarehousesStores": "جميع المستودعات / المتاجر"
+    },
     "table": {
       "filterPlaceholder": "تصفية الحركات بالمنتج أو الرقم المرجعي...",
-      "noResults": "لم يتم العثور على سجل حركات."
+      "noResults": "لم يتم العثور على سجل حركات.",
+      "date": "التاريخ",
+      "type": "النوع",
+      "variantSku": "المتغير / SKU",
+      "warehouseStore": "المستودع / المتجر",
+      "in": "وارد",
+      "out": "صادر",
+      "unitCost": "تكلفة الوحدة",
+      "reference": "المرجع"
     },
     "columns": {
       "timestamp": "الوقت والتاريخ",
@@ -4429,6 +4462,15 @@
       "transferOut": "تحويل صادر",
       "adjustment": "تسوية مخزنية",
       "return": "مرتجع مبيعات"
+    },
+    "empty": {
+      "noMovements": "لم يتم العثور على حركات."
+    },
+    "error": {
+      "loadFailed": "خطأ في تحميل الحركات."
+    },
+    "reference": {
+      "txn": "معاملة"
     }
   },
   "batches": {
@@ -6901,34 +6943,6 @@
       "reasonPlaceholder": "مثال: مسودة مهجورة، رقم أمر غير صحيح...",
       "back": "رجوع",
       "confirmCancel": "تأكيد الإلغاء"
-    }
-  },
-  "inventoryMovements": {
-    "title": "تحركات المخزون",
-    "description": "دفتر التدقيق غير القابل للتغيير لكل معاملة مخزون — المشتريات والمبيعات والتحويلات والتعديلات.",
-    "filters": {
-      "allMovementTypes": "جميع أنواع الحركة",
-      "allWarehouses": "جميع المستودعات",
-      "allWarehousesStores": "جميع المستودعات / المتاجر"
-    },
-    "table": {
-      "date": "التاريخ",
-      "type": "النوع",
-      "variantSku": "المتغير / SKU",
-      "warehouseStore": "المستودع / المتجر",
-      "in": "وارد",
-      "out": "صادر",
-      "unitCost": "تكلفة الوحدة",
-      "reference": "المرجع"
-    },
-    "empty": {
-      "noMovements": "لم يتم العثور على حركات."
-    },
-    "error": {
-      "loadFailed": "خطأ في تحميل الحركات."
-    },
-    "reference": {
-      "txn": "معاملة"
     }
   }
 }

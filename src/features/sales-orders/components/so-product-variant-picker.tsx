@@ -52,6 +52,8 @@ export interface SOVariantOption {
   qty_reserved?: number
   qty_available?: number
   uom_id?: string | null
+  tax_rate_id?: string | null
+  tax_rates?: { id?: string; tax_type?: string; rate?: number | string; is_inclusive?: boolean } | null
   stock_balances?: SOVariantStockBalance[]
   priceListName?: string | null
   priceSource?: string | null
@@ -332,6 +334,11 @@ export function SOVariantSelect({
                     ({selectedVariant.name})
                   </span>
                 )}
+                {selectedVariant.tax_rates && (
+                  <Badge variant='outline' className='text-[9px] h-4 px-1 text-primary border-primary/20 bg-primary/5 shrink-0 hidden sm:inline-flex'>
+                    <Percent className='h-2 w-2 mr-0.5' /> {selectedVariant.tax_rates.tax_type} ({selectedVariant.tax_rates.rate}%)
+                  </Badge>
+                )}
               </div>
               <div className='flex items-center gap-1.5 shrink-0'>
                 <span
@@ -422,6 +429,14 @@ export function SOVariantSelect({
                         <span className='text-muted-foreground'>•</span>
                         <span className='text-muted-foreground/80 truncate max-w-[100px]'>
                           {effectiveWarehouseName}
+                        </span>
+                      </>
+                    )}
+                    {v.tax_rates && (
+                      <>
+                        <span className='text-muted-foreground'>•</span>
+                        <span className='text-primary/90 font-medium'>
+                          {v.tax_rates.tax_type} ({v.tax_rates.rate}%)
                         </span>
                       </>
                     )}

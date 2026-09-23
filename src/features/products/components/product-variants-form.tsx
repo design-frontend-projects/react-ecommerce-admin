@@ -34,6 +34,7 @@ import {
 } from '@/components/ui/select'
 import { useProductWizardStore } from '../context/product-wizard-store'
 import { useUomOptions } from '../hooks/use-product-options'
+import { TaxRateSelect } from './tax-rate-select'
 import {
   variantRowSchema,
   type VariantRowFormData,
@@ -63,6 +64,7 @@ export function ProductVariantsForm({
         variantsData.length > 0
           ? variantsData.map((v) => ({
               ...v,
+              tax_rate_id: v.tax_rate_id || null,
               expiration_date: v.expiration_date || null,
             }))
           : [
@@ -70,6 +72,7 @@ export function ProductVariantsForm({
                 sku: baseProductData?.sku ? `${baseProductData.sku}-V1` : '',
                 barcode: '',
                 name: 'Default',
+                tax_rate_id: null,
                 weight: baseProductData?.weight || null,
                 dimensions: baseProductData?.dimensions || '',
                 is_active: true,
@@ -94,6 +97,7 @@ export function ProductVariantsForm({
         : `SKU-V${nextIdx}`,
       barcode: '',
       name: `Variant ${nextIdx}`,
+      tax_rate_id: null,
       weight: baseProductData?.weight || null,
       dimensions: baseProductData?.dimensions || '',
       is_active: true,
@@ -111,6 +115,7 @@ export function ProductVariantsForm({
       sku: item.sku ? `${item.sku}-COPY` : `SKU-V${nextIdx}`,
       barcode: '',
       name: item.name ? `${item.name} (Copy)` : `Variant ${nextIdx}`,
+      tax_rate_id: item.tax_rate_id || null,
       weight: item.weight || null,
       dimensions: item.dimensions || '',
       is_active: item.is_active ?? true,
@@ -321,8 +326,8 @@ export function ProductVariantsForm({
                     />
                   </div>
 
-                  {/* Row 2: UOM, Weight, Dimensions, Expiration Date */}
-                  <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4'>
+                  {/* Row 2: UOM, Tax Rate, Weight, Dimensions, Expiration Date */}
+                  <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5'>
                     <FormField
                       control={form.control}
                       name={`variants.${index}.uom_id`}
@@ -358,6 +363,26 @@ export function ProductVariantsForm({
                               ))}
                             </SelectContent>
                           </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name={`variants.${index}.tax_rate_id`}
+                      render={({ field: vField }) => (
+                        <FormItem>
+                          <FormLabel className='text-xs'>
+                            {t('products.form.taxRate', 'Tax Rate')}
+                          </FormLabel>
+                          <FormControl>
+                            <TaxRateSelect
+                              value={vField.value}
+                              onChange={(val) => vField.onChange(val)}
+                              placeholder={t('products.form.selectVariantTaxRate', 'Select tax rate...')}
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}

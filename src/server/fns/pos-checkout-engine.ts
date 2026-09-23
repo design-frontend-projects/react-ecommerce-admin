@@ -519,7 +519,15 @@ export async function processPosSale(
 
       // 7e-3. Record Coupon Redemption if coupon was supplied
       let appliedCouponRecord: { id: string; promotion_id: string; code: string } | null = null
-      if (input.couponCode && input.couponCode.trim()) {
+      if (input.appliedCouponId) {
+        appliedCouponRecord = await tx.inv_coupons.findFirst({
+          where: {
+            id: input.appliedCouponId,
+            tenant_id: tenantId,
+          },
+          select: { id: true, promotion_id: true, code: true },
+        })
+      } else if (input.couponCode && input.couponCode.trim()) {
         appliedCouponRecord = await tx.inv_coupons.findFirst({
           where: {
             tenant_id: tenantId,
@@ -527,72 +535,92 @@ export async function processPosSale(
           },
           select: { id: true, promotion_id: true, code: true },
         })
+      }
 
-        if (appliedCouponRecord) {
-          await tx.inv_coupon_redemptions.create({
-            data: {
-              tenant_id: tenantId,
-              coupon_id: appliedCouponRecord.id,
-              promotion_id: appliedCouponRecord.promotion_id,
-              customer_id: input.customerId ?? null,
-              sales_invoice_id: invoiceId,
-              sales_order_id: orderId,
-              discount_amount: toDecimal(input.orderDiscountAmount),
-              created_by_user_id: tenantUserId,
-            },
-          })
+      if (appliedCouponRecord) {
+        await tx.inv_coupon_redemptions.create({
+          data: {
+            tenant_id: tenantId,
+            coupon_id: appliedCouponRecord.id,
+            promotion_id: appliedCouponRecord.promotion_id,
+            customer_id: input.customerId ?? null,
+            sales_invoice_id: invoiceId,
+            sales_order_id: orderId,
+            discount_amount: toDecimal(input.orderDiscountAmount),
+            created_by_user_id: tenantUserId,
+          },
+        })
 
-          await tx.inv_coupons.update({
-            where: { id: appliedCouponRecord.id },
-            data: { current_usages: { increment: 1 } },
-          })
+        await tx.inv_coupons.update({
+          where: { id: appliedCouponRecord.id },
+          data: { current_usages: { increment: 1 } },
+        })
+      }
+
+      // Resolve applied promotion ID (from coupon, appliedPromotionIds, or direct promo code)
+      let resolvedPromotionId: string | null =
+        appliedCouponRecord?.promotion_id ?? input.appliedPromotionIds?.[0] ?? null
+
+      if (!resolvedPromotionId && input.couponCode && input.couponCode.trim()) {
+        const directPromo = await tx.inv_promotions.findFirst({
+          where: {
+            tenant_id: tenantId,
+            code: { equals: input.couponCode.trim(), mode: 'insensitive' },
+          },
+          select: { id: true },
+        })
+        if (directPromo) {
+          resolvedPromotionId = directPromo.id
         }
       }
 
-      // 7e-4. Record Invoice-Level Discounts & Promotion Usage Logs
+      // 7e-4. Record Invoice-Level Discounts
       const orderDiscountDec = toDecimal(input.orderDiscountAmount)
       if (orderDiscountDec.gt(0)) {
-        const promoId = appliedCouponRecord?.promotion_id ?? input.appliedPromotionIds?.[0] ?? null
-        const discountSource = appliedCouponRecord ? 'coupon' : promoId ? 'promotion' : 'manual'
+        const discountSource = appliedCouponRecord ? 'coupon' : resolvedPromotionId ? 'promotion' : 'manual'
 
         await tx.inv_sales_invoice_discounts.create({
           data: {
             tenant_id: tenantId,
             sales_invoice_id: invoiceId,
-            promotion_id: promoId,
+            promotion_id: resolvedPromotionId,
             coupon_id: appliedCouponRecord?.id ?? null,
             discount_source: discountSource as inv_discount_source_enum,
             discount_type: 'fixed',
             discount_amount: orderDiscountDec,
-            reason: appliedCouponRecord ? `Coupon: ${appliedCouponRecord.code}` : promoId ? 'Automated Promotion' : 'Cashier Manual Discount',
+            reason: appliedCouponRecord
+              ? `Coupon: ${appliedCouponRecord.code}`
+              : resolvedPromotionId
+                ? 'Automated Promotion'
+                : 'Cashier Manual Discount',
             applied_by_user_id: tenantUserId,
           },
         })
+      }
 
-        if (promoId) {
-          await tx.inv_promotion_usage_logs.create({
-            data: {
-              tenant_id: tenantId,
-              promotion_id: promoId,
-              sales_invoice_id: invoiceId,
-              sales_order_id: orderId,
-              customer_id: input.customerId ?? null,
-              discount_amount: orderDiscountDec,
-              channel_id: posChannelId,
-              store_id: input.storeId ?? null,
-              branch_id: input.branchId ?? null,
-              created_by_user_id: tenantUserId,
-            },
-          })
+      // 7e-5. Record Promotion Usage Logs & Increment Promotion Usage Count
+      if (resolvedPromotionId) {
+        await tx.inv_promotion_usage_logs.create({
+          data: {
+            tenant_id: tenantId,
+            promotion_id: resolvedPromotionId,
+            sales_invoice_id: invoiceId,
+            sales_order_id: orderId,
+            customer_id: input.customerId ?? null,
+            discount_amount: orderDiscountDec,
+            channel_id: posChannelId,
+            store_id: input.storeId ?? null,
+            branch_id: input.branchId ?? null,
+            created_by_user_id: tenantUserId,
+          },
+        })
 
-          await tx.inv_promotions.update({
-            where: { id: promoId },
-            data: {
-              current_usage_count: { increment: 1 },
-              current_discount_amount: { increment: orderDiscountDec },
-            },
-          })
-        }
+        await tx.inv_promotions.update({
+          where: { id: resolvedPromotionId },
+          data: {
+            current_usage_count: { increment: 1 },
+          },
+        })
       }
 
       // 7f. Record cash movements for cash payments

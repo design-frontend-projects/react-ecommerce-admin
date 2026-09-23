@@ -113,11 +113,6 @@ export type product_variants = Prisma.product_variantsModel
  */
 export type products = Prisma.productsModel
 /**
- * Model tax_classifications
- * 
- */
-export type tax_classifications = Prisma.tax_classificationsModel
-/**
  * Model product_types
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
