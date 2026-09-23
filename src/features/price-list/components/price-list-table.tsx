@@ -68,7 +68,7 @@ export function PriceListTable({ data }: PriceListTableProps) {
         })}
         searchKey='price_list_name'
       />
-      <div className='overflow-hidden rounded-md border bg-card'>
+      <div className='overflow-x-auto rounded-md border bg-card'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

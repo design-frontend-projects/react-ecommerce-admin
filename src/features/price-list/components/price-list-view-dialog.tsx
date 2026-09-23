@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Calendar,
@@ -13,6 +13,10 @@ import {
   Radio,
   Package,
   Search,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  X,
 } from 'lucide-react'
 import {
   Dialog,
@@ -34,6 +38,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { usePriceListContext } from './price-list-provider'
+import { usePriceListItemsServerQuery } from '../hooks/use-price-list'
 import {
   PRICE_LIST_TYPE_LABELS,
   PRICE_SOURCE_LABELS,
@@ -57,6 +62,28 @@ function PriceListViewDialogContent({
   const { t, i18n } = useTranslation()
   const isAr = i18n.language === 'ar'
   const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm)
+      setPage(1)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchTerm])
+
+  const {
+    data: serverItemsResult,
+    isLoading: isItemsLoading,
+    isFetching: isItemsFetching,
+  } = usePriceListItemsServerQuery({
+    priceListId: currentRow.id,
+    search: debouncedSearch,
+    page,
+    pageSize,
+  })
 
   const typeConfig = currentRow.type
     ? PRICE_LIST_TYPE_LABELS[currentRow.type as PriceListType]
@@ -73,22 +100,63 @@ function PriceListViewDialogContent({
     validityStatus = 'expired'
   }
 
-  const items = useMemo(
-    () => currentRow.price_list_items || [],
-    [currentRow.price_list_items]
-  )
+  // Display items: use server query result if available, fallback to client-side sliced items
+  const items = useMemo(() => {
+    if (serverItemsResult?.items) {
+      return serverItemsResult.items
+    }
+    const rawItems = currentRow.price_list_items || []
+    if (!debouncedSearch) {
+      return rawItems.slice((page - 1) * pageSize, page * pageSize)
+    }
+    const q = debouncedSearch.toLowerCase()
+    const filtered = rawItems.filter((item) => {
+      const pName = (item.products?.name || '').toLowerCase()
+      const pSku = (item.products?.sku || '').toLowerCase()
+      const vName = (item.product_variants?.name || '').toLowerCase()
+      const vSku = (item.product_variants?.sku || '').toLowerCase()
+      return pName.includes(q) || pSku.includes(q) || vName.includes(q) || vSku.includes(q)
+    })
+    return filtered.slice((page - 1) * pageSize, page * pageSize)
+  }, [serverItemsResult, currentRow.price_list_items, debouncedSearch, page, pageSize])
+
+  const totalCount = useMemo(() => {
+    if (serverItemsResult?.totalCount != null) {
+      return serverItemsResult.totalCount
+    }
+    const rawItems = currentRow.price_list_items || []
+    if (!debouncedSearch) {
+      return rawItems.length
+    }
+    const q = debouncedSearch.toLowerCase()
+    return rawItems.filter((item) => {
+      const pName = (item.products?.name || '').toLowerCase()
+      const pSku = (item.products?.sku || '').toLowerCase()
+      const vName = (item.product_variants?.name || '').toLowerCase()
+      const vSku = (item.product_variants?.sku || '').toLowerCase()
+      return pName.includes(q) || pSku.includes(q) || vName.includes(q) || vSku.includes(q)
+    }).length
+  }, [serverItemsResult, currentRow.price_list_items, debouncedSearch])
+
+  const totalPages = Math.ceil(totalCount / pageSize) || 1
 
   // Count distinct products
   const distinctProductCount = useMemo(() => {
-    const pids = items.map((i) => i.product_id || i.product_variants?.product_id).filter(Boolean)
-    return new Set(pids).size
-  }, [items])
+    const raw = currentRow.price_list_items || []
+    if (raw.length > 0) {
+      const pids = raw.map((i) => i.product_id || i.product_variants?.product_id).filter(Boolean)
+      return new Set(pids).size
+    }
+    return currentRow.products ? 1 : totalCount > 0 ? totalCount : 0
+  }, [currentRow, totalCount])
 
   // Price range computation
   const priceRange = useMemo(() => {
-    const numericPrices = items
+    const raw = currentRow.price_list_items || []
+    const sourceItems = raw.length > 0 ? raw : items
+    const numericPrices = sourceItems
       .map((i) => Number(i.price))
-      .filter((p) => !isNaN(p))
+      .filter((p) => !isNaN(p) && p > 0)
     if (numericPrices.length === 0) {
       return currentRow.price != null ? `$${Number(currentRow.price).toFixed(2)}` : '—'
     }
@@ -98,24 +166,11 @@ function PriceListViewDialogContent({
       return `$${min.toFixed(2)}`
     }
     return `$${min.toFixed(2)} – $${max.toFixed(2)}`
-  }, [items, currentRow])
-
-  // Filter items if searching
-  const filteredItems = useMemo(() => {
-    if (!searchTerm) return items
-    const q = searchTerm.toLowerCase()
-    return items.filter((item) => {
-      const pName = (item.products?.name || '').toLowerCase()
-      const pSku = (item.products?.sku || '').toLowerCase()
-      const vName = (item.product_variants?.name || '').toLowerCase()
-      const vSku = (item.product_variants?.sku || '').toLowerCase()
-      return pName.includes(q) || pSku.includes(q) || vName.includes(q) || vSku.includes(q)
-    })
-  }, [items, searchTerm])
+  }, [currentRow, items])
 
   return (
-    <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-4xl'>
-      <DialogHeader>
+    <DialogContent className='w-[96vw] max-w-6xl max-h-[92vh] flex flex-col p-4 sm:p-6 overflow-hidden'>
+      <DialogHeader className='flex-shrink-0'>
         <div className='flex items-center justify-between gap-2 pr-6'>
           <DialogTitle className='flex items-center gap-2 text-xl'>
             <Layers className='h-5 w-5 text-primary' />
@@ -134,7 +189,7 @@ function PriceListViewDialogContent({
         </DialogDescription>
       </DialogHeader>
 
-      <div className='space-y-6 py-2'>
+      <div className='flex-1 overflow-y-auto space-y-6 py-2 pr-1'>
         {/* Header Summary KPI Cards */}
         <div className='grid grid-cols-2 sm:grid-cols-4 gap-3'>
           {/* Total Products */}
@@ -155,7 +210,7 @@ function PriceListViewDialogContent({
               {t('priceList.view.totalItems', { defaultValue: 'Total Items' })}
             </div>
             <div className='text-base font-bold font-mono mt-1'>
-              {items.length}
+              {totalCount}
             </div>
           </div>
 
@@ -346,189 +401,365 @@ function PriceListViewDialogContent({
           </div>
         </div>
 
-        {/* Multi-Product Price Items Table */}
+        {/* Multi-Product Price Items Section */}
         <div className='rounded-lg border bg-card p-4 space-y-3'>
           <div className='flex flex-wrap items-center justify-between gap-2'>
-            <h4 className='text-sm font-semibold flex items-center gap-1.5'>
+            <div className='flex items-center gap-2'>
               <Percent className='h-4 w-4 text-primary' />
-              {t('priceList.view.variantBreakdown', { defaultValue: 'Price List Items Breakdown' })}
-            </h4>
+              <h4 className='text-sm font-semibold'>
+                {t('priceList.view.variantBreakdown', { defaultValue: 'Price List Items Breakdown' })}
+              </h4>
+              <Badge variant='secondary' className='text-xs font-mono'>
+                {totalCount} {t('priceList.form.itemsBadge', { defaultValue: 'Items' })}
+              </Badge>
+            </div>
 
             <div className='flex items-center gap-2'>
-              {items.length > 5 && (
-                <div className='relative w-48'>
-                  <Search className='absolute left-2 top-2 h-3.5 w-3.5 text-muted-foreground' />
-                  <Input
-                    placeholder={t('priceList.form.searchItems', { defaultValue: 'Search...' })}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className='h-7 pl-7 text-xs'
-                  />
-                </div>
-              )}
-              <Badge variant='secondary' className='text-xs'>
-                {items.length} {t('priceList.form.itemsBadge', { defaultValue: 'Items' })}
-              </Badge>
+              <div className='relative w-48 sm:w-64'>
+                <Search className='absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground' />
+                <Input
+                  placeholder={t('priceList.form.searchItems', { defaultValue: 'Search items, SKU, variant...' })}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className='h-8 pl-8 pr-7 text-xs'
+                />
+                {searchTerm && (
+                  <button
+                    type='button'
+                    onClick={() => setSearchTerm('')}
+                    className='absolute right-2 top-2 text-muted-foreground hover:text-foreground'
+                  >
+                    <X className='h-3.5 w-3.5' />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
-          {filteredItems.length > 0 ? (
-            <div className='overflow-x-auto rounded-md border'>
-              <Table>
-                <TableHeader className='bg-muted/50'>
-                  <TableRow>
-                    <TableHead>{t('priceList.form.productColumn', { defaultValue: 'Product' })}</TableHead>
-                    <TableHead>{t('priceList.table.variant', { defaultValue: 'Variant / SKU' })}</TableHead>
-                    <TableHead>{t('priceList.table.source', { defaultValue: 'Source' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.costRef', { defaultValue: 'Cost' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.markup', { defaultValue: 'Markup %' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.tierPrice', { defaultValue: 'Selling Price' })}</TableHead>
-                    <TableHead className='text-center'>{t('priceList.table.tax', { defaultValue: 'Tax Rate' })}</TableHead>
-                    <TableHead className='text-right font-medium text-muted-foreground'>{t('priceList.table.beforeTax', { defaultValue: 'Before Tax' })}</TableHead>
-                    <TableHead className='text-right font-medium text-muted-foreground'>{t('priceList.table.taxAmount', { defaultValue: 'Tax Amt' })}</TableHead>
-                    <TableHead className='text-right font-bold text-foreground'>{t('priceList.table.afterTax', { defaultValue: 'After Tax' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.floorPrice', { defaultValue: 'Floor' })}</TableHead>
-                    <TableHead className='text-right'>{t('priceList.table.margin', { defaultValue: 'Margin' })}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredItems.map((item) => {
-                    const cost = item.cost_price != null ? Number(item.cost_price) : 0
-                    const price = Number(item.price)
-                    const marginPct =
-                      cost > 0 && price > 0
-                        ? (((price - cost) / price) * 100).toFixed(1)
-                        : null
+          {isItemsLoading && items.length === 0 ? (
+            <div className='flex items-center justify-center p-8'>
+              <Loader2 className='h-6 w-6 animate-spin text-primary' />
+            </div>
+          ) : items.length > 0 ? (
+            <>
+              {/* Desktop Table View (lg+) */}
+              <div className='hidden lg:block overflow-x-auto rounded-md border'>
+                <Table>
+                  <TableHeader className='bg-muted/50'>
+                    <TableRow>
+                      <TableHead>{t('priceList.form.productColumn', { defaultValue: 'Product' })}</TableHead>
+                      <TableHead>{t('priceList.table.variant', { defaultValue: 'Variant / SKU' })}</TableHead>
+                      <TableHead>{t('priceList.table.source', { defaultValue: 'Source' })}</TableHead>
+                      <TableHead className='text-right'>{t('priceList.table.costRef', { defaultValue: 'Cost' })}</TableHead>
+                      <TableHead className='text-right'>{t('priceList.table.markup', { defaultValue: 'Markup %' })}</TableHead>
+                      <TableHead className='text-right'>{t('priceList.table.tierPrice', { defaultValue: 'Selling Price' })}</TableHead>
+                      <TableHead className='text-center'>{t('priceList.table.tax', { defaultValue: 'Tax Rate' })}</TableHead>
+                      <TableHead className='text-right font-medium text-muted-foreground'>{t('priceList.table.beforeTax', { defaultValue: 'Before Tax' })}</TableHead>
+                      <TableHead className='text-right font-medium text-muted-foreground'>{t('priceList.table.taxAmount', { defaultValue: 'Tax Amt' })}</TableHead>
+                      <TableHead className='text-right font-bold text-foreground'>{t('priceList.table.afterTax', { defaultValue: 'After Tax' })}</TableHead>
+                      <TableHead className='text-right'>{t('priceList.table.floorPrice', { defaultValue: 'Floor' })}</TableHead>
+                      <TableHead className='text-right'>{t('priceList.table.margin', { defaultValue: 'Margin' })}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {items.map((item) => {
+                      const cost = item.cost_price != null ? Number(item.cost_price) : 0
+                      const price = Number(item.price)
+                      const marginPct =
+                        cost > 0 && price > 0
+                          ? (((price - cost) / price) * 100).toFixed(1)
+                          : null
 
-                    const effectiveSource: PriceSource = (item.price_source as PriceSource) || (currentRow.price_source as PriceSource) || 'MANUAL'
-                    const sourceConfig = PRICE_SOURCE_LABELS[effectiveSource]
-                    const effectiveTaxRate = item.tax_rates || currentRow.tax_rates
-                    const taxBreakdown = calculateTaxBreakdown(
-                      price,
-                      effectiveTaxRate?.rate != null ? Number(effectiveTaxRate.rate) : null,
-                      effectiveTaxRate?.is_inclusive ?? false
-                    )
-                    const itemMarkup = item.markup_percent != null ? Number(item.markup_percent) : currentRow.markup_percent != null ? Number(currentRow.markup_percent) : null
+                      const effectiveSource: PriceSource = (item.price_source as PriceSource) || (currentRow.price_source as PriceSource) || 'MANUAL'
+                      const sourceConfig = PRICE_SOURCE_LABELS[effectiveSource]
+                      const effectiveTaxRate = item.tax_rates || currentRow.tax_rates
+                      const taxBreakdown = calculateTaxBreakdown(
+                        price,
+                        effectiveTaxRate?.rate != null ? Number(effectiveTaxRate.rate) : null,
+                        effectiveTaxRate?.is_inclusive ?? false
+                      )
+                      const itemMarkup = item.markup_percent != null ? Number(item.markup_percent) : currentRow.markup_percent != null ? Number(currentRow.markup_percent) : null
 
-                    return (
-                      <TableRow key={item.id}>
-                        {/* Product Info */}
-                        <TableCell className='font-medium'>
-                          <div className='flex flex-col'>
-                            <span className='text-sm font-semibold'>
-                              {item.products?.name || currentRow.products?.name || '—'}
-                            </span>
-                            {(item.products?.sku || currentRow.products?.sku) && (
+                      return (
+                        <TableRow key={item.id}>
+                          {/* Product Info */}
+                          <TableCell className='font-medium'>
+                            <div className='flex flex-col'>
+                              <span className='text-sm font-semibold'>
+                                {item.products?.name || currentRow.products?.name || '—'}
+                              </span>
+                              {(item.products?.sku || currentRow.products?.sku) && (
+                                <span className='text-xs text-muted-foreground font-mono'>
+                                  {item.products?.sku || currentRow.products?.sku}
+                                </span>
+                              )}
+                            </div>
+                          </TableCell>
+
+                          {/* Variant Info */}
+                          <TableCell>
+                            <div className='flex flex-col'>
+                              <span>{item.product_variants?.name || t('priceList.types.standard', { defaultValue: 'Standard' })}</span>
                               <span className='text-xs text-muted-foreground font-mono'>
-                                {item.products?.sku || currentRow.products?.sku}
+                                {item.product_variants?.sku || '—'}
+                              </span>
+                            </div>
+                          </TableCell>
+
+                          {/* Price Source */}
+                          <TableCell>
+                            {sourceConfig ? (
+                              <Badge variant='outline' className={`text-[10px] px-1.5 py-0 whitespace-nowrap ${sourceConfig.color}`}>
+                                {isAr ? sourceConfig.labelAr : sourceConfig.label}
+                              </Badge>
+                            ) : (
+                              <span className='text-xs text-muted-foreground'>—</span>
+                            )}
+                          </TableCell>
+
+                          {/* Cost Price */}
+                          <TableCell className='text-right font-medium text-xs font-mono'>
+                            ${cost.toFixed(2)}
+                          </TableCell>
+
+                          {/* Markup % */}
+                          <TableCell className='text-right font-mono text-xs'>
+                            {itemMarkup != null && itemMarkup > 0 ? (
+                              <span className='text-blue-600 dark:text-blue-400 font-medium'>
+                                +{itemMarkup.toFixed(1)}%
+                              </span>
+                            ) : (
+                              <span className='text-muted-foreground'>—</span>
+                            )}
+                          </TableCell>
+
+                          {/* Selling Price */}
+                          <TableCell className='text-right font-bold text-primary font-mono'>
+                            ${price.toFixed(2)}
+                          </TableCell>
+
+                          {/* Tax Rate */}
+                          <TableCell className='text-center text-xs font-mono'>
+                            {effectiveTaxRate ? (
+                              <Badge variant='outline' className='text-[10px] border-indigo-300 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300'>
+                                {getTaxRatePercentage(effectiveTaxRate.rate)}% {effectiveTaxRate.is_inclusive ? '(Inc)' : '(Exc)'}
+                              </Badge>
+                            ) : (
+                              <span className='text-muted-foreground text-[11px]'>0%</span>
+                            )}
+                          </TableCell>
+
+                          {/* Price Before Tax (read only) */}
+                          <TableCell className='text-right font-mono text-xs text-muted-foreground bg-muted/20'>
+                            ${taxBreakdown.priceBeforeTax.toFixed(2)}
+                          </TableCell>
+
+                          {/* Tax Amount (read only) */}
+                          <TableCell className='text-right font-mono text-xs text-muted-foreground bg-muted/20'>
+                            ${taxBreakdown.taxAmount.toFixed(2)}
+                          </TableCell>
+
+                          {/* Price After Tax (read only) */}
+                          <TableCell className='text-right font-mono text-xs font-semibold text-foreground bg-muted/20'>
+                            ${taxBreakdown.priceAfterTax.toFixed(2)}
+                          </TableCell>
+
+                          {/* Min Price (Floor) */}
+                          <TableCell className='text-right text-xs font-mono'>
+                            ${Number(item.min_price || 0).toFixed(2)}
+                          </TableCell>
+
+                          {/* Margin */}
+                          <TableCell className='text-right'>
+                            {marginPct !== null ? (
+                              <Badge
+                                variant={Number(marginPct) < 0 ? 'destructive' : Number(marginPct) < 20 ? 'outline' : 'secondary'}
+                                className='text-xs font-mono'
+                              >
+                                {marginPct}%
+                              </Badge>
+                            ) : (
+                              <span className='text-xs text-muted-foreground font-mono'>—</span>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile & Tablet Card View (< lg) */}
+              <div className='block lg:hidden space-y-3'>
+                {items.map((item) => {
+                  const cost = item.cost_price != null ? Number(item.cost_price) : 0
+                  const price = Number(item.price)
+                  const marginPct =
+                    cost > 0 && price > 0
+                      ? (((price - cost) / price) * 100).toFixed(1)
+                      : null
+
+                  const effectiveSource: PriceSource = (item.price_source as PriceSource) || (currentRow.price_source as PriceSource) || 'MANUAL'
+                  const sourceConfig = PRICE_SOURCE_LABELS[effectiveSource]
+                  const effectiveTaxRate = item.tax_rates || currentRow.tax_rates
+                  const taxBreakdown = calculateTaxBreakdown(
+                    price,
+                    effectiveTaxRate?.rate != null ? Number(effectiveTaxRate.rate) : null,
+                    effectiveTaxRate?.is_inclusive ?? false
+                  )
+                  const itemMarkup = item.markup_percent != null ? Number(item.markup_percent) : currentRow.markup_percent != null ? Number(currentRow.markup_percent) : null
+
+                  return (
+                    <div key={item.id} className='rounded-lg border bg-card p-3 shadow-xs space-y-2.5'>
+                      <div className='flex items-start justify-between gap-2'>
+                        <div className='min-w-0'>
+                          <div className='font-semibold text-sm truncate'>
+                            {item.products?.name || currentRow.products?.name || '—'}
+                          </div>
+                          <div className='flex items-center gap-1.5 flex-wrap mt-0.5 text-xs text-muted-foreground'>
+                            <span className='font-medium text-foreground'>
+                              {item.product_variants?.name || t('priceList.types.standard', { defaultValue: 'Standard' })}
+                            </span>
+                            {(item.product_variants?.sku || item.products?.sku) && (
+                              <span className='font-mono text-[11px] bg-muted/60 px-1 py-0.5 rounded'>
+                                {item.product_variants?.sku || item.products?.sku}
                               </span>
                             )}
                           </div>
-                        </TableCell>
+                        </div>
+                        {sourceConfig && (
+                          <Badge variant='outline' className={`text-[10px] shrink-0 ${sourceConfig.color}`}>
+                            {isAr ? sourceConfig.labelAr : sourceConfig.label}
+                          </Badge>
+                        )}
+                      </div>
 
-                        {/* Variant Info */}
-                        <TableCell>
-                          <div className='flex flex-col'>
-                            <span>{item.product_variants?.name || t('priceList.types.standard', { defaultValue: 'Standard' })}</span>
-                            <span className='text-xs text-muted-foreground font-mono'>
-                              {item.product_variants?.sku || '—'}
-                            </span>
-                          </div>
-                        </TableCell>
-
-                        {/* Price Source */}
-                        <TableCell>
-                          {sourceConfig ? (
-                            <Badge variant='outline' className={`text-[10px] px-1.5 py-0 whitespace-nowrap ${sourceConfig.color}`}>
-                              {isAr ? sourceConfig.labelAr : sourceConfig.label}
-                            </Badge>
-                          ) : (
-                            <span className='text-xs text-muted-foreground'>—</span>
-                          )}
-                        </TableCell>
-
-                        {/* Cost Price */}
-                        <TableCell className='text-right font-medium text-xs font-mono'>
-                          ${cost.toFixed(2)}
-                        </TableCell>
-
-                        {/* Markup % */}
-                        <TableCell className='text-right font-mono text-xs'>
-                          {itemMarkup != null && itemMarkup > 0 ? (
-                            <span className='text-blue-600 dark:text-blue-400 font-medium'>
-                              +{itemMarkup.toFixed(1)}%
-                            </span>
-                          ) : (
-                            <span className='text-muted-foreground'>—</span>
-                          )}
-                        </TableCell>
-
-                        {/* Selling Price */}
-                        <TableCell className='text-right font-bold text-primary font-mono'>
-                          ${price.toFixed(2)}
-                        </TableCell>
-
-                        {/* Tax Rate */}
-                        <TableCell className='text-center text-xs font-mono'>
-                          {effectiveTaxRate ? (
-                            <Badge variant='outline' className='text-[10px] border-indigo-300 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300'>
-                              {getTaxRatePercentage(effectiveTaxRate.rate)}% {effectiveTaxRate.is_inclusive ? '(Inc)' : '(Exc)'}
-                            </Badge>
-                          ) : (
-                            <span className='text-muted-foreground text-[11px]'>0%</span>
-                          )}
-                        </TableCell>
-
-                        {/* Price Before Tax (read only) */}
-                        <TableCell className='text-right font-mono text-xs text-muted-foreground bg-muted/20'>
-                          ${taxBreakdown.priceBeforeTax.toFixed(2)}
-                        </TableCell>
-
-                        {/* Tax Amount (read only) */}
-                        <TableCell className='text-right font-mono text-xs text-muted-foreground bg-muted/20'>
-                          ${taxBreakdown.taxAmount.toFixed(2)}
-                        </TableCell>
-
-                        {/* Price After Tax (read only) */}
-                        <TableCell className='text-right font-mono text-xs font-semibold text-foreground bg-muted/20'>
-                          ${taxBreakdown.priceAfterTax.toFixed(2)}
-                        </TableCell>
-
-                        {/* Min Price (Floor) */}
-                        <TableCell className='text-right text-xs font-mono'>
-                          ${Number(item.min_price || 0).toFixed(2)}
-                        </TableCell>
-
-                        {/* Margin */}
-                        <TableCell className='text-right'>
+                      <div className='grid grid-cols-3 sm:grid-cols-6 gap-2 pt-2 border-t text-xs'>
+                        <div>
+                          <span className='text-[10px] text-muted-foreground block'>{t('priceList.table.costRef', { defaultValue: 'Cost' })}</span>
+                          <span className='font-mono font-medium'>${cost.toFixed(2)}</span>
+                        </div>
+                        <div>
+                          <span className='text-[10px] text-muted-foreground block'>{t('priceList.table.markup', { defaultValue: 'Markup' })}</span>
+                          <span className='font-mono font-medium text-blue-600 dark:text-blue-400'>
+                            {itemMarkup != null && itemMarkup > 0 ? `+${itemMarkup.toFixed(1)}%` : '—'}
+                          </span>
+                        </div>
+                        <div>
+                          <span className='text-[10px] text-muted-foreground block'>{t('priceList.table.tierPrice', { defaultValue: 'Selling' })}</span>
+                          <span className='font-mono font-bold text-primary'>${price.toFixed(2)}</span>
+                        </div>
+                        <div>
+                          <span className='text-[10px] text-muted-foreground block'>{t('priceList.table.afterTax', { defaultValue: 'After Tax' })}</span>
+                          <span className='font-mono font-medium'>${taxBreakdown.priceAfterTax.toFixed(2)}</span>
+                        </div>
+                        <div>
+                          <span className='text-[10px] text-muted-foreground block'>{t('priceList.table.floorPrice', { defaultValue: 'Floor' })}</span>
+                          <span className='font-mono text-muted-foreground'>${Number(item.min_price || 0).toFixed(2)}</span>
+                        </div>
+                        <div>
+                          <span className='text-[10px] text-muted-foreground block'>{t('priceList.table.margin', { defaultValue: 'Margin' })}</span>
                           {marginPct !== null ? (
                             <Badge
                               variant={Number(marginPct) < 0 ? 'destructive' : Number(marginPct) < 20 ? 'outline' : 'secondary'}
-                              className='text-xs font-mono'
+                              className='text-[10px] px-1 py-0 font-mono'
                             >
                               {marginPct}%
                             </Badge>
                           ) : (
-                            <span className='text-xs text-muted-foreground font-mono'>—</span>
+                            <span className='text-muted-foreground'>—</span>
                           )}
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </div>
+                        </div>
+                      </div>
+
+                      {effectiveTaxRate && (
+                        <div className='text-[11px] text-muted-foreground flex items-center justify-between pt-1 border-t border-dashed'>
+                          <span>Tax: {effectiveTaxRate.name} ({getTaxRatePercentage(effectiveTaxRate.rate)}% {effectiveTaxRate.is_inclusive ? 'Inc' : 'Exc'})</span>
+                          <span className='font-mono text-[10px]'>Amt: ${taxBreakdown.taxAmount.toFixed(2)}</span>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Server Pagination Bar */}
+              <div className='flex flex-wrap items-center justify-between gap-3 pt-3 border-t text-xs text-muted-foreground'>
+                <div className='flex items-center gap-2'>
+                  <span>
+                    {t('priceList.form.showing', { defaultValue: 'Showing' })}{' '}
+                    <strong className='text-foreground font-mono'>
+                      {totalCount > 0 ? (page - 1) * pageSize + 1 : 0}
+                    </strong>{' '}
+                    -{' '}
+                    <strong className='text-foreground font-mono'>
+                      {Math.min(page * pageSize, totalCount)}
+                    </strong>{' '}
+                    {t('priceList.form.of', { defaultValue: 'of' })}{' '}
+                    <strong className='text-foreground font-mono'>{totalCount}</strong>
+                  </span>
+                  {isItemsFetching && (
+                    <Loader2 className='h-3.5 w-3.5 animate-spin text-primary ml-1' />
+                  )}
+                </div>
+
+                <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-1.5'>
+                    <span className='text-xs'>{t('priceList.form.rowsPerPage', { defaultValue: 'Rows:' })}</span>
+                    <select
+                      value={pageSize}
+                      onChange={(e) => {
+                        setPageSize(Number(e.target.value))
+                        setPage(1)
+                      }}
+                      className='h-7 rounded border bg-background px-2 text-xs text-foreground'
+                    >
+                      <option value={10}>10</option>
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                  </div>
+
+                  <div className='flex items-center gap-1'>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      className='h-7 px-2 text-xs'
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      disabled={page <= 1 || isItemsLoading}
+                    >
+                      <ChevronLeft className='h-3.5 w-3.5 mr-1' />
+                      {t('common.prev', { defaultValue: 'Prev' })}
+                    </Button>
+                    <span className='px-2 font-mono text-xs'>
+                      {page} / {totalPages || 1}
+                    </span>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      className='h-7 px-2 text-xs'
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={page >= totalPages || isItemsLoading}
+                    >
+                      {t('common.next', { defaultValue: 'Next' })}
+                      <ChevronRight className='h-3.5 w-3.5 ml-1' />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
           ) : (
             <div className='rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground'>
-              {t('priceList.view.noItems', {
-                defaultValue: 'No item price rules configured for this price list.',
-              })}
+              {debouncedSearch
+                ? t('priceList.view.noMatchingItems', { defaultValue: 'No items match your search.' })
+                : t('priceList.view.noItems', { defaultValue: 'No item price rules configured for this price list.' })}
             </div>
           )}
         </div>
       </div>
 
-      <DialogFooter>
+      <DialogFooter className='flex-shrink-0 pt-3 border-t flex flex-row items-center justify-between sm:justify-end gap-2'>
         <Button variant='outline' onClick={onClose}>
           {t('common.close', { defaultValue: 'Close' })}
         </Button>

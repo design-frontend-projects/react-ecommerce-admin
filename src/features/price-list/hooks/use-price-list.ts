@@ -14,6 +14,7 @@ import type {
   CurrencyBrief,
   ChannelBrief,
   TaxRateBrief,
+  PriceListItemRecord,
 } from '../data/schema'
 
 export interface VariantCostValuation {
@@ -30,6 +31,43 @@ export interface PriceListFilters {
   group_id?: string | 'all'
   channel_id?: string | 'all'
   is_active?: boolean | 'all'
+  page?: number
+  pageSize?: number
+}
+
+export interface ProductVariantSearchParams {
+  search?: string
+  page?: number
+  pageSize?: number
+  categoryId?: string
+  enabled?: boolean
+}
+
+export interface PaginatedProductsResult {
+  products: ProductBrief[]
+  totalCount: number
+  page: number
+  pageSize: number
+  totalPages: number
+  variantCosts: Record<string, VariantCostValuation>
+}
+
+export interface PriceListItemsQueryParams {
+  priceListId?: string | null
+  search?: string
+  page?: number
+  pageSize?: number
+  sortBy?: 'created_at' | 'price' | 'markup_percent'
+  sortOrder?: 'asc' | 'desc'
+  enabled?: boolean
+}
+
+export interface PaginatedPriceListItemsResult {
+  items: PriceListItemRecord[]
+  totalCount: number
+  page: number
+  pageSize: number
+  totalPages: number
 }
 
 function getAuthTenantAndUser() {
@@ -234,6 +272,393 @@ export const usePriceListById = (id?: string | null) => {
   })
 }
 
+export const useProductVariantSearch = (params: ProductVariantSearchParams = {}) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'sales.view' })
+  const { search, page = 1, pageSize = 10, categoryId, enabled = true } = params
+
+  return useQuery({
+    queryKey: ['product-variant-search', { search, page, pageSize, categoryId }],
+    queryFn: async (): Promise<PaginatedProductsResult> => {
+      const { tenantId } = getAuthTenantAndUser()
+
+      // 1. If search term is provided, check if any variants match by name/sku/barcode
+      let matchedProductIdsFromVariants: string[] = []
+      if (search && search.trim()) {
+        const term = `%${search.trim()}%`
+        const { data: vData } = await supabase
+          .from('product_variants')
+          .select('product_id')
+          .or(`name.ilike.${term},sku.ilike.${term},barcode.ilike.${term}`)
+          .limit(100)
+
+        if (vData && vData.length > 0) {
+          matchedProductIdsFromVariants = vData
+            .map((v) => v.product_id)
+            .filter((pid): pid is string => Boolean(pid))
+        }
+      }
+
+      // 2. Query products with server-side pagination & count
+      let query = supabase
+        .from('products')
+        .select(
+          `
+          id,
+          name,
+          sku,
+          has_variants,
+          category_id,
+          product_variants (
+            id,
+            product_id,
+            name,
+            sku,
+            barcode,
+            is_active,
+            price_list_items (
+              price,
+              cost_price
+            )
+          )
+        `,
+          { count: 'exact' }
+        )
+        .neq('is_deleted', true)
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      if (categoryId && categoryId !== 'all') {
+        query = query.eq('category_id', categoryId)
+      }
+
+      if (search && search.trim()) {
+        const term = `%${search.trim()}%`
+        if (matchedProductIdsFromVariants.length > 0) {
+          const idList = matchedProductIdsFromVariants.slice(0, 50).join(',')
+          query = query.or(`name.ilike.${term},sku.ilike.${term},id.in.(${idList})`)
+        } else {
+          query = query.or(`name.ilike.${term},sku.ilike.${term}`)
+        }
+      }
+
+      const from = (page - 1) * pageSize
+      const to = from + pageSize - 1
+
+      const { data, count, error } = await query
+        .order('name', { ascending: true })
+        .range(from, to)
+
+      if (error) throw error
+
+      const products = (data || []) as unknown as ProductBrief[]
+      const totalCount = count || 0
+      const totalPages = Math.ceil(totalCount / pageSize) || 1
+
+      // 3. For variants retrieved on this page, fetch real-time cost valuations
+      const variantIds = products
+        .flatMap((p) => p.product_variants || [])
+        .map((v) => v.id)
+        .filter(Boolean)
+
+      const variantCosts: Record<string, VariantCostValuation> = {}
+
+      if (variantIds.length > 0) {
+        const grQuery = supabase
+          .from('goods_receipt_items')
+          .select(`
+            product_variant_id,
+            unit_cost,
+            created_at,
+            goods_receipts (
+              id,
+              receipt_number,
+              received_date,
+              status,
+              tenant_id
+            )
+          `)
+          .in('product_variant_id', variantIds)
+          .order('created_at', { ascending: false })
+
+        let sbQuery = supabase
+          .from('stock_balances')
+          .select('product_variant_id, avg_cost, qty_on_hand')
+          .in('product_variant_id', variantIds)
+
+        if (tenantId) {
+          sbQuery = sbQuery.eq('tenant_id', tenantId)
+        }
+
+        const [grRes, sbRes] = await Promise.all([
+          Promise.resolve(grQuery).catch(() => ({ data: null, error: null })),
+          Promise.resolve(sbQuery).catch(() => ({ data: null, error: null })),
+        ])
+
+        if (grRes.data && Array.isArray(grRes.data)) {
+          const grItems = grRes.data as Array<{
+            product_variant_id?: string
+            unit_cost?: number | string
+            goods_receipts?: { receipt_number?: string; received_date?: string }
+          }>
+          for (const item of grItems) {
+            const vid = item.product_variant_id
+            if (!vid || variantCosts[vid]) continue
+            variantCosts[vid] = {
+              lastPurchaseCost: Number(item.unit_cost) || 0,
+              averageCost: 0,
+              lastReceiptNumber: item.goods_receipts?.receipt_number || undefined,
+              lastReceiptDate: item.goods_receipts?.received_date || undefined,
+            }
+          }
+        }
+
+        if (sbRes.data && Array.isArray(sbRes.data)) {
+          const sbAgg: Record<string, { totalVal: number; totalQty: number; fallbackAvg: number }> = {}
+          const sbItems = sbRes.data as Array<{
+            product_variant_id?: string
+            qty_on_hand?: number | string
+            avg_cost?: number | string
+          }>
+          for (const sb of sbItems) {
+            const vid = sb.product_variant_id
+            if (!vid) continue
+            const qty = Math.max(0, Number(sb.qty_on_hand) || 0)
+            const cost = Number(sb.avg_cost) || 0
+            if (!sbAgg[vid]) {
+              sbAgg[vid] = { totalVal: 0, totalQty: 0, fallbackAvg: cost }
+            }
+            sbAgg[vid].totalVal += cost * qty
+            sbAgg[vid].totalQty += qty
+            if (cost > 0) sbAgg[vid].fallbackAvg = cost
+          }
+
+          for (const [vid, agg] of Object.entries(sbAgg)) {
+            const avg = agg.totalQty > 0 ? agg.totalVal / agg.totalQty : agg.fallbackAvg
+            if (!variantCosts[vid]) {
+              variantCosts[vid] = {
+                lastPurchaseCost: 0,
+                averageCost: Number(avg.toFixed(4)),
+              }
+            } else {
+              variantCosts[vid].averageCost = Number(avg.toFixed(4))
+            }
+          }
+        }
+      }
+
+      return {
+        products,
+        totalCount,
+        page,
+        pageSize,
+        totalPages,
+        variantCosts,
+      }
+    },
+    enabled: authEnabled && enabled,
+    placeholderData: (prev) => prev,
+  })
+}
+
+export const usePriceListItemsServerQuery = (params: PriceListItemsQueryParams = {}) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'sales.view' })
+  const {
+    priceListId,
+    search,
+    page = 1,
+    pageSize = 10,
+    sortBy = 'created_at',
+    sortOrder = 'desc',
+    enabled = true,
+  } = params
+
+  return useQuery({
+    queryKey: ['price-list-items-server', { priceListId, search, page, pageSize, sortBy, sortOrder }],
+    queryFn: async (): Promise<PaginatedPriceListItemsResult> => {
+      if (!priceListId) {
+        return { items: [], totalCount: 0, page: 1, pageSize, totalPages: 1 }
+      }
+
+      const { tenantId } = getAuthTenantAndUser()
+
+      // If search query is provided, find matching product IDs or variant IDs
+      let matchingIdsFilter: string | null = null
+      if (search && search.trim()) {
+        const term = `%${search.trim()}%`
+        const [prodRes, varRes] = await Promise.all([
+          supabase.from('products').select('id').or(`name.ilike.${term},sku.ilike.${term}`).limit(100),
+          supabase
+            .from('product_variants')
+            .select('id')
+            .or(`name.ilike.${term},sku.ilike.${term},barcode.ilike.${term}`)
+            .limit(100),
+        ])
+
+        const pIds = (prodRes.data || []).map((p) => p.id).filter(Boolean)
+        const vIds = (varRes.data || []).map((v) => v.id).filter(Boolean)
+
+        if (pIds.length === 0 && vIds.length === 0) {
+          return { items: [], totalCount: 0, page, pageSize, totalPages: 0 }
+        }
+
+        const conditions: string[] = []
+        if (pIds.length > 0) {
+          conditions.push(`product_id.in.(${pIds.slice(0, 50).join(',')})`)
+        }
+        if (vIds.length > 0) {
+          conditions.push(`product_variant_id.in.(${vIds.slice(0, 50).join(',')})`)
+        }
+        matchingIdsFilter = conditions.join(',')
+      }
+
+      let query = supabase
+        .from('price_list_items')
+        .select(
+          `
+          id,
+          price_list_id,
+          product_variant_id,
+          product_id,
+          price,
+          cost_price,
+          min_price,
+          max_discount_percent,
+          tax_id,
+          price_source,
+          markup_percent,
+          created_at,
+          updated_at,
+          tax_rates (
+            id,
+            tax_type,
+            rate,
+            is_inclusive,
+            description
+          ),
+          product_variants (
+            id,
+            product_id,
+            name,
+            sku,
+            barcode
+          ),
+          products (
+            id,
+            name,
+            sku
+          )
+        `,
+          { count: 'exact' }
+        )
+        .eq('price_list_id', priceListId)
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      if (matchingIdsFilter) {
+        query = query.or(matchingIdsFilter)
+      }
+
+      const from = (page - 1) * pageSize
+      const to = from + pageSize - 1
+
+      query = query
+        .order(sortBy === 'price' ? 'price' : sortBy === 'markup_percent' ? 'markup_percent' : 'created_at', {
+          ascending: sortOrder === 'asc',
+        })
+        .range(from, to)
+
+      const { data, count, error } = await query
+
+      if (error) throw error
+
+      const items = (data || []) as unknown as PriceListItemRecord[]
+      const totalCount = count || 0
+      const totalPages = Math.ceil(totalCount / pageSize) || 1
+
+      return {
+        items,
+        totalCount,
+        page,
+        pageSize,
+        totalPages,
+      }
+    },
+    enabled: Boolean(priceListId) && authEnabled && enabled,
+    placeholderData: (prev) => prev,
+  })
+}
+
+export const usePaginatedPriceList = (filters?: PriceListFilters) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'sales.view' })
+  const page = filters?.page || 1
+  const pageSize = filters?.pageSize || 10
+
+  return useQuery({
+    queryKey: ['price-list-paginated', { ...filters, page, pageSize }],
+    queryFn: async () => {
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
+        .from('price_list')
+        .select(PRICE_LIST_SELECT_QUERY, { count: 'exact' })
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      if (filters?.type && filters.type !== 'all') {
+        query = query.eq('type', filters.type)
+      }
+
+      if (filters?.store_id && filters.store_id !== 'all') {
+        query = query.eq('store_id', filters.store_id)
+      }
+
+      if (filters?.group_id && filters.group_id !== 'all') {
+        query = query.eq('group_id', filters.group_id)
+      }
+
+      if (filters?.is_active !== undefined && filters.is_active !== 'all') {
+        query = query.eq('is_active', filters.is_active)
+      }
+
+      if (filters?.channel_id && filters.channel_id !== 'all') {
+        query = query.eq('channel_id', filters.channel_id)
+      }
+
+      if (filters?.search && filters.search.trim()) {
+        const term = `%${filters.search.trim()}%`
+        query = query.or(`name.ilike.${term},code.ilike.${term},description.ilike.${term}`)
+      }
+
+      const from = (page - 1) * pageSize
+      const to = from + pageSize - 1
+
+      const { data, count, error } = await query
+        .order('start_date', { ascending: false })
+        .range(from, to)
+
+      if (error) throw error
+
+      const totalCount = count || 0
+      const totalPages = Math.ceil(totalCount / pageSize) || 1
+
+      return {
+        data: (data || []) as unknown as PriceList[],
+        totalCount,
+        page,
+        pageSize,
+        totalPages,
+      }
+    },
+    enabled: authEnabled,
+    placeholderData: (prev) => prev,
+  })
+}
+
 export const usePriceListOptions = () => {
   const { authEnabled } = useAuthEnabled({ permission: 'sales.view' })
 
@@ -264,6 +689,7 @@ export const usePriceListOptions = () => {
         `)
         .neq('is_deleted', true)
         .order('name')
+        .limit(100)
 
       let groupsQuery = supabase
         .from('customer_groups')
@@ -348,7 +774,12 @@ export const usePriceListOptions = () => {
       const variantCosts: Record<string, VariantCostValuation> = {}
 
       if (grRes.data && Array.isArray(grRes.data)) {
-        for (const item of grRes.data as any[]) {
+        const grItems = grRes.data as Array<{
+          product_variant_id?: string
+          unit_cost?: number | string
+          goods_receipts?: { receipt_number?: string; received_date?: string }
+        }>
+        for (const item of grItems) {
           const vid = item.product_variant_id
           if (!vid) continue
           if (!variantCosts[vid]) {
@@ -364,7 +795,12 @@ export const usePriceListOptions = () => {
 
       if (sbRes.data && Array.isArray(sbRes.data)) {
         const sbAgg: Record<string, { totalVal: number; totalQty: number; fallbackAvg: number }> = {}
-        for (const sb of sbRes.data as any[]) {
+        const sbItems = sbRes.data as Array<{
+          product_variant_id?: string
+          qty_on_hand?: number | string
+          avg_cost?: number | string
+        }>
+        for (const sb of sbItems) {
           const vid = sb.product_variant_id
           if (!vid) continue
           const qty = Math.max(0, Number(sb.qty_on_hand) || 0)
