@@ -59,7 +59,7 @@ export const useProducts = () => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color), tax_classifications(id, name, name_ar, rate, code)'
         )
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
@@ -82,7 +82,7 @@ export const useProduct = (id?: string | number | null) => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color), tax_classifications(id, name, name_ar, rate, code)'
         )
         .eq('id', productId)
         .maybeSingle()
@@ -289,6 +289,9 @@ export const useCreateProductWithVariants = () => {
         updated_at: new Date().toISOString(),
       }
 
+      delete (finalProductPayload as any).reorder_level
+      delete (finalProductPayload as any).expiration_date
+
       if (resolvedTenantId && !finalProductPayload.tenant_id) {
         finalProductPayload.tenant_id = resolvedTenantId
       }
@@ -325,6 +328,11 @@ export const useCreateProductWithVariants = () => {
               ? JSON.stringify({ label: v.dimensions })
               : null,
           is_active: v.is_active ?? true,
+          expiration_date: v.expiration_date
+            ? typeof v.expiration_date === 'string'
+              ? v.expiration_date.split('T')[0]
+              : new Date(v.expiration_date).toISOString().split('T')[0]
+            : null,
           created_by_user_id: userId,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -477,6 +485,9 @@ export const useUpdateProductWithVariants = () => {
         updated_at: new Date().toISOString(),
       }
 
+      delete (finalProductUpdate as any).reorder_level
+      delete (finalProductUpdate as any).expiration_date
+
       if (userId) {
         finalProductUpdate.updated_by_user_id = userId
       }
@@ -540,6 +551,11 @@ export const useUpdateProductWithVariants = () => {
               : v.dimensions
             : null,
         is_active: v.is_active ?? true,
+        expiration_date: v.expiration_date
+          ? typeof v.expiration_date === 'string'
+            ? v.expiration_date.split('T')[0]
+            : new Date(v.expiration_date).toISOString().split('T')[0]
+          : null,
         updated_at: new Date().toISOString(),
         ...(userId ? { updated_by_user_id: userId } : {}),
       })

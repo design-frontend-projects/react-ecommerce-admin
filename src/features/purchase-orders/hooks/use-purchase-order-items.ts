@@ -10,6 +10,8 @@ export interface PurchaseOrderItemRecord {
   unit_cost: number
   subtotal: number
   received_quantity: number
+  has_expiration?: boolean | null
+  expiration_date?: string | null
   products?: { name: string } | null
 }
 
@@ -18,6 +20,8 @@ export interface PurchaseOrderItemInput {
   quantity: number
   unit_cost: number
   subtotal: number
+  has_expiration?: boolean | null
+  expiration_date?: string | null
 }
 
 // ─── Update received qty for a single item ────────────────

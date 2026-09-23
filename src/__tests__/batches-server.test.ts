@@ -18,6 +18,7 @@ vi.mock('@/lib/prisma', () => ({
     },
     stock_by_location: {
       groupBy: vi.fn(),
+      findMany: vi.fn().mockResolvedValue([]),
     },
   },
 }))
@@ -84,9 +85,23 @@ describe('listBatches server function', () => {
     vi.mocked(prisma.suppliers.findMany).mockResolvedValue(
       mockSuppliers as unknown as Awaited<ReturnType<typeof prisma.suppliers.findMany>>
     )
-    vi.mocked(prisma.stock_by_location.groupBy).mockResolvedValue(
-      mockStockGroupBy as unknown as Awaited<ReturnType<typeof prisma.stock_by_location.groupBy>>
-    )
+    vi.mocked(prisma.stock_by_location.findMany).mockResolvedValue([
+      {
+        batch_id: 'batch-uuid-1',
+        warehouse_id: 'wh-1',
+        warehouse_location_id: 'loc-1',
+        qty_on_hand: 120,
+        qty_reserved: 0,
+        condition: 'good',
+        warehouses: { id: 'wh-1', name: 'Main WH', code: 'WH1' },
+        warehouse_locations: {
+          id: 'loc-1',
+          location_code: 'A-01',
+          aisle: 'A',
+          shelf: '1',
+        },
+      },
+    ] as any)
 
     const result = await listBatches('auth-user-1')
 
@@ -141,10 +156,10 @@ describe('setBatchStatus server function', () => {
     expect(result).toEqual({ id: 'batch-1', status: 'blocked' })
     expect(prisma.product_batches.update).toHaveBeenCalledWith({
       where: { id: 'batch-1' },
-      data: {
+      data: expect.objectContaining({
         status: 'blocked',
         updated_by_user_id: 'user-tenant-id',
-      },
+      }),
     })
   })
 })

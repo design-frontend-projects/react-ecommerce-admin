@@ -33,7 +33,7 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { SearchableSelect } from '@/components/custom-ui/searchable-select'
-import { LookupSelect } from '@/features/lookups/components/lookup-select'
+import { TaxClassificationSelect } from './tax-classification-select'
 import { useProductWizardStore } from '../context/product-wizard-store'
 import {
   baseProductSchema,
@@ -93,7 +93,6 @@ export function ProductBaseForm({
       tracking_mode: 'none',
       tax_code: '',
       tax_classification_id: null,
-      reorder_level: 0,
       weight: null,
       dimensions: '',
       is_active: true,
@@ -103,7 +102,6 @@ export function ProductBaseForm({
       is_serial_tracked: false,
       has_variants: false,
       has_expiration: false,
-      expiration_date: null,
       is_marketplace: false,
     },
     mode: 'onTouched',
@@ -563,8 +561,7 @@ export function ProductBaseForm({
                         {t('products.form.taxClassification')}
                       </FormLabel>
                       <FormControl>
-                        <LookupSelect
-                          lookupType='tax_classification'
+                        <TaxClassificationSelect
                           value={field.value}
                           onChange={(val) => field.onChange(val)}
                           placeholder={t(
@@ -621,30 +618,6 @@ export function ProductBaseForm({
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name='reorder_level'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t('products.form.reorderLevel')}</FormLabel>
-                      <FormControl>
-                        <Input
-                          type='number'
-                          min='0'
-                          placeholder={t(
-                            'products.form.reorderLevelPlaceholder'
-                          )}
-                          value={(field.value as number) ?? ''}
-                          onChange={(e) =>
-                            field.onChange(e.target.valueAsNumber || 0)
-                          }
-                        />
-                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -878,54 +851,6 @@ export function ProductBaseForm({
                 />
               </div>
             </div>
-
-            {hasExpiration && (
-              <FormField
-                control={form.control}
-                name='expiration_date'
-                render={({ field }) => (
-                  <FormItem className='flex flex-col pt-2'>
-                    <FormLabel>{t('products.form.expirationDate')}</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant='outline'
-                            className={cn(
-                              'w-full pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? (
-                              format(new Date(field.value), 'PPP')
-                            ) : (
-                              <span>
-                                {t('products.form.pickExpirationDate')}
-                              </span>
-                            )}
-                            <CalendarIcon className='ms-auto h-4 w-4 opacity-50' />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0' align='start'>
-                        <Calendar
-                          mode='single'
-                          selected={
-                            field.value ? new Date(field.value) : undefined
-                          }
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date < new Date(new Date().setHours(0, 0, 0, 0))
-                          }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
           </div>
         )}
       </form>

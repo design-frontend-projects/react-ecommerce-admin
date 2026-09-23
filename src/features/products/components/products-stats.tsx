@@ -38,13 +38,12 @@ export function ProductsStats({
 
   for (const product of data) {
     const stock = computeTotalStock(product)
-    const reorderLevel = Number(product.reorder_level) || 0
 
     if (stock <= 0) {
       outOfStockCount++
     } else {
       inStockCount++
-      if (reorderLevel > 0 && stock <= reorderLevel) {
+      if (stock <= 5) {
         lowStockCount++
       }
     }

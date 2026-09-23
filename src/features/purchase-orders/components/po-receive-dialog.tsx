@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -230,6 +231,14 @@ function POReceiveDialogContent({
                               (v) => v.id === item.product_variant_id
                             )?.sku ||
                               `Variant ID: ${item.product_variant_id.split('-')[0]}...`}
+                          </span>
+                        )}
+                        {item.has_expiration && (
+                          <span className='inline-flex items-center gap-1 text-[11px] font-medium text-amber-600 dark:text-amber-400'>
+                            <Calendar className='h-3 w-3' />
+                            {item.expiration_date
+                              ? `${t('purchaseOrders.receiveDialog.expires', 'Expires')}: ${String(item.expiration_date).split('T')[0]}`
+                              : t('purchaseOrders.receiveDialog.perishable', 'Perishable')}
                           </span>
                         )}
                       </div>

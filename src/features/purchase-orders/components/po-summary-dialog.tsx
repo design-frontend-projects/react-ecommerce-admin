@@ -57,6 +57,8 @@ export interface POSummaryDraftItem {
   quantity: number
   unitCost: number
   subtotal: number
+  hasExpiration?: boolean | null
+  expirationDate?: string | null
 }
 
 export interface POSummaryDraftData {
@@ -181,6 +183,8 @@ export function POSummaryDialog({
           quantity: item.quantity_ordered,
           unitCost: item.unit_cost,
           subtotal: item.subtotal,
+          hasExpiration: item.has_expiration,
+          expirationDate: item.expiration_date,
         }
       })
 
@@ -466,6 +470,17 @@ export function POSummaryDialog({
                               {item.productSku && (
                                 <div className='font-mono text-xs text-muted-foreground'>
                                   SKU: {item.productSku}
+                                </div>
+                              )}
+                              {item.hasExpiration && (
+                                <div className='inline-flex items-center gap-1 mt-1 text-[11px] font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/60'>
+                                  <Calendar className='h-3 w-3' />
+                                  <span>
+                                    {t('purchaseOrders.summary.expires', 'Expires')}:{' '}
+                                    {item.expirationDate
+                                      ? formatDateDisplay(item.expirationDate)
+                                      : t('purchaseOrders.summary.unspecified', 'Unspecified')}
+                                  </span>
                                 </div>
                               )}
                             </TableCell>

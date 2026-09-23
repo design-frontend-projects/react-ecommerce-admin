@@ -155,6 +155,8 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
           quantity_ordered: 10,
           unit_cost: 15,
           subtotal: 150,
+          has_expiration: true,
+          expiration_date: '2026-12-31',
         },
       ],
     })
@@ -168,7 +170,7 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
     expect(insertedPo.created_by_user_id).toBe(mockUserId)
     expect(insertedPo.updated_by_user_id).toBe(mockUserId)
 
-    // Verify purchase_order_items insert contains tenant_id and audit fields
+    // Verify purchase_order_items insert contains tenant_id, audit fields, and expiration fields
     expect(itemsQueryBuilder.insert).toHaveBeenCalledTimes(1)
     const insertedItems = itemsQueryBuilder.insert.mock.calls[0][0]
     expect(insertedItems).toHaveLength(1)
@@ -176,6 +178,8 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
     expect(insertedItems[0].po_id).toBe('po-123')
     expect(insertedItems[0].product_id).toBe('prod-1')
     expect(insertedItems[0].product_variant_id).toBe('var-1')
+    expect(insertedItems[0].has_expiration).toBe(true)
+    expect(insertedItems[0].expiration_date).toBe('2026-12-31')
     expect(insertedItems[0].created_by_user_id).toBe(mockUserId)
     expect(insertedItems[0].updated_by_user_id).toBe(mockUserId)
   })

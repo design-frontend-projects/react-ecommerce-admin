@@ -70,6 +70,7 @@ export const ModelName = {
   price_list_assignments: 'price_list_assignments',
   product_variants: 'product_variants',
   products: 'products',
+  tax_classifications: 'tax_classifications',
   product_types: 'product_types',
   inventory: 'inventory',
   pos_reorder_requests: 'pos_reorder_requests',
@@ -540,6 +541,7 @@ export const Product_variantsScalarFieldEnum = {
   weight: 'weight',
   dimensions: 'dimensions',
   is_active: 'is_active',
+  expiration_date: 'expiration_date',
   created_at: 'created_at',
   updated_at: 'updated_at',
   uom_id: 'uom_id',
@@ -561,12 +563,10 @@ export const ProductsScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  reorder_level: 'reorder_level',
   store_id: 'store_id',
   has_variants: 'has_variants',
   is_deleted: 'is_deleted',
   has_expiration: 'has_expiration',
-  expiration_date: 'expiration_date',
   is_marketplace: 'is_marketplace',
   base_uom_id: 'base_uom_id',
   brand_id: 'brand_id',
@@ -589,6 +589,21 @@ export const ProductsScalarFieldEnum = {
 } as const
 
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
+
+
+export const Tax_classificationsScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  name_ar: 'name_ar',
+  rate: 'rate',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Tax_classificationsScalarFieldEnum = (typeof Tax_classificationsScalarFieldEnum)[keyof typeof Tax_classificationsScalarFieldEnum]
 
 
 export const Product_typesScalarFieldEnum = {
@@ -801,7 +816,9 @@ export const Purchase_order_itemsScalarFieldEnum = {
   product_id: 'product_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id',
-  uom_id: 'uom_id'
+  uom_id: 'uom_id',
+  has_expiration: 'has_expiration',
+  expiration_date: 'expiration_date'
 } as const
 
 export type Purchase_order_itemsScalarFieldEnum = (typeof Purchase_order_itemsScalarFieldEnum)[keyof typeof Purchase_order_itemsScalarFieldEnum]

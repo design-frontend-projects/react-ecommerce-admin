@@ -74,7 +74,6 @@ export function ProductsBulkActions({ table }: ProductsBulkActionsProps) {
       'Brand',
       'Product Type',
       'Stock',
-      'Reorder Level',
       'Status',
       'Created At',
     ]
@@ -88,7 +87,6 @@ export function ProductsBulkActions({ table }: ProductsBulkActionsProps) {
       `"${(p.brands?.name || '').replace(/"/g, '""')}"`,
       `"${p.product_type || 'simple'}"`,
       computeTotalStock(p),
-      Number(p.reorder_level || 0),
       p.is_active ? 'Active' : 'Inactive',
       `"${p.created_at || ''}"`,
     ])

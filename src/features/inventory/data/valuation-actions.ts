@@ -215,7 +215,7 @@ export async function fetchInventoryValuation(
         ? Number(b.qty_available)
         : Math.max(0, onHand - reserved)
 
-    const reorderLevel = Number(v?.products?.reorder_level ?? 10)
+    const reorderLevel = 10
     const avcoCost = Number(b.avg_cost ?? pli?.cost_price ?? 0)
     const standardCost = Number(pli?.cost_price ?? b.avg_cost ?? 0)
     const sellingPrice = Number(pli?.price ?? 0)

@@ -116,7 +116,6 @@ export async function listStockBalances(
                 sku: true,
                 is_batch_tracked: true,
                 is_serial_tracked: true,
-                reorder_level: true,
               },
             },
           },
@@ -167,7 +166,7 @@ export async function listStockBalances(
           : Math.max(0, onHand - reserved)
       const avgCost = Number(r.avg_cost ?? 0)
       const valuation = onHand * avgCost
-      const reorderLevel = Number(r.product_variants?.products?.reorder_level ?? 10)
+      const reorderLevel = 10
 
       totalOnHand += onHand
       totalReserved += reserved
@@ -211,12 +210,12 @@ export async function listStockBalances(
       finalRows = mappedRows.filter((row) => row.qty_on_hand <= 0)
     } else if (filters.stockStatus === 'low_stock') {
       finalRows = mappedRows.filter((row) => {
-        const threshold = Number(row.product_variants?.products?.reorder_level ?? 10)
+        const threshold = 10
         return row.qty_on_hand > 0 && row.qty_on_hand <= threshold
       })
     } else if (filters.stockStatus === 'in_stock') {
       finalRows = mappedRows.filter((row) => {
-        const threshold = Number(row.product_variants?.products?.reorder_level ?? 10)
+        const threshold = 10
         return row.qty_on_hand > threshold
       })
     }

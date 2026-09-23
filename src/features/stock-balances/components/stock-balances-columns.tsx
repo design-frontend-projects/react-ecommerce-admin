@@ -284,9 +284,7 @@ export const getColumns = (t: TFunction = i18n.t): ColumnDef<StockBalanceRow>[] 
       id: 'status',
       accessorFn: (row) => {
         const onHand = Number(row.qty_on_hand || 0)
-        const reorderLevel = Number(
-          row.product_variants?.products?.reorder_level ?? 10
-        )
+        const reorderLevel = 10
         if (onHand <= 0) return 'out_of_stock'
         if (onHand <= reorderLevel) return 'low_stock'
         return 'in_stock'
@@ -299,9 +297,7 @@ export const getColumns = (t: TFunction = i18n.t): ColumnDef<StockBalanceRow>[] 
       ),
       cell: ({ row }) => {
         const onHand = Number(row.original.qty_on_hand || 0)
-        const reorderLevel = Number(
-          row.original.product_variants?.products?.reorder_level ?? 10
-        )
+        const reorderLevel = 10
 
         if (onHand <= 0) {
           return (
@@ -339,9 +335,7 @@ export const getColumns = (t: TFunction = i18n.t): ColumnDef<StockBalanceRow>[] 
       },
       filterFn: (row, _id, value: string[]) => {
         const onHand = Number(row.original.qty_on_hand || 0)
-        const reorderLevel = Number(
-          row.original.product_variants?.products?.reorder_level ?? 10
-        )
+        const reorderLevel = 10
         let status = 'in_stock'
         if (onHand <= 0) status = 'out_of_stock'
         else if (onHand <= reorderLevel) status = 'low_stock'

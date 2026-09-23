@@ -403,6 +403,7 @@ export const ModelName = {
   price_list_assignments: 'price_list_assignments',
   product_variants: 'product_variants',
   products: 'products',
+  tax_classifications: 'tax_classifications',
   product_types: 'product_types',
   inventory: 'inventory',
   pos_reorder_requests: 'pos_reorder_requests',
@@ -543,7 +544,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "tax_classifications" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1950,6 +1951,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.productsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProductsCountAggregateOutputType> | number
+        }
+      }
+    }
+    tax_classifications: {
+      payload: Prisma.$tax_classificationsPayload<ExtArgs>
+      fields: Prisma.tax_classificationsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.tax_classificationsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.tax_classificationsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>
+        }
+        findFirst: {
+          args: Prisma.tax_classificationsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.tax_classificationsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>
+        }
+        findMany: {
+          args: Prisma.tax_classificationsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>[]
+        }
+        create: {
+          args: Prisma.tax_classificationsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>
+        }
+        createMany: {
+          args: Prisma.tax_classificationsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.tax_classificationsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>[]
+        }
+        delete: {
+          args: Prisma.tax_classificationsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>
+        }
+        update: {
+          args: Prisma.tax_classificationsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>
+        }
+        deleteMany: {
+          args: Prisma.tax_classificationsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.tax_classificationsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.tax_classificationsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>[]
+        }
+        upsert: {
+          args: Prisma.tax_classificationsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tax_classificationsPayload>
+        }
+        aggregate: {
+          args: Prisma.Tax_classificationsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTax_classifications>
+        }
+        groupBy: {
+          args: Prisma.tax_classificationsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tax_classificationsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.tax_classificationsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tax_classificationsCountAggregateOutputType> | number
         }
       }
     }
@@ -11569,6 +11644,7 @@ export const Product_variantsScalarFieldEnum = {
   weight: 'weight',
   dimensions: 'dimensions',
   is_active: 'is_active',
+  expiration_date: 'expiration_date',
   created_at: 'created_at',
   updated_at: 'updated_at',
   uom_id: 'uom_id',
@@ -11590,12 +11666,10 @@ export const ProductsScalarFieldEnum = {
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  reorder_level: 'reorder_level',
   store_id: 'store_id',
   has_variants: 'has_variants',
   is_deleted: 'is_deleted',
   has_expiration: 'has_expiration',
-  expiration_date: 'expiration_date',
   is_marketplace: 'is_marketplace',
   base_uom_id: 'base_uom_id',
   brand_id: 'brand_id',
@@ -11618,6 +11692,21 @@ export const ProductsScalarFieldEnum = {
 } as const
 
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
+
+
+export const Tax_classificationsScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  name_ar: 'name_ar',
+  rate: 'rate',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Tax_classificationsScalarFieldEnum = (typeof Tax_classificationsScalarFieldEnum)[keyof typeof Tax_classificationsScalarFieldEnum]
 
 
 export const Product_typesScalarFieldEnum = {
@@ -11830,7 +11919,9 @@ export const Purchase_order_itemsScalarFieldEnum = {
   product_id: 'product_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id',
-  uom_id: 'uom_id'
+  uom_id: 'uom_id',
+  has_expiration: 'has_expiration',
+  expiration_date: 'expiration_date'
 } as const
 
 export type Purchase_order_itemsScalarFieldEnum = (typeof Purchase_order_itemsScalarFieldEnum)[keyof typeof Purchase_order_itemsScalarFieldEnum]
@@ -15503,6 +15594,7 @@ export type GlobalOmitConfig = {
   price_list_assignments?: Prisma.price_list_assignmentsOmit
   product_variants?: Prisma.product_variantsOmit
   products?: Prisma.productsOmit
+  tax_classifications?: Prisma.tax_classificationsOmit
   product_types?: Prisma.product_typesOmit
   inventory?: Prisma.inventoryOmit
   pos_reorder_requests?: Prisma.pos_reorder_requestsOmit

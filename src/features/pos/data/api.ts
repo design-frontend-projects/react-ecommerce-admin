@@ -49,7 +49,6 @@ export async function getPosProducts(): Promise<PosProduct[]> {
       description,
       sku,
       barcode,
-      reorder_level,
       is_active,
       has_variants,
       product_variants (
@@ -94,9 +93,7 @@ export async function getPosProducts(): Promise<PosProduct[]> {
               (sum, b) => sum + Number(b.qty_on_hand || 0),
               0
             ) ?? resolvedStock,
-          min_stock: Number(
-            (p as { reorder_level?: number | string | null }).reorder_level || 0
-          ),
+          min_stock: 0,
           is_active: variant.is_active ?? true,
           dimensions: variant.dimensions,
         }

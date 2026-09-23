@@ -117,7 +117,7 @@ export async function fetchStockBalances(
         : Math.max(0, onHand - reserved)
     const avgCost = Number(row.avg_cost || 0)
     const valuation = onHand * avgCost
-    const reorderLevel = Number(row.product_variants?.products?.reorder_level ?? 10)
+    const reorderLevel = 10
 
     totalOnHand += onHand
     totalReserved += reserved

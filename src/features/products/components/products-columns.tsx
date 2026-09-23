@@ -37,9 +37,8 @@ export function getStockStatus(
   product: Product
 ): 'in_stock' | 'low_stock' | 'out_of_stock' {
   const stock = computeTotalStock(product)
-  const reorderLevel = Number(product.reorder_level) || 0
   if (stock <= 0) return 'out_of_stock'
-  if (reorderLevel > 0 && stock <= reorderLevel) return 'low_stock'
+  if (stock <= 5) return 'low_stock'
   return 'in_stock'
 }
 
@@ -193,8 +192,7 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     sortingFn: 'basic',
     cell: ({ row }) => {
       const totalAvailable = Number(row.getValue('stock') || 0)
-      const reorderLevel = Number(row.original.reorder_level) || 0
-      const isLowStock = reorderLevel > 0 && totalAvailable > 0 && totalAvailable <= reorderLevel
+      const isLowStock = totalAvailable > 0 && totalAvailable <= 5
 
       if (totalAvailable <= 0) {
         return (
@@ -220,9 +218,6 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
               <AlertTriangle className='h-3 w-3' />
               {totalAvailable} {t('products.stockStatus.lowStockSuffix', { defaultValue: 'left (Low)' })}
             </Badge>
-            <span className='text-[10px] text-muted-foreground font-mono'>
-              {t('products.reorderAt', { defaultValue: 'Reorder:' })} {reorderLevel}
-            </span>
           </div>
         )
       }
@@ -236,11 +231,6 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
             <CheckCircle2 className='h-3 w-3' />
             {totalAvailable} {t('products.stockStatus.inStockSuffix', { defaultValue: 'in stock' })}
           </Badge>
-          {reorderLevel > 0 && (
-            <span className='text-[10px] text-muted-foreground font-mono'>
-              {t('products.reorderAt', { defaultValue: 'Reorder:' })} {reorderLevel}
-            </span>
-          )}
         </div>
       )
     },

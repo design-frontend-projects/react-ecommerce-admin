@@ -52,7 +52,6 @@ const mockProducts: Product[] = [
     barcode: '8901234567890',
     product_type: 'simple',
     is_active: true,
-    reorder_level: 5,
     categories: { id: 'cat-1', name: 'Electronics' },
     brands: { id: 'brand-1', name: 'LogiTech' },
     created_at: '2026-03-01T10:00:00Z',
@@ -71,7 +70,6 @@ const mockProducts: Product[] = [
     barcode: '8901234567891',
     product_type: 'variant',
     is_active: true,
-    reorder_level: 10,
     categories: { id: 'cat-1', name: 'Electronics' },
     brands: { id: 'brand-2', name: 'Corsair' },
     created_at: '2026-03-02T10:00:00Z',
@@ -90,7 +88,6 @@ const mockProducts: Product[] = [
     barcode: '8901234567892',
     product_type: 'simple',
     is_active: false,
-    reorder_level: 10,
     categories: { id: 'cat-2', name: 'Accessories' },
     brands: { id: 'brand-3', name: 'Anker' },
     created_at: '2026-03-03T10:00:00Z',
@@ -153,8 +150,8 @@ describe('Products Table Enhancements', () => {
     })
 
     it('correctly classifies stock status into in_stock, low_stock, and out_of_stock', () => {
-      expect(getStockStatus(mockProducts[0])).toBe('in_stock') // 15 > reorder 5
-      expect(getStockStatus(mockProducts[1])).toBe('low_stock') // 3 <= reorder 10
+      expect(getStockStatus(mockProducts[0])).toBe('in_stock') // 15 > threshold 5
+      expect(getStockStatus(mockProducts[1])).toBe('low_stock') // 3 <= threshold 5
       expect(getStockStatus(mockProducts[2])).toBe('out_of_stock') // 0
     })
   })

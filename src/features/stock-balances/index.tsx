@@ -40,7 +40,7 @@ export function StockBalances() {
     if (activeTab === 'alerts') {
       return stockBalances.filter((b) => {
         const onHand = Number(b.qty_on_hand || 0)
-        const reorderLevel = Number(b.product_variants?.products?.reorder_level ?? 10)
+        const reorderLevel = 10
         return onHand <= reorderLevel
       })
     }

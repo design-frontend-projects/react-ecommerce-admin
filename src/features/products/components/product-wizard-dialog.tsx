@@ -42,12 +42,6 @@ export function ProductWizardDialog() {
     if (!baseProductData) return
 
     try {
-      const expirationIso = baseProductData.expiration_date
-        ? typeof baseProductData.expiration_date === 'string'
-          ? baseProductData.expiration_date
-          : baseProductData.expiration_date.toISOString()
-        : null
-
       await createProduct({
         base: {
           name: baseProductData.name!,
@@ -63,7 +57,6 @@ export function ProductWizardDialog() {
           tracking_mode: baseProductData.tracking_mode || 'none',
           tax_code: baseProductData.tax_code || null,
           tax_classification_id: baseProductData.tax_classification_id || null,
-          reorder_level: baseProductData.reorder_level ?? 0,
           weight: baseProductData.weight ?? null,
           dimensions: baseProductData.dimensions || null,
           is_active: Boolean(baseProductData.is_active ?? true),
@@ -73,7 +66,6 @@ export function ProductWizardDialog() {
           is_serial_tracked: Boolean(baseProductData.is_serial_tracked ?? false),
           has_variants: true,
           has_expiration: Boolean(baseProductData.has_expiration ?? false),
-          expiration_date: expirationIso,
           is_marketplace: Boolean(baseProductData.is_marketplace ?? false),
         },
         variants: variantsData,
@@ -204,12 +196,6 @@ export function ProductWizardDialog() {
           <ProductBaseForm
             onSubmitDirect={async (data) => {
               try {
-                const expirationIso = data.expiration_date
-                  ? typeof data.expiration_date === 'string'
-                    ? data.expiration_date
-                    : data.expiration_date.toISOString()
-                  : null
-
                 await createProduct({
                   base: {
                     name: data.name,
@@ -225,7 +211,6 @@ export function ProductWizardDialog() {
                     tracking_mode: data.tracking_mode || 'none',
                     tax_code: data.tax_code || null,
                     tax_classification_id: data.tax_classification_id || null,
-                    reorder_level: data.reorder_level ?? 0,
                     weight: data.weight ?? null,
                     dimensions: data.dimensions || null,
                     is_active: Boolean(data.is_active ?? true),
@@ -235,7 +220,6 @@ export function ProductWizardDialog() {
                     is_serial_tracked: Boolean(data.is_serial_tracked ?? false),
                     has_variants: false,
                     has_expiration: Boolean(data.has_expiration ?? false),
-                    expiration_date: expirationIso,
                     is_marketplace: Boolean(data.is_marketplace ?? false),
                   },
                   variants: [],

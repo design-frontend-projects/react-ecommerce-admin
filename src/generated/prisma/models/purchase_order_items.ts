@@ -65,6 +65,8 @@ export type Purchase_order_itemsMinAggregateOutputType = {
   created_by_user_id: string | null
   updated_by_user_id: string | null
   uom_id: string | null
+  has_expiration: boolean | null
+  expiration_date: Date | null
 }
 
 export type Purchase_order_itemsMaxAggregateOutputType = {
@@ -84,6 +86,8 @@ export type Purchase_order_itemsMaxAggregateOutputType = {
   created_by_user_id: string | null
   updated_by_user_id: string | null
   uom_id: string | null
+  has_expiration: boolean | null
+  expiration_date: Date | null
 }
 
 export type Purchase_order_itemsCountAggregateOutputType = {
@@ -103,6 +107,8 @@ export type Purchase_order_itemsCountAggregateOutputType = {
   created_by_user_id: number
   updated_by_user_id: number
   uom_id: number
+  has_expiration: number
+  expiration_date: number
   _all: number
 }
 
@@ -146,6 +152,8 @@ export type Purchase_order_itemsMinAggregateInputType = {
   created_by_user_id?: true
   updated_by_user_id?: true
   uom_id?: true
+  has_expiration?: true
+  expiration_date?: true
 }
 
 export type Purchase_order_itemsMaxAggregateInputType = {
@@ -165,6 +173,8 @@ export type Purchase_order_itemsMaxAggregateInputType = {
   created_by_user_id?: true
   updated_by_user_id?: true
   uom_id?: true
+  has_expiration?: true
+  expiration_date?: true
 }
 
 export type Purchase_order_itemsCountAggregateInputType = {
@@ -184,6 +194,8 @@ export type Purchase_order_itemsCountAggregateInputType = {
   created_by_user_id?: true
   updated_by_user_id?: true
   uom_id?: true
+  has_expiration?: true
+  expiration_date?: true
   _all?: true
 }
 
@@ -290,6 +302,8 @@ export type Purchase_order_itemsGroupByOutputType = {
   created_by_user_id: string | null
   updated_by_user_id: string | null
   uom_id: string | null
+  has_expiration: boolean | null
+  expiration_date: Date | null
   _count: Purchase_order_itemsCountAggregateOutputType | null
   _avg: Purchase_order_itemsAvgAggregateOutputType | null
   _sum: Purchase_order_itemsSumAggregateOutputType | null
@@ -332,6 +346,8 @@ export type purchase_order_itemsWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
   uom_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
+  has_expiration?: Prisma.BoolNullableFilter<"purchase_order_items"> | boolean | null
+  expiration_date?: Prisma.DateTimeNullableFilter<"purchase_order_items"> | Date | string | null
   purchase_orders?: Prisma.XOR<Prisma.Purchase_ordersScalarRelationFilter, Prisma.purchase_ordersWhereInput>
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   product_variants?: Prisma.XOR<Prisma.Product_variantsNullableScalarRelationFilter, Prisma.product_variantsWhereInput> | null
@@ -355,6 +371,8 @@ export type purchase_order_itemsOrderByWithRelationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  has_expiration?: Prisma.SortOrderInput | Prisma.SortOrder
+  expiration_date?: Prisma.SortOrderInput | Prisma.SortOrder
   purchase_orders?: Prisma.purchase_ordersOrderByWithRelationInput
   products?: Prisma.productsOrderByWithRelationInput
   product_variants?: Prisma.product_variantsOrderByWithRelationInput
@@ -381,6 +399,8 @@ export type purchase_order_itemsWhereUniqueInput = Prisma.AtLeast<{
   created_by_user_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
   uom_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
+  has_expiration?: Prisma.BoolNullableFilter<"purchase_order_items"> | boolean | null
+  expiration_date?: Prisma.DateTimeNullableFilter<"purchase_order_items"> | Date | string | null
   purchase_orders?: Prisma.XOR<Prisma.Purchase_ordersScalarRelationFilter, Prisma.purchase_ordersWhereInput>
   products?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.productsWhereInput>
   product_variants?: Prisma.XOR<Prisma.Product_variantsNullableScalarRelationFilter, Prisma.product_variantsWhereInput> | null
@@ -404,6 +424,8 @@ export type purchase_order_itemsOrderByWithAggregationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   uom_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  has_expiration?: Prisma.SortOrderInput | Prisma.SortOrder
+  expiration_date?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.purchase_order_itemsCountOrderByAggregateInput
   _avg?: Prisma.purchase_order_itemsAvgOrderByAggregateInput
   _max?: Prisma.purchase_order_itemsMaxOrderByAggregateInput
@@ -431,6 +453,8 @@ export type purchase_order_itemsScalarWhereWithAggregatesInput = {
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_order_items"> | string | null
   uom_id?: Prisma.UuidNullableWithAggregatesFilter<"purchase_order_items"> | string | null
+  has_expiration?: Prisma.BoolNullableWithAggregatesFilter<"purchase_order_items"> | boolean | null
+  expiration_date?: Prisma.DateTimeNullableWithAggregatesFilter<"purchase_order_items"> | Date | string | null
 }
 
 export type purchase_order_itemsCreateInput = {
@@ -446,6 +470,8 @@ export type purchase_order_itemsCreateInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
   purchase_orders: Prisma.purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput
   products: Prisma.productsCreateNestedOneWithoutPurchase_order_itemsInput
   product_variants?: Prisma.product_variantsCreateNestedOneWithoutPurchase_order_itemsInput
@@ -469,6 +495,8 @@ export type purchase_order_itemsUncheckedCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsUpdateInput = {
@@ -484,6 +512,8 @@ export type purchase_order_itemsUpdateInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   purchase_orders?: Prisma.purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   product_variants?: Prisma.product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput
@@ -507,6 +537,8 @@ export type purchase_order_itemsUncheckedUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsCreateManyInput = {
@@ -526,6 +558,8 @@ export type purchase_order_itemsCreateManyInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsUpdateManyMutationInput = {
@@ -541,6 +575,8 @@ export type purchase_order_itemsUpdateManyMutationInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsUncheckedUpdateManyInput = {
@@ -560,6 +596,8 @@ export type purchase_order_itemsUncheckedUpdateManyInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type Purchase_order_itemsListRelationFilter = {
@@ -589,6 +627,8 @@ export type purchase_order_itemsCountOrderByAggregateInput = {
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
+  has_expiration?: Prisma.SortOrder
+  expiration_date?: Prisma.SortOrder
 }
 
 export type purchase_order_itemsAvgOrderByAggregateInput = {
@@ -619,6 +659,8 @@ export type purchase_order_itemsMaxOrderByAggregateInput = {
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
+  has_expiration?: Prisma.SortOrder
+  expiration_date?: Prisma.SortOrder
 }
 
 export type purchase_order_itemsMinOrderByAggregateInput = {
@@ -638,6 +680,8 @@ export type purchase_order_itemsMinOrderByAggregateInput = {
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
   uom_id?: Prisma.SortOrder
+  has_expiration?: Prisma.SortOrder
+  expiration_date?: Prisma.SortOrder
 }
 
 export type purchase_order_itemsSumOrderByAggregateInput = {
@@ -832,6 +876,8 @@ export type purchase_order_itemsCreateWithoutProduct_variantsInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
   purchase_orders: Prisma.purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput
   products: Prisma.productsCreateNestedOneWithoutPurchase_order_itemsInput
   uoms?: Prisma.uomsCreateNestedOneWithoutPurchase_order_itemsInput
@@ -853,6 +899,8 @@ export type purchase_order_itemsUncheckedCreateWithoutProduct_variantsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsCreateOrConnectWithoutProduct_variantsInput = {
@@ -901,6 +949,8 @@ export type purchase_order_itemsScalarWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
   uom_id?: Prisma.UuidNullableFilter<"purchase_order_items"> | string | null
+  has_expiration?: Prisma.BoolNullableFilter<"purchase_order_items"> | boolean | null
+  expiration_date?: Prisma.DateTimeNullableFilter<"purchase_order_items"> | Date | string | null
 }
 
 export type purchase_order_itemsCreateWithoutProductsInput = {
@@ -916,6 +966,8 @@ export type purchase_order_itemsCreateWithoutProductsInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
   purchase_orders: Prisma.purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput
   product_variants?: Prisma.product_variantsCreateNestedOneWithoutPurchase_order_itemsInput
   uoms?: Prisma.uomsCreateNestedOneWithoutPurchase_order_itemsInput
@@ -937,6 +989,8 @@ export type purchase_order_itemsUncheckedCreateWithoutProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsCreateOrConnectWithoutProductsInput = {
@@ -978,6 +1032,8 @@ export type purchase_order_itemsCreateWithoutPurchase_ordersInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
   products: Prisma.productsCreateNestedOneWithoutPurchase_order_itemsInput
   product_variants?: Prisma.product_variantsCreateNestedOneWithoutPurchase_order_itemsInput
   uoms?: Prisma.uomsCreateNestedOneWithoutPurchase_order_itemsInput
@@ -999,6 +1055,8 @@ export type purchase_order_itemsUncheckedCreateWithoutPurchase_ordersInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsCreateOrConnectWithoutPurchase_ordersInput = {
@@ -1040,6 +1098,8 @@ export type purchase_order_itemsCreateWithoutUomsInput = {
   tenant_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
   purchase_orders: Prisma.purchase_ordersCreateNestedOneWithoutPurchase_order_itemsInput
   products: Prisma.productsCreateNestedOneWithoutPurchase_order_itemsInput
   product_variants?: Prisma.product_variantsCreateNestedOneWithoutPurchase_order_itemsInput
@@ -1061,6 +1121,8 @@ export type purchase_order_itemsUncheckedCreateWithoutUomsInput = {
   product_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsCreateOrConnectWithoutUomsInput = {
@@ -1105,6 +1167,8 @@ export type purchase_order_itemsCreateManyProduct_variantsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsUpdateWithoutProduct_variantsInput = {
@@ -1120,6 +1184,8 @@ export type purchase_order_itemsUpdateWithoutProduct_variantsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   purchase_orders?: Prisma.purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   uoms?: Prisma.uomsUpdateOneWithoutPurchase_order_itemsNestedInput
@@ -1141,6 +1207,8 @@ export type purchase_order_itemsUncheckedUpdateWithoutProduct_variantsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsInput = {
@@ -1159,6 +1227,8 @@ export type purchase_order_itemsUncheckedUpdateManyWithoutProduct_variantsInput 
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsCreateManyProductsInput = {
@@ -1177,6 +1247,8 @@ export type purchase_order_itemsCreateManyProductsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsUpdateWithoutProductsInput = {
@@ -1192,6 +1264,8 @@ export type purchase_order_itemsUpdateWithoutProductsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   purchase_orders?: Prisma.purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   product_variants?: Prisma.product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput
   uoms?: Prisma.uomsUpdateOneWithoutPurchase_order_itemsNestedInput
@@ -1213,6 +1287,8 @@ export type purchase_order_itemsUncheckedUpdateWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsUncheckedUpdateManyWithoutProductsInput = {
@@ -1231,6 +1307,8 @@ export type purchase_order_itemsUncheckedUpdateManyWithoutProductsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsCreateManyPurchase_ordersInput = {
@@ -1249,6 +1327,8 @@ export type purchase_order_itemsCreateManyPurchase_ordersInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsUpdateWithoutPurchase_ordersInput = {
@@ -1264,6 +1344,8 @@ export type purchase_order_itemsUpdateWithoutPurchase_ordersInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   products?: Prisma.productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   product_variants?: Prisma.product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput
   uoms?: Prisma.uomsUpdateOneWithoutPurchase_order_itemsNestedInput
@@ -1285,6 +1367,8 @@ export type purchase_order_itemsUncheckedUpdateWithoutPurchase_ordersInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersInput = {
@@ -1303,6 +1387,8 @@ export type purchase_order_itemsUncheckedUpdateManyWithoutPurchase_ordersInput =
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uom_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsCreateManyUomsInput = {
@@ -1321,6 +1407,8 @@ export type purchase_order_itemsCreateManyUomsInput = {
   product_id: string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: Date | string | null
 }
 
 export type purchase_order_itemsUpdateWithoutUomsInput = {
@@ -1336,6 +1424,8 @@ export type purchase_order_itemsUpdateWithoutUomsInput = {
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   purchase_orders?: Prisma.purchase_ordersUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   products?: Prisma.productsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput
   product_variants?: Prisma.product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput
@@ -1357,6 +1447,8 @@ export type purchase_order_itemsUncheckedUpdateWithoutUomsInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type purchase_order_itemsUncheckedUpdateManyWithoutUomsInput = {
@@ -1375,6 +1467,8 @@ export type purchase_order_itemsUncheckedUpdateManyWithoutUomsInput = {
   product_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_expiration?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  expiration_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1396,6 +1490,8 @@ export type purchase_order_itemsSelect<ExtArgs extends runtime.Types.Extensions.
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   uom_id?: boolean
+  has_expiration?: boolean
+  expiration_date?: boolean
   purchase_orders?: boolean | Prisma.purchase_ordersDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.purchase_order_items$product_variantsArgs<ExtArgs>
@@ -1419,6 +1515,8 @@ export type purchase_order_itemsSelectCreateManyAndReturn<ExtArgs extends runtim
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   uom_id?: boolean
+  has_expiration?: boolean
+  expiration_date?: boolean
   purchase_orders?: boolean | Prisma.purchase_ordersDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.purchase_order_items$product_variantsArgs<ExtArgs>
@@ -1442,6 +1540,8 @@ export type purchase_order_itemsSelectUpdateManyAndReturn<ExtArgs extends runtim
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   uom_id?: boolean
+  has_expiration?: boolean
+  expiration_date?: boolean
   purchase_orders?: boolean | Prisma.purchase_ordersDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
   product_variants?: boolean | Prisma.purchase_order_items$product_variantsArgs<ExtArgs>
@@ -1465,9 +1565,11 @@ export type purchase_order_itemsSelectScalar = {
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   uom_id?: boolean
+  has_expiration?: boolean
+  expiration_date?: boolean
 }
 
-export type purchase_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"line_no" | "quantity_ordered" | "unit_cost" | "tax_amount" | "discount_amount" | "subtotal" | "received_quantity" | "cancelled_qty" | "product_variant_id" | "id" | "tenant_id" | "po_id" | "product_id" | "created_by_user_id" | "updated_by_user_id" | "uom_id", ExtArgs["result"]["purchase_order_items"]>
+export type purchase_order_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"line_no" | "quantity_ordered" | "unit_cost" | "tax_amount" | "discount_amount" | "subtotal" | "received_quantity" | "cancelled_qty" | "product_variant_id" | "id" | "tenant_id" | "po_id" | "product_id" | "created_by_user_id" | "updated_by_user_id" | "uom_id" | "has_expiration" | "expiration_date", ExtArgs["result"]["purchase_order_items"]>
 export type purchase_order_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   purchase_orders?: boolean | Prisma.purchase_ordersDefaultArgs<ExtArgs>
   products?: boolean | Prisma.productsDefaultArgs<ExtArgs>
@@ -1512,6 +1614,8 @@ export type $purchase_order_itemsPayload<ExtArgs extends runtime.Types.Extension
     created_by_user_id: string | null
     updated_by_user_id: string | null
     uom_id: string | null
+    has_expiration: boolean | null
+    expiration_date: Date | null
   }, ExtArgs["result"]["purchase_order_items"]>
   composites: {}
 }
@@ -1955,6 +2059,8 @@ export interface purchase_order_itemsFieldRefs {
   readonly created_by_user_id: Prisma.FieldRef<"purchase_order_items", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"purchase_order_items", 'String'>
   readonly uom_id: Prisma.FieldRef<"purchase_order_items", 'String'>
+  readonly has_expiration: Prisma.FieldRef<"purchase_order_items", 'Boolean'>
+  readonly expiration_date: Prisma.FieldRef<"purchase_order_items", 'DateTime'>
 }
     
 

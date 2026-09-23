@@ -71,7 +71,7 @@ import {
 } from '@/components/ui/table'
 import { QRCodeScanner } from '@/components/custom-ui/qr-code-scanner'
 import { SearchableSelect } from '@/components/custom-ui/searchable-select'
-import { LookupSelect } from '@/features/lookups/components/lookup-select'
+import { TaxClassificationSelect } from './tax-classification-select'
 import {
   useBrandOptions,
   useCategoryOptions,
@@ -160,6 +160,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         weight: v.weight ? Number(v.weight) : null,
         dimensions: dimLabel,
         is_active: v.is_active ?? true,
+        expiration_date: (v as any).expiration_date || null,
         uom_id: v.uom_id || null,
         attributes_label: dimLabel || v.name || '',
       }
@@ -182,7 +183,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       tracking_mode: 'none',
       tax_code: '',
       tax_classification_id: null,
-      reorder_level: 0,
       weight: null,
       dimensions: '',
       is_active: true,
@@ -192,7 +192,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       is_serial_tracked: false,
       has_variants: false,
       has_expiration: false,
-      expiration_date: null,
       is_marketplace: false,
       variants: [],
     },
@@ -223,9 +222,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           tracking_mode: (activeProduct.tracking_mode as TrackingMode) || 'none',
           tax_code: activeProduct.tax_code || '',
           tax_classification_id: activeProduct.tax_classification_id || null,
-          reorder_level: activeProduct.reorder_level
-            ? Number(activeProduct.reorder_level)
-            : 0,
           weight: activeProduct.weight ? Number(activeProduct.weight) : null,
           dimensions: activeProduct.dimensions || '',
           is_active: activeProduct.is_active ?? true,
@@ -235,9 +231,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           is_serial_tracked: activeProduct.is_serial_tracked ?? false,
           has_variants: hasExistingVariants,
           has_expiration: activeProduct.has_expiration ?? false,
-          expiration_date: activeProduct.expiration_date
-            ? new Date(activeProduct.expiration_date)
-            : null,
           is_marketplace: activeProduct.is_marketplace ?? false,
           variants: existingVariants,
         })
@@ -256,7 +249,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           tracking_mode: 'none',
           tax_code: '',
           tax_classification_id: null,
-          reorder_level: 0,
           weight: null,
           dimensions: '',
           is_active: true,
@@ -266,7 +258,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           is_serial_tracked: false,
           has_variants: false,
           has_expiration: false,
-          expiration_date: null,
           is_marketplace: false,
           variants: [],
         })
@@ -299,6 +290,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         is_active: true,
         uom_id: currentValues.base_uom_id || null,
         attributes_label: 'Default',
+        expiration_date: null,
       })
     }
   }, [hasVariants, productType, fields.length, open, append, form])
@@ -328,6 +320,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       is_active: true,
       uom_id: currentValues.base_uom_id || null,
       attributes_label: `Variant ${nextIdx}`,
+      expiration_date: null,
     })
   }
 
@@ -346,6 +339,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       attributes_label: item.attributes_label
         ? `${item.attributes_label} (Copy)`
         : `Variant ${nextIdx}`,
+      expiration_date: item.expiration_date || null,
     })
     toast.success(t('products.form.duplicateVariant') + ' OK')
   }
@@ -365,19 +359,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         currentRow?.id ||
         (currentRow?.product_id ? String(currentRow.product_id) : null)
 
-      const expirationIso = baseData.expiration_date
-        ? typeof baseData.expiration_date === 'string'
-          ? baseData.expiration_date
-          : baseData.expiration_date.toISOString()
-        : null
-
       const isVariantsConfigured = Boolean(
         hasVariants || productType === 'variant' || (variants && variants.length > 0)
       )
 
       const cleanedBase: Partial<Product> = {
         ...baseData,
-        expiration_date: expirationIso,
         has_variants: isVariantsConfigured,
       }
 
@@ -962,29 +949,6 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         </FormItem>
                       )}
                     />
-
-                    {/* Reorder Level */}
-                    <FormField
-                      control={form.control}
-                      name='reorder_level'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{t('products.form.reorderLevel')}</FormLabel>
-                          <FormControl>
-                            <Input
-                              type='number'
-                              min='0'
-                              placeholder={t('products.form.reorderLevelPlaceholder')}
-                              value={(field.value as number) ?? ''}
-                              onChange={(e) =>
-                                field.onChange(e.target.valueAsNumber || 0)
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
 
                   <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 pt-2'>
@@ -1121,47 +1085,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                   </div>
 
                   {hasExpiration && (
-                    <FormField
-                      control={form.control}
-                      name='expiration_date'
-                      render={({ field }) => (
-                        <FormItem className='flex flex-col pt-2'>
-                          <FormLabel>{t('products.form.expirationDate')}</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant='outline'
-                                  className={cn(
-                                    'w-full pl-3 text-left font-normal',
-                                    !field.value && 'text-muted-foreground'
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(new Date(field.value), 'PPP')
-                                  ) : (
-                                    <span>{t('products.form.pickExpirationDate')}</span>
-                                  )}
-                                  <CalendarIcon className='ms-auto h-4 w-4 opacity-50' />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className='w-auto p-0' align='start'>
-                              <Calendar
-                                mode='single'
-                                selected={field.value ? new Date(field.value) : undefined}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date < new Date(new Date().setHours(0, 0, 0, 0))
-                                }
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className='rounded-lg border border-amber-200 bg-amber-50/50 p-3 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300'>
+                      {t('products.form.expirationTrackedOnVariants', 'Expiration dates are tracked per variant in the Variants tab.')}
+                    </div>
                   )}
                 </TabsContent>
 
@@ -1194,13 +1120,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       name='tax_classification_id'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{t('products.form.taxClassification')}</FormLabel>
+                          <FormLabel>{t('products.form.taxClassification', 'Tax Classification')}</FormLabel>
                           <FormControl>
-                            <LookupSelect
-                              lookupType='tax_classification'
+                            <TaxClassificationSelect
                               value={field.value}
                               onChange={(val) => field.onChange(val)}
-                              placeholder={t('products.form.selectTaxClassification')}
+                              placeholder={t('products.form.selectTaxClassification', 'Select tax classification')}
                             />
                           </FormControl>
                           <FormMessage />
@@ -1353,6 +1278,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               <TableHead>{t('products.form.variantSku')}</TableHead>
                               <TableHead>{t('products.form.variantBarcode')}</TableHead>
                               <TableHead>{t('products.form.variantUom')}</TableHead>
+                              <TableHead className='min-w-[130px]'>{t('products.form.expirationDate', 'Expiry Date')}</TableHead>
                               <TableHead className='w-[80px] text-right'>
                                 {t('products.columns.actions')}
                               </TableHead>
@@ -1425,6 +1351,22 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
                                   <TableCell className='text-xs text-muted-foreground whitespace-nowrap'>
                                     {uomObj ? `${uomObj.code}` : '—'}
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <FormField
+                                      control={form.control}
+                                      name={`variants.${index}.expiration_date`}
+                                      render={({ field: vField }) => (
+                                        <Input
+                                          type='date'
+                                          className='h-8 text-xs'
+                                          {...vField}
+                                          value={vField.value ? String(vField.value).slice(0, 10) : ''}
+                                          onChange={(e) => vField.onChange(e.target.value || null)}
+                                        />
+                                      )}
+                                    />
                                   </TableCell>
 
                                   <TableCell className='text-right whitespace-nowrap'>
@@ -1615,8 +1557,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                 />
                               </div>
 
-                              {/* Row 2: Unit of Measure, Weight, Dimensions */}
-                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-3'>
+                              {/* Row 2: Unit of Measure, Weight, Dimensions, Expiration Date */}
+                              <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4'>
                                 <FormField
                                   control={form.control}
                                   name={`variants.${index}.uom_id`}
@@ -1701,6 +1643,28 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                           className='h-9 text-xs'
                                           {...vField}
                                           value={vField.value || ''}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name={`variants.${index}.expiration_date`}
+                                  render={({ field: vField }) => (
+                                    <FormItem>
+                                      <FormLabel className='text-xs'>
+                                        {t('products.form.expirationDate', 'Expiry Date')}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Input
+                                          type='date'
+                                          className='h-9 text-xs'
+                                          {...vField}
+                                          value={vField.value ? String(vField.value).slice(0, 10) : ''}
+                                          onChange={(e) => vField.onChange(e.target.value || null)}
                                         />
                                       </FormControl>
                                       <FormMessage />

@@ -286,3 +286,40 @@ export function useProductTypeOptions() {
   })
 }
 
+export interface TaxClassificationOption {
+  id: string
+  code: string
+  name: string
+  name_ar?: string | null
+  rate: number
+  description?: string | null
+}
+
+/**
+ * Hook to fetch active tax classifications with rates from tax_classifications table.
+ */
+export function useTaxClassificationOptions() {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
+  return useQuery<TaxClassificationOption[]>({
+    queryKey: ['tax_classifications', 'options'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('tax_classifications')
+        .select('id, code, name, name_ar, rate, description')
+        .eq('is_active', true)
+        .order('rate', { ascending: false })
+
+      if (error) throw error
+      return ((data ?? []) as Array<Record<string, unknown>>).map((d) => ({
+        id: String(d.id),
+        code: String(d.code),
+        name: String(d.name),
+        name_ar: d.name_ar ? String(d.name_ar) : null,
+        rate: Number(d.rate || 0),
+        description: d.description ? String(d.description) : null,
+      }))
+    },
+    enabled: authEnabled,
+  })
+}
+

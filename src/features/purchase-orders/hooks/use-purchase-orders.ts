@@ -44,6 +44,8 @@ export interface PurchaseOrderItem {
   received_quantity: number | null
   cancelled_qty?: number | null
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: string | null
   uoms?: {
     id: string
     name: string
@@ -137,6 +139,8 @@ export interface PurchaseOrderItemInput {
   discount_amount?: number | null
   subtotal: number
   uom_id?: string | null
+  has_expiration?: boolean | null
+  expiration_date?: string | null
   tenant_id?: string
 }
 
@@ -310,6 +314,8 @@ export const useCreatePurchaseOrder = () => {
             tax_amount: Number(item.tax_amount || 0),
             discount_amount: Number(item.discount_amount || 0),
             subtotal: item.subtotal,
+            has_expiration: Boolean(item.has_expiration),
+            expiration_date: item.has_expiration && item.expiration_date ? item.expiration_date : null,
           }
 
           if (userId && isValidUuid(userId)) {
@@ -441,6 +447,8 @@ export const useUpdatePurchaseOrder = () => {
             tax_amount: Number(item.tax_amount || 0),
             discount_amount: Number(item.discount_amount || 0),
             subtotal: item.subtotal,
+            has_expiration: Boolean(item.has_expiration),
+            expiration_date: item.has_expiration && item.expiration_date ? item.expiration_date : null,
           }
 
           if (userId && isValidUuid(userId)) {

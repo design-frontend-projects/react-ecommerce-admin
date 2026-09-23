@@ -16,6 +16,7 @@ import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Command,
   CommandEmpty,
@@ -87,6 +88,7 @@ import {
   POCurrencySelect,
   type SelectedCurrencyInfo,
 } from './po-currency-select'
+import { PODatePicker } from './po-date-picker'
 import { useCurrencies } from '@/features/currencies/hooks/use-currencies'
 
 // ─── Schema ───────────────────────────────────────────────
@@ -113,6 +115,8 @@ interface LineItem {
   quantity_ordered: number
   unit_cost: number
   subtotal: number
+  has_expiration?: boolean
+  expiration_date?: string | null
 }
 
 export function POActionDialog() {
@@ -314,6 +318,10 @@ export function POActionDialog() {
           quantity_ordered: item.quantity_ordered,
           unit_cost: item.unit_cost,
           subtotal: item.subtotal,
+          has_expiration: item.has_expiration ?? false,
+          expiration_date: item.expiration_date
+            ? String(item.expiration_date).split('T')[0]
+            : null,
         }
       })
     }
@@ -347,6 +355,8 @@ export function POActionDialog() {
         quantity_ordered: 1,
         unit_cost: 0,
         subtotal: 0,
+        has_expiration: false,
+        expiration_date: null,
       },
     ])
   }
@@ -359,7 +369,7 @@ export function POActionDialog() {
   const updateLineItem = (
     index: number,
     field: keyof LineItem,
-    value: number | string | null
+    value: number | string | boolean | null
   ) => {
     const current = lineItemOverrides ?? initialLineItems
     const updated = [...current]
@@ -381,6 +391,18 @@ export function POActionDialog() {
         (selectedProduct as { base_uom?: { id?: string } })?.base_uom?.id ||
         null
 
+      // Pre-fill expiration tracking if product has expiration
+      const productHasExp = Boolean((selectedProduct as { has_expiration?: boolean | null })?.has_expiration)
+      item.has_expiration = productHasExp
+      const prodExp = (selectedProduct as unknown as { expiration_date?: string | null })?.expiration_date
+      const singleVarExp =
+        variants.length === 1
+          ? (variants[0] as unknown as { expiration_date?: string | null })?.expiration_date
+          : null
+      item.expiration_date = productHasExp
+        ? (singleVarExp || prodExp || null)
+        : null
+
       if (variants.length === 1) {
         item.product_variant_id = variants[0].id
         item.unit_cost = Number(variants[0].cost_price ?? variants[0].price ?? 0)
@@ -401,6 +423,24 @@ export function POActionDialog() {
       return
     }
 
+    if (field === 'has_expiration') {
+      const hasExp = Boolean(value)
+      item.has_expiration = hasExp
+      if (!hasExp) {
+        item.expiration_date = null
+      }
+      updated[index] = item
+      setLineItemOverrides(updated)
+      return
+    }
+
+    if (field === 'expiration_date') {
+      item.expiration_date = value ? String(value) : null
+      updated[index] = item
+      setLineItemOverrides(updated)
+      return
+    }
+
     if (field === 'product_variant_id') {
       const vId = value ? String(value) : null
       item.product_variant_id = vId
@@ -409,6 +449,10 @@ export function POActionDialog() {
 
       if (variant) {
         item.unit_cost = Number(variant.cost_price ?? variant.price ?? 0)
+        const variantExp = (variant as unknown as { expiration_date?: string | null })?.expiration_date
+        if (item.has_expiration && variantExp && !item.expiration_date) {
+          item.expiration_date = variantExp
+        }
       } else {
         item.unit_cost = 0
       }
@@ -478,6 +522,9 @@ export function POActionDialog() {
       quantity_ordered: item.quantity_ordered,
       unit_cost: item.unit_cost,
       subtotal: item.subtotal,
+      has_expiration: Boolean(item.has_expiration),
+      expiration_date:
+        item.has_expiration && item.expiration_date ? item.expiration_date : null,
     }))
 
     try {
@@ -629,6 +676,8 @@ export function POActionDialog() {
           quantity: item.quantity_ordered,
           unitCost: item.unit_cost,
           subtotal: item.subtotal,
+          hasExpiration: Boolean(item.has_expiration),
+          expirationDate: item.expiration_date || null,
         }
       }),
       totalAmount: grandTotal,
@@ -839,20 +888,24 @@ export function POActionDialog() {
                   )}
                 />
 
-                {/* 3. Order Date */}
+                {/* 4. Order Date */}
                 <FormField
                   control={form.control}
                   name='order_date'
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className='flex flex-col'>
                       <FormLabel className='text-xs font-semibold'>
                         {t('purchaseOrders.fields.orderDate', 'Order Date')} *
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          type='date'
-                          className='h-9 text-xs sm:text-sm bg-background'
-                          {...field}
+                        <PODatePicker
+                          value={field.value}
+                          onChange={(val) => field.onChange(val || '')}
+                          disabled={isPending}
+                          placeholder={t(
+                            'purchaseOrders.placeholders.selectDate',
+                            'Select order date'
+                          )}
                         />
                       </FormControl>
                       <FormMessage />
@@ -860,12 +913,12 @@ export function POActionDialog() {
                   )}
                 />
 
-                {/* 4. Expected Delivery Date */}
+                {/* 5. Expected Delivery Date */}
                 <FormField
                   control={form.control}
                   name='expected_delivery_date'
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className='flex flex-col'>
                       <FormLabel className='text-xs font-semibold'>
                         {t(
                           'purchaseOrders.fields.expectedDelivery',
@@ -873,10 +926,15 @@ export function POActionDialog() {
                         )}
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          type='date'
-                          className='h-9 text-xs sm:text-sm bg-background'
-                          {...field}
+                        <PODatePicker
+                          value={field.value}
+                          onChange={(val) => field.onChange(val || '')}
+                          disabled={isPending}
+                          clearable
+                          placeholder={t(
+                            'purchaseOrders.placeholders.selectDate',
+                            'Select delivery date'
+                          )}
                         />
                       </FormControl>
                       <FormMessage />
@@ -946,8 +1004,11 @@ export function POActionDialog() {
                             <TableHead className='min-w-[180px] text-xs font-semibold'>
                               {t('purchaseOrders.lineItems.variant', 'Variant')}
                             </TableHead>
-                            <TableHead className='min-w-[140px] text-xs font-semibold'>
+                            <TableHead className='min-w-[130px] text-xs font-semibold'>
                               {t('purchaseOrders.lineItems.receivingUom', 'UOM')}
+                            </TableHead>
+                            <TableHead className='min-w-[140px] text-xs font-semibold'>
+                              {t('purchaseOrders.lineItems.expiration', 'Expiration')}
                             </TableHead>
                             <TableHead className='w-[100px] text-center text-xs font-semibold'>
                               {t('purchaseOrders.lineItems.qty', 'Qty')}
@@ -1041,6 +1102,48 @@ export function POActionDialog() {
                                       ))}
                                     </SelectContent>
                                   </Select>
+                                </TableCell>
+                                <TableCell className='min-w-[140px]'>
+                                  <div className='flex flex-col gap-1.5 pt-1'>
+                                    <label className='flex items-center gap-1.5 text-xs text-muted-foreground cursor-pointer select-none'>
+                                      <Checkbox
+                                        checked={Boolean(item.has_expiration)}
+                                        onCheckedChange={(checked) =>
+                                          updateLineItem(
+                                            index,
+                                            'has_expiration',
+                                            Boolean(checked)
+                                          )
+                                        }
+                                        disabled={isPending || !item.product_id}
+                                        className='h-3.5 w-3.5'
+                                      />
+                                      <span>
+                                        {t('purchaseOrders.lineItems.hasExpiry', 'Expires')}
+                                      </span>
+                                    </label>
+                                    {item.has_expiration && (
+                                      <PODatePicker
+                                        value={
+                                          item.expiration_date
+                                            ? String(item.expiration_date).split('T')[0]
+                                            : ''
+                                        }
+                                        disabled={isPending || !item.product_id}
+                                        onChange={(val) =>
+                                          updateLineItem(
+                                            index,
+                                            'expiration_date',
+                                            val
+                                          )
+                                        }
+                                        clearable
+                                        compact
+                                        placeholder={t('common.selectDate', 'Date')}
+                                        className='w-[130px]'
+                                      />
+                                    )}
+                                  </div>
                                 </TableCell>
                                 <TableCell className='w-[100px]'>
                                   <Input
@@ -1255,6 +1358,47 @@ export function POActionDialog() {
                                       }
                                     />
                                   </div>
+                                </div>
+
+                                <div className='flex items-center justify-between p-2 rounded-md bg-muted/30 border text-xs'>
+                                  <label className='flex items-center gap-2 cursor-pointer select-none'>
+                                    <Checkbox
+                                      checked={Boolean(item.has_expiration)}
+                                      onCheckedChange={(checked) =>
+                                        updateLineItem(
+                                          index,
+                                          'has_expiration',
+                                          Boolean(checked)
+                                        )
+                                      }
+                                      disabled={isPending || !item.product_id}
+                                      className='h-3.5 w-3.5'
+                                    />
+                                    <span className='text-xs font-medium'>
+                                      {t('purchaseOrders.lineItems.hasExpiry', 'Has Expiration')}
+                                    </span>
+                                  </label>
+                                  {item.has_expiration && (
+                                    <PODatePicker
+                                      value={
+                                        item.expiration_date
+                                          ? String(item.expiration_date).split('T')[0]
+                                          : ''
+                                      }
+                                      disabled={isPending || !item.product_id}
+                                      onChange={(val) =>
+                                        updateLineItem(
+                                          index,
+                                          'expiration_date',
+                                          val
+                                        )
+                                      }
+                                      clearable
+                                      compact
+                                      placeholder={t('common.selectDate', 'Date')}
+                                      className='w-36'
+                                    />
+                                  )}
                                 </div>
 
                                 <div className='flex items-center justify-between pt-1 border-t'>

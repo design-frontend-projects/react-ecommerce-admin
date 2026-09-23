@@ -165,13 +165,12 @@ export function ProductsTable({ data }: Props) {
 
     for (const p of data) {
       const stock = computeTotalStock(p)
-      const reorderLevel = Number(p.reorder_level) || 0
 
       if (stock <= 0) {
         outOfStock++
       } else {
         inStock++
-        if (reorderLevel > 0 && stock <= reorderLevel) {
+        if (stock <= 5) {
           lowStock++
         }
       }
@@ -362,7 +361,6 @@ export function ProductsTable({ data }: Props) {
       'Brand',
       'Product Type',
       'Stock',
-      'Reorder Level',
       'Status',
       'Created At',
     ]
@@ -376,7 +374,6 @@ export function ProductsTable({ data }: Props) {
       `"${(p.brands?.name || '').replace(/"/g, '""')}"`,
       `"${p.product_type || 'simple'}"`,
       computeTotalStock(p),
-      Number(p.reorder_level || 0),
       p.is_active ? 'Active' : 'Inactive',
       `"${p.created_at || ''}"`,
     ])

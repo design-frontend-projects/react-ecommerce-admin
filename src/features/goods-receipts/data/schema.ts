@@ -146,6 +146,8 @@ export const receivablePoItemSchema = z.object({
     })
     .nullable()
     .optional(),
+  has_expiration: z.boolean().nullable().optional(),
+  expiration_date: z.string().nullable().optional(),
 })
 
 export const receivablePurchaseOrderSchema = z.object({

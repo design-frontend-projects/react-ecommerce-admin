@@ -257,7 +257,6 @@ export async function listInventoryValuation(
                   id: true,
                   name: true,
                   sku: true,
-                  reorder_level: true,
                   category_id: true,
                   supplier_id: true,
                   categories: {
@@ -329,7 +328,7 @@ export async function listInventoryValuation(
           ? Number(b.qty_available)
           : Math.max(0, onHand - reserved)
 
-      const reorderLevel = Number(v?.products?.reorder_level ?? 10)
+      const reorderLevel = 10
 
       // Costs
       const avcoCost = Number(b.avg_cost ?? pli?.cost_price ?? 0)

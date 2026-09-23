@@ -35,6 +35,13 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
     : 'N/A'
   const uomName = currentRow.base_uom ? `${currentRow.base_uom.name} (${currentRow.base_uom.code})` : 'N/A'
   const supplierName = currentRow.suppliers?.name || 'N/A'
+  const taxClassificationName = currentRow.tax_classifications
+    ? `${currentRow.tax_classifications.name}${
+        currentRow.tax_classifications.name_ar
+          ? ` (${currentRow.tax_classifications.name_ar})`
+          : ''
+      } - ${currentRow.tax_classifications.rate}%`
+    : 'N/A'
 
   const variants = currentRow.product_variants || []
   const hasVariants = variants.length > 0
@@ -150,8 +157,8 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                   </p>
                 </div>
                 <div className='space-y-1'>
-                  <Label className='text-xs text-muted-foreground'>{t('products.form.reorderLevel')}</Label>
-                  <p className='text-sm font-medium'>{currentRow.reorder_level ? Number(currentRow.reorder_level) : '0'}</p>
+                  <Label className='text-xs text-muted-foreground'>{t('products.form.taxClassification', 'Tax Classification')}</Label>
+                  <p className='text-sm font-medium'>{taxClassificationName}</p>
                 </div>
                 <div className='space-y-1'>
                   <Label className='text-xs text-muted-foreground'>{t('products.form.taxCode')}</Label>
@@ -179,7 +186,7 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
               <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
                 {t('products.form.logistics')}
               </h4>
-              <div className='grid grid-cols-2 gap-4 sm:grid-cols-3'>
+              <div className='grid grid-cols-2 gap-4 sm:grid-cols-2'>
                 <div className='space-y-1'>
                   <Label className='text-xs text-muted-foreground'>{t('products.form.weight')}</Label>
                   <p className='text-sm font-medium'>
@@ -189,10 +196,6 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                 <div className='space-y-1'>
                   <Label className='text-xs text-muted-foreground'>{t('products.form.dimensions')}</Label>
                   <p className='text-sm font-medium'>{currentRow.dimensions || 'N/A'}</p>
-                </div>
-                <div className='space-y-1'>
-                  <Label className='text-xs text-muted-foreground'>{t('products.form.reorderLevel')}</Label>
-                  <p className='text-sm font-medium'>{currentRow.reorder_level ? Number(currentRow.reorder_level) : 0}</p>
                 </div>
               </div>
             </div>
@@ -212,6 +215,7 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                           <th className='px-4 py-2 font-medium'>{t('products.form.variantSku')}</th>
                           <th className='px-4 py-2 font-medium'>{t('products.form.variantPrice')}</th>
                           <th className='px-4 py-2 font-medium'>{t('products.form.variantCost')}</th>
+                          <th className='px-4 py-2 font-medium'>{t('products.form.expirationDate', 'Expiry Date')}</th>
                           <th className='px-4 py-2 text-right font-medium'>{t('products.columns.stock')}</th>
                         </tr>
                       </thead>
@@ -233,10 +237,13 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                               <td className='px-4 py-3 text-muted-foreground'>
                                 {costPrice ? formatPrice(costPrice) : '-'}
                               </td>
+                              <td className='px-4 py-3 text-xs text-muted-foreground'>
+                                {v.expiration_date ? String(v.expiration_date).slice(0, 10) : '—'}
+                              </td>
                               <td className='px-4 py-3 text-right'>
                                 <Badge
                                   variant={
-                                    availableStock <= Number(currentRow.reorder_level || 0)
+                                    availableStock <= 0
                                       ? 'destructive'
                                       : 'outline'
                                   }
