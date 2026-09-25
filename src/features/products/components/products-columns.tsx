@@ -143,6 +143,57 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     },
   },
   {
+    id: 'supplier',
+    accessorFn: (row) => row.suppliers?.name || '',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.supplier', { defaultValue: 'Supplier' })}
+      />
+    ),
+    cell: ({ row }) => {
+      const supplierName = row.original.suppliers?.name
+      const supplierCode = row.original.suppliers?.code
+      if (!supplierName) return <span className='text-xs text-muted-foreground'>—</span>
+      return (
+        <div className='flex flex-col text-xs'>
+          <span className='font-medium text-foreground truncate max-w-[130px]'>
+            {supplierName}
+          </span>
+          {supplierCode && (
+            <span className='text-[10px] text-muted-foreground font-mono'>
+              {supplierCode}
+            </span>
+          )}
+        </div>
+      )
+    },
+    filterFn: (row, id, value: string[]) => {
+      return value.includes(row.getValue(id))
+    },
+    enableHiding: true,
+  },
+  {
+    id: 'base_uom',
+    accessorFn: (row) => row.base_uom?.name || row.base_uom?.code || '',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('products.columns.uom', { defaultValue: 'Base UOM' })}
+      />
+    ),
+    cell: ({ row }) => {
+      const uom = row.original.base_uom
+      if (!uom) return <span className='text-xs text-muted-foreground'>—</span>
+      return (
+        <Badge variant='outline' className='text-[11px] font-normal font-mono'>
+          {uom.code || uom.name}
+        </Badge>
+      )
+    },
+    enableHiding: true,
+  },
+  {
     accessorKey: 'product_type',
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -276,22 +327,6 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
         </Badge>
       )
     },
-  },
-  {
-    id: 'base_uom',
-    accessorFn: (row) => row.base_uom?.name || row.base_uom?.code || '',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title={t('products.columns.uom', { defaultValue: 'Base UOM' })}
-      />
-    ),
-    cell: ({ row }) => (
-      <span className='text-xs text-muted-foreground'>
-        {row.original.base_uom?.name || row.original.base_uom?.code || '—'}
-      </span>
-    ),
-    enableHiding: true,
   },
   {
     accessorKey: 'created_at',

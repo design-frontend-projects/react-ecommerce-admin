@@ -1,8 +1,9 @@
 {
-  "ai": "kilocode",
+  "ai": "agy",
+  "ai_skills": true,
   "branch_numbering": "sequential",
   "here": true,
-  "integration": "kilocode",
+  "integration": "agy",
   "preset": null,
   "script": "ps",
   "speckit_version": "0.5.1.dev0"

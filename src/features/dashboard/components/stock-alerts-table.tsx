@@ -10,9 +10,16 @@ import {
   ArrowRight,
   ShieldCheck,
 } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -21,7 +28,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import type { StockAlertItem, DashboardCurrency } from '../types'
 
 interface StockAlertsTableProps {
@@ -32,7 +38,6 @@ interface StockAlertsTableProps {
 
 export function StockAlertsTable({
   alerts,
-  currency,
   initialFilter = 'all',
 }: StockAlertsTableProps) {
   const [filterTab, setFilterTab] = useState<string>(initialFilter)
@@ -41,9 +46,14 @@ export function StockAlertsTable({
   const filteredAlerts = useMemo(() => {
     return alerts.filter((item) => {
       // Tab filter
-      if (filterTab === 'out_of_stock' && item.status !== 'out_of_stock') return false
+      if (filterTab === 'out_of_stock' && item.status !== 'out_of_stock')
+        return false
       if (filterTab === 'low_stock' && item.status !== 'low_stock') return false
-      if (filterTab === 'expiry' && item.status !== 'expiring' && item.status !== 'expired')
+      if (
+        filterTab === 'expiry' &&
+        item.status !== 'expiring' &&
+        item.status !== 'expired'
+      )
         return false
 
       // Search filter
@@ -59,18 +69,20 @@ export function StockAlertsTable({
     })
   }, [alerts, filterTab, searchQuery])
 
-  const outOfStockCount = alerts.filter((a) => a.status === 'out_of_stock').length
+  const outOfStockCount = alerts.filter(
+    (a) => a.status === 'out_of_stock'
+  ).length
   const lowStockCount = alerts.filter((a) => a.status === 'low_stock').length
   const expiryCount = alerts.filter(
     (a) => a.status === 'expiring' || a.status === 'expired'
   ).length
 
   return (
-    <Card className='border border-border/60 bg-card/60 backdrop-blur-md shadow-xs'>
-      <CardHeader className='p-5 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+    <Card className='border border-border/60 bg-card/60 shadow-xs backdrop-blur-md'>
+      <CardHeader className='flex flex-col justify-between gap-4 p-5 pb-3 sm:flex-row sm:items-center'>
         <div className='space-y-1'>
           <div className='flex items-center gap-2'>
-            <AlertTriangle className='w-4 h-4 text-amber-500' />
+            <AlertTriangle className='h-4 w-4 text-amber-500' />
             <CardTitle className='text-base font-semibold text-foreground'>
               Stock & Replenishment Alerts
             </CardTitle>
@@ -86,21 +98,21 @@ export function StockAlertsTable({
         {/* Tab & Search Controls */}
         <div className='flex flex-wrap items-center gap-2'>
           <div className='relative w-44'>
-            <Search className='absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground' />
+            <Search className='absolute top-2.5 left-2.5 h-3.5 w-3.5 text-muted-foreground' />
             <Input
               type='search'
               placeholder='Search alerts...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className='h-8 pl-8 text-xs bg-background/60 border-border/60'
+              className='h-8 border-border/60 bg-background/60 pl-8 text-xs'
             />
           </div>
 
-          <div className='flex items-center p-0.5 rounded-lg bg-muted/60 border border-border/40'>
+          <div className='flex items-center rounded-lg border border-border/40 bg-muted/60 p-0.5'>
             <button
               type='button'
               onClick={() => setFilterTab('all')}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                 filterTab === 'all'
                   ? 'bg-background text-foreground shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -111,7 +123,7 @@ export function StockAlertsTable({
             <button
               type='button'
               onClick={() => setFilterTab('out_of_stock')}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                 filterTab === 'out_of_stock'
                   ? 'bg-background text-foreground shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -122,7 +134,7 @@ export function StockAlertsTable({
             <button
               type='button'
               onClick={() => setFilterTab('low_stock')}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                 filterTab === 'low_stock'
                   ? 'bg-background text-foreground shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -133,7 +145,7 @@ export function StockAlertsTable({
             <button
               type='button'
               onClick={() => setFilterTab('expiry')}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                 filterTab === 'expiry'
                   ? 'bg-background text-foreground shadow-xs'
                   : 'text-muted-foreground hover:text-foreground'
@@ -148,38 +160,47 @@ export function StockAlertsTable({
       <CardContent className='p-0'>
         {filteredAlerts.length === 0 ? (
           <div className='flex flex-col items-center justify-center py-12 text-center text-muted-foreground'>
-            <ShieldCheck className='w-8 h-8 text-emerald-500 mb-2' />
-            <p className='text-sm font-semibold text-foreground'>No alerts found</p>
-            <p className='text-xs'>All products in this category meet safe inventory thresholds.</p>
+            <ShieldCheck className='mb-2 h-8 w-8 text-emerald-500' />
+            <p className='text-sm font-semibold text-foreground'>
+              No alerts found
+            </p>
+            <p className='text-xs'>
+              All products in this category meet safe inventory thresholds.
+            </p>
           </div>
         ) : (
           <div className='overflow-x-auto'>
             <Table>
-              <TableHeader className='bg-muted/40 text-[11px] uppercase tracking-wider'>
-                <TableRow className='hover:bg-transparent border-border/40'>
+              <TableHeader className='bg-muted/40 text-[11px] tracking-wider uppercase'>
+                <TableRow className='border-border/40 hover:bg-transparent'>
                   <TableHead className='py-2.5 pl-5'>Product & SKU</TableHead>
                   <TableHead className='py-2.5'>Category / Warehouse</TableHead>
                   <TableHead className='py-2.5'>Stock Level</TableHead>
                   <TableHead className='py-2.5'>Condition / Urgency</TableHead>
-                  <TableHead className='py-2.5 pr-5 text-right'>Action</TableHead>
+                  <TableHead className='py-2.5 pr-5 text-right'>
+                    Action
+                  </TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className='text-xs divide-y divide-border/30'>
+              <TableBody className='divide-y divide-border/30 text-xs'>
                 {filteredAlerts.slice(0, 15).map((item) => (
                   <TableRow
                     key={`${item.id}-${item.status}`}
-                    className='hover:bg-muted/30 transition-colors'
+                    className='transition-colors hover:bg-muted/30'
                   >
                     {/* Product & SKU */}
                     <TableCell className='py-3 pl-5'>
-                      <div className='space-y-0.5 max-w-[220px] sm:max-w-xs'>
-                        <span className='font-semibold text-foreground block truncate' title={item.name}>
+                      <div className='max-w-[220px] space-y-0.5 sm:max-w-xs'>
+                        <span
+                          className='block truncate font-semibold text-foreground'
+                          title={item.name}
+                        >
                           {item.name}
                         </span>
-                        <div className='flex items-center gap-2 text-[11px] text-muted-foreground font-mono'>
+                        <div className='flex items-center gap-2 font-mono text-[11px] text-muted-foreground'>
                           <span>SKU: {item.sku}</span>
                           {item.batchNumber && (
-                            <span className='px-1 py-0.2 bg-muted rounded text-[10px]'>
+                            <span className='py-0.2 rounded bg-muted px-1 text-[10px]'>
                               Batch: {item.batchNumber}
                             </span>
                           )}
@@ -190,10 +211,10 @@ export function StockAlertsTable({
                     {/* Category & Warehouse */}
                     <TableCell className='py-3'>
                       <div className='space-y-0.5 text-muted-foreground'>
-                        <span className='block text-foreground text-xs font-medium'>
+                        <span className='block text-xs font-medium text-foreground'>
                           {item.categoryName}
                         </span>
-                        <span className='text-[11px] text-muted-foreground block truncate max-w-[130px]'>
+                        <span className='block max-w-[130px] truncate text-[11px] text-muted-foreground'>
                           {item.warehouseName}
                         </span>
                       </div>
@@ -201,37 +222,42 @@ export function StockAlertsTable({
 
                     {/* Stock Level */}
                     <TableCell className='py-3'>
-                      <div className='space-y-1 min-w-[120px]'>
+                      <div className='min-w-[120px] space-y-1'>
                         <div className='flex items-center justify-between text-[11px]'>
                           <span
                             className={`font-bold ${
                               item.qtyAvailable <= 0
                                 ? 'text-red-500'
                                 : item.qtyAvailable <= item.minQuantity
-                                ? 'text-amber-500'
-                                : 'text-foreground'
+                                  ? 'text-amber-500'
+                                  : 'text-foreground'
                             }`}
                           >
                             {item.qtyAvailable.toLocaleString()} Avail
                           </span>
-                          <span className='text-muted-foreground text-[10px]'>
+                          <span className='text-[10px] text-muted-foreground'>
                             Min: {item.minQuantity}
                           </span>
                         </div>
                         {/* Mini visual fill bar */}
-                        <div className='w-full h-1.5 rounded-full bg-muted overflow-hidden'>
+                        <div className='h-1.5 w-full overflow-hidden rounded-full bg-muted'>
                           <div
                             className={`h-full rounded-full ${
                               item.qtyAvailable <= 0
-                                ? 'bg-red-500 w-0'
+                                ? 'w-0 bg-red-500'
                                 : item.qtyAvailable <= item.minQuantity
-                                ? 'bg-amber-500'
-                                : 'bg-emerald-500'
+                                  ? 'bg-amber-500'
+                                  : 'bg-emerald-500'
                             }`}
                             style={{
                               width: `${Math.min(
                                 100,
-                                Math.max(10, (item.qtyAvailable / Math.max(1, item.minQuantity * 2)) * 100)
+                                Math.max(
+                                  10,
+                                  (item.qtyAvailable /
+                                    Math.max(1, item.minQuantity * 2)) *
+                                    100
+                                )
                               )}%`,
                             }}
                           />
@@ -244,37 +270,40 @@ export function StockAlertsTable({
                       {item.status === 'out_of_stock' && (
                         <Badge
                           variant='outline'
-                          className='bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30 text-[11px] gap-1'
+                          className='gap-1 border-red-500/30 bg-red-500/10 text-[11px] text-red-600 dark:text-red-400'
                         >
-                          <AlertOctagon className='w-3 h-3' />
+                          <AlertOctagon className='h-3 w-3' />
                           Out of Stock
                         </Badge>
                       )}
                       {item.status === 'low_stock' && (
                         <Badge
                           variant='outline'
-                          className='bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 text-[11px] gap-1'
+                          className='gap-1 border-amber-500/30 bg-amber-500/10 text-[11px] text-amber-600 dark:text-amber-400'
                         >
-                          <AlertTriangle className='w-3 h-3' />
+                          <AlertTriangle className='h-3 w-3' />
                           Low Stock
                         </Badge>
                       )}
                       {item.status === 'expired' && (
                         <Badge
                           variant='outline'
-                          className='bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30 text-[11px] gap-1'
+                          className='gap-1 border-rose-500/30 bg-rose-500/10 text-[11px] text-rose-600 dark:text-rose-400'
                         >
-                          <CalendarX className='w-3 h-3' />
+                          <CalendarX className='h-3 w-3' />
                           Expired
                         </Badge>
                       )}
                       {item.status === 'expiring' && (
                         <Badge
                           variant='outline'
-                          className='bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/30 text-[11px] gap-1'
+                          className='gap-1 border-orange-500/30 bg-orange-500/10 text-[11px] text-orange-600 dark:text-orange-400'
                         >
-                          <CalendarClock className='w-3 h-3' />
-                          Expires {item.daysToExpiry !== undefined ? `in ${item.daysToExpiry}d` : 'Soon'}
+                          <CalendarClock className='h-3 w-3' />
+                          Expires{' '}
+                          {item.daysToExpiry !== undefined
+                            ? `in ${item.daysToExpiry}d`
+                            : 'Soon'}
                         </Badge>
                       )}
                     </TableCell>
@@ -285,10 +314,10 @@ export function StockAlertsTable({
                         size='sm'
                         variant='outline'
                         asChild
-                        className='h-7 px-2.5 text-xs gap-1 hover:bg-primary hover:text-primary-foreground transition-all'
+                        className='h-7 gap-1 px-2.5 text-xs transition-all hover:bg-primary hover:text-primary-foreground'
                       >
                         <Link to='/purchase-orders'>
-                          <ShoppingCart className='w-3 h-3' />
+                          <ShoppingCart className='h-3 w-3' />
                           <span>Reorder</span>
                         </Link>
                       </Button>
@@ -301,10 +330,14 @@ export function StockAlertsTable({
         )}
 
         {filteredAlerts.length > 15 && (
-          <div className='p-3 text-center border-t border-border/40 text-xs text-muted-foreground'>
+          <div className='border-t border-border/40 p-3 text-center text-xs text-muted-foreground'>
             Showing 15 of {filteredAlerts.length} total alerts.{' '}
-            <Link to='/inventory-valuation' className='text-primary hover:underline font-medium'>
-              View full inventory table <ArrowRight className='w-3 h-3 inline ml-0.5' />
+            <Link
+              to='/inventory/valuation'
+              className='font-medium text-primary hover:underline'
+            >
+              View full inventory table{' '}
+              <ArrowRight className='ml-0.5 inline h-3 w-3' />
             </Link>
           </div>
         )}

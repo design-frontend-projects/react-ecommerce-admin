@@ -2,6 +2,8 @@ import { useState, useMemo, useEffect } from 'react'
 import {
   type ColumnFiltersState,
   type FilterFn,
+  type OnChangeFn,
+  type PaginationState,
   type SortingState,
   type VisibilityState,
   flexRender,
@@ -19,6 +21,9 @@ import {
   Download,
   PackageSearch,
   RotateCcw,
+  LayoutGrid,
+  LayoutList,
+  Loader2,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -43,9 +48,41 @@ import { type Product } from '../data/schema'
 import { computeTotalStock, getColumns } from './products-columns'
 import { ProductsBulkActions } from './products-bulk-actions'
 import { useProductsContext } from './products-provider'
+import { ProductsCardsGrid } from './products-cards-grid'
+import { ProductsFilterDrawer } from './products-filter-drawer'
+import {
+  useCategoryOptions,
+  useBrandOptions,
+  useUomOptions,
+  useSupplierOptions,
+} from '../hooks/use-product-options'
 
-interface Props {
+export interface ProductsTableProps {
   data: Product[]
+  totalCount?: number
+  page?: number
+  pageSize?: number
+  onPageChange?: (page: number) => void
+  onPageSizeChange?: (pageSize: number) => void
+  search?: string
+  onSearchChange?: (search: string) => void
+  selectedCategory?: string | null
+  onSelectCategory?: (id: string | null) => void
+  selectedBrand?: string | null
+  onSelectBrand?: (id: string | null) => void
+  selectedUom?: string | null
+  onSelectUom?: (id: string | null) => void
+  selectedSupplier?: string | null
+  onSelectSupplier?: (id: string | null) => void
+  selectedProductType?: string | null
+  onSelectProductType?: (type: string | null) => void
+  selectedIsActive?: string | null
+  onSelectIsActive?: (val: string | null) => void
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+  onSortChange?: (sortBy: string, sortOrder: 'asc' | 'desc') => void
+  isLoading?: boolean
+  isFetching?: boolean
 }
 
 const globalFilterFn: FilterFn<Product> = (row, _columnId, filterValue) => {
@@ -80,56 +117,141 @@ const globalFilterFn: FilterFn<Product> = (row, _columnId, filterValue) => {
   )
 }
 
-export function ProductsTable({ data }: Props) {
+export function ProductsTable({
+  data,
+  totalCount,
+  page,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
+  search,
+  onSearchChange,
+  selectedCategory,
+  onSelectCategory,
+  selectedBrand,
+  onSelectBrand,
+  selectedUom,
+  onSelectUom,
+  selectedSupplier,
+  onSelectSupplier,
+  selectedProductType,
+  onSelectProductType,
+  selectedIsActive,
+  onSelectIsActive,
+  sortBy,
+  sortOrder,
+  onSortChange,
+  isLoading = false,
+  isFetching = false,
+}: ProductsTableProps) {
   const { t } = useTranslation()
   const { quickFilter, setQuickFilter } = useProductsContext()
 
+  const isServer = totalCount !== undefined && onPageChange !== undefined
+
+  const [viewMode, setViewMode] = useState<'table' | 'grid'>('table')
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     base_uom: false,
     stock_status: false,
   })
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'created_at', desc: true },
+    { id: sortBy || 'created_at', desc: sortOrder !== 'asc' },
   ])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [globalFilter, setGlobalFilter] = useState('')
+  const [globalFilter, setGlobalFilter] = useState(search ?? '')
+
+  // Fetch full lookups for filters
+  const { data: dbCategories = [] } = useCategoryOptions()
+  const { data: dbBrands = [] } = useBrandOptions()
+  const { data: dbUoms = [] } = useUomOptions()
+  const { data: dbSuppliers = [] } = useSupplierOptions()
 
   const columns = useMemo(() => getColumns(t), [t])
 
-  // Sync quickFilter changes to columnFilters
+  // Sync quickFilter changes to columnFilters in client mode or server params
   useEffect(() => {
-    setColumnFilters((prev) => {
-      // Remove previous quickFilter-driven filters
-      const next = prev.filter(
-        (f) => f.id !== 'stock_status' && f.id !== 'is_active'
-      )
+    if (!isServer) {
+      setColumnFilters((prev) => {
+        const next = prev.filter(
+          (f) => f.id !== 'stock_status' && f.id !== 'is_active'
+        )
 
-      if (quickFilter === 'in_stock') {
-        next.push({
-          id: 'stock_status',
-          value: ['in_stock', 'low_stock'],
-        })
-      } else if (quickFilter === 'low_stock') {
-        next.push({
-          id: 'stock_status',
-          value: ['low_stock'],
-        })
-      } else if (quickFilter === 'out_of_stock') {
-        next.push({
-          id: 'stock_status',
-          value: ['out_of_stock'],
-        })
-      } else if (quickFilter === 'inactive') {
-        next.push({
-          id: 'is_active',
-          value: ['false'],
-        })
-      }
+        if (quickFilter === 'in_stock') {
+          next.push({
+            id: 'stock_status',
+            value: ['in_stock', 'low_stock'],
+          })
+        } else if (quickFilter === 'low_stock') {
+          next.push({
+            id: 'stock_status',
+            value: ['low_stock'],
+          })
+        } else if (quickFilter === 'out_of_stock') {
+          next.push({
+            id: 'stock_status',
+            value: ['out_of_stock'],
+          })
+        } else if (quickFilter === 'inactive') {
+          next.push({
+            id: 'is_active',
+            value: ['false'],
+          })
+        }
 
-      return next
-    })
-  }, [quickFilter])
+        return next
+      })
+    }
+  }, [quickFilter, isServer])
+
+  // Local pagination state for server-side manual pagination
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: Math.max(0, (page ?? 1) - 1),
+    pageSize: pageSize ?? 20,
+  })
+
+  useEffect(() => {
+    if (page !== undefined && pageSize !== undefined) {
+      setPagination({
+        pageIndex: Math.max(0, page - 1),
+        pageSize,
+      })
+    }
+  }, [page, pageSize])
+
+  const handlePaginationChange: OnChangeFn<PaginationState> = (updater) => {
+    const nextPagination =
+      typeof updater === 'function' ? updater(pagination) : updater
+    setPagination(nextPagination)
+
+    if (onPageChange && nextPagination.pageIndex !== pagination.pageIndex) {
+      onPageChange(nextPagination.pageIndex + 1)
+    }
+    if (onPageSizeChange && nextPagination.pageSize !== pagination.pageSize) {
+      onPageSizeChange(nextPagination.pageSize)
+      onPageChange?.(1)
+    }
+  }
+
+  // Handle global filter change (Search)
+  const handleGlobalFilterChange = (val: string) => {
+    setGlobalFilter(val)
+    if (onSearchChange) {
+      onSearchChange(val)
+    }
+  }
+
+  // Handle sorting change
+  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
+    const nextSorting =
+      typeof updater === 'function' ? updater(sorting) : updater
+    setSorting(nextSorting)
+
+    if (onSortChange && nextSorting.length > 0) {
+      const first = nextSorting[0]
+      onSortChange(first.id, first.desc ? 'desc' : 'asc')
+    }
+  }
 
   const table = useReactTable({
     data,
@@ -140,23 +262,34 @@ export function ProductsTable({ data }: Props) {
       columnVisibility,
       columnFilters,
       globalFilter,
+      ...(isServer ? { pagination } : {}),
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
+    onSortingChange: handleSortingChange,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
+    onGlobalFilterChange: handleGlobalFilterChange,
     globalFilterFn,
-    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: isServer,
+    pageCount: isServer
+      ? Math.max(1, Math.ceil((totalCount ?? 0) / (pageSize || 20)))
+      : undefined,
+    rowCount: isServer ? totalCount : undefined,
+    onPaginationChange: isServer ? handlePaginationChange : undefined,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
+    ...(!isServer
+      ? {
+          getPaginationRowModel: getPaginationRowModel(),
+          getFilteredRowModel: getFilteredRowModel(),
+          getSortedRowModel: getSortedRowModel(),
+          getFacetedRowModel: getFacetedRowModel(),
+          getFacetedUniqueValues: getFacetedUniqueValues(),
+        }
+      : {}),
   })
 
-  // Calculate quick stats counts
+  // Quick stats counts
   const statsCounts = useMemo(() => {
     let inStock = 0
     let lowStock = 0
@@ -183,8 +316,14 @@ export function ProductsTable({ data }: Props) {
     return { inStock, lowStock, outOfStock, inactive }
   }, [data])
 
-  // Faceted filter options
+  // Faceted filter options from database or fallback to data
   const categoryFilterOptions = useMemo(() => {
+    if (dbCategories.length > 0) {
+      return dbCategories.map((c) => ({
+        label: c.name_ar ? `${c.name} (${c.name_ar})` : c.name,
+        value: isServer ? c.id : c.name,
+      }))
+    }
     const map = new Map<string, string>()
     for (const item of data) {
       const name = item.categories?.name
@@ -193,9 +332,15 @@ export function ProductsTable({ data }: Props) {
     return Array.from(map.values())
       .sort((a, b) => a.localeCompare(b))
       .map((name) => ({ label: name, value: name }))
-  }, [data])
+  }, [dbCategories, data, isServer])
 
   const brandFilterOptions = useMemo(() => {
+    if (dbBrands.length > 0) {
+      return dbBrands.map((b) => ({
+        label: b.name_ar ? `${b.name} (${b.name_ar})` : b.name,
+        value: isServer ? b.id : b.name,
+      }))
+    }
     const map = new Map<string, string>()
     for (const item of data) {
       const name = item.brands?.name
@@ -204,7 +349,43 @@ export function ProductsTable({ data }: Props) {
     return Array.from(map.values())
       .sort((a, b) => a.localeCompare(b))
       .map((name) => ({ label: name, value: name }))
-  }, [data])
+  }, [dbBrands, data, isServer])
+
+  const uomFilterOptions = useMemo(() => {
+    if (dbUoms.length > 0) {
+      return dbUoms.map((u) => ({
+        label: `${u.name} (${u.code})`,
+        value: isServer ? u.id : u.code || u.name,
+      }))
+    }
+    const map = new Map<string, string>()
+    for (const item of data) {
+      const code = item.base_uom?.code || item.base_uom?.name
+      if (code) map.set(code, code)
+    }
+    return Array.from(map.values()).map((name) => ({
+      label: name,
+      value: name,
+    }))
+  }, [dbUoms, data, isServer])
+
+  const supplierFilterOptions = useMemo(() => {
+    if (dbSuppliers.length > 0) {
+      return dbSuppliers.map((s) => ({
+        label: s.code ? `${s.name} (${s.code})` : s.name,
+        value: isServer ? s.id : s.name,
+      }))
+    }
+    const map = new Map<string, string>()
+    for (const item of data) {
+      const name = item.suppliers?.name
+      if (name) map.set(name, name)
+    }
+    return Array.from(map.values()).map((name) => ({
+      label: name,
+      value: name,
+    }))
+  }, [dbSuppliers, data, isServer])
 
   const productTypeFilterOptions = useMemo(
     () => [
@@ -213,15 +394,21 @@ export function ProductsTable({ data }: Props) {
         value: 'simple',
       },
       {
-        label: t('products.enums.productType.variant', { defaultValue: 'Variant' }),
+        label: t('products.enums.productType.variant', {
+          defaultValue: 'Variant',
+        }),
         value: 'variant',
       },
       {
-        label: t('products.enums.productType.bundle', { defaultValue: 'Bundle' }),
+        label: t('products.enums.productType.bundle', {
+          defaultValue: 'Bundle',
+        }),
         value: 'bundle',
       },
       {
-        label: t('products.enums.productType.service', { defaultValue: 'Service' }),
+        label: t('products.enums.productType.service', {
+          defaultValue: 'Service',
+        }),
         value: 'service',
       },
       {
@@ -310,18 +497,10 @@ export function ProductsTable({ data }: Props) {
         label: t('products.sort.skuAsc', { defaultValue: 'SKU (A → Z)' }),
         sort: [{ id: 'sku', desc: false }],
       },
-      {
-        value: 'category_asc',
-        label: t('products.sort.categoryAsc', {
-          defaultValue: 'Category (A → Z)',
-        }),
-        sort: [{ id: 'category', desc: false }],
-      },
     ],
     [t]
   )
 
-  // Current active sort value
   const currentSortValue = useMemo(() => {
     if (!sorting.length) return 'newest'
     const match = sortPresets.find(
@@ -335,15 +514,19 @@ export function ProductsTable({ data }: Props) {
     const preset = sortPresets.find((p) => p.value === val)
     if (preset) {
       setSorting(preset.sort)
+      if (onSortChange) {
+        onSortChange(preset.sort[0].id, preset.sort[0].desc ? 'desc' : 'asc')
+      }
     }
   }
 
   // Export filtered products to CSV
   const handleExportCsv = () => {
-    const filteredProducts = table
-      .getFilteredRowModel()
-      .rows.map((r) => r.original)
-    if (!filteredProducts.length) {
+    const exportItems = isServer
+      ? data
+      : table.getFilteredRowModel().rows.map((r) => r.original)
+
+    if (!exportItems.length) {
       toast.error(
         t('products.table.noRowsToExport', {
           defaultValue: 'No products to export',
@@ -359,19 +542,23 @@ export function ProductsTable({ data }: Props) {
       'Barcode',
       'Category',
       'Brand',
+      'Base UOM',
+      'Supplier',
       'Product Type',
       'Stock',
       'Status',
       'Created At',
     ]
 
-    const csvRows = filteredProducts.map((p) => [
+    const csvRows = exportItems.map((p) => [
       `"${p.id || ''}"`,
       `"${(p.name || '').replace(/"/g, '""')}"`,
       `"${(p.sku || '').replace(/"/g, '""')}"`,
       `"${(p.barcode || '').replace(/"/g, '""')}"`,
       `"${(p.categories?.name || '').replace(/"/g, '""')}"`,
       `"${(p.brands?.name || '').replace(/"/g, '""')}"`,
+      `"${(p.base_uom?.name || p.base_uom?.code || '').replace(/"/g, '""')}"`,
+      `"${(p.suppliers?.name || '').replace(/"/g, '""')}"`,
       `"${p.product_type || 'simple'}"`,
       computeTotalStock(p),
       p.is_active ? 'Active' : 'Inactive',
@@ -398,8 +585,8 @@ export function ProductsTable({ data }: Props) {
 
     toast.success(
       t('products.table.exportSuccess', {
-        defaultValue: `Exported ${filteredProducts.length} products to CSV`,
-        count: filteredProducts.length,
+        defaultValue: `Exported ${exportItems.length} products to CSV`,
+        count: exportItems.length,
       })
     )
   }
@@ -408,40 +595,86 @@ export function ProductsTable({ data }: Props) {
     table.resetColumnFilters()
     setGlobalFilter('')
     setQuickFilter(null)
+    onSearchChange?.('')
+    onSelectCategory?.(null)
+    onSelectBrand?.(null)
+    onSelectUom?.(null)
+    onSelectSupplier?.(null)
+    onSelectProductType?.(null)
+    onSelectIsActive?.(null)
+    onPageChange?.(1)
   }
 
+  // Calculate active filter count for mobile filter drawer badge
+  const activeFiltersCount = useMemo(() => {
+    let count = 0
+    if (selectedCategory) count++
+    if (selectedBrand) count++
+    if (selectedUom) count++
+    if (selectedSupplier) count++
+    if (selectedProductType) count++
+    if (selectedIsActive) count++
+    if (columnFilters.length > 0) count += columnFilters.length
+    return count
+  }, [
+    selectedCategory,
+    selectedBrand,
+    selectedUom,
+    selectedSupplier,
+    selectedProductType,
+    selectedIsActive,
+    columnFilters,
+  ])
+
   const isFiltered =
-    columnFilters.length > 0 || globalFilter !== '' || quickFilter !== null
+    columnFilters.length > 0 ||
+    globalFilter !== '' ||
+    quickFilter !== null ||
+    activeFiltersCount > 0
 
   return (
-    <div className='flex flex-1 flex-col gap-4'>
+    <div className='flex flex-1 flex-col gap-3.5 sm:gap-4'>
       {/* Quick Filter Status Pills */}
-      <div className='flex flex-wrap items-center gap-1.5 sm:gap-2'>
+      <div className='flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 scrollbar-none'>
         <Button
-          variant={quickFilter === null || quickFilter === 'all' ? 'default' : 'outline'}
+          variant={
+            quickFilter === null || quickFilter === 'all'
+              ? 'default'
+              : 'outline'
+          }
           size='sm'
-          onClick={() => setQuickFilter(null)}
-          className='h-7 text-xs rounded-full px-3 gap-1.5'
+          onClick={() => {
+            setQuickFilter(null)
+            onPageChange?.(1)
+          }}
+          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
         >
           <span>{t('products.filters.all', { defaultValue: 'All' })}</span>
           <Badge
-            variant={quickFilter === null || quickFilter === 'all' ? 'secondary' : 'outline'}
+            variant={
+              quickFilter === null || quickFilter === 'all'
+                ? 'secondary'
+                : 'outline'
+            }
             className='h-4 px-1 text-[10px] font-mono'
           >
-            {data.length}
+            {totalCount !== undefined ? totalCount : data.length}
           </Badge>
         </Button>
 
         <Button
           variant={quickFilter === 'in_stock' ? 'default' : 'outline'}
           size='sm'
-          onClick={() =>
+          onClick={() => {
             setQuickFilter(quickFilter === 'in_stock' ? null : 'in_stock')
-          }
-          className='h-7 text-xs rounded-full px-3 gap-1.5'
+            onPageChange?.(1)
+          }}
+          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-emerald-500' />
-          <span>{t('products.filters.inStock', { defaultValue: 'In Stock' })}</span>
+          <span>
+            {t('products.filters.inStock', { defaultValue: 'In Stock' })}
+          </span>
           <Badge
             variant={quickFilter === 'in_stock' ? 'secondary' : 'outline'}
             className='h-4 px-1 text-[10px] font-mono'
@@ -453,13 +686,16 @@ export function ProductsTable({ data }: Props) {
         <Button
           variant={quickFilter === 'low_stock' ? 'default' : 'outline'}
           size='sm'
-          onClick={() =>
+          onClick={() => {
             setQuickFilter(quickFilter === 'low_stock' ? null : 'low_stock')
-          }
-          className='h-7 text-xs rounded-full px-3 gap-1.5'
+            onPageChange?.(1)
+          }}
+          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-amber-500' />
-          <span>{t('products.filters.lowStock', { defaultValue: 'Low Stock' })}</span>
+          <span>
+            {t('products.filters.lowStock', { defaultValue: 'Low Stock' })}
+          </span>
           <Badge
             variant={quickFilter === 'low_stock' ? 'secondary' : 'outline'}
             className='h-4 px-1 text-[10px] font-mono'
@@ -471,13 +707,16 @@ export function ProductsTable({ data }: Props) {
         <Button
           variant={quickFilter === 'out_of_stock' ? 'default' : 'outline'}
           size='sm'
-          onClick={() =>
+          onClick={() => {
             setQuickFilter(quickFilter === 'out_of_stock' ? null : 'out_of_stock')
-          }
-          className='h-7 text-xs rounded-full px-3 gap-1.5'
+            onPageChange?.(1)
+          }}
+          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-rose-500' />
-          <span>{t('products.filters.outOfStock', { defaultValue: 'Out of Stock' })}</span>
+          <span>
+            {t('products.filters.outOfStock', { defaultValue: 'Out of Stock' })}
+          </span>
           <Badge
             variant={quickFilter === 'out_of_stock' ? 'secondary' : 'outline'}
             className='h-4 px-1 text-[10px] font-mono'
@@ -489,13 +728,16 @@ export function ProductsTable({ data }: Props) {
         <Button
           variant={quickFilter === 'inactive' ? 'default' : 'outline'}
           size='sm'
-          onClick={() =>
+          onClick={() => {
             setQuickFilter(quickFilter === 'inactive' ? null : 'inactive')
-          }
-          className='h-7 text-xs rounded-full px-3 gap-1.5'
+            onPageChange?.(1)
+          }}
+          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-muted-foreground' />
-          <span>{t('products.filters.inactive', { defaultValue: 'Inactive' })}</span>
+          <span>
+            {t('products.filters.inactive', { defaultValue: 'Inactive' })}
+          </span>
           <Badge
             variant={quickFilter === 'inactive' ? 'secondary' : 'outline'}
             className='h-4 px-1 text-[10px] font-mono'
@@ -532,6 +774,26 @@ export function ProductsTable({ data }: Props) {
                 },
               ]
             : []),
+          ...(uomFilterOptions.length > 0
+            ? [
+                {
+                  columnId: 'base_uom',
+                  title: t('products.columns.uom', { defaultValue: 'Base UOM' }),
+                  options: uomFilterOptions,
+                },
+              ]
+            : []),
+          ...(supplierFilterOptions.length > 0
+            ? [
+                {
+                  columnId: 'supplier',
+                  title: t('products.columns.supplier', {
+                    defaultValue: 'Supplier',
+                  }),
+                  options: supplierFilterOptions,
+                },
+              ]
+            : []),
           {
             columnId: 'product_type',
             title: t('products.columns.productType', { defaultValue: 'Type' }),
@@ -549,10 +811,52 @@ export function ProductsTable({ data }: Props) {
           },
         ]}
         toolbarActions={
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-1.5 sm:gap-2'>
+            {/* Mobile Filter Drawer trigger button */}
+            <div className='lg:hidden'>
+              <ProductsFilterDrawer
+                selectedCategory={selectedCategory ?? null}
+                onSelectCategory={(val) => {
+                  onSelectCategory?.(val)
+                  onPageChange?.(1)
+                }}
+                selectedBrand={selectedBrand ?? null}
+                onSelectBrand={(val) => {
+                  onSelectBrand?.(val)
+                  onPageChange?.(1)
+                }}
+                selectedUom={selectedUom ?? null}
+                onSelectUom={(val) => {
+                  onSelectUom?.(val)
+                  onPageChange?.(1)
+                }}
+                selectedSupplier={selectedSupplier ?? null}
+                onSelectSupplier={(val) => {
+                  onSelectSupplier?.(val)
+                  onPageChange?.(1)
+                }}
+                selectedProductType={selectedProductType ?? null}
+                onSelectProductType={(val) => {
+                  onSelectProductType?.(val)
+                  onPageChange?.(1)
+                }}
+                selectedIsActive={selectedIsActive ?? null}
+                onSelectIsActive={(val) => {
+                  onSelectIsActive?.(val)
+                  onPageChange?.(1)
+                }}
+                categories={dbCategories}
+                brands={dbBrands}
+                uoms={dbUoms}
+                suppliers={dbSuppliers}
+                onResetAll={handleResetFilters}
+                activeFiltersCount={activeFiltersCount}
+              />
+            </div>
+
             {/* Quick Sort Dropdown */}
             <Select value={currentSortValue} onValueChange={handleSortChange}>
-              <SelectTrigger className='h-8 w-[145px] sm:w-[170px] text-xs'>
+              <SelectTrigger className='h-8 w-[130px] sm:w-[160px] text-xs'>
                 <ArrowUpDown className='h-3.5 w-3.5 mr-1.5 text-muted-foreground shrink-0' />
                 <SelectValue
                   placeholder={t('products.sort.placeholder', {
@@ -573,6 +877,30 @@ export function ProductsTable({ data }: Props) {
               </SelectContent>
             </Select>
 
+            {/* View Mode Toggle (Table / Grid) */}
+            <div className='flex items-center rounded-md border bg-muted/40 p-0.5'>
+              <Button
+                variant={viewMode === 'table' ? 'secondary' : 'ghost'}
+                size='sm'
+                onClick={() => setViewMode('table')}
+                className='h-7 w-7 p-0'
+                title={t('products.view.tableView', {
+                  defaultValue: 'Table View',
+                })}
+              >
+                <LayoutList className='h-3.5 w-3.5' />
+              </Button>
+              <Button
+                variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                size='sm'
+                onClick={() => setViewMode('grid')}
+                className='h-7 w-7 p-0'
+                title={t('products.view.gridView', { defaultValue: 'Grid View' })}
+              >
+                <LayoutGrid className='h-3.5 w-3.5' />
+              </Button>
+            </div>
+
             {/* Export CSV Button */}
             <Button
               variant='outline'
@@ -590,90 +918,108 @@ export function ProductsTable({ data }: Props) {
         }
       />
 
-      {/* Products Table Grid */}
-      <div className='overflow-hidden rounded-md border bg-card'>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className='hover:bg-muted/50 transition-colors'
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+      {/* Loading Overlay indicator when refetching server data */}
+      {isFetching && !isLoading && (
+        <div className='flex items-center gap-2 text-xs text-muted-foreground animate-pulse py-0.5 px-1'>
+          <Loader2 className='h-3.5 w-3.5 animate-spin text-primary' />
+          <span>
+            {t('products.table.updatingData', {
+              defaultValue: 'Updating catalog...',
+            })}
+          </span>
+        </div>
+      )}
+
+      {/* Main Content: Table or Grid View */}
+      {viewMode === 'grid' ? (
+        <ProductsCardsGrid table={table} isLoading={isLoading} />
+      ) : (
+        <div className='overflow-x-auto rounded-md border bg-card shadow-2xs'>
+          <Table>
+            <TableHeader className='bg-muted/30'>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} className='text-xs font-semibold py-2.5 whitespace-nowrap'>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-48 text-center'
-                >
-                  <div className='flex flex-col items-center justify-center gap-2 text-muted-foreground'>
-                    <div className='rounded-full bg-muted/60 p-3'>
-                      <PackageSearch className='h-6 w-6' />
-                    </div>
-                    <p className='font-medium text-sm'>
-                      {t('products.table.noResults', {
-                        defaultValue: 'No products found',
-                      })}
-                    </p>
-                    <p className='text-xs text-muted-foreground max-w-sm'>
-                      {isFiltered
-                        ? t('products.table.noResultsFiltered', {
-                            defaultValue:
-                              'Try adjusting or resetting your search and filters to find products.',
-                          })
-                        : t('products.table.noProductsYet', {
-                            defaultValue:
-                              'No products in this inventory catalog yet.',
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                    className='hover:bg-muted/50 transition-colors'
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className='py-2.5 text-xs'>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className='h-48 text-center'
+                  >
+                    <div className='flex flex-col items-center justify-center gap-2 text-muted-foreground'>
+                      <div className='rounded-full bg-muted/60 p-3'>
+                        <PackageSearch className='h-6 w-6' />
+                      </div>
+                      <p className='font-medium text-sm'>
+                        {t('products.table.noResults', {
+                          defaultValue: 'No products found',
+                        })}
+                      </p>
+                      <p className='text-xs text-muted-foreground max-w-sm'>
+                        {isFiltered
+                          ? t('products.table.noResultsFiltered', {
+                              defaultValue:
+                                'Try adjusting or resetting your search and filters to find products.',
+                            })
+                          : t('products.table.noProductsYet', {
+                              defaultValue:
+                                'No products in this inventory catalog yet.',
+                            })}
+                      </p>
+                      {isFiltered && (
+                        <Button
+                          variant='outline'
+                          size='sm'
+                          onClick={handleResetFilters}
+                          className='mt-2 h-8 text-xs gap-1.5'
+                        >
+                          <RotateCcw className='h-3.5 w-3.5' />
+                          {t('dataTable.reset', {
+                            defaultValue: 'Reset Filters',
                           })}
-                    </p>
-                    {isFiltered && (
-                      <Button
-                        variant='outline'
-                        size='sm'
-                        onClick={handleResetFilters}
-                        className='mt-2 h-8 text-xs gap-1.5'
-                      >
-                        <RotateCcw className='h-3.5 w-3.5' />
-                        {t('dataTable.reset', { defaultValue: 'Reset Filters' })}
-                      </Button>
-                    )}
-                  </div>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+                        </Button>
+                      )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       {/* Pagination Controls */}
-      <DataTablePagination table={table} className='mt-auto' />
+      <DataTablePagination table={table} className='mt-auto pt-1' />
 
       {/* Bulk Actions Floating Toolbar */}
       <ProductsBulkActions table={table} />

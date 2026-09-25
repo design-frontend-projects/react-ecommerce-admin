@@ -361,7 +361,7 @@ function PriceListViewDialogContent({
                 </span>
                 {currentRow.tax_rates ? (
                   <Badge variant='outline' className='text-xs font-mono border-indigo-400 text-indigo-700 dark:text-indigo-300'>
-                    {currentRow.tax_rates.name} ({getTaxRatePercentage(currentRow.tax_rates.rate)}% {currentRow.tax_rates.is_inclusive ? 'Inc' : 'Exc'})
+                    {currentRow.tax_rates.tax_type || currentRow.tax_rates.name} ({getTaxRatePercentage(currentRow.tax_rates.rate)}% {currentRow.tax_rates.is_inclusive ? 'Inc' : 'Exc'})
                   </Badge>
                 ) : (
                   <span className='text-xs text-muted-foreground font-mono'>
@@ -674,7 +674,7 @@ function PriceListViewDialogContent({
 
                       {effectiveTaxRate && (
                         <div className='text-[11px] text-muted-foreground flex items-center justify-between pt-1 border-t border-dashed'>
-                          <span>Tax: {effectiveTaxRate.name} ({getTaxRatePercentage(effectiveTaxRate.rate)}% {effectiveTaxRate.is_inclusive ? 'Inc' : 'Exc'})</span>
+                          <span>Tax: {effectiveTaxRate.tax_type || effectiveTaxRate.name} ({getTaxRatePercentage(effectiveTaxRate.rate)}% {effectiveTaxRate.is_inclusive ? 'Inc' : 'Exc'})</span>
                           <span className='font-mono text-[10px]'>Amt: ${taxBreakdown.taxAmount.toFixed(2)}</span>
                         </div>
                       )}

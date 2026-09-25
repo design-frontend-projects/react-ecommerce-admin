@@ -12,13 +12,24 @@ import { computeTotalStock } from './products-columns'
 import { useProductsContext, type ProductQuickFilter } from './products-provider'
 
 interface ProductsStatsProps {
-  data: Product[]
+  data?: Product[]
+  totalCount?: number
+  stats?: {
+    total?: number
+    active?: number
+    inactive?: number
+    inStock?: number
+    lowStock?: number
+    outOfStock?: number
+  }
   activeQuickFilter?: ProductQuickFilter | null
   onQuickFilterSelect?: (filter: ProductQuickFilter | null) => void
 }
 
 export function ProductsStats({
-  data,
+  data = [],
+  totalCount,
+  stats,
   activeQuickFilter: controlledFilter,
   onQuickFilterSelect: controlledOnSelect,
 }: ProductsStatsProps) {
@@ -30,24 +41,29 @@ export function ProductsStats({
   const onQuickFilterSelect =
     controlledOnSelect !== undefined ? controlledOnSelect : context.setQuickFilter
 
-  const totalProducts = data.length
+  let inStockCount = stats?.inStock ?? 0
+  let lowStockCount = stats?.lowStock ?? 0
+  let outOfStockCount = stats?.outOfStock ?? 0
 
-  let inStockCount = 0
-  let lowStockCount = 0
-  let outOfStockCount = 0
+  if (data.length > 0 && (!stats || (stats.inStock === undefined && stats.outOfStock === undefined))) {
+    inStockCount = 0
+    lowStockCount = 0
+    outOfStockCount = 0
+    for (const product of data) {
+      const stock = computeTotalStock(product)
 
-  for (const product of data) {
-    const stock = computeTotalStock(product)
-
-    if (stock <= 0) {
-      outOfStockCount++
-    } else {
-      inStockCount++
-      if (stock <= 5) {
-        lowStockCount++
+      if (stock <= 0) {
+        outOfStockCount++
+      } else {
+        inStockCount++
+        if (stock <= 5) {
+          lowStockCount++
+        }
       }
     }
   }
+
+  const totalProducts = stats?.total ?? totalCount ?? data.length
 
   const kpis: {
     key: ProductQuickFilter
@@ -115,7 +131,7 @@ export function ProductsStats({
   }
 
   return (
-    <div className='grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4'>
+    <div className='grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4'>
       {kpis.map((kpi, idx) => {
         const Icon = kpi.icon
         const isSelected =
@@ -139,25 +155,25 @@ export function ProductsStats({
                   : 'hover:border-primary/40 hover:shadow-sm'
               }`}
             >
-              <CardContent className='flex items-center justify-between p-4 sm:p-5'>
-                <div className='space-y-1 overflow-hidden'>
-                  <p className='text-xs font-medium text-muted-foreground truncate'>
+              <CardContent className='flex items-center justify-between p-3 sm:p-4.5'>
+                <div className='space-y-0.5 sm:space-y-1 overflow-hidden pr-1'>
+                  <p className='text-[11px] sm:text-xs font-medium text-muted-foreground truncate'>
                     {kpi.title}
                   </p>
                   <div className='flex items-baseline gap-2'>
-                    <span className='text-2xl font-bold tracking-tight'>
+                    <span className='text-lg sm:text-2xl font-bold tracking-tight'>
                       {kpi.value.toLocaleString()}
                     </span>
                   </div>
-                  <p className='text-[11px] text-muted-foreground truncate'>
+                  <p className='text-[10px] sm:text-[11px] text-muted-foreground truncate'>
                     {kpi.subtitle}
                   </p>
                 </div>
 
                 <div
-                  className={`flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl border ${kpi.bgColor} ${kpi.borderColor}`}
+                  className={`flex h-8 w-8 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg sm:rounded-xl border ${kpi.bgColor} ${kpi.borderColor}`}
                 >
-                  <Icon className={`h-5 w-5 sm:h-5.5 sm:w-5.5 ${kpi.color}`} />
+                  <Icon className={`h-4 w-4 sm:h-5.5 sm:w-5.5 ${kpi.color}`} />
                 </div>
               </CardContent>
             </Card>

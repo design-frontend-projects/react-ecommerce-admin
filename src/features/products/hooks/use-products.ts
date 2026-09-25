@@ -50,6 +50,199 @@ function normalizeProduct(raw: Record<string, unknown>): Product {
   } as Product
 }
 
+export interface ProductQueryParams {
+  page?: number
+  pageSize?: number
+  search?: string
+  categoryId?: string | string[]
+  brandId?: string | string[]
+  baseUomId?: string | string[]
+  supplierId?: string | string[]
+  productType?: string | string[]
+  quickFilter?: string | null
+  isActive?: boolean | null
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+}
+
+export interface PaginatedProductsResult {
+  products: Product[]
+  totalCount: number
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
+export interface ProductSummaryStats {
+  total: number
+  active: number
+  inactive: number
+  lowStock: number
+  outOfStock: number
+}
+
+export const useServerProducts = (params: ProductQueryParams = {}) => {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
+  const { tenantId } = getAuthTenantAndUser()
+
+  const page = Math.max(1, params.page ?? 1)
+  const pageSize = Math.max(1, params.pageSize ?? 20)
+
+  return useQuery({
+    queryKey: ['products', 'server', tenantId, params, page, pageSize],
+    queryFn: async (): Promise<PaginatedProductsResult> => {
+      const from = (page - 1) * pageSize
+      const to = from + pageSize - 1
+
+      let query = supabase
+        .from('products')
+        .select(
+          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), suppliers(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)',
+          { count: 'exact' }
+        )
+        .neq('is_deleted', true)
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      // Server-side text search across name, sku, barcode, description
+      if (params.search && params.search.trim()) {
+        const term = params.search.trim()
+        query = query.or(
+          `name.ilike.%${term}%,sku.ilike.%${term}%,barcode.ilike.%${term}%,description.ilike.%${term}%`
+        )
+      }
+
+      // Filters
+      if (params.categoryId) {
+        const cats = Array.isArray(params.categoryId)
+          ? params.categoryId.filter(Boolean)
+          : [params.categoryId].filter(Boolean)
+        if (cats.length > 0) {
+          query = query.in('category_id', cats)
+        }
+      }
+
+      if (params.brandId) {
+        const brands = Array.isArray(params.brandId)
+          ? params.brandId.filter(Boolean)
+          : [params.brandId].filter(Boolean)
+        if (brands.length > 0) {
+          query = query.in('brand_id', brands)
+        }
+      }
+
+      if (params.baseUomId) {
+        const uoms = Array.isArray(params.baseUomId)
+          ? params.baseUomId.filter(Boolean)
+          : [params.baseUomId].filter(Boolean)
+        if (uoms.length > 0) {
+          query = query.in('base_uom_id', uoms)
+        }
+      }
+
+      if (params.supplierId) {
+        const sups = Array.isArray(params.supplierId)
+          ? params.supplierId.filter(Boolean)
+          : [params.supplierId].filter(Boolean)
+        if (sups.length > 0) {
+          query = query.in('supplier_id', sups)
+        }
+      }
+
+      if (params.productType) {
+        const types = Array.isArray(params.productType)
+          ? params.productType.filter(Boolean)
+          : [params.productType].filter(Boolean)
+        if (types.length > 0) {
+          query = query.in('product_type', types)
+        }
+      }
+
+      if (params.isActive !== undefined && params.isActive !== null) {
+        query = query.eq('is_active', params.isActive)
+      }
+
+      if (params.quickFilter === 'inactive') {
+        query = query.eq('is_active', false)
+      }
+
+      // Sorting
+      const sortColumn = params.sortBy || 'created_at'
+      const ascending = params.sortOrder === 'asc'
+      query = query.order(sortColumn, { ascending })
+
+      // Range pagination
+      query = query.range(from, to)
+
+      const { data, count, error } = await query
+      if (error) throw error
+
+      const products = (data || []).map((row) =>
+        normalizeProduct(row as Record<string, unknown>)
+      )
+      const totalCount = count ?? products.length
+      const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
+
+      return {
+        products,
+        totalCount,
+        page,
+        pageSize,
+        totalPages,
+      }
+    },
+    placeholderData: (previousData) => previousData,
+    enabled: authEnabled,
+  })
+}
+
+export const useProductsStats = () => {
+  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
+  const { tenantId } = getAuthTenantAndUser()
+
+  return useQuery({
+    queryKey: ['products', 'stats', tenantId],
+    queryFn: async (): Promise<ProductSummaryStats> => {
+      let totalQuery = supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+        .neq('is_deleted', true)
+
+      let inactiveQuery = supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+        .neq('is_deleted', true)
+        .eq('is_active', false)
+
+      if (tenantId) {
+        totalQuery = totalQuery.eq('tenant_id', tenantId)
+        inactiveQuery = inactiveQuery.eq('tenant_id', tenantId)
+      }
+
+      const [totalRes, inactiveRes] = await Promise.all([
+        totalQuery,
+        inactiveQuery,
+      ])
+
+      const total = totalRes.count ?? 0
+      const inactive = inactiveRes.count ?? 0
+      const active = Math.max(0, total - inactive)
+
+      return {
+        total,
+        active,
+        inactive,
+        lowStock: 0,
+        outOfStock: 0,
+      }
+    },
+    enabled: authEnabled,
+    staleTime: 60000,
+  })
+}
+
 export const useProducts = () => {
   const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
 
@@ -59,7 +252,7 @@ export const useProducts = () => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), suppliers(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .neq('is_deleted', true)
         .order('created_at', { ascending: false })
@@ -82,7 +275,7 @@ export const useProduct = (id?: string | number | null) => {
       const { data, error } = await supabase
         .from('products')
         .select(
-          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
+          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), suppliers(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
         .eq('id', productId)
         .maybeSingle()
@@ -289,8 +482,8 @@ export const useCreateProductWithVariants = () => {
         updated_at: new Date().toISOString(),
       }
 
-      delete (finalProductPayload as any).reorder_level
-      delete (finalProductPayload as any).expiration_date
+      delete finalProductPayload.reorder_level
+      delete finalProductPayload.expiration_date
 
       if (resolvedTenantId && !finalProductPayload.tenant_id) {
         finalProductPayload.tenant_id = resolvedTenantId
@@ -400,6 +593,7 @@ export const useCreateProductWithVariants = () => {
               .upsert(priceItems, { onConflict: 'price_list_id,product_variant_id' })
           }
         } catch (plErr) {
+          // eslint-disable-next-line no-console
           console.error('Failed to sync price list items for new product:', plErr)
         }
 
@@ -486,8 +680,8 @@ export const useUpdateProductWithVariants = () => {
         updated_at: new Date().toISOString(),
       }
 
-      delete (finalProductUpdate as any).reorder_level
-      delete (finalProductUpdate as any).expiration_date
+      delete finalProductUpdate.reorder_level
+      delete finalProductUpdate.expiration_date
 
       if (userId) {
         finalProductUpdate.updated_by_user_id = userId
@@ -660,6 +854,7 @@ export const useUpdateProductWithVariants = () => {
           }
         }
       } catch (plErr) {
+        // eslint-disable-next-line no-console
         console.error('Failed to sync price list items on update:', plErr)
       }
 

@@ -343,5 +343,107 @@ describe('Products Table Enhancements', () => {
       expect(formatted[1].description).toContain('Beverages')
       expect(formatted[1].description).toContain('المشروبات')
     })
+
+    it('formatUomSearchableOptions formats UOMs with code and category', async () => {
+      const { formatUomSearchableOptions } = await import(
+        '@/features/products/hooks/use-product-options'
+      )
+
+      const rawUoms = [
+        { id: 'u-1', name: 'Kilogram', code: 'kg', uom_category: 'Weight' },
+        { id: 'u-2', name: 'Piece', code: 'pc' },
+      ]
+
+      const formatted = formatUomSearchableOptions(rawUoms)
+      expect(formatted).toHaveLength(2)
+      expect(formatted[0].id).toBe('u-1')
+      expect(formatted[0].name).toBe('Kilogram')
+      expect(formatted[0].description).toBe('Kilogram (kg) • Weight')
+      expect(formatted[1].description).toBe('Piece (pc)')
+    })
+
+    it('formatSupplierSearchableOptions formats suppliers with code', async () => {
+      const { formatSupplierSearchableOptions } = await import(
+        '@/features/products/hooks/use-product-options'
+      )
+
+      const rawSuppliers = [
+        { id: 's-1', name: 'Juhayna Food Industries', code: 'JUH' },
+        { id: 's-2', name: 'Americana Group', code: null },
+      ]
+
+      const formatted = formatSupplierSearchableOptions(rawSuppliers)
+      expect(formatted).toHaveLength(2)
+      expect(formatted[0].id).toBe('s-1')
+      expect(formatted[0].description).toBe('Juhayna Food Industries (JUH)')
+      expect(formatted[1].description).toBe('Americana Group')
+    })
+  })
+
+  describe('Server-Side Pagination & Search in ProductsTable', () => {
+    it('supports server-side mode with manual pagination and invokes callbacks', async () => {
+      const onPageChange = vi.fn()
+      const onPageSizeChange = vi.fn()
+      const onSearchChange = vi.fn()
+
+      renderWithProviders(
+        <ProductsTable
+          data={mockProducts}
+          totalCount={300}
+          page={1}
+          pageSize={20}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+          onSearchChange={onSearchChange}
+        />
+      )
+
+      // Verify page count text displays server-side total: Page 1 of 15 (300 / 20 = 15)
+      expect(screen.getByText(/Page 1 of 15/i)).toBeInTheDocument()
+
+      // Click next page button
+      const nextBtn = screen.getByRole('button', { name: /Go to next page/i })
+      await userEvent.click(nextBtn)
+      expect(onPageChange).toHaveBeenCalledWith(2)
+    })
+
+    it('renders View Mode toggle buttons and allows switching to Grid View', async () => {
+      renderWithProviders(
+        <ProductsTable
+          data={mockProducts}
+          totalCount={3}
+          page={1}
+          pageSize={20}
+        />
+      )
+
+      // Find Grid View button
+      const gridBtn = screen.getByTitle('Grid View')
+      expect(gridBtn).toBeInTheDocument()
+
+      // Switch to Grid View
+      await userEvent.click(gridBtn)
+
+      // Verify products are still visible in Card View
+      expect(screen.getByText('Wireless Ergonomic Mouse')).toBeInTheDocument()
+      expect(screen.getByText('Mechanical Gaming Keyboard')).toBeInTheDocument()
+      expect(screen.getByText('USB-C Fast Cable')).toBeInTheDocument()
+    })
+
+    it('renders Mobile Filter Drawer trigger button with badge count', () => {
+      renderWithProviders(
+        <ProductsTable
+          data={mockProducts}
+          selectedCategory='cat-1'
+          selectedBrand='brand-1'
+        />
+      )
+
+      // Verify Filters trigger button
+      const filterBtn = screen.getByRole('button', { name: /Filters/i })
+      expect(filterBtn).toBeInTheDocument()
+      // Badge count 2 on the filter button
+      expect(filterBtn).toHaveTextContent('2')
+    })
   })
 })

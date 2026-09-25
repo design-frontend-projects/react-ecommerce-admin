@@ -1,5 +1,12 @@
-import { RefreshCw, Warehouse, Calendar, ArrowUpRight, Plus, Activity } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import {
+  RefreshCw,
+  Warehouse,
+  Calendar,
+  ArrowUpRight,
+  Plus,
+  Activity,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -32,25 +39,29 @@ export function CommandCenterHeader({
   lastUpdated,
 }: CommandCenterHeaderProps) {
   const formattedTime = lastUpdated
-    ? new Date(lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    ? new Date(lastUpdated).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })
     : 'Just now'
 
   return (
-    <div className='flex flex-col gap-4 pb-2 border-b border-border/40'>
-      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+    <div className='flex flex-col gap-4 border-b border-border/40 pb-2'>
+      <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
         {/* Title & Live Status */}
         <div className='space-y-1'>
           <div className='flex items-center gap-3'>
-            <h1 className='text-2xl md:text-3xl font-bold tracking-tight text-foreground'>
+            <h1 className='text-2xl font-bold tracking-tight text-foreground md:text-3xl'>
               Command Center
             </h1>
-            <div className='inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'>
-              <span className='w-2 h-2 rounded-full bg-emerald-500 animate-pulse' />
+            <div className='inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400'>
+              <span className='h-2 w-2 animate-pulse rounded-full bg-emerald-500' />
               <span>LIVE</span>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs text-muted-foreground'>
-            <Activity className='w-3.5 h-3.5' />
+            <Activity className='h-3.5 w-3.5' />
             <span>Real-time multi-warehouse analytics & telemetry</span>
             <span>•</span>
             <span>Synced at {formattedTime}</span>
@@ -58,16 +69,18 @@ export function CommandCenterHeader({
         </div>
 
         {/* Global Action Buttons */}
-        <div className='flex items-center gap-2 flex-wrap sm:flex-nowrap'>
+        <div className='flex flex-wrap items-center gap-2 sm:flex-nowrap'>
           <Button
             variant='outline'
             size='sm'
             onClick={onRefresh}
             disabled={isRefetching}
-            className='h-9 px-3 gap-1.5 bg-background/50 hover:bg-accent border-border/60 transition-all'
+            className='h-9 gap-1.5 border-border/60 bg-background/50 px-3 transition-all hover:bg-accent'
             title='Refresh all dashboard analytics'
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefetching ? 'animate-spin text-primary' : ''}`} />
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isRefetching ? 'animate-spin text-primary' : ''}`}
+            />
             <span className='text-xs font-medium'>
               {isRefetching ? 'Syncing...' : 'Sync Data'}
             </span>
@@ -76,10 +89,10 @@ export function CommandCenterHeader({
           <Button
             size='sm'
             asChild
-            className='h-9 px-3 gap-1.5 shadow-xs bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-xs'
+            className='h-9 gap-1.5 bg-primary px-3 text-xs font-medium text-primary-foreground shadow-xs hover:bg-primary/90'
           >
             <Link to='/purchase-orders'>
-              <Plus className='w-3.5 h-3.5' />
+              <Plus className='h-3.5 w-3.5' />
               <span>New PO</span>
             </Link>
           </Button>
@@ -88,11 +101,11 @@ export function CommandCenterHeader({
             variant='secondary'
             size='sm'
             asChild
-            className='h-9 px-3 gap-1.5 font-medium text-xs'
+            className='h-9 gap-1.5 px-3 text-xs font-medium'
           >
-            <Link to='/inventory-valuation'>
+            <Link to='/inventory/valuation'>
               <span>Valuation Report</span>
-              <ArrowUpRight className='w-3 h-3 text-muted-foreground' />
+              <ArrowUpRight className='h-3 w-3 text-muted-foreground' />
             </Link>
           </Button>
         </div>
@@ -100,12 +113,15 @@ export function CommandCenterHeader({
 
       {/* Filter Toolbar Bar */}
       <div className='flex flex-wrap items-center justify-between gap-3 pt-2'>
-        <div className='flex items-center gap-3 flex-wrap'>
+        <div className='flex flex-wrap items-center gap-3'>
           {/* Warehouse Selector */}
           <div className='flex items-center gap-2'>
-            <Warehouse className='w-4 h-4 text-muted-foreground hidden sm:inline' />
-            <Select value={selectedWarehouseId} onValueChange={onWarehouseChange}>
-              <SelectTrigger className='w-[190px] h-8 text-xs font-medium bg-background/60 border-border/60'>
+            <Warehouse className='hidden h-4 w-4 text-muted-foreground sm:inline' />
+            <Select
+              value={selectedWarehouseId}
+              onValueChange={onWarehouseChange}
+            >
+              <SelectTrigger className='h-8 w-[190px] border-border/60 bg-background/60 text-xs font-medium'>
                 <SelectValue placeholder='Select Warehouse' />
               </SelectTrigger>
               <SelectContent>
@@ -124,14 +140,14 @@ export function CommandCenterHeader({
           </div>
 
           {/* Time Range Pills */}
-          <div className='flex items-center p-0.5 rounded-lg bg-muted/60 border border-border/40'>
-            <Calendar className='w-3.5 h-3.5 ml-2 text-muted-foreground mr-1 hidden sm:inline' />
+          <div className='flex items-center rounded-lg border border-border/40 bg-muted/60 p-0.5'>
+            <Calendar className='mr-1 ml-2 hidden h-3.5 w-3.5 text-muted-foreground sm:inline' />
             {(['7d', '30d', '90d'] as const).map((range) => (
               <button
                 key={range}
                 type='button'
                 onClick={() => onTimeRangeChange(range)}
-                className={`px-2.5 py-1 text-xs rounded-md font-medium transition-all ${
+                className={`rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                   timeRange === range
                     ? 'bg-background text-foreground shadow-xs'
                     : 'text-muted-foreground hover:text-foreground'
@@ -143,7 +159,7 @@ export function CommandCenterHeader({
           </div>
         </div>
 
-        <div className='text-xs text-muted-foreground hidden md:block'>
+        <div className='hidden text-xs text-muted-foreground md:block'>
           Auto-refreshes every 5 mins
         </div>
       </div>

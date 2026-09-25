@@ -153,7 +153,7 @@ export function useInfiniteCategoryOptions({
 }: { search?: string; pageSize?: number } = {}) {
   const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
   return useInfiniteQuery<CategoryOption[]>({
-    queryKey: ['categories', 'options', 'infinite', search],
+    queryKey: ['categories', 'options', 'infinite', search, pageSize],
     queryFn: async ({ pageParam = 0 }) => {
       const from = (pageParam as number) * pageSize
       const to = from + pageSize - 1
@@ -191,7 +191,7 @@ export function useInfiniteBrandOptions({
 }: { search?: string; pageSize?: number } = {}) {
   const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
   return useInfiniteQuery<BrandOption[]>({
-    queryKey: ['brands', 'options', 'infinite', search],
+    queryKey: ['brands', 'options', 'infinite', search, pageSize],
     queryFn: async ({ pageParam = 0 }) => {
       const from = (pageParam as number) * pageSize
       const to = from + pageSize - 1
@@ -223,6 +223,17 @@ export function useInfiniteBrandOptions({
 }
 
 
+export function formatUomSearchableOptions(
+  uoms: UomOption[]
+): SearchableOption[] {
+  return uoms.map((u) => ({
+    id: u.id,
+    name: u.name,
+    code: u.code,
+    description: u.uom_category ? `${u.name} (${u.code}) • ${u.uom_category}` : `${u.name} (${u.code})`,
+  }))
+}
+
 /**
  * Hook to fetch active units of measure (UOMs) for product dropdowns.
  */
@@ -244,6 +255,26 @@ export function useUomOptions() {
   })
 }
 
+export function useUomSearchOptions() {
+  const query = useUomOptions()
+  const options = useMemo(
+    () => formatUomSearchableOptions(query.data ?? []),
+    [query.data]
+  )
+  return { ...query, options }
+}
+
+export function formatSupplierSearchableOptions(
+  suppliers: SupplierOption[]
+): SearchableOption[] {
+  return suppliers.map((s) => ({
+    id: s.id,
+    name: s.name,
+    code: s.code,
+    description: s.code ? `${s.name} (${s.code})` : s.name,
+  }))
+}
+
 /**
  * Hook to fetch active suppliers for product dropdowns.
  */
@@ -263,6 +294,15 @@ export function useSupplierOptions() {
     },
     enabled: authEnabled,
   })
+}
+
+export function useSupplierSearchOptions() {
+  const query = useSupplierOptions()
+  const options = useMemo(
+    () => formatSupplierSearchableOptions(query.data ?? []),
+    [query.data]
+  )
+  return { ...query, options }
 }
 
 /**

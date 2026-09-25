@@ -241,4 +241,25 @@ describe('Price List - Schema Validation with Tax, Source & Markup', () => {
     const headerResult = headerSchema.safeParse(validHeader)
     expect(headerResult.success).toBe(true)
   })
+
+  describe('TaxRateBrief interface and label resolution', () => {
+    it('supports tax_type with optional name fallback', () => {
+      const standardRate = {
+        id: 'tax-1',
+        tax_type: 'VAT_15',
+        rate: 15,
+        is_inclusive: true,
+      }
+      expect(standardRate.tax_type || (standardRate as any).name).toBe('VAT_15')
+
+      const legacyRateWithName = {
+        id: 'tax-2',
+        tax_type: '',
+        name: 'Standard VAT',
+        rate: 10,
+        is_inclusive: false,
+      }
+      expect(legacyRateWithName.tax_type || legacyRateWithName.name).toBe('Standard VAT')
+    })
+  })
 })

@@ -37,6 +37,7 @@ export interface TaxRateBrief {
   description?: string | null
   is_inclusive: boolean
   is_active?: boolean | null
+  name?: string | null
 }
 
 export interface ProductVariantBrief {

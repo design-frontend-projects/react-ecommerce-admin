@@ -63,7 +63,7 @@ export function Dashboard() {
     },
     {
       title: 'Valuation',
-      href: '/inventory-valuation',
+      href: '/inventory/valuation',
       isActive: false,
       disabled: false,
     },

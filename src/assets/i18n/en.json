@@ -2021,7 +2021,8 @@
       "productType": "Type",
       "trackingMode": "Tracking Mode",
       "actions": "Actions",
-      "createdAt": "Created At"
+      "createdAt": "Created At",
+      "uom": "Base UOM"
     },
     "form": {
       "basicInfo": "Basic Information",
@@ -2157,6 +2158,27 @@
       "updated": "Product updated successfully",
       "deleted": "Product deleted successfully",
       "error": "An error occurred while saving product"
+    },
+    "filters": {
+      "all": "All",
+      "inStock": "In Stock",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock",
+      "inactive": "Inactive",
+      "filtersButton": "Filters",
+      "drawerTitle": "Filter Products",
+      "drawerDesc": "Filter catalog by category, brand, UOM, supplier, and status.",
+      "activeCount": "active",
+      "allCategories": "All Categories",
+      "allBrands": "All Brands",
+      "allUoms": "All Units",
+      "allSuppliers": "All Suppliers",
+      "allTypes": "All Types",
+      "allStatuses": "All Statuses"
+    },
+    "view": {
+      "tableView": "Table View",
+      "gridView": "Grid View"
     }
   },
   "categories": {
