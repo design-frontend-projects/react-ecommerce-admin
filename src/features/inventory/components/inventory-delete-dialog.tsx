@@ -24,7 +24,8 @@ export function InventoryDeleteDialog({
 
   const handleDelete = async () => {
     try {
-      await deleteMutation.mutateAsync(currentRow.inventory_id)
+      const targetId = currentRow.id || String(currentRow.inventory_id)
+      await deleteMutation.mutateAsync(targetId)
       toast.success(t('inventory.toast.deleted', 'Inventory record deleted successfully'))
       onOpenChange(false)
     } catch (error) {

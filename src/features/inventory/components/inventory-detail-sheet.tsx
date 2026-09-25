@@ -43,7 +43,8 @@ export function InventoryDetailSheet() {
 
   const handleCopyId = () => {
     if (!currentRow) return
-    void navigator.clipboard.writeText(String(currentRow.inventory_id))
+    const idToCopy = currentRow.id || String(currentRow.inventory_id)
+    void navigator.clipboard.writeText(idToCopy)
     setCopiedId(true)
     setTimeout(() => setCopiedId(false), 2000)
   }
@@ -121,7 +122,9 @@ export function InventoryDetailSheet() {
             </div>
 
             <SheetDescription className='text-xs text-muted-foreground flex items-center gap-2'>
-              <span>ID: #{currentRow.inventory_id}</span>
+              <span>
+                ID: {currentRow.id ? `${currentRow.id.slice(0, 8)}...` : `#${currentRow.inventory_id}`}
+              </span>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>

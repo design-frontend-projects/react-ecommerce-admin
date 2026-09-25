@@ -404,7 +404,7 @@ export const ModelName = {
   product_variants: 'product_variants',
   products: 'products',
   product_types: 'product_types',
-  inventory: 'inventory',
+  inventory_items: 'inventory_items',
   pos_reorder_requests: 'pos_reorder_requests',
   promotion_usage: 'promotion_usage',
   promotions: 'promotions',
@@ -543,7 +543,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2027,77 +2027,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    inventory: {
-      payload: Prisma.$inventoryPayload<ExtArgs>
-      fields: Prisma.inventoryFieldRefs
+    inventory_items: {
+      payload: Prisma.$inventory_itemsPayload<ExtArgs>
+      fields: Prisma.inventory_itemsFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.inventoryFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload> | null
+          args: Prisma.inventory_itemsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.inventoryFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>
+          args: Prisma.inventory_itemsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>
         }
         findFirst: {
-          args: Prisma.inventoryFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload> | null
+          args: Prisma.inventory_itemsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.inventoryFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>
+          args: Prisma.inventory_itemsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>
         }
         findMany: {
-          args: Prisma.inventoryFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>[]
+          args: Prisma.inventory_itemsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>[]
         }
         create: {
-          args: Prisma.inventoryCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>
+          args: Prisma.inventory_itemsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>
         }
         createMany: {
-          args: Prisma.inventoryCreateManyArgs<ExtArgs>
+          args: Prisma.inventory_itemsCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.inventoryCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>[]
+          args: Prisma.inventory_itemsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>[]
         }
         delete: {
-          args: Prisma.inventoryDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>
+          args: Prisma.inventory_itemsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>
         }
         update: {
-          args: Prisma.inventoryUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>
+          args: Prisma.inventory_itemsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>
         }
         deleteMany: {
-          args: Prisma.inventoryDeleteManyArgs<ExtArgs>
+          args: Prisma.inventory_itemsDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.inventoryUpdateManyArgs<ExtArgs>
+          args: Prisma.inventory_itemsUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.inventoryUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>[]
+          args: Prisma.inventory_itemsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>[]
         }
         upsert: {
-          args: Prisma.inventoryUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventoryPayload>
+          args: Prisma.inventory_itemsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$inventory_itemsPayload>
         }
         aggregate: {
-          args: Prisma.InventoryAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateInventory>
+          args: Prisma.Inventory_itemsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInventory_items>
         }
         groupBy: {
-          args: Prisma.inventoryGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.InventoryGroupByOutputType>[]
+          args: Prisma.inventory_itemsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inventory_itemsGroupByOutputType>[]
         }
         count: {
-          args: Prisma.inventoryCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.InventoryCountAggregateOutputType> | number
+          args: Prisma.inventory_itemsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Inventory_itemsCountAggregateOutputType> | number
         }
       }
     }
@@ -11635,38 +11635,27 @@ export const Product_typesScalarFieldEnum = {
 export type Product_typesScalarFieldEnum = (typeof Product_typesScalarFieldEnum)[keyof typeof Product_typesScalarFieldEnum]
 
 
-export const InventoryScalarFieldEnum = {
-  inventory_id: 'inventory_id',
-  store_id: 'store_id',
-  warehouse_id: 'warehouse_id',
-  warehouse_location_id: 'warehouse_location_id',
-  created_at: 'created_at',
-  last_count_date: 'last_count_date',
-  last_restocked_date: 'last_restocked_date',
-  max_quantity: 'max_quantity',
-  min_quantity: 'min_quantity',
-  reorder_point: 'reorder_point',
-  safety_stock: 'safety_stock',
-  reorder_quantity: 'reorder_quantity',
-  reorder_level: 'reorder_level',
-  unit_cost: 'unit_cost',
-  lead_time_days: 'lead_time_days',
-  is_active: 'is_active',
-  status: 'status',
-  aisle: 'aisle',
-  rack: 'rack',
-  shelf: 'shelf',
-  bin: 'bin',
-  notes: 'notes',
+export const Inventory_itemsScalarFieldEnum = {
+  id: 'id',
   tenant_id: 'tenant_id',
-  updated_at: 'updated_at',
-  product_id: 'product_id',
   product_variant_id: 'product_variant_id',
+  sku: 'sku',
+  barcode: 'barcode',
+  is_stockable: 'is_stockable',
+  is_sellable: 'is_sellable',
+  is_purchasable: 'is_purchasable',
+  tracking_type: 'tracking_type',
+  unit_of_measure_id: 'unit_of_measure_id',
+  status: 'status',
+  is_active: 'is_active',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
-export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
+export type Inventory_itemsScalarFieldEnum = (typeof Inventory_itemsScalarFieldEnum)[keyof typeof Inventory_itemsScalarFieldEnum]
 
 
 export const Pos_reorder_requestsScalarFieldEnum = {
@@ -15504,7 +15493,7 @@ export type GlobalOmitConfig = {
   product_variants?: Prisma.product_variantsOmit
   products?: Prisma.productsOmit
   product_types?: Prisma.product_typesOmit
-  inventory?: Prisma.inventoryOmit
+  inventory_items?: Prisma.inventory_itemsOmit
   pos_reorder_requests?: Prisma.pos_reorder_requestsOmit
   promotion_usage?: Prisma.promotion_usageOmit
   promotions?: Prisma.promotionsOmit

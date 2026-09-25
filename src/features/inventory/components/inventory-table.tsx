@@ -122,7 +122,7 @@ export function InventoryTable({ data }: Props) {
         const total = qty * cost
 
         return [
-          item.inventory_id,
+          item.id || item.inventory_id,
           `"${(item.products?.name ?? '').replace(/"/g, '""')}"`,
           `"${item.products?.sku ?? ''}"`,
           `"${item.product_variants?.sku ?? ''}"`,

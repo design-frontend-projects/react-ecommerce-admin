@@ -142,10 +142,10 @@ export type products = Prisma.productsModel
  */
 export type product_types = Prisma.product_typesModel
 /**
- * Model inventory
+ * Model inventory_items
  * 
  */
-export type inventory = Prisma.inventoryModel
+export type inventory_items = Prisma.inventory_itemsModel
 /**
  * Model pos_reorder_requests
  * 

@@ -12,8 +12,17 @@ import {
 } from '../data/schema'
 
 export interface InventoryInput {
+  id?: string
+  inventory_id?: string | number
   product_id: string
   product_variant_id?: string | null
+  sku?: string
+  barcode?: string | null
+  is_stockable?: boolean
+  is_sellable?: boolean
+  is_purchasable?: boolean
+  tracking_type?: 'NONE' | 'LOT' | 'SERIAL' | 'LOT_AND_SERIAL' | string
+  unit_of_measure_id?: string | null
   store_id?: string | null
   warehouse_id?: string | null
   warehouse_location_id?: string | null
@@ -62,77 +71,50 @@ export const useInventory = () => {
     queryFn: async () => {
       const { tenantId } = getAuthTenantAndUser()
 
-      // 1. Fetch inventory records with relationships
-      let query = supabase.from('inventory').select(`
-          inventory_id,
-          product_id,
-          product_variant_id,
-          store_id,
-          warehouse_id,
-          warehouse_location_id,
-          reorder_point,
-          min_quantity,
-          max_quantity,
-          safety_stock,
-          reorder_quantity,
-          reorder_level,
-          unit_cost,
-          lead_time_days,
-          is_active,
-          status,
-          aisle,
-          rack,
-          shelf,
-          bin,
-          last_count_date,
-          last_restocked_date,
-          notes,
+      // 1. Fetch inventory_items records with variant & product relations
+      let query = supabase.from('inventory_items').select(`
+          id,
           tenant_id,
+          product_variant_id,
+          sku,
+          barcode,
+          is_stockable,
+          is_sellable,
+          is_purchasable,
+          tracking_type,
+          unit_of_measure_id,
+          status,
+          is_active,
+          notes,
           created_at,
           updated_at,
           created_by_user_id,
           updated_by_user_id,
-          products (
-            id,
-            name,
-            sku,
-            has_variants,
-            barcode,
-            categories ( name ),
-            brands ( name )
-          ),
           product_variants (
             id,
             product_id,
             name,
             sku,
             barcode,
-            price_list_items ( price, cost_price )
-          ),
-          stores (
-            store_id,
-            name
-          ),
-          warehouses (
-            id,
-            name,
-            code,
-            is_default,
+            weight,
+            dimensions,
             is_active,
-            phone,
-            email,
-            address,
-            allow_negative_stock
+            price_list_items ( price, cost_price ),
+            products (
+              id,
+              name,
+              sku,
+              has_variants,
+              barcode,
+              categories ( name ),
+              brands ( name )
+            )
           ),
-          warehouse_locations (
+          uoms (
             id,
-            name,
             code,
-            location_type,
-            path,
-            is_pickable,
-            is_receivable,
-            is_default
+            name,
+            is_base
           )
         `)
 
@@ -141,10 +123,8 @@ export const useInventory = () => {
       }
 
       const { data: inventoryData, error: inventoryError } = await query.order(
-        'inventory_id',
-        {
-          ascending: false,
-        }
+        'created_at',
+        { ascending: false }
       )
 
       if (inventoryError) throw inventoryError
@@ -161,7 +141,9 @@ export const useInventory = () => {
           qty_available,
           avg_cost,
           condition,
-          last_movement_at
+          last_movement_at,
+          warehouses ( id, name, code ),
+          warehouse_locations ( id, name, code )
         `)
 
       if (tenantId) {
@@ -170,42 +152,39 @@ export const useInventory = () => {
 
       const { data: stockBalances } = await sbQuery
 
-      interface RawStockBalanceItem {
-        id: string
-        product_variant_id?: string | null
-        warehouse_id?: string | null
-        location_id?: string | null
-        store_id?: string | null
-        qty_on_hand?: number | string | null
-        qty_reserved?: number | string | null
-        qty_available?: number | string | null
-        avg_cost?: number | string | null
-        condition?: string | null
-        last_movement_at?: string | null
+      // 3. Fetch reorder_rules to aggregate reorder policies
+      let rrQuery = supabase.from('reorder_rules').select(`
+          id,
+          product_variant_id,
+          warehouse_id,
+          store_id,
+          min_qty,
+          max_qty,
+          safety_stock,
+          reorder_point,
+          reorder_qty,
+          lead_time_days,
+          warehouses ( id, name, code ),
+          stores ( store_id, name )
+        `)
+
+      if (tenantId) {
+        rrQuery = rrQuery.eq('tenant_id', tenantId)
       }
 
-      const balances =
-        (stockBalances as unknown as RawStockBalanceItem[] | null) || []
+      const { data: reorderRules } = await rrQuery
 
-      // 3. Merge aggregated stock balance quantities into each inventory item
-      return (inventoryData || []).map((rawItem: unknown) => {
-        const item = rawItem as Inventory
-        // Find matching stock balances for this item
-        const matchingBalances = balances.filter((sb) => {
-          if (item.product_variant_id) {
-            if (sb.product_variant_id !== item.product_variant_id) return false
-          }
-          if (item.warehouse_id && sb.warehouse_id) {
-            if (sb.warehouse_id !== item.warehouse_id) return false
-          }
-          if (item.warehouse_location_id && sb.location_id) {
-            if (sb.location_id !== item.warehouse_location_id) return false
-          }
-          if (item.store_id && sb.store_id) {
-            if (sb.store_id !== item.store_id) return false
-          }
-          return true
-        })
+      const balances = (stockBalances as any[]) || []
+      const rules = (reorderRules as any[]) || []
+
+      // 4. Merge aggregated stock balance quantities and reorder rules
+      return (inventoryData || []).map((rawItem: any) => {
+        const matchingBalances = balances.filter(
+          (sb) => sb.product_variant_id === rawItem.product_variant_id
+        )
+        const matchingRule = rules.find(
+          (rr) => rr.product_variant_id === rawItem.product_variant_id
+        )
 
         const qty_on_hand = matchingBalances.reduce(
           (sum, b) => sum + Number(b.qty_on_hand || 0),
@@ -220,10 +199,8 @@ export const useInventory = () => {
           0
         )
 
-        // Calculate weighted average cost or default to first available
         const totalValue = matchingBalances.reduce(
-          (sum, b) =>
-            sum + Number(b.qty_on_hand || 0) * Number(b.avg_cost || 0),
+          (sum, b) => sum + Number(b.qty_on_hand || 0) * Number(b.avg_cost || 0),
           0
         )
         const avg_cost =
@@ -232,22 +209,106 @@ export const useInventory = () => {
             : Number(matchingBalances[0]?.avg_cost ?? 0)
 
         const condition = matchingBalances[0]?.condition ?? 'good'
+        const primaryWh = matchingRule?.warehouses || matchingBalances[0]?.warehouses || null
+        const primaryLoc = matchingBalances[0]?.warehouse_locations || null
+        const primaryStore = matchingRule?.stores || null
+
+        const prod = rawItem.product_variants?.products
 
         return {
-          ...item,
+          id: rawItem.id,
+          inventory_id: rawItem.id,
+          tenant_id: rawItem.tenant_id,
+          product_variant_id: rawItem.product_variant_id,
+          product_id: rawItem.product_variants?.product_id,
+          sku: rawItem.sku,
+          barcode: rawItem.barcode,
+          is_stockable: rawItem.is_stockable,
+          is_sellable: rawItem.is_sellable,
+          is_purchasable: rawItem.is_purchasable,
+          tracking_type: rawItem.tracking_type,
+          unit_of_measure_id: rawItem.unit_of_measure_id,
+          status: rawItem.status,
+          is_active: rawItem.is_active,
+          notes: rawItem.notes,
+          created_at: rawItem.created_at,
+          updated_at: rawItem.updated_at,
+          created_by_user_id: rawItem.created_by_user_id,
+          updated_by_user_id: rawItem.updated_by_user_id,
+
+          products: prod
+            ? {
+                id: prod.id,
+                name: prod.name,
+                sku: prod.sku,
+                has_variants: prod.has_variants,
+                barcode: prod.barcode,
+                category: prod.categories?.name ?? null,
+                brand: prod.brands?.name ?? null,
+              }
+            : null,
+
+          product_variants: rawItem.product_variants
+            ? {
+                id: rawItem.product_variants.id,
+                product_id: rawItem.product_variants.product_id,
+                name: rawItem.product_variants.name,
+                sku: rawItem.product_variants.sku,
+                barcode: rawItem.product_variants.barcode,
+                weight: rawItem.product_variants.weight
+                  ? Number(rawItem.product_variants.weight)
+                  : null,
+                dimensions: rawItem.product_variants.dimensions,
+                is_active: rawItem.product_variants.is_active,
+                price:
+                  Number(
+                    rawItem.product_variants.price_list_items?.[0]?.price ?? 0
+                  ) || null,
+                cost_price:
+                  Number(
+                    rawItem.product_variants.price_list_items?.[0]?.cost_price ??
+                      0
+                  ) || null,
+                qty_on_hand,
+                qty_available,
+                qty_reserved,
+                attributes_label: rawItem.product_variants.name || '',
+              }
+            : null,
+
+          uoms: rawItem.uoms || null,
+
+          // Reorder thresholds from reorder_rules
+          reorder_point: matchingRule ? Number(matchingRule.reorder_point || 0) : 0,
+          min_quantity: matchingRule ? Number(matchingRule.min_qty || 0) : 0,
+          max_quantity: matchingRule?.max_qty != null ? Number(matchingRule.max_qty) : null,
+          safety_stock: matchingRule ? Number(matchingRule.safety_stock || 0) : 0,
+          reorder_quantity: matchingRule ? Number(matchingRule.reorder_qty || 0) : 0,
+          lead_time_days: matchingRule?.lead_time_days ?? 1,
+          warehouse_id: matchingRule?.warehouse_id || primaryWh?.id || null,
+          store_id: matchingRule?.store_id || primaryStore?.store_id || null,
+          warehouse_location_id: primaryLoc?.id || null,
+          warehouses: primaryWh,
+          warehouse_locations: primaryLoc,
+          stores: primaryStore,
+
+          // Real-time stock balance metrics
           qty_on_hand,
           qty_reserved,
           qty_available,
           avg_cost: Number(avg_cost) || 0,
+          unit_cost:
+            Number(avg_cost) ||
+            Number(rawItem.product_variants?.price_list_items?.[0]?.cost_price ?? 0) ||
+            null,
           condition,
+
           // Compatibility fields
           quantity: qty_on_hand,
-          reorder_level: item.reorder_point ?? item.min_quantity ?? 0,
-          max_stock_level: item.max_quantity ?? null,
-          last_restocked:
-            item.last_count_date ?? item.updated_at ?? item.created_at,
-          location:
-            item.warehouse_locations?.code || item.warehouses?.code || null,
+          reorder_level: matchingRule ? Number(matchingRule.reorder_point || 0) : 0,
+          max_stock_level: matchingRule?.max_qty != null ? Number(matchingRule.max_qty) : null,
+          last_restocked: rawItem.updated_at || rawItem.created_at,
+          location: primaryLoc?.code || primaryWh?.code || null,
         } as Inventory
       })
     },
@@ -261,73 +322,93 @@ export const useCreateInventory = () => {
     mutationFn: async (input: InventoryInput | InventoryFormValues) => {
       const { tenantId, userId } = getAuthTenantAndUser()
 
-      const payload = {
-        product_id: input.product_id,
-        product_variant_id: input.product_variant_id || null,
-        store_id: input.store_id || null,
-        warehouse_id: input.warehouse_id || null,
-        warehouse_location_id: input.warehouse_location_id || null,
-        reorder_point: input.reorder_point ?? input.reorder_level ?? 0,
-        min_quantity: input.min_quantity ?? input.reorder_level ?? 0,
-        max_quantity: input.max_quantity ?? input.max_stock_level ?? null,
-        safety_stock: input.safety_stock ?? 0,
-        reorder_quantity: input.reorder_quantity ?? 0,
-        reorder_level: input.reorder_level ?? input.reorder_point ?? 0,
-        unit_cost: input.unit_cost ?? null,
-        lead_time_days: input.lead_time_days ?? 1,
-        is_active: input.is_active !== false,
-        status: input.status || 'active',
-        aisle: input.aisle || null,
-        rack: input.rack || null,
-        shelf: input.shelf || null,
-        bin: input.bin || null,
-        last_count_date: input.last_count_date || new Date().toISOString(),
-        last_restocked_date: input.last_restocked_date || null,
-        notes: input.notes || null,
+      // Look up variant SKU / barcode if not passed
+      let sku = input.sku
+      let barcode = input.barcode
+      if (!sku && input.product_variant_id && input.product_variant_id !== 'none') {
+        const { data: v } = await supabase
+          .from('product_variants')
+          .select('sku, barcode')
+          .eq('id', input.product_variant_id)
+          .maybeSingle()
+        if (v) {
+          sku = v.sku
+          if (!barcode) barcode = v.barcode
+        }
+      }
+
+      const itemPayload = {
         tenant_id: input.tenant_id || tenantId,
+        product_variant_id: input.product_variant_id,
+        sku: sku || 'SKU-' + Date.now(),
+        barcode: barcode || null,
+        is_stockable: input.is_stockable !== false,
+        is_sellable: input.is_sellable !== false,
+        is_purchasable: input.is_purchasable !== false,
+        tracking_type: input.tracking_type || 'NONE',
+        unit_of_measure_id:
+          input.unit_of_measure_id && input.unit_of_measure_id !== 'none'
+            ? input.unit_of_measure_id
+            : null,
+        status: input.status || 'ACTIVE',
+        is_active: input.is_active !== false,
+        notes: input.notes || null,
         created_by_user_id: userId,
         updated_by_user_id: userId,
       }
 
       const { data, error } = await supabase
-        .from('inventory')
-        .insert(payload)
-        .select(
-          `
-          inventory_id,
-          product_id,
-          product_variant_id,
-          store_id,
-          warehouse_id,
-          warehouse_location_id,
-          reorder_point,
-          min_quantity,
-          max_quantity,
-          safety_stock,
-          reorder_quantity,
-          reorder_level,
-          unit_cost,
-          lead_time_days,
-          is_active,
-          status,
-          aisle,
-          rack,
-          shelf,
-          bin,
-          last_count_date,
-          last_restocked_date,
-          notes,
+        .from('inventory_items')
+        .insert(itemPayload)
+        .select(`
+          id,
           tenant_id,
-          products (id, name, sku, has_variants),
-          product_variants (id, product_id, name, sku),
-          stores (store_id, name),
-          warehouses (id, name, code),
-          warehouse_locations (id, name, code, location_type, path)
-        `
-        )
-        .maybeSingle()
+          product_variant_id,
+          sku,
+          barcode,
+          is_stockable,
+          is_sellable,
+          is_purchasable,
+          tracking_type,
+          unit_of_measure_id,
+          status,
+          is_active,
+          notes,
+          created_at,
+          updated_at
+        `)
+        .single()
 
       if (error) throw error
+
+      // If reorder thresholds are configured, insert into reorder_rules
+      if (
+        input.reorder_point != null ||
+        input.min_quantity != null ||
+        input.max_quantity != null ||
+        input.warehouse_id
+      ) {
+        await supabase.from('reorder_rules').insert({
+          tenant_id: input.tenant_id || tenantId,
+          product_variant_id: input.product_variant_id,
+          warehouse_id:
+            input.warehouse_id && input.warehouse_id !== 'none'
+              ? input.warehouse_id
+              : null,
+          store_id:
+            input.store_id && input.store_id !== 'none' ? input.store_id : null,
+          min_qty: input.min_quantity ?? input.reorder_level ?? 0,
+          max_qty: input.max_quantity ?? input.max_stock_level ?? null,
+          safety_stock: input.safety_stock ?? 0,
+          reorder_point: input.reorder_point ?? input.reorder_level ?? 0,
+          reorder_qty: input.reorder_quantity ?? 0,
+          lead_time_days: input.lead_time_days ?? 1,
+          is_active: true,
+          created_by_user_id: userId,
+          updated_by_user_id: userId,
+        })
+      }
+
       return data
     },
     onSuccess: () => {
@@ -341,89 +422,90 @@ export const useUpdateInventory = () => {
 
   return useMutation({
     mutationFn: async ({
+      id,
       inventory_id,
       ...updates
-    }: (InventoryInput | InventoryFormValues) & { inventory_id: number }) => {
-      const { userId } = getAuthTenantAndUser()
+    }: (InventoryInput | InventoryFormValues) & {
+      id?: string
+      inventory_id?: string | number
+    }) => {
+      const { tenantId, userId } = getAuthTenantAndUser()
+      const targetId = id || String(inventory_id)
 
-      const payload: Record<string, unknown> = {
-        product_id: updates.product_id,
-        product_variant_id: updates.product_variant_id || null,
-        reorder_point: updates.reorder_point ?? updates.reorder_level ?? 0,
-        min_quantity: updates.min_quantity ?? updates.reorder_level ?? 0,
-        max_quantity: updates.max_quantity ?? updates.max_stock_level ?? null,
-        safety_stock: updates.safety_stock ?? 0,
-        reorder_quantity: updates.reorder_quantity ?? 0,
-        reorder_level: updates.reorder_level ?? updates.reorder_point ?? 0,
-        unit_cost: updates.unit_cost ?? null,
-        lead_time_days: updates.lead_time_days ?? 1,
-        is_active: updates.is_active !== false,
-        status: updates.status || 'active',
-        aisle: updates.aisle || null,
-        rack: updates.rack || null,
-        shelf: updates.shelf || null,
-        bin: updates.bin || null,
-        notes: updates.notes || null,
+      const itemPayload: Record<string, unknown> = {
         updated_by_user_id: userId,
         updated_at: new Date().toISOString(),
       }
 
-      if (updates.store_id !== undefined) {
-        payload.store_id = updates.store_id || null
-      }
-      if (updates.warehouse_id !== undefined) {
-        payload.warehouse_id = updates.warehouse_id || null
-      }
-      if (updates.warehouse_location_id !== undefined) {
-        payload.warehouse_location_id = updates.warehouse_location_id || null
-      }
-      if (updates.last_count_date) {
-        payload.last_count_date = updates.last_count_date
-      }
-      if (updates.last_restocked_date !== undefined) {
-        payload.last_restocked_date = updates.last_restocked_date || null
+      if (updates.is_stockable !== undefined)
+        itemPayload.is_stockable = updates.is_stockable !== false
+      if (updates.is_sellable !== undefined)
+        itemPayload.is_sellable = updates.is_sellable !== false
+      if (updates.is_purchasable !== undefined)
+        itemPayload.is_purchasable = updates.is_purchasable !== false
+      if (updates.tracking_type) itemPayload.tracking_type = updates.tracking_type
+      if (updates.status) itemPayload.status = updates.status
+      if (updates.is_active !== undefined)
+        itemPayload.is_active = updates.is_active !== false
+      if (updates.notes !== undefined) itemPayload.notes = updates.notes || null
+      if (updates.unit_of_measure_id !== undefined) {
+        itemPayload.unit_of_measure_id =
+          updates.unit_of_measure_id && updates.unit_of_measure_id !== 'none'
+            ? updates.unit_of_measure_id
+            : null
       }
 
       const { data, error } = await supabase
-        .from('inventory')
-        .update(payload)
-        .eq('inventory_id', inventory_id)
-        .select(
-          `
-          inventory_id,
-          product_id,
-          product_variant_id,
-          store_id,
-          warehouse_id,
-          warehouse_location_id,
-          reorder_point,
-          min_quantity,
-          max_quantity,
-          safety_stock,
-          reorder_quantity,
-          reorder_level,
-          unit_cost,
-          lead_time_days,
-          is_active,
-          status,
-          aisle,
-          rack,
-          shelf,
-          bin,
-          last_count_date,
-          last_restocked_date,
-          notes,
-          tenant_id,
-          products (id, name, sku, has_variants),
-          product_variants (id, product_id, name, sku),
-          stores (store_id, name),
-          warehouses (id, name, code),
-          warehouse_locations (id, name, code, location_type, path)
-        `
-        )
-        .maybeSingle()
+        .from('inventory_items')
+        .update(itemPayload)
+        .eq('id', targetId)
+        .select()
+        .single()
 
       if (error) throw error
+
+      // Update or insert reorder_rules if variant and reorder parameters exist
+      if (updates.product_variant_id && updates.product_variant_id !== 'none') {
+        const rrPayload = {
+          tenant_id: updates.tenant_id || tenantId,
+          product_variant_id: updates.product_variant_id,
+          warehouse_id:
+            updates.warehouse_id && updates.warehouse_id !== 'none'
+              ? updates.warehouse_id
+              : null,
+          store_id:
+            updates.store_id && updates.store_id !== 'none'
+              ? updates.store_id
+              : null,
+          min_qty: updates.min_quantity ?? updates.reorder_level ?? 0,
+          max_qty: updates.max_quantity ?? updates.max_stock_level ?? null,
+          safety_stock: updates.safety_stock ?? 0,
+          reorder_point: updates.reorder_point ?? updates.reorder_level ?? 0,
+          reorder_qty: updates.reorder_quantity ?? 0,
+          lead_time_days: updates.lead_time_days ?? 1,
+          is_active: updates.is_active !== false,
+          updated_by_user_id: userId,
+          updated_at: new Date().toISOString(),
+        }
+
+        const { data: existingRule } = await supabase
+          .from('reorder_rules')
+          .select('id')
+          .eq('product_variant_id', updates.product_variant_id)
+          .maybeSingle()
+
+        if (existingRule) {
+          await supabase
+            .from('reorder_rules')
+            .update(rrPayload)
+            .eq('id', existingRule.id)
+        } else if (updates.reorder_point != null || updates.min_quantity != null) {
+          await supabase
+            .from('reorder_rules')
+            .insert({ ...rrPayload, created_by_user_id: userId })
+        }
+      }
+
       return data
     },
     onSuccess: () => {
@@ -436,14 +518,23 @@ export const useDeleteInventory = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (inventory_id: number) => {
+    mutationFn: async (idOrInventoryId: string | number) => {
+      const { userId } = getAuthTenantAndUser()
+      const targetId = String(idOrInventoryId)
+
+      // Lifecycle rule: Soft deactivate rather than hard delete historical records
       const { error } = await supabase
-        .from('inventory')
-        .delete()
-        .eq('inventory_id', inventory_id)
+        .from('inventory_items')
+        .update({
+          status: 'INACTIVE',
+          is_active: false,
+          updated_by_user_id: userId,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', targetId)
 
       if (error) throw error
-      return inventory_id
+      return targetId
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inventory'] })

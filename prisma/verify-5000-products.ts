@@ -15,13 +15,13 @@ async function verify5000MiddleEastProducts() {
     totalVariants,
     totalPriceListItems,
     totalStockBalances,
-    totalInventory,
+    totalInventoryItems,
   ] = await Promise.all([
     prisma.products.count({ where: { tenant_id: TENANT_ID } }),
     prisma.product_variants.count({ where: { tenant_id: TENANT_ID } }),
     prisma.price_list_items.count({ where: { tenant_id: TENANT_ID, price_list_id: DEFAULT_PRICE_LIST_ID } }),
     prisma.stock_balances.count({ where: { tenant_id: TENANT_ID } }),
-    prisma.inventory.count({ where: { tenant_id: TENANT_ID } }),
+    prisma.inventory_items.count({ where: { tenant_id: TENANT_ID } }),
   ]);
 
   console.log('\n📊 DATABASE RECORD COUNTS FOR TENANT:');
@@ -29,7 +29,7 @@ async function verify5000MiddleEastProducts() {
   console.log(`   - Total Product Variants:   ${totalVariants.toLocaleString()}`);
   console.log(`   - Active Price List Items:  ${totalPriceListItems.toLocaleString()}`);
   console.log(`   - Warehouse Stock Balances: ${totalStockBalances.toLocaleString()}`);
-  console.log(`   - Inventory Tracking Rules: ${totalInventory.toLocaleString()}`);
+  console.log(`   - Inventory Items (Catalog):${totalInventoryItems.toLocaleString()}`);
 
   // 2. Barcode & SKU Integrity Check
   const sampleVariants = await prisma.product_variants.findMany({

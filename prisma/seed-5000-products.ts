@@ -87,7 +87,8 @@ async function seed5000MiddleEastProducts() {
     const chunkVariantData: any[] = [];
     const chunkPriceListData: any[] = [];
     const chunkStockBalanceData: any[] = [];
-    const chunkInventoryData: any[] = [];
+    const chunkInventoryItemsData: any[] = [];
+    const chunkReorderRulesData: any[] = [];
 
     for (let pIdx = 0; pIdx < chunk.length; pIdx++) {
       const p = chunk[pIdx];
@@ -209,33 +210,37 @@ async function seed5000MiddleEastProducts() {
           version: 0,
         });
 
-        // Inventory reorder parameters (Main warehouse)
+        // Inventory reorder parameters & rule
         const reorderPt = Math.max(10, Math.round(cairoQty * 0.3));
         const safetyStk = Math.max(5, Math.round(reorderPt * 0.5));
         const reorderQty = Math.max(25, reorderPt * 3);
-        const aisleChar = String.fromCharCode(65 + ((pIdx + batchStart) % 8)); // A through H
-        const rackNum = String(1 + ((pIdx + vIdx) % 15)).padStart(2, '0');
-        const shelfNum = String(1 + ((pIdx + vIdx) % 5));
-        const binNum = String(1 + ((pIdx * 3 + vIdx) % 20)).padStart(2, '0');
 
-        chunkInventoryData.push({
+        chunkInventoryItemsData.push({
+          id: randomUUID(),
           tenant_id: TENANT_ID,
-          product_id: prodId,
+          product_variant_id: varId,
+          sku: v.sku,
+          barcode: v.barcode,
+          tracking_type: p.tracking_mode === 'batch' ? 'BATCH' : p.tracking_mode === 'serial' ? 'SERIAL' : 'STANDARD',
+          is_stockable: true,
+          is_sellable: true,
+          is_purchasable: true,
+          unit_of_measure_id: varUomId,
+          status: 'ACTIVE',
+          is_active: true,
+        });
+
+        chunkReorderRulesData.push({
+          id: randomUUID(),
+          tenant_id: TENANT_ID,
           product_variant_id: varId,
           warehouse_id: EGYPT_WAREHOUSE_ID,
-          min_quantity: safetyStk,
-          max_quantity: reorderQty * 4,
+          min_stock: safetyStk,
           reorder_point: reorderPt,
-          safety_stock: safetyStk,
           reorder_quantity: reorderQty,
-          unit_cost: v.cost_price,
+          max_stock: reorderQty * 4,
           lead_time_days: 7,
           is_active: true,
-          status: 'active',
-          aisle: aisleChar,
-          rack: `R${rackNum}`,
-          shelf: `S${shelfNum}`,
-          bin: `B${binNum}`,
         });
       }
     }
@@ -247,7 +252,8 @@ async function seed5000MiddleEastProducts() {
       await tx.product_variants.createMany({ data: chunkVariantData });
       await tx.price_list_items.createMany({ data: chunkPriceListData });
       await tx.stock_balances.createMany({ data: chunkStockBalanceData });
-      await tx.inventory.createMany({ data: chunkInventoryData });
+      await tx.inventory_items.createMany({ data: chunkInventoryItemsData });
+      await tx.reorder_rules.createMany({ data: chunkReorderRulesData });
     }, {
       timeout: 30000,
     });
@@ -257,7 +263,7 @@ async function seed5000MiddleEastProducts() {
     totalVariantsInserted += chunkVariantData.length;
     totalPricesInserted += chunkPriceListData.length;
     totalStockBalancesInserted += chunkStockBalanceData.length;
-    totalInventoryInserted += chunkInventoryData.length;
+    totalInventoryInserted += chunkInventoryItemsData.length;
 
     const progressPct = (((batchIdx + 1) / totalBatches) * 100).toFixed(1);
     console.log(

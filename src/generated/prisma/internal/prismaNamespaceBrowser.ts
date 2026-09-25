@@ -71,7 +71,7 @@ export const ModelName = {
   product_variants: 'product_variants',
   products: 'products',
   product_types: 'product_types',
-  inventory: 'inventory',
+  inventory_items: 'inventory_items',
   pos_reorder_requests: 'pos_reorder_requests',
   promotion_usage: 'promotion_usage',
   promotions: 'promotions',
@@ -606,38 +606,27 @@ export const Product_typesScalarFieldEnum = {
 export type Product_typesScalarFieldEnum = (typeof Product_typesScalarFieldEnum)[keyof typeof Product_typesScalarFieldEnum]
 
 
-export const InventoryScalarFieldEnum = {
-  inventory_id: 'inventory_id',
-  store_id: 'store_id',
-  warehouse_id: 'warehouse_id',
-  warehouse_location_id: 'warehouse_location_id',
-  created_at: 'created_at',
-  last_count_date: 'last_count_date',
-  last_restocked_date: 'last_restocked_date',
-  max_quantity: 'max_quantity',
-  min_quantity: 'min_quantity',
-  reorder_point: 'reorder_point',
-  safety_stock: 'safety_stock',
-  reorder_quantity: 'reorder_quantity',
-  reorder_level: 'reorder_level',
-  unit_cost: 'unit_cost',
-  lead_time_days: 'lead_time_days',
-  is_active: 'is_active',
-  status: 'status',
-  aisle: 'aisle',
-  rack: 'rack',
-  shelf: 'shelf',
-  bin: 'bin',
-  notes: 'notes',
+export const Inventory_itemsScalarFieldEnum = {
+  id: 'id',
   tenant_id: 'tenant_id',
-  updated_at: 'updated_at',
-  product_id: 'product_id',
   product_variant_id: 'product_variant_id',
+  sku: 'sku',
+  barcode: 'barcode',
+  is_stockable: 'is_stockable',
+  is_sellable: 'is_sellable',
+  is_purchasable: 'is_purchasable',
+  tracking_type: 'tracking_type',
+  unit_of_measure_id: 'unit_of_measure_id',
+  status: 'status',
+  is_active: 'is_active',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
-export type InventoryScalarFieldEnum = (typeof InventoryScalarFieldEnum)[keyof typeof InventoryScalarFieldEnum]
+export type Inventory_itemsScalarFieldEnum = (typeof Inventory_itemsScalarFieldEnum)[keyof typeof Inventory_itemsScalarFieldEnum]
 
 
 export const Pos_reorder_requestsScalarFieldEnum = {

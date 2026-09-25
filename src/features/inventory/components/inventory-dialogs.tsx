@@ -21,10 +21,10 @@ export function InventoryDialogs() {
 
       {currentRow && (
         <>
-          <InventoryDetailSheet key={`inventory-detail-${currentRow.inventory_id}`} />
+          <InventoryDetailSheet key={`inventory-detail-${currentRow.id || currentRow.inventory_id}`} />
 
           <InventoryActionDialog
-            key={`inventory-edit-${currentRow.inventory_id}`}
+            key={`inventory-edit-${currentRow.id || currentRow.inventory_id}`}
             open={open === 'edit'}
             onOpenChange={(v) => {
               setOpen(v ? 'edit' : null)
@@ -36,7 +36,7 @@ export function InventoryDialogs() {
           />
 
           <InventoryDeleteDialog
-            key={`inventory-delete-${currentRow.inventory_id}`}
+            key={`inventory-delete-${currentRow.id || currentRow.inventory_id}`}
             open={open === 'delete'}
             onOpenChange={(v) => {
               setOpen(v ? 'delete' : null)

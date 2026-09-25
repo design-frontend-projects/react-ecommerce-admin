@@ -8,6 +8,7 @@ export const TENANT_SCOPED_MODELS = new Set([
   'warehouses',
   'warehouse_locations',
   'inventory',
+  'inventory_items',
   'inventory_movements',
   'inventory_movement_serials',
   'stock_balances',

@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 
 export interface ReorderAlert {
-  inventory_id: number
+  id?: string
+  inventory_id?: number | string
   product_id?: string | null
   product_variant_id?: string | null
   quantity: number

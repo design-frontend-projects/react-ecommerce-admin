@@ -20,8 +20,8 @@ export function POReorderAlerts() {
         <span className='font-medium'>{alerts.length}</span>{' '}
         {t('purchaseOrders.reorderAlerts.itemsBelowReorder', 'item(s) below reorder level:')}
         <ul className='mt-1 list-inside list-disc space-y-0.5 text-sm'>
-          {alerts.slice(0, 5).map((a) => (
-            <li key={a.inventory_id}>
+          {alerts.slice(0, 5).map((a, idx) => (
+            <li key={a.id || a.inventory_id || idx}>
               <ShoppingCart className='mr-1 inline-block h-3.5 w-3.5' />
               <strong>{a.products?.name || 'Unknown'}</strong> — {t('purchaseOrders.reorderAlerts.qty', 'Qty:')}
               {' '}{a.quantity} / {t('purchaseOrders.reorderAlerts.reorderLevel', 'Reorder Level:')} {a.reorder_level}

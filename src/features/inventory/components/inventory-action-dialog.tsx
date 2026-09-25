@@ -76,6 +76,24 @@ import {
   useStockBalancesForProduct,
 } from '../hooks/use-inventory'
 
+interface WarehouseOption {
+  id: string
+  name: string
+  code: string
+  is_default: boolean
+  is_store_default: boolean
+  is_main: boolean
+  priority: number
+  allow_fulfillment: boolean
+  allow_replenishment: boolean
+  lead_time_days: number
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  allow_negative_stock?: boolean
+  is_store_linked: boolean
+}
+
 interface Props {
   currentRow?: Inventory | null
   open: boolean
@@ -159,7 +177,8 @@ export function InventoryActionDialog({
     if (open) {
       if (currentRow) {
         form.reset({
-          inventory_id: currentRow.inventory_id,
+          id: currentRow.id,
+          inventory_id: currentRow.id || currentRow.inventory_id,
           product_id: currentRow.product_id,
           product_variant_id: currentRow.product_variant_id || null,
           store_id: currentRow.store_id || null,
@@ -297,10 +316,11 @@ export function InventoryActionDialog({
         last_restocked_date: values.last_restocked_date || null,
       }
 
-      if (isEdit && currentRow?.inventory_id) {
+      if (isEdit && (currentRow?.id || currentRow?.inventory_id)) {
         await updateMutation.mutateAsync({
           ...payload,
-          inventory_id: currentRow.inventory_id,
+          id: currentRow.id,
+          inventory_id: currentRow.id || currentRow.inventory_id,
         })
         toast.success(
           t(
@@ -354,13 +374,21 @@ export function InventoryActionDialog({
         if (!whId) return null
         const whActive = (wh?.is_active ?? sw.is_active ?? true) as boolean
         if (whActive === false) return null
+        const isDefault = Boolean(wh?.is_default ?? sw.is_default)
+        const isMain = Boolean(
+          isDefault ||
+            String(wh?.code ?? sw.code ?? '')
+              .toUpperCase()
+              .includes('MAIN')
+        )
 
         return {
           id: String(whId),
           name: String(wh?.name ?? sw.name ?? 'Warehouse'),
           code: String(wh?.code ?? sw.code ?? ''),
-          is_default: Boolean(wh?.is_default ?? sw.is_default),
+          is_default: isDefault,
           is_store_default: Boolean(sw.is_default || sw.is_store_default),
+          is_main: isMain,
           priority: Number(sw.priority ?? 1),
           allow_fulfillment: sw.allow_fulfillment !== false,
           allow_replenishment: sw.allow_replenishment !== false,
@@ -374,26 +402,11 @@ export function InventoryActionDialog({
           is_store_linked: true,
         }
       })
-      .filter(Boolean) as Array<{
-      id: string
-      name: string
-      code: string
-      is_default: boolean
-      is_store_default: boolean
-      priority: number
-      allow_fulfillment: boolean
-      allow_replenishment: boolean
-      lead_time_days: number
-      phone?: string
-      email?: string
-      address?: string
-      allow_negative_stock?: boolean
-      is_store_linked: boolean
-    }>
+      .filter(Boolean) as WarehouseOption[]
   }, [selectedStoreId, storeWarehouses])
 
   // 4. Combined warehouse options
-  const availableWarehouseOptions = useMemo(() => {
+  const availableWarehouseOptions = useMemo<WarehouseOption[]>(() => {
     if (selectedStoreId && selectedStoreId !== 'none') {
       // Strictly show warehouses connected to this store via store_warehouses
       return storeConnectedWarehouses

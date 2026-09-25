@@ -312,7 +312,6 @@ export type warehousesWhereInput = {
   stock_adjustments?: Prisma.Stock_adjustmentsListRelationFilter
   stock_transfers_from?: Prisma.Stock_transfersListRelationFilter
   stock_transfers_to?: Prisma.Stock_transfersListRelationFilter
-  inventory?: Prisma.InventoryListRelationFilter
   pos_terminals?: Prisma.Pos_terminalsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
@@ -356,7 +355,6 @@ export type warehousesOrderByWithRelationInput = {
   stock_adjustments?: Prisma.stock_adjustmentsOrderByRelationAggregateInput
   stock_transfers_from?: Prisma.stock_transfersOrderByRelationAggregateInput
   stock_transfers_to?: Prisma.stock_transfersOrderByRelationAggregateInput
-  inventory?: Prisma.inventoryOrderByRelationAggregateInput
   pos_terminals?: Prisma.pos_terminalsOrderByRelationAggregateInput
   sales_invoices?: Prisma.sales_invoicesOrderByRelationAggregateInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
@@ -403,7 +401,6 @@ export type warehousesWhereUniqueInput = Prisma.AtLeast<{
   stock_adjustments?: Prisma.Stock_adjustmentsListRelationFilter
   stock_transfers_from?: Prisma.Stock_transfersListRelationFilter
   stock_transfers_to?: Prisma.Stock_transfersListRelationFilter
-  inventory?: Prisma.InventoryListRelationFilter
   pos_terminals?: Prisma.Pos_terminalsListRelationFilter
   sales_invoices?: Prisma.Sales_invoicesListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
@@ -494,7 +491,6 @@ export type warehousesCreateInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -535,7 +531,6 @@ export type warehousesUncheckedCreateInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -576,7 +571,6 @@ export type warehousesUpdateInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -617,7 +611,6 @@ export type warehousesUncheckedUpdateInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -912,22 +905,6 @@ export type warehousesUpdateOneWithoutPos_terminalsNestedInput = {
   delete?: Prisma.warehousesWhereInput | boolean
   connect?: Prisma.warehousesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutPos_terminalsInput, Prisma.warehousesUpdateWithoutPos_terminalsInput>, Prisma.warehousesUncheckedUpdateWithoutPos_terminalsInput>
-}
-
-export type warehousesCreateNestedOneWithoutInventoryInput = {
-  create?: Prisma.XOR<Prisma.warehousesCreateWithoutInventoryInput, Prisma.warehousesUncheckedCreateWithoutInventoryInput>
-  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutInventoryInput
-  connect?: Prisma.warehousesWhereUniqueInput
-}
-
-export type warehousesUpdateOneWithoutInventoryNestedInput = {
-  create?: Prisma.XOR<Prisma.warehousesCreateWithoutInventoryInput, Prisma.warehousesUncheckedCreateWithoutInventoryInput>
-  connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutInventoryInput
-  upsert?: Prisma.warehousesUpsertWithoutInventoryInput
-  disconnect?: Prisma.warehousesWhereInput | boolean
-  delete?: Prisma.warehousesWhereInput | boolean
-  connect?: Prisma.warehousesWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutInventoryInput, Prisma.warehousesUpdateWithoutInventoryInput>, Prisma.warehousesUncheckedUpdateWithoutInventoryInput>
 }
 
 export type warehousesCreateNestedOneWithoutPurchase_ordersInput = {
@@ -1226,7 +1203,6 @@ export type warehousesCreateWithoutBranchesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -1266,7 +1242,6 @@ export type warehousesUncheckedCreateWithoutBranchesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -1357,7 +1332,6 @@ export type warehousesCreateWithoutCitiesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -1397,7 +1371,6 @@ export type warehousesUncheckedCreateWithoutCitiesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -1463,7 +1436,6 @@ export type warehousesCreateWithoutCountriesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -1503,7 +1475,6 @@ export type warehousesUncheckedCreateWithoutCountriesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -1570,7 +1541,6 @@ export type warehousesCreateWithoutPos_terminalsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
 }
@@ -1610,7 +1580,6 @@ export type warehousesUncheckedCreateWithoutPos_terminalsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
 }
@@ -1666,7 +1635,6 @@ export type warehousesUpdateWithoutPos_terminalsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
 }
@@ -1706,183 +1674,6 @@ export type warehousesUncheckedUpdateWithoutPos_terminalsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
-  sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
-  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
-}
-
-export type warehousesCreateWithoutInventoryInput = {
-  id?: string
-  tenant_id: string
-  warehouse_type_id?: string | null
-  code: string
-  name: string
-  is_default?: boolean
-  is_active?: boolean
-  allow_negative_stock?: boolean
-  phone?: string | null
-  email?: string | null
-  address?: string | null
-  notes?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  created_by_user_id?: string | null
-  updated_by_user_id?: string | null
-  warehouse_locations?: Prisma.warehouse_locationsCreateNestedManyWithoutWarehousesInput
-  store_warehouses?: Prisma.store_warehousesCreateNestedManyWithoutWarehousesInput
-  branches?: Prisma.branchesCreateNestedOneWithoutWarehousesInput
-  countries?: Prisma.countriesCreateNestedOneWithoutWarehousesInput
-  cities?: Prisma.citiesCreateNestedOneWithoutWarehousesInput
-  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutWarehousesInput
-  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutWarehousesInput
-  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutWarehousesInput
-  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutWarehousesInput
-  purchase_orders?: Prisma.purchase_ordersCreateNestedManyWithoutWarehousesInput
-  goods_receipts?: Prisma.goods_receiptsCreateNestedManyWithoutWarehousesInput
-  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutWarehousesInput
-  sales_shipments?: Prisma.sales_shipmentsCreateNestedManyWithoutWarehousesInput
-  stock_counts?: Prisma.stock_countsCreateNestedManyWithoutWarehousesInput
-  customer_returns?: Prisma.customer_returnsCreateNestedManyWithoutWarehousesInput
-  stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
-  stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
-  stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
-  sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
-  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
-}
-
-export type warehousesUncheckedCreateWithoutInventoryInput = {
-  id?: string
-  tenant_id: string
-  branch_id?: string | null
-  country_id?: string | null
-  city_id?: string | null
-  warehouse_type_id?: string | null
-  code: string
-  name: string
-  is_default?: boolean
-  is_active?: boolean
-  allow_negative_stock?: boolean
-  phone?: string | null
-  email?: string | null
-  address?: string | null
-  notes?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
-  created_by_user_id?: string | null
-  updated_by_user_id?: string | null
-  warehouse_locations?: Prisma.warehouse_locationsUncheckedCreateNestedManyWithoutWarehousesInput
-  store_warehouses?: Prisma.store_warehousesUncheckedCreateNestedManyWithoutWarehousesInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutWarehousesInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutWarehousesInput
-  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutWarehousesInput
-  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutWarehousesInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedCreateNestedManyWithoutWarehousesInput
-  goods_receipts?: Prisma.goods_receiptsUncheckedCreateNestedManyWithoutWarehousesInput
-  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutWarehousesInput
-  sales_shipments?: Prisma.sales_shipmentsUncheckedCreateNestedManyWithoutWarehousesInput
-  stock_counts?: Prisma.stock_countsUncheckedCreateNestedManyWithoutWarehousesInput
-  customer_returns?: Prisma.customer_returnsUncheckedCreateNestedManyWithoutWarehousesInput
-  stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
-  stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
-  stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
-  sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
-  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
-}
-
-export type warehousesCreateOrConnectWithoutInventoryInput = {
-  where: Prisma.warehousesWhereUniqueInput
-  create: Prisma.XOR<Prisma.warehousesCreateWithoutInventoryInput, Prisma.warehousesUncheckedCreateWithoutInventoryInput>
-}
-
-export type warehousesUpsertWithoutInventoryInput = {
-  update: Prisma.XOR<Prisma.warehousesUpdateWithoutInventoryInput, Prisma.warehousesUncheckedUpdateWithoutInventoryInput>
-  create: Prisma.XOR<Prisma.warehousesCreateWithoutInventoryInput, Prisma.warehousesUncheckedCreateWithoutInventoryInput>
-  where?: Prisma.warehousesWhereInput
-}
-
-export type warehousesUpdateToOneWithWhereWithoutInventoryInput = {
-  where?: Prisma.warehousesWhereInput
-  data: Prisma.XOR<Prisma.warehousesUpdateWithoutInventoryInput, Prisma.warehousesUncheckedUpdateWithoutInventoryInput>
-}
-
-export type warehousesUpdateWithoutInventoryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_locations?: Prisma.warehouse_locationsUpdateManyWithoutWarehousesNestedInput
-  store_warehouses?: Prisma.store_warehousesUpdateManyWithoutWarehousesNestedInput
-  branches?: Prisma.branchesUpdateOneWithoutWarehousesNestedInput
-  countries?: Prisma.countriesUpdateOneWithoutWarehousesNestedInput
-  cities?: Prisma.citiesUpdateOneWithoutWarehousesNestedInput
-  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutWarehousesNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutWarehousesNestedInput
-  stock_balances?: Prisma.stock_balancesUpdateManyWithoutWarehousesNestedInput
-  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutWarehousesNestedInput
-  purchase_orders?: Prisma.purchase_ordersUpdateManyWithoutWarehousesNestedInput
-  goods_receipts?: Prisma.goods_receiptsUpdateManyWithoutWarehousesNestedInput
-  sales_orders?: Prisma.sales_ordersUpdateManyWithoutWarehousesNestedInput
-  sales_shipments?: Prisma.sales_shipmentsUpdateManyWithoutWarehousesNestedInput
-  stock_counts?: Prisma.stock_countsUpdateManyWithoutWarehousesNestedInput
-  customer_returns?: Prisma.customer_returnsUpdateManyWithoutWarehousesNestedInput
-  stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
-  stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
-  stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
-  sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
-  tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
-}
-
-export type warehousesUncheckedUpdateWithoutInventoryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_default?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  allow_negative_stock?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  warehouse_locations?: Prisma.warehouse_locationsUncheckedUpdateManyWithoutWarehousesNestedInput
-  store_warehouses?: Prisma.store_warehousesUncheckedUpdateManyWithoutWarehousesNestedInput
-  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutWarehousesNestedInput
-  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutWarehousesNestedInput
-  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutWarehousesNestedInput
-  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutWarehousesNestedInput
-  purchase_orders?: Prisma.purchase_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
-  goods_receipts?: Prisma.goods_receiptsUncheckedUpdateManyWithoutWarehousesNestedInput
-  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutWarehousesNestedInput
-  sales_shipments?: Prisma.sales_shipmentsUncheckedUpdateManyWithoutWarehousesNestedInput
-  stock_counts?: Prisma.stock_countsUncheckedUpdateManyWithoutWarehousesNestedInput
-  customer_returns?: Prisma.customer_returnsUncheckedUpdateManyWithoutWarehousesNestedInput
-  stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
-  stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
-  stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
 }
@@ -1921,7 +1712,6 @@ export type warehousesCreateWithoutPurchase_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -1961,7 +1751,6 @@ export type warehousesUncheckedCreateWithoutPurchase_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -2017,7 +1806,6 @@ export type warehousesUpdateWithoutPurchase_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -2057,7 +1845,6 @@ export type warehousesUncheckedUpdateWithoutPurchase_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -2098,7 +1885,6 @@ export type warehousesCreateWithoutSales_invoicesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
 }
@@ -2138,7 +1924,6 @@ export type warehousesUncheckedCreateWithoutSales_invoicesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
 }
@@ -2194,7 +1979,6 @@ export type warehousesUpdateWithoutSales_invoicesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
 }
@@ -2234,7 +2018,6 @@ export type warehousesUncheckedUpdateWithoutSales_invoicesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
 }
@@ -2274,7 +2057,6 @@ export type warehousesCreateWithoutTenant_usersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
 }
@@ -2314,7 +2096,6 @@ export type warehousesUncheckedCreateWithoutTenant_usersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
 }
@@ -2370,7 +2151,6 @@ export type warehousesUpdateWithoutTenant_usersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
 }
@@ -2410,7 +2190,6 @@ export type warehousesUncheckedUpdateWithoutTenant_usersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
 }
@@ -2449,7 +2228,6 @@ export type warehousesCreateWithoutStock_balancesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -2489,7 +2267,6 @@ export type warehousesUncheckedCreateWithoutStock_balancesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -2545,7 +2322,6 @@ export type warehousesUpdateWithoutStock_balancesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -2585,7 +2361,6 @@ export type warehousesUncheckedUpdateWithoutStock_balancesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -2625,7 +2400,6 @@ export type warehousesCreateWithoutStock_transfers_fromInput = {
   customer_returns?: Prisma.customer_returnsCreateNestedManyWithoutWarehousesInput
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -2665,7 +2439,6 @@ export type warehousesUncheckedCreateWithoutStock_transfers_fromInput = {
   customer_returns?: Prisma.customer_returnsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -2710,7 +2483,6 @@ export type warehousesCreateWithoutStock_transfers_toInput = {
   customer_returns?: Prisma.customer_returnsCreateNestedManyWithoutWarehousesInput
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -2750,7 +2522,6 @@ export type warehousesUncheckedCreateWithoutStock_transfers_toInput = {
   customer_returns?: Prisma.customer_returnsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -2806,7 +2577,6 @@ export type warehousesUpdateWithoutStock_transfers_fromInput = {
   customer_returns?: Prisma.customer_returnsUpdateManyWithoutWarehousesNestedInput
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -2846,7 +2616,6 @@ export type warehousesUncheckedUpdateWithoutStock_transfers_fromInput = {
   customer_returns?: Prisma.customer_returnsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -2897,7 +2666,6 @@ export type warehousesUpdateWithoutStock_transfers_toInput = {
   customer_returns?: Prisma.customer_returnsUpdateManyWithoutWarehousesNestedInput
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -2937,7 +2705,6 @@ export type warehousesUncheckedUpdateWithoutStock_transfers_toInput = {
   customer_returns?: Prisma.customer_returnsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -2977,7 +2744,6 @@ export type warehousesCreateWithoutStock_adjustmentsInput = {
   customer_returns?: Prisma.customer_returnsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -3017,7 +2783,6 @@ export type warehousesUncheckedCreateWithoutStock_adjustmentsInput = {
   customer_returns?: Prisma.customer_returnsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -3073,7 +2838,6 @@ export type warehousesUpdateWithoutStock_adjustmentsInput = {
   customer_returns?: Prisma.customer_returnsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -3113,7 +2877,6 @@ export type warehousesUncheckedUpdateWithoutStock_adjustmentsInput = {
   customer_returns?: Prisma.customer_returnsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -3153,7 +2916,6 @@ export type warehousesCreateWithoutStock_countsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -3193,7 +2955,6 @@ export type warehousesUncheckedCreateWithoutStock_countsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -3249,7 +3010,6 @@ export type warehousesUpdateWithoutStock_countsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -3289,7 +3049,6 @@ export type warehousesUncheckedUpdateWithoutStock_countsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -3329,7 +3088,6 @@ export type warehousesCreateWithoutSales_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -3369,7 +3127,6 @@ export type warehousesUncheckedCreateWithoutSales_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -3425,7 +3182,6 @@ export type warehousesUpdateWithoutSales_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -3465,7 +3221,6 @@ export type warehousesUncheckedUpdateWithoutSales_ordersInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -3505,7 +3260,6 @@ export type warehousesCreateWithoutSales_shipmentsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -3545,7 +3299,6 @@ export type warehousesUncheckedCreateWithoutSales_shipmentsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -3601,7 +3354,6 @@ export type warehousesUpdateWithoutSales_shipmentsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -3641,7 +3393,6 @@ export type warehousesUncheckedUpdateWithoutSales_shipmentsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -3681,7 +3432,6 @@ export type warehousesCreateWithoutCustomer_returnsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -3721,7 +3471,6 @@ export type warehousesUncheckedCreateWithoutCustomer_returnsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -3777,7 +3526,6 @@ export type warehousesUpdateWithoutCustomer_returnsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -3817,7 +3565,6 @@ export type warehousesUncheckedUpdateWithoutCustomer_returnsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -3857,7 +3604,6 @@ export type warehousesCreateWithoutReorder_rulesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -3897,7 +3643,6 @@ export type warehousesUncheckedCreateWithoutReorder_rulesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -3953,7 +3698,6 @@ export type warehousesUpdateWithoutReorder_rulesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -3993,7 +3737,6 @@ export type warehousesUncheckedUpdateWithoutReorder_rulesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -4033,7 +3776,6 @@ export type warehousesCreateWithoutReorder_suggestionsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -4073,7 +3815,6 @@ export type warehousesUncheckedCreateWithoutReorder_suggestionsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -4129,7 +3870,6 @@ export type warehousesUpdateWithoutReorder_suggestionsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -4169,7 +3909,6 @@ export type warehousesUncheckedUpdateWithoutReorder_suggestionsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -4209,7 +3948,6 @@ export type warehousesCreateWithoutStore_warehousesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -4249,7 +3987,6 @@ export type warehousesUncheckedCreateWithoutStore_warehousesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -4305,7 +4042,6 @@ export type warehousesUpdateWithoutStore_warehousesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -4345,7 +4081,6 @@ export type warehousesUncheckedUpdateWithoutStore_warehousesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -4385,7 +4120,6 @@ export type warehousesCreateWithoutWarehouse_locationsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -4425,7 +4159,6 @@ export type warehousesUncheckedCreateWithoutWarehouse_locationsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -4481,7 +4214,6 @@ export type warehousesUpdateWithoutWarehouse_locationsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -4521,7 +4253,6 @@ export type warehousesUncheckedUpdateWithoutWarehouse_locationsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -4561,7 +4292,6 @@ export type warehousesCreateWithoutStock_by_locationInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -4601,7 +4331,6 @@ export type warehousesUncheckedCreateWithoutStock_by_locationInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -4657,7 +4386,6 @@ export type warehousesUpdateWithoutStock_by_locationInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -4697,7 +4425,6 @@ export type warehousesUncheckedUpdateWithoutStock_by_locationInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -4737,7 +4464,6 @@ export type warehousesCreateWithoutGoods_receiptsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutWarehousesInput
@@ -4777,7 +4503,6 @@ export type warehousesUncheckedCreateWithoutGoods_receiptsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedCreateNestedManyWithoutWarehousesInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutSource_warehouseInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedCreateNestedManyWithoutDestination_warehouseInput
-  inventory?: Prisma.inventoryUncheckedCreateNestedManyWithoutWarehousesInput
   pos_terminals?: Prisma.pos_terminalsUncheckedCreateNestedManyWithoutWarehousesInput
   sales_invoices?: Prisma.sales_invoicesUncheckedCreateNestedManyWithoutWarehousesInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutWarehousesInput
@@ -4833,7 +4558,6 @@ export type warehousesUpdateWithoutGoods_receiptsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -4873,7 +4597,6 @@ export type warehousesUncheckedUpdateWithoutGoods_receiptsInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -4934,7 +4657,6 @@ export type warehousesUpdateWithoutBranchesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -4974,7 +4696,6 @@ export type warehousesUncheckedUpdateWithoutBranchesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -5056,7 +4777,6 @@ export type warehousesUpdateWithoutCitiesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -5096,7 +4816,6 @@ export type warehousesUncheckedUpdateWithoutCitiesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -5178,7 +4897,6 @@ export type warehousesUpdateWithoutCountriesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutWarehousesNestedInput
@@ -5218,7 +4936,6 @@ export type warehousesUncheckedUpdateWithoutCountriesInput = {
   stock_adjustments?: Prisma.stock_adjustmentsUncheckedUpdateManyWithoutWarehousesNestedInput
   stock_transfers_from?: Prisma.stock_transfersUncheckedUpdateManyWithoutSource_warehouseNestedInput
   stock_transfers_to?: Prisma.stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNestedInput
-  inventory?: Prisma.inventoryUncheckedUpdateManyWithoutWarehousesNestedInput
   pos_terminals?: Prisma.pos_terminalsUncheckedUpdateManyWithoutWarehousesNestedInput
   sales_invoices?: Prisma.sales_invoicesUncheckedUpdateManyWithoutWarehousesNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutWarehousesNestedInput
@@ -5266,7 +4983,6 @@ export type WarehousesCountOutputType = {
   stock_adjustments: number
   stock_transfers_from: number
   stock_transfers_to: number
-  inventory: number
   pos_terminals: number
   sales_invoices: number
   tenant_users: number
@@ -5288,7 +5004,6 @@ export type WarehousesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   stock_adjustments?: boolean | WarehousesCountOutputTypeCountStock_adjustmentsArgs
   stock_transfers_from?: boolean | WarehousesCountOutputTypeCountStock_transfers_fromArgs
   stock_transfers_to?: boolean | WarehousesCountOutputTypeCountStock_transfers_toArgs
-  inventory?: boolean | WarehousesCountOutputTypeCountInventoryArgs
   pos_terminals?: boolean | WarehousesCountOutputTypeCountPos_terminalsArgs
   sales_invoices?: boolean | WarehousesCountOutputTypeCountSales_invoicesArgs
   tenant_users?: boolean | WarehousesCountOutputTypeCountTenant_usersArgs
@@ -5412,13 +5127,6 @@ export type WarehousesCountOutputTypeCountStock_transfers_toArgs<ExtArgs extends
 /**
  * WarehousesCountOutputType without action
  */
-export type WarehousesCountOutputTypeCountInventoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.inventoryWhereInput
-}
-
-/**
- * WarehousesCountOutputType without action
- */
 export type WarehousesCountOutputTypeCountPos_terminalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.pos_terminalsWhereInput
 }
@@ -5476,7 +5184,6 @@ export type warehousesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   stock_adjustments?: boolean | Prisma.warehouses$stock_adjustmentsArgs<ExtArgs>
   stock_transfers_from?: boolean | Prisma.warehouses$stock_transfers_fromArgs<ExtArgs>
   stock_transfers_to?: boolean | Prisma.warehouses$stock_transfers_toArgs<ExtArgs>
-  inventory?: boolean | Prisma.warehouses$inventoryArgs<ExtArgs>
   pos_terminals?: boolean | Prisma.warehouses$pos_terminalsArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.warehouses$sales_invoicesArgs<ExtArgs>
   tenant_users?: boolean | Prisma.warehouses$tenant_usersArgs<ExtArgs>
@@ -5575,7 +5282,6 @@ export type warehousesInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   stock_adjustments?: boolean | Prisma.warehouses$stock_adjustmentsArgs<ExtArgs>
   stock_transfers_from?: boolean | Prisma.warehouses$stock_transfers_fromArgs<ExtArgs>
   stock_transfers_to?: boolean | Prisma.warehouses$stock_transfers_toArgs<ExtArgs>
-  inventory?: boolean | Prisma.warehouses$inventoryArgs<ExtArgs>
   pos_terminals?: boolean | Prisma.warehouses$pos_terminalsArgs<ExtArgs>
   sales_invoices?: boolean | Prisma.warehouses$sales_invoicesArgs<ExtArgs>
   tenant_users?: boolean | Prisma.warehouses$tenant_usersArgs<ExtArgs>
@@ -5613,7 +5319,6 @@ export type $warehousesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     stock_adjustments: Prisma.$stock_adjustmentsPayload<ExtArgs>[]
     stock_transfers_from: Prisma.$stock_transfersPayload<ExtArgs>[]
     stock_transfers_to: Prisma.$stock_transfersPayload<ExtArgs>[]
-    inventory: Prisma.$inventoryPayload<ExtArgs>[]
     pos_terminals: Prisma.$pos_terminalsPayload<ExtArgs>[]
     sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>[]
     tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
@@ -6050,7 +5755,6 @@ export interface Prisma__warehousesClient<T, Null = never, ExtArgs extends runti
   stock_adjustments<T extends Prisma.warehouses$stock_adjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$stock_adjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_adjustmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_transfers_from<T extends Prisma.warehouses$stock_transfers_fromArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$stock_transfers_fromArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stock_transfers_to<T extends Prisma.warehouses$stock_transfers_toArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$stock_transfers_toArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  inventory<T extends Prisma.warehouses$inventoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pos_terminals<T extends Prisma.warehouses$pos_terminalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$pos_terminalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_terminalsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_invoices<T extends Prisma.warehouses$sales_invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$sales_invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant_users<T extends Prisma.warehouses$tenant_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.warehouses$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6917,30 +6621,6 @@ export type warehouses$stock_transfers_toArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.Stock_transfersScalarFieldEnum | Prisma.Stock_transfersScalarFieldEnum[]
-}
-
-/**
- * warehouses.inventory
- */
-export type warehouses$inventoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the inventory
-   */
-  select?: Prisma.inventorySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the inventory
-   */
-  omit?: Prisma.inventoryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.inventoryInclude<ExtArgs> | null
-  where?: Prisma.inventoryWhereInput
-  orderBy?: Prisma.inventoryOrderByWithRelationInput | Prisma.inventoryOrderByWithRelationInput[]
-  cursor?: Prisma.inventoryWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryScalarFieldEnum | Prisma.InventoryScalarFieldEnum[]
 }
 
 /**

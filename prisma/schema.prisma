@@ -392,7 +392,7 @@ model product_variants {
   purchase_order_items purchase_order_items[]
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
-  inventory            inventory[]
+  inventory_items      inventory_items?
   stock_balances       stock_balances[]
   stock_by_location    stock_by_location[]
   price_list_items     price_list_items[]
@@ -400,6 +400,8 @@ model product_variants {
   inventory_transaction_items inventory_transaction_items[]
   inv_promotion_products inv_promotion_products[]
   inv_promotion_rules_free inv_promotion_rules[] @relation("inv_free_variant")
+
+  @@unique([tenant_id, id])
 }
 
 
@@ -443,7 +445,6 @@ model products {
   product_types          product_types?         @relation(fields: [product_type_id], references: [id], onUpdate: NoAction)
   suppliers              suppliers?             @relation(fields: [supplier_id], references: [id], onUpdate: NoAction)
   purchase_order_items   purchase_order_items[]
-  inventory              inventory[]
   price_list             price_list[]
   price_list_items       price_list_items[]
   inv_promotion_products inv_promotion_products[]
@@ -465,49 +466,39 @@ model product_types {
   products    products[]
 }
 
-model inventory {
-  inventory_id          Int                  @id @default(autoincrement())
-  store_id              String?              @db.Uuid
-  warehouse_id          String?              @db.Uuid
-  warehouse_location_id String?              @db.Uuid
-  created_at            DateTime?            @default(now()) @db.Timestamptz(6)
-  last_count_date       DateTime?            @db.Timestamptz(6)
-  last_restocked_date   DateTime?            @db.Timestamptz(6)
-  max_quantity          Int?
-  min_quantity          Int?                 @default(0)
-  reorder_point         Int?                 @default(0)
-  safety_stock          Int?                 @default(0)
-  reorder_quantity      Int?                 @default(0)
-  reorder_level         Int?                 @default(0)
-  unit_cost             Decimal?             @db.Decimal(18, 4)
-  lead_time_days        Int?                 @default(1)
-  is_active             Boolean              @default(true)
-  status                String?              @default("active") @db.VarChar(50)
-  aisle                 String?              @db.VarChar(50)
-  rack                  String?              @db.VarChar(50)
-  shelf                 String?              @db.VarChar(50)
-  bin                   String?              @db.VarChar(50)
-  notes                 String?
-  tenant_id             String               @db.Uuid
-  updated_at            DateTime?            @default(now()) @db.Timestamptz(6)
-  product_id            String?              @db.Uuid
-  product_variant_id    String?              @db.Uuid
-  created_by_user_id    String?              @db.Uuid
-  updated_by_user_id    String?              @db.Uuid
-  products              products?            @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  product_variants      product_variants?    @relation(fields: [product_variant_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
-  stores                stores?              @relation(fields: [store_id], references: [store_id], onDelete: SetNull, onUpdate: NoAction)
-  warehouses            warehouses?          @relation(fields: [warehouse_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
-  warehouse_locations   warehouse_locations? @relation(fields: [warehouse_location_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+model inventory_items {
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String           @db.Uuid
+  product_variant_id String           @db.Uuid
+  sku                String           @db.VarChar(100)
+  barcode            String?          @db.VarChar(100)
+  is_stockable       Boolean          @default(true)
+  is_sellable        Boolean          @default(true)
+  is_purchasable     Boolean          @default(true)
+  tracking_type      String           @default("NONE") @db.VarChar(20)
+  unit_of_measure_id String?          @db.Uuid
+  status             String           @default("ACTIVE") @db.VarChar(30)
+  is_active          Boolean          @default(true)
+  notes              String?
+  created_at         DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime         @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?          @db.Uuid
+  updated_by_user_id String?          @db.Uuid
+
+  product_variants   product_variants @relation(fields: [tenant_id, product_variant_id], references: [tenant_id, id], onDelete: Restrict)
+  uoms               uoms?            @relation(fields: [unit_of_measure_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@unique([tenant_id, product_variant_id])
+  @@unique([tenant_id, sku])
 
   @@index([tenant_id])
-  @@index([store_id])
-  @@index([warehouse_id])
-  @@index([warehouse_location_id])
-  @@index([product_id])
-  @@index([product_variant_id])
-  @@index([tenant_id, store_id, warehouse_id])
-  @@index([tenant_id, product_id, product_variant_id])
+  @@index([tenant_id, product_variant_id])
+  @@index([tenant_id, sku])
+  @@index([tenant_id, status])
+  @@index([tenant_id, tracking_type])
+  @@index([tenant_id, is_active])
+
+  @@map("inventory_items")
 }
 
 model pos_reorder_requests {
@@ -1291,7 +1282,6 @@ model stores {
   price_list           price_list[]
   price_list_assignments price_list_assignments[]
   purchase_requisitions purchase_requisitions[]
-  inventory            inventory[]
   inv_promotion_stores inv_promotion_stores[]
   inv_promotion_usage_logs inv_promotion_usage_logs[]
   inv_discount_approval_requests inv_discount_approval_requests[]
@@ -2341,7 +2331,6 @@ model warehouses {
   stock_adjustments   stock_adjustments[]
   stock_transfers_from stock_transfers[]    @relation("transfer_source_warehouse")
   stock_transfers_to   stock_transfers[]    @relation("transfer_destination_warehouse")
-  inventory            inventory[]
   pos_terminals        pos_terminals[]
   sales_invoices       sales_invoices[]
   tenant_users         tenant_users[]
@@ -2404,7 +2393,6 @@ model warehouse_locations {
   warehouses         warehouses         @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   stock_balances     stock_balances[]
   stock_by_location  stock_by_location[]
-  inventory          inventory[]
 }
 
 model stock_by_location {
@@ -2465,6 +2453,7 @@ model uoms {
   products             products[]
   purchase_order_items purchase_order_items[]
   purchase_requisition_items purchase_requisition_items[]
+  inventory_items      inventory_items[]
 }
 
 model unit_conversions {

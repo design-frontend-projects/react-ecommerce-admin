@@ -122,17 +122,17 @@ describe('Prisma Multi-Tenant Extension ($extends)', () => {
                 query: mockQueryFn,
               }),
           },
-          inventory: {
+          inventory_items: {
             create: (args: any) =>
               extension.query.$allModels.$allOperations({
-                model: 'inventory',
+                model: 'inventory_items',
                 operation: 'create',
                 args,
                 query: mockQueryFn,
               }),
             findMany: (args: any) =>
               extension.query.$allModels.$allOperations({
-                model: 'inventory',
+                model: 'inventory_items',
                 operation: 'findMany',
                 args,
                 query: mockQueryFn,
