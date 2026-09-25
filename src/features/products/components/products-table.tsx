@@ -24,6 +24,7 @@ import {
   LayoutGrid,
   LayoutList,
   Loader2,
+  AlertCircle,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -83,6 +84,8 @@ export interface ProductsTableProps {
   onSortChange?: (sortBy: string, sortOrder: 'asc' | 'desc') => void
   isLoading?: boolean
   isFetching?: boolean
+  error?: unknown
+  onRetry?: () => void
 }
 
 const globalFilterFn: FilterFn<Product> = (row, _columnId, filterValue) => {
@@ -143,6 +146,8 @@ export function ProductsTable({
   onSortChange,
   isLoading = false,
   isFetching = false,
+  error,
+  onRetry,
 }: ProductsTableProps) {
   const { t } = useTranslation()
   const { quickFilter, setQuickFilter } = useProductsContext()
@@ -160,6 +165,27 @@ export function ProductsTable({
   ])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState(search ?? '')
+
+  // Helper to format friendly error messages including statement timeout (code 57014)
+  const getErrorMessage = (err: unknown): string => {
+    if (!err) return ''
+    const errObj = err as any
+    if (errObj?.code === '57014' || errObj?.message?.includes('timeout')) {
+      return t('products.timeoutError', {
+        defaultValue:
+          'The request took too long to complete. Please try using more specific filters or try again.',
+      })
+    }
+    if (err instanceof Error) {
+      return err.message
+    }
+    if (typeof err === 'object' && errObj?.message) {
+      return String(errObj.message)
+    }
+    return t('products.unexpectedError', {
+      defaultValue: 'An unexpected error occurred while loading products.',
+    })
+  }
 
   // Fetch full lookups for filters
   const { data: dbCategories = [] } = useCategoryOptions()
@@ -241,6 +267,55 @@ export function ProductsTable({
     }
   }
 
+  // Handle column filters change (sync faceted toolbar filters to server query in isServer mode)
+  const handleColumnFiltersChange: OnChangeFn<ColumnFiltersState> = (
+    updater
+  ) => {
+    const nextFilters =
+      typeof updater === 'function' ? updater(columnFilters) : updater
+    setColumnFilters(nextFilters)
+
+    if (isServer) {
+      const catFilter = nextFilters.find((f) => f.id === 'category')
+      const catVal = Array.isArray(catFilter?.value)
+        ? (catFilter.value[0] as string) || null
+        : (catFilter?.value as string) || null
+      onSelectCategory?.(catVal)
+
+      const brandFilter = nextFilters.find((f) => f.id === 'brand')
+      const brandVal = Array.isArray(brandFilter?.value)
+        ? (brandFilter.value[0] as string) || null
+        : (brandFilter?.value as string) || null
+      onSelectBrand?.(brandVal)
+
+      const uomFilter = nextFilters.find((f) => f.id === 'base_uom')
+      const uomVal = Array.isArray(uomFilter?.value)
+        ? (uomFilter.value[0] as string) || null
+        : (uomFilter?.value as string) || null
+      onSelectUom?.(uomVal)
+
+      const supFilter = nextFilters.find((f) => f.id === 'supplier')
+      const supVal = Array.isArray(supFilter?.value)
+        ? (supFilter.value[0] as string) || null
+        : (supFilter?.value as string) || null
+      onSelectSupplier?.(supVal)
+
+      const ptFilter = nextFilters.find((f) => f.id === 'product_type')
+      const ptVal = Array.isArray(ptFilter?.value)
+        ? (ptFilter.value[0] as string) || null
+        : (ptFilter?.value as string) || null
+      onSelectProductType?.(ptVal)
+
+      const actFilter = nextFilters.find((f) => f.id === 'is_active')
+      const actVal = Array.isArray(actFilter?.value)
+        ? (actFilter.value[0] as string) || null
+        : (actFilter?.value as string) || null
+      onSelectIsActive?.(actVal)
+
+      onPageChange?.(1)
+    }
+  }
+
   // Handle sorting change
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
     const nextSorting =
@@ -268,10 +343,12 @@ export function ProductsTable({
     onRowSelectionChange: setRowSelection,
     onSortingChange: handleSortingChange,
     onColumnVisibilityChange: setColumnVisibility,
-    onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: handleColumnFiltersChange,
     onGlobalFilterChange: handleGlobalFilterChange,
     globalFilterFn,
     manualPagination: isServer,
+    manualFiltering: isServer,
+    manualSorting: isServer,
     pageCount: isServer
       ? Math.max(1, Math.ceil((totalCount ?? 0) / (pageSize || 20)))
       : undefined,
@@ -603,6 +680,9 @@ export function ProductsTable({
     onSelectProductType?.(null)
     onSelectIsActive?.(null)
     onPageChange?.(1)
+    if (error && onRetry) {
+      onRetry()
+    }
   }
 
   // Calculate active filter count for mobile filter drawer badge
@@ -918,6 +998,27 @@ export function ProductsTable({
         }
       />
 
+      {/* Stale data warning banner when error occurs but products are already loaded */}
+      {error && data.length > 0 && (
+        <div className='flex items-center justify-between gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-3.5 py-2.5 text-xs text-destructive'>
+          <div className='flex items-center gap-2'>
+            <AlertCircle className='h-4 w-4 shrink-0' />
+            <span>{getErrorMessage(error)}</span>
+          </div>
+          {onRetry && (
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={onRetry}
+              className='h-7 text-xs gap-1 border-destructive/30 hover:bg-destructive/10'
+            >
+              <RotateCcw className='h-3 w-3' />
+              {t('common.tryAgain', { defaultValue: 'Try Again' })}
+            </Button>
+          )}
+        </div>
+      )}
+
       {/* Loading Overlay indicator when refetching server data */}
       {isFetching && !isLoading && (
         <div className='flex items-center gap-2 text-xs text-muted-foreground animate-pulse py-0.5 px-1'>
@@ -932,7 +1033,84 @@ export function ProductsTable({
 
       {/* Main Content: Table or Grid View */}
       {viewMode === 'grid' ? (
-        <ProductsCardsGrid table={table} isLoading={isLoading} />
+        error && data.length === 0 ? (
+          <div className='flex flex-col items-center justify-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-8 text-destructive text-center'>
+            <div className='rounded-full bg-destructive/10 p-3'>
+              <AlertCircle className='h-6 w-6' />
+            </div>
+            <div className='space-y-1'>
+              <p className='font-semibold text-sm'>
+                {t('products.errorLoading', {
+                  defaultValue: 'Failed to load products',
+                })}
+              </p>
+              <p className='text-xs text-muted-foreground max-w-sm mx-auto'>
+                {getErrorMessage(error)}
+              </p>
+            </div>
+            <div className='flex items-center gap-2 mt-2'>
+              {onRetry && (
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={onRetry}
+                  className='h-8 text-xs gap-1.5'
+                >
+                  <RotateCcw className='h-3.5 w-3.5' />
+                  {t('common.tryAgain', { defaultValue: 'Try Again' })}
+                </Button>
+              )}
+              <Button
+                variant='secondary'
+                size='sm'
+                onClick={handleResetFilters}
+                className='h-8 text-xs gap-1.5'
+              >
+                <RotateCcw className='h-3.5 w-3.5' />
+                {t('dataTable.reset', {
+                  defaultValue: 'Reset Filters',
+                })}
+              </Button>
+            </div>
+          </div>
+        ) : !isLoading && data.length === 0 ? (
+          <div className='flex flex-col items-center justify-center gap-2 rounded-xl border bg-card p-12 text-center text-muted-foreground'>
+            <div className='rounded-full bg-muted/60 p-3'>
+              <PackageSearch className='h-6 w-6' />
+            </div>
+            <p className='font-medium text-sm'>
+              {t('products.table.noResults', {
+                defaultValue: 'No products found',
+              })}
+            </p>
+            <p className='text-xs text-muted-foreground max-w-sm'>
+              {isFiltered
+                ? t('products.table.noResultsFiltered', {
+                    defaultValue:
+                      'Try adjusting or resetting your search and filters to find products.',
+                  })
+                : t('products.table.noProductsYet', {
+                    defaultValue:
+                      'No products in this inventory catalog yet.',
+                  })}
+            </p>
+            {isFiltered && (
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={handleResetFilters}
+                className='mt-2 h-8 text-xs gap-1.5'
+              >
+                <RotateCcw className='h-3.5 w-3.5' />
+                {t('dataTable.reset', {
+                  defaultValue: 'Reset Filters',
+                })}
+              </Button>
+            )}
+          </div>
+        ) : (
+          <ProductsCardsGrid table={table} isLoading={isLoading} />
+        )
       ) : (
         <div className='overflow-x-auto rounded-md border bg-card shadow-2xs'>
           <Table>
@@ -970,6 +1148,53 @@ export function ProductsTable({
                     ))}
                   </TableRow>
                 ))
+              ) : error ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className='h-56 text-center'
+                  >
+                    <div className='flex flex-col items-center justify-center gap-3 text-destructive p-6'>
+                      <div className='rounded-full bg-destructive/10 p-3'>
+                        <AlertCircle className='h-6 w-6' />
+                      </div>
+                      <div className='space-y-1'>
+                        <p className='font-semibold text-sm'>
+                          {t('products.errorLoading', {
+                            defaultValue: 'Failed to load products',
+                          })}
+                        </p>
+                        <p className='text-xs text-muted-foreground max-w-sm mx-auto'>
+                          {getErrorMessage(error)}
+                        </p>
+                      </div>
+                      <div className='flex items-center gap-2 mt-2'>
+                        {onRetry && (
+                          <Button
+                            variant='outline'
+                            size='sm'
+                            onClick={onRetry}
+                            className='h-8 text-xs gap-1.5'
+                          >
+                            <RotateCcw className='h-3.5 w-3.5' />
+                            {t('common.tryAgain', { defaultValue: 'Try Again' })}
+                          </Button>
+                        )}
+                        <Button
+                          variant='secondary'
+                          size='sm'
+                          onClick={handleResetFilters}
+                          className='h-8 text-xs gap-1.5'
+                        >
+                          <RotateCcw className='h-3.5 w-3.5' />
+                          {t('dataTable.reset', {
+                            defaultValue: 'Reset Filters',
+                          })}
+                        </Button>
+                      </div>
+                    </div>
+                  </TableCell>
+                </TableRow>
               ) : (
                 <TableRow>
                   <TableCell

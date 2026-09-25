@@ -5,13 +5,13 @@ import {
   type SendNotificationInput,
   type CreateTemplateInput,
 } from '@/features/notifications/data/schema'
-import { resolveTenantId, resolveTenantUserId } from '@/server/utils/tenant'
+import { resolveTenantId, resolveTenantUserId, isValidUuid } from '@/server/utils/tenant'
 
 /**
  * Fetch unread count and list of user notifications
  */
 export async function getUserNotifications(userId: string) {
-  if (!userId) {
+  if (!userId || !isValidUuid(userId)) {
     return { notifications: [], unreadCount: 0 }
   }
 
@@ -98,6 +98,9 @@ export async function markNotificationAsRead(userNotificationId: string) {
  * Mark all unread notifications as read for a user
  */
 export async function markAllNotificationsAsRead(userId: string) {
+  if (!userId || !isValidUuid(userId)) {
+    return { count: 0 }
+  }
   const tenantUser = await prisma.tenant_users.findFirst({
     where: {
       OR: [{ auth_user_id: userId }, { id: userId }],

@@ -41,8 +41,8 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
       terminalId: url.searchParams.get('terminalId') ?? undefined,
       status: (url.searchParams.get('status') as 'open' | 'closed' | 'suspended') ?? undefined,
       cashierId: url.searchParams.get('cashierId') ?? undefined,
-      page: Number(url.searchParams.get('page') ?? 1),
-      pageSize: Number(url.searchParams.get('pageSize') ?? 20),
+      page: url.searchParams.get('page') && !Number.isNaN(Number(url.searchParams.get('page'))) ? Number(url.searchParams.get('page')) : 1,
+      pageSize: url.searchParams.get('pageSize') && !Number.isNaN(Number(url.searchParams.get('pageSize'))) ? Number(url.searchParams.get('pageSize')) : 20,
     })
     return Response.json({ success: true, data: result })
   } catch (error: unknown) {

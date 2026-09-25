@@ -1,0 +1,698 @@
+- generic [active] [ref=f4e1]:
+  - generic [ref=f4e12]:
+    - link "Skip to main content" [ref=f4e13] [cursor=pointer]:
+      - /url: "#content"
+    - generic [ref=f4e16]:
+      - list [ref=f4e18]:
+        - listitem [ref=f4e19]:
+          - generic [ref=f4e20]:
+            - link "ResPOS ResPOS Premium Edition" [ref=f4e21] [cursor=pointer]:
+              - /url: /
+              - img "ResPOS" [ref=f4e23]
+              - generic [ref=f4e24]:
+                - generic [ref=f4e25]: ResPOS
+                - generic [ref=f4e26]: Premium Edition
+            - button "Toggle Sidebar" [ref=f4e27] [cursor=pointer]
+      - generic [ref=f4e29]:
+        - generic [ref=f4e30]:
+          - generic [ref=f4e31]: System
+          - list [ref=f4e32]:
+            - listitem [ref=f4e33]:
+              - link "System Management" [ref=f4e34] [cursor=pointer]:
+                - /url: /system
+            - listitem [ref=f4e38]:
+              - link "Audit Logs" [ref=f4e39] [cursor=pointer]:
+                - /url: /system/audit-logs
+        - generic [ref=f4e44]:
+          - generic [ref=f4e45]: General
+          - list [ref=f4e46]:
+            - listitem [ref=f4e47]:
+              - link "Dashboard" [ref=f4e48] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f4e55]:
+              - button "POS System" [ref=f4e56] [cursor=pointer]
+            - listitem [ref=f4e63]:
+              - link "Products" [ref=f4e64] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=f4e71]:
+              - link "Subscriptions" [ref=f4e72] [cursor=pointer]:
+                - /url: /subscriptions
+            - listitem [ref=f4e76]:
+              - link "Notifications" [ref=f4e77] [cursor=pointer]:
+                - /url: /notifications
+        - generic [ref=f4e82]:
+          - generic [ref=f4e83]: Restaurant POS
+          - list [ref=f4e84]:
+            - listitem [ref=f4e85]:
+              - link "POS Dashboard" [ref=f4e86] [cursor=pointer]:
+                - /url: /respos
+            - listitem [ref=f4e93]:
+              - link "Restaurant POS" [ref=f4e94] [cursor=pointer]:
+                - /url: /respos/pos
+            - listitem [ref=f4e99]:
+              - link "Captain Station" [ref=f4e100] [cursor=pointer]:
+                - /url: /respos/captain
+            - listitem [ref=f4e104]:
+              - link "Kitchen Display" [ref=f4e105] [cursor=pointer]:
+                - /url: /respos/kitchen
+            - listitem [ref=f4e110]:
+              - link "Menu Management" [ref=f4e111] [cursor=pointer]:
+                - /url: /respos/menu
+            - listitem [ref=f4e118]:
+              - link "Floors & Tables" [ref=f4e119] [cursor=pointer]:
+                - /url: /respos/floors
+            - listitem [ref=f4e123]:
+              - link "Reservations" [ref=f4e124] [cursor=pointer]:
+                - /url: /respos/reservations
+            - listitem [ref=f4e130]:
+              - link "Analytics" [ref=f4e131] [cursor=pointer]:
+                - /url: /respos/analytics
+            - listitem [ref=f4e136]:
+              - link "Cashier & Checkout" [ref=f4e137] [cursor=pointer]:
+                - /url: /respos/cashier
+            - listitem [ref=f4e141]:
+              - link "Payments" [ref=f4e142] [cursor=pointer]:
+                - /url: /respos/payments
+            - listitem [ref=f4e146]:
+              - link "Shipments" [ref=f4e147] [cursor=pointer]:
+                - /url: /respos/shipments
+            - listitem [ref=f4e154]:
+              - link "Payment Methods" [ref=f4e155] [cursor=pointer]:
+                - /url: /payment-methods
+            - listitem [ref=f4e160]:
+              - link "Users & Roles" [ref=f4e161] [cursor=pointer]:
+                - /url: /users
+            - listitem [ref=f4e168]:
+              - link "Access Control" [ref=f4e169] [cursor=pointer]:
+                - /url: /access-control
+        - generic [ref=f4e174]:
+          - generic [ref=f4e175]: Inventory
+          - list [ref=f4e176]:
+            - listitem [ref=f4e177]:
+              - link "Inventory Dashboard" [ref=f4e178] [cursor=pointer]:
+                - /url: /inventory/dashboard
+            - listitem [ref=f4e185]:
+              - link "Inventory Alerts" [ref=f4e186] [cursor=pointer]:
+                - /url: /inventory/alerts
+            - listitem [ref=f4e190]:
+              - button "Catalog & Products" [expanded] [ref=f4e191] [cursor=pointer]
+              - list [ref=f4e200]:
+                - listitem [ref=f4e201]:
+                  - link "Inventory Items" [ref=f4e202] [cursor=pointer]:
+                    - /url: /inventory
+                - listitem [ref=f4e214]:
+                  - link "Products" [ref=f4e215] [cursor=pointer]:
+                    - /url: /products
+                - listitem [ref=f4e221]:
+                  - link "Categories" [ref=f4e222] [cursor=pointer]:
+                    - /url: /categories
+                - listitem [ref=f4e228]:
+                  - link "Brands" [ref=f4e229] [cursor=pointer]:
+                    - /url: /brands
+                - listitem [ref=f4e235]:
+                  - link "Units of Measure" [ref=f4e236] [cursor=pointer]:
+                    - /url: /units
+                - listitem [ref=f4e244]:
+                  - link "Price List" [ref=f4e245] [cursor=pointer]:
+                    - /url: /price-list
+            - listitem [ref=f4e249]:
+              - button "Stock & Warehouses" [ref=f4e250] [cursor=pointer]
+            - listitem [ref=f4e257]:
+              - button "Tracking & Batches" [ref=f4e258] [cursor=pointer]
+            - listitem [ref=f4e266]:
+              - button "Purchasing & Inbound" [ref=f4e267] [cursor=pointer]
+            - listitem [ref=f4e275]:
+              - button "Promotions" [ref=f4e276] [cursor=pointer]
+            - listitem [ref=f4e283]:
+              - button "Sales & Fulfillment" [ref=f4e284] [cursor=pointer]
+            - listitem [ref=f4e293]:
+              - button "Valuation & Finance" [ref=f4e294] [cursor=pointer]
+        - generic [ref=f4e300]:
+          - generic [ref=f4e301]: Lookups
+          - list [ref=f4e302]:
+            - listitem [ref=f4e303]:
+              - link "Master Lookups" [ref=f4e304] [cursor=pointer]:
+                - /url: /lookups
+            - listitem [ref=f4e310]:
+              - link "Countries" [ref=f4e311] [cursor=pointer]:
+                - /url: /countries
+            - listitem [ref=f4e315]:
+              - link "Cities" [ref=f4e316] [cursor=pointer]:
+                - /url: /cities
+            - listitem [ref=f4e321]:
+              - link "Areas" [ref=f4e322] [cursor=pointer]:
+                - /url: /areas
+            - listitem [ref=f4e327]:
+              - link "Currencies" [ref=f4e328] [cursor=pointer]:
+                - /url: /currencies
+            - listitem [ref=f4e332]:
+              - link "Branches" [ref=f4e333] [cursor=pointer]:
+                - /url: /branches
+            - listitem [ref=f4e339]:
+              - link "Stores" [ref=f4e340] [cursor=pointer]:
+                - /url: /stores
+            - listitem [ref=f4e345]:
+              - link "Channels" [ref=f4e346] [cursor=pointer]:
+                - /url: /channels
+        - generic [ref=f4e354]:
+          - generic [ref=f4e355]: Other
+          - list [ref=f4e356]:
+            - listitem [ref=f4e357]:
+              - button "Settings" [ref=f4e358] [cursor=pointer]
+            - listitem [ref=f4e365]:
+              - button "Lookups" [ref=f4e366] [cursor=pointer]
+            - listitem [ref=f4e374]:
+              - link "Help Center" [ref=f4e375] [cursor=pointer]:
+                - /url: /help-center
+      - list [ref=f4e381]:
+        - listitem [ref=f4e382]:
+          - button "‪ ‪ahmed ahmedmedodev@gmail.com" [ref=f4e383] [cursor=pointer]:
+            - generic [ref=f4e384]: ‪
+            - generic [ref=f4e388]:
+              - generic [ref=f4e389]: ‪ahmed
+              - generic [ref=f4e390]: ahmedmedodev@gmail.com
+      - button "Toggle Sidebar" [ref=f4e394]
+    - generic [ref=f4e396]:
+      - banner [ref=f4e397]:
+        - generic [ref=f4e398]:
+          - button "Toggle Sidebar" [ref=f4e399] [cursor=pointer]
+          - button "Search... ⌘ K" [ref=f4e401] [cursor=pointer]:
+            - generic [ref=f4e402]: Search...
+            - generic:
+              - generic: ⌘
+              - text: K
+          - generic [ref=f4e403]:
+            - button "Switch Language" [ref=f4e404] [cursor=pointer]
+            - button "Theme" [ref=f4e406] [cursor=pointer]
+            - button "SN" [ref=f4e408] [cursor=pointer]
+          - generic [ref=f4e411]:
+            - combobox "Select branch" [ref=f4e412] [cursor=pointer]
+            - button "Notifications" [ref=f4e413] [cursor=pointer]
+            - button "Reorder notifications" [ref=f4e414] [cursor=pointer]
+            - button "Install the interface." [ref=f4e415] [cursor=pointer]
+            - button "SN" [ref=f4e417] [cursor=pointer]
+      - main [ref=f4e420]:
+        - generic [ref=f4e421]:
+          - generic [ref=f4e422]:
+            - heading "Products" [level=2] [ref=f4e423]
+            - paragraph [ref=f4e424]: Manage your inventory, product catalog, and pricing.
+          - button "Add Product" [ref=f4e427] [cursor=pointer]
+        - generic [ref=f4e429]:
+          - generic [ref=f4e433] [cursor=pointer]:
+            - paragraph [ref=f4e434]: Total Products
+            - generic [ref=f4e435]: 8,006
+            - paragraph [ref=f4e437]: Catalog items
+          - generic [ref=f4e452] [cursor=pointer]:
+            - paragraph [ref=f4e453]: In Stock
+            - generic [ref=f4e454]: "0"
+            - paragraph [ref=f4e456]: Available for order
+          - generic [ref=f4e464] [cursor=pointer]:
+            - paragraph [ref=f4e465]: Low Stock Alert
+            - generic [ref=f4e466]: "0"
+            - paragraph [ref=f4e468]: Below reorder level
+          - generic [ref=f4e475] [cursor=pointer]:
+            - paragraph [ref=f4e476]: Out of Stock
+            - generic [ref=f4e477]: "0"
+            - paragraph [ref=f4e479]: Zero inventory
+        - generic [ref=f4e485]:
+          - generic [ref=f4e486]:
+            - button "All 8006" [ref=f4e487] [cursor=pointer]:
+              - generic [ref=f4e488]: All
+              - generic [ref=f4e489]: "8006"
+            - button "In Stock 20" [ref=f4e490] [cursor=pointer]:
+              - generic [ref=f4e492]: In Stock
+              - generic [ref=f4e493]: "20"
+            - button "Low Stock 0" [ref=f4e494] [cursor=pointer]:
+              - generic [ref=f4e496]: Low Stock
+              - generic [ref=f4e497]: "0"
+            - button "Out of Stock 0" [ref=f4e498] [cursor=pointer]:
+              - generic [ref=f4e500]: Out of Stock
+              - generic [ref=f4e501]: "0"
+            - button "Inactive 0" [ref=f4e502] [cursor=pointer]:
+              - generic [ref=f4e504]: Inactive
+              - generic [ref=f4e505]: "0"
+          - generic [ref=f4e506]:
+            - generic [ref=f4e507]:
+              - textbox "Search by name, SKU, barcode, brand..." [ref=f4e508]
+              - generic [ref=f4e509]:
+                - button "Category" [ref=f4e510] [cursor=pointer]
+                - button "Brand" [ref=f4e511] [cursor=pointer]
+                - button "Base UOM" [ref=f4e512] [cursor=pointer]
+                - button "Supplier" [ref=f4e513] [cursor=pointer]
+                - button "Type" [ref=f4e514] [cursor=pointer]
+                - button "Stock Quantity" [ref=f4e515] [cursor=pointer]
+                - button "Status" [ref=f4e516] [cursor=pointer]
+            - generic [ref=f4e517]:
+              - generic [ref=f4e518]:
+                - combobox [ref=f4e519] [cursor=pointer]:
+                  - generic: Newest First
+                - generic [ref=f4e520]:
+                  - button "Table View" [ref=f4e521] [cursor=pointer]
+                  - button "Grid View" [ref=f4e522] [cursor=pointer]
+                - button "Export" [ref=f4e523] [cursor=pointer]
+              - button "View" [ref=f4e525] [cursor=pointer]
+          - table [ref=f4e528]:
+            - rowgroup [ref=f4e529]:
+              - row [ref=f4e530]:
+                - columnheader [ref=f4e531]:
+                  - checkbox "Select all" [ref=f4e532] [cursor=pointer]
+                - columnheader [ref=f4e533]:
+                  - button "Product Name" [ref=f4e535] [cursor=pointer]
+                - columnheader [ref=f4e537]:
+                  - button "SKU" [ref=f4e539] [cursor=pointer]
+                - columnheader [ref=f4e541]:
+                  - button "Category" [ref=f4e543] [cursor=pointer]
+                - columnheader [ref=f4e545]:
+                  - button "Brand" [ref=f4e547] [cursor=pointer]
+                - columnheader [ref=f4e549]:
+                  - button "Supplier" [ref=f4e551] [cursor=pointer]
+                - columnheader [ref=f4e553]:
+                  - button "Type" [ref=f4e555] [cursor=pointer]
+                - columnheader [ref=f4e557]:
+                  - button "Stock Quantity" [ref=f4e559] [cursor=pointer]
+                - columnheader [ref=f4e561]:
+                  - button "Status" [ref=f4e563] [cursor=pointer]
+                - columnheader [ref=f4e565]:
+                  - button "Created At" [ref=f4e567] [cursor=pointer]
+                - columnheader [ref=f4e569]
+            - rowgroup [ref=f4e570]:
+              - row [ref=f4e571]:
+                - cell [ref=f4e572]:
+                  - checkbox "Select row" [ref=f4e573] [cursor=pointer]
+                - cell "Candia Algerie Dairy - Pringles Sour Cream & Onion Stacked Crisps (Golden Batch) 4000000527626" [ref=f4e574]:
+                  - generic [ref=f4e575]:
+                    - generic [ref=f4e576]: Candia Algerie Dairy - Pringles Sour Cream & Onion Stacked Crisps (Golden Batch)
+                    - generic [ref=f4e578]: "4000000527626"
+                - cell "EU-CER-02762" [ref=f4e579]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e581]
+                - cell "Candia Algerie Dairy" [ref=f4e583]
+                - cell "—" [ref=f4e585]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e586]:
+                  - generic [ref=f4e587]:
+                    - generic [ref=f4e588]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e589]
+                - cell "596 in stock" [ref=f4e592]
+                - cell "Active" [ref=f4e595]
+                - cell "Sep 24, 2026" [ref=f4e598]
+                - cell [ref=f4e599]:
+                  - button "Actions" [ref=f4e600] [cursor=pointer]
+              - row [ref=f4e602]:
+                - cell [ref=f4e603]:
+                  - checkbox "Select row" [ref=f4e604] [cursor=pointer]
+                - cell "Al Safi Danone GCC - Pringles Sour Cream & Onion Stacked Crisps (Centennial Recipe) 4000000527695" [ref=f4e605]:
+                  - generic [ref=f4e606]:
+                    - generic [ref=f4e607]: Al Safi Danone GCC - Pringles Sour Cream & Onion Stacked Crisps (Centennial Recipe)
+                    - generic [ref=f4e609]: "4000000527695"
+                - cell "EU-CER-02769" [ref=f4e610]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e612]
+                - cell "Al Safi Danone GCC" [ref=f4e614]
+                - cell "—" [ref=f4e616]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e617]:
+                  - generic [ref=f4e618]:
+                    - generic [ref=f4e619]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e620]
+                - cell "624 in stock" [ref=f4e623]
+                - cell "Active" [ref=f4e626]
+                - cell "Sep 24, 2026" [ref=f4e629]
+                - cell [ref=f4e630]:
+                  - button "Actions" [ref=f4e631] [cursor=pointer]
+              - row [ref=f4e633]:
+                - cell [ref=f4e634]:
+                  - checkbox "Select row" [ref=f4e635] [cursor=pointer]
+                - cell "Unilever - Danone Activia Probiotic Creamy Vanilla Yogurt (Connoisseur Grade) 4000000527572" [ref=f4e636]:
+                  - generic [ref=f4e637]:
+                    - generic [ref=f4e638]: Unilever - Danone Activia Probiotic Creamy Vanilla Yogurt (Connoisseur Grade)
+                    - generic [ref=f4e640]: "4000000527572"
+                - cell "EU-CER-02757" [ref=f4e641]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e643]
+                - cell "Unilever" [ref=f4e645]
+                - cell "—" [ref=f4e647]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e648]:
+                  - generic [ref=f4e649]:
+                    - generic [ref=f4e650]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e651]
+                - cell "576 in stock" [ref=f4e654]
+                - cell "Active" [ref=f4e657]
+                - cell "Sep 24, 2026" [ref=f4e660]
+                - cell [ref=f4e661]:
+                  - button "Actions" [ref=f4e662] [cursor=pointer]
+              - row [ref=f4e664]:
+                - cell [ref=f4e665]:
+                  - checkbox "Select row" [ref=f4e666] [cursor=pointer]
+                - cell "Danone - Pringles Original Stacked Salted Potato Crisps (Village Kitchen) 4000000527619" [ref=f4e667]:
+                  - generic [ref=f4e668]:
+                    - generic [ref=f4e669]: Danone - Pringles Original Stacked Salted Potato Crisps (Village Kitchen)
+                    - generic [ref=f4e671]: "4000000527619"
+                - cell "EU-CER-02761" [ref=f4e672]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e674]
+                - cell "Danone" [ref=f4e676]
+                - cell "—" [ref=f4e678]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e679]:
+                  - generic [ref=f4e680]:
+                    - generic [ref=f4e681]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e682]
+                - cell "592 in stock" [ref=f4e685]
+                - cell "Active" [ref=f4e688]
+                - cell "Sep 24, 2026" [ref=f4e691]
+                - cell [ref=f4e692]:
+                  - button "Actions" [ref=f4e693] [cursor=pointer]
+              - row [ref=f4e695]:
+                - cell [ref=f4e696]:
+                  - checkbox "Select row" [ref=f4e697] [cursor=pointer]
+                - cell "Al Safi Danone GCC - Kellogg's Original Golden Toasted Corn Flakes (Country Style) 4000000527657" [ref=f4e698]:
+                  - generic [ref=f4e699]:
+                    - generic [ref=f4e700]: Al Safi Danone GCC - Kellogg's Original Golden Toasted Corn Flakes (Country Style)
+                    - generic [ref=f4e702]: "4000000527657"
+                - cell "EU-CER-02765" [ref=f4e703]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e705]
+                - cell "Al Safi Danone GCC" [ref=f4e707]
+                - cell "—" [ref=f4e709]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e710]:
+                  - generic [ref=f4e711]:
+                    - generic [ref=f4e712]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e713]
+                - cell "608 in stock" [ref=f4e716]
+                - cell "Active" [ref=f4e719]
+                - cell "Sep 24, 2026" [ref=f4e722]
+                - cell [ref=f4e723]:
+                  - button "Actions" [ref=f4e724] [cursor=pointer]
+              - row [ref=f4e726]:
+                - cell [ref=f4e727]:
+                  - checkbox "Select row" [ref=f4e728] [cursor=pointer]
+                - cell "Unilever - Pringles Original Stacked Salted Potato Crisps (Mountain Spring) 4000000527688" [ref=f4e729]:
+                  - generic [ref=f4e730]:
+                    - generic [ref=f4e731]: Unilever - Pringles Original Stacked Salted Potato Crisps (Mountain Spring)
+                    - generic [ref=f4e733]: "4000000527688"
+                - cell "EU-CER-02768" [ref=f4e734]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e736]
+                - cell "Unilever" [ref=f4e738]
+                - cell "—" [ref=f4e740]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e741]:
+                  - generic [ref=f4e742]:
+                    - generic [ref=f4e743]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e744]
+                - cell "620 in stock" [ref=f4e747]
+                - cell "Active" [ref=f4e750]
+                - cell "Sep 24, 2026" [ref=f4e753]
+                - cell [ref=f4e754]:
+                  - button "Actions" [ref=f4e755] [cursor=pointer]
+              - row [ref=f4e757]:
+                - cell [ref=f4e758]:
+                  - checkbox "Select row" [ref=f4e759] [cursor=pointer]
+                - cell "Unilever - Kellogg's Crunchy Nut Honey & Almond Clusters (Master Blend) 4000000527534" [ref=f4e760]:
+                  - generic [ref=f4e761]:
+                    - generic [ref=f4e762]: Unilever - Kellogg's Crunchy Nut Honey & Almond Clusters (Master Blend)
+                    - generic [ref=f4e764]: "4000000527534"
+                - cell "EU-CER-02753" [ref=f4e765]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e767]
+                - cell "Unilever" [ref=f4e769]
+                - cell "—" [ref=f4e771]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e772]:
+                  - generic [ref=f4e773]:
+                    - generic [ref=f4e774]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e775]
+                - cell "560 in stock" [ref=f4e778]
+                - cell "Active" [ref=f4e781]
+                - cell "Sep 24, 2026" [ref=f4e784]
+                - cell [ref=f4e785]:
+                  - button "Actions" [ref=f4e786] [cursor=pointer]
+              - row [ref=f4e788]:
+                - cell [ref=f4e789]:
+                  - checkbox "Select row" [ref=f4e790] [cursor=pointer]
+                - cell "Pringles - Doritos Nacho Cheese Bold Tortilla Corn Chips (Handcrafted Classic) 4000000527565" [ref=f4e791]:
+                  - generic [ref=f4e792]:
+                    - generic [ref=f4e793]: Pringles - Doritos Nacho Cheese Bold Tortilla Corn Chips (Handcrafted Classic)
+                    - generic [ref=f4e795]: "4000000527565"
+                - cell "EU-CER-02756" [ref=f4e796]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e798]
+                - cell "Pringles" [ref=f4e800]
+                - cell "—" [ref=f4e802]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e803]:
+                  - generic [ref=f4e804]:
+                    - generic [ref=f4e805]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e806]
+                - cell "572 in stock" [ref=f4e809]
+                - cell "Active" [ref=f4e812]
+                - cell "Sep 24, 2026" [ref=f4e815]
+                - cell [ref=f4e816]:
+                  - button "Actions" [ref=f4e817] [cursor=pointer]
+              - row [ref=f4e819]:
+                - cell [ref=f4e820]:
+                  - checkbox "Select row" [ref=f4e821] [cursor=pointer]
+                - cell "Quaker Oats - Quaker Whole Rolled Oats 100% Wholegrain (Signature Series) 4000000527596" [ref=f4e822]:
+                  - generic [ref=f4e823]:
+                    - generic [ref=f4e824]: Quaker Oats - Quaker Whole Rolled Oats 100% Wholegrain (Signature Series)
+                    - generic [ref=f4e826]: "4000000527596"
+                - cell "EU-CER-02759" [ref=f4e827]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e829]
+                - cell "Quaker Oats" [ref=f4e831]
+                - cell "—" [ref=f4e833]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e834]:
+                  - generic [ref=f4e835]:
+                    - generic [ref=f4e836]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e837]
+                - cell "584 in stock" [ref=f4e840]
+                - cell "Active" [ref=f4e843]
+                - cell "Sep 24, 2026" [ref=f4e846]
+                - cell [ref=f4e847]:
+                  - button "Actions" [ref=f4e848] [cursor=pointer]
+              - row [ref=f4e850]:
+                - cell [ref=f4e851]:
+                  - checkbox "Select row" [ref=f4e852] [cursor=pointer]
+                - cell "Doritos - Kellogg's Crunchy Nut Honey & Almond Clusters (Imperial Private) 4000000527602" [ref=f4e853]:
+                  - generic [ref=f4e854]:
+                    - generic [ref=f4e855]: Doritos - Kellogg's Crunchy Nut Honey & Almond Clusters (Imperial Private)
+                    - generic [ref=f4e857]: "4000000527602"
+                - cell "EU-CER-02760" [ref=f4e858]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e860]
+                - cell "Doritos" [ref=f4e862]
+                - cell "—" [ref=f4e864]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e865]:
+                  - generic [ref=f4e866]:
+                    - generic [ref=f4e867]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e868]
+                - cell "588 in stock" [ref=f4e871]
+                - cell "Active" [ref=f4e874]
+                - cell "Sep 24, 2026" [ref=f4e877]
+                - cell [ref=f4e878]:
+                  - button "Actions" [ref=f4e879] [cursor=pointer]
+              - row [ref=f4e881]:
+                - cell [ref=f4e882]:
+                  - checkbox "Select row" [ref=f4e883] [cursor=pointer]
+                - cell "Quaker Oats - Doritos Nacho Cheese Bold Tortilla Corn Chips (Prime Harvest) 4000000527633" [ref=f4e884]:
+                  - generic [ref=f4e885]:
+                    - generic [ref=f4e886]: Quaker Oats - Doritos Nacho Cheese Bold Tortilla Corn Chips (Prime Harvest)
+                    - generic [ref=f4e888]: "4000000527633"
+                - cell "EU-CER-02763" [ref=f4e889]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e891]
+                - cell "Quaker Oats" [ref=f4e893]
+                - cell "—" [ref=f4e895]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e896]:
+                  - generic [ref=f4e897]:
+                    - generic [ref=f4e898]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e899]
+                - cell "600 in stock" [ref=f4e902]
+                - cell "Active" [ref=f4e905]
+                - cell "Sep 24, 2026" [ref=f4e908]
+                - cell [ref=f4e909]:
+                  - button "Actions" [ref=f4e910] [cursor=pointer]
+              - row [ref=f4e912]:
+                - cell [ref=f4e913]:
+                  - checkbox "Select row" [ref=f4e914] [cursor=pointer]
+                - cell "Doritos - Danone Activia Probiotic Creamy Vanilla Yogurt (Sun-Ripened Select) 4000000527640" [ref=f4e915]:
+                  - generic [ref=f4e916]:
+                    - generic [ref=f4e917]: Doritos - Danone Activia Probiotic Creamy Vanilla Yogurt (Sun-Ripened Select)
+                    - generic [ref=f4e919]: "4000000527640"
+                - cell "EU-CER-02764" [ref=f4e920]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e922]
+                - cell "Doritos" [ref=f4e924]
+                - cell "—" [ref=f4e926]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e927]:
+                  - generic [ref=f4e928]:
+                    - generic [ref=f4e929]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e930]
+                - cell "604 in stock" [ref=f4e933]
+                - cell "Active" [ref=f4e936]
+                - cell "Sep 24, 2026" [ref=f4e939]
+                - cell [ref=f4e940]:
+                  - button "Actions" [ref=f4e941] [cursor=pointer]
+              - row [ref=f4e943]:
+                - cell [ref=f4e944]:
+                  - checkbox "Select row" [ref=f4e945] [cursor=pointer]
+                - cell "Kellogg's - Quaker Whole Rolled Oats 100% Wholegrain (Prestige Cuvée) 4000000527664" [ref=f4e946]:
+                  - generic [ref=f4e947]:
+                    - generic [ref=f4e948]: Kellogg's - Quaker Whole Rolled Oats 100% Wholegrain (Prestige Cuvée)
+                    - generic [ref=f4e950]: "4000000527664"
+                - cell "EU-CER-02766" [ref=f4e951]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e953]
+                - cell "Kellogg's" [ref=f4e955]
+                - cell "—" [ref=f4e957]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e958]:
+                  - generic [ref=f4e959]:
+                    - generic [ref=f4e960]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e961]
+                - cell "612 in stock" [ref=f4e964]
+                - cell "Active" [ref=f4e967]
+                - cell "Sep 24, 2026" [ref=f4e970]
+                - cell [ref=f4e971]:
+                  - button "Actions" [ref=f4e972] [cursor=pointer]
+              - row [ref=f4e974]:
+                - cell [ref=f4e975]:
+                  - checkbox "Select row" [ref=f4e976] [cursor=pointer]
+                - cell "Pringles - Kellogg's Crunchy Nut Honey & Almond Clusters (Pure Nature) 4000000527671" [ref=f4e977]:
+                  - generic [ref=f4e978]:
+                    - generic [ref=f4e979]: Pringles - Kellogg's Crunchy Nut Honey & Almond Clusters (Pure Nature)
+                    - generic [ref=f4e981]: "4000000527671"
+                - cell "EU-CER-02767" [ref=f4e982]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e984]
+                - cell "Pringles" [ref=f4e986]
+                - cell "—" [ref=f4e988]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e989]:
+                  - generic [ref=f4e990]:
+                    - generic [ref=f4e991]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e992]
+                - cell "616 in stock" [ref=f4e995]
+                - cell "Active" [ref=f4e998]
+                - cell "Sep 24, 2026" [ref=f4e1001]
+                - cell [ref=f4e1002]:
+                  - button "Actions" [ref=f4e1003] [cursor=pointer]
+              - row [ref=f4e1005]:
+                - cell [ref=f4e1006]:
+                  - checkbox "Select row" [ref=f4e1007] [cursor=pointer]
+                - cell "Kellogg's - Kellogg's Original Golden Toasted Corn Flakes (Royal Selection) 4000000527510" [ref=f4e1008]:
+                  - generic [ref=f4e1009]:
+                    - generic [ref=f4e1010]: Kellogg's - Kellogg's Original Golden Toasted Corn Flakes (Royal Selection)
+                    - generic [ref=f4e1012]: "4000000527510"
+                - cell "EU-CER-02751" [ref=f4e1013]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e1015]
+                - cell "Kellogg's" [ref=f4e1017]
+                - cell "—" [ref=f4e1019]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e1020]:
+                  - generic [ref=f4e1021]:
+                    - generic [ref=f4e1022]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e1023]
+                - cell "638 in stock" [ref=f4e1026]
+                - cell "Active" [ref=f4e1029]
+                - cell "Sep 24, 2026" [ref=f4e1032]
+                - cell [ref=f4e1033]:
+                  - button "Actions" [ref=f4e1034] [cursor=pointer]
+              - row [ref=f4e1036]:
+                - cell [ref=f4e1037]:
+                  - checkbox "Select row" [ref=f4e1038] [cursor=pointer]
+                - cell "Pringles - Quaker Whole Rolled Oats 100% Wholegrain (Heritage Harvest) 4000000527527" [ref=f4e1039]:
+                  - generic [ref=f4e1040]:
+                    - generic [ref=f4e1041]: Pringles - Quaker Whole Rolled Oats 100% Wholegrain (Heritage Harvest)
+                    - generic [ref=f4e1043]: "4000000527527"
+                - cell "EU-CER-02752" [ref=f4e1044]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e1046]
+                - cell "Pringles" [ref=f4e1048]
+                - cell "—" [ref=f4e1050]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e1051]:
+                  - generic [ref=f4e1052]:
+                    - generic [ref=f4e1053]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e1054]
+                - cell "642 in stock" [ref=f4e1057]
+                - cell "Active" [ref=f4e1060]
+                - cell "Sep 24, 2026" [ref=f4e1063]
+                - cell [ref=f4e1064]:
+                  - button "Actions" [ref=f4e1065] [cursor=pointer]
+              - row [ref=f4e1067]:
+                - cell [ref=f4e1068]:
+                  - checkbox "Select row" [ref=f4e1069] [cursor=pointer]
+                - cell "Al Safi Danone GCC - Pringles Original Stacked Salted Potato Crisps (Old World Special) 4000000527541" [ref=f4e1070]:
+                  - generic [ref=f4e1071]:
+                    - generic [ref=f4e1072]: Al Safi Danone GCC - Pringles Original Stacked Salted Potato Crisps (Old World Special)
+                    - generic [ref=f4e1074]: "4000000527541"
+                - cell "EU-CER-02754" [ref=f4e1075]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e1077]
+                - cell "Al Safi Danone GCC" [ref=f4e1079]
+                - cell "—" [ref=f4e1081]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e1082]:
+                  - generic [ref=f4e1083]:
+                    - generic [ref=f4e1084]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e1085]
+                - cell "564 in stock" [ref=f4e1088]
+                - cell "Active" [ref=f4e1091]
+                - cell "Sep 24, 2026" [ref=f4e1094]
+                - cell [ref=f4e1095]:
+                  - button "Actions" [ref=f4e1096] [cursor=pointer]
+              - row [ref=f4e1098]:
+                - cell [ref=f4e1099]:
+                  - checkbox "Select row" [ref=f4e1100] [cursor=pointer]
+                - cell "Kellogg's - Pringles Sour Cream & Onion Stacked Crisps (Family Estate) 4000000527558" [ref=f4e1101]:
+                  - generic [ref=f4e1102]:
+                    - generic [ref=f4e1103]: Kellogg's - Pringles Sour Cream & Onion Stacked Crisps (Family Estate)
+                    - generic [ref=f4e1105]: "4000000527558"
+                - cell "EU-CER-02755" [ref=f4e1106]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e1108]
+                - cell "Kellogg's" [ref=f4e1110]
+                - cell "—" [ref=f4e1112]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e1113]:
+                  - generic [ref=f4e1114]:
+                    - generic [ref=f4e1115]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e1116]
+                - cell "568 in stock" [ref=f4e1119]
+                - cell "Active" [ref=f4e1122]
+                - cell "Sep 24, 2026" [ref=f4e1125]
+                - cell [ref=f4e1126]:
+                  - button "Actions" [ref=f4e1127] [cursor=pointer]
+              - row [ref=f4e1129]:
+                - cell [ref=f4e1130]:
+                  - checkbox "Select row" [ref=f4e1131] [cursor=pointer]
+                - cell "Candia Algerie Dairy - Kellogg's Original Golden Toasted Corn Flakes (Gourmet Gold) 4000000527589" [ref=f4e1132]:
+                  - generic [ref=f4e1133]:
+                    - generic [ref=f4e1134]: Candia Algerie Dairy - Kellogg's Original Golden Toasted Corn Flakes (Gourmet Gold)
+                    - generic [ref=f4e1136]: "4000000527589"
+                - cell "EU-CER-02758" [ref=f4e1137]
+                - cell "Dairy, Artisan Cheeses & Eggs" [ref=f4e1139]
+                - cell "Candia Algerie Dairy" [ref=f4e1141]
+                - cell "—" [ref=f4e1143]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e1144]:
+                  - generic [ref=f4e1145]:
+                    - generic [ref=f4e1146]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e1147]
+                - cell "580 in stock" [ref=f4e1150]
+                - cell "Active" [ref=f4e1153]
+                - cell "Sep 24, 2026" [ref=f4e1156]
+                - cell [ref=f4e1157]:
+                  - button "Actions" [ref=f4e1158] [cursor=pointer]
+              - row [ref=f4e1160]:
+                - cell [ref=f4e1161]:
+                  - checkbox "Select row" [ref=f4e1162] [cursor=pointer]
+                - cell "Kellogg's - Doritos Nacho Cheese Bold Tortilla Corn Chips (Farmhouse Natural) 4000000527701" [ref=f4e1163]:
+                  - generic [ref=f4e1164]:
+                    - generic [ref=f4e1165]: Kellogg's - Doritos Nacho Cheese Bold Tortilla Corn Chips (Farmhouse Natural)
+                    - generic [ref=f4e1167]: "4000000527701"
+                - cell "EU-CER-02770" [ref=f4e1168]
+                - cell "Pantry Staples, Grains & Rice" [ref=f4e1170]
+                - cell "Kellogg's" [ref=f4e1172]
+                - cell "—" [ref=f4e1174]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f4e1175]:
+                  - generic [ref=f4e1176]:
+                    - generic [ref=f4e1177]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f4e1178]
+                - cell "628 in stock" [ref=f4e1181]
+                - cell "Active" [ref=f4e1184]
+                - cell "Sep 24, 2026" [ref=f4e1187]
+                - cell [ref=f4e1188]:
+                  - button "Actions" [ref=f4e1189] [cursor=pointer]
+          - generic [ref=f4e1191]:
+            - generic [ref=f4e1192]: 0 of 20 row(s) selected.
+            - generic [ref=f4e1193]:
+              - generic [ref=f4e1194]:
+                - paragraph [ref=f4e1195]: Rows per page
+                - combobox [ref=f4e1196] [cursor=pointer]:
+                  - generic: "20"
+              - generic [ref=f4e1197]: Page 1 of 401
+              - generic [ref=f4e1198]:
+                - button "Go to first page" [disabled]
+                - button "Go to previous page" [disabled]
+                - button "Go to next page" [ref=f4e1199] [cursor=pointer]
+                - button "Go to last page" [ref=f4e1201] [cursor=pointer]
+  - generic [ref=f4e1203]:
+    - heading "Command Palette" [level=2] [ref=f4e1204]
+    - paragraph [ref=f4e1205]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=f4e7]:
+    - heading "Command Palette" [level=2] [ref=f4e8]
+    - paragraph [ref=f4e9]: Search for a command to run...

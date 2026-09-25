@@ -81,6 +81,10 @@ export interface ProductSummaryStats {
   outOfStock: number
 }
 
+type ProductQueryBuilder = ReturnType<
+  ReturnType<typeof supabase.from>['select']
+>
+
 export const useServerProducts = (params: ProductQueryParams = {}) => {
   const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
   const { tenantId } = getAuthTenantAndUser()
@@ -94,95 +98,152 @@ export const useServerProducts = (params: ProductQueryParams = {}) => {
       const from = (page - 1) * pageSize
       const to = from + pageSize - 1
 
-      let query = supabase
+      // Helper function to apply common filters to any query builder
+      const applyFilters = (builder: ProductQueryBuilder): ProductQueryBuilder => {
+        let b = builder.neq('is_deleted', true)
+
+        if (tenantId) {
+          b = b.eq('tenant_id', tenantId)
+        }
+
+        // Server-side text search across name, sku, barcode, description
+        if (params.search && params.search.trim()) {
+          const term = params.search.trim()
+          b = b.or(
+            `name.ilike.%${term}%,sku.ilike.%${term}%,barcode.ilike.%${term}%,description.ilike.%${term}%`
+          )
+        }
+
+        // Filters
+        if (params.categoryId) {
+          const cats = Array.isArray(params.categoryId)
+            ? params.categoryId.filter(Boolean)
+            : [params.categoryId].filter(Boolean)
+          if (cats.length > 0) {
+            b = b.in('category_id', cats)
+          }
+        }
+
+        if (params.brandId) {
+          const brands = Array.isArray(params.brandId)
+            ? params.brandId.filter(Boolean)
+            : [params.brandId].filter(Boolean)
+          if (brands.length > 0) {
+            b = b.in('brand_id', brands)
+          }
+        }
+
+        if (params.baseUomId) {
+          const uoms = Array.isArray(params.baseUomId)
+            ? params.baseUomId.filter(Boolean)
+            : [params.baseUomId].filter(Boolean)
+          if (uoms.length > 0) {
+            b = b.in('base_uom_id', uoms)
+          }
+        }
+
+        if (params.supplierId) {
+          const sups = Array.isArray(params.supplierId)
+            ? params.supplierId.filter(Boolean)
+            : [params.supplierId].filter(Boolean)
+          if (sups.length > 0) {
+            b = b.in('supplier_id', sups)
+          }
+        }
+
+        if (params.productType) {
+          const types = Array.isArray(params.productType)
+            ? params.productType.filter(Boolean)
+            : [params.productType].filter(Boolean)
+          if (types.length > 0) {
+            b = b.in('product_type', types)
+          }
+        }
+
+        if (params.isActive !== undefined && params.isActive !== null) {
+          b = b.eq('is_active', params.isActive)
+        }
+
+        if (params.quickFilter === 'inactive') {
+          b = b.eq('is_active', false)
+        }
+
+        return b
+      }
+
+      // 1. Data query (products + parent lookup tables only; excludes heavy one-to-many variant joins that exceed statement timeout)
+      let dataQuery = supabase
         .from('products')
         .select(
-          '*, product_variants(*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)), price_list_items(*), categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), suppliers(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)',
-          { count: 'exact' }
+          '*, categories(id, name, name_ar), brands(id, name, name_ar, code), base_uom:uoms(id, name, code), suppliers(id, name, code), product_types!products_product_type_id_fkey(id, name, name_ar, code, icon, color)'
         )
-        .neq('is_deleted', true)
+      dataQuery = applyFilters(dataQuery)
 
-      if (tenantId) {
-        query = query.eq('tenant_id', tenantId)
-      }
-
-      // Server-side text search across name, sku, barcode, description
-      if (params.search && params.search.trim()) {
-        const term = params.search.trim()
-        query = query.or(
-          `name.ilike.%${term}%,sku.ilike.%${term}%,barcode.ilike.%${term}%,description.ilike.%${term}%`
-        )
-      }
-
-      // Filters
-      if (params.categoryId) {
-        const cats = Array.isArray(params.categoryId)
-          ? params.categoryId.filter(Boolean)
-          : [params.categoryId].filter(Boolean)
-        if (cats.length > 0) {
-          query = query.in('category_id', cats)
-        }
-      }
-
-      if (params.brandId) {
-        const brands = Array.isArray(params.brandId)
-          ? params.brandId.filter(Boolean)
-          : [params.brandId].filter(Boolean)
-        if (brands.length > 0) {
-          query = query.in('brand_id', brands)
-        }
-      }
-
-      if (params.baseUomId) {
-        const uoms = Array.isArray(params.baseUomId)
-          ? params.baseUomId.filter(Boolean)
-          : [params.baseUomId].filter(Boolean)
-        if (uoms.length > 0) {
-          query = query.in('base_uom_id', uoms)
-        }
-      }
-
-      if (params.supplierId) {
-        const sups = Array.isArray(params.supplierId)
-          ? params.supplierId.filter(Boolean)
-          : [params.supplierId].filter(Boolean)
-        if (sups.length > 0) {
-          query = query.in('supplier_id', sups)
-        }
-      }
-
-      if (params.productType) {
-        const types = Array.isArray(params.productType)
-          ? params.productType.filter(Boolean)
-          : [params.productType].filter(Boolean)
-        if (types.length > 0) {
-          query = query.in('product_type', types)
-        }
-      }
-
-      if (params.isActive !== undefined && params.isActive !== null) {
-        query = query.eq('is_active', params.isActive)
-      }
-
-      if (params.quickFilter === 'inactive') {
-        query = query.eq('is_active', false)
-      }
-
-      // Sorting
       const sortColumn = params.sortBy || 'created_at'
       const ascending = params.sortOrder === 'asc'
-      query = query.order(sortColumn, { ascending })
+      dataQuery = dataQuery.order(sortColumn, { ascending }).range(from, to)
 
-      // Range pagination
-      query = query.range(from, to)
+      // 2. Count query (lightweight head-only query with exact count)
+      let countQuery = supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+      countQuery = applyFilters(countQuery)
 
-      const { data, count, error } = await query
-      if (error) throw error
+      // Execute data and count queries in parallel
+      const [dataRes, countRes] = await Promise.all([dataQuery, countQuery])
+      if (dataRes.error) throw dataRes.error
+      if (countRes.error) throw countRes.error
 
-      const products = (data || []).map((row) =>
-        normalizeProduct(row as Record<string, unknown>)
-      )
-      const totalCount = count ?? products.length
+      const rawRows = (dataRes.data as Record<string, unknown>[] | null) || []
+      const pIds = rawRows.map((r) => String(r.id || '')).filter(Boolean)
+
+      // 3. Batch lookup variants and price list items for the retrieved page of products only
+      const variantsMap = new Map<string, Record<string, unknown>[]>()
+      const pricesMap = new Map<string, Record<string, unknown>[]>()
+
+      if (pIds.length > 0) {
+        const [variantsRes, pricesRes] = await Promise.all([
+          supabase
+            .from('product_variants')
+            .select(
+              '*, tax_rates(id, tax_type, rate, is_inclusive), price_list_items(*), stock_balances(*)'
+            )
+            .in('product_id', pIds),
+          supabase
+            .from('price_list_items')
+            .select('*')
+            .in('product_id', pIds),
+        ])
+
+        if (variantsRes.data) {
+          for (const v of variantsRes.data as Record<string, unknown>[]) {
+            const productId = String(v.product_id || '')
+            const list = variantsMap.get(productId) || []
+            list.push(v)
+            variantsMap.set(productId, list)
+          }
+        }
+
+        if (pricesRes.data) {
+          for (const pr of pricesRes.data as Record<string, unknown>[]) {
+            const productId = String(pr.product_id || '')
+            const list = pricesMap.get(productId) || []
+            list.push(pr)
+            pricesMap.set(productId, list)
+          }
+        }
+      }
+
+      const products = rawRows.map((row) => {
+        const pId = String(row.id || '')
+        return normalizeProduct({
+          ...row,
+          product_variants: variantsMap.get(pId) || [],
+          price_list_items: pricesMap.get(pId) || [],
+        })
+      })
+
+      const totalCount = countRes.count ?? products.length
       const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
 
       return {

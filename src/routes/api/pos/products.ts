@@ -109,11 +109,15 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
       ? warehouseParam.trim()
       : null
     const validStoreId = isUuid(storeParam) ? storeParam.trim() : null
-    const page = Math.max(1, Number(url.searchParams.get('page') ?? 1))
-    const pageSize = Math.min(
-      Math.max(1, Number(url.searchParams.get('pageSize') ?? 50)),
-      100
-    )
+    const pageRaw = url.searchParams.get('page')
+    const parsedPage = pageRaw ? Number(pageRaw) : 1
+    const page = Number.isNaN(parsedPage) ? 1 : Math.max(1, parsedPage)
+
+    const pageSizeRaw = url.searchParams.get('pageSize')
+    const parsedPageSize = pageSizeRaw ? Number(pageSizeRaw) : 50
+    const pageSize = Number.isNaN(parsedPageSize)
+      ? 50
+      : Math.min(Math.max(1, parsedPageSize), 100)
     const skip = (page - 1) * pageSize
 
     return await runWithTenantContext(

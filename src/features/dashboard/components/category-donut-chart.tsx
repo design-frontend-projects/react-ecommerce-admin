@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ResponsiveContainer,
   PieChart,
@@ -16,6 +17,7 @@ interface CategoryDonutChartProps {
 }
 
 export function CategoryDonutChart({ categories, currency }: CategoryDonutChartProps) {
+  const { t } = useTranslation()
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const totalValue = categories.reduce((sum, item) => sum + item.value, 0)
@@ -33,11 +35,14 @@ export function CategoryDonutChart({ categories, currency }: CategoryDonutChartP
         <div className='flex items-center gap-2'>
           <PieIcon className='w-4 h-4 text-violet-500' />
           <CardTitle className='text-base font-semibold text-foreground'>
-            Category Distribution
+            {t('dashboard.categoryDistribution.title', 'Category Distribution')}
           </CardTitle>
         </div>
         <CardDescription className='text-xs text-muted-foreground'>
-          Inventory asset value split by product category
+          {t(
+            'dashboard.categoryDistribution.description',
+            'Inventory asset value split by product category'
+          )}
         </CardDescription>
       </CardHeader>
 
@@ -45,13 +50,18 @@ export function CategoryDonutChart({ categories, currency }: CategoryDonutChartP
         {categories.length === 0 ? (
           <div className='flex flex-col items-center justify-center h-[260px] text-muted-foreground text-xs'>
             <Layers className='w-8 h-8 mb-2 opacity-40' />
-            <span>No category stock values recorded</span>
+            <span>
+              {t(
+                'dashboard.categoryDistribution.noValues',
+                'No category stock values recorded'
+              )}
+            </span>
           </div>
         ) : (
           <>
             {/* Donut Chart with Center Stats */}
             <div className='relative h-[210px] w-full mt-2'>
-              <ResponsiveContainer width='100%' height='100%'>
+              <ResponsiveContainer width='100%' height='100%' minWidth={1} minHeight={1}>
                 <PieChart>
                   <Tooltip
                     content={({ active, payload }) => {
@@ -67,15 +77,15 @@ export function CategoryDonutChart({ categories, currency }: CategoryDonutChartP
                               {data.name}
                             </p>
                             <div className='flex items-center justify-between text-muted-foreground text-[11px]'>
-                              <span>Value:</span>
+                              <span>{t('dashboard.categoryDistribution.value', 'Value:')}</span>
                               <span className='font-bold text-foreground'>{formatMoney(data.value)}</span>
                             </div>
                             <div className='flex items-center justify-between text-muted-foreground text-[11px]'>
-                              <span>Share:</span>
+                              <span>{t('dashboard.categoryDistribution.share', 'Share:')}</span>
                               <span className='font-bold text-primary'>{data.percentage}%</span>
                             </div>
                             <div className='flex items-center justify-between text-muted-foreground text-[11px]'>
-                              <span>SKUs:</span>
+                              <span>{t('dashboard.categoryDistribution.skus', 'SKUs:')}</span>
                               <span className='text-foreground'>{data.itemCount}</span>
                             </div>
                           </div>
@@ -111,13 +121,17 @@ export function CategoryDonutChart({ categories, currency }: CategoryDonutChartP
               {/* Center text overlay */}
               <div className='absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center'>
                 <span className='text-[10px] uppercase font-semibold text-muted-foreground tracking-wider'>
-                  Total Stock
+                  {t('dashboard.categoryDistribution.totalStock', 'Total Stock')}
                 </span>
                 <span className='text-sm sm:text-base font-bold text-foreground'>
                   {formatMoney(totalValue)}
                 </span>
                 <span className='text-[10px] text-muted-foreground'>
-                  {categories.length} Categories
+                  {t(
+                    'dashboard.categoryDistribution.categoriesCount',
+                    '{{count}} Categories',
+                    { count: categories.length }
+                  )}
                 </span>
               </div>
             </div>

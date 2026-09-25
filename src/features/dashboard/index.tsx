@@ -62,19 +62,19 @@ export function Dashboard() {
       disabled: false,
     },
     {
-      title: 'Valuation',
+      title: t('dashboard.navigation.valuation', 'Valuation'),
       href: '/inventory/valuation',
       isActive: false,
       disabled: false,
     },
     {
-      title: 'Movements',
+      title: t('dashboard.navigation.movements', 'Movements'),
       href: '/inventory-movements',
       isActive: false,
       disabled: false,
     },
     {
-      title: 'Purchase Orders',
+      title: t('dashboard.navigation.purchaseOrders', 'Purchase Orders'),
       href: '/purchase-orders',
       isActive: false,
       disabled: false,
@@ -105,7 +105,7 @@ export function Dashboard() {
           {isSignedIn && <ProfileDropdown />}
           {!isSignedIn && (
             <Button asChild size='sm'>
-              <Link to='/sign-in'>Sign In</Link>
+              <Link to='/sign-in'>{t('dashboard.navigation.signIn', 'Sign In')}</Link>
             </Button>
           )}
         </div>
@@ -121,11 +121,14 @@ export function Dashboard() {
               <AlertCircle className='w-7 h-7' />
             </div>
             <h3 className='text-lg font-bold text-foreground mb-1'>
-              Failed to load inventory analytics
+              {t('dashboard.errors.failedToLoad', 'Failed to load inventory analytics')}
             </h3>
             <p className='text-sm text-muted-foreground max-w-md mb-6'>
               {error?.message ||
-                'An unexpected error occurred while communicating with the database.'}
+                t(
+                  'dashboard.errors.unexpectedError',
+                  'An unexpected error occurred while communicating with the database.'
+                )}
             </p>
             <Button
               onClick={() => refetch()}
@@ -135,7 +138,11 @@ export function Dashboard() {
               <RefreshCw
                 className={`w-3.5 h-3.5 ${isRefetching ? 'animate-spin' : ''}`}
               />
-              <span>{isRefetching ? 'Re-connecting...' : 'Try Again'}</span>
+              <span>
+                {isRefetching
+                  ? t('dashboard.errors.reconnecting', 'Re-connecting...')
+                  : t('dashboard.errors.tryAgain', 'Try Again')}
+              </span>
             </Button>
           </div>
         ) : !dashboardData ||
@@ -218,13 +225,17 @@ export function Dashboard() {
                       value='overdue'
                       className='text-xs font-medium data-[state=active]:bg-background'
                     >
-                      Delayed POs ({dashboardData.overduePurchaseOrders.length})
+                      {t('dashboard.sideTabs.delayedPOs', 'Delayed POs ({{count}})', {
+                        count: dashboardData.overduePurchaseOrders.length,
+                      })}
                     </TabsTrigger>
                     <TabsTrigger
                       value='movers'
                       className='text-xs font-medium data-[state=active]:bg-background'
                     >
-                      Top Movers ({dashboardData.topMovers.length})
+                      {t('dashboard.sideTabs.topMovers', 'Top Movers ({{count}})', {
+                        count: dashboardData.topMovers.length,
+                      })}
                     </TabsTrigger>
                   </TabsList>
 

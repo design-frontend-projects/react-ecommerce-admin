@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { Clock, CheckCircle2, ArrowRight, ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,8 @@ interface OverduePoTableProps {
 }
 
 export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
+  const { t } = useTranslation()
+
   const formatMoney = (val: number, cur?: string) => {
     const symbol = cur || currency.symbol
     return `${symbol}${val.toLocaleString(undefined, {
@@ -34,22 +37,28 @@ export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
           <div className='flex items-center gap-2'>
             <Clock className='w-4 h-4 text-purple-500' />
             <CardTitle className='text-base font-semibold text-foreground'>
-              Delayed Supplier Deliveries
+              {t('dashboard.delayedPOs.title', 'Delayed Supplier Deliveries')}
             </CardTitle>
             {orders.length > 0 && (
               <Badge variant='outline' className='bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30 text-xs font-semibold'>
-                {orders.length} Overdue
+                {t('dashboard.delayedPOs.overdueBadge', '{{count}} Overdue', {
+                  count: orders.length,
+                })}
               </Badge>
             )}
           </div>
           <CardDescription className='text-xs text-muted-foreground'>
-            Active purchase orders past their expected warehouse receipt dates
+            {t(
+              'dashboard.delayedPOs.description',
+              'Active purchase orders past their expected warehouse receipt dates'
+            )}
           </CardDescription>
         </div>
 
         <Button variant='ghost' size='sm' asChild className='h-8 text-xs font-medium text-muted-foreground hover:text-foreground'>
           <Link to='/purchase-orders'>
-            All Orders <ArrowRight className='w-3 h-3 ml-1' />
+            {t('dashboard.delayedPOs.allOrders', 'All Orders')}{' '}
+            <ArrowRight className='w-3 h-3 ml-1' />
           </Link>
         </Button>
       </CardHeader>
@@ -58,9 +67,14 @@ export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
         {orders.length === 0 ? (
           <div className='flex flex-col items-center justify-center py-10 px-4 text-center text-muted-foreground my-auto'>
             <CheckCircle2 className='w-8 h-8 text-emerald-500 mb-2 opacity-80' />
-            <p className='text-sm font-semibold text-foreground'>No Delayed Orders</p>
+            <p className='text-sm font-semibold text-foreground'>
+              {t('dashboard.delayedPOs.noDelayedOrders', 'No Delayed Orders')}
+            </p>
             <p className='text-xs max-w-xs'>
-              All open vendor shipments are either on schedule or have already been fully received.
+              {t(
+                'dashboard.delayedPOs.allOnSchedule',
+                'All open vendor shipments are either on schedule or have already been fully received.'
+              )}
             </p>
           </div>
         ) : (
@@ -68,11 +82,21 @@ export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
             <Table>
               <TableHeader className='bg-muted/40 text-[11px] uppercase tracking-wider'>
                 <TableRow className='hover:bg-transparent border-border/40'>
-                  <TableHead className='py-2.5 pl-5'>PO # & Supplier</TableHead>
-                  <TableHead className='py-2.5'>Expected Date</TableHead>
-                  <TableHead className='py-2.5'>Delay</TableHead>
-                  <TableHead className='py-2.5'>Amount</TableHead>
-                  <TableHead className='py-2.5 pr-5 text-right'>Action</TableHead>
+                  <TableHead className='py-2.5 pl-5'>
+                    {t('dashboard.delayedPOs.colPoSupplier', 'PO # & Supplier')}
+                  </TableHead>
+                  <TableHead className='py-2.5'>
+                    {t('dashboard.delayedPOs.colExpectedDate', 'Expected Date')}
+                  </TableHead>
+                  <TableHead className='py-2.5'>
+                    {t('dashboard.delayedPOs.colDelay', 'Delay')}
+                  </TableHead>
+                  <TableHead className='py-2.5'>
+                    {t('dashboard.delayedPOs.colAmount', 'Amount')}
+                  </TableHead>
+                  <TableHead className='py-2.5 pr-5 text-right'>
+                    {t('dashboard.delayedPOs.colAction', 'Action')}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='text-xs divide-y divide-border/30'>
@@ -92,7 +116,7 @@ export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
 
                     {/* Expected Date */}
                     <TableCell className='py-3 text-muted-foreground font-mono text-[11px]'>
-                      {po.expectedDeliveryDate || 'N/A'}
+                      {po.expectedDeliveryDate || t('dashboard.delayedPOs.na', 'N/A')}
                     </TableCell>
 
                     {/* Delay Badge */}
@@ -106,7 +130,9 @@ export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
                         }`}
                       >
                         <Clock className='w-2.5 h-2.5' />
-                        {po.daysOverdue}d Late
+                        {t('dashboard.delayedPOs.daysLate', '{{days}}d Late', {
+                          days: po.daysOverdue,
+                        })}
                       </Badge>
                     </TableCell>
 
@@ -124,7 +150,7 @@ export function OverduePoTable({ orders, currency }: OverduePoTableProps) {
                         className='h-7 px-2 text-xs gap-1 text-primary hover:text-primary hover:bg-primary/10'
                       >
                         <Link to='/purchase-orders'>
-                          <span>Inspect</span>
+                          <span>{t('dashboard.delayedPOs.inspect', 'Inspect')}</span>
                           <ExternalLink className='w-3 h-3' />
                         </Link>
                       </Button>

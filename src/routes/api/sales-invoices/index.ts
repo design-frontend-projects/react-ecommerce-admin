@@ -37,8 +37,8 @@ const GET = withAuth(PERMISSIONS.SALES_VIEW, async ({ request, auth }) => {
       sourceType: searchParams.get('sourceType') || undefined,
       dateFrom: searchParams.get('dateFrom') || undefined,
       dateTo: searchParams.get('dateTo') || undefined,
-      page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
-      pageSize: searchParams.get('pageSize') ? Number(searchParams.get('pageSize')) : 20,
+      page: searchParams.get('page') && !Number.isNaN(Number(searchParams.get('page'))) ? Number(searchParams.get('page')) : 1,
+      pageSize: searchParams.get('pageSize') && !Number.isNaN(Number(searchParams.get('pageSize'))) ? Number(searchParams.get('pageSize')) : 20,
       sortBy: (searchParams.get('sortBy') as any) || 'created_at',
       sortOrder: (searchParams.get('sortOrder') as any) || 'desc',
     }

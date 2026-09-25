@@ -1,5 +1,39 @@
 # Error Log
 
+## [2026-09-25 14:30] - Postgres 57014 Statement Timeout on Products Server-Side Pagination Query
+
+- **Type**: Integration / Database / Runtime
+- **Severity**: High
+- **File**: `src/features/products/hooks/use-products.ts:97`, `src/features/products/components/products-table.tsx:84`
+- **Agent**: @frontend-specialist
+- **Root Cause**: `useServerProducts` in `src/features/products/hooks/use-products.ts` executed a single monolithic PostgREST query on `products` requesting `{ count: 'exact' }` and deeply embedding `product_variants(*, tax_rates(...), price_list_items(*), stock_balances(*))` alongside parent lookup tables across 8,006 products and 20,863 variants. Because PostgREST lateral joins with `{ count: 'exact' }` evaluate nested relations across all table rows, PostgreSQL exceeded the statement timeout limit (8000ms), throwing error code `57014` (`canceling statement due to statement timeout`). When this occurred, `src/features/products/components/products-table.tsx` was unmounted, and the error state lacked inline recovery controls.
+- **Error Message**:
+  ```json
+  {
+    "code": "57014",
+    "details": null,
+    "hint": null,
+    "message": "canceling statement due to statement timeout"
+  }
+  ```
+- **Fix Applied**:
+  1. In `src/features/products/hooks/use-products.ts`:
+     - Decoupled data fetching and row counting: executed a lightweight `products.select('*', { count: 'exact', head: true })` query concurrently with the paginated `products` query (`range(from, to)`).
+     - Removed the heavy one-to-many `product_variants` lateral join from the initial `products` query, fetching only parent lookup tables (`categories`, `brands`, `uoms`, `suppliers`, `product_types`).
+     - Looked up variants (`product_variants`) and `price_list_items` exclusively for the 20 products returned in the current page via `.in('product_id', pIds)`, reducing query time from >8500ms (timeout) to 976ms.
+  2. In `src/features/products/components/products-table.tsx`:
+     - Added `error?: unknown` and `onRetry?: () => void` props to `ProductsTableProps`.
+     - Configured `manualFiltering: isServer` and `manualSorting: isServer` on `useReactTable` to prevent unwanted client-side filtering on server-paginated data.
+     - Synchronized desktop toolbar faceted filters (`category`, `brand`, `base_uom`, `supplier`, `product_type`, `is_active`) with server query state via `handleColumnFiltersChange`.
+     - Built dedicated error UI states: when data is empty, rendered an error card/row with timeout explanation (`57014`), "Try Again", and "Reset Filters"; when stale data exists, rendered a dismissible warning banner.
+  3. In `src/features/products/index.tsx`:
+     - Passed `error` and `onRetry={() => refetch()}` directly to `ProductsTable` so toolbar and filter controls remain usable during error conditions.
+  4. Added regression unit tests in `src/__tests__/products-table-enhancements.test.tsx` verifying error state rendering, retry callback execution, timeout detection, and warning banner display.
+- **Prevention**: In Supabase/PostgREST applications with large datasets, never combine `{ count: 'exact' }` with multi-level one-to-many relationship embeddings in a single query. Always use separate `head: true` count queries and batch-fetch one-to-many child rows for the paginated slice of parent IDs.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-24 00:55] - Prisma Unknown field tax_rate_id for select statement on model product_variants in POS Products API
 
 - **Type**: Integration / Runtime

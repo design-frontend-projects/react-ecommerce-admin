@@ -1,0 +1,699 @@
+- generic [ref=f1e1]:
+  - generic [ref=f1e12]:
+    - link "Skip to main content" [ref=f1e13] [cursor=pointer]:
+      - /url: "#content"
+    - generic [ref=f1e16]:
+      - list [ref=f1e18]:
+        - listitem [ref=f1e19]:
+          - generic [ref=f1e20]:
+            - link "ResPOS ResPOS Premium Edition" [ref=f1e21] [cursor=pointer]:
+              - /url: /
+              - img "ResPOS" [ref=f1e23]
+              - generic [ref=f1e24]:
+                - generic [ref=f1e25]: ResPOS
+                - generic [ref=f1e26]: Premium Edition
+            - button "Toggle Sidebar" [ref=f1e27] [cursor=pointer]
+      - generic [ref=f1e29]:
+        - generic [ref=f1e30]:
+          - generic [ref=f1e31]: System
+          - list [ref=f1e32]:
+            - listitem [ref=f1e33]:
+              - link "System Management" [ref=f1e34] [cursor=pointer]:
+                - /url: /system
+            - listitem [ref=f1e38]:
+              - link "Audit Logs" [ref=f1e39] [cursor=pointer]:
+                - /url: /system/audit-logs
+        - generic [ref=f1e44]:
+          - generic [ref=f1e45]: General
+          - list [ref=f1e46]:
+            - listitem [ref=f1e47]:
+              - link "Dashboard" [ref=f1e48] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f1e55]:
+              - button "POS System" [ref=f1e56] [cursor=pointer]
+            - listitem [ref=f1e63]:
+              - link "Products" [ref=f1e64] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=f1e71]:
+              - link "Subscriptions" [ref=f1e72] [cursor=pointer]:
+                - /url: /subscriptions
+            - listitem [ref=f1e76]:
+              - link "Notifications" [ref=f1e77] [cursor=pointer]:
+                - /url: /notifications
+        - generic [ref=f1e82]:
+          - generic [ref=f1e83]: Restaurant POS
+          - list [ref=f1e84]:
+            - listitem [ref=f1e85]:
+              - link "POS Dashboard" [ref=f1e86] [cursor=pointer]:
+                - /url: /respos
+            - listitem [ref=f1e93]:
+              - link "Restaurant POS" [ref=f1e94] [cursor=pointer]:
+                - /url: /respos/pos
+            - listitem [ref=f1e99]:
+              - link "Captain Station" [ref=f1e100] [cursor=pointer]:
+                - /url: /respos/captain
+            - listitem [ref=f1e104]:
+              - link "Kitchen Display" [ref=f1e105] [cursor=pointer]:
+                - /url: /respos/kitchen
+            - listitem [ref=f1e110]:
+              - link "Menu Management" [ref=f1e111] [cursor=pointer]:
+                - /url: /respos/menu
+            - listitem [ref=f1e118]:
+              - link "Floors & Tables" [ref=f1e119] [cursor=pointer]:
+                - /url: /respos/floors
+            - listitem [ref=f1e123]:
+              - link "Reservations" [ref=f1e124] [cursor=pointer]:
+                - /url: /respos/reservations
+            - listitem [ref=f1e130]:
+              - link "Analytics" [ref=f1e131] [cursor=pointer]:
+                - /url: /respos/analytics
+            - listitem [ref=f1e136]:
+              - link "Cashier & Checkout" [ref=f1e137] [cursor=pointer]:
+                - /url: /respos/cashier
+            - listitem [ref=f1e141]:
+              - link "Payments" [ref=f1e142] [cursor=pointer]:
+                - /url: /respos/payments
+            - listitem [ref=f1e146]:
+              - link "Shipments" [ref=f1e147] [cursor=pointer]:
+                - /url: /respos/shipments
+            - listitem [ref=f1e154]:
+              - link "Payment Methods" [ref=f1e155] [cursor=pointer]:
+                - /url: /payment-methods
+            - listitem [ref=f1e160]:
+              - link "Users & Roles" [ref=f1e161] [cursor=pointer]:
+                - /url: /users
+            - listitem [ref=f1e168]:
+              - link "Access Control" [ref=f1e169] [cursor=pointer]:
+                - /url: /access-control
+        - generic [ref=f1e174]:
+          - generic [ref=f1e175]: Inventory
+          - list [ref=f1e176]:
+            - listitem [ref=f1e177]:
+              - link "Inventory Dashboard" [ref=f1e178] [cursor=pointer]:
+                - /url: /inventory/dashboard
+            - listitem [ref=f1e185]:
+              - link "Inventory Alerts" [ref=f1e186] [cursor=pointer]:
+                - /url: /inventory/alerts
+            - listitem [ref=f1e190]:
+              - button "Catalog & Products" [expanded] [ref=f1e191] [cursor=pointer]
+              - list [ref=f1e200]:
+                - listitem [ref=f1e201]:
+                  - link "Inventory Items" [ref=f1e202] [cursor=pointer]:
+                    - /url: /inventory
+                - listitem [ref=f1e214]:
+                  - link "Products" [ref=f1e215] [cursor=pointer]:
+                    - /url: /products
+                - listitem [ref=f1e221]:
+                  - link "Categories" [ref=f1e222] [cursor=pointer]:
+                    - /url: /categories
+                - listitem [ref=f1e228]:
+                  - link "Brands" [ref=f1e229] [cursor=pointer]:
+                    - /url: /brands
+                - listitem [ref=f1e235]:
+                  - link "Units of Measure" [ref=f1e236] [cursor=pointer]:
+                    - /url: /units
+                - listitem [ref=f1e244]:
+                  - link "Price List" [ref=f1e245] [cursor=pointer]:
+                    - /url: /price-list
+            - listitem [ref=f1e249]:
+              - button "Stock & Warehouses" [ref=f1e250] [cursor=pointer]
+            - listitem [ref=f1e257]:
+              - button "Tracking & Batches" [ref=f1e258] [cursor=pointer]
+            - listitem [ref=f1e266]:
+              - button "Purchasing & Inbound" [ref=f1e267] [cursor=pointer]
+            - listitem [ref=f1e275]:
+              - button "Promotions" [ref=f1e276] [cursor=pointer]
+            - listitem [ref=f1e283]:
+              - button "Sales & Fulfillment" [ref=f1e284] [cursor=pointer]
+            - listitem [ref=f1e293]:
+              - button "Valuation & Finance" [ref=f1e294] [cursor=pointer]
+        - generic [ref=f1e300]:
+          - generic [ref=f1e301]: Lookups
+          - list [ref=f1e302]:
+            - listitem [ref=f1e303]:
+              - link "Master Lookups" [ref=f1e304] [cursor=pointer]:
+                - /url: /lookups
+            - listitem [ref=f1e310]:
+              - link "Countries" [ref=f1e311] [cursor=pointer]:
+                - /url: /countries
+            - listitem [ref=f1e315]:
+              - link "Cities" [ref=f1e316] [cursor=pointer]:
+                - /url: /cities
+            - listitem [ref=f1e321]:
+              - link "Areas" [ref=f1e322] [cursor=pointer]:
+                - /url: /areas
+            - listitem [ref=f1e327]:
+              - link "Currencies" [ref=f1e328] [cursor=pointer]:
+                - /url: /currencies
+            - listitem [ref=f1e332]:
+              - link "Branches" [ref=f1e333] [cursor=pointer]:
+                - /url: /branches
+            - listitem [ref=f1e339]:
+              - link "Stores" [ref=f1e340] [cursor=pointer]:
+                - /url: /stores
+            - listitem [ref=f1e345]:
+              - link "Channels" [ref=f1e346] [cursor=pointer]:
+                - /url: /channels
+        - generic [ref=f1e354]:
+          - generic [ref=f1e355]: Other
+          - list [ref=f1e356]:
+            - listitem [ref=f1e357]:
+              - button "Settings" [ref=f1e358] [cursor=pointer]
+            - listitem [ref=f1e365]:
+              - button "Lookups" [ref=f1e366] [cursor=pointer]
+            - listitem [ref=f1e374]:
+              - link "Help Center" [ref=f1e375] [cursor=pointer]:
+                - /url: /help-center
+      - list [ref=f1e381]:
+        - listitem [ref=f1e382]:
+          - button "‪ ‪ahmed ahmedmedodev@gmail.com" [ref=f1e383] [cursor=pointer]:
+            - generic [ref=f1e384]: ‪
+            - generic [ref=f1e388]:
+              - generic [ref=f1e389]: ‪ahmed
+              - generic [ref=f1e390]: ahmedmedodev@gmail.com
+      - button "Toggle Sidebar" [ref=f1e394]
+    - generic [ref=f1e396]:
+      - banner [ref=f1e397]:
+        - generic [ref=f1e398]:
+          - button "Toggle Sidebar" [ref=f1e399] [cursor=pointer]
+          - button "Search... ⌘ K" [ref=f1e401] [cursor=pointer]:
+            - generic [ref=f1e402]: Search...
+            - generic:
+              - generic: ⌘
+              - text: K
+          - generic [ref=f1e403]:
+            - button "Switch Language" [ref=f1e404] [cursor=pointer]
+            - button "Theme" [ref=f1e406] [cursor=pointer]
+            - button "SN" [ref=f1e408] [cursor=pointer]
+          - generic [ref=f1e411]:
+            - combobox "Select branch" [ref=f1e412] [cursor=pointer]
+            - button "Notifications" [ref=f1e413] [cursor=pointer]
+            - button "Reorder notifications" [ref=f1e414] [cursor=pointer]
+            - button "Install the interface." [ref=f1e415] [cursor=pointer]
+            - button "SN" [ref=f1e417] [cursor=pointer]
+      - main [ref=f1e420]:
+        - generic [ref=f1e421]:
+          - generic [ref=f1e422]:
+            - heading "Products" [level=2] [ref=f1e423]
+            - paragraph [ref=f1e424]: Manage your inventory, product catalog, and pricing.
+          - button "Add Product" [ref=f1e427] [cursor=pointer]
+        - generic [ref=f1e429]:
+          - generic [ref=f1e433] [cursor=pointer]:
+            - paragraph [ref=f1e434]: Total Products
+            - generic [ref=f1e435]: 8,006
+            - paragraph [ref=f1e437]: Catalog items
+          - generic [ref=f1e452] [cursor=pointer]:
+            - paragraph [ref=f1e453]: In Stock
+            - generic [ref=f1e454]: "0"
+            - paragraph [ref=f1e456]: Available for order
+          - generic [ref=f1e464] [cursor=pointer]:
+            - paragraph [ref=f1e465]: Low Stock Alert
+            - generic [ref=f1e466]: "0"
+            - paragraph [ref=f1e468]: Below reorder level
+          - generic [ref=f1e475] [cursor=pointer]:
+            - paragraph [ref=f1e476]: Out of Stock
+            - generic [ref=f1e477]: "0"
+            - paragraph [ref=f1e479]: Zero inventory
+        - generic [ref=f1e485]:
+          - generic [ref=f1e486]:
+            - button "All 979" [ref=f1e487] [cursor=pointer]:
+              - generic [ref=f1e488]: All
+              - generic [ref=f1e489]: "979"
+            - button "In Stock 20" [ref=f1e490] [cursor=pointer]:
+              - generic [ref=f1e492]: In Stock
+              - generic [ref=f1e493]: "20"
+            - button "Low Stock 0" [ref=f1e494] [cursor=pointer]:
+              - generic [ref=f1e496]: Low Stock
+              - generic [ref=f1e497]: "0"
+            - button "Out of Stock 0" [ref=f1e498] [cursor=pointer]:
+              - generic [ref=f1e500]: Out of Stock
+              - generic [ref=f1e501]: "0"
+            - button "Inactive 0" [ref=f1e502] [cursor=pointer]:
+              - generic [ref=f1e504]: Inactive
+              - generic [ref=f1e505]: "0"
+          - generic [ref=f1e506]:
+            - generic [ref=f1e507]:
+              - textbox "Search by name, SKU, barcode, brand..." [active] [ref=f1e508]: coffee
+              - generic [ref=f1e509]:
+                - button "Category" [ref=f1e510] [cursor=pointer]
+                - button "Brand" [ref=f1e511] [cursor=pointer]
+                - button "Base UOM" [ref=f1e512] [cursor=pointer]
+                - button "Supplier" [ref=f1e513] [cursor=pointer]
+                - button "Type" [ref=f1e514] [cursor=pointer]
+                - button "Stock Quantity" [ref=f1e515] [cursor=pointer]
+                - button "Status" [ref=f1e516] [cursor=pointer]
+              - button "Reset" [ref=f1e517] [cursor=pointer]
+            - generic [ref=f1e518]:
+              - generic [ref=f1e519]:
+                - combobox [ref=f1e520] [cursor=pointer]:
+                  - generic: Newest First
+                - generic [ref=f1e521]:
+                  - button "Table View" [ref=f1e522] [cursor=pointer]
+                  - button "Grid View" [ref=f1e523] [cursor=pointer]
+                - button "Export" [ref=f1e524] [cursor=pointer]
+              - button "View" [ref=f1e526] [cursor=pointer]
+          - table [ref=f1e529]:
+            - rowgroup [ref=f1e530]:
+              - row [ref=f1e531]:
+                - columnheader [ref=f1e532]:
+                  - checkbox "Select all" [ref=f1e533] [cursor=pointer]
+                - columnheader [ref=f1e534]:
+                  - button "Product Name" [ref=f1e536] [cursor=pointer]
+                - columnheader [ref=f1e538]:
+                  - button "SKU" [ref=f1e540] [cursor=pointer]
+                - columnheader [ref=f1e542]:
+                  - button "Category" [ref=f1e544] [cursor=pointer]
+                - columnheader [ref=f1e546]:
+                  - button "Brand" [ref=f1e548] [cursor=pointer]
+                - columnheader [ref=f1e550]:
+                  - button "Supplier" [ref=f1e552] [cursor=pointer]
+                - columnheader [ref=f1e554]:
+                  - button "Type" [ref=f1e556] [cursor=pointer]
+                - columnheader [ref=f1e558]:
+                  - button "Stock Quantity" [ref=f1e560] [cursor=pointer]
+                - columnheader [ref=f1e562]:
+                  - button "Status" [ref=f1e564] [cursor=pointer]
+                - columnheader [ref=f1e566]:
+                  - button "Created At" [ref=f1e568] [cursor=pointer]
+                - columnheader [ref=f1e570]
+            - rowgroup [ref=f1e571]:
+              - row [ref=f1e572]:
+                - cell [ref=f1e573]:
+                  - checkbox "Select row" [ref=f1e574] [cursor=pointer]
+                - cell "Toblerone - Lindor Swiss Milk Chocolate Melt Truffles (Country Style) 8010000517622" [ref=f1e575]:
+                  - generic [ref=f1e576]:
+                    - generic [ref=f1e577]: Toblerone - Lindor Swiss Milk Chocolate Melt Truffles (Country Style)
+                    - generic [ref=f1e579]: "8010000517622"
+                - cell "EU-COF-01762" [ref=f1e580]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e582]
+                - cell "Toblerone" [ref=f1e584]
+                - cell "—" [ref=f1e586]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e587]:
+                  - generic [ref=f1e588]:
+                    - generic [ref=f1e589]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e590]
+                - cell "748 in stock" [ref=f1e593]
+                - cell "Active" [ref=f1e596]
+                - cell "Sep 24, 2026" [ref=f1e599]
+                - cell [ref=f1e600]:
+                  - button "Actions" [ref=f1e601] [cursor=pointer]
+              - row [ref=f1e603]:
+                - cell [ref=f1e604]:
+                  - checkbox "Select row" [ref=f1e605] [cursor=pointer]
+                - cell "Nespresso - Nespresso Ispirazione Ristretto Italiano Capsules (Mountain Spring) 8010000517691" [ref=f1e606]:
+                  - generic [ref=f1e607]:
+                    - generic [ref=f1e608]: Nespresso - Nespresso Ispirazione Ristretto Italiano Capsules (Mountain Spring)
+                    - generic [ref=f1e610]: "8010000517691"
+                - cell "EU-COF-01769" [ref=f1e611]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e613]
+                - cell "Nespresso" [ref=f1e615]
+                - cell "—" [ref=f1e617]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e618]:
+                  - generic [ref=f1e619]:
+                    - generic [ref=f1e620]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e621]
+                - cell "776 in stock" [ref=f1e624]
+                - cell "Active" [ref=f1e627]
+                - cell "Sep 24, 2026" [ref=f1e630]
+                - cell [ref=f1e631]:
+                  - button "Actions" [ref=f1e632] [cursor=pointer]
+              - row [ref=f1e634]:
+                - cell [ref=f1e635]:
+                  - checkbox "Select row" [ref=f1e636] [cursor=pointer]
+                - cell "Ferrero - Ferrero Rocher Whole Hazelnut Pralines Box (Connoisseur Grade) 8010000517578" [ref=f1e637]:
+                  - generic [ref=f1e638]:
+                    - generic [ref=f1e639]: Ferrero - Ferrero Rocher Whole Hazelnut Pralines Box (Connoisseur Grade)
+                    - generic [ref=f1e641]: "8010000517578"
+                - cell "EU-COF-01757" [ref=f1e642]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e644]
+                - cell "Ferrero" [ref=f1e646]
+                - cell "—" [ref=f1e648]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e649]:
+                  - generic [ref=f1e650]:
+                    - generic [ref=f1e651]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e652]
+                - cell "728 in stock" [ref=f1e655]
+                - cell "Active" [ref=f1e658]
+                - cell "Sep 24, 2026" [ref=f1e661]
+                - cell [ref=f1e662]:
+                  - button "Actions" [ref=f1e663] [cursor=pointer]
+              - row [ref=f1e665]:
+                - cell [ref=f1e666]:
+                  - checkbox "Select row" [ref=f1e667] [cursor=pointer]
+                - cell "Ferrero - Nespresso Ispirazione Ristretto Italiano Capsules (Connoisseur Grade) 8010000517615" [ref=f1e668]:
+                  - generic [ref=f1e669]:
+                    - generic [ref=f1e670]: Ferrero - Nespresso Ispirazione Ristretto Italiano Capsules (Connoisseur Grade)
+                    - generic [ref=f1e672]: "8010000517615"
+                - cell "EU-COF-01761" [ref=f1e673]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e675]
+                - cell "Ferrero" [ref=f1e677]
+                - cell "—" [ref=f1e679]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e680]:
+                  - generic [ref=f1e681]:
+                    - generic [ref=f1e682]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e683]
+                - cell "744 in stock" [ref=f1e686]
+                - cell "Active" [ref=f1e689]
+                - cell "Sep 24, 2026" [ref=f1e692]
+                - cell [ref=f1e693]:
+                  - button "Actions" [ref=f1e694] [cursor=pointer]
+              - row [ref=f1e696]:
+                - cell [ref=f1e697]:
+                  - checkbox "Select row" [ref=f1e698] [cursor=pointer]
+                - cell "Nespresso - Ferrero Rocher Whole Hazelnut Pralines Box (Mountain Spring) 8010000517653" [ref=f1e699]:
+                  - generic [ref=f1e700]:
+                    - generic [ref=f1e701]: Nespresso - Ferrero Rocher Whole Hazelnut Pralines Box (Mountain Spring)
+                    - generic [ref=f1e703]: "8010000517653"
+                - cell "EU-COF-01765" [ref=f1e704]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e706]
+                - cell "Nespresso" [ref=f1e708]
+                - cell "—" [ref=f1e710]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e711]:
+                  - generic [ref=f1e712]:
+                    - generic [ref=f1e713]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e714]
+                - cell "760 in stock" [ref=f1e717]
+                - cell "Active" [ref=f1e720]
+                - cell "Sep 24, 2026" [ref=f1e723]
+                - cell [ref=f1e724]:
+                  - button "Actions" [ref=f1e725] [cursor=pointer]
+              - row [ref=f1e727]:
+                - cell [ref=f1e728]:
+                  - checkbox "Select row" [ref=f1e729] [cursor=pointer]
+                - cell "Lavazza - Illy 100% Arabica Medium Roast Coffee Beans (Pure Nature) 8010000517684" [ref=f1e730]:
+                  - generic [ref=f1e731]:
+                    - generic [ref=f1e732]: Lavazza - Illy 100% Arabica Medium Roast Coffee Beans (Pure Nature)
+                    - generic [ref=f1e734]: "8010000517684"
+                - cell "EU-COF-01768" [ref=f1e735]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e737]
+                - cell "Lavazza" [ref=f1e739]
+                - cell "—" [ref=f1e741]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e742]:
+                  - generic [ref=f1e743]:
+                    - generic [ref=f1e744]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e745]
+                - cell "1197 in stock" [ref=f1e748]
+                - cell "Active" [ref=f1e751]
+                - cell "Sep 24, 2026" [ref=f1e754]
+                - cell [ref=f1e755]:
+                  - button "Actions" [ref=f1e756] [cursor=pointer]
+              - row [ref=f1e758]:
+                - cell [ref=f1e759]:
+                  - checkbox "Select row" [ref=f1e760] [cursor=pointer]
+                - cell "Lindt & Sprüngli - Nespresso Ispirazione Ristretto Italiano Capsules (Master Blend) 8010000517530" [ref=f1e761]:
+                  - generic [ref=f1e762]:
+                    - generic [ref=f1e763]: Lindt & Sprüngli - Nespresso Ispirazione Ristretto Italiano Capsules (Master Blend)
+                    - generic [ref=f1e765]: "8010000517530"
+                - cell "EU-COF-01753" [ref=f1e766]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e768]
+                - cell "Lindt & Sprüngli" [ref=f1e770]
+                - cell "—" [ref=f1e772]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e773]:
+                  - generic [ref=f1e774]:
+                    - generic [ref=f1e775]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e776]
+                - cell "712 in stock" [ref=f1e779]
+                - cell "Active" [ref=f1e782]
+                - cell "Sep 24, 2026" [ref=f1e785]
+                - cell [ref=f1e786]:
+                  - button "Actions" [ref=f1e787] [cursor=pointer]
+              - row [ref=f1e789]:
+                - cell [ref=f1e790]:
+                  - checkbox "Select row" [ref=f1e791] [cursor=pointer]
+                - cell "Illy - Milka Alpine Milk Classic Chocolate Bar (Handcrafted Classic) 8010000517561" [ref=f1e792]:
+                  - generic [ref=f1e793]:
+                    - generic [ref=f1e794]: Illy - Milka Alpine Milk Classic Chocolate Bar (Handcrafted Classic)
+                    - generic [ref=f1e796]: "8010000517561"
+                - cell "EU-COF-01756" [ref=f1e797]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e799]
+                - cell "Illy" [ref=f1e801]
+                - cell "—" [ref=f1e803]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e804]:
+                  - generic [ref=f1e805]:
+                    - generic [ref=f1e806]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e807]
+                - cell "724 in stock" [ref=f1e810]
+                - cell "Active" [ref=f1e813]
+                - cell "Sep 24, 2026" [ref=f1e816]
+                - cell [ref=f1e817]:
+                  - button "Actions" [ref=f1e818] [cursor=pointer]
+              - row [ref=f1e820]:
+                - cell [ref=f1e821]:
+                  - checkbox "Select row" [ref=f1e822] [cursor=pointer]
+                - cell "Nutella - Qualità Rossa Italian Espresso Roast Ground (Family Estate) 8010000517592" [ref=f1e823]:
+                  - generic [ref=f1e824]:
+                    - generic [ref=f1e825]: Nutella - Qualità Rossa Italian Espresso Roast Ground (Family Estate)
+                    - generic [ref=f1e827]: "8010000517592"
+                - cell "EU-COF-01759" [ref=f1e828]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e830]
+                - cell "Nutella" [ref=f1e832]
+                - cell "—" [ref=f1e834]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e835]:
+                  - generic [ref=f1e836]:
+                    - generic [ref=f1e837]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e838]
+                - cell "1143 in stock" [ref=f1e841]
+                - cell "Active" [ref=f1e844]
+                - cell "Sep 24, 2026" [ref=f1e847]
+                - cell [ref=f1e848]:
+                  - button "Actions" [ref=f1e849] [cursor=pointer]
+              - row [ref=f1e851]:
+                - cell [ref=f1e852]:
+                  - checkbox "Select row" [ref=f1e853] [cursor=pointer]
+                - cell "Illy - Illy 100% Arabica Medium Roast Coffee Beans (Handcrafted Classic) 8010000517608" [ref=f1e854]:
+                  - generic [ref=f1e855]:
+                    - generic [ref=f1e856]: Illy - Illy 100% Arabica Medium Roast Coffee Beans (Handcrafted Classic)
+                    - generic [ref=f1e858]: "8010000517608"
+                - cell "EU-COF-01760" [ref=f1e859]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e861]
+                - cell "Illy" [ref=f1e863]
+                - cell "—" [ref=f1e865]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e866]:
+                  - generic [ref=f1e867]:
+                    - generic [ref=f1e868]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e869]
+                - cell "1149 in stock" [ref=f1e872]
+                - cell "Active" [ref=f1e875]
+                - cell "Sep 24, 2026" [ref=f1e878]
+                - cell [ref=f1e879]:
+                  - button "Actions" [ref=f1e880] [cursor=pointer]
+              - row [ref=f1e882]:
+                - cell [ref=f1e883]:
+                  - checkbox "Select row" [ref=f1e884] [cursor=pointer]
+                - cell "Kinder - Toblerone Honey & Almond Nougat Milk Chocolate Bar (Prestige Cuvée) 8010000517639" [ref=f1e885]:
+                  - generic [ref=f1e886]:
+                    - generic [ref=f1e887]: Kinder - Toblerone Honey & Almond Nougat Milk Chocolate Bar (Prestige Cuvée)
+                    - generic [ref=f1e889]: "8010000517639"
+                - cell "EU-COF-01763" [ref=f1e890]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e892]
+                - cell "Kinder" [ref=f1e894]
+                - cell "—" [ref=f1e896]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e897]:
+                  - generic [ref=f1e898]:
+                    - generic [ref=f1e899]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e900]
+                - cell "752 in stock" [ref=f1e903]
+                - cell "Active" [ref=f1e906]
+                - cell "Sep 24, 2026" [ref=f1e909]
+                - cell [ref=f1e910]:
+                  - button "Actions" [ref=f1e911] [cursor=pointer]
+              - row [ref=f1e913]:
+                - cell [ref=f1e914]:
+                  - checkbox "Select row" [ref=f1e915] [cursor=pointer]
+                - cell "Lavazza - Milka Alpine Milk Classic Chocolate Bar (Pure Nature) 8010000517646" [ref=f1e916]:
+                  - generic [ref=f1e917]:
+                    - generic [ref=f1e918]: Lavazza - Milka Alpine Milk Classic Chocolate Bar (Pure Nature)
+                    - generic [ref=f1e920]: "8010000517646"
+                - cell "EU-COF-01764" [ref=f1e921]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e923]
+                - cell "Lavazza" [ref=f1e925]
+                - cell "—" [ref=f1e927]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e928]:
+                  - generic [ref=f1e929]:
+                    - generic [ref=f1e930]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e931]
+                - cell "756 in stock" [ref=f1e934]
+                - cell "Active" [ref=f1e937]
+                - cell "Sep 24, 2026" [ref=f1e940]
+                - cell [ref=f1e941]:
+                  - button "Actions" [ref=f1e942] [cursor=pointer]
+              - row [ref=f1e944]:
+                - cell [ref=f1e945]:
+                  - checkbox "Select row" [ref=f1e946] [cursor=pointer]
+                - cell "Lindt & Sprüngli - Nutella Hazelnut Cocoa Spread Jar (Centennial Recipe) 8010000517660" [ref=f1e947]:
+                  - generic [ref=f1e948]:
+                    - generic [ref=f1e949]: Lindt & Sprüngli - Nutella Hazelnut Cocoa Spread Jar (Centennial Recipe)
+                    - generic [ref=f1e951]: "8010000517660"
+                - cell "EU-COF-01766" [ref=f1e952]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e954]
+                - cell "Lindt & Sprüngli" [ref=f1e956]
+                - cell "—" [ref=f1e958]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e959]:
+                  - generic [ref=f1e960]:
+                    - generic [ref=f1e961]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e962]
+                - cell "1185 in stock" [ref=f1e965]
+                - cell "Active" [ref=f1e968]
+                - cell "Sep 24, 2026" [ref=f1e971]
+                - cell [ref=f1e972]:
+                  - button "Actions" [ref=f1e973] [cursor=pointer]
+              - row [ref=f1e975]:
+                - cell [ref=f1e976]:
+                  - checkbox "Select row" [ref=f1e977] [cursor=pointer]
+                - cell "Kinder - Qualità Rossa Italian Espresso Roast Ground (Prestige Cuvée) 8010000517677" [ref=f1e978]:
+                  - generic [ref=f1e979]:
+                    - generic [ref=f1e980]: Kinder - Qualità Rossa Italian Espresso Roast Ground (Prestige Cuvée)
+                    - generic [ref=f1e982]: "8010000517677"
+                - cell "EU-COF-01767" [ref=f1e983]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e985]
+                - cell "Kinder" [ref=f1e987]
+                - cell "—" [ref=f1e989]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e990]:
+                  - generic [ref=f1e991]:
+                    - generic [ref=f1e992]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e993]
+                - cell "1191 in stock" [ref=f1e996]
+                - cell "Active" [ref=f1e999]
+                - cell "Sep 24, 2026" [ref=f1e1002]
+                - cell [ref=f1e1003]:
+                  - button "Actions" [ref=f1e1004] [cursor=pointer]
+              - row [ref=f1e1006]:
+                - cell [ref=f1e1007]:
+                  - checkbox "Select row" [ref=f1e1008] [cursor=pointer]
+                - cell "Lavazza - Qualità Rossa Italian Espresso Roast Ground (Royal Selection) 8010000517516" [ref=f1e1009]:
+                  - generic [ref=f1e1010]:
+                    - generic [ref=f1e1011]: Lavazza - Qualità Rossa Italian Espresso Roast Ground (Royal Selection)
+                    - generic [ref=f1e1013]: "8010000517516"
+                - cell "EU-COF-01751" [ref=f1e1014]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e1016]
+                - cell "Lavazza" [ref=f1e1018]
+                - cell "—" [ref=f1e1020]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e1021]:
+                  - generic [ref=f1e1022]:
+                    - generic [ref=f1e1023]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e1024]
+                - cell "1095 in stock" [ref=f1e1027]
+                - cell "Active" [ref=f1e1030]
+                - cell "Sep 24, 2026" [ref=f1e1033]
+                - cell [ref=f1e1034]:
+                  - button "Actions" [ref=f1e1035] [cursor=pointer]
+              - row [ref=f1e1037]:
+                - cell [ref=f1e1038]:
+                  - checkbox "Select row" [ref=f1e1039] [cursor=pointer]
+                - cell "Nespresso - Illy 100% Arabica Medium Roast Coffee Beans (Heritage Harvest) 8010000517523" [ref=f1e1040]:
+                  - generic [ref=f1e1041]:
+                    - generic [ref=f1e1042]: Nespresso - Illy 100% Arabica Medium Roast Coffee Beans (Heritage Harvest)
+                    - generic [ref=f1e1044]: "8010000517523"
+                - cell "EU-COF-01752" [ref=f1e1045]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e1047]
+                - cell "Nespresso" [ref=f1e1049]
+                - cell "—" [ref=f1e1051]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e1052]:
+                  - generic [ref=f1e1053]:
+                    - generic [ref=f1e1054]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e1055]
+                - cell "1101 in stock" [ref=f1e1058]
+                - cell "Active" [ref=f1e1061]
+                - cell "Sep 24, 2026" [ref=f1e1064]
+                - cell [ref=f1e1065]:
+                  - button "Actions" [ref=f1e1066] [cursor=pointer]
+              - row [ref=f1e1068]:
+                - cell [ref=f1e1069]:
+                  - checkbox "Select row" [ref=f1e1070] [cursor=pointer]
+                - cell "Milka - Lindor Swiss Milk Chocolate Melt Truffles (Old World Special) 8010000517547" [ref=f1e1071]:
+                  - generic [ref=f1e1072]:
+                    - generic [ref=f1e1073]: Milka - Lindor Swiss Milk Chocolate Melt Truffles (Old World Special)
+                    - generic [ref=f1e1075]: "8010000517547"
+                - cell "EU-COF-01754" [ref=f1e1076]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e1078]
+                - cell "Milka" [ref=f1e1080]
+                - cell "—" [ref=f1e1082]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e1083]:
+                  - generic [ref=f1e1084]:
+                    - generic [ref=f1e1085]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e1086]
+                - cell "716 in stock" [ref=f1e1089]
+                - cell "Active" [ref=f1e1092]
+                - cell "Sep 24, 2026" [ref=f1e1095]
+                - cell [ref=f1e1096]:
+                  - button "Actions" [ref=f1e1097] [cursor=pointer]
+              - row [ref=f1e1099]:
+                - cell [ref=f1e1100]:
+                  - checkbox "Select row" [ref=f1e1101] [cursor=pointer]
+                - cell "Nutella - Toblerone Honey & Almond Nougat Milk Chocolate Bar (Family Estate) 8010000517554" [ref=f1e1102]:
+                  - generic [ref=f1e1103]:
+                    - generic [ref=f1e1104]: Nutella - Toblerone Honey & Almond Nougat Milk Chocolate Bar (Family Estate)
+                    - generic [ref=f1e1106]: "8010000517554"
+                - cell "EU-COF-01755" [ref=f1e1107]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e1109]
+                - cell "Nutella" [ref=f1e1111]
+                - cell "—" [ref=f1e1113]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e1114]:
+                  - generic [ref=f1e1115]:
+                    - generic [ref=f1e1116]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e1117]
+                - cell "720 in stock" [ref=f1e1120]
+                - cell "Active" [ref=f1e1123]
+                - cell "Sep 24, 2026" [ref=f1e1126]
+                - cell [ref=f1e1127]:
+                  - button "Actions" [ref=f1e1128] [cursor=pointer]
+              - row [ref=f1e1130]:
+                - cell [ref=f1e1131]:
+                  - checkbox "Select row" [ref=f1e1132] [cursor=pointer]
+                - cell "Toblerone - Nutella Hazelnut Cocoa Spread Jar (Country Style) 8010000517585" [ref=f1e1133]:
+                  - generic [ref=f1e1134]:
+                    - generic [ref=f1e1135]: Toblerone - Nutella Hazelnut Cocoa Spread Jar (Country Style)
+                    - generic [ref=f1e1137]: "8010000517585"
+                - cell "EU-COF-01758" [ref=f1e1138]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e1140]
+                - cell "Toblerone" [ref=f1e1142]
+                - cell "—" [ref=f1e1144]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e1145]:
+                  - generic [ref=f1e1146]:
+                    - generic [ref=f1e1147]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e1148]
+                - cell "1137 in stock" [ref=f1e1151]
+                - cell "Active" [ref=f1e1154]
+                - cell "Sep 24, 2026" [ref=f1e1157]
+                - cell [ref=f1e1158]:
+                  - button "Actions" [ref=f1e1159] [cursor=pointer]
+              - row [ref=f1e1161]:
+                - cell [ref=f1e1162]:
+                  - checkbox "Select row" [ref=f1e1163] [cursor=pointer]
+                - cell "Lindt & Sprüngli - Lindor Swiss Milk Chocolate Melt Truffles (Centennial Recipe) 8010000517707" [ref=f1e1164]:
+                  - generic [ref=f1e1165]:
+                    - generic [ref=f1e1166]: Lindt & Sprüngli - Lindor Swiss Milk Chocolate Melt Truffles (Centennial Recipe)
+                    - generic [ref=f1e1168]: "8010000517707"
+                - cell "EU-COF-01770" [ref=f1e1169]
+                - cell "Espresso & Handcrafted Coffee" [ref=f1e1171]
+                - cell "Lindt & Sprüngli" [ref=f1e1173]
+                - cell "—" [ref=f1e1175]
+                - cell "Configurable (Variants) Non-durable goods" [ref=f1e1176]:
+                  - generic [ref=f1e1177]:
+                    - generic [ref=f1e1178]: Configurable (Variants)
+                    - generic "Non-durable goods" [ref=f1e1179]
+                - cell "780 in stock" [ref=f1e1182]
+                - cell "Active" [ref=f1e1185]
+                - cell "Sep 24, 2026" [ref=f1e1188]
+                - cell [ref=f1e1189]:
+                  - button "Actions" [ref=f1e1190] [cursor=pointer]
+          - generic [ref=f1e1192]:
+            - generic [ref=f1e1193]: 0 of 20 row(s) selected.
+            - generic [ref=f1e1194]:
+              - generic [ref=f1e1195]:
+                - paragraph [ref=f1e1196]: Rows per page
+                - combobox [ref=f1e1197] [cursor=pointer]:
+                  - generic: "20"
+              - generic [ref=f1e1198]: Page 1 of 49
+              - generic [ref=f1e1199]:
+                - button "Go to first page" [disabled]
+                - button "Go to previous page" [disabled]
+                - button "Go to next page" [ref=f1e1200] [cursor=pointer]
+                - button "Go to last page" [ref=f1e1202] [cursor=pointer]
+  - generic [ref=f1e1204]:
+    - heading "Command Palette" [level=2] [ref=f1e1205]
+    - paragraph [ref=f1e1206]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=f1e7]:
+    - heading "Command Palette" [level=2] [ref=f1e8]
+    - paragraph [ref=f1e9]: Search for a command to run...

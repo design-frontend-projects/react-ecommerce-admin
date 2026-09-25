@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   AlertTriangle,
   AlertOctagon,
@@ -40,6 +41,7 @@ export function StockAlertsTable({
   alerts,
   initialFilter = 'all',
 }: StockAlertsTableProps) {
+  const { t } = useTranslation()
   const [filterTab, setFilterTab] = useState<string>(initialFilter)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -84,14 +86,19 @@ export function StockAlertsTable({
           <div className='flex items-center gap-2'>
             <AlertTriangle className='h-4 w-4 text-amber-500' />
             <CardTitle className='text-base font-semibold text-foreground'>
-              Stock & Replenishment Alerts
+              {t('dashboard.stockAlerts.title', 'Stock & Replenishment Alerts')}
             </CardTitle>
             <Badge variant='outline' className='text-xs font-semibold'>
-              {alerts.length} Total
+              {t('dashboard.stockAlerts.total', '{{count}} Total', {
+                count: alerts.length,
+              })}
             </Badge>
           </div>
           <CardDescription className='text-xs text-muted-foreground'>
-            Items breaching minimum safety stock or approaching expiration dates
+            {t(
+              'dashboard.stockAlerts.description',
+              'Items breaching minimum safety stock or approaching expiration dates'
+            )}
           </CardDescription>
         </div>
 
@@ -101,7 +108,7 @@ export function StockAlertsTable({
             <Search className='absolute top-2.5 left-2.5 h-3.5 w-3.5 text-muted-foreground' />
             <Input
               type='search'
-              placeholder='Search alerts...'
+              placeholder={t('dashboard.stockAlerts.searchPlaceholder', 'Search alerts...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className='h-8 border-border/60 bg-background/60 pl-8 text-xs'
@@ -118,7 +125,9 @@ export function StockAlertsTable({
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              All ({alerts.length})
+              {t('dashboard.stockAlerts.all', 'All ({{count}})', {
+                count: alerts.length,
+              })}
             </button>
             <button
               type='button'
@@ -129,7 +138,9 @@ export function StockAlertsTable({
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              Out of Stock ({outOfStockCount})
+              {t('dashboard.stockAlerts.outOfStock', 'Out of Stock ({{count}})', {
+                count: outOfStockCount,
+              })}
             </button>
             <button
               type='button'
@@ -140,7 +151,9 @@ export function StockAlertsTable({
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              Low Stock ({lowStockCount})
+              {t('dashboard.stockAlerts.lowStock', 'Low Stock ({{count}})', {
+                count: lowStockCount,
+              })}
             </button>
             <button
               type='button'
@@ -151,7 +164,9 @@ export function StockAlertsTable({
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              Expiry ({expiryCount})
+              {t('dashboard.stockAlerts.expiry', 'Expiry ({{count}})', {
+                count: expiryCount,
+              })}
             </button>
           </div>
         </div>
@@ -162,10 +177,13 @@ export function StockAlertsTable({
           <div className='flex flex-col items-center justify-center py-12 text-center text-muted-foreground'>
             <ShieldCheck className='mb-2 h-8 w-8 text-emerald-500' />
             <p className='text-sm font-semibold text-foreground'>
-              No alerts found
+              {t('dashboard.stockAlerts.noAlertsFound', 'No alerts found')}
             </p>
             <p className='text-xs'>
-              All products in this category meet safe inventory thresholds.
+              {t(
+                'dashboard.stockAlerts.safeThresholds',
+                'All products in this category meet safe inventory thresholds.'
+              )}
             </p>
           </div>
         ) : (
@@ -173,12 +191,20 @@ export function StockAlertsTable({
             <Table>
               <TableHeader className='bg-muted/40 text-[11px] tracking-wider uppercase'>
                 <TableRow className='border-border/40 hover:bg-transparent'>
-                  <TableHead className='py-2.5 pl-5'>Product & SKU</TableHead>
-                  <TableHead className='py-2.5'>Category / Warehouse</TableHead>
-                  <TableHead className='py-2.5'>Stock Level</TableHead>
-                  <TableHead className='py-2.5'>Condition / Urgency</TableHead>
+                  <TableHead className='py-2.5 pl-5'>
+                    {t('dashboard.stockAlerts.colProductSku', 'Product & SKU')}
+                  </TableHead>
+                  <TableHead className='py-2.5'>
+                    {t('dashboard.stockAlerts.colCategoryWarehouse', 'Category / Warehouse')}
+                  </TableHead>
+                  <TableHead className='py-2.5'>
+                    {t('dashboard.stockAlerts.colStockLevel', 'Stock Level')}
+                  </TableHead>
+                  <TableHead className='py-2.5'>
+                    {t('dashboard.stockAlerts.colConditionUrgency', 'Condition / Urgency')}
+                  </TableHead>
                   <TableHead className='py-2.5 pr-5 text-right'>
-                    Action
+                    {t('dashboard.stockAlerts.colAction', 'Action')}
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -198,10 +224,10 @@ export function StockAlertsTable({
                           {item.name}
                         </span>
                         <div className='flex items-center gap-2 font-mono text-[11px] text-muted-foreground'>
-                          <span>SKU: {item.sku}</span>
+                          <span>{t('dashboard.stockAlerts.sku', 'SKU: {{sku}}', { sku: item.sku })}</span>
                           {item.batchNumber && (
                             <span className='py-0.2 rounded bg-muted px-1 text-[10px]'>
-                              Batch: {item.batchNumber}
+                              {t('dashboard.stockAlerts.batch', 'Batch: {{batch}}', { batch: item.batchNumber })}
                             </span>
                           )}
                         </div>
@@ -233,10 +259,14 @@ export function StockAlertsTable({
                                   : 'text-foreground'
                             }`}
                           >
-                            {item.qtyAvailable.toLocaleString()} Avail
+                            {t('dashboard.stockAlerts.avail', '{{count}} Avail', {
+                              count: item.qtyAvailable.toLocaleString(),
+                            })}
                           </span>
                           <span className='text-[10px] text-muted-foreground'>
-                            Min: {item.minQuantity}
+                            {t('dashboard.stockAlerts.min', 'Min: {{count}}', {
+                              count: item.minQuantity,
+                            })}
                           </span>
                         </div>
                         {/* Mini visual fill bar */}
@@ -273,7 +303,7 @@ export function StockAlertsTable({
                           className='gap-1 border-red-500/30 bg-red-500/10 text-[11px] text-red-600 dark:text-red-400'
                         >
                           <AlertOctagon className='h-3 w-3' />
-                          Out of Stock
+                          {t('dashboard.stockAlerts.statusOutOfStock', 'Out of Stock')}
                         </Badge>
                       )}
                       {item.status === 'low_stock' && (
@@ -282,7 +312,7 @@ export function StockAlertsTable({
                           className='gap-1 border-amber-500/30 bg-amber-500/10 text-[11px] text-amber-600 dark:text-amber-400'
                         >
                           <AlertTriangle className='h-3 w-3' />
-                          Low Stock
+                          {t('dashboard.stockAlerts.statusLowStock', 'Low Stock')}
                         </Badge>
                       )}
                       {item.status === 'expired' && (
@@ -291,7 +321,7 @@ export function StockAlertsTable({
                           className='gap-1 border-rose-500/30 bg-rose-500/10 text-[11px] text-rose-600 dark:text-rose-400'
                         >
                           <CalendarX className='h-3 w-3' />
-                          Expired
+                          {t('dashboard.stockAlerts.statusExpired', 'Expired')}
                         </Badge>
                       )}
                       {item.status === 'expiring' && (
@@ -300,10 +330,11 @@ export function StockAlertsTable({
                           className='gap-1 border-orange-500/30 bg-orange-500/10 text-[11px] text-orange-600 dark:text-orange-400'
                         >
                           <CalendarClock className='h-3 w-3' />
-                          Expires{' '}
                           {item.daysToExpiry !== undefined
-                            ? `in ${item.daysToExpiry}d`
-                            : 'Soon'}
+                            ? t('dashboard.stockAlerts.statusExpiresIn', 'Expires in {{days}}d', {
+                                days: item.daysToExpiry,
+                              })
+                            : t('dashboard.stockAlerts.statusExpiresSoon', 'Expires Soon')}
                         </Badge>
                       )}
                     </TableCell>
@@ -318,7 +349,7 @@ export function StockAlertsTable({
                       >
                         <Link to='/purchase-orders'>
                           <ShoppingCart className='h-3 w-3' />
-                          <span>Reorder</span>
+                          <span>{t('dashboard.stockAlerts.reorder', 'Reorder')}</span>
                         </Link>
                       </Button>
                     </TableCell>
@@ -331,12 +362,19 @@ export function StockAlertsTable({
 
         {filteredAlerts.length > 15 && (
           <div className='border-t border-border/40 p-3 text-center text-xs text-muted-foreground'>
-            Showing 15 of {filteredAlerts.length} total alerts.{' '}
+            {t(
+              'dashboard.stockAlerts.showingCount',
+              'Showing 15 of {{total}} total alerts.',
+              { total: filteredAlerts.length }
+            )}{' '}
             <Link
               to='/inventory/valuation'
               className='font-medium text-primary hover:underline'
             >
-              View full inventory table{' '}
+              {t(
+                'dashboard.stockAlerts.viewFullInventory',
+                'View full inventory table'
+              )}{' '}
               <ArrowRight className='ml-0.5 inline h-3 w-3' />
             </Link>
           </div>

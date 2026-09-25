@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ResponsiveContainer,
   AreaChart,
@@ -23,6 +24,7 @@ export function SalesTrendChart({
   data30Days,
   currency,
 }: SalesTrendChartProps) {
+  const { t } = useTranslation()
   const [activeRange, setActiveRange] = useState<'7d' | '30d'>('30d')
 
   const chartData = activeRange === '7d' ? data7Days : data30Days
@@ -53,11 +55,14 @@ export function SalesTrendChart({
           <div className='flex items-center gap-2'>
             <BarChart3 className='w-4 h-4 text-primary' />
             <CardTitle className='text-base font-semibold text-foreground'>
-              Sales & Revenue Performance
+              {t('dashboard.salesPerformance.title', 'Sales & Revenue Performance')}
             </CardTitle>
           </div>
           <CardDescription className='text-xs text-muted-foreground'>
-            Real-time daily revenue and invoice generation trajectory
+            {t(
+              'dashboard.salesPerformance.description',
+              'Real-time daily revenue and invoice generation trajectory'
+            )}
           </CardDescription>
         </div>
 
@@ -72,7 +77,7 @@ export function SalesTrendChart({
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            Last 7 Days
+            {t('dashboard.salesPerformance.last7Days', 'Last 7 Days')}
           </button>
           <button
             type='button'
@@ -83,7 +88,7 @@ export function SalesTrendChart({
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            Last 30 Days
+            {t('dashboard.salesPerformance.last30Days', 'Last 30 Days')}
           </button>
         </div>
       </CardHeader>
@@ -92,15 +97,21 @@ export function SalesTrendChart({
         {/* Metric summary banner */}
         <div className='grid grid-cols-3 gap-2 py-3 px-4 mb-4 rounded-xl bg-muted/30 border border-border/40 text-xs'>
           <div>
-            <span className='text-muted-foreground block text-[11px]'>Period Revenue</span>
+            <span className='text-muted-foreground block text-[11px]'>
+              {t('dashboard.salesPerformance.periodRevenue', 'Period Revenue')}
+            </span>
             <span className='font-bold text-sm text-foreground'>{formatMoney(totalRevenue)}</span>
           </div>
           <div>
-            <span className='text-muted-foreground block text-[11px]'>Avg Daily Sales</span>
+            <span className='text-muted-foreground block text-[11px]'>
+              {t('dashboard.salesPerformance.avgDailySales', 'Avg Daily Sales')}
+            </span>
             <span className='font-bold text-sm text-foreground'>{formatMoney(avgDailyRevenue)}</span>
           </div>
           <div>
-            <span className='text-muted-foreground block text-[11px]'>Total Invoices</span>
+            <span className='text-muted-foreground block text-[11px]'>
+              {t('dashboard.salesPerformance.totalInvoices', 'Total Invoices')}
+            </span>
             <span className='font-bold text-sm text-foreground'>{totalInvoices.toLocaleString()}</span>
           </div>
         </div>
@@ -109,11 +120,16 @@ export function SalesTrendChart({
         {chartData.length === 0 ? (
           <div className='flex flex-col items-center justify-center h-[280px] text-muted-foreground text-xs'>
             <ReceiptText className='w-8 h-8 mb-2 opacity-40' />
-            <span>No posted sales recorded in this timeframe</span>
+            <span>
+              {t(
+                'dashboard.salesPerformance.noPostedSales',
+                'No posted sales recorded in this timeframe'
+              )}
+            </span>
           </div>
         ) : (
           <div className='h-[280px] w-full'>
-            <ResponsiveContainer width='100%' height='100%'>
+            <ResponsiveContainer width='100%' height='100%' minWidth={1} minHeight={1}>
               <AreaChart
                 data={chartData}
                 margin={{ top: 10, right: 10, left: -15, bottom: 0 }}
@@ -158,12 +174,12 @@ export function SalesTrendChart({
                           <p className='font-semibold text-foreground'>{data.fullDate || data.date}</p>
                           <div className='flex items-center justify-between text-primary font-medium'>
                             <span className='flex items-center gap-1'>
-                              <TrendingUp className='w-3 h-3' /> Revenue:
+                              <TrendingUp className='w-3 h-3' /> {t('dashboard.salesPerformance.revenue', 'Revenue:')}
                             </span>
                             <span>{formatMoney(data.revenue)}</span>
                           </div>
                           <div className='flex items-center justify-between text-muted-foreground text-[11px]'>
-                            <span>Invoices:</span>
+                            <span>{t('dashboard.salesPerformance.invoices', 'Invoices:')}</span>
                             <span className='font-semibold text-foreground'>{data.invoicesCount}</span>
                           </div>
                         </div>

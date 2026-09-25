@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -59,12 +60,14 @@ export function KpiCard({
   value,
   subValue,
   change,
-  changeLabel = 'vs last period',
+  changeLabel,
   icon,
   accentColor = 'blue',
   progressValue,
   onClick,
 }: KpiCardProps) {
+  const { t } = useTranslation()
+  const displayChangeLabel = changeLabel ?? t('dashboard.kpis.vsLastPeriod', 'vs last period')
   const style = ACCENT_STYLES[accentColor] || ACCENT_STYLES.blue
   const isPositive = typeof change === 'number' && change > 0
   const isNegative = typeof change === 'number' && change < 0
@@ -134,7 +137,7 @@ export function KpiCard({
                 </span>
               </span>
               <span className='text-muted-foreground text-[11px] truncate'>
-                {changeLabel}
+                {displayChangeLabel}
               </span>
             </div>
           )}

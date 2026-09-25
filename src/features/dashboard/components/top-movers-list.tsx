@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, ArrowDownRight, Flame, Minus, ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -9,6 +10,8 @@ interface TopMoversListProps {
 }
 
 export function TopMoversList({ movers }: TopMoversListProps) {
+  const { t } = useTranslation()
+
   return (
     <Card className='border border-border/60 bg-card/60 backdrop-blur-md shadow-xs flex flex-col'>
       <CardHeader className='p-5 pb-3 flex flex-row items-center justify-between gap-4'>
@@ -16,16 +19,21 @@ export function TopMoversList({ movers }: TopMoversListProps) {
           <div className='flex items-center gap-2'>
             <Flame className='w-4 h-4 text-orange-500' />
             <CardTitle className='text-base font-semibold text-foreground'>
-              Velocity & Top Movers
+              {t('dashboard.topMovers.title', 'Velocity & Top Movers')}
             </CardTitle>
           </div>
           <CardDescription className='text-xs text-muted-foreground'>
-            Fastest turning SKUs across all warehouse channels (past 30 days)
+            {t(
+              'dashboard.topMovers.description',
+              'Fastest turning SKUs across all warehouse channels (past 30 days)'
+            )}
           </CardDescription>
         </div>
 
         <Badge variant='outline' className='text-xs font-semibold'>
-          Top {movers.length}
+          {t('dashboard.topMovers.topCount', 'Top {{count}}', {
+            count: movers.length,
+          })}
         </Badge>
       </CardHeader>
 
@@ -33,9 +41,14 @@ export function TopMoversList({ movers }: TopMoversListProps) {
         {movers.length === 0 ? (
           <div className='flex flex-col items-center justify-center py-10 px-4 text-center text-muted-foreground my-auto'>
             <Flame className='w-8 h-8 text-orange-400 mb-2 opacity-60' />
-            <p className='text-sm font-semibold text-foreground'>No Recent Stock Activity</p>
+            <p className='text-sm font-semibold text-foreground'>
+              {t('dashboard.topMovers.noActivity', 'No Recent Stock Activity')}
+            </p>
             <p className='text-xs max-w-xs'>
-              Record sales or warehouse transfers to start measuring product turnover velocity.
+              {t(
+                'dashboard.topMovers.recordActivity',
+                'Record sales or warehouse transfers to start measuring product turnover velocity.'
+              )}
             </p>
           </div>
         ) : (
@@ -86,7 +99,9 @@ export function TopMoversList({ movers }: TopMoversListProps) {
                       </span>
                     </div>
                     <span className='text-[10px] text-muted-foreground block'>
-                      {item.totalMovements} operations
+                      {t('dashboard.topMovers.operations', '{{count}} operations', {
+                        count: item.totalMovements,
+                      })}
                     </span>
                   </div>
 
@@ -101,10 +116,16 @@ export function TopMoversList({ movers }: TopMoversListProps) {
                     }`}
                     title={
                       item.trend === 'up'
-                        ? 'High outflow / outbound demand'
+                        ? t(
+                            'dashboard.topMovers.trendOutflow',
+                            'High outflow / outbound demand'
+                          )
                         : item.trend === 'down'
-                        ? 'Inflow replenishment dominant'
-                        : 'Balanced velocity'
+                        ? t(
+                            'dashboard.topMovers.trendInflow',
+                            'Inflow replenishment dominant'
+                          )
+                        : t('dashboard.topMovers.trendBalanced', 'Balanced velocity')
                     }
                   >
                     {item.trend === 'up' && <ArrowUpRight className='w-3.5 h-3.5' />}
@@ -122,7 +143,12 @@ export function TopMoversList({ movers }: TopMoversListProps) {
             to='/inventory-movements'
             className='text-primary hover:underline font-medium inline-flex items-center gap-1 text-[11px]'
           >
-            <span>View all inventory movements & audit trail</span>
+            <span>
+              {t(
+                'dashboard.topMovers.viewMovements',
+                'View all inventory movements & audit trail'
+              )}
+            </span>
             <ExternalLink className='w-3 h-3' />
           </Link>
         </div>

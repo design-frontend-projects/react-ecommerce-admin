@@ -4,6 +4,7 @@ import { CriticalAlertsBar } from '@/features/dashboard/components/critical-aler
 import { KpiGrid } from '@/features/dashboard/components/kpi-grid'
 import { StockAlertsTable } from '@/features/dashboard/components/stock-alerts-table'
 import type { CriticalAlertCounts, DashboardKPIs, DashboardCurrency, StockAlertItem } from '@/features/dashboard/types'
+import '@/config/i18n'
 
 // Mock TanStack Router Link
 vi.mock('@tanstack/react-router', () => ({

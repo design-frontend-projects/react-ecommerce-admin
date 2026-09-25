@@ -445,5 +445,59 @@ describe('Products Table Enhancements', () => {
       // Badge count 2 on the filter button
       expect(filterBtn).toHaveTextContent('2')
     })
+
+    it('renders error state with retry and reset buttons when error occurs and data is empty', async () => {
+      const onRetry = vi.fn()
+      renderWithProviders(
+        <ProductsTable
+          data={[]}
+          error={new Error('Network error loading products')}
+          onRetry={onRetry}
+        />
+      )
+
+      expect(screen.getByText('Failed to load products')).toBeInTheDocument()
+      expect(screen.getByText('Network error loading products')).toBeInTheDocument()
+
+      const retryBtn = screen.getByRole('button', { name: /Try Again/i })
+      expect(retryBtn).toBeInTheDocument()
+      await userEvent.click(retryBtn)
+      expect(onRetry).toHaveBeenCalledTimes(1)
+    })
+
+    it('renders timeout error message when statement timeout code 57014 is encountered', () => {
+      renderWithProviders(
+        <ProductsTable
+          data={[]}
+          error={{ code: '57014', message: 'canceling statement due to statement timeout' }}
+        />
+      )
+
+      expect(screen.getByText('Failed to load products')).toBeInTheDocument()
+      expect(
+        screen.getByText(
+          'The request took too long to complete. Please try using more specific filters or try again.'
+        )
+      ).toBeInTheDocument()
+    })
+
+    it('renders warning banner and preserves table rows when error occurs with existing data', () => {
+      const onRetry = vi.fn()
+      renderWithProviders(
+        <ProductsTable
+          data={mockProducts}
+          error={new Error('Failed to update catalog')}
+          onRetry={onRetry}
+        />
+      )
+
+      // Products are still visible
+      expect(screen.getByText('Wireless Ergonomic Mouse')).toBeInTheDocument()
+
+      // Warning banner is rendered
+      expect(screen.getByText('Failed to update catalog')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /Try Again/i })).toBeInTheDocument()
+    })
   })
 })
+

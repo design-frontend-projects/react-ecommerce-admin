@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   RefreshCw,
   Warehouse,
@@ -38,13 +39,15 @@ export function CommandCenterHeader({
   isRefetching,
   lastUpdated,
 }: CommandCenterHeaderProps) {
+  const { t } = useTranslation()
+
   const formattedTime = lastUpdated
     ? new Date(lastUpdated).toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
       })
-    : 'Just now'
+    : t('dashboard.commandCenter.justNow', 'Just now')
 
   return (
     <div className='flex flex-col gap-4 border-b border-border/40 pb-2'>
@@ -53,18 +56,27 @@ export function CommandCenterHeader({
         <div className='space-y-1'>
           <div className='flex items-center gap-3'>
             <h1 className='text-2xl font-bold tracking-tight text-foreground md:text-3xl'>
-              Command Center
+              {t('dashboard.commandCenter.title', 'Command Center')}
             </h1>
             <div className='inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400'>
               <span className='h-2 w-2 animate-pulse rounded-full bg-emerald-500' />
-              <span>LIVE</span>
+              <span>{t('dashboard.commandCenter.live', 'LIVE')}</span>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs text-muted-foreground'>
             <Activity className='h-3.5 w-3.5' />
-            <span>Real-time multi-warehouse analytics & telemetry</span>
+            <span>
+              {t(
+                'dashboard.commandCenter.subtitle',
+                'Real-time multi-warehouse analytics & telemetry'
+              )}
+            </span>
             <span>•</span>
-            <span>Synced at {formattedTime}</span>
+            <span>
+              {t('dashboard.commandCenter.syncedAt', 'Synced at {{time}}', {
+                time: formattedTime,
+              })}
+            </span>
           </div>
         </div>
 
@@ -76,13 +88,18 @@ export function CommandCenterHeader({
             onClick={onRefresh}
             disabled={isRefetching}
             className='h-9 gap-1.5 border-border/60 bg-background/50 px-3 transition-all hover:bg-accent'
-            title='Refresh all dashboard analytics'
+            title={t(
+              'dashboard.commandCenter.refreshTooltip',
+              'Refresh all dashboard analytics'
+            )}
           >
             <RefreshCw
               className={`h-3.5 w-3.5 ${isRefetching ? 'animate-spin text-primary' : ''}`}
             />
             <span className='text-xs font-medium'>
-              {isRefetching ? 'Syncing...' : 'Sync Data'}
+              {isRefetching
+                ? t('dashboard.commandCenter.syncing', 'Syncing...')
+                : t('dashboard.commandCenter.syncData', 'Sync Data')}
             </span>
           </Button>
 
@@ -93,7 +110,7 @@ export function CommandCenterHeader({
           >
             <Link to='/purchase-orders'>
               <Plus className='h-3.5 w-3.5' />
-              <span>New PO</span>
+              <span>{t('dashboard.commandCenter.newPo', 'New PO')}</span>
             </Link>
           </Button>
 
@@ -104,7 +121,9 @@ export function CommandCenterHeader({
             className='h-9 gap-1.5 px-3 text-xs font-medium'
           >
             <Link to='/inventory/valuation'>
-              <span>Valuation Report</span>
+              <span>
+                {t('dashboard.commandCenter.valuationReport', 'Valuation Report')}
+              </span>
               <ArrowUpRight className='h-3 w-3 text-muted-foreground' />
             </Link>
           </Button>
@@ -122,11 +141,16 @@ export function CommandCenterHeader({
               onValueChange={onWarehouseChange}
             >
               <SelectTrigger className='h-8 w-[190px] border-border/60 bg-background/60 text-xs font-medium'>
-                <SelectValue placeholder='Select Warehouse' />
+                <SelectValue
+                  placeholder={t(
+                    'dashboard.commandCenter.selectWarehouse',
+                    'Select Warehouse'
+                  )}
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value='all' className='text-xs font-medium'>
-                  🌐 All Warehouses
+                  🌐 {t('dashboard.commandCenter.allWarehouses', 'All Warehouses')}
                 </SelectItem>
                 {warehouses
                   .filter((w) => w.id !== 'all')
@@ -160,7 +184,10 @@ export function CommandCenterHeader({
         </div>
 
         <div className='hidden text-xs text-muted-foreground md:block'>
-          Auto-refreshes every 5 mins
+          {t(
+            'dashboard.commandCenter.autoRefreshNotice',
+            'Auto-refreshes every 5 mins'
+          )}
         </div>
       </div>
     </div>

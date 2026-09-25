@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import { AlertCircle, RotateCcw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { LanguageSwitch } from '@/components/language-switch'
 import { Header } from '@/components/layout/header'
@@ -11,10 +9,13 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { ProductsDialogs } from './components/products-dialogs'
 import { ProductsPrimaryButtons } from './components/products-primary-buttons'
-import { ProductsProvider, useProductsContext } from './components/products-provider'
+import {
+  ProductsProvider,
+  useProductsContext,
+} from './components/products-provider'
 import { ProductsStats } from './components/products-stats'
 import { ProductsTable } from './components/products-table'
-import { useServerProducts, useProductsStats } from './hooks/use-products'
+import { useProductsStats, useServerProducts } from './hooks/use-products'
 
 function ProductsSkeleton() {
   return (
@@ -23,10 +24,10 @@ function ProductsSkeleton() {
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className='rounded-xl border p-3.5 sm:p-5 bg-card shadow-xs space-y-2'
+            className='space-y-2 rounded-xl border bg-card p-3.5 shadow-xs sm:p-5'
           >
             <Skeleton className='h-4 w-24' />
-            <Skeleton className='h-7 sm:h-8 w-16' />
+            <Skeleton className='h-7 w-16 sm:h-8' />
             <Skeleton className='h-3 w-32' />
           </div>
         ))}
@@ -36,7 +37,7 @@ function ProductsSkeleton() {
           <Skeleton className='h-9 w-48 sm:w-64' />
           <Skeleton className='h-9 w-24' />
         </div>
-        <div className='rounded-lg border bg-card p-4 space-y-3'>
+        <div className='space-y-3 rounded-lg border bg-card p-4'>
           <Skeleton className='h-10 w-full' />
           {[1, 2, 3, 4, 5].map((i) => (
             <Skeleton key={i} className='h-12 w-full' />
@@ -104,14 +105,14 @@ function ProductsContent() {
         </div>
       </Header>
 
-      <Main className='flex flex-1 flex-col gap-3.5 sm:gap-6 px-3 sm:px-6'>
+      <Main className='flex flex-1 flex-col gap-3.5 px-3 sm:gap-6 sm:px-6'>
         {/* Responsive Header */}
         <div className='flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between'>
           <div>
-            <h2 className='text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight'>
+            <h2 className='text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl'>
               {t('products.title', { defaultValue: 'Products' })}
             </h2>
-            <p className='text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1'>
+            <p className='mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm'>
               {t('products.description', {
                 defaultValue:
                   'Manage inventory catalog items, variants, tracking modes, and stock levels.',
@@ -125,33 +126,6 @@ function ProductsContent() {
 
         {isLoading ? (
           <ProductsSkeleton />
-        ) : error ? (
-          <div className='flex flex-col items-center justify-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-8 sm:p-10 text-destructive text-center'>
-            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10'>
-              <AlertCircle className='h-6 w-6' />
-            </div>
-            <div className='space-y-1'>
-              <h3 className='font-semibold text-base'>
-                {t('products.errorLoading', {
-                  defaultValue: 'Failed to load products',
-                })}
-              </h3>
-              <p className='text-xs text-muted-foreground max-w-sm'>
-                {error instanceof Error
-                  ? error.message
-                  : 'An unexpected error occurred while loading products.'}
-              </p>
-            </div>
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={() => refetch()}
-              className='mt-2 gap-1.5'
-            >
-              <RotateCcw className='h-3.5 w-3.5' />
-              {t('common.tryAgain', { defaultValue: 'Try Again' })}
-            </Button>
-          </div>
         ) : (
           <>
             <ProductsStats
@@ -212,6 +186,8 @@ function ProductsContent() {
               }}
               isLoading={isLoading}
               isFetching={isFetching}
+              error={error}
+              onRetry={() => refetch()}
             />
           </>
         )}
