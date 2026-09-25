@@ -19,8 +19,8 @@
 
 **Purpose**: Establish data schemas, types, and localization keys across the project
 
-- [ ] T001 Define `MovementQueryParams`, `MovementSummaryStats`, and `PaginatedMovementsResult` schemas in `src/features/inventory-movements/data/schema.ts`
-- [ ] T002 [P] Add internationalization strings for pagination, filters, KPI cards, and audit drawer in `src/assets/i18n/en.json` and `src/assets/i18n/ar.json`
+- [X] T001 Define `MovementQueryParams`, `MovementSummaryStats`, and `PaginatedMovementsResult` schemas in `src/features/inventory-movements/data/schema.ts`
+- [X] T002 [P] Add internationalization strings for pagination, filters, KPI cards, and audit drawer in `src/assets/i18n/en.json` and `src/assets/i18n/ar.json`
 
 ---
 
@@ -30,10 +30,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Implement server-side pagination, text search, filtering, and aggregate summary metrics in `src/server/fns/inventory-movements.ts`
-- [ ] T004 [P] Update API route handler to parse pagination and filter query params in `src/routes/api/inventory/movements.ts`
-- [ ] T005 Update client-side data actions to fetch paginated movements with Supabase fallback in `src/features/inventory-movements/data/actions.ts`
-- [ ] T006 [P] Update TanStack Query hook with query key synchronization in `src/features/inventory-movements/hooks/use-inventory-movements.ts`
+- [X] T003 Implement server-side pagination, text search, filtering, and aggregate summary metrics in `src/server/fns/inventory-movements.ts`
+- [X] T004 [P] Update API route handler to parse pagination and filter query params in `src/routes/api/inventory/movements.ts`
+- [X] T005 Update client-side data actions to fetch paginated movements with Supabase fallback in `src/features/inventory-movements/data/actions.ts`
+- [X] T006 [P] Update TanStack Query hook with query key synchronization in `src/features/inventory-movements/hooks/use-inventory-movements.ts`
 
 **Checkpoint**: Foundation ready - backend pagination and data fetching contract are operational.
 
@@ -47,13 +47,13 @@
 
 ### Tests for User Story 1
 
-- [ ] T007 [P] [US1] Create unit test for paginated table rendering, skeleton loading, and page navigation in `src/__tests__/inventory-movements-pagination.test.tsx`
+- [X] T007 [P] [US1] Create unit test for paginated table rendering, skeleton loading, and page navigation in `src/__tests__/inventory-movements-pagination.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Create TanStack Table column definitions with formatted dates and quantities in `src/features/inventory-movements/components/inventory-movements-columns.tsx`
-- [ ] T009 [US1] Implement server-paginated TanStack Table with manual pagination controls and skeleton rows in `src/features/inventory-movements/components/inventory-movements-table.tsx`
-- [ ] T010 [US1] Connect URL search parameter synchronization for pagination state in `src/features/inventory-movements/index.tsx`
+- [X] T008 [P] [US1] Create TanStack Table column definitions with formatted dates and quantities in `src/features/inventory-movements/components/inventory-movements-columns.tsx`
+- [X] T009 [US1] Implement server-paginated TanStack Table with manual pagination controls and skeleton rows in `src/features/inventory-movements/components/inventory-movements-table.tsx`
+- [X] T010 [US1] Connect URL search parameter synchronization for pagination state in `src/features/inventory-movements/index.tsx`
 
 **Checkpoint**: At this point, User Story 1 is fully functional and delivers a viable MVP!
 
@@ -67,12 +67,12 @@
 
 ### Tests for User Story 2
 
-- [ ] T011 [P] [US2] Create unit test for search debounce, filter selection, and filter reset in `src/__tests__/inventory-movements-filters.test.tsx`
+- [X] T011 [P] [US2] Create unit test for search debounce, filter selection, and filter reset in `src/__tests__/inventory-movements-filters.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T012 [P] [US2] Create toolbar component with debounced search, movement type filter, location selector, date range picker, and reset button in `src/features/inventory-movements/components/inventory-movements-toolbar.tsx`
-- [ ] T013 [US2] Integrate filter toolbar state with URL query parameters and auto-reset page to 1 on filter modification in `src/features/inventory-movements/index.tsx`
+- [X] T012 [P] [US2] Create toolbar component with debounced search, movement type filter, location selector, date range picker, and reset button in `src/features/inventory-movements/components/inventory-movements-toolbar.tsx`
+- [X] T013 [US2] Integrate filter toolbar state with URL query parameters and auto-reset page to 1 on filter modification in `src/features/inventory-movements/index.tsx`
 
 **Checkpoint**: User Stories 1 and 2 work seamlessly together, allowing fast paginated search across large ledgers.
 
@@ -86,13 +86,13 @@
 
 ### Tests for User Story 3
 
-- [ ] T014 [P] [US3] Create unit test for inspection drawer opening, field rendering, and close interaction in `src/__tests__/inventory-movements-drawer.test.tsx`
+- [X] T014 [P] [US3] Create unit test for inspection drawer opening, field rendering, and close interaction in `src/__tests__/inventory-movements-drawer.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T015 [P] [US3] Add semantic delta badges and document reference links in `src/features/inventory-movements/components/inventory-movements-columns.tsx`
-- [ ] T016 [US3] Implement slide-out audit inspection Sheet in `src/features/inventory-movements/components/inventory-movements-drawer.tsx`
-- [ ] T017 [US3] Connect row click event in table to trigger the audit drawer in `src/features/inventory-movements/index.tsx`
+- [X] T015 [P] [US3] Add semantic delta badges and document reference links in `src/features/inventory-movements/components/inventory-movements-columns.tsx`
+- [X] T016 [US3] Implement slide-out audit inspection Sheet in `src/features/inventory-movements/components/inventory-movements-drawer.tsx`
+- [X] T017 [US3] Connect row click event in table to trigger the audit drawer in `src/features/inventory-movements/index.tsx`
 
 **Checkpoint**: User Stories 1, 2, and 3 are complete, giving operators both high-speed browsing and deep audit inspection.
 
@@ -106,13 +106,13 @@
 
 ### Tests for User Story 4
 
-- [ ] T018 [P] [US4] Create unit test for KPI summary card calculations and CSV export data formatting in `src/__tests__/inventory-movements-kpi-export.test.tsx`
+- [X] T018 [P] [US4] Create unit test for KPI summary card calculations and CSV export data formatting in `src/__tests__/inventory-movements-kpi-export.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T019 [P] [US4] Create executive KPI summary ribbon component in `src/features/inventory-movements/components/inventory-movements-kpi-ribbon.tsx`
-- [ ] T020 [P] [US4] Implement UTF-8 CSV exporter utility in `src/features/inventory-movements/components/inventory-movements-export.ts`
-- [ ] T021 [US4] Embed KPI ribbon and Export CSV action into table toolbar and layout in `src/features/inventory-movements/index.tsx`
+- [X] T019 [P] [US4] Create executive KPI summary ribbon component in `src/features/inventory-movements/components/inventory-movements-kpi-ribbon.tsx`
+- [X] T020 [P] [US4] Implement UTF-8 CSV exporter utility in `src/features/inventory-movements/components/inventory-movements-export.ts`
+- [X] T021 [US4] Embed KPI ribbon and Export CSV action into table toolbar and layout in `src/features/inventory-movements/index.tsx`
 
 **Checkpoint**: All user stories functional and integrated.
 
@@ -122,9 +122,9 @@
 
 **Purpose**: Ensure internationalization, responsive layouts, accessibility, and test suite verification
 
-- [ ] T022 [P] Verify and polish Arabic RTL layout, alignment, and translation strings across all components in `src/features/inventory-movements/`
-- [ ] T023 Verify mobile responsiveness (375px to 768px viewports) with horizontal scroll and responsive pagination in `src/features/inventory-movements/components/inventory-movements-table.tsx`
-- [ ] T024 Run full test suite with `pnpm test` and verify zero TypeScript diagnostics with `pnpm run lint`
+- [X] T022 [P] Verify and polish Arabic RTL layout, alignment, and translation strings across all components in `src/features/inventory-movements/`
+- [X] T023 Verify mobile responsiveness (375px to 768px viewports) with horizontal scroll and responsive pagination in `src/features/inventory-movements/components/inventory-movements-table.tsx`
+- [X] T024 Run full test suite with `pnpm test` and verify zero TypeScript diagnostics with `pnpm run lint`
 
 ---
 

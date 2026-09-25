@@ -148,4 +148,44 @@ describe('listMovements server function', () => {
       })
     )
   })
+
+  it('returns pagination envelope and summary metrics', async () => {
+    const mockDbMovements = [
+      {
+        id: 'mov-1',
+        tenant_id: 'tenant-123',
+        product_variant_id: 'var-1',
+        movement_type: 'purchase',
+        quantity_delta: 100,
+        unit_cost: 10,
+        total_cost: 1000,
+        movement_date: new Date('2026-09-20T10:00:00.000Z'),
+      },
+    ]
+
+    vi.mocked(prisma.inventory_movements.findMany).mockResolvedValue(mockDbMovements as any)
+    vi.mocked(prisma.product_variants.findMany).mockResolvedValue([
+      { id: 'var-1', sku: 'SKU-001', barcode: 'BAR-001', name: 'Product A' } as any,
+    ])
+    ;(prisma.inventory_movements as any).count = vi.fn().mockResolvedValue(150)
+    ;(prisma.inventory_movements as any).aggregate = vi.fn()
+      .mockResolvedValueOnce({ _sum: { quantity_delta: 2500 } }) // inAgg
+      .mockResolvedValueOnce({ _sum: { quantity_delta: -800 } }) // outAgg
+
+    const result = await listMovements('user-1', {
+      page: 2,
+      pageSize: 20,
+    })
+
+    expect(result.page).toBe(2)
+    expect(result.pageSize).toBe(20)
+    expect(result.totalCount).toBe(150)
+    expect(result.totalPages).toBe(8)
+    expect(result.summary.totalMovements).toBe(150)
+    expect(result.summary.totalIn).toBe(2500)
+    expect(result.summary.totalOut).toBe(800)
+    expect(result.summary.netDelta).toBe(1700)
+    expect(result.movements).toHaveLength(1)
+  })
 })
+

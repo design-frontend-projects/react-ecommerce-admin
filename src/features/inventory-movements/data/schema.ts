@@ -49,6 +49,30 @@ export const movementRowSchema = z
             : new Date().toISOString(),
       z.string()
     ),
+    occurred_at: z
+      .preprocess(
+        (val) =>
+          val instanceof Date
+            ? val.toISOString()
+            : val != null
+              ? String(val)
+              : undefined,
+        z.string().optional()
+      )
+      .nullable()
+      .optional(),
+    created_at: z
+      .preprocess(
+        (val) =>
+          val instanceof Date
+            ? val.toISOString()
+            : val != null
+              ? String(val)
+              : undefined,
+        z.string().optional()
+      )
+      .nullable()
+      .optional(),
     remarks: z.string().nullable().optional(),
     notes: z.string().nullable().optional(),
     source_document_id: z.string().nullable().optional(),
@@ -115,6 +139,8 @@ export const movementRowSchema = z
       qty: row.qty ?? delta,
       qty_in,
       qty_out,
+      occurred_at: row.occurred_at ?? row.movement_date,
+      created_at: row.created_at ?? row.movement_date,
     }
   })
 
@@ -124,14 +150,50 @@ export const movementsResponseSchema = successEnvelope(
   z.array(movementRowSchema)
 )
 
-export interface MovementFilters {
-  movementType?: string
-  warehouseId?: string
-  storeId?: string
-  productVariantId?: string
-  referenceType?: string
-  dateFrom?: string
-  dateTo?: string
+export const movementQueryParamsSchema = z.object({
+  page: safeNumber(1).optional(),
+  pageSize: safeNumber(20).optional(),
+  search: z.string().optional(),
+  movementType: z.string().optional(),
+  warehouseId: z.string().optional(),
+  storeId: z.string().optional(),
+  locationId: z.string().optional(),
+  referenceType: z.string().optional(),
+  productVariantId: z.string().optional(),
+  dateFrom: z.string().optional(),
+  dateTo: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  export: z.string().optional(),
+})
+
+export type MovementQueryParams = z.infer<typeof movementQueryParamsSchema>
+export type MovementFilters = MovementQueryParams & {
   limit?: number
 }
+
+export const movementSummarySchema = z.object({
+  totalMovements: safeNumber(0),
+  totalIn: safeNumber(0),
+  totalOut: safeNumber(0),
+  netDelta: safeNumber(0),
+})
+
+export type MovementSummaryStats = z.infer<typeof movementSummarySchema>
+
+export const paginatedMovementsDataSchema = z.object({
+  movements: z.array(movementRowSchema),
+  totalCount: safeNumber(0),
+  page: safeNumber(1),
+  pageSize: safeNumber(20),
+  totalPages: safeNumber(1),
+  summary: movementSummarySchema,
+})
+
+export const paginatedMovementsResponseSchema = successEnvelope(
+  paginatedMovementsDataSchema
+)
+
+export type PaginatedMovementsResult = z.infer<typeof paginatedMovementsDataSchema>
+
 

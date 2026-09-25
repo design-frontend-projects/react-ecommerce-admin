@@ -1,5 +1,88 @@
 # Error Log
 
+## [2026-09-25 15:58] - Invalid Left-Hand Side of 'instanceof' Expression in ProductsTable CSV Export
+
+- **Type**: Syntax / Type
+- **Severity**: Low
+- **File**: `src/features/products/components/products-table.tsx:738`
+- **Agent**: @frontend-specialist
+- **Root Cause**: In TypeScript, the left-hand side of an `instanceof` expression cannot be a primitive type. `Product['created_at']` is defined in `productSchema` as `z.string().optional().nullable()`. When checked with `p.created_at ? ...`, TypeScript narrowed the variable to primitive `string`. Executing `p.created_at instanceof Date` failed with TS2358 because primitive strings cannot be tested with `instanceof`.
+- **Error Message**:
+  ```
+  The left-hand side of an 'instanceof' expression must be of type 'any', an object type or a type parameter.
+  ```
+- **Fix Applied**: Extracted a safe `formatExportDate(val: unknown)` helper accepting `unknown`. When typed as `unknown`, TypeScript permits the `val instanceof Date` type-guard narrowing and falls back to `String(val)` for ISO date strings, then properly escapes quotes for CSV output.
+- **Prevention**: Never apply `instanceof` directly to variables statically typed as primitives (`string`, `number`, `boolean`). Type parameters intended to accept either an object or a primitive should be typed as `unknown` before applying `instanceof` guards.
+- **Status**: Fixed
+
+---
+
+## [2026-09-25 15:50] - ProductsTable ESLint No-Explicit-Any, Missing Prop Sync, and Missing Row Models
+
+- **Type**: Syntax / Type / Logic
+- **Severity**: Medium
+- **File**: `src/features/products/components/products-table.tsx:172`
+- **Agent**: @frontend-specialist
+- **Root Cause**: 
+  1. `getErrorMessage` cast `err as any`, triggering `@typescript-eslint/no-explicit-any`.
+  2. `useReactTable` was flagged by React Compiler with warning `react-hooks/incompatible-library` due to unmemoizable functions.
+  3. When `isServer` was true, external filter props (`selectedCategory`, `selectedBrand`, `selectedUom`, `selectedSupplier`, `selectedProductType`, `selectedIsActive`, `quickFilter`, `search`, `sortBy`, `sortOrder`) were never synchronized back into `columnFilters`, causing desktop faceted filters to show 0 active items and toolbar reset buttons to fail to recognize active state.
+  4. In `handleColumnFiltersChange`, `stock_status` was not mapped to `setQuickFilter`, preventing faceted stock selection in server mode.
+  5. `activeFiltersCount` was double-counting both props and `columnFilters` length.
+  6. `getFilteredRowModel` was conditionally omitted in server mode, risking runtime errors for downstream consumers like `getFilteredSelectedRowModel` and CSV export.
+- **Error Message**:
+  ```
+  172:27  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  331:17  warning  Compilation Skipped: Use of incompatible library  react-hooks/incompatible-library
+  ```
+- **Fix Applied**:
+  1. Typed `errObj` safely using `Record<string, unknown>` without `any` casting.
+  2. Suppressed the React Compiler hook warning on `useReactTable` with `// eslint-disable-next-line react-hooks/incompatible-library`.
+  3. Added two-way state synchronization effects for `search`, `sortBy`, `sortOrder`, and all server filter props into `columnFilters` and `sorting`.
+  4. Handled `stock_status` in `handleColumnFiltersChange` to update `quickFilter`.
+  5. Refactored `activeFiltersCount` to deduplicate prop filters and `columnFilters`.
+  6. Ensured `getFilteredRowModel`, `getFacetedRowModel`, and `getFacetedUniqueValues` are always registered on `useReactTable`.
+  7. Hardened CSV row string escaping with `String(...).replace(/"/g, '""')` and ISO Date conversion.
+- **Prevention**: Always use TypeScript type guards (`Record<string, unknown>`) instead of `any`, synchronize parent control props into TanStack Table's internal filter state in controlled/server mode, and register required row models unconditionally when `manualFiltering` is active.
+- **Status**: Fixed
+
+---
+
+## [2026-09-25 15:25] - Property 'data' does not exist on type '{}' in fetchMovements
+
+- **Type**: Syntax / Type
+- **Severity**: Medium
+- **File**: `src/features/inventory-movements/data/actions.ts:57`
+- **Agent**: @frontend-specialist
+- **Root Cause**: `authorizedRequest` in `src/lib/authorized-request.ts` returns `Promise<unknown>`. When `fetchMovements` inspected `if (payload && payload.data && ...)`, TypeScript's truthiness check narrowed `payload` from `unknown` to `{}` (non-nullish empty object). In strict TypeScript, `{}` has no defined properties, so evaluating `payload.data` produced error `TS2339: Property 'data' does not exist on type '{}'`.
+- **Error Message**:
+  ```
+  Property 'data' does not exist on type '{}'.
+  ```
+- **Fix Applied**: Replaced brittle inline property access on `payload` with Zod schema safe-parsing: `paginatedMovementsResponseSchema.safeParse(payload)` and `movementsResponseSchema.safeParse(payload)` (with fallbacks for direct paginated and flat arrays). Because Zod schemas accept `unknown` input safely, this eliminates property access errors and guarantees full runtime type validation and transformation.
+- **Prevention**: When handling API responses typed as `unknown`, avoid accessing properties directly after a truthiness check (`if (val && val.prop)`). Instead, pass `unknown` directly to Zod schemas via `.safeParse()` or use type guards/narrowing.
+- **Status**: Fixed
+
+---
+
+## [2026-09-25 15:15] - Type '{}' is not assignable to type 'MovementFilters' in fetchMovements
+
+- **Type**: Syntax / Logic
+- **Severity**: Medium
+- **File**: `src/features/inventory-movements/data/actions.ts:41`, `src/features/inventory-movements/data/schema.ts:165`
+- **Agent**: @frontend-specialist
+- **Root Cause**: In `movementQueryParamsSchema` (`src/features/inventory-movements/data/schema.ts`), `sortBy` and `sortOrder` were assigned `.default(...)` values (`.default('movement_date')` and `.default('desc')`). In Zod, `z.infer<T>` infers the parsed output type (`z.output<T>`), which guarantees fields with `.default(...)` will always be defined. As a result, TypeScript inferred `sortBy: string` and `sortOrder: "asc" | "desc"` as required non-optional properties. When `fetchMovements` defined its default parameter as `filters: MovementFilters = {}`, TypeScript flagged an error because `{}` is missing required properties `sortBy` and `sortOrder`.
+- **Error Message**:
+  ```
+  Type '{}' is not assignable to type 'MovementFilters'.
+    Type '{}' is missing the following properties from type '{ sortBy: string; sortOrder: "asc" | "desc"; ... }': sortBy, sortOrder
+  ```
+- **Fix Applied**: Updated `movementQueryParamsSchema` in `src/features/inventory-movements/data/schema.ts` to declare `sortBy: z.string().optional()` and `sortOrder: z.enum(['asc', 'desc']).optional()`. All fields in `MovementQueryParams` and `MovementFilters` are now optional, allowing empty objects and partial filter parameters across `fetchMovements`, `useInventoryMovements`, and consumer views while preserving default fallback logic downstream.
+- **Prevention**: Be cautious when using `.default()` with `z.infer` on parameter schemas. In Zod, `.default()` marks the output type as required. For request parameters or filter options where callers should be permitted to omit properties, keep the properties optional (`.optional()`) or distinguish between `z.input` and `z.output`.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-25 14:30] - Postgres 57014 Statement Timeout on Products Server-Side Pagination Query
 
 - **Type**: Integration / Database / Runtime

@@ -1,93 +1,202 @@
+import { useState, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
-import { Loader2 } from 'lucide-react'
-import { useWarehouseOptions, useStoreOptions } from '@/hooks/use-inventory-lookups'
-import { Badge } from '@/components/ui/badge'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { LanguageSwitch } from '@/components/language-switch'
+import { useNavigate, useSearch } from '@tanstack/react-router'
+import { toast } from 'sonner'
+import { AlertCircle } from 'lucide-react'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
+import { Search as HeaderSearch } from '@/components/search'
+import { LanguageSwitch } from '@/components/language-switch'
 import { ThemeSwitch } from '@/components/theme-switch'
-import type { MovementFilters } from './data/schema'
+import { ProfileDropdown } from '@/components/profile-dropdown'
+import { useWarehouseOptions, useStoreOptions } from '@/hooks/use-inventory-lookups'
+import { useAuth } from '@/hooks/use-auth'
+import type { MovementQueryParams, MovementRow } from './data/schema'
+import { fetchMovements } from './data/actions'
 import { useInventoryMovements } from './hooks/use-inventory-movements'
-
-const MOVEMENT_TYPES = [
-  'opening_stock',
-  'sale',
-  'sale_return',
-  'purchase',
-  'purchase_return',
-  'transfer_in',
-  'transfer_out',
-  'adjustment_in',
-  'adjustment_out',
-  'damage',
-  'expired',
-  'reserved',
-  'released',
-  'production_output',
-  'production_consumption',
-  'lost',
-  'found',
-  'cycle_count_in',
-  'cycle_count_out',
-  'consumption',
-]
+import { InventoryMovementsKpiRibbon } from './components/inventory-movements-kpi-ribbon'
+import { InventoryMovementsToolbar } from './components/inventory-movements-toolbar'
+import { InventoryMovementsTable } from './components/inventory-movements-table'
+import { InventoryMovementsDrawer } from './components/inventory-movements-drawer'
+import { downloadMovementsCsv } from './components/inventory-movements-export'
 
 const ALL = '__all__'
 
 export function InventoryMovements() {
   const { t } = useTranslation()
-  const [movementType, setMovementType] = useState<string>(ALL)
-  const [warehouseId, setWarehouseId] = useState<string>(ALL)
+  const { getToken } = useAuth()
+  const routeSearch = (useSearch({ strict: false }) ?? {}) as Record<string, unknown>
+  const navigate = useNavigate()
 
+  // Internal state fallback for testing or initial state
+  const [localFilters, setLocalFilters] = useState<MovementQueryParams>({
+    page: typeof routeSearch.page === 'number' ? routeSearch.page : 1,
+    pageSize: typeof routeSearch.pageSize === 'number' ? routeSearch.pageSize : 20,
+    search: typeof routeSearch.search === 'string' ? routeSearch.search : '',
+    movementType: typeof routeSearch.movementType === 'string' ? routeSearch.movementType : '',
+    locationId: typeof routeSearch.locationId === 'string' ? routeSearch.locationId : '',
+    dateFrom: typeof routeSearch.dateFrom === 'string' ? routeSearch.dateFrom : '',
+    dateTo: typeof routeSearch.dateTo === 'string' ? routeSearch.dateTo : '',
+  })
+
+  // Synchronized filter values prioritizing route search when available
+  const page = Number(routeSearch.page ?? localFilters.page ?? 1)
+  const pageSize = Number(routeSearch.pageSize ?? localFilters.pageSize ?? 20)
+  const search = String(routeSearch.search ?? localFilters.search ?? '')
+  const movementType = String(
+    routeSearch.movementType ?? localFilters.movementType ?? ''
+  )
+  const locationId = String(
+    routeSearch.locationId ?? localFilters.locationId ?? ''
+  )
+  const dateFrom = String(routeSearch.dateFrom ?? localFilters.dateFrom ?? '')
+  const dateTo = String(routeSearch.dateTo ?? localFilters.dateTo ?? '')
+
+  // State for slide-out audit drawer
+  const [selectedMovement, setSelectedMovement] = useState<MovementRow | null>(
+    null
+  )
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isExporting, setIsExporting] = useState(false)
+
+  // Options for warehouses and stores
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
 
-  const isSelectedWarehouse = warehouses.some((w) => w.id === warehouseId)
-  const isSelectedStore = stores.some((s) => s.store_id === warehouseId)
+  const locationOptions = useMemo(
+    () => [
+      ...warehouses.map((w) => ({
+        id: w.id,
+        name: w.code ? `${w.name} (${w.code})` : w.name,
+      })),
+      ...stores.map((s) => ({
+        id: s.store_id,
+        name: s.name ? `${s.name} (Store)` : s.store_id,
+      })),
+    ],
+    [warehouses, stores]
+  )
 
-  const filters: MovementFilters = {
-    movementType: movementType === ALL ? undefined : movementType,
-    warehouseId:
-      warehouseId === ALL ? undefined : isSelectedWarehouse ? warehouseId : undefined,
-    storeId:
-      warehouseId === ALL ? undefined : isSelectedStore ? warehouseId : undefined,
-  }
-  const { data: movements, isLoading, error } = useInventoryMovements(filters)
+  // Filter mutation handler with auto-reset to page 1 for filter changes
+  const updateParams = useCallback(
+    (newParams: Partial<MovementQueryParams>, resetPage = false) => {
+      const merged = {
+        page: resetPage ? 1 : (newParams.page ?? page),
+        pageSize: newParams.pageSize ?? pageSize,
+        search: newParams.search !== undefined ? newParams.search : search,
+        movementType:
+          newParams.movementType !== undefined
+            ? newParams.movementType
+            : movementType,
+        locationId:
+          newParams.locationId !== undefined
+            ? newParams.locationId
+            : locationId,
+        dateFrom:
+          newParams.dateFrom !== undefined ? newParams.dateFrom : dateFrom,
+        dateTo: newParams.dateTo !== undefined ? newParams.dateTo : dateTo,
+      }
 
-  const locationOptions = [
-    ...warehouses.map((w) => ({
-      id: w.id,
-      name: w.code ? `${w.name} (${w.code})` : w.name,
-    })),
-    ...stores.map((s) => ({
-      id: s.store_id,
-      name: s.name ? `${s.name} (Store)` : s.store_id,
-    })),
-  ]
+      setLocalFilters(merged)
+
+      navigate({
+        search: (prev: Record<string, unknown>) => {
+          const next: Record<string, unknown> = { ...prev, ...merged }
+          // Remove empty keys to keep URL clean
+          for (const key of Object.keys(next)) {
+            if (
+              next[key] === '' ||
+              next[key] === undefined ||
+              next[key] === null ||
+              next[key] === ALL
+            ) {
+              delete next[key]
+            }
+          }
+          if (next.page === 1) delete next.page
+          if (next.pageSize === 20) delete next.pageSize
+          return next
+        },
+        replace: true,
+      }).catch(() => {})
+    },
+    [navigate, page, pageSize, search, movementType, locationId, dateFrom, dateTo]
+  )
+
+  // Query parameters passed to server API
+  const queryFilters: MovementQueryParams = useMemo(() => {
+    const isSelectedWarehouse = warehouses.some((w) => w.id === locationId)
+    const isSelectedStore = stores.some((s) => s.store_id === locationId)
+
+    return {
+      page,
+      pageSize,
+      search: search || undefined,
+      movementType: movementType && movementType !== ALL ? movementType : undefined,
+      warehouseId: isSelectedWarehouse ? locationId : undefined,
+      storeId: isSelectedStore ? locationId : undefined,
+      locationId:
+        !isSelectedWarehouse && !isSelectedStore && locationId && locationId !== ALL
+          ? locationId
+          : undefined,
+      dateFrom: dateFrom || undefined,
+      dateTo: dateTo || undefined,
+      sortBy: 'movement_date',
+      sortOrder: 'desc',
+    }
+  }, [page, pageSize, search, movementType, locationId, dateFrom, dateTo, warehouses, stores])
+
+  // Data fetching hook
+  const { data, isLoading, isFetching, error, refetch } =
+    useInventoryMovements(queryFilters)
+
+  // Row inspect action
+  const handleInspectRow = useCallback((movement: MovementRow) => {
+    setSelectedMovement(movement)
+    setIsDrawerOpen(true)
+  }, [])
+
+  // CSV Export action
+  const handleExportCsv = useCallback(async () => {
+    try {
+      setIsExporting(true)
+      toast.info(t('inventoryMovements.filters.exporting', 'Exporting CSV...'))
+
+      const exportResult = await fetchMovements(getToken, {
+        ...queryFilters,
+        export: 'csv',
+        pageSize: 5000,
+      })
+
+      const rowsToExport = exportResult.movements.length
+        ? exportResult.movements
+        : data?.movements ?? []
+
+      if (!rowsToExport.length) {
+        toast.warning(t('inventoryMovements.empty.noMovements', 'No movements to export.'))
+        return
+      }
+
+      downloadMovementsCsv(rowsToExport)
+      toast.success(
+        t(
+          'inventoryMovements.filters.exportSuccess',
+          'Export completed successfully'
+        )
+      )
+    } catch {
+      toast.error(
+        t('inventoryMovements.filters.exportError', 'Failed to export movements')
+      )
+    } finally {
+      setIsExporting(false)
+    }
+  }, [getToken, queryFilters, data?.movements, t])
 
   return (
     <>
       <Header fixed>
-        <Search />
+        <HeaderSearch />
         <div className='ms-auto flex items-center space-x-4'>
           <LanguageSwitch />
           <ThemeSwitch />
@@ -96,133 +205,103 @@ export function InventoryMovements() {
       </Header>
 
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
-        <div>
-          <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>{t('inventoryMovements.title')}</h2>
-          <p className='text-muted-foreground'>
-            {t('inventoryMovements.description')}
-          </p>
-        </div>
-
-        <div className='flex flex-wrap gap-2'>
-          <Select value={movementType} onValueChange={setMovementType}>
-            <SelectTrigger className='w-56'>
-              <SelectValue placeholder={t('inventoryMovements.filters.allMovementTypes')} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={ALL}>{t('inventoryMovements.filters.allMovementTypes')}</SelectItem>
-              {MOVEMENT_TYPES.map((type) => (
-                <SelectItem key={type} value={type} className='capitalize'>
-                  {type.replace(/_/g, ' ')}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={warehouseId} onValueChange={setWarehouseId}>
-            <SelectTrigger className='w-56'>
-              <SelectValue placeholder={t('inventoryMovements.filters.allWarehouses')} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={ALL}>{t('inventoryMovements.filters.allWarehousesStores')}</SelectItem>
-              {locationOptions.map((loc) => (
-                <SelectItem key={loc.id} value={loc.id}>
-                  {loc.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {isLoading ? (
-          <div className='flex min-h-[400px] flex-1 items-center justify-center'>
-            <Loader2 className='h-10 w-10 animate-spin text-primary' />
+        {/* Module Title & Description */}
+        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2'>
+          <div>
+            <h2 className='bg-linear-to-r from-primary to-primary/60 bg-clip-text text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent'>
+              {t('inventoryMovements.title', 'Inventory Movements')}
+            </h2>
+            <p className='text-xs sm:text-sm text-muted-foreground mt-0.5'>
+              {t(
+                'inventoryMovements.description',
+                'The immutable audit ledger of every stock transaction — purchases, sales, transfers, and adjustments.'
+              )}
+            </p>
           </div>
-        ) : error ? (
-          <div className='flex flex-1 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 p-8 text-rose-500'>
-            <p className='font-medium'>{t('inventoryMovements.error.loadFailed')}</p>
+        </div>
+
+        {/* Executive Summary KPI Ribbon */}
+        <InventoryMovementsKpiRibbon
+          summary={data?.summary}
+          isLoading={isLoading}
+        />
+
+        {/* Faceted Filtering & Search Toolbar */}
+        <InventoryMovementsToolbar
+          search={search}
+          onSearchChange={(val) => updateParams({ search: val }, true)}
+          movementType={movementType}
+          onMovementTypeChange={(val) =>
+            updateParams({ movementType: val === ALL ? '' : val }, true)
+          }
+          locationId={locationId}
+          onLocationIdChange={(val) =>
+            updateParams({ locationId: val === ALL ? '' : val }, true)
+          }
+          dateFrom={dateFrom}
+          onDateFromChange={(val) => updateParams({ dateFrom: val }, true)}
+          dateTo={dateTo}
+          onDateToChange={(val) => updateParams({ dateTo: val }, true)}
+          onResetFilters={() =>
+            updateParams(
+              {
+                search: '',
+                movementType: '',
+                locationId: '',
+                dateFrom: '',
+                dateTo: '',
+              },
+              true
+            )
+          }
+          onExportCsv={handleExportCsv}
+          isExporting={isExporting}
+          locationOptions={locationOptions}
+        />
+
+        {/* Error State */}
+        {error ? (
+          <div className='flex flex-col items-center justify-center rounded-lg border border-destructive/30 bg-destructive/5 p-8 text-center text-destructive'>
+            <AlertCircle className='h-8 w-8 mb-2' />
+            <p className='font-semibold text-sm'>
+              {t('inventoryMovements.error.loadFailed', 'Error loading movements.')}
+            </p>
+            <p className='text-xs text-muted-foreground mt-1'>
+              {(error as Error)?.message || 'Please check your connection and permissions.'}
+            </p>
+            <button
+              type='button'
+              onClick={() => refetch()}
+              className='mt-3 text-xs underline font-medium'
+            >
+              Retry
+            </button>
           </div>
         ) : (
-          <div className='overflow-hidden rounded-md border'>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t('inventoryMovements.table.date')}</TableHead>
-                  <TableHead>{t('inventoryMovements.table.type')}</TableHead>
-                  <TableHead>{t('inventoryMovements.table.variantSku')}</TableHead>
-                  <TableHead>{t('inventoryMovements.table.warehouseStore')}</TableHead>
-                  <TableHead className='text-end'>{t('inventoryMovements.table.in')}</TableHead>
-                  <TableHead className='text-end'>{t('inventoryMovements.table.out')}</TableHead>
-                  <TableHead className='text-end'>{t('inventoryMovements.table.unitCost')}</TableHead>
-                  <TableHead>{t('inventoryMovements.table.reference')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {movements?.length ? (
-                  movements.map((movement) => {
-                    const locName =
-                      movement.warehouses?.name ??
-                      movement.stores?.name ??
-                      '—'
-                    return (
-                      <TableRow key={movement.id}>
-                        <TableCell className='whitespace-nowrap'>
-                          {new Date(movement.movement_date).toLocaleString(
-                            undefined,
-                            { dateStyle: 'medium', timeStyle: 'short' }
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant='outline' className='capitalize'>
-                            {movement.movement_type.replace(/_/g, ' ')}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <span className='font-mono font-medium'>
-                            {movement.product_variants?.sku ??
-                              movement.product_variant_id.slice(0, 8)}
-                          </span>
-                        </TableCell>
-                        <TableCell>{locName}</TableCell>
-                        <TableCell className='text-end font-semibold text-emerald-600'>
-                          {movement.qty_in > 0 ? `+${movement.qty_in}` : ''}
-                        </TableCell>
-                        <TableCell className='text-end font-semibold text-rose-600'>
-                          {movement.qty_out > 0 ? `-${movement.qty_out}` : ''}
-                        </TableCell>
-                        <TableCell className='text-end font-mono text-sm'>
-                          {movement.unit_cost > 0 ? `$${Number(movement.unit_cost).toFixed(2)}` : '—'}
-                        </TableCell>
-                        <TableCell>
-                          {movement.reference_type === 'inventory_transaction' || movement.source_document_type ? (
-                            <Link
-                              to='/inventory-transactions'
-                              className='font-medium text-primary hover:underline inline-flex items-center gap-1 text-xs'
-                            >
-                              <span>{movement.source_document_type ?? t('inventoryMovements.reference.txn')}</span>
-                              <span className='text-[10px] text-muted-foreground font-mono'>→</span>
-                            </Link>
-                          ) : (
-                            <span className='text-muted-foreground text-xs'>
-                              {movement.reference_type
-                                ? movement.reference_type.replace(/_/g, ' ')
-                                : '—'}
-                            </span>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} className='h-24 text-center'>
-                      {t('inventoryMovements.empty.noMovements')}
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+          /* Paginated Movements Table */
+          <InventoryMovementsTable
+            movements={data?.movements ?? []}
+            totalCount={data?.totalCount ?? 0}
+            page={page}
+            pageSize={pageSize}
+            totalPages={data?.totalPages ?? 1}
+            isLoading={isLoading || isFetching}
+            onPageChange={(newPage) => updateParams({ page: newPage })}
+            onPageSizeChange={(newPageSize) =>
+              updateParams({ pageSize: newPageSize }, true)
+            }
+            onRowClick={handleInspectRow}
+          />
         )}
+
+        {/* Slide-out Audit Inspection Sheet */}
+        <InventoryMovementsDrawer
+          movement={selectedMovement}
+          open={isDrawerOpen}
+          onOpenChange={setIsDrawerOpen}
+        />
       </Main>
     </>
   )
 }
+export default InventoryMovements

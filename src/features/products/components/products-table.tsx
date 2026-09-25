@@ -15,7 +15,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useTranslation } from 'react-i18next'
 import {
   ArrowUpDown,
   Download,
@@ -26,7 +25,17 @@ import {
   Loader2,
   AlertCircle,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   Table,
   TableBody,
@@ -35,28 +44,22 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
 import { type Product } from '../data/schema'
-import { computeTotalStock, getColumns } from './products-columns'
-import { ProductsBulkActions } from './products-bulk-actions'
-import { useProductsContext } from './products-provider'
-import { ProductsCardsGrid } from './products-cards-grid'
-import { ProductsFilterDrawer } from './products-filter-drawer'
 import {
   useCategoryOptions,
   useBrandOptions,
   useUomOptions,
   useSupplierOptions,
 } from '../hooks/use-product-options'
+import { ProductsBulkActions } from './products-bulk-actions'
+import { ProductsCardsGrid } from './products-cards-grid'
+import { computeTotalStock, getColumns } from './products-columns'
+import { ProductsFilterDrawer } from './products-filter-drawer'
+import {
+  useProductsContext,
+  type ProductQuickFilter,
+} from './products-provider'
 
 export interface ProductsTableProps {
   data: Product[]
@@ -89,7 +92,9 @@ export interface ProductsTableProps {
 }
 
 const globalFilterFn: FilterFn<Product> = (row, _columnId, filterValue) => {
-  const query = String(filterValue || '').toLowerCase().trim()
+  const query = String(filterValue || '')
+    .toLowerCase()
+    .trim()
   if (!query) return true
 
   const p = row.original
@@ -97,7 +102,9 @@ const globalFilterFn: FilterFn<Product> = (row, _columnId, filterValue) => {
   const sku = (p.sku || '').toLowerCase()
   const barcode = (p.barcode || '').toLowerCase()
   const category = (p.categories?.name || '').toLowerCase()
+  const categoryAr = (p.categories?.name_ar || '').toLowerCase()
   const brand = (p.brands?.name || '').toLowerCase()
+  const brandAr = (p.brands?.name_ar || '').toLowerCase()
   const supplier = (p.suppliers?.name || '').toLowerCase()
   const pType = (p.product_type || '').toLowerCase()
 
@@ -113,7 +120,9 @@ const globalFilterFn: FilterFn<Product> = (row, _columnId, filterValue) => {
     sku.includes(query) ||
     barcode.includes(query) ||
     category.includes(query) ||
+    categoryAr.includes(query) ||
     brand.includes(query) ||
+    brandAr.includes(query) ||
     supplier.includes(query) ||
     pType.includes(query) ||
     variantMatches
@@ -169,18 +178,26 @@ export function ProductsTable({
   // Helper to format friendly error messages including statement timeout (code 57014)
   const getErrorMessage = (err: unknown): string => {
     if (!err) return ''
-    const errObj = err as any
-    if (errObj?.code === '57014' || errObj?.message?.includes('timeout')) {
+    const errObj =
+      typeof err === 'object' && err !== null
+        ? (err as Record<string, unknown>)
+        : null
+    const errCode = typeof errObj?.code === 'string' ? errObj.code : undefined
+    const errMsg =
+      typeof errObj?.message === 'string'
+        ? errObj.message
+        : err instanceof Error
+          ? err.message
+          : undefined
+
+    if (errCode === '57014' || (errMsg && errMsg.includes('timeout'))) {
       return t('products.timeoutError', {
         defaultValue:
           'The request took too long to complete. Please try using more specific filters or try again.',
       })
     }
-    if (err instanceof Error) {
-      return err.message
-    }
-    if (typeof err === 'object' && errObj?.message) {
-      return String(errObj.message)
+    if (errMsg) {
+      return errMsg
     }
     return t('products.unexpectedError', {
       defaultValue: 'An unexpected error occurred while loading products.',
@@ -195,7 +212,68 @@ export function ProductsTable({
 
   const columns = useMemo(() => getColumns(t), [t])
 
-  // Sync quickFilter changes to columnFilters in client mode or server params
+  // Sync incoming search prop to globalFilter state
+  useEffect(() => {
+    if (search !== undefined) {
+      setGlobalFilter(search)
+    }
+  }, [search])
+
+  // Sync incoming sortBy/sortOrder props to sorting state
+  useEffect(() => {
+    if (sortBy) {
+      setSorting([{ id: sortBy, desc: sortOrder !== 'asc' }])
+    }
+  }, [sortBy, sortOrder])
+
+  // Synchronize incoming filter props with table columnFilters in server mode
+  useEffect(() => {
+    if (isServer) {
+      const syncedFilters: ColumnFiltersState = []
+      if (selectedCategory) {
+        syncedFilters.push({ id: 'category', value: [selectedCategory] })
+      }
+      if (selectedBrand) {
+        syncedFilters.push({ id: 'brand', value: [selectedBrand] })
+      }
+      if (selectedUom) {
+        syncedFilters.push({ id: 'base_uom', value: [selectedUom] })
+      }
+      if (selectedSupplier) {
+        syncedFilters.push({ id: 'supplier', value: [selectedSupplier] })
+      }
+      if (selectedProductType) {
+        syncedFilters.push({ id: 'product_type', value: [selectedProductType] })
+      }
+      if (selectedIsActive) {
+        syncedFilters.push({ id: 'is_active', value: [selectedIsActive] })
+      }
+      if (
+        quickFilter === 'in_stock' ||
+        quickFilter === 'low_stock' ||
+        quickFilter === 'out_of_stock'
+      ) {
+        syncedFilters.push({ id: 'stock_status', value: [quickFilter] })
+      } else if (quickFilter === 'inactive') {
+        if (!selectedIsActive) {
+          syncedFilters.push({ id: 'is_active', value: ['false'] })
+        }
+      }
+
+      setColumnFilters(syncedFilters)
+    }
+  }, [
+    isServer,
+    selectedCategory,
+    selectedBrand,
+    selectedUom,
+    selectedSupplier,
+    selectedProductType,
+    selectedIsActive,
+    quickFilter,
+  ])
+
+  // Sync quickFilter changes to columnFilters in client mode
   useEffect(() => {
     if (!isServer) {
       setColumnFilters((prev) => {
@@ -280,37 +358,63 @@ export function ProductsTable({
       const catVal = Array.isArray(catFilter?.value)
         ? (catFilter.value[0] as string) || null
         : (catFilter?.value as string) || null
-      onSelectCategory?.(catVal)
+      if (catVal !== (selectedCategory ?? null)) {
+        onSelectCategory?.(catVal)
+      }
 
       const brandFilter = nextFilters.find((f) => f.id === 'brand')
       const brandVal = Array.isArray(brandFilter?.value)
         ? (brandFilter.value[0] as string) || null
         : (brandFilter?.value as string) || null
-      onSelectBrand?.(brandVal)
+      if (brandVal !== (selectedBrand ?? null)) {
+        onSelectBrand?.(brandVal)
+      }
 
       const uomFilter = nextFilters.find((f) => f.id === 'base_uom')
       const uomVal = Array.isArray(uomFilter?.value)
         ? (uomFilter.value[0] as string) || null
         : (uomFilter?.value as string) || null
-      onSelectUom?.(uomVal)
+      if (uomVal !== (selectedUom ?? null)) {
+        onSelectUom?.(uomVal)
+      }
 
       const supFilter = nextFilters.find((f) => f.id === 'supplier')
       const supVal = Array.isArray(supFilter?.value)
         ? (supFilter.value[0] as string) || null
         : (supFilter?.value as string) || null
-      onSelectSupplier?.(supVal)
+      if (supVal !== (selectedSupplier ?? null)) {
+        onSelectSupplier?.(supVal)
+      }
 
       const ptFilter = nextFilters.find((f) => f.id === 'product_type')
       const ptVal = Array.isArray(ptFilter?.value)
         ? (ptFilter.value[0] as string) || null
         : (ptFilter?.value as string) || null
-      onSelectProductType?.(ptVal)
+      if (ptVal !== (selectedProductType ?? null)) {
+        onSelectProductType?.(ptVal)
+      }
 
       const actFilter = nextFilters.find((f) => f.id === 'is_active')
       const actVal = Array.isArray(actFilter?.value)
         ? (actFilter.value[0] as string) || null
         : (actFilter?.value as string) || null
-      onSelectIsActive?.(actVal)
+      if (actVal !== (selectedIsActive ?? null)) {
+        onSelectIsActive?.(actVal)
+      }
+
+      const stockFilter = nextFilters.find((f) => f.id === 'stock_status')
+      const stockVal = Array.isArray(stockFilter?.value)
+        ? (stockFilter.value[0] as ProductQuickFilter) || null
+        : (stockFilter?.value as ProductQuickFilter) || null
+      if (stockVal) {
+        setQuickFilter(stockVal)
+      } else if (
+        quickFilter === 'in_stock' ||
+        quickFilter === 'low_stock' ||
+        quickFilter === 'out_of_stock'
+      ) {
+        setQuickFilter(null)
+      }
 
       onPageChange?.(1)
     }
@@ -328,6 +432,7 @@ export function ProductsTable({
     }
   }
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -355,15 +460,11 @@ export function ProductsTable({
     rowCount: isServer ? totalCount : undefined,
     onPaginationChange: isServer ? handlePaginationChange : undefined,
     getCoreRowModel: getCoreRowModel(),
-    ...(!isServer
-      ? {
-          getPaginationRowModel: getPaginationRowModel(),
-          getFilteredRowModel: getFilteredRowModel(),
-          getSortedRowModel: getSortedRowModel(),
-          getFacetedRowModel: getFacetedRowModel(),
-          getFacetedUniqueValues: getFacetedUniqueValues(),
-        }
-      : {}),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: !isServer ? getPaginationRowModel() : undefined,
+    getSortedRowModel: !isServer ? getSortedRowModel() : undefined,
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
   // Quick stats counts
@@ -467,7 +568,9 @@ export function ProductsTable({
   const productTypeFilterOptions = useMemo(
     () => [
       {
-        label: t('products.enums.productType.simple', { defaultValue: 'Simple' }),
+        label: t('products.enums.productType.simple', {
+          defaultValue: 'Simple',
+        }),
         value: 'simple',
       },
       {
@@ -505,7 +608,9 @@ export function ProductsTable({
         value: 'in_stock',
       },
       {
-        label: t('products.stockStatus.lowStock', { defaultValue: 'Low Stock' }),
+        label: t('products.stockStatus.lowStock', {
+          defaultValue: 'Low Stock',
+        }),
         value: 'low_stock',
       },
       {
@@ -612,6 +717,12 @@ export function ProductsTable({
       return
     }
 
+    const formatExportDate = (val: unknown): string => {
+      if (!val) return ''
+      if (val instanceof Date) return val.toISOString()
+      return String(val)
+    }
+
     const headers = [
       'ID',
       'Name',
@@ -628,23 +739,24 @@ export function ProductsTable({
     ]
 
     const csvRows = exportItems.map((p) => [
-      `"${p.id || ''}"`,
-      `"${(p.name || '').replace(/"/g, '""')}"`,
-      `"${(p.sku || '').replace(/"/g, '""')}"`,
-      `"${(p.barcode || '').replace(/"/g, '""')}"`,
-      `"${(p.categories?.name || '').replace(/"/g, '""')}"`,
-      `"${(p.brands?.name || '').replace(/"/g, '""')}"`,
-      `"${(p.base_uom?.name || p.base_uom?.code || '').replace(/"/g, '""')}"`,
-      `"${(p.suppliers?.name || '').replace(/"/g, '""')}"`,
-      `"${p.product_type || 'simple'}"`,
+      `"${String(p.id || p.product_id || '').replace(/"/g, '""')}"`,
+      `"${String(p.name || '').replace(/"/g, '""')}"`,
+      `"${String(p.sku || '').replace(/"/g, '""')}"`,
+      `"${String(p.barcode || '').replace(/"/g, '""')}"`,
+      `"${String(p.categories?.name || '').replace(/"/g, '""')}"`,
+      `"${String(p.brands?.name || '').replace(/"/g, '""')}"`,
+      `"${String(p.base_uom?.name || p.base_uom?.code || '').replace(/"/g, '""')}"`,
+      `"${String(p.suppliers?.name || '').replace(/"/g, '""')}"`,
+      `"${String(p.product_type || 'simple').replace(/"/g, '""')}"`,
       computeTotalStock(p),
       p.is_active ? 'Active' : 'Inactive',
-      `"${p.created_at || ''}"`,
+      `"${formatExportDate(p.created_at).replace(/"/g, '""')}"`,
     ])
 
-    const csvContent = [headers.join(','), ...csvRows.map((r) => r.join(','))].join(
-      '\n'
-    )
+    const csvContent = [
+      headers.join(','),
+      ...csvRows.map((r) => r.join(',')),
+    ].join('\n')
     const blob = new Blob(['\uFEFF' + csvContent], {
       type: 'text/csv;charset=utf-8;',
     })
@@ -694,7 +806,23 @@ export function ProductsTable({
     if (selectedSupplier) count++
     if (selectedProductType) count++
     if (selectedIsActive) count++
-    if (columnFilters.length > 0) count += columnFilters.length
+
+    const propFilterIds = new Set(
+      [
+        selectedCategory && 'category',
+        selectedBrand && 'brand',
+        selectedUom && 'base_uom',
+        selectedSupplier && 'supplier',
+        selectedProductType && 'product_type',
+        selectedIsActive && 'is_active',
+      ].filter(Boolean)
+    )
+
+    for (const f of columnFilters) {
+      if (!propFilterIds.has(f.id) && f.id !== 'stock_status') {
+        count++
+      }
+    }
     return count
   }, [
     selectedCategory,
@@ -715,7 +843,7 @@ export function ProductsTable({
   return (
     <div className='flex flex-1 flex-col gap-3.5 sm:gap-4'>
       {/* Quick Filter Status Pills */}
-      <div className='flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 scrollbar-none'>
+      <div className='scrollbar-none flex items-center gap-1.5 overflow-x-auto pb-1 sm:gap-2'>
         <Button
           variant={
             quickFilter === null || quickFilter === 'all'
@@ -727,7 +855,7 @@ export function ProductsTable({
             setQuickFilter(null)
             onPageChange?.(1)
           }}
-          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
+          className='h-7 shrink-0 gap-1.5 rounded-full px-3 text-xs'
         >
           <span>{t('products.filters.all', { defaultValue: 'All' })}</span>
           <Badge
@@ -736,7 +864,7 @@ export function ProductsTable({
                 ? 'secondary'
                 : 'outline'
             }
-            className='h-4 px-1 text-[10px] font-mono'
+            className='h-4 px-1 font-mono text-[10px]'
           >
             {totalCount !== undefined ? totalCount : data.length}
           </Badge>
@@ -749,7 +877,7 @@ export function ProductsTable({
             setQuickFilter(quickFilter === 'in_stock' ? null : 'in_stock')
             onPageChange?.(1)
           }}
-          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
+          className='h-7 shrink-0 gap-1.5 rounded-full px-3 text-xs'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-emerald-500' />
           <span>
@@ -757,7 +885,7 @@ export function ProductsTable({
           </span>
           <Badge
             variant={quickFilter === 'in_stock' ? 'secondary' : 'outline'}
-            className='h-4 px-1 text-[10px] font-mono'
+            className='h-4 px-1 font-mono text-[10px]'
           >
             {statsCounts.inStock}
           </Badge>
@@ -770,7 +898,7 @@ export function ProductsTable({
             setQuickFilter(quickFilter === 'low_stock' ? null : 'low_stock')
             onPageChange?.(1)
           }}
-          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
+          className='h-7 shrink-0 gap-1.5 rounded-full px-3 text-xs'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-amber-500' />
           <span>
@@ -778,7 +906,7 @@ export function ProductsTable({
           </span>
           <Badge
             variant={quickFilter === 'low_stock' ? 'secondary' : 'outline'}
-            className='h-4 px-1 text-[10px] font-mono'
+            className='h-4 px-1 font-mono text-[10px]'
           >
             {statsCounts.lowStock}
           </Badge>
@@ -788,10 +916,12 @@ export function ProductsTable({
           variant={quickFilter === 'out_of_stock' ? 'default' : 'outline'}
           size='sm'
           onClick={() => {
-            setQuickFilter(quickFilter === 'out_of_stock' ? null : 'out_of_stock')
+            setQuickFilter(
+              quickFilter === 'out_of_stock' ? null : 'out_of_stock'
+            )
             onPageChange?.(1)
           }}
-          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
+          className='h-7 shrink-0 gap-1.5 rounded-full px-3 text-xs'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-rose-500' />
           <span>
@@ -799,7 +929,7 @@ export function ProductsTable({
           </span>
           <Badge
             variant={quickFilter === 'out_of_stock' ? 'secondary' : 'outline'}
-            className='h-4 px-1 text-[10px] font-mono'
+            className='h-4 px-1 font-mono text-[10px]'
           >
             {statsCounts.outOfStock}
           </Badge>
@@ -812,7 +942,7 @@ export function ProductsTable({
             setQuickFilter(quickFilter === 'inactive' ? null : 'inactive')
             onPageChange?.(1)
           }}
-          className='h-7 text-xs rounded-full px-3 gap-1.5 shrink-0'
+          className='h-7 shrink-0 gap-1.5 rounded-full px-3 text-xs'
         >
           <span className='h-1.5 w-1.5 rounded-full bg-muted-foreground' />
           <span>
@@ -820,7 +950,7 @@ export function ProductsTable({
           </span>
           <Badge
             variant={quickFilter === 'inactive' ? 'secondary' : 'outline'}
-            className='h-4 px-1 text-[10px] font-mono'
+            className='h-4 px-1 font-mono text-[10px]'
           >
             {statsCounts.inactive}
           </Badge>
@@ -858,7 +988,9 @@ export function ProductsTable({
             ? [
                 {
                   columnId: 'base_uom',
-                  title: t('products.columns.uom', { defaultValue: 'Base UOM' }),
+                  title: t('products.columns.uom', {
+                    defaultValue: 'Base UOM',
+                  }),
                   options: uomFilterOptions,
                 },
               ]
@@ -936,8 +1068,8 @@ export function ProductsTable({
 
             {/* Quick Sort Dropdown */}
             <Select value={currentSortValue} onValueChange={handleSortChange}>
-              <SelectTrigger className='h-8 w-[130px] sm:w-[160px] text-xs'>
-                <ArrowUpDown className='h-3.5 w-3.5 mr-1.5 text-muted-foreground shrink-0' />
+              <SelectTrigger className='h-8 w-[130px] text-xs sm:w-[160px]'>
+                <ArrowUpDown className='mr-1.5 h-3.5 w-3.5 shrink-0 text-muted-foreground' />
                 <SelectValue
                   placeholder={t('products.sort.placeholder', {
                     defaultValue: 'Sort by...',
@@ -975,7 +1107,9 @@ export function ProductsTable({
                 size='sm'
                 onClick={() => setViewMode('grid')}
                 className='h-7 w-7 p-0'
-                title={t('products.view.gridView', { defaultValue: 'Grid View' })}
+                title={t('products.view.gridView', {
+                  defaultValue: 'Grid View',
+                })}
               >
                 <LayoutGrid className='h-3.5 w-3.5' />
               </Button>
@@ -986,7 +1120,7 @@ export function ProductsTable({
               variant='outline'
               size='sm'
               onClick={handleExportCsv}
-              className='h-8 text-xs gap-1.5 px-2 sm:px-3'
+              className='h-8 gap-1.5 px-2 text-xs sm:px-3'
               title={t('common.exportCsv', { defaultValue: 'Export CSV' })}
             >
               <Download className='h-3.5 w-3.5' />
@@ -1010,7 +1144,7 @@ export function ProductsTable({
               variant='outline'
               size='sm'
               onClick={onRetry}
-              className='h-7 text-xs gap-1 border-destructive/30 hover:bg-destructive/10'
+              className='h-7 gap-1 border-destructive/30 text-xs hover:bg-destructive/10'
             >
               <RotateCcw className='h-3 w-3' />
               {t('common.tryAgain', { defaultValue: 'Try Again' })}
@@ -1021,7 +1155,7 @@ export function ProductsTable({
 
       {/* Loading Overlay indicator when refetching server data */}
       {isFetching && !isLoading && (
-        <div className='flex items-center gap-2 text-xs text-muted-foreground animate-pulse py-0.5 px-1'>
+        <div className='flex animate-pulse items-center gap-2 px-1 py-0.5 text-xs text-muted-foreground'>
           <Loader2 className='h-3.5 w-3.5 animate-spin text-primary' />
           <span>
             {t('products.table.updatingData', {
@@ -1034,27 +1168,27 @@ export function ProductsTable({
       {/* Main Content: Table or Grid View */}
       {viewMode === 'grid' ? (
         error && data.length === 0 ? (
-          <div className='flex flex-col items-center justify-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-8 text-destructive text-center'>
+          <div className='flex flex-col items-center justify-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-8 text-center text-destructive'>
             <div className='rounded-full bg-destructive/10 p-3'>
               <AlertCircle className='h-6 w-6' />
             </div>
             <div className='space-y-1'>
-              <p className='font-semibold text-sm'>
+              <p className='text-sm font-semibold'>
                 {t('products.errorLoading', {
                   defaultValue: 'Failed to load products',
                 })}
               </p>
-              <p className='text-xs text-muted-foreground max-w-sm mx-auto'>
+              <p className='mx-auto max-w-sm text-xs text-muted-foreground'>
                 {getErrorMessage(error)}
               </p>
             </div>
-            <div className='flex items-center gap-2 mt-2'>
+            <div className='mt-2 flex items-center gap-2'>
               {onRetry && (
                 <Button
                   variant='outline'
                   size='sm'
                   onClick={onRetry}
-                  className='h-8 text-xs gap-1.5'
+                  className='h-8 gap-1.5 text-xs'
                 >
                   <RotateCcw className='h-3.5 w-3.5' />
                   {t('common.tryAgain', { defaultValue: 'Try Again' })}
@@ -1064,7 +1198,7 @@ export function ProductsTable({
                 variant='secondary'
                 size='sm'
                 onClick={handleResetFilters}
-                className='h-8 text-xs gap-1.5'
+                className='h-8 gap-1.5 text-xs'
               >
                 <RotateCcw className='h-3.5 w-3.5' />
                 {t('dataTable.reset', {
@@ -1078,20 +1212,19 @@ export function ProductsTable({
             <div className='rounded-full bg-muted/60 p-3'>
               <PackageSearch className='h-6 w-6' />
             </div>
-            <p className='font-medium text-sm'>
+            <p className='text-sm font-medium'>
               {t('products.table.noResults', {
                 defaultValue: 'No products found',
               })}
             </p>
-            <p className='text-xs text-muted-foreground max-w-sm'>
+            <p className='max-w-sm text-xs text-muted-foreground'>
               {isFiltered
                 ? t('products.table.noResultsFiltered', {
                     defaultValue:
                       'Try adjusting or resetting your search and filters to find products.',
                   })
                 : t('products.table.noProductsYet', {
-                    defaultValue:
-                      'No products in this inventory catalog yet.',
+                    defaultValue: 'No products in this inventory catalog yet.',
                   })}
             </p>
             {isFiltered && (
@@ -1099,7 +1232,7 @@ export function ProductsTable({
                 variant='outline'
                 size='sm'
                 onClick={handleResetFilters}
-                className='mt-2 h-8 text-xs gap-1.5'
+                className='mt-2 h-8 gap-1.5 text-xs'
               >
                 <RotateCcw className='h-3.5 w-3.5' />
                 {t('dataTable.reset', {
@@ -1118,7 +1251,10 @@ export function ProductsTable({
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id} className='text-xs font-semibold py-2.5 whitespace-nowrap'>
+                    <TableHead
+                      key={header.id}
+                      className='py-2.5 text-xs font-semibold whitespace-nowrap'
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -1136,7 +1272,7 @@ export function ProductsTable({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    className='hover:bg-muted/50 transition-colors'
+                    className='transition-colors hover:bg-muted/50'
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className='py-2.5 text-xs'>
@@ -1154,37 +1290,39 @@ export function ProductsTable({
                     colSpan={columns.length}
                     className='h-56 text-center'
                   >
-                    <div className='flex flex-col items-center justify-center gap-3 text-destructive p-6'>
+                    <div className='flex flex-col items-center justify-center gap-3 p-6 text-destructive'>
                       <div className='rounded-full bg-destructive/10 p-3'>
                         <AlertCircle className='h-6 w-6' />
                       </div>
                       <div className='space-y-1'>
-                        <p className='font-semibold text-sm'>
+                        <p className='text-sm font-semibold'>
                           {t('products.errorLoading', {
                             defaultValue: 'Failed to load products',
                           })}
                         </p>
-                        <p className='text-xs text-muted-foreground max-w-sm mx-auto'>
+                        <p className='mx-auto max-w-sm text-xs text-muted-foreground'>
                           {getErrorMessage(error)}
                         </p>
                       </div>
-                      <div className='flex items-center gap-2 mt-2'>
+                      <div className='mt-2 flex items-center gap-2'>
                         {onRetry && (
                           <Button
                             variant='outline'
                             size='sm'
                             onClick={onRetry}
-                            className='h-8 text-xs gap-1.5'
+                            className='h-8 gap-1.5 text-xs'
                           >
                             <RotateCcw className='h-3.5 w-3.5' />
-                            {t('common.tryAgain', { defaultValue: 'Try Again' })}
+                            {t('common.tryAgain', {
+                              defaultValue: 'Try Again',
+                            })}
                           </Button>
                         )}
                         <Button
                           variant='secondary'
                           size='sm'
                           onClick={handleResetFilters}
-                          className='h-8 text-xs gap-1.5'
+                          className='h-8 gap-1.5 text-xs'
                         >
                           <RotateCcw className='h-3.5 w-3.5' />
                           {t('dataTable.reset', {
@@ -1205,12 +1343,12 @@ export function ProductsTable({
                       <div className='rounded-full bg-muted/60 p-3'>
                         <PackageSearch className='h-6 w-6' />
                       </div>
-                      <p className='font-medium text-sm'>
+                      <p className='text-sm font-medium'>
                         {t('products.table.noResults', {
                           defaultValue: 'No products found',
                         })}
                       </p>
-                      <p className='text-xs text-muted-foreground max-w-sm'>
+                      <p className='max-w-sm text-xs text-muted-foreground'>
                         {isFiltered
                           ? t('products.table.noResultsFiltered', {
                               defaultValue:
@@ -1226,7 +1364,7 @@ export function ProductsTable({
                           variant='outline'
                           size='sm'
                           onClick={handleResetFilters}
-                          className='mt-2 h-8 text-xs gap-1.5'
+                          className='mt-2 h-8 gap-1.5 text-xs'
                         >
                           <RotateCcw className='h-3.5 w-3.5' />
                           {t('dataTable.reset', {

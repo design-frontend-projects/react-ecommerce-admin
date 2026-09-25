@@ -1,17 +1,47 @@
+import { z } from 'zod'
 import { authorizedRequest, type TokenGetter } from '@/lib/authorized-request'
 import { supabase } from '@/lib/supabase'
 import {
+  movementRowSchema,
+  paginatedMovementsResponseSchema,
+  paginatedMovementsDataSchema,
   movementsResponseSchema,
   type MovementFilters,
   type MovementRow,
+  type PaginatedMovementsResult,
 } from './schema'
 
 const BASE = '/api/inventory/movements'
 
+function wrapWithArrayCompat(result: PaginatedMovementsResult): PaginatedMovementsResult {
+  Object.defineProperties(result, {
+    length: {
+      get() {
+        return result.movements.length
+      },
+      enumerable: false,
+    },
+    [Symbol.iterator]: {
+      value: function* () {
+        yield* result.movements
+      },
+      enumerable: false,
+    },
+  })
+  result.movements.forEach((item, index) => {
+    Object.defineProperty(result, index, {
+      value: item,
+      enumerable: false,
+      configurable: true,
+    })
+  })
+  return result
+}
+
 export async function fetchMovements(
   getToken: TokenGetter,
   filters: MovementFilters = {}
-): Promise<MovementRow[]> {
+): Promise<PaginatedMovementsResult> {
   const params = new URLSearchParams()
   for (const [key, value] of Object.entries(filters)) {
     if (value !== undefined && value !== null && value !== '') {
@@ -25,12 +55,76 @@ export async function fetchMovements(
       getToken,
       query ? `${BASE}?${query}` : BASE
     )
-    return movementsResponseSchema.parse(payload).data
-  } catch (err) {
-    console.warn(
-      'API route /api/inventory/movements failed, querying Supabase directly:',
-      err
-    )
+
+    // 1. Envelope response with paginated movements data: { success: true, data: { movements: [...] } }
+    const paginatedResponse = paginatedMovementsResponseSchema.safeParse(payload)
+    if (paginatedResponse.success) {
+      return wrapWithArrayCompat(paginatedResponse.data.data)
+    }
+
+    // 2. Direct paginated movements data: { movements: [...], totalCount: ... }
+    const paginatedDirect = paginatedMovementsDataSchema.safeParse(payload)
+    if (paginatedDirect.success) {
+      return wrapWithArrayCompat(paginatedDirect.data)
+    }
+
+    // 3. Envelope response with flat movements array: { success: true, data: MovementRow[] }
+    const flatResponse = movementsResponseSchema.safeParse(payload)
+    if (flatResponse.success) {
+      const parsedRows = flatResponse.data.data
+      const totalIn = parsedRows.reduce((acc, r) => acc + (r.qty_in ?? 0), 0)
+      const totalOut = parsedRows.reduce((acc, r) => acc + (r.qty_out ?? 0), 0)
+      const result: PaginatedMovementsResult = {
+        movements: parsedRows,
+        totalCount: parsedRows.length,
+        page: filters.page ?? 1,
+        pageSize: filters.pageSize ?? parsedRows.length,
+        totalPages: 1,
+        summary: {
+          totalMovements: parsedRows.length,
+          totalIn,
+          totalOut,
+          netDelta: totalIn - totalOut,
+        },
+      }
+      return wrapWithArrayCompat(result)
+    }
+
+    // 4. Direct flat movements array: MovementRow[]
+    const directArray = z.array(movementRowSchema).safeParse(payload)
+    if (directArray.success) {
+      const parsedRows = directArray.data
+      const totalIn = parsedRows.reduce((acc, r) => acc + (r.qty_in ?? 0), 0)
+      const totalOut = parsedRows.reduce((acc, r) => acc + (r.qty_out ?? 0), 0)
+      const result: PaginatedMovementsResult = {
+        movements: parsedRows,
+        totalCount: parsedRows.length,
+        page: filters.page ?? 1,
+        pageSize: filters.pageSize ?? parsedRows.length,
+        totalPages: 1,
+        summary: {
+          totalMovements: parsedRows.length,
+          totalIn,
+          totalOut,
+          netDelta: totalIn - totalOut,
+        },
+      }
+      return wrapWithArrayCompat(result)
+    }
+
+    return wrapWithArrayCompat({
+      movements: [],
+      totalCount: 0,
+      page: 1,
+      pageSize: 20,
+      totalPages: 1,
+      summary: { totalMovements: 0, totalIn: 0, totalOut: 0, netDelta: 0 },
+    })
+  } catch {
+    const page = Math.max(1, filters.page ?? 1)
+    const pageSize = Math.min(Math.max(1, filters.pageSize ?? filters.limit ?? 20), 100)
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
 
     let q = supabase
       .from('inventory_movements')
@@ -52,10 +146,11 @@ export async function fetchMovements(
           name,
           code
         )
-      `
+      `,
+        { count: 'exact' }
       )
-      .order('movement_date', { ascending: false })
-      .limit(filters.limit ?? 200)
+      .order('movement_date', { ascending: filters.sortOrder === 'asc' })
+      .range(from, to)
 
     if (filters.movementType && filters.movementType !== 'all') {
       q = q.eq('movement_type', filters.movementType)
@@ -69,22 +164,65 @@ export async function fetchMovements(
     if (filters.productVariantId) {
       q = q.eq('product_variant_id', filters.productVariantId)
     }
+    if (filters.dateFrom) {
+      q = q.gte('movement_date', filters.dateFrom)
+    }
+    if (filters.dateTo) {
+      q = q.lte('movement_date', filters.dateTo)
+    }
 
-    const { data, error } = await q
+    const { data, count, error } = await q
     if (error) {
-      console.warn('Supabase relation query failed, attempting flat fallback:', error)
-      const { data: flatData, error: flatError } = await supabase
+      const { data: flatData, count: flatCount, error: flatError } = await supabase
         .from('inventory_movements')
-        .select('*')
-        .order('movement_date', { ascending: false })
-        .limit(filters.limit ?? 200)
+        .select('*', { count: 'exact' })
+        .order('movement_date', { ascending: filters.sortOrder === 'asc' })
+        .range(from, to)
 
       if (flatError) {
         throw flatError
       }
-      return movementsResponseSchema.parse({ success: true, data: flatData ?? [] }).data
+      const movements: MovementRow[] = (flatData ?? []).map((row: unknown) =>
+        movementRowSchema.parse(row)
+      )
+      const totalCount = flatCount ?? movements.length
+      const totalIn = movements.reduce((acc, r) => acc + (r.qty_in ?? 0), 0)
+      const totalOut = movements.reduce((acc, r) => acc + (r.qty_out ?? 0), 0)
+
+      return wrapWithArrayCompat({
+        movements,
+        totalCount,
+        page,
+        pageSize,
+        totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+        summary: {
+          totalMovements: totalCount,
+          totalIn,
+          totalOut,
+          netDelta: totalIn - totalOut,
+        },
+      })
     }
 
-    return movementsResponseSchema.parse({ success: true, data: data ?? [] }).data
+    const movements: MovementRow[] = (data ?? []).map((row: unknown) =>
+      movementRowSchema.parse(row)
+    )
+    const totalCount = count ?? movements.length
+    const totalIn = movements.reduce((acc, r) => acc + (r.qty_in ?? 0), 0)
+    const totalOut = movements.reduce((acc, r) => acc + (r.qty_out ?? 0), 0)
+
+    return wrapWithArrayCompat({
+      movements,
+      totalCount,
+      page,
+      pageSize,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+      summary: {
+        totalMovements: totalCount,
+        totalIn,
+        totalOut,
+        netDelta: totalIn - totalOut,
+      },
+    })
   }
 }
