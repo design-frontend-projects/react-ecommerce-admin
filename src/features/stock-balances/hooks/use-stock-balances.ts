@@ -7,18 +7,20 @@ import {
   fetchStockBalances,
   postStockAdjustment,
   fetchStockBalanceMovements,
+  fetchVariantFacilityOnHand,
 } from '../data/actions'
 import type {
   StockBalanceFilters,
   StockBalancesResponse,
   StockMovementRow,
+  VariantFacilityOnHandResult,
 } from '../data/schema'
 import type { AdjustmentFormData } from '../data/adjustment-schema'
 
 export const stockBalancesQueryKey = ['stock-balances'] as const
 
 /**
- * Hook to fetch stock balances with comprehensive server metrics, search, and filtering.
+ * Hook to fetch stock balances with server-side pagination, metrics, and pushdown filters.
  */
 export function useStockBalances(filters: StockBalanceFilters = {}) {
   const query = useAuthQuery<StockBalancesResponse>({
@@ -28,12 +30,53 @@ export function useStockBalances(filters: StockBalanceFilters = {}) {
     staleTime: 30_000,
   })
 
+  const pageSize = query.data?.pageSize ?? filters.pageSize ?? 20
+  const total = query.data?.total ?? 0
+  const page = query.data?.page ?? filters.page ?? 1
+  const totalPages = query.data?.totalPages ?? Math.max(1, Math.ceil(total / pageSize))
+
   return {
     ...query,
     stockBalances: query.data?.items ?? [],
     metrics: query.data?.metrics,
-    total: query.data?.total ?? 0,
+    total,
+    page,
+    pageSize,
+    totalPages,
   }
+}
+
+/**
+ * Targeted hook to fetch live on-hand quantity and cost for a single variant and facility.
+ */
+export function useVariantFacilityOnHand(
+  variantId?: string | null,
+  facilityType?: 'warehouse' | 'store' | null,
+  facilityId?: string | null
+) {
+  return useAuthQuery<VariantFacilityOnHandResult>({
+    queryKey: ['stock-balances', 'variant-facility-on-hand', variantId, facilityType, facilityId],
+    queryFn: (getToken) => {
+      if (!variantId || !facilityType || !facilityId) {
+        return Promise.resolve({
+          product_variant_id: variantId ?? '',
+          facility_id: facilityId ?? '',
+          qty_on_hand: 0,
+          qty_reserved: 0,
+          qty_available: 0,
+          avg_cost: 0,
+        })
+      }
+      return fetchVariantFacilityOnHand(getToken, {
+        productVariantId: variantId,
+        facilityType,
+        facilityId,
+      })
+    },
+    enabled: Boolean(variantId && facilityType && facilityId),
+    rbac: { permission: 'inventory.stock.view' },
+    staleTime: 15_000,
+  })
 }
 
 /**

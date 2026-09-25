@@ -1,5 +1,33 @@
 # Error Log
 
+## [2026-09-25 19:54] - Prisma Unknown Field reorder_level on Model products and Broken Type Inference in stock-balances.ts
+
+- **Type**: Syntax / Type / Integration
+- **Severity**: High
+- **File**: `src/server/fns/stock-balances.ts:163`
+- **Agent**: @backend-specialist
+- **Root Cause**: In `src/server/fns/stock-balances.ts`, `listStockBalances` included `reorder_level: true` inside `include.product_variants.select.products.select`. In `prisma/schema.prisma`, `model products` does not possess a `reorder_level` column (reorder levels reside on `inventory` or are defined on variants). Because TypeScript's Prisma generic `SelectSubset` failed type validation against `productsSelect`, type inference for the entire `findMany` collapsed, stripping joined relations (`product_variants`, `warehouses`, `warehouse_locations`, `stores`) down to the bare `stock_balancesModel` and causing subsequent TS2551/TS2339 property access errors on `r.product_variants`, `r.warehouses`, `r.warehouse_locations`, and `r.stores`. At runtime, this would also throw Prisma Client error `Unknown field reorder_level for select statement on model products`.
+- **Error Message**:
+  ```
+  src/server/fns/stock-balances.ts(163,21): error TS2353: Object literal may only specify known properties, and 'reorder_level' does not exist in type 'productsSelect<DefaultArgs>'.
+  src/server/fns/stock-balances.ts(255,29): error TS2551: Property 'product_variants' does not exist on type 'stock_balancesModel'. Did you mean 'product_variant_id'?
+  src/server/fns/stock-balances.ts(256,23): error TS2551: Property 'warehouses' does not exist on type 'stock_balancesModel'. Did you mean 'warehouse_id'?
+  src/server/fns/stock-balances.ts(257,32): error TS2339: Property 'warehouse_locations' does not exist on type 'stock_balancesModel'.
+  src/server/fns/stock-balances.ts(258,19): error TS2339: Property 'stores' does not exist on type 'stock_balancesModel'.
+  ```
+- **Fix Applied**:
+  1. Removed invalid `reorder_level: true` from `prisma.stock_balances.findMany({ select: { products: { ... } } })`.
+  2. Mapped `reorder_level: null` explicitly in `mappedRows` to satisfy the optional `StockBalanceRow['product_variants']['products']['reorder_level']` contract.
+  3. Added nullish guards for `r.created_at` and `r.updated_at` before invoking `.toISOString()`.
+  4. Replaced `$queryRawUnsafe` with parameterized `prisma.$queryRaw` via `Prisma.sql` for tenant valuation aggregation.
+  5. Added deterministic secondary sorting `{ id: 'asc' }` to `orderBy` across all sort options to ensure stable pagination.
+  6. Replaced `Record<string, unknown>` with `Prisma.inventory_movementsWhereInput` in `getStockBalanceMovements`.
+  7. Configured `{ maxWait: 10000, timeout: 30000 }` on `prisma.$transaction` in `adjustStockBalance`.
+- **Prevention**: Always verify model fields against `prisma/schema.prisma` before specifying properties in Prisma `select` or `include` clauses. If Prisma `findMany` produces unexpected missing property errors on included relations, inspect nested `select` objects for unrecognized fields that break generic overload resolution.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-25 15:58] - Invalid Left-Hand Side of 'instanceof' Expression in ProductsTable CSV Export
 
 - **Type**: Syntax / Type

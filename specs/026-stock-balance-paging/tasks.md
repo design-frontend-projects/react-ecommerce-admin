@@ -14,8 +14,8 @@
 
 **Purpose**: Update schemas, types, and contract definitions for server pagination and variant search.
 
-- [ ] T001 [P] Update stock balance filters, pagination envelope, and metrics schemas in `src/features/stock-balances/data/schema.ts`
-- [ ] T002 [P] Define variant search schemas and response types in `src/features/stock-balances/data/schema.ts`
+- [X] T001 [P] Update stock balance filters, pagination envelope, and metrics schemas in `src/features/stock-balances/data/schema.ts`
+- [X] T002 [P] Define variant search schemas and response types in `src/features/stock-balances/data/schema.ts`
 
 ---
 
@@ -23,10 +23,10 @@
 
 **Purpose**: Server-side pagination query execution, filter pushdown, and variant search endpoints.
 
-- [ ] T003 Implement server-side pagination with `skip`/`take`, facility pushdown, status pushdown, and `Promise.all([findMany, count, aggregate])` in `src/server/fns/stock-balances.ts`
-- [ ] T004 Update API route handler to parse pagination and filter parameters in `src/routes/api/inventory/stock-balances.ts`
-- [ ] T005 [P] Create product variant search service function with tenant isolation in `src/server/fns/product-variants.ts`
-- [ ] T006 Create API route handler for variant search at `src/routes/api/inventory/product-variants.ts`
+- [X] T003 Implement server-side pagination with `skip`/`take`, facility pushdown, status pushdown, and `Promise.all([findMany, count, aggregate])` in `src/server/fns/stock-balances.ts`
+- [X] T004 Update API route handler to parse pagination and filter parameters in `src/routes/api/inventory/stock-balances.ts`
+- [X] T005 [P] Create product variant search service function with tenant isolation in `src/server/fns/product-variants.ts`
+- [X] T006 Create API route handler for variant search at `src/routes/api/inventory/product-variants.ts`
 
 ---
 
@@ -35,10 +35,10 @@
 **Goal**: Load stock balances in lazy page slices with server pagination controls and accurate total counts.  
 **Independent Test**: Load the stock balances page, verify only 20 records load initially, navigate to page 2 and page 3, change page size to 50, and confirm URL/table indicators reflect true database totals.
 
-- [ ] T007 [US1] Update `fetchStockBalances` client action with pagination parameters and Supabase `.range()` fallback in `src/features/stock-balances/data/actions.ts`
-- [ ] T008 [US1] Enhance `useStockBalances` hook with page, pageSize, total, and totalPages state in `src/features/stock-balances/hooks/use-stock-balances.ts`
-- [ ] T009 [US1] Configure TanStack Table for manual server pagination, sorting, and skeleton row loading in `src/features/stock-balances/components/stock-balances-table.tsx`
-- [ ] T010 [US1] Wire pagination state, page change handlers, and summary metric cards in `src/features/stock-balances/index.tsx`
+- [X] T007 [US1] Update `fetchStockBalances` client action with pagination parameters and Supabase `.range()` fallback in `src/features/stock-balances/data/actions.ts`
+- [X] T008 [US1] Enhance `useStockBalances` hook with page, pageSize, total, and totalPages state in `src/features/stock-balances/hooks/use-stock-balances.ts`
+- [X] T009 [US1] Configure TanStack Table for manual server pagination, sorting, and skeleton row loading in `src/features/stock-balances/components/stock-balances-table.tsx`
+- [X] T010 [US1] Wire pagination state, page change handlers, and summary metric cards in `src/features/stock-balances/index.tsx`
 
 ---
 
@@ -47,10 +47,10 @@
 **Goal**: Eliminate upfront bulk catalog fetching and provide a debounced, lazy-loaded server-side variant SKU combobox.  
 **Independent Test**: Open the "New Stock Adjustment" dialog, verify it opens instantly (<100ms) without preloading products, type 3 characters in the SKU selector, and confirm matching variants display with SKU, name, barcode, and cost.
 
-- [ ] T011 [P] [US2] Implement `searchProductVariants` client action with direct Supabase fallback in `src/features/stock-balances/data/actions.ts`
-- [ ] T012 [P] [US2] Create `useVariantSearch` hook with 300ms debounce and query caching in `src/features/stock-balances/hooks/use-variant-search.ts`
-- [ ] T013 [US2] Build `VariantSkuPicker` debounced combobox component with skeleton loader and keyboard navigation in `src/features/stock-balances/components/variant-sku-picker.tsx`
-- [ ] T014 [US2] Replace static variant select with `VariantSkuPicker` and implement `currentRow` pre-population fast-path in `src/features/stock-balances/components/adjustment-dialog.tsx`
+- [X] T011 [P] [US2] Implement `searchProductVariants` client action with direct Supabase fallback in `src/features/stock-balances/data/actions.ts`
+- [X] T012 [P] [US2] Create `useVariantSearch` hook with 300ms debounce and query caching in `src/features/stock-balances/hooks/use-variant-search.ts`
+- [X] T013 [US2] Build `VariantSkuPicker` debounced combobox component with skeleton loader and keyboard navigation in `src/features/stock-balances/components/variant-sku-picker.tsx`
+- [X] T014 [US2] Replace static variant select with `VariantSkuPicker` and implement `currentRow` pre-population fast-path in `src/features/stock-balances/components/adjustment-dialog.tsx`
 
 ---
 
@@ -59,9 +59,9 @@
 **Goal**: Filter stock balances by facility tabs and status alerts with server-side pushdown and automatic page reset.  
 **Independent Test**: Click the "Warehouses", "Stores", or "Alerts" tabs, verify the server returns only matching records for that category, resets to page 1, and displays accurate counts.
 
-- [ ] T015 [US3] Connect facility tabs ("All", "Alerts", "Warehouses", "Stores") to server query parameters in `src/features/stock-balances/index.tsx`
-- [ ] T016 [US3] Implement automatic pagination reset to page 1 upon search query or filter change in `src/features/stock-balances/index.tsx`
-- [ ] T017 [US3] Integrate server-side search input and condition faceted filter with debounce in `src/features/stock-balances/components/stock-balances-table.tsx`
+- [X] T015 [US3] Connect facility tabs ("All", "Alerts", "Warehouses", "Stores") to server query parameters in `src/features/stock-balances/index.tsx`
+- [X] T016 [US3] Implement automatic pagination reset to page 1 upon search query or filter change in `src/features/stock-balances/index.tsx`
+- [X] T017 [US3] Integrate server-side search input and condition faceted filter with debounce in `src/features/stock-balances/components/stock-balances-table.tsx`
 
 ---
 
@@ -70,9 +70,9 @@
 **Goal**: Retrieve live on-hand quantity for chosen variant and facility without loading the whole warehouse balance map.  
 **Independent Test**: Select a warehouse and a SKU in the adjustment dialog, verify the exact current on-hand quantity appears instantly, and toggling set vs offset shows projected new balance.
 
-- [ ] T018 [P] [US4] Implement `fetchVariantFacilityOnHand` targeted action in `src/features/stock-balances/data/actions.ts`
-- [ ] T019 [US4] Create `useVariantFacilityOnHand` hook replacing bulk warehouse inventory fetching in `src/features/stock-balances/hooks/use-stock-balances.ts`
-- [ ] T020 [US4] Connect targeted on-hand lookup and auto-fill standard unit cost in `src/features/stock-balances/components/adjustment-dialog.tsx`
+- [X] T018 [P] [US4] Implement `fetchVariantFacilityOnHand` targeted action in `src/features/stock-balances/data/actions.ts`
+- [X] T019 [US4] Create `useVariantFacilityOnHand` hook replacing bulk warehouse inventory fetching in `src/features/stock-balances/hooks/use-stock-balances.ts`
+- [X] T020 [US4] Connect targeted on-hand lookup and auto-fill standard unit cost in `src/features/stock-balances/components/adjustment-dialog.tsx`
 
 ---
 
@@ -80,9 +80,9 @@
 
 **Purpose**: Localization, accessibility, automated tests, and performance validation.
 
-- [ ] T021 [P] Add internationalization translation keys for pagination, SKU combobox, and empty states in `src/config/i18n.ts`
-- [ ] T022 [P] Create unit and integration tests for stock balances pagination and variant search in `src/test/stock-balances-paging.test.ts`
-- [ ] T023 Run type check and verify zero regressions across the stock balances module with `pnpm run lint`
+- [X] T021 [P] Add internationalization translation keys for pagination, SKU combobox, and empty states in `src/config/i18n.ts`
+- [X] T022 [P] Create unit and integration tests for stock balances pagination and variant search in `src/test/stock-balances-paging.test.ts`
+- [X] T023 Run type check and verify zero regressions across the stock balances module with `pnpm run lint`
 
 ---
 

@@ -19,33 +19,70 @@ import type { StockBalanceFilters } from './data/schema'
 export function StockBalances() {
   const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<'all' | 'alerts' | 'warehouses' | 'stores'>('all')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(20)
+  const [search, setSearch] = useState('')
+  const [condition, setCondition] = useState<string | undefined>()
+  const [tableStatus, setTableStatus] = useState<string | undefined>()
+  const [sortBy, setSortBy] = useState<string | undefined>('updated_at')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+
+  // Automatic page reset to 1 on tab or filter transitions
+  const handleTabChange = (val: typeof activeTab) => {
+    setActiveTab(val)
+    setPage(1)
+  }
+
+  const handleSearchChange = (val: string) => {
+    setSearch(val)
+    setPage(1)
+  }
+
+  const handleConditionChange = (val: string | undefined) => {
+    setCondition(val)
+    setPage(1)
+  }
+
+  const handleStatusChange = (val: string | undefined) => {
+    setTableStatus(val)
+    setPage(1)
+  }
+
+  const handleSortChange = (newSortBy?: string, newSortOrder?: 'asc' | 'desc') => {
+    setSortBy(newSortBy)
+    setSortOrder(newSortOrder ?? 'desc')
+  }
 
   const filters: StockBalanceFilters = useMemo(() => {
-    if (activeTab === 'alerts') {
-      return { stockStatus: 'low_stock' }
+    return {
+      page,
+      pageSize,
+      search: search.trim() || undefined,
+      facilityType:
+        activeTab === 'warehouses'
+          ? 'warehouses'
+          : activeTab === 'stores'
+            ? 'stores'
+            : undefined,
+      stockStatus:
+        activeTab === 'alerts'
+          ? 'low_stock'
+          : (tableStatus as StockBalanceFilters['stockStatus']) || undefined,
+      condition,
+      sortBy: sortBy as StockBalanceFilters['sortBy'],
+      sortOrder,
     }
-    return {}
-  }, [activeTab])
+  }, [page, pageSize, search, activeTab, tableStatus, condition, sortBy, sortOrder])
 
-  const { stockBalances, metrics, isLoading, error } = useStockBalances(filters)
-
-  // Filter client-side based on facility tab if selected
-  const displayBalances = useMemo(() => {
-    if (activeTab === 'warehouses') {
-      return stockBalances.filter((b) => Boolean(b.warehouse_id))
-    }
-    if (activeTab === 'stores') {
-      return stockBalances.filter((b) => Boolean(b.store_id))
-    }
-    if (activeTab === 'alerts') {
-      return stockBalances.filter((b) => {
-        const onHand = Number(b.qty_on_hand || 0)
-        const reorderLevel = 10
-        return onHand <= reorderLevel
-      })
-    }
-    return stockBalances
-  }, [stockBalances, activeTab])
+  const {
+    stockBalances,
+    metrics,
+    total,
+    totalPages,
+    isLoading,
+    isFetching,
+    error,
+  } = useStockBalances(filters)
 
   return (
     <StockBalancesProvider>
@@ -82,7 +119,7 @@ export function StockBalances() {
         <div className='flex flex-wrap items-center justify-between gap-2'>
           <Tabs
             value={activeTab}
-            onValueChange={(val) => setActiveTab(val as typeof activeTab)}
+            onValueChange={(val) => handleTabChange(val as typeof activeTab)}
             className='w-full sm:w-auto'
           >
             <TabsList className='grid w-full grid-cols-4 sm:w-auto'>
@@ -121,8 +158,8 @@ export function StockBalances() {
           </Tabs>
         </div>
 
-        {/* Content Table or Loading / Error */}
-        {isLoading ? (
+        {/* Content Table or Initial Loading / Error */}
+        {isLoading && !stockBalances.length ? (
           <div className='flex flex-1 items-center justify-center py-20'>
             <div className='flex flex-col items-center gap-2'>
               <Loader2 className='h-8 w-8 animate-spin text-primary' />
@@ -145,7 +182,28 @@ export function StockBalances() {
             <p className='text-xs'>{(error as Error).message}</p>
           </div>
         ) : (
-          <StockBalancesTable data={displayBalances} />
+          <StockBalancesTable
+            data={stockBalances}
+            total={total}
+            page={page}
+            pageSize={pageSize}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            onPageSizeChange={(newSize) => {
+              setPageSize(newSize)
+              setPage(1)
+            }}
+            search={search}
+            onSearchChange={handleSearchChange}
+            condition={condition}
+            onConditionChange={handleConditionChange}
+            stockStatus={tableStatus}
+            onStockStatusChange={handleStatusChange}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            onSortChange={handleSortChange}
+            isLoading={isFetching}
+          />
         )}
       </Main>
 

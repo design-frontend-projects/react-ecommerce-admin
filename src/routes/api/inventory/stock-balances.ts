@@ -51,9 +51,14 @@ const GET = withAuth(
       productVariantId: searchParams.get('productVariantId') ?? undefined,
       condition: searchParams.get('condition') ?? undefined,
       search: searchParams.get('search') ?? undefined,
+      facilityType: (searchParams.get('facilityType') as StockBalanceFilters['facilityType']) ?? undefined,
       stockStatus: (searchParams.get('stockStatus') as StockBalanceFilters['stockStatus']) ?? undefined,
+      page: searchParams.get('page') ? Number(searchParams.get('page')) : undefined,
+      pageSize: searchParams.get('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
       limit: searchParams.get('limit') ? Number(searchParams.get('limit')) : undefined,
       offset: searchParams.get('offset') ? Number(searchParams.get('offset')) : undefined,
+      sortBy: (searchParams.get('sortBy') as StockBalanceFilters['sortBy']) ?? undefined,
+      sortOrder: (searchParams.get('sortOrder') as StockBalanceFilters['sortOrder']) ?? undefined,
     }
 
     const data = await listStockBalances(userId, filters)

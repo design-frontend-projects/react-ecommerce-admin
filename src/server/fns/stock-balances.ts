@@ -1,12 +1,12 @@
 'use server'
 
 import { Prisma, type stock_condition_enum, type movement_type_enum } from '@/generated/prisma/client'
-
-const Decimal = Prisma.Decimal
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { runWithTenantContext } from '@/server/context/tenant-context'
 import prisma from '@/lib/prisma'
+
+const Decimal = Prisma.Decimal
 
 export interface StockBalanceFilters {
   warehouseId?: string
@@ -17,8 +17,13 @@ export interface StockBalanceFilters {
   condition?: string
   search?: string
   stockStatus?: 'in_stock' | 'low_stock' | 'out_of_stock' | 'all'
+  facilityType?: 'all' | 'warehouses' | 'stores'
+  page?: number
+  pageSize?: number
   limit?: number
   offset?: number
+  sortBy?: 'updated_at' | 'qty_on_hand' | 'valuation' | 'product_name' | 'sku'
+  sortOrder?: 'asc' | 'desc'
 }
 
 export interface StockAdjustmentInput {
@@ -47,7 +52,7 @@ export interface StockMetrics {
 }
 
 /**
- * List stock balances for the authenticated user's tenant.
+ * List stock balances for the authenticated user's tenant with server-side pagination.
  * Uses Prisma 7 with tenant context and joins products, variants, warehouses, and stores.
  */
 export async function listStockBalances(
@@ -57,11 +62,24 @@ export async function listStockBalances(
   const tenantId = await requireTenantId(authUserId)
 
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
-    const where: Record<string, unknown> = {
+    const pageSize = Math.min(Math.max(1, filters.pageSize ?? filters.limit ?? 20), 100)
+    const page = Math.max(
+      1,
+      filters.page ?? (filters.offset !== undefined ? Math.floor(filters.offset / pageSize) + 1 : 1)
+    )
+    const skip = filters.offset !== undefined ? filters.offset : (page - 1) * pageSize
+
+    const where: Prisma.stock_balancesWhereInput = {
       tenant_id: tenantId,
     }
 
-    const orConditions: Array<Record<string, unknown>> = []
+    if (filters.facilityType === 'warehouses') {
+      where.warehouse_id = { not: null }
+    } else if (filters.facilityType === 'stores') {
+      where.store_id = { not: null }
+    }
+
+    const orConditions: Array<Prisma.stock_balancesWhereInput> = []
 
     if (filters.warehouseIds && filters.warehouseIds.length > 0) {
       orConditions.push({ warehouse_id: { in: filters.warehouseIds } })
@@ -88,76 +106,127 @@ export async function listStockBalances(
       where.condition = filters.condition as stock_condition_enum
     }
 
-    // Free text search in product name or sku
+    // Free text search in product name, variant name, sku, or barcode
     if (filters.search && filters.search.trim()) {
       const q = filters.search.trim()
       where.product_variants = {
         OR: [
           { sku: { contains: q, mode: 'insensitive' } },
           { barcode: { contains: q, mode: 'insensitive' } },
+          { name: { contains: q, mode: 'insensitive' } },
           { products: { name: { contains: q, mode: 'insensitive' } } },
         ],
       }
     }
 
-    const rows = await prisma.stock_balances.findMany({
-      where,
-      include: {
-        product_variants: {
-          select: {
-            id: true,
-            sku: true,
-            barcode: true,
-            name: true,
-            products: {
+    // Stock status pushdown
+    if (filters.stockStatus === 'out_of_stock') {
+      where.qty_on_hand = { lte: 0 }
+    } else if (filters.stockStatus === 'low_stock') {
+      where.qty_on_hand = { gt: 0, lte: 10 }
+    } else if (filters.stockStatus === 'in_stock') {
+      where.qty_on_hand = { gt: 10 }
+    }
+
+    // Sort order pushdown with deterministic tie-breaker
+    const sortOrder = filters.sortOrder === 'asc' ? 'asc' : 'desc'
+    let orderBy: Prisma.stock_balancesOrderByWithRelationInput[] = [
+      { updated_at: sortOrder },
+      { id: 'asc' },
+    ]
+
+    if (filters.sortBy === 'qty_on_hand') {
+      orderBy = [{ qty_on_hand: sortOrder }, { id: 'asc' }]
+    } else if (filters.sortBy === 'product_name') {
+      orderBy = [{ product_variants: { products: { name: sortOrder } } }, { id: 'asc' }]
+    } else if (filters.sortBy === 'sku') {
+      orderBy = [{ product_variants: { sku: sortOrder } }, { id: 'asc' }]
+    } else if (filters.sortBy === 'updated_at') {
+      orderBy = [{ updated_at: sortOrder }, { id: 'asc' }]
+    }
+
+    // Execute queries in parallel
+    const [rows, totalCount, tenantAggregates, lowStockCount, outOfStockCount, distinctVariants, valuationRows] =
+      await Promise.all([
+        prisma.stock_balances.findMany({
+          where,
+          include: {
+            product_variants: {
               select: {
                 id: true,
-                name: true,
                 sku: true,
-                is_batch_tracked: true,
-                is_serial_tracked: true,
+                barcode: true,
+                name: true,
+                products: {
+                  select: {
+                    id: true,
+                    name: true,
+                    sku: true,
+                    is_batch_tracked: true,
+                    is_serial_tracked: true,
+                  },
+                },
+              },
+            },
+            warehouses: {
+              select: {
+                id: true,
+                code: true,
+                name: true,
+              },
+            },
+            warehouse_locations: {
+              select: {
+                id: true,
+                code: true,
+                name: true,
+                location_type: true,
+              },
+            },
+            stores: {
+              select: {
+                store_id: true,
+                name: true,
               },
             },
           },
-        },
-        warehouses: {
-          select: {
-            id: true,
-            code: true,
-            name: true,
+          orderBy,
+          take: pageSize,
+          skip,
+        }),
+        prisma.stock_balances.count({ where }),
+        prisma.stock_balances.aggregate({
+          where: { tenant_id: tenantId },
+          _sum: {
+            qty_on_hand: true,
+            qty_reserved: true,
+            qty_available: true,
           },
-        },
-        warehouse_locations: {
-          select: {
-            id: true,
-            code: true,
-            name: true,
-            location_type: true,
+        }),
+        prisma.stock_balances.count({
+          where: {
+            tenant_id: tenantId,
+            qty_on_hand: { gt: 0, lte: 10 },
           },
-        },
-        stores: {
-          select: {
-            store_id: true,
-            name: true,
+        }),
+        prisma.stock_balances.count({
+          where: {
+            tenant_id: tenantId,
+            qty_on_hand: { lte: 0 },
           },
-        },
-      },
-      orderBy: [{ updated_at: 'desc' }],
-      take: filters.limit ? Math.min(filters.limit, 1000) : 1000,
-      skip: filters.offset ?? 0,
-    })
-
-    // Compute metrics across tenant's balances
-    let totalOnHand = 0
-    let totalReserved = 0
-    let totalAvailable = 0
-    let totalValuation = 0
-    let lowStockCount = 0
-    let outOfStockCount = 0
-    const uniqueVariants = new Set<string>()
+        }),
+        prisma.stock_balances.groupBy({
+          by: ['product_variant_id'],
+          where: { tenant_id: tenantId },
+        }),
+        prisma
+          .$queryRaw<Array<{ total_valuation: string | number | null }>>(
+            Prisma.sql`SELECT COALESCE(SUM(qty_on_hand * avg_cost), 0) as total_valuation FROM stock_balances WHERE tenant_id = ${tenantId}::uuid`
+          )
+          .catch(() => [{ total_valuation: 0 }]),
+      ])
 
     const mappedRows = rows.map((r) => {
-      uniqueVariants.add(r.product_variant_id)
       const onHand = Number(r.qty_on_hand ?? 0)
       const reserved = Number(r.qty_reserved ?? 0)
       const computedAvailable =
@@ -166,18 +235,6 @@ export async function listStockBalances(
           : Math.max(0, onHand - reserved)
       const avgCost = Number(r.avg_cost ?? 0)
       const valuation = onHand * avgCost
-      const reorderLevel = 10
-
-      totalOnHand += onHand
-      totalReserved += reserved
-      totalAvailable += computedAvailable
-      totalValuation += valuation
-
-      if (onHand <= 0) {
-        outOfStockCount += 1
-      } else if (onHand <= reorderLevel) {
-        lowStockCount += 1
-      }
 
       return {
         id: r.id,
@@ -195,33 +252,34 @@ export async function listStockBalances(
         avg_cost: avgCost,
         valuation,
         last_movement_at: r.last_movement_at ? r.last_movement_at.toISOString() : null,
-        created_at: r.created_at.toISOString(),
-        updated_at: r.updated_at.toISOString(),
-        product_variants: r.product_variants,
+        created_at: r.created_at ? r.created_at.toISOString() : new Date().toISOString(),
+        updated_at: r.updated_at ? r.updated_at.toISOString() : new Date().toISOString(),
+        product_variants: r.product_variants
+          ? {
+              ...r.product_variants,
+              products: r.product_variants.products
+                ? {
+                    ...r.product_variants.products,
+                    reorder_level: null,
+                  }
+                : null,
+            }
+          : null,
         warehouses: r.warehouses,
         warehouse_locations: r.warehouse_locations,
         stores: r.stores,
       }
     })
 
-    // Filter by stockStatus client-filter if provided
-    let finalRows = mappedRows
-    if (filters.stockStatus === 'out_of_stock') {
-      finalRows = mappedRows.filter((row) => row.qty_on_hand <= 0)
-    } else if (filters.stockStatus === 'low_stock') {
-      finalRows = mappedRows.filter((row) => {
-        const threshold = 10
-        return row.qty_on_hand > 0 && row.qty_on_hand <= threshold
-      })
-    } else if (filters.stockStatus === 'in_stock') {
-      finalRows = mappedRows.filter((row) => {
-        const threshold = 10
-        return row.qty_on_hand > threshold
-      })
-    }
+    const totalValuation = Number(valuationRows[0]?.total_valuation ?? 0)
+    const totalOnHand = Number(tenantAggregates._sum.qty_on_hand ?? 0)
+    const totalReserved = Number(tenantAggregates._sum.qty_reserved ?? 0)
+    const totalAvailable = Number(
+      tenantAggregates._sum.qty_available ?? Math.max(0, totalOnHand - totalReserved)
+    )
 
     const metrics: StockMetrics = {
-      totalVariants: uniqueVariants.size,
+      totalVariants: distinctVariants.length,
       totalOnHand,
       totalReserved,
       totalAvailable,
@@ -230,9 +288,14 @@ export async function listStockBalances(
       outOfStockCount,
     }
 
+    const totalPages = Math.ceil(totalCount / pageSize)
+
     return {
-      items: finalRows,
-      total: finalRows.length,
+      items: mappedRows,
+      total: totalCount,
+      page,
+      pageSize,
+      totalPages,
       metrics,
     }
   })
@@ -263,7 +326,37 @@ export async function getStockBalance(authUserId: string, id: string) {
       throw new ApiError('Stock balance not found.', 404)
     }
 
-    return balance
+    const onHand = Number(balance.qty_on_hand ?? 0)
+    const reserved = Number(balance.qty_reserved ?? 0)
+    const computedAvailable =
+      balance.qty_available !== null && balance.qty_available !== undefined
+        ? Number(balance.qty_available)
+        : Math.max(0, onHand - reserved)
+    const avgCost = Number(balance.avg_cost ?? 0)
+    const valuation = onHand * avgCost
+
+    return {
+      ...balance,
+      qty_on_hand: onHand,
+      qty_reserved: reserved,
+      qty_available: computedAvailable,
+      avg_cost: avgCost,
+      valuation,
+      last_movement_at: balance.last_movement_at ? balance.last_movement_at.toISOString() : null,
+      created_at: balance.created_at ? balance.created_at.toISOString() : new Date().toISOString(),
+      updated_at: balance.updated_at ? balance.updated_at.toISOString() : new Date().toISOString(),
+      product_variants: balance.product_variants
+        ? {
+            ...balance.product_variants,
+            products: balance.product_variants.products
+              ? {
+                  ...balance.product_variants.products,
+                  reorder_level: null,
+                }
+              : null,
+          }
+        : null,
+    }
   })
 }
 
@@ -301,6 +394,7 @@ export async function adjustStockBalance(
         warehouse_id: input.warehouseId ?? null,
         store_id: input.storeId ?? null,
         condition,
+        ...(input.locationId ? { location_id: input.locationId } : {}),
       },
     })
 
@@ -355,71 +449,75 @@ export async function adjustStockBalance(
       movementType = 'adjustment_out'
     }
 
-    return prisma.$transaction(async (tx) => {
-      // 1. Upsert stock_balances
-      let updatedBalance
-      if (existingBalance) {
-        updatedBalance = await tx.stock_balances.update({
-          where: { id: existingBalance.id },
-          data: {
-            qty_on_hand: new Decimal(newOnHand),
-            qty_available: new Decimal(newAvailable),
-            avg_cost: new Decimal(newAvgCost),
-            last_movement_at: new Date(),
-            updated_at: new Date(),
-            updated_by_user_id: tenantUserId,
-          },
-        })
-      } else {
-        updatedBalance = await tx.stock_balances.create({
+    return prisma.$transaction(
+      async (tx) => {
+        // 1. Upsert stock_balances
+        let updatedBalance
+        if (existingBalance) {
+          updatedBalance = await tx.stock_balances.update({
+            where: { id: existingBalance.id },
+            data: {
+              qty_on_hand: new Decimal(newOnHand),
+              qty_available: new Decimal(newAvailable),
+              avg_cost: new Decimal(newAvgCost),
+              last_movement_at: new Date(),
+              updated_at: new Date(),
+              updated_by_user_id: tenantUserId,
+              ...(input.locationId ? { location_id: input.locationId } : {}),
+            },
+          })
+        } else {
+          updatedBalance = await tx.stock_balances.create({
+            data: {
+              tenant_id: tenantId,
+              warehouse_id: input.warehouseId ?? null,
+              location_id: input.locationId ?? null,
+              store_id: input.storeId ?? null,
+              product_variant_id: input.productVariantId,
+              condition,
+              batch_id: input.batchId ?? null,
+              serial_id: input.serialId ?? null,
+              qty_on_hand: new Decimal(newOnHand),
+              qty_reserved: new Decimal(0),
+              qty_available: new Decimal(newAvailable),
+              avg_cost: new Decimal(newAvgCost),
+              last_movement_at: new Date(),
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+
+        // 2. Append immutable record to inventory_movements ledger
+        await tx.inventory_movements.create({
           data: {
             tenant_id: tenantId,
-            warehouse_id: input.warehouseId ?? null,
-            location_id: input.locationId ?? null,
             store_id: input.storeId ?? null,
+            warehouse_id: input.warehouseId ?? null,
+            warehouse_location_id: input.locationId ?? null,
             product_variant_id: input.productVariantId,
+            movement_type: movementType,
+            status: 'posted',
             condition,
-            batch_id: input.batchId ?? null,
-            serial_id: input.serialId ?? null,
-            qty_on_hand: new Decimal(newOnHand),
-            qty_reserved: new Decimal(0),
-            qty_available: new Decimal(newAvailable),
-            avg_cost: new Decimal(newAvgCost),
-            last_movement_at: new Date(),
+            quantity_delta: new Decimal(delta),
+            unit_cost: new Decimal(inputUnitCost),
+            total_cost: new Decimal(Math.abs(delta) * inputUnitCost),
+            qty_before: new Decimal(currentOnHand),
+            qty_after: new Decimal(newOnHand),
+            reference_type: 'manual_adjustment',
+            reference_id: updatedBalance.id,
+            reason_code: input.reasonCode,
+            remarks: input.reason,
+            created_by: authUserId,
             created_by_user_id: tenantUserId,
             updated_by_user_id: tenantUserId,
           },
         })
-      }
 
-      // 2. Append immutable record to inventory_movements ledger
-      await tx.inventory_movements.create({
-        data: {
-          tenant_id: tenantId,
-          store_id: input.storeId ?? null,
-          warehouse_id: input.warehouseId ?? null,
-          warehouse_location_id: input.locationId ?? null,
-          product_variant_id: input.productVariantId,
-          movement_type: movementType,
-          status: 'posted',
-          condition,
-          quantity_delta: new Decimal(delta),
-          unit_cost: new Decimal(inputUnitCost),
-          total_cost: new Decimal(Math.abs(delta) * inputUnitCost),
-          qty_before: new Decimal(currentOnHand),
-          qty_after: new Decimal(newOnHand),
-          reference_type: 'manual_adjustment',
-          reference_id: updatedBalance.id,
-          reason_code: input.reasonCode,
-          remarks: input.reason,
-          created_by: authUserId,
-          created_by_user_id: tenantUserId,
-          updated_by_user_id: tenantUserId,
-        },
-      })
-
-      return updatedBalance
-    })
+        return updatedBalance
+      },
+      { maxWait: 10000, timeout: 30000 }
+    )
   })
 }
 
@@ -434,7 +532,7 @@ export async function getStockBalanceMovements(
   const tenantId = await requireTenantId(authUserId)
 
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
-    const where: Record<string, unknown> = {
+    const where: Prisma.inventory_movementsWhereInput = {
       tenant_id: tenantId,
       product_variant_id: productVariantId,
     }
@@ -448,7 +546,7 @@ export async function getStockBalanceMovements(
 
     return prisma.inventory_movements.findMany({
       where,
-      orderBy: { movement_date: 'desc' },
+      orderBy: [{ movement_date: 'desc' }, { created_at: 'desc' }],
       take: options.limit ?? 50,
     })
   })

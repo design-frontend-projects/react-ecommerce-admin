@@ -6,6 +6,10 @@ import type {
   StockBalanceRow,
   StockBalanceFilters,
   StockMovementRow,
+  VariantSearchResponse,
+  VariantSearchResult,
+  VariantFacilityOnHandParams,
+  VariantFacilityOnHandResult,
 } from './schema'
 import type { AdjustmentFormData } from './adjustment-schema'
 
@@ -22,7 +26,11 @@ export async function fetchStockBalances(
   const params = new URLSearchParams()
   for (const [key, value] of Object.entries(filters)) {
     if (value !== undefined && value !== null && value !== '') {
-      params.set(key, String(value))
+      if (Array.isArray(value)) {
+        params.set(key, value.join(','))
+      } else {
+        params.set(key, String(value))
+      }
     }
   }
 
@@ -35,11 +43,19 @@ export async function fetchStockBalances(
       return payload as StockBalancesResponse
     }
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.warn('API route /api/inventory/stock-balances unavailable, using Supabase client fallback:', err)
   }
 
   // Fallback: Direct Supabase query with tenant isolation
   const tenantId = await resolveClientTenantId()
+  const pageSize = Math.min(Math.max(1, filters.pageSize ?? filters.limit ?? 20), 100)
+  const page = Math.max(
+    1,
+    filters.page ?? (filters.offset !== undefined ? Math.floor(filters.offset / pageSize) + 1 : 1)
+  )
+  const skip = (page - 1) * pageSize
+
   let sbQuery = supabase
     .from('stock_balances')
     .select(
@@ -74,14 +90,28 @@ export async function fetchStockBalances(
         store_id,
         name
       )
-    `
+    `,
+      { count: 'exact' }
     )
-    .order('updated_at', { ascending: false })
+
+  if (filters.sortBy === 'qty_on_hand') {
+    sbQuery = sbQuery.order('qty_on_hand', { ascending: filters.sortOrder === 'asc' })
+  } else {
+    sbQuery = sbQuery.order('updated_at', { ascending: filters.sortOrder === 'asc' })
+  }
 
   if (tenantId) {
     sbQuery = sbQuery.eq('tenant_id', tenantId)
   }
-  if (filters.warehouseId) {
+  if (filters.facilityType === 'warehouses') {
+    sbQuery = sbQuery.not('warehouse_id', 'is', null)
+  } else if (filters.facilityType === 'stores') {
+    sbQuery = sbQuery.not('store_id', 'is', null)
+  }
+
+  if (filters.warehouseIds && filters.warehouseIds.length > 0) {
+    sbQuery = sbQuery.in('warehouse_id', filters.warehouseIds)
+  } else if (filters.warehouseId) {
     sbQuery = sbQuery.eq('warehouse_id', filters.warehouseId)
   }
   if (filters.storeId) {
@@ -90,11 +120,24 @@ export async function fetchStockBalances(
   if (filters.locationId) {
     sbQuery = sbQuery.eq('location_id', filters.locationId)
   }
+  if (filters.productVariantId) {
+    sbQuery = sbQuery.eq('product_variant_id', filters.productVariantId)
+  }
   if (filters.condition) {
     sbQuery = sbQuery.eq('condition', filters.condition)
   }
+  if (filters.stockStatus === 'out_of_stock') {
+    sbQuery = sbQuery.lte('qty_on_hand', 0)
+  } else if (filters.stockStatus === 'low_stock') {
+    sbQuery = sbQuery.gt('qty_on_hand', 0).lte('qty_on_hand', 10)
+  } else if (filters.stockStatus === 'in_stock') {
+    sbQuery = sbQuery.gt('qty_on_hand', 10)
+  }
 
-  const { data, error } = await sbQuery
+  // Range pagination
+  sbQuery = sbQuery.range(skip, skip + pageSize - 1)
+
+  const { data, count, error } = await sbQuery
   if (error) throw error
 
   const rawRows = (data ?? []) as unknown as StockBalanceRow[]
@@ -140,10 +183,16 @@ export async function fetchStockBalances(
     }
   })
 
+  const total = count ?? items.length
+  const totalPages = Math.ceil(total / pageSize)
+
   return {
     success: true,
     items,
-    total: items.length,
+    total,
+    page,
+    pageSize,
+    totalPages,
     metrics: {
       totalVariants: uniqueVariants.size,
       totalOnHand,
@@ -153,6 +202,138 @@ export async function fetchStockBalances(
       lowStockCount,
       outOfStockCount,
     },
+  }
+}
+
+/**
+ * Dynamic server-side product variant SKU search with 300ms debounce.
+ * Falls back to Supabase client query with tenant scoping.
+ */
+export async function searchProductVariants(
+  getToken: TokenGetter,
+  search = '',
+  limit = 25
+): Promise<VariantSearchResponse> {
+  const params = new URLSearchParams()
+  if (search.trim()) {
+    params.set('search', search.trim())
+  }
+  params.set('limit', String(limit))
+
+  const endpoint = `/api/inventory/product-variants?${params.toString()}`
+
+  try {
+    const payload = (await authorizedRequest(getToken, endpoint)) as VariantSearchResponse
+    if (payload?.items && Array.isArray(payload.items)) {
+      return payload
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('API /api/inventory/product-variants unavailable, falling back to Supabase:', err)
+  }
+
+  // Supabase fallback
+  const tenantId = await resolveClientTenantId()
+  let query = supabase
+    .from('product_variants')
+    .select(`
+      id,
+      sku,
+      barcode,
+      name,
+      products (
+        id,
+        name
+      ),
+      price_list_items (
+        price,
+        cost_price
+      )
+    `)
+    .eq('is_active', true)
+    .limit(Math.min(limit, 50))
+    .order('sku')
+
+  if (tenantId) {
+    query = query.eq('tenant_id', tenantId)
+  }
+  if (search.trim()) {
+    const term = search.trim()
+    query = query.or(`sku.ilike.%${term}%,barcode.ilike.%${term}%,name.ilike.%${term}%`)
+  }
+
+  const { data, error } = await query
+  if (error) throw error
+
+  type RawVariant = {
+    id: string
+    sku: string
+    barcode: string | null
+    name: string | null
+    products: { id?: string; name: string } | null
+    price_list_items?: Array<{ price?: number | string | null; cost_price?: number | string | null }> | null
+  }
+
+  const items: VariantSearchResult[] = ((data ?? []) as unknown as RawVariant[]).map((row) => {
+    const pli = row.price_list_items?.[0]
+    return {
+      id: row.id,
+      sku: row.sku,
+      barcode: row.barcode,
+      name: row.name,
+      product_name: row.products?.name ?? '',
+      price: Number(pli?.price ?? 0),
+      cost_price: pli?.cost_price != null ? Number(pli.cost_price) : null,
+    }
+  })
+
+  return {
+    success: true,
+    items,
+  }
+}
+
+/**
+ * Targeted single variant facility on-hand balance resolution without loading entire catalogs.
+ */
+export async function fetchVariantFacilityOnHand(
+  getToken: TokenGetter,
+  params: VariantFacilityOnHandParams
+): Promise<VariantFacilityOnHandResult> {
+  const filters: StockBalanceFilters = {
+    productVariantId: params.productVariantId,
+    limit: 1,
+    pageSize: 1,
+    page: 1,
+  }
+
+  if (params.facilityType === 'warehouse') {
+    filters.warehouseId = params.facilityId
+  } else {
+    filters.storeId = params.facilityId
+  }
+
+  const res = await fetchStockBalances(getToken, filters)
+  const item = res.items?.[0]
+
+  if (item) {
+    return {
+      product_variant_id: params.productVariantId,
+      facility_id: params.facilityId,
+      qty_on_hand: Number(item.qty_on_hand ?? 0),
+      qty_reserved: Number(item.qty_reserved ?? 0),
+      qty_available: Number(item.qty_available ?? Math.max(0, item.qty_on_hand - item.qty_reserved)),
+      avg_cost: Number(item.avg_cost ?? 0),
+    }
+  }
+
+  return {
+    product_variant_id: params.productVariantId,
+    facility_id: params.facilityId,
+    qty_on_hand: 0,
+    qty_reserved: 0,
+    qty_available: 0,
+    avg_cost: 0,
   }
 }
 
@@ -186,6 +367,7 @@ export async function postStockAdjustment(
     })
     return res
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.warn('API route POST /api/inventory/stock-balances failed, attempting fallback RPC:', err)
   }
 
@@ -230,6 +412,7 @@ export async function fetchStockBalanceMovements(
       return res.data
     }
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.warn('Failed to fetch movements from API, querying Supabase directly:', err)
   }
 

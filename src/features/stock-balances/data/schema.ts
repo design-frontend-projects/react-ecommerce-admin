@@ -74,19 +74,72 @@ export interface StockBalancesResponse {
   success: boolean
   items: StockBalanceRow[]
   total: number
+  page?: number
+  pageSize?: number
+  totalPages?: number
   metrics?: StockMetrics
 }
 
 export interface StockBalanceFilters {
+  // Pagination
+  page?: number
+  pageSize?: number
+  limit?: number
+  offset?: number
+
+  // Search & Faceted Filters
+  search?: string
+  facilityType?: 'all' | 'warehouses' | 'stores'
+  stockStatus?: 'in_stock' | 'low_stock' | 'out_of_stock' | 'all'
+
+  // Specific Location Filters
   warehouseId?: string
+  warehouseIds?: string[]
   storeId?: string
   locationId?: string
   productVariantId?: string
-  condition?: string
-  search?: string
-  stockStatus?: 'in_stock' | 'low_stock' | 'out_of_stock' | 'all'
+  condition?: StockCondition | string
+
+  // Sorting
+  sortBy?: 'updated_at' | 'qty_on_hand' | 'valuation' | 'product_name' | 'sku'
+  sortOrder?: 'asc' | 'desc'
+}
+
+// ── Variant search contracts for dynamic combobox ──
+export interface VariantSearchParams {
+  search: string
   limit?: number
-  offset?: number
+}
+
+export interface VariantSearchResult {
+  id: string
+  sku: string
+  barcode: string | null
+  name: string | null
+  product_name: string
+  price: number
+  cost_price: number | null
+}
+
+export interface VariantSearchResponse {
+  success: boolean
+  items: VariantSearchResult[]
+}
+
+// ── Targeted single-variant facility balance lookup ──
+export interface VariantFacilityOnHandParams {
+  productVariantId: string
+  facilityType: 'warehouse' | 'store'
+  facilityId: string
+}
+
+export interface VariantFacilityOnHandResult {
+  product_variant_id: string
+  facility_id: string
+  qty_on_hand: number
+  qty_reserved: number
+  qty_available: number
+  avg_cost: number
 }
 
 // ── Inventory movement row for audit trail ──

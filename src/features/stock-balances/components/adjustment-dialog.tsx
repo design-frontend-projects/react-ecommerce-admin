@@ -36,18 +36,16 @@ import { useAuth } from '@/hooks/use-auth'
 import {
   useWarehouseOptions,
   useWarehouseLocationOptions,
-  useWarehouseOnHand,
-  useStoreOnHand,
   useStoreOptions,
-  useVariantOptions,
 } from '@/hooks/use-inventory-lookups'
 import {
   adjustmentSchema,
   type AdjustmentFormData,
   stockAdjustmentReasonCodes,
 } from '../data/adjustment-schema'
-import type { StockBalanceRow } from '../data/schema'
-import { useAdjustStock } from '../hooks/use-stock-balances'
+import type { StockBalanceRow, VariantSearchResult } from '../data/schema'
+import { useAdjustStock, useVariantFacilityOnHand } from '../hooks/use-stock-balances'
+import { VariantSkuPicker, type InitialVariantInfo } from './variant-sku-picker'
 
 interface Props {
   currentRow: StockBalanceRow | null
@@ -71,11 +69,25 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
   const { getToken } = useAuth()
   const adjustMutation = useAdjustStock()
   const reasonLabels = useMemo(() => getReasonLabels(t), [t])
-  const [variantSearch, setVariantSearch] = useState('')
+  const [selectedVariantInfo, setSelectedVariantInfo] = useState<
+    VariantSearchResult | InitialVariantInfo | null
+  >(null)
 
   const { data: warehouses = [], isLoading: isLoadingWarehouses } = useWarehouseOptions()
   const { data: stores = [], isLoading: isLoadingStores } = useStoreOptions()
-  const { data: variants = [], isLoading: isLoadingVariants } = useVariantOptions(variantSearch)
+
+  const initialVariant: InitialVariantInfo | null = useMemo(() => {
+    if (!currentRow) return null
+    return {
+      id: currentRow.product_variant_id,
+      sku: currentRow.product_variants?.sku || '',
+      barcode: currentRow.product_variants?.barcode,
+      name: currentRow.product_variants?.name,
+      product_name: currentRow.product_variants?.products?.name,
+      price: 0,
+      cost_price: currentRow.avg_cost ? Number(currentRow.avg_cost) : null,
+    }
+  }, [currentRow])
 
   const defaultValues: AdjustmentFormData = useMemo(
     () => ({
@@ -105,7 +117,7 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
   useEffect(() => {
     if (open) {
       const isWh = Boolean(currentRow?.warehouse_id)
-      setVariantSearch('')
+      setSelectedVariantInfo(initialVariant)
       form.reset({
         location_type: isWh ? 'warehouse' : 'store',
         warehouse_id: currentRow?.warehouse_id || '',
@@ -123,9 +135,9 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
       })
     } else {
       form.reset()
-      setVariantSearch('')
+      setSelectedVariantInfo(null)
     }
-  }, [currentRow, open, form])
+  }, [currentRow, open, form, initialVariant])
 
   const watchedType = form.watch('adjustment_type')
   const watchedQty = Number(form.watch('quantity') || 0)
@@ -137,16 +149,12 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
   const { data: locations = [], isLoading: isLoadingLocations } = useWarehouseLocationOptions(
     watchedLocType === 'warehouse' && watchedWarehouseId ? watchedWarehouseId : undefined
   )
-  const { data: warehouseOnHand = {} } = useWarehouseOnHand(
-    watchedLocType === 'warehouse' && watchedWarehouseId ? watchedWarehouseId : undefined
-  )
-  const { data: storeOnHand = {} } = useStoreOnHand(
-    watchedLocType === 'store' && watchedStoreId ? watchedStoreId : undefined
-  )
 
-  const selectedVariant = useMemo(
-    () => variants.find((v) => v.id === watchedVariantId),
-    [variants, watchedVariantId]
+  const watchedFacilityId = watchedLocType === 'warehouse' ? watchedWarehouseId : watchedStoreId
+  const { data: targetedFacilityOnHand } = useVariantFacilityOnHand(
+    watchedVariantId,
+    watchedLocType,
+    watchedFacilityId
   )
 
   const selectedWarehouse = useMemo(
@@ -161,41 +169,38 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
 
   // Auto-populate unit cost when a variant is selected in a New Stock Adjustment if cost is 0 or empty
   useEffect(() => {
-    if (!currentRow && selectedVariant) {
+    if (!currentRow && selectedVariantInfo) {
       const currentUnitCost = form.getValues('unit_cost')
-      if ((currentUnitCost === 0 || !currentUnitCost) && selectedVariant.cost_price != null) {
-        form.setValue('unit_cost', Number(selectedVariant.cost_price))
+      if ((currentUnitCost === 0 || !currentUnitCost) && selectedVariantInfo.cost_price != null) {
+        form.setValue('unit_cost', Number(selectedVariantInfo.cost_price))
       }
     }
-  }, [selectedVariant, currentRow, form])
+  }, [selectedVariantInfo, currentRow, form])
+
+  // Also auto-populate unit cost from targeted facility balance if available and form unit_cost is 0
+  useEffect(() => {
+    if (!currentRow && targetedFacilityOnHand && targetedFacilityOnHand.avg_cost > 0) {
+      const currentUnitCost = form.getValues('unit_cost')
+      if (currentUnitCost === 0 || !currentUnitCost) {
+        form.setValue('unit_cost', Number(targetedFacilityOnHand.avg_cost))
+      }
+    }
+  }, [targetedFacilityOnHand, currentRow, form])
 
   // Live on-hand balance resolution:
   // If editing an existing row, use its recorded on-hand quantity.
-  // If creating a new adjustment, dynamically pull the live balance from the selected facility.
+  // If creating a new adjustment, dynamically pull the live targeted balance from the selected facility.
   const currentOnHand = useMemo(() => {
     if (currentRow) return Number(currentRow.qty_on_hand || 0)
     if (!watchedVariantId) return 0
-    if (watchedLocType === 'warehouse' && watchedWarehouseId) {
-      return warehouseOnHand[watchedVariantId] ?? 0
-    }
-    if (watchedLocType === 'store' && watchedStoreId) {
-      return storeOnHand[watchedVariantId] ?? 0
-    }
-    return 0
-  }, [
-    currentRow,
-    watchedVariantId,
-    watchedLocType,
-    watchedWarehouseId,
-    watchedStoreId,
-    warehouseOnHand,
-    storeOnHand,
-  ])
+    return targetedFacilityOnHand?.qty_on_hand ?? 0
+  }, [currentRow, watchedVariantId, targetedFacilityOnHand])
 
   const currentReserved = useMemo(() => {
     if (currentRow) return Number(currentRow.qty_reserved || 0)
-    return 0
-  }, [currentRow])
+    if (!watchedVariantId) return 0
+    return targetedFacilityOnHand?.qty_reserved ?? 0
+  }, [currentRow, watchedVariantId, targetedFacilityOnHand])
 
   // Calculate projected new balance
   const projectedOnHand =
@@ -566,73 +571,46 @@ export function AdjustmentDialog({ currentRow, open, onOpenChange }: Props) {
               name='product_variant_id'
               render={({ field }) => (
                 <FormItem>
-                  <div className='flex items-center justify-between'>
-                    <FormLabel>
-                      {t('stockBalances.adjustmentDialog.productVariant', 'Product Variant / SKU')}
-                    </FormLabel>
-                    {!currentRow && (
-                      <Input
-                        value={variantSearch}
-                        onChange={(e) => setVariantSearch(e.target.value)}
-                        placeholder={t('stockBalances.adjustmentDialog.searchVariants', 'Filter variants by SKU or name...')}
-                        className='h-7 w-48 text-xs'
-                      />
-                    )}
-                  </div>
-                  <Select
-                    disabled={!!currentRow}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className='w-full'>
-                        <SelectValue
-                          placeholder={
-                            currentRow
-                              ? `${currentRow.product_variants?.products?.name || ''} — SKU: ${currentRow.product_variants?.sku || ''}`
-                              : isLoadingVariants
-                                ? t('stockBalances.adjustmentDialog.loadingVariants', 'Loading variants...')
-                                : t(
-                                    'stockBalances.adjustmentDialog.selectVariant',
-                                    'Select variant by SKU or name'
-                                  )
+                  <FormLabel>
+                    {t('stockBalances.adjustmentDialog.productVariant', 'Product Variant / SKU')}
+                  </FormLabel>
+                  <FormControl>
+                    <VariantSkuPicker
+                      value={field.value}
+                      disabled={!!currentRow}
+                      initialVariant={initialVariant}
+                      onChange={(variantId, variant) => {
+                        field.onChange(variantId)
+                        if (variant) {
+                          setSelectedVariantInfo(variant)
+                          const currentCost = form.getValues('unit_cost')
+                          if ((currentCost === 0 || !currentCost) && variant.cost_price != null) {
+                            form.setValue('unit_cost', Number(variant.cost_price))
                           }
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className='max-h-60'>
-                      {variants.map((v) => (
-                        <SelectItem key={v.id} value={v.id}>
-                          <div className='flex items-center gap-2'>
-                            <span className='font-mono font-medium'>{v.sku}</span>
-                            <span className='text-muted-foreground'>
-                              {v.products?.name ? `(${v.products.name})` : ''}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                        }
+                      }}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             {/* Product Variant Info Card (if variant selected in New Adjustment) */}
-            {selectedVariant && !currentRow && (
+            {selectedVariantInfo && !currentRow && (
               <div className='flex flex-wrap items-center justify-between rounded-md border border-border/60 bg-muted/30 px-3 py-2 text-xs'>
                 <div className='flex items-center gap-2'>
                   <Tag className='h-3.5 w-3.5 text-primary' />
-                  <span className='font-mono font-semibold'>{selectedVariant.sku}</span>
-                  {selectedVariant.products?.name && (
-                    <span className='text-muted-foreground'>({selectedVariant.products.name})</span>
+                  <span className='font-mono font-semibold'>{selectedVariantInfo.sku}</span>
+                  {selectedVariantInfo.product_name && (
+                    <span className='text-muted-foreground'>({selectedVariantInfo.product_name})</span>
                   )}
                 </div>
                 <div className='flex items-center gap-3'>
                   <span className='text-muted-foreground'>
                     {t('stockBalances.adjustmentDialog.costInfo', {
-                      cost: `$${Number(selectedVariant.cost_price ?? selectedVariant.price ?? 0).toFixed(2)}`,
-                      defaultValue: `Standard Cost: $${Number(selectedVariant.cost_price ?? selectedVariant.price ?? 0).toFixed(2)}`,
+                      cost: `$${Number(selectedVariantInfo.cost_price ?? selectedVariantInfo.price ?? 0).toFixed(2)}`,
+                      defaultValue: `Standard Cost: $${Number(selectedVariantInfo.cost_price ?? selectedVariantInfo.price ?? 0).toFixed(2)}`,
                     })}
                   </span>
                   <Badge variant='secondary' className='font-mono text-[11px]'>
