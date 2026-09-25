@@ -24,6 +24,41 @@ export const ruleInputSchema = z.object({
 })
 export type RuleInput = z.infer<typeof ruleInputSchema>
 
+export const reorderRulesSortFields = [
+  'created_at',
+  'reorder_point',
+  'safety_stock',
+  'min_qty',
+  'max_qty',
+  'lead_time_days',
+  'sku',
+] as const
+
+export const reorderRulesSortBySchema = z.enum(reorderRulesSortFields)
+export type ReorderRulesSortBy = z.infer<typeof reorderRulesSortBySchema>
+
+export const reorderRulesQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(20),
+  search: z.string().optional().default(''),
+  storeId: z.string().uuid().optional(),
+  isActive: z
+    .enum(['true', 'false', 'all'])
+    .optional()
+    .transform((val) => (val === 'true' ? true : val === 'false' ? false : undefined)),
+  sortBy: reorderRulesSortBySchema.optional().default('created_at'),
+  sortOrder: z.enum(['asc', 'desc']).optional().default('desc'),
+})
+export type ReorderRulesQueryParams = z.infer<typeof reorderRulesQuerySchema>
+
+export const reorderRulesMetricsSchema = z.object({
+  totalRules: z.number(),
+  activeRules: z.number(),
+  inactiveRules: z.number(),
+  totalStores: z.number(),
+})
+export type ReorderRulesMetrics = z.infer<typeof reorderRulesMetricsSchema>
+
 export const ruleListItemSchema = z.object({
   id: z.string().uuid(),
   reorder_point: z.coerce.number(),
@@ -39,6 +74,7 @@ export const ruleListItemSchema = z.object({
     .object({
       id: z.string(),
       sku: z.string(),
+      barcode: z.string().nullable().optional(),
       products: z.object({ name: z.string() }).nullable(),
     })
     .nullable(),
@@ -56,6 +92,38 @@ export const ruleListItemSchema = z.object({
 })
 export type RuleListItem = z.infer<typeof ruleListItemSchema>
 
+export const paginatedReorderRulesDataSchema = z.object({
+  items: z.array(ruleListItemSchema),
+  total: z.number(),
+  page: z.number(),
+  pageSize: z.number(),
+  totalPages: z.number(),
+  metrics: reorderRulesMetricsSchema,
+})
+export type PaginatedReorderRulesData = z.infer<typeof paginatedReorderRulesDataSchema>
+
+export const paginatedReorderRulesResponseSchema = successEnvelope(
+  paginatedReorderRulesDataSchema
+)
+export type PaginatedReorderRulesResponse = z.infer<
+  typeof paginatedReorderRulesResponseSchema
+>
+
 export const ruleListResponseSchema = successEnvelope(
   z.array(ruleListItemSchema)
 )
+
+export interface VariantSearchResult {
+  id: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  product_name?: string
+  price?: number
+  cost_price?: number | null
+}
+
+export interface VariantSearchResponse {
+  success: boolean
+  items: VariantSearchResult[]
+}

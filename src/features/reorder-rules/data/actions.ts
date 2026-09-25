@@ -1,18 +1,32 @@
 import { authorizedRequest, type TokenGetter } from '@/lib/authorized-request'
 import {
   ruleInputSchema,
-  ruleListResponseSchema,
+  paginatedReorderRulesResponseSchema,
+  type PaginatedReorderRulesData,
+  type ReorderRulesQueryParams,
   type RuleInput,
-  type RuleListItem,
 } from './schema'
 
 const BASE = '/api/inventory/reorder-rules'
 
 export async function fetchRules(
-  getToken: TokenGetter
-): Promise<RuleListItem[]> {
-  const payload = await authorizedRequest(getToken, BASE)
-  return ruleListResponseSchema.parse(payload).data
+  getToken: TokenGetter,
+  params: Partial<ReorderRulesQueryParams> = {}
+): Promise<PaginatedReorderRulesData> {
+  const query = new URLSearchParams()
+  if (params.page !== undefined) query.set('page', String(params.page))
+  if (params.pageSize !== undefined)
+    query.set('pageSize', String(params.pageSize))
+  if (params.search) query.set('search', params.search)
+  if (params.storeId) query.set('storeId', params.storeId)
+  if (params.isActive !== undefined)
+    query.set('isActive', String(params.isActive))
+  if (params.sortBy) query.set('sortBy', params.sortBy)
+  if (params.sortOrder) query.set('sortOrder', params.sortOrder)
+
+  const url = query.toString() ? `${BASE}?${query.toString()}` : BASE
+  const payload = await authorizedRequest(getToken, url)
+  return paginatedReorderRulesResponseSchema.parse(payload).data
 }
 
 export async function createRule(

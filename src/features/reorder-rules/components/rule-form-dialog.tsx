@@ -1,10 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
-import {
-  useStoreOptions,
-  useVariantOptions,
-} from '@/hooks/use-inventory-lookups'
+import { useStoreOptions } from '@/hooks/use-inventory-lookups'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -28,6 +25,7 @@ import { Switch } from '@/components/ui/switch'
 import { ruleInputSchema, type RuleListItem } from '../data/schema'
 import { useCreateRule, useUpdateRule } from '../hooks/use-reorder-rules'
 import { useSupplierOptions } from '../hooks/use-supplier-options'
+import { ReorderRuleVariantPicker } from './variant-picker'
 
 const NONE = '__none__'
 
@@ -43,7 +41,6 @@ function RuleFormDialogBody({
 }) {
   const { t } = useTranslation()
   const isEdit = Boolean(rule)
-  const [search, setSearch] = useState('')
   const [productVariantId, setProductVariantId] = useState(
     rule?.product_variants?.id ?? ''
   )
@@ -77,31 +74,9 @@ function RuleFormDialogBody({
   const [isActive, setIsActive] = useState(rule?.is_active ?? true)
 
   const { data: stores = [] } = useStoreOptions()
-  const { data: variants = [] } = useVariantOptions(search)
   const { data: suppliers = [] } = useSupplierOptions()
   const createRule = useCreateRule()
   const updateRule = useUpdateRule()
-
-  // Ensure the current rule's variant is selectable even when the search
-  // results do not include it.
-  const variantOptions = useMemo(() => {
-    const current = rule?.product_variants
-    if (!current || variants.some((variant) => variant.id === current.id)) {
-      return variants
-    }
-    return [
-      ...variants,
-      {
-        id: current.id,
-        sku: current.sku,
-        price: 0,
-        cost_price: null,
-        products: current.products
-          ? { product_id: 0, name: current.products.name }
-          : null,
-      },
-    ]
-  }, [variants, rule])
 
   const handleSubmit = async () => {
     const parsed = ruleInputSchema.safeParse({
@@ -164,38 +139,21 @@ function RuleFormDialogBody({
       <ScrollArea className='max-h-[60vh] pe-4'>
         <div className='grid gap-4'>
           <div className='grid gap-2'>
-            <div className='flex items-center justify-between'>
-              <Label>{t('reorderRules.form.variant', 'Product variant')}</Label>
-              <Input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder={t('reorderRules.form.searchVariant', 'Search SKU...')}
-                className='h-8 w-40'
-              />
-            </div>
-            <Select
+            <Label>{t('reorderRules.form.variant', 'Product variant')}</Label>
+            <ReorderRuleVariantPicker
               value={productVariantId}
-              onValueChange={setProductVariantId}
-            >
-              <SelectTrigger>
-                <SelectValue
-                  placeholder={t(
-                    'reorderRules.form.selectVariant',
-                    'Select variant'
-                  )}
-                />
-              </SelectTrigger>
-              <SelectContent>
-                {variantOptions.map((variant) => (
-                  <SelectItem key={variant.id} value={variant.id}>
-                    {variant.sku}
-                    {variant.products?.name
-                      ? ` — ${variant.products.name}`
-                      : ''}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              onChange={(id) => setProductVariantId(id)}
+              initialVariant={
+                rule?.product_variants
+                  ? {
+                      id: rule.product_variants.id,
+                      sku: rule.product_variants.sku,
+                      barcode: rule.product_variants.barcode,
+                      product_name: rule.product_variants.products?.name,
+                    }
+                  : null
+              }
+            />
           </div>
 
           <div className='grid gap-2'>

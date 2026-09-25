@@ -13,24 +13,40 @@ export const getColumns = (
   t: TFunction = ((key: string, def?: string) => def ?? key) as unknown as TFunction
 ): ColumnDef<RuleListItem>[] => [
   {
-    id: 'product',
-    header: t('reorderRules.columns.product', 'Product'),
+    id: 'sku',
+    accessorFn: (row) => row.product_variants?.sku ?? '',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('reorderRules.columns.product', 'Product')}
+      />
+    ),
     cell: ({ row }) => {
       const variant = row.original.product_variants
       if (!variant) return '—'
       return (
-        <span className='font-medium'>
-          {variant.products?.name
-            ? `${variant.sku} — ${variant.products.name}`
-            : variant.sku}
-        </span>
+        <div className='flex flex-col'>
+          <span className='font-mono font-medium text-foreground'>
+            {variant.sku}
+          </span>
+          {variant.products?.name ? (
+            <span className='line-clamp-1 text-xs text-muted-foreground'>
+              {variant.products.name}
+            </span>
+          ) : null}
+        </div>
       )
     },
+    enableSorting: true,
   },
   {
     id: 'store',
     header: t('reorderRules.columns.store', 'Store'),
-    cell: ({ row }) => row.original.stores?.name ?? '—',
+    cell: ({ row }) => (
+      <span className='font-medium'>
+        {row.original.stores?.name ?? '—'}
+      </span>
+    ),
   },
   {
     accessorKey: 'reorder_point',
@@ -40,13 +56,21 @@ export const getColumns = (
         title={t('reorderRules.columns.reorderPoint', 'Reorder point')}
       />
     ),
-    cell: ({ row }) => row.original.reorder_point,
+    cell: ({ row }) => (
+      <span className='font-mono font-semibold text-primary'>
+        {row.original.reorder_point}
+      </span>
+    ),
+    enableSorting: true,
   },
   {
     id: 'min_max',
     header: t('reorderRules.columns.minMax', 'Min / Max'),
-    cell: ({ row }) =>
-      `${formatQty(row.original.min_qty)} — ${formatQty(row.original.max_qty)}`,
+    cell: ({ row }) => (
+      <span className='font-mono text-muted-foreground'>
+        {formatQty(row.original.min_qty)} — {formatQty(row.original.max_qty)}
+      </span>
+    ),
   },
   {
     accessorKey: 'safety_stock',
@@ -56,12 +80,19 @@ export const getColumns = (
         title={t('reorderRules.columns.safetyStock', 'Safety stock')}
       />
     ),
-    cell: ({ row }) => row.original.safety_stock,
+    cell: ({ row }) => (
+      <span className='font-mono'>{row.original.safety_stock}</span>
+    ),
+    enableSorting: true,
   },
   {
     id: 'qty',
     header: t('reorderRules.columns.qty', 'Qty'),
-    cell: ({ row }) => formatQty(row.original.reorder_qty ?? row.original.eoq),
+    cell: ({ row }) => (
+      <span className='font-mono'>
+        {formatQty(row.original.reorder_qty ?? row.original.eoq)}
+      </span>
+    ),
   },
   {
     accessorKey: 'lead_time_days',
@@ -71,23 +102,45 @@ export const getColumns = (
         title={t('reorderRules.columns.leadTime', 'Lead time (days)')}
       />
     ),
-    cell: ({ row }) => row.original.lead_time_days ?? '—',
+    cell: ({ row }) =>
+      row.original.lead_time_days !== null ? (
+        <span className='font-mono text-xs'>
+          {row.original.lead_time_days} {t('reorderRules.common.days', 'days')}
+        </span>
+      ) : (
+        '—'
+      ),
+    enableSorting: true,
   },
   {
     id: 'supplier',
     header: t('reorderRules.columns.supplier', 'Supplier'),
-    cell: ({ row }) => row.original.suppliers?.name ?? '—',
+    cell: ({ row }) => (
+      <span className='text-sm text-muted-foreground'>
+        {row.original.suppliers?.name ?? '—'}
+      </span>
+    ),
   },
   {
     accessorKey: 'is_active',
     header: t('reorderRules.columns.status', 'Status'),
-    cell: ({ row }) => (
-      <Badge variant={row.original.is_active ? 'default' : 'outline'}>
-        {row.original.is_active
-          ? t('reorderRules.columns.active', 'Active')
-          : t('reorderRules.columns.inactive', 'Inactive')}
-      </Badge>
-    ),
+    cell: ({ row }) => {
+      const active = row.original.is_active
+      return (
+        <Badge
+          variant={active ? 'default' : 'secondary'}
+          className={
+            active
+              ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300'
+              : 'border-muted-foreground/20 bg-muted text-muted-foreground'
+          }
+        >
+          {active
+            ? t('reorderRules.columns.active', 'Active')
+            : t('reorderRules.columns.inactive', 'Inactive')}
+        </Badge>
+      )
+    },
   },
   {
     id: 'actions',

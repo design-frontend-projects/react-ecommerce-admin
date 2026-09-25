@@ -3,14 +3,14 @@ import { toast } from 'sonner'
 import { useAuthQuery } from '@/hooks/use-auth-query'
 import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { createRule, deleteRule, fetchRules, updateRule } from '../data/actions'
-import type { RuleInput } from '../data/schema'
+import type { ReorderRulesQueryParams, RuleInput } from '../data/schema'
 
 const rulesKey = ['inventory', 'reorder-rules'] as const
 
-export function useReorderRules() {
+export function useReorderRules(params: Partial<ReorderRulesQueryParams> = {}) {
   return useAuthQuery({
-    queryKey: rulesKey,
-    queryFn: (getToken) => fetchRules(getToken),
+    queryKey: [...rulesKey, params],
+    queryFn: (getToken) => fetchRules(getToken, params),
     rbac: { permission: 'inventory.view' },
   })
 }

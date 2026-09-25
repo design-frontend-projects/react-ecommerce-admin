@@ -3387,39 +3387,102 @@
   },
   "reorderRules": {
     "title": "Reorder Rules",
-    "description": "Configure automated reorder triggers, min/max thresholds, and lead times.",
-    "addRule": "Add Reorder Rule",
+    "description": "Per-variant, per-store replenishment thresholds that drive automated reorder checks.",
+    "newRule": "New rule",
+    "addRule": "New Reorder Rule",
     "editRule": "Edit Reorder Rule",
     "deleteRule": "Delete Rule",
+    "errorLoading": "Error loading reorder rules.",
+    "common": {
+      "days": "days"
+    },
+    "metrics": {
+      "totalRules": "Total Rules",
+      "totalRulesDesc": "Configured variant thresholds",
+      "activeRules": "Active Rules",
+      "activeRulesDesc": "Driving automated checks",
+      "inactiveRules": "Inactive Rules",
+      "inactiveRulesDesc": "Paused or draft rules",
+      "storesCount": "Configured Stores",
+      "storesCountDesc": "Distinct locations monitored"
+    },
+    "filters": {
+      "allStores": "All Stores",
+      "allStatuses": "All Statuses"
+    },
     "table": {
+      "searchPlaceholder": "Search SKU, product, store...",
       "filterPlaceholder": "Filter reorder rules...",
-      "noResults": "No reorder rules found."
+      "noRules": "No reorder rules found.",
+      "noResults": "No reorder rules found.",
+      "clearFilters": "Clear active filters"
+    },
+    "variantPicker": {
+      "placeholder": "Select product variant...",
+      "searchPlaceholder": "Search SKU or product...",
+      "searching": "Searching variants...",
+      "noVariantsFound": "No matching variants found."
     },
     "columns": {
       "product": "Product",
-      "warehouse": "Warehouse",
+      "store": "Store",
+      "warehouse": "Store",
+      "reorderPoint": "Reorder point",
+      "minMax": "Min / Max",
+      "safetyStock": "Safety stock",
+      "qty": "Qty",
       "minQty": "Min Quantity (Reorder Point)",
       "maxQty": "Max Quantity (Target)",
       "reorderQty": "Reorder Quantity",
+      "leadTime": "Lead time (days)",
       "supplier": "Preferred Supplier",
       "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
       "actions": "Actions"
     },
     "form": {
-      "product": "Product",
-      "warehouse": "Warehouse",
-      "minQty": "Minimum Quantity",
-      "maxQty": "Maximum Quantity",
-      "reorderQty": "Suggested Order Quantity",
-      "supplier": "Preferred Supplier",
+      "variant": "Product variant",
+      "product": "Product variant",
+      "searchVariant": "Search SKU...",
+      "selectVariant": "Select variant",
+      "store": "Store",
+      "warehouse": "Store",
+      "selectStore": "Select store",
+      "reorderPoint": "Reorder point",
+      "safetyStock": "Safety stock (optional)",
+      "minQty": "Min qty (optional)",
+      "maxQty": "Max qty (optional)",
+      "reorderQty": "Reorder qty (optional)",
+      "eoq": "EOQ (optional)",
+      "leadTime": "Lead time days (optional)",
+      "supplier": "Preferred supplier (optional)",
+      "selectSupplier": "No supplier",
+      "fixRule": "Please fix the reorder rule",
       "cancel": "Cancel",
       "save": "Save Rule",
       "saving": "Saving..."
     },
+    "dialog": {
+      "createTitle": "New Reorder Rule",
+      "createDesc": "One rule per variant and store. The reorder check suggests replenishment when available + on-order stock falls to the reorder point plus safety stock.",
+      "editTitle": "Edit Reorder Rule",
+      "editDesc": "Update replenishment parameters and thresholds.",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "deleteTitle": "Delete reorder rule?",
+      "deleteDesc": "The rule for {{sku}} at {{store}} will be permanently deleted. Its open suggestions are removed with it.",
+      "delete": "Delete"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
     "toast": {
-      "created": "Reorder rule created successfully",
-      "updated": "Reorder rule updated successfully",
-      "deleted": "Reorder rule deleted successfully",
+      "created": "Reorder rule created.",
+      "updated": "Reorder rule updated.",
+      "deleted": "Reorder rule deleted.",
       "error": "Failed to save reorder rule"
     }
   },

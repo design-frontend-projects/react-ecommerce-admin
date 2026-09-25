@@ -1,8 +1,40 @@
 'use server'
 
+import type { Prisma } from '@/generated/prisma/client'
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+
+export interface ListRulesFilters {
+  page?: number
+  pageSize?: number
+  search?: string
+  storeId?: string
+  isActive?: boolean
+  sortBy?:
+    | 'created_at'
+    | 'reorder_point'
+    | 'safety_stock'
+    | 'min_qty'
+    | 'max_qty'
+    | 'lead_time_days'
+    | 'sku'
+  sortOrder?: 'asc' | 'desc'
+}
+
+export interface PaginatedRulesResult {
+  items: Array<Record<string, unknown>>
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
+  metrics: {
+    totalRules: number
+    activeRules: number
+    inactiveRules: number
+    totalStores: number
+  }
+}
 
 export interface CreateRuleInput {
   productVariantId: string
@@ -35,38 +67,158 @@ function isUniqueViolation(error: unknown): boolean {
   )
 }
 
-export async function listRules(authUserId: string) {
+export async function listRules(
+  authUserId: string,
+  filters: ListRulesFilters = {}
+): Promise<PaginatedRulesResult> {
   const tenantId = await requireTenantId(authUserId)
-  return prisma.reorder_rules.findMany({
-    where: { tenant_id: tenantId },
-    include: {
-      product_variants: {
-        select: {
-          id: true,
-          sku: true,
-          barcode: true,
+
+  const pageSize = Math.min(Math.max(1, filters.pageSize ?? 20), 100)
+  const page = Math.max(1, filters.page ?? 1)
+  const skip = (page - 1) * pageSize
+
+  const where: Prisma.reorder_rulesWhereInput = {
+    tenant_id: tenantId,
+  }
+
+  if (filters.storeId) {
+    where.store_id = filters.storeId
+  }
+
+  if (typeof filters.isActive === 'boolean') {
+    where.is_active = filters.isActive
+  }
+
+  const trimmedSearch = filters.search?.trim()
+  if (trimmedSearch) {
+    where.OR = [
+      {
+        product_variants: {
+          sku: { contains: trimmedSearch, mode: 'insensitive' },
+        },
+      },
+      {
+        product_variants: {
+          barcode: { contains: trimmedSearch, mode: 'insensitive' },
+        },
+      },
+      {
+        product_variants: {
           products: {
-            select: {
-              name: true,
-            },
+            name: { contains: trimmedSearch, mode: 'insensitive' },
           },
         },
       },
-      stores: {
-        select: {
-          store_id: true,
-          name: true,
+      {
+        stores: {
+          name: { contains: trimmedSearch, mode: 'insensitive' },
         },
       },
-      suppliers: {
-        select: {
-          id: true,
-          name: true,
+    ]
+  }
+
+  const sortOrder = filters.sortOrder === 'asc' ? 'asc' : 'desc'
+  let orderBy: Prisma.reorder_rulesOrderByWithRelationInput = {
+    created_at: sortOrder,
+  }
+
+  if (filters.sortBy === 'reorder_point') {
+    orderBy = { reorder_point: sortOrder }
+  } else if (filters.sortBy === 'safety_stock') {
+    orderBy = { safety_stock: sortOrder }
+  } else if (filters.sortBy === 'min_qty') {
+    orderBy = { min_qty: sortOrder }
+  } else if (filters.sortBy === 'max_qty') {
+    orderBy = { max_qty: sortOrder }
+  } else if (filters.sortBy === 'lead_time_days') {
+    orderBy = { lead_time_days: sortOrder }
+  } else if (filters.sortBy === 'sku') {
+    orderBy = { product_variants: { sku: sortOrder } }
+  } else if (filters.sortBy === 'created_at') {
+    orderBy = { created_at: sortOrder }
+  }
+
+  const [
+    items,
+    totalFiltered,
+    totalRules,
+    activeRules,
+    inactiveRules,
+    distinctStores,
+  ] = await prisma.$transaction([
+    prisma.reorder_rules.findMany({
+      where,
+      include: {
+        product_variants: {
+          select: {
+            id: true,
+            sku: true,
+            barcode: true,
+            products: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        stores: {
+          select: {
+            store_id: true,
+            name: true,
+          },
+        },
+        suppliers: {
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
+      orderBy,
+      skip,
+      take: pageSize,
+    }),
+    prisma.reorder_rules.count({ where }),
+    prisma.reorder_rules.count({ where: { tenant_id: tenantId } }),
+    prisma.reorder_rules.count({
+      where: { tenant_id: tenantId, is_active: true },
+    }),
+    prisma.reorder_rules.count({
+      where: { tenant_id: tenantId, is_active: false },
+    }),
+    prisma.reorder_rules.findMany({
+      where: { tenant_id: tenantId },
+      select: { store_id: true },
+      distinct: ['store_id'],
+    }),
+  ])
+
+  const mappedItems = items.map((rule) => ({
+    ...rule,
+    reorder_point: Number(rule.reorder_point),
+    min_qty: rule.min_qty !== null ? Number(rule.min_qty) : null,
+    max_qty: rule.max_qty !== null ? Number(rule.max_qty) : null,
+    safety_stock: Number(rule.safety_stock),
+    reorder_qty: rule.reorder_qty !== null ? Number(rule.reorder_qty) : null,
+    eoq: rule.eoq !== null ? Number(rule.eoq) : null,
+    created_at: rule.created_at?.toISOString() ?? new Date().toISOString(),
+  }))
+
+  const totalPages = Math.ceil(totalFiltered / pageSize) || 1
+
+  return {
+    items: mappedItems,
+    total: totalFiltered,
+    page,
+    pageSize,
+    totalPages,
+    metrics: {
+      totalRules,
+      activeRules,
+      inactiveRules,
+      totalStores: distinctStores.length,
     },
-    orderBy: { created_at: 'desc' },
-  })
+  }
 }
 
 export async function createRule(authUserId: string, input: CreateRuleInput) {

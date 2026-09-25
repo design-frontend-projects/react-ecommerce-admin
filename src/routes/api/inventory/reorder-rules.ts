@@ -7,14 +7,26 @@ import {
   type CreateRuleInput,
   type UpdateRuleInput,
 } from '@/server/fns/reorder-rules'
+import { reorderRulesQuerySchema } from '@/features/reorder-rules/data/schema'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
 
-const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ auth }) => {
+const GET = withAuth(PERMISSIONS.INVENTORY_VIEW, async ({ request, auth }) => {
   try {
     const { userId } = auth
-    const data = await listRules(userId)
+    const { searchParams } = new URL(request.url)
+    const rawQuery = {
+      page: searchParams.get('page') ?? undefined,
+      pageSize: searchParams.get('pageSize') ?? undefined,
+      search: searchParams.get('search') ?? undefined,
+      storeId: searchParams.get('storeId') ?? undefined,
+      isActive: searchParams.get('isActive') ?? undefined,
+      sortBy: searchParams.get('sortBy') ?? undefined,
+      sortOrder: searchParams.get('sortOrder') ?? undefined,
+    }
+    const query = reorderRulesQuerySchema.parse(rawQuery)
+    const data = await listRules(userId, query)
     return Response.json({ success: true, data })
   } catch (error) {
     return handleRouteError(error, 'Unable to fetch reorder rules')
