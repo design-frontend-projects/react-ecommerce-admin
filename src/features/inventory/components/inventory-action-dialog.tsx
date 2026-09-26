@@ -182,7 +182,12 @@ export function InventoryActionDialog({
           is_stockable: currentRow.is_stockable !== false,
           is_sellable: currentRow.is_sellable !== false,
           is_purchasable: currentRow.is_purchasable !== false,
-          tracking_type: (currentRow.tracking_type as any) || 'NONE',
+          tracking_type:
+            (currentRow.tracking_type as
+              | 'NONE'
+              | 'LOT'
+              | 'SERIAL'
+              | 'LOT_AND_SERIAL') || 'NONE',
           unit_of_measure_id: currentRow.unit_of_measure_id || null,
           status: currentRow.status || 'ACTIVE',
           is_active: currentRow.is_active !== false,
@@ -439,7 +444,7 @@ export function InventoryActionDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className='max-w-2xl max-h-[92vh] flex flex-col p-0 overflow-hidden'
+        className='w-[95vw] md:w-[80vw] lg:w-[75vw] max-w-7xl max-h-[92vh] flex flex-col p-0 overflow-hidden'
         aria-describedby='inventory-action-dialog-description'
       >
         <div className='p-6 pb-4 border-b bg-card'>

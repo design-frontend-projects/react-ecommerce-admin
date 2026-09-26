@@ -230,6 +230,11 @@ describe('Assign Product Variant to Inventory Dialog', () => {
     expect(screen.getByText('Inventory Item Tracking & Policies')).toBeInTheDocument()
     expect(screen.getByText('Storage Facility & Warehouse Route')).toBeInTheDocument()
     expect(screen.getByText('Safety Stock & Replenishment Policies')).toBeInTheDocument()
+
+    // Verify dialog takes 70%-80% screen width in medium and large screens
+    const dialogContent = document.querySelector('[role="dialog"]')
+    expect(dialogContent).toHaveClass('md:w-[80vw]')
+    expect(dialogContent).toHaveClass('lg:w-[75vw]')
   })
 
   it('renders in edit mode with currentRow live stock status, locked badge, and pre-populated fields', () => {

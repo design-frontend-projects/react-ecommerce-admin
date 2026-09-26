@@ -226,7 +226,7 @@ export function InventoryVariantTablePicker({
         </div>
 
         <DialogContent
-          className='flex max-h-[90vh] max-w-4xl flex-col overflow-hidden p-0'
+          className='flex max-h-[90vh] w-[95vw] md:w-[80vw] lg:w-[75vw] max-w-7xl flex-col overflow-hidden p-0'
           aria-describedby='variant-table-picker-desc'
         >
           {/* Header */}

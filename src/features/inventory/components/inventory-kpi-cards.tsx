@@ -13,36 +13,43 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { type Inventory } from '../data/schema'
+import { type Inventory, type InventoryMetrics } from '../data/schema'
 import { useInventoryContext, type InventoryFilterStatus } from './inventory-provider'
 
 interface InventoryKpiCardsProps {
   data: Inventory[]
+  metrics?: InventoryMetrics
+  isLoading?: boolean
 }
 
-export function InventoryKpiCards({ data }: InventoryKpiCardsProps) {
+export function InventoryKpiCards({ data, metrics, isLoading: _isLoading }: InventoryKpiCardsProps) {
   const { t } = useTranslation()
   const { filterStatus, setFilterStatus } = useInventoryContext()
 
-  const totalItems = data.length
-  let inStockCount = 0
-  let lowStockCount = 0
-  let outOfStockCount = 0
-  let totalValuation = 0
+  const totalItems = metrics ? metrics.totalItems : data.length
+  let inStockCount = metrics ? metrics.inStockCount : 0
+  let lowStockCount = metrics ? metrics.lowStockCount : 0
+  let outOfStockCount = metrics ? metrics.outOfStockCount : 0
+  let totalValuation = metrics ? metrics.totalValuation : 0
+  const withVariantsCount = metrics
+    ? (metrics.withVariantsCount ?? 0)
+    : data.filter((i) => !!i.product_variant_id).length
 
-  for (const item of data) {
-    const qty = Number(item.qty_on_hand ?? item.quantity ?? 0)
-    const min = item.reorder_point ?? item.min_quantity ?? item.reorder_level ?? 0
-    const cost = Number(item.avg_cost ?? 0)
+  if (!metrics) {
+    for (const item of data) {
+      const qty = Number(item.qty_on_hand ?? item.quantity ?? 0)
+      const min = item.reorder_point ?? item.min_quantity ?? item.reorder_level ?? 0
+      const cost = Number(item.avg_cost ?? 0)
 
-    totalValuation += qty * cost
+      totalValuation += qty * cost
 
-    if (qty === 0) {
-      outOfStockCount++
-    } else if (qty <= min) {
-      lowStockCount++
-    } else {
-      inStockCount++
+      if (qty === 0) {
+        outOfStockCount++
+      } else if (qty <= min) {
+        lowStockCount++
+      } else {
+        inStockCount++
+      }
     }
   }
 
@@ -58,12 +65,13 @@ export function InventoryKpiCards({ data }: InventoryKpiCardsProps) {
     {
       title: t('inventory.kpis.total', 'Tracked Items'),
       value: totalItems,
-      subtitle: `${data.filter((i) => !!i.product_variant_id).length} ${t('inventory.kpis.withVariants', 'Variants')}`,
+      subtitle: `${withVariantsCount} ${t('inventory.kpis.withVariants', 'Variants')}`,
       icon: Boxes,
       color: 'text-blue-500 dark:text-blue-400',
       bgColor: 'bg-blue-500/10 border-blue-500/20',
       filterValue: 'all',
     },
+
     {
       title: t('inventory.kpis.inStock', 'In Stock'),
       value: inStockCount,

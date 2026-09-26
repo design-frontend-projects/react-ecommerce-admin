@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useState, useMemo } from 'react'
 import { AlertCircle, RotateCcw, Boxes } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -11,10 +12,11 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { InventoryDialogs } from './components/inventory-dialogs'
 import { InventoryPrimaryButtons } from './components/inventory-primary-buttons'
-import { InventoryProvider } from './components/inventory-provider'
+import { InventoryProvider, useInventoryContext, type InventoryFilterStatus } from './components/inventory-provider'
 import { InventoryTable } from './components/inventory-table'
 import { InventoryKpiCards } from './components/inventory-kpi-cards'
-import { useInventory } from './hooks/use-inventory'
+import { useInventoryPaginated } from './hooks/use-inventory'
+import type { InventoryFilters } from './data/schema'
 
 function InventorySkeleton() {
   return (
@@ -49,7 +51,72 @@ function InventorySkeleton() {
 
 function InventoryContent() {
   const { t } = useTranslation()
-  const { data: inventory, isLoading, error, refetch } = useInventory()
+  const { filterStatus, setFilterStatus } = useInventoryContext()
+
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(20)
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState<string | undefined>('created_at')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [trackingType, setTrackingType] = useState<string | undefined>()
+  const [warehouse, setWarehouse] = useState<string | undefined>()
+
+  // Reset page to 1 during render when KPI card filter status changes
+  const [prevFilterStatus, setPrevFilterStatus] = useState<InventoryFilterStatus>(filterStatus)
+  if (prevFilterStatus !== filterStatus) {
+    setPrevFilterStatus(filterStatus)
+    setPage(1)
+  }
+
+  const handleSearchChange = (val: string) => {
+    setSearch(val)
+    setPage(1)
+  }
+
+  const handleStatusChange = (val: string | undefined) => {
+    setFilterStatus((val as InventoryFilterStatus) || null)
+    setPage(1)
+  }
+
+  const handleTrackingTypeChange = (val: string | undefined) => {
+    setTrackingType(val)
+    setPage(1)
+  }
+
+  const handleWarehouseChange = (val: string | undefined) => {
+    setWarehouse(val)
+    setPage(1)
+  }
+
+  const handleSortChange = (newSortBy?: string, newSortOrder?: 'asc' | 'desc') => {
+    setSortBy(newSortBy)
+    setSortOrder(newSortOrder ?? 'desc')
+  }
+
+  const filters: InventoryFilters = useMemo(
+    () => ({
+      page,
+      pageSize,
+      search: search.trim() || undefined,
+      status: filterStatus && filterStatus !== 'all' ? filterStatus : undefined,
+      trackingType,
+      warehouseName: warehouse,
+      sortBy,
+      sortOrder,
+    }),
+    [page, pageSize, search, filterStatus, trackingType, warehouse, sortBy, sortOrder]
+  )
+
+  const {
+    inventory,
+    totalCount,
+    totalPages,
+    metrics,
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useInventoryPaginated(filters)
 
   return (
     <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
@@ -113,11 +180,39 @@ function InventoryContent() {
           transition={{ duration: 0.35, delay: 0.05 }}
           className='flex flex-1 flex-col gap-4 sm:gap-6'
         >
-          {/* Overview KPI Cards with interactive filters */}
-          <InventoryKpiCards data={inventory ?? []} />
+          {/* Overview KPI Cards with interactive filters and server metrics */}
+          <InventoryKpiCards
+            data={inventory ?? []}
+            metrics={metrics}
+            isLoading={isFetching}
+          />
 
-          {/* Enriched Inventory Table */}
-          <InventoryTable data={inventory ?? []} />
+          {/* Enriched Inventory Table with Server-Side Pagination & Search */}
+          <InventoryTable
+            data={inventory ?? []}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            page={page}
+            pageSize={pageSize}
+            onPageChange={setPage}
+            onPageSizeChange={(newSize) => {
+              setPageSize(newSize)
+              setPage(1)
+            }}
+            search={search}
+            onSearchChange={handleSearchChange}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            onSortChange={handleSortChange}
+            status={filterStatus && filterStatus !== 'all' ? filterStatus : undefined}
+            onStatusChange={handleStatusChange}
+            trackingType={trackingType}
+            onTrackingTypeChange={handleTrackingTypeChange}
+            warehouse={warehouse}
+            onWarehouseChange={handleWarehouseChange}
+            isLoading={isFetching}
+            isServer={true}
+          />
         </motion.div>
       )}
     </Main>

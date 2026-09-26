@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/auth-store'
+import { useAuthQuery } from '@/hooks/use-auth-query'
 import { supabase } from '@/lib/supabase'
+import { fetchInventoryItems } from '../data/actions'
 import {
   type Inventory,
   type InventoryFormValues,
@@ -12,7 +14,10 @@ import {
   type InventoryUomRelation,
   type ProductVariantItem,
   type PaginatedProductVariantsResult,
+  type InventoryFilters,
+  type InventoryPaginatedResponse,
 } from '../data/schema'
+
 
 export interface InventoryInput {
   id?: string
@@ -68,7 +73,39 @@ function getAuthTenantAndUser() {
   }
 }
 
+export const inventoryQueryKey = ['inventory'] as const
+
+/**
+ * Hook to fetch inventory items with server-side pagination, search, sorting, filtering,
+ * and global KPI metrics calculation.
+ */
+export function useInventoryPaginated(filters: InventoryFilters = {}) {
+  const query = useAuthQuery<InventoryPaginatedResponse>({
+    queryKey: [...inventoryQueryKey, 'paginated', filters],
+    queryFn: (getToken) => fetchInventoryItems(getToken, filters),
+    rbac: { permission: 'inventory.view' },
+    staleTime: 30_000,
+  })
+
+  const pageSize = query.data?.pageSize ?? filters.pageSize ?? 20
+  const totalCount = query.data?.totalCount ?? 0
+  const page = query.data?.page ?? filters.page ?? 1
+  const totalPages =
+    query.data?.totalPages ?? Math.max(1, Math.ceil(totalCount / pageSize))
+
+  return {
+    ...query,
+    inventory: query.data?.items ?? [],
+    metrics: query.data?.metrics,
+    totalCount,
+    totalPages,
+    page,
+    pageSize,
+  }
+}
+
 export const useInventory = (limit: number = 1000) => {
+
   return useQuery({
     queryKey: ['inventory', limit],
     queryFn: async () => {

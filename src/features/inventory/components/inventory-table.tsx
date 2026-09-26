@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import {
   type SortingState,
   type VisibilityState,
   type RowSelectionState,
   type ColumnFiltersState,
+  type PaginationState,
+  type Updater,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -14,8 +16,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Download, Plus, CheckCircle2, AlertTriangle, XCircle, Package } from 'lucide-react'
+import {
+  Download,
+  Plus,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+  Package,
+  Loader2,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -29,33 +40,154 @@ import { Can } from '@/components/rbac/Can'
 import { type Inventory } from '../data/schema'
 import { getColumns } from './inventory-columns'
 import { useInventoryContext } from './inventory-provider'
+import { useWarehouses } from '../hooks/use-inventory'
 
-interface Props {
+export interface InventoryTableProps {
   data: Inventory[]
+  totalCount?: number
+  totalPages?: number
+  page?: number
+  pageSize?: number
+  onPageChange?: (page: number) => void
+  onPageSizeChange?: (pageSize: number) => void
+  search?: string
+  onSearchChange?: (search: string) => void
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+  onSortChange?: (sortBy?: string, sortOrder?: 'asc' | 'desc') => void
+  status?: string
+  onStatusChange?: (status?: string) => void
+  trackingType?: string
+  onTrackingTypeChange?: (tracking?: string) => void
+  warehouse?: string
+  onWarehouseChange?: (warehouse?: string) => void
+  isLoading?: boolean
+  isServer?: boolean
 }
 
-export function InventoryTable({ data }: Props) {
+export function InventoryTable({
+  data,
+  totalCount,
+  totalPages,
+  page = 1,
+  pageSize = 20,
+  onPageChange,
+  onPageSizeChange,
+  search = '',
+  onSearchChange,
+  sortBy = 'created_at',
+  sortOrder = 'desc',
+  onSortChange,
+  status,
+  onStatusChange,
+  trackingType,
+  onTrackingTypeChange,
+  warehouse,
+  onWarehouseChange,
+  isLoading = false,
+  isServer = true,
+}: InventoryTableProps) {
   const { t } = useTranslation()
   const { openDetail, openCreate, filterStatus } = useInventoryContext()
+  const { data: allWarehouses = [] } = useWarehouses()
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'product_name', desc: false },
+  const [sorting, setSorting] = useState<SortingState>(() => [
+    { id: sortBy || 'created_at', desc: sortOrder === 'desc' },
   ])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  // Synchronize KPI card clicks with table column filter
+  // Initialize internal column filters
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(() => {
+    const init: ColumnFiltersState = []
+    if (search) init.push({ id: 'product_name', value: search })
+    const activeStat = status || (filterStatus && filterStatus !== 'all' ? filterStatus : undefined)
+    if (activeStat) init.push({ id: 'status', value: [activeStat] })
+    if (trackingType) init.push({ id: 'tracking_type', value: [trackingType] })
+    if (warehouse) init.push({ id: 'warehouse', value: [warehouse] })
+    return init
+  })
+
+  // Synchronize KPI card clicks and external status prop
   useEffect(() => {
-    if (!filterStatus || filterStatus === 'all') {
-      setColumnFilters((prev) => prev.filter((f) => f.id !== 'status'))
-    } else {
-      setColumnFilters((prev) => [
-        ...prev.filter((f) => f.id !== 'status'),
-        { id: 'status', value: [filterStatus] },
-      ])
+    const effStatus = status !== undefined ? status : filterStatus
+    setColumnFilters((prev) => {
+      const next = prev.filter((f) => f.id !== 'status')
+      if (effStatus && effStatus !== 'all') {
+        next.push({ id: 'status', value: [effStatus] })
+      }
+      return next
+    })
+  }, [filterStatus, status])
+
+  // Synchronize external search prop
+  useEffect(() => {
+    setColumnFilters((prev) => {
+      const next = prev.filter((f) => f.id !== 'product_name')
+      if (search) {
+        next.push({ id: 'product_name', value: search })
+      }
+      return next
+    })
+  }, [search])
+
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current)
     }
-  }, [filterStatus])
+  }, [])
+
+  const handleColumnFiltersChange = (updater: Updater<ColumnFiltersState>) => {
+    const nextFilters =
+      typeof updater === 'function' ? updater(columnFilters) : updater
+    setColumnFilters(nextFilters)
+
+    if (isServer) {
+      // 1. Search filter with 300ms debounce
+      const searchVal =
+        (nextFilters.find((f) => f.id === 'product_name')?.value as string) ?? ''
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current)
+      searchTimeoutRef.current = setTimeout(() => {
+        onSearchChange?.(searchVal)
+      }, 300)
+
+      // 2. Status filter
+      const statVals = nextFilters.find((f) => f.id === 'status')?.value as
+        | string[]
+        | undefined
+      const selectedStat = statVals && statVals.length > 0 ? statVals[0] : undefined
+      onStatusChange?.(selectedStat)
+
+      // 3. Tracking type filter
+      const trackVals = nextFilters.find((f) => f.id === 'tracking_type')?.value as
+        | string[]
+        | undefined
+      const selectedTrack =
+        trackVals && trackVals.length > 0 ? trackVals[0] : undefined
+      onTrackingTypeChange?.(selectedTrack)
+
+      // 4. Warehouse filter
+      const whVals = nextFilters.find((f) => f.id === 'warehouse')?.value as
+        | string[]
+        | undefined
+      const selectedWh = whVals && whVals.length > 0 ? whVals[0] : undefined
+      onWarehouseChange?.(selectedWh)
+    }
+  }
+
+  const handleSortingChange = (updater: Updater<SortingState>) => {
+    const nextSorting = typeof updater === 'function' ? updater(sorting) : updater
+    setSorting(nextSorting)
+    if (isServer && onSortChange) {
+      if (nextSorting && nextSorting.length > 0) {
+        onSortChange(nextSorting[0].id, nextSorting[0].desc ? 'desc' : 'asc')
+      } else {
+        onSortChange(undefined, undefined)
+      }
+    }
+  }
 
   const columns = useMemo(
     () =>
@@ -65,10 +197,38 @@ export function InventoryTable({ data }: Props) {
     [t, openDetail]
   )
 
+  const pageIndex = Math.max(0, page - 1)
+
+  const handlePaginationChange = (updater: Updater<PaginationState>) => {
+    const nextPagination =
+      typeof updater === 'function'
+        ? updater({ pageIndex, pageSize })
+        : updater
+    if (nextPagination.pageIndex !== pageIndex && onPageChange) {
+      onPageChange(nextPagination.pageIndex + 1)
+    }
+    if (nextPagination.pageSize !== pageSize && onPageSizeChange) {
+      onPageSizeChange(nextPagination.pageSize)
+    }
+  }
+
+  const calculatedPageCount =
+    totalPages ?? Math.max(1, Math.ceil((totalCount ?? data.length) / pageSize))
+
   const table = useReactTable({
     data,
     columns,
+    pageCount: isServer ? calculatedPageCount : undefined,
+    manualPagination: isServer,
+    manualSorting: isServer,
+    manualFiltering: isServer,
     state: {
+      pagination: isServer
+        ? {
+            pageIndex,
+            pageSize,
+          }
+        : undefined,
       sorting,
       rowSelection,
       columnVisibility,
@@ -76,20 +236,21 @@ export function InventoryTable({ data }: Props) {
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    onSortingChange: handleSortingChange,
+    onColumnFiltersChange: handleColumnFiltersChange,
+    onPaginationChange: isServer ? handlePaginationChange : undefined,
     onColumnVisibilityChange: setColumnVisibility,
     getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: isServer ? undefined : getFilteredRowModel(),
+    getSortedRowModel: isServer ? undefined : getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
   // Export current rows to CSV
   const handleExportCsv = () => {
-    const rows = table.getFilteredRowModel().rows
+    const rows = table.getRowModel().rows
     const headers = [
       'Inventory ID',
       'Product Name',
@@ -184,6 +345,9 @@ export function InventoryTable({ data }: Props) {
   // Unique facet filter options for warehouses
   const warehouseFilterOptions = useMemo(() => {
     const map = new Map<string, string>()
+    for (const wh of allWarehouses) {
+      if (wh.name) map.set(wh.name, wh.name)
+    }
     for (const item of data) {
       const name = item.warehouses?.name || item.warehouses?.code
       if (name) {
@@ -194,7 +358,7 @@ export function InventoryTable({ data }: Props) {
       label: name,
       value: name,
     }))
-  }, [data])
+  }, [allWarehouses, data])
 
   return (
     <div className='flex flex-1 flex-col gap-4'>
@@ -235,6 +399,13 @@ export function InventoryTable({ data }: Props) {
         />
 
         <div className='flex items-center gap-2 ms-auto'>
+          {isLoading && data.length > 0 && (
+            <div className='flex items-center gap-1.5 text-xs text-muted-foreground me-2'>
+              <Loader2 className='h-3.5 w-3.5 animate-spin text-primary' />
+              <span>{t('common.updating', 'Updating...')}</span>
+            </div>
+          )}
+
           <Button
             variant='outline'
             size='sm'
@@ -277,7 +448,17 @@ export function InventoryTable({ data }: Props) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading && data.length === 0 ? (
+              Array.from({ length: 6 }).map((_, rIdx) => (
+                <TableRow key={`skeleton-row-${rIdx}`} className='hover:bg-transparent'>
+                  {columns.map((_, cIdx) => (
+                    <TableCell key={`skeleton-cell-${rIdx}-${cIdx}`} className='py-3.5'>
+                      <Skeleton className='h-5 w-full max-w-[140px]' />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}

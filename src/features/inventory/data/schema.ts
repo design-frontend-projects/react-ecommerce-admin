@@ -232,3 +232,37 @@ export interface PaginatedProductVariantsResult {
   items: ProductVariantItem[]
   pagination: ProductVariantPagination
 }
+
+export interface InventoryFilters {
+  page?: number
+  pageSize?: number
+  limit?: number
+  offset?: number
+  search?: string
+  status?: string
+  trackingType?: string
+  warehouseId?: string
+  warehouseName?: string
+  storeId?: string
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+}
+
+export interface InventoryMetrics {
+  totalItems: number
+  inStockCount: number
+  lowStockCount: number
+  outOfStockCount: number
+  totalValuation: number
+  withVariantsCount?: number
+}
+
+export interface InventoryPaginatedResponse {
+  items: Inventory[]
+  totalCount: number
+  page: number
+  pageSize: number
+  totalPages: number
+  metrics?: InventoryMetrics
+}
+
