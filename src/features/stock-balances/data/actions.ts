@@ -74,8 +74,7 @@ export async function fetchStockBalances(
             name,
             sku,
             is_batch_tracked,
-            is_serial_tracked,
-            reorder_level
+            is_serial_tracked
           )
         )
       ),
@@ -89,8 +88,7 @@ export async function fetchStockBalances(
           name,
           sku,
           is_batch_tracked,
-          is_serial_tracked,
-          reorder_level
+          is_serial_tracked
         )
       ),
       warehouses (
