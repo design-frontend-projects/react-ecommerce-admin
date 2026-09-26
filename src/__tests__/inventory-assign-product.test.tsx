@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { InventoryActionDialog } from '@/features/inventory/components/inventory-action-dialog'
 import { type Inventory } from '@/features/inventory/data/schema'
 
-const mockCreateMutateAsync = vi.fn().mockResolvedValue({ inventory_id: 101 })
-const mockUpdateMutateAsync = vi.fn().mockResolvedValue({ inventory_id: 102 })
+const mockCreateMutateAsync = vi.fn().mockResolvedValue({ id: 'inv-new-1', inventory_id: 101 })
+const mockUpdateMutateAsync = vi.fn().mockResolvedValue({ id: 'inv-edit-1', inventory_id: 102 })
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -54,6 +54,56 @@ const mockVariantsProd1 = [
     attributes_label: 'Color: Blue / Size: M',
   },
 ]
+
+const mockUoms = [
+  { id: 'uom-pcs', code: 'PCS', name: 'Pieces' },
+  { id: 'uom-box', code: 'BOX', name: 'Box' },
+]
+
+const mockPaginatedVariants = {
+  items: [
+    {
+      id: 'var-1',
+      product_id: 'prod-1',
+      sku: 'TSHIRT-RED-L',
+      name: 'Red / Large',
+      barcode: '123456789012',
+      product_name: 'Cotton T-Shirt',
+      brand_name: 'Antigravity Apparel',
+      category_name: 'Apparel',
+      price: 29.99,
+      cost_price: 15.0,
+      qty_on_hand: 50,
+      qty_available: 45,
+      qty_reserved: 5,
+      is_assigned_to_inventory: false,
+    },
+    {
+      id: 'var-2',
+      product_id: 'prod-1',
+      sku: 'TSHIRT-BLU-M',
+      name: 'Blue / Medium',
+      barcode: '123456789013',
+      product_name: 'Cotton T-Shirt',
+      brand_name: 'Antigravity Apparel',
+      category_name: 'Apparel',
+      price: 27.99,
+      cost_price: 14.0,
+      qty_on_hand: 20,
+      qty_available: 20,
+      qty_reserved: 0,
+      is_assigned_to_inventory: true,
+    },
+  ],
+  pagination: {
+    page: 1,
+    pageSize: 10,
+    totalCount: 2,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+  },
+}
 
 const mockStores = [
   { store_id: 'store-cairo', name: 'Cairo Downtown Store' },
@@ -115,6 +165,17 @@ vi.mock('@/features/inventory/hooks/use-inventory', () => ({
     data: productId === 'prod-1' ? mockVariantsProd1 : [],
     isLoading: false,
   }),
+  useProductVariantsPaginated: () => ({
+    data: mockPaginatedVariants,
+    isLoading: false,
+    isFetching: false,
+    error: null,
+    refetch: vi.fn(),
+  }),
+  useUomList: () => ({
+    data: mockUoms,
+    isLoading: false,
+  }),
   useStores: () => ({
     data: mockStores,
     isLoading: false,
@@ -144,7 +205,7 @@ vi.mock('@/features/inventory/hooks/use-inventory', () => ({
   }),
 }))
 
-describe('Assign Product to Inventory Dialog', () => {
+describe('Assign Product Variant to Inventory Dialog', () => {
   let queryClient: QueryClient
 
   beforeEach(() => {
@@ -157,24 +218,32 @@ describe('Assign Product to Inventory Dialog', () => {
     })
   })
 
-  it('renders the dialog with header and fields in add mode', () => {
+  it('renders the dialog with header and sections in add mode', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <InventoryActionDialog open={true} onOpenChange={vi.fn()} />
       </QueryClientProvider>
     )
 
-    expect(screen.getByText('Assign Product to Inventory')).toBeInTheDocument()
-    expect(screen.getByText('Product & Variant Selection')).toBeInTheDocument()
+    expect(screen.getByText('Assign Product Variant to Inventory')).toBeInTheDocument()
+    expect(screen.getByText(/Product Variant \(Database Catalog\)/i)).toBeInTheDocument()
+    expect(screen.getByText('Inventory Item Tracking & Policies')).toBeInTheDocument()
     expect(screen.getByText('Storage Facility & Warehouse Route')).toBeInTheDocument()
     expect(screen.getByText('Safety Stock & Replenishment Policies')).toBeInTheDocument()
   })
 
-  it('renders in edit mode with currentRow live stock status and pre-populated fields', () => {
+  it('renders in edit mode with currentRow live stock status, locked badge, and pre-populated fields', () => {
     const editRow: Inventory = {
+      id: 'inv-55',
       inventory_id: 55,
       product_id: 'prod-1',
       product_variant_id: 'var-1',
+      sku: 'INV-TSHIRT-RED-L',
+      barcode: '123456789012',
+      tracking_type: 'NONE',
+      is_stockable: true,
+      is_sellable: true,
+      is_purchasable: true,
       store_id: 'store-cairo',
       warehouse_id: 'wh-cairo',
       warehouse_location_id: 'loc-1',
@@ -192,8 +261,21 @@ describe('Assign Product to Inventory Dialog', () => {
       qty_on_hand: 80,
       qty_available: 70,
       qty_reserved: 10,
-      condition: 'good',
+      status: 'ACTIVE',
+      is_active: true,
       last_count_date: '2026-09-10',
+      product_variants: {
+        id: 'var-1',
+        sku: 'TSHIRT-RED-L',
+        name: 'Red / Large',
+        barcode: '123456789012',
+        price: 29.99,
+      },
+      products: {
+        id: 'prod-1',
+        name: 'Cotton T-Shirt',
+        sku: 'TSHIRT-01',
+      },
     }
 
     render(
@@ -202,44 +284,23 @@ describe('Assign Product to Inventory Dialog', () => {
       </QueryClientProvider>
     )
 
-    expect(screen.getByText('Edit Inventory Settings')).toBeInTheDocument()
-    expect(screen.getByText('Live Stock Balance (from stock_balances)')).toBeInTheDocument()
+    expect(screen.getByText('Edit Inventory Item')).toBeInTheDocument()
+    expect(screen.getByText('Live Stock Status')).toBeInTheDocument()
     expect(screen.getByText('80')).toBeInTheDocument()
     expect(screen.getByText('70')).toBeInTheDocument()
     expect(screen.getByText('10')).toBeInTheDocument()
+    expect(screen.getByText('Locked in Edit Mode')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('INV-TSHIRT-RED-L')).toBeInTheDocument()
     expect(screen.getByText('Save Changes')).toBeInTheDocument()
   })
 
-  it('renders variant overview card when an edit row has a variant selected', () => {
-    const editRowWithVariant: Inventory = {
-      inventory_id: 88,
-      product_id: 'prod-1',
-      product_variant_id: 'var-1',
-      store_id: 'store-cairo',
-      warehouse_id: 'wh-cairo',
-      warehouse_location_id: 'loc-1',
-      reorder_point: 20,
-    }
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRowWithVariant} />
-      </QueryClientProvider>
-    )
-
-    // Should display selected variant card
-    expect(screen.getAllByText('Red / Large').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getAllByText('TSHIRT-RED-L').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getAllByText('Color: Red / Size: L').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getByText('123456789012')).toBeInTheDocument()
-    expect(screen.getAllByText('$29.99').length).toBeGreaterThanOrEqual(1)
-  })
-
-  it('renders selected location overview card when warehouse location is assigned', () => {
-    const editRowWithLoc: Inventory = {
+  it('renders facility and warehouse route section with store and warehouse selection', () => {
+    const editRowWithFacility: Inventory = {
+      id: 'inv-99',
       inventory_id: 99,
       product_id: 'prod-1',
       product_variant_id: 'var-1',
+      sku: 'INV-099',
       store_id: 'store-cairo',
       warehouse_id: 'wh-cairo',
       warehouse_location_id: 'loc-1',
@@ -247,68 +308,30 @@ describe('Assign Product to Inventory Dialog', () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRowWithLoc} />
+        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRowWithFacility} />
       </QueryClientProvider>
     )
 
-    expect(screen.getAllByText('Apparel Rack A1').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getAllByText('BIN-A1').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getByText('Zone A > Rack 1 > Bin A1')).toBeInTheDocument()
-    expect(screen.getByText('Pickable')).toBeInTheDocument()
-    expect(screen.getByText('Receivable')).toBeInTheDocument()
+    expect(screen.getByText('Assigned Store')).toBeInTheDocument()
+    expect(screen.getByText('Warehouse Facility')).toBeInTheDocument()
+    expect(screen.getByText('Specific Bin / Storage Rack')).toBeInTheDocument()
   })
 
-  it('displays standard product banner when editing or selecting a product without variants', () => {
-    const simpleProductRow: Inventory = {
-      inventory_id: 42,
-      product_id: 'prod-2',
-      product_variant_id: null,
-    }
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={simpleProductRow} />
-      </QueryClientProvider>
-    )
-
-    expect(screen.getByText('Standard Catalog Product')).toBeInTheDocument()
-    expect(
-      screen.getByText('This product has no variants. Inventory is tracked directly on the base SKU.')
-    ).toBeInTheDocument()
-  })
-
-  it('renders store connected warehouse logistics route and fulfillment preview', () => {
-    const editRowWithStore: Inventory = {
-      inventory_id: 103,
-      product_id: 'prod-1',
-      product_variant_id: 'var-1',
-      store_id: 'store-cairo',
-      warehouse_id: 'wh-cairo',
-      warehouse_location_id: 'loc-1',
-    }
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRowWithStore} />
-      </QueryClientProvider>
-    )
-
-    // Verify store route banner and warehouse preview card
-    expect(screen.getByText('Cairo Downtown Store Logistics Route')).toBeInTheDocument()
-    expect(screen.getAllByText('Cairo Logistics Center').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getAllByText('WH-CAI').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getByText('Store Primary Hub')).toBeInTheDocument()
-  })
-
-  it('submits enhanced inventory model fields including coordinates and safety stock', async () => {
+  it('submits updated inventory model fields including tracking policies and thresholds in edit mode', async () => {
     const user = userEvent.setup()
     const editRow: Inventory = {
+      id: 'inv-104',
       inventory_id: 104,
       product_id: 'prod-1',
       product_variant_id: 'var-1',
+      sku: 'INV-TSHIRT-RED-L',
       store_id: 'store-cairo',
       warehouse_id: 'wh-cairo',
       warehouse_location_id: 'loc-1',
+      tracking_type: 'NONE',
+      is_stockable: true,
+      is_sellable: true,
+      is_purchasable: true,
       reorder_point: 20,
       safety_stock: 12,
       reorder_quantity: 100,
@@ -333,9 +356,9 @@ describe('Assign Product to Inventory Dialog', () => {
     await waitFor(() => {
       expect(mockUpdateMutateAsync).toHaveBeenCalledWith(
         expect.objectContaining({
-          inventory_id: 104,
-          product_id: 'prod-1',
+          id: 'inv-104',
           product_variant_id: 'var-1',
+          sku: 'INV-TSHIRT-RED-L',
           store_id: 'store-cairo',
           warehouse_id: 'wh-cairo',
           warehouse_location_id: 'loc-1',
@@ -353,25 +376,7 @@ describe('Assign Product to Inventory Dialog', () => {
     })
   })
 
-  it('locks product selection in edit mode with locked badge', () => {
-    const editRow: Inventory = {
-      inventory_id: 105,
-      product_id: 'prod-1',
-      product_variant_id: null,
-    }
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InventoryActionDialog open={true} onOpenChange={vi.fn()} currentRow={editRow} />
-      </QueryClientProvider>
-    )
-
-    expect(screen.getByText('Locked in Edit Mode')).toBeInTheDocument()
-    const combobox = screen.getByRole('combobox', { name: /Select Product/i })
-    expect(combobox).toBeDisabled()
-  })
-
-  it('searches and selects product from the virtual combobox in add mode', async () => {
+  it('opens variant table picker in add mode, selects a variant, and submits a new inventory item', async () => {
     const user = userEvent.setup()
 
     render(
@@ -380,30 +385,41 @@ describe('Assign Product to Inventory Dialog', () => {
       </QueryClientProvider>
     )
 
-    const combobox = screen.getByRole('combobox', { name: /Select Product/i })
-    expect(combobox).not.toBeDisabled()
+    // Open table picker
+    const pickerTrigger = screen.getByLabelText('Select Product Variant')
+    expect(pickerTrigger).not.toBeDisabled()
+    await user.click(pickerTrigger)
 
-    // Open popover
-    await user.click(combobox)
+    // Table picker dialog should be open
+    expect(screen.getByText('Select Product Variant')).toBeInTheDocument()
+    expect(screen.getByText('TSHIRT-RED-L')).toBeInTheDocument()
 
-    // Search input should be visible
-    const searchInput = screen.getByPlaceholderText('Search products by name, SKU, brand, barcode...')
-    expect(searchInput).toBeInTheDocument()
+    // Select the first available variant
+    const selectButtons = screen.getAllByRole('button', { name: 'Select' })
+    expect(selectButtons.length).toBeGreaterThanOrEqual(1)
+    await user.click(selectButtons[0])
 
-    // Verify products are in the list
-    expect(screen.getByText('Cotton T-Shirt')).toBeInTheDocument()
-    expect(screen.getByText('Wireless Mouse')).toBeInTheDocument()
+    // Verify selection populated SKU in form
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('TSHIRT-RED-L')).toBeInTheDocument()
+    })
 
-    // Type in search query to filter
-    await user.type(searchInput, 'Mouse')
-    expect(screen.queryByText('Cotton T-Shirt')).not.toBeInTheDocument()
-    expect(screen.getByText('Wireless Mouse')).toBeInTheDocument()
+    // Submit the form
+    const registerBtn = screen.getByRole('button', { name: 'Register in Inventory' })
+    await user.click(registerBtn)
 
-    // Select the filtered product
-    await user.click(screen.getByText('Wireless Mouse'))
-
-    // Verify selection is rendered
-    expect(screen.getAllByText('Wireless Mouse').length).toBeGreaterThanOrEqual(1)
+    await waitFor(() => {
+      expect(mockCreateMutateAsync).toHaveBeenCalledWith(
+        expect.objectContaining({
+          product_variant_id: 'var-1',
+          sku: 'TSHIRT-RED-L',
+          barcode: '123456789012',
+          is_stockable: true,
+          is_sellable: true,
+          is_purchasable: true,
+          tracking_type: 'NONE',
+        })
+      )
+    })
   })
 })
-

@@ -13,6 +13,11 @@ import {
   Check,
   DollarSign,
   Info,
+  Barcode,
+  SlidersHorizontal,
+  Scale,
+  ShoppingCart,
+  Truck,
 } from 'lucide-react'
 import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -152,6 +157,94 @@ export function InventoryDetailSheet() {
 
         {/* Scrollable Content */}
         <div className='flex-1 overflow-y-auto px-6 py-5 space-y-6'>
+          {/* Inventory Item Tracking & Operational Policies Card */}
+          <div className='rounded-xl border bg-card p-4 space-y-3 shadow-xs'>
+            <div className='flex items-center justify-between'>
+              <h4 className='text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5'>
+                <SlidersHorizontal className='h-3.5 w-3.5 text-primary' />
+                {t('inventory.detail.trackingPolicies', 'Item Tracking & Policies')}
+              </h4>
+              <Badge variant='outline' className='font-mono text-xs'>
+                {currentRow.sku}
+              </Badge>
+            </div>
+
+            <div className='space-y-2 text-xs'>
+              {/* Item SKU & Barcode */}
+              <div className='flex items-center justify-between py-1 border-b border-border/50'>
+                <span className='text-muted-foreground'>Master Item SKU:</span>
+                <span className='font-mono font-bold text-foreground'>{currentRow.sku}</span>
+              </div>
+
+              {currentRow.barcode && (
+                <div className='flex items-center justify-between py-1 border-b border-border/50'>
+                  <span className='text-muted-foreground flex items-center gap-1'>
+                    <Barcode className='h-3.5 w-3.5' /> Barcode:
+                  </span>
+                  <span className='font-mono text-foreground'>{currentRow.barcode}</span>
+                </div>
+              )}
+
+              {/* Tracking Method */}
+              <div className='flex items-center justify-between py-1 border-b border-border/50'>
+                <span className='text-muted-foreground flex items-center gap-1'>
+                  <ShieldCheck className='h-3.5 w-3.5 text-primary' /> Tracking Method:
+                </span>
+                <Badge variant='secondary' className='text-[10px]'>
+                  {currentRow.tracking_type === 'LOT'
+                    ? 'Lot / Batch Tracked'
+                    : currentRow.tracking_type === 'SERIAL'
+                    ? 'Serial Number Tracked'
+                    : currentRow.tracking_type === 'LOT_AND_SERIAL'
+                    ? 'Lot & Serial Number Tracked'
+                    : 'Standard (None)'}
+                </Badge>
+              </div>
+
+              {/* Unit of Measure */}
+              {currentRow.uoms && (
+                <div className='flex items-center justify-between py-1 border-b border-border/50'>
+                  <span className='text-muted-foreground flex items-center gap-1'>
+                    <Scale className='h-3.5 w-3.5 text-primary' /> Unit of Measure:
+                  </span>
+                  <div className='flex items-center gap-1.5'>
+                    <Badge variant='outline' className='font-mono text-[10px]'>
+                      {currentRow.uoms.code}
+                    </Badge>
+                    <span className='font-medium text-foreground'>{currentRow.uoms.name}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Operational Policies */}
+              <div className='pt-2'>
+                <span className='text-muted-foreground text-[11px] font-medium block mb-1.5'>
+                  Operational Flags:
+                </span>
+                <div className='flex flex-wrap gap-1.5'>
+                  <Badge
+                    variant={currentRow.is_stockable !== false ? 'default' : 'outline'}
+                    className='text-[10px] gap-1'
+                  >
+                    <Boxes className='h-3 w-3' /> Stockable
+                  </Badge>
+                  <Badge
+                    variant={currentRow.is_sellable !== false ? 'default' : 'outline'}
+                    className='text-[10px] gap-1'
+                  >
+                    <ShoppingCart className='h-3 w-3' /> Sellable
+                  </Badge>
+                  <Badge
+                    variant={currentRow.is_purchasable !== false ? 'default' : 'outline'}
+                    className='text-[10px] gap-1'
+                  >
+                    <Truck className='h-3 w-3' /> Purchasable
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Stock Quantities Card */}
           <div className='rounded-xl border bg-card p-4 space-y-3 shadow-xs'>
             <div className='flex items-center justify-between'>

@@ -16,9 +16,26 @@ const GET = withAuth(
       const { userId } = auth
       const { searchParams } = new URL(request.url)
       const search = searchParams.get('search') ?? ''
-      const limit = searchParams.get('limit') ? Number(searchParams.get('limit')) : 25
+      const limit = searchParams.get('limit') ? Number(searchParams.get('limit')) : undefined
+      const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+      const pageSize = searchParams.get('pageSize')
+        ? Number(searchParams.get('pageSize'))
+        : limit ?? 10
+      const sortBy = searchParams.get('sortBy') ?? undefined
+      const sortOrder = (searchParams.get('sortOrder') ?? undefined) as 'asc' | 'desc' | undefined
+      const productId = searchParams.get('productId') ?? undefined
+      const isAssigned = searchParams.get('isAssigned') ?? undefined
 
-      const data = await searchProductVariants(userId, search, limit)
+      const data = await searchProductVariants(userId, {
+        search,
+        page,
+        pageSize,
+        limit,
+        sortBy,
+        sortOrder,
+        productId,
+        isAssigned,
+      })
       return Response.json(data)
     } catch (error) {
       return handleRouteError(error, 'Unable to search product variants')

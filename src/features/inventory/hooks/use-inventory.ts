@@ -9,12 +9,15 @@ import {
   type InventoryStoreRelation,
   type InventoryVariantRelation,
   type InventoryProductRelation,
+  type InventoryUomRelation,
+  type ProductVariantItem,
+  type PaginatedProductVariantsResult,
 } from '../data/schema'
 
 export interface InventoryInput {
   id?: string
   inventory_id?: string | number
-  product_id: string
+  product_id?: string | null
   product_variant_id?: string | null
   sku?: string
   barcode?: string | null
@@ -65,9 +68,9 @@ function getAuthTenantAndUser() {
   }
 }
 
-export const useInventory = () => {
+export const useInventory = (limit: number = 1000) => {
   return useQuery({
-    queryKey: ['inventory'],
+    queryKey: ['inventory', limit],
     queryFn: async () => {
       const { tenantId } = getAuthTenantAndUser()
 
@@ -122,14 +125,20 @@ export const useInventory = () => {
         query = query.eq('tenant_id', tenantId)
       }
 
-      const { data: inventoryData, error: inventoryError } = await query.order(
-        'created_at',
-        { ascending: false }
-      )
+      const { data: inventoryData, error: inventoryError } = await query
+        .order('created_at', { ascending: false })
+        .limit(limit)
 
-      if (inventoryError) throw inventoryError
+      if (inventoryError) {
+        console.error('Failed to fetch inventory_items:', inventoryError)
+        throw inventoryError
+      }
 
-      // 2. Fetch stock_balances to aggregate real-time quantities
+      if (!inventoryData || inventoryData.length === 0) {
+        return []
+      }
+
+      // 2. Fetch stock_balances and reorder_rules in parallel to aggregate metrics
       let sbQuery = supabase.from('stock_balances').select(`
           id,
           product_variant_id,
@@ -150,9 +159,6 @@ export const useInventory = () => {
         sbQuery = sbQuery.eq('tenant_id', tenantId)
       }
 
-      const { data: stockBalances } = await sbQuery
-
-      // 3. Fetch reorder_rules to aggregate reorder policies
       let rrQuery = supabase.from('reorder_rules').select(`
           id,
           product_variant_id,
@@ -172,10 +178,20 @@ export const useInventory = () => {
         rrQuery = rrQuery.eq('tenant_id', tenantId)
       }
 
-      const { data: reorderRules } = await rrQuery
+      const [sbRes, rrRes] = await Promise.all([
+        sbQuery.limit(limit * 2),
+        rrQuery.limit(limit * 2),
+      ])
 
-      const balances = (stockBalances as any[]) || []
-      const rules = (reorderRules as any[]) || []
+      if (sbRes.error) {
+        console.warn('Could not fetch stock_balances for inventory:', sbRes.error)
+      }
+      if (rrRes.error) {
+        console.warn('Could not fetch reorder_rules for inventory:', rrRes.error)
+      }
+
+      const balances = (sbRes.data as any[]) || []
+      const rules = (rrRes.data as any[]) || []
 
       // 4. Merge aggregated stock balance quantities and reorder rules
       return (inventoryData || []).map((rawItem: any) => {
@@ -303,6 +319,14 @@ export const useInventory = () => {
             null,
           condition,
 
+          // Physical coordinates / audit
+          aisle: primaryLoc?.aisle ?? null,
+          rack: primaryLoc?.rack ?? null,
+          shelf: primaryLoc?.shelf ?? null,
+          bin: primaryLoc?.bin ?? null,
+          last_count_date: null,
+          last_restocked_date: null,
+
           // Compatibility fields
           quantity: qty_on_hand,
           reorder_level: matchingRule ? Number(matchingRule.reorder_point || 0) : 0,
@@ -322,23 +346,42 @@ export const useCreateInventory = () => {
     mutationFn: async (input: InventoryInput | InventoryFormValues) => {
       const { tenantId, userId } = getAuthTenantAndUser()
 
+      if (!input.product_variant_id || input.product_variant_id === 'none') {
+        throw new Error('A valid product variant is required to create an inventory item.')
+      }
+
+      // Check if an inventory item already exists for this tenant & variant
+      const effectiveTenantId = input.tenant_id || tenantId
+      if (effectiveTenantId) {
+        const { data: existing } = await supabase
+          .from('inventory_items')
+          .select('id, sku')
+          .eq('product_variant_id', input.product_variant_id)
+          .eq('tenant_id', effectiveTenantId)
+          .maybeSingle()
+
+        if (existing) {
+          throw new Error(`This product variant is already registered in inventory (Item SKU: ${existing.sku}).`)
+        }
+      }
+
       // Look up variant SKU / barcode if not passed
       let sku = input.sku
       let barcode = input.barcode
-      if (!sku && input.product_variant_id && input.product_variant_id !== 'none') {
+      if ((!sku || !barcode) && input.product_variant_id && input.product_variant_id !== 'none') {
         const { data: v } = await supabase
           .from('product_variants')
           .select('sku, barcode')
           .eq('id', input.product_variant_id)
           .maybeSingle()
         if (v) {
-          sku = v.sku
+          if (!sku) sku = v.sku
           if (!barcode) barcode = v.barcode
         }
       }
 
       const itemPayload = {
-        tenant_id: input.tenant_id || tenantId,
+        tenant_id: effectiveTenantId,
         product_variant_id: input.product_variant_id,
         sku: sku || 'SKU-' + Date.now(),
         barcode: barcode || null,
@@ -430,13 +473,19 @@ export const useUpdateInventory = () => {
       inventory_id?: string | number
     }) => {
       const { tenantId, userId } = getAuthTenantAndUser()
-      const targetId = id || String(inventory_id)
+      const targetId = id || (inventory_id != null ? String(inventory_id) : '')
+
+      if (!targetId || targetId === 'undefined') {
+        throw new Error('Valid inventory item ID is required for update.')
+      }
 
       const itemPayload: Record<string, unknown> = {
         updated_by_user_id: userId,
         updated_at: new Date().toISOString(),
       }
 
+      if (updates.sku) itemPayload.sku = updates.sku
+      if (updates.barcode !== undefined) itemPayload.barcode = updates.barcode || null
       if (updates.is_stockable !== undefined)
         itemPayload.is_stockable = updates.is_stockable !== false
       if (updates.is_sellable !== undefined)
@@ -520,7 +569,11 @@ export const useDeleteInventory = () => {
   return useMutation({
     mutationFn: async (idOrInventoryId: string | number) => {
       const { userId } = getAuthTenantAndUser()
-      const targetId = String(idOrInventoryId)
+      const targetId = idOrInventoryId != null ? String(idOrInventoryId) : ''
+
+      if (!targetId || targetId === 'undefined') {
+        throw new Error('Valid inventory item ID is required for deletion.')
+      }
 
       // Lifecycle rule: Soft deactivate rather than hard delete historical records
       const { error } = await supabase
@@ -647,6 +700,187 @@ export const useProductVariants = (productId?: string | null) => {
       )
     },
     enabled: !!productId,
+  })
+}
+
+export interface UseProductVariantsPaginatedParams {
+  search?: string
+  page?: number
+  pageSize?: number
+  sortBy?: 'sku' | 'name' | 'product_name' | 'created_at' | string
+  sortOrder?: 'asc' | 'desc'
+  productId?: string | null
+  isAssigned?: 'all' | 'assigned' | 'unassigned'
+}
+
+export const useProductVariantsPaginated = (params: UseProductVariantsPaginatedParams = {}) => {
+  const {
+    search = '',
+    page = 1,
+    pageSize = 10,
+    sortBy = 'sku',
+    sortOrder = 'asc',
+    productId,
+    isAssigned = 'all',
+  } = params
+
+  return useQuery<PaginatedProductVariantsResult>({
+    queryKey: [
+      'product-variants-paginated',
+      search,
+      page,
+      pageSize,
+      sortBy,
+      sortOrder,
+      productId ?? 'all',
+      isAssigned,
+    ],
+    queryFn: async () => {
+      const queryParams = new URLSearchParams()
+      if (search.trim()) queryParams.set('search', search.trim())
+      queryParams.set('page', String(page))
+      queryParams.set('pageSize', String(pageSize))
+      if (sortBy) queryParams.set('sortBy', sortBy)
+      if (sortOrder) queryParams.set('sortOrder', sortOrder)
+      if (productId && productId !== 'all') queryParams.set('productId', productId)
+      if (isAssigned && isAssigned !== 'all') queryParams.set('isAssigned', isAssigned)
+
+      // 1. Try server API
+      try {
+        const { data: sessionData } = await supabase.auth.getSession()
+        const token = sessionData.session?.access_token
+        if (token) {
+          const res = await fetch(`/api/inventory/product-variants?${queryParams.toString()}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          if (res.ok) {
+            const json = await res.json()
+            if (json.success && Array.isArray(json.items)) {
+              return {
+                items: json.items,
+                pagination: json.pagination ?? {
+                  page,
+                  pageSize,
+                  totalCount: json.items.length,
+                  totalPages: Math.ceil(json.items.length / pageSize) || 1,
+                  hasNextPage: false,
+                  hasPrevPage: false,
+                },
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('API /api/inventory/product-variants fallback to Supabase:', err)
+      }
+
+      // 2. Direct Supabase Fallback
+      const { tenantId } = getAuthTenantAndUser()
+      let query = supabase
+        .from('product_variants')
+        .select(
+          `
+          id,
+          product_id,
+          sku,
+          name,
+          barcode,
+          dimensions,
+          weight,
+          is_active,
+          uom_id,
+          price_list_items ( price, cost_price ),
+          stock_balances ( qty_on_hand, qty_available, qty_reserved ),
+          inventory_items ( id, sku, status, is_active ),
+          products ( id, name, sku, barcode, categories ( name ), brands ( name ), base_uom_id )
+        `,
+          { count: 'exact' }
+        )
+        .eq('is_active', true)
+
+      if (tenantId) {
+        query = query.eq('tenant_id', tenantId)
+      }
+
+      if (productId && productId !== 'all') {
+        query = query.eq('product_id', productId)
+      }
+
+      if (search.trim()) {
+        const s = search.trim()
+        query = query.or(`sku.ilike.%${s}%,name.ilike.%${s}%,barcode.ilike.%${s}%`)
+      }
+
+      const from = (page - 1) * pageSize
+      const to = from + pageSize - 1
+
+      const { data, count, error } = await query.range(from, to).order('sku')
+      if (error) throw error
+
+      const totalCount = count ?? (data?.length || 0)
+      const totalPages = Math.ceil(totalCount / pageSize) || 1
+
+      const items: ProductVariantItem[] = (data || []).map((v: any) => {
+        const pli = Array.isArray(v.price_list_items) ? v.price_list_items[0] : null
+        const sbList = Array.isArray(v.stock_balances) ? v.stock_balances : []
+        const onHand = sbList.reduce((sum: number, s: any) => sum + Number(s.qty_on_hand || 0), 0)
+        const available = sbList.reduce((sum: number, s: any) => sum + Number(s.qty_available || 0), 0)
+        const reserved = sbList.reduce((sum: number, s: any) => sum + Number(s.qty_reserved || 0), 0)
+        const inv = Array.isArray(v.inventory_items) ? v.inventory_items[0] : v.inventory_items
+
+        return {
+          id: String(v.id),
+          product_id: v.product_id ? String(v.product_id) : undefined,
+          sku: String(v.sku || ''),
+          name: v.name ? String(v.name) : null,
+          barcode: v.barcode ? String(v.barcode) : null,
+          product_name: v.products?.name ?? '',
+          brand_name: v.products?.brands?.name ?? null,
+          category_name: v.products?.categories?.name ?? null,
+          uom_id: v.uom_id || v.products?.base_uom_id || null,
+          dimensions: v.dimensions,
+          weight: v.weight ? Number(v.weight) : null,
+          is_active: v.is_active !== false,
+          price: pli?.price ? Number(pli.price) : 0,
+          cost_price: pli?.cost_price != null ? Number(pli.cost_price) : null,
+          is_assigned_to_inventory: !!inv,
+          inventory_item_id: inv?.id ?? null,
+          inventory_item_sku: inv?.sku ?? null,
+          inventory_item_status: inv?.status ?? null,
+          qty_on_hand: onHand,
+          qty_available: available,
+          qty_reserved: reserved,
+        }
+      })
+
+      return {
+        items,
+        pagination: {
+          page,
+          pageSize,
+          totalCount,
+          totalPages,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+        },
+      }
+    },
+  })
+}
+
+export const useUomList = () => {
+  return useQuery({
+    queryKey: ['inventory-uoms-list'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('uoms')
+        .select('id, code, name, uom_category, is_base')
+        .eq('is_active', true)
+        .order('name')
+
+      if (error) throw error
+      return (data || []) as InventoryUomRelation[]
+    },
   })
 }
 

@@ -1,5 +1,64 @@
 # Error Log
 
+## [2026-09-25 23:35] - Statement Timeout 57014 in useInventory Query Across 20,863 Inventory Items
+
+- **Type**: Integration / Database / Performance
+- **Severity**: High
+- **File**: `src/features/inventory/hooks/use-inventory.ts:128`, `prisma/schema.prisma:499`
+- **Agent**: @frontend-specialist
+- **Root Cause**: Navigating to the inventory table triggered `useInventory()`, which queried `inventory_items` ordered by `created_at DESC` with multi-level nested joins (`product_variants`, `price_list_items`, `products`, `categories`, `brands`, `uoms`) without an index on `created_at` or a limit clause across all 20,863 records. The sequential scan and nested subqueries exceeded PostgreSQL's 8,000ms statement timeout (`statement_timeout = 8000`) on the remote Supabase pooler (`eu-west-2`), triggering Postgres error code `57014` (`canceling statement due to statement timeout`). Additionally, `stock_balances` and `reorder_rules` queries ran sequentially without row limits.
+- **Error Message**:
+  ```json
+  {
+    "code": "57014",
+    "details": null,
+    "hint": null,
+    "message": "canceling statement due to statement timeout"
+  }
+  ```
+- **Fix Applied**:
+  1. Executed direct database DDL creating composite and standalone B-tree indexes for descending chronological scans:
+     - `CREATE INDEX IF NOT EXISTS idx_inventory_items_created_at_desc ON public.inventory_items (created_at DESC);`
+     - `CREATE INDEX IF NOT EXISTS idx_inventory_items_tenant_created_at_desc ON public.inventory_items (tenant_id, created_at DESC);`
+  2. Updated `model inventory_items` in `prisma/schema.prisma` with `@@index([created_at(sort: Desc)])` and `@@index([tenant_id, created_at(sort: Desc)])`.
+  3. Optimized `useInventory` in `src/features/inventory/hooks/use-inventory.ts`:
+     - Added default `limit = 1000` to query and cache key (`['inventory', limit]`).
+     - Added short-circuit return for empty datasets.
+     - Parallelized `stock_balances` and `reorder_rules` queries using `Promise.all` with `.limit(limit * 2)`.
+     - Added defensive error handling so secondary metrics failures do not crash the primary inventory table.
+  4. Verified query performance dropped from >8700ms (timeout failure) down to 674ms (100 rows) and 1391ms (1000 rows).
+- **Prevention**: In Supabase / PostgREST queries over large tables (>10,000 rows), always enforce explicit query limits and ensure all `order(...)` clauses target indexed columns (e.g. `(tenant_id, created_at DESC)`). Run secondary relation lookups concurrently with `Promise.all`.
+- **Status**: Fixed
+
+---
+
+## [2026-09-25 23:25] - Unused Variables and Location Coordinate Property Errors in Inventory Module
+
+- **Type**: Syntax / Type
+- **Severity**: Medium
+- **File**: `src/features/inventory/components/inventory-columns.tsx`, `src/features/inventory/components/inventory-action-dialog.tsx`, `src/features/inventory/hooks/use-inventory.ts`
+- **Agent**: @frontend-specialist
+- **Root Cause**:
+  1. In `inventory-columns.tsx`, the cell renderer attempted to access `location.aisle`, `location.rack`, `location.shelf`, and `location.bin`. `InventoryLocationRelation` in `src/features/inventory/data/schema.ts` lacked these optional properties, causing TypeScript errors `TS2339: Property 'aisle' does not exist on type 'InventoryLocationRelation'`.
+  2. In `inventory-action-dialog.tsx`, several Lucide icons (`Layers`, `Calendar`, `Info`, `Clock`, `Sparkles`, `CheckCircle2`, `AlertTriangle`), an unused hook (`useStockBalancesForProduct`), and unreferenced watched state variables (`selectedVariantId`, `selectedLocationId`, `variantLiveStock`) triggered `TS6133` unused declaration errors under strict `noUnusedLocals: true`.
+  3. In `use-inventory.ts`, `InventoryInput` required `product_id: string` while `InventoryFormValues` treated it as optional, and mutations lacked defensive checks for null/undefined ID inputs.
+- **Error Message**:
+  ```
+  src/features/inventory/components/inventory-columns.tsx(289,19): error TS2339: Property 'aisle' does not exist on type 'InventoryLocationRelation'.
+  src/features/inventory/components/inventory-action-dialog.tsx(9,3): error TS6133: 'Layers' is declared but its value is never read.
+  src/features/inventory/components/inventory-action-dialog.tsx(153,9): error TS6133: 'selectedLocationId' is declared but its value is never read.
+  src/features/inventory/components/inventory-action-dialog.tsx(162,9): error TS6133: 'variantLiveStock' is declared but its value is never read.
+  ```
+- **Fix Applied**:
+  1. Updated `InventoryLocationRelation` in `src/features/inventory/data/schema.ts` to include optional `aisle`, `rack`, `shelf`, and `bin`.
+  2. Streamlined coordinate resolution in `src/features/inventory/components/inventory-columns.tsx` using local extracted variables without duplicate lookups.
+  3. Removed unused Lucide icons, unused hook import, and unreferenced watch variables from `src/features/inventory/components/inventory-action-dialog.tsx`.
+  4. Updated `InventoryInput` in `src/features/inventory/hooks/use-inventory.ts` to make `product_id?: string | null` optional, added target ID validation in update/delete mutations, and populated coordinate/audit defaults in `useInventory`.
+- **Prevention**: In strict TypeScript projects with `noUnusedLocals: true`, always clean up unreferenced variables and imports. Ensure schema relations in `schema.ts` declare all optional fields accessed by table columns and detail sheets.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-25 19:54] - Prisma Unknown Field reorder_level on Model products and Broken Type Inference in stock-balances.ts
 
 - **Type**: Syntax / Type / Integration

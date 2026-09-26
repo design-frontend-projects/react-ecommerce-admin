@@ -1,8 +1,15 @@
 import { type ColumnDef } from '@tanstack/react-table'
-import { type TFunction } from 'i18next'
 import i18n from '@/config/i18n'
+import { type TFunction } from 'i18next'
+import { Barcode, Boxes, ShoppingCart, Truck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { type Inventory } from '../data/schema'
 import { InventoryRowActions } from './inventory-row-actions'
@@ -16,10 +23,7 @@ export function getInventoryStatus(
 ): 'in_stock' | 'low_stock' | 'out_of_stock' | 'overstocked' {
   const quantity = Number(item.qty_on_hand ?? item.quantity ?? 0)
   const minStock =
-    item.reorder_point ??
-    item.min_quantity ??
-    item.reorder_level ??
-    0
+    item.reorder_point ?? item.min_quantity ?? item.reorder_level ?? 0
   const maxStock = item.max_quantity ?? item.max_stock_level
 
   if (quantity === 0) return 'out_of_stock'
@@ -64,28 +68,65 @@ export const getColumns = (
         row.products?.sku,
         row.product_variants?.name,
         row.product_variants?.sku,
+        row.sku,
       ]
         .filter(Boolean)
         .join(' '),
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title={t('inventory.columns.product', 'Product')}
+        title={t('inventory.columns.product', 'Product & Variant')}
       />
     ),
     cell: ({ row }) => {
       const product = row.original.products
+      const variant = row.original.product_variants
       return (
         <div
-          className='flex flex-col cursor-pointer group'
+          className='group flex max-w-[220px] cursor-pointer flex-col'
           onClick={() => actions?.onOpenDetail?.(row.original)}
         >
-          <span className='font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1'>
+          <span className='line-clamp-1 font-semibold text-foreground transition-colors group-hover:text-primary'>
             {product?.name || t('inventory.unknownProduct', 'Unknown Product')}
           </span>
-          {product?.sku && (
-            <span className='text-xs text-muted-foreground font-mono'>
-              SKU: {product.sku}
+          <div className='flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground'>
+            {variant?.name && (
+              <span className='line-clamp-1 font-medium text-foreground/80'>
+                {variant.name}
+              </span>
+            )}
+            {variant?.sku && (
+              <span className='font-mono text-[11px] text-muted-foreground'>
+                [{variant.sku}]
+              </span>
+            )}
+          </div>
+        </div>
+      )
+    },
+  },
+  {
+    id: 'item_sku',
+    accessorFn: (row) => row.sku || row.barcode || '',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('inventory.columns.itemSku', 'Item SKU & Barcode')}
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex flex-col gap-1'>
+          <Badge
+            variant='outline'
+            className='w-fit px-1.5 py-0 font-mono text-xs'
+          >
+            {row.original.sku}
+          </Badge>
+          {row.original.barcode && (
+            <span className='flex items-center gap-1 font-mono text-[10px] text-muted-foreground'>
+              <Barcode className='h-3 w-3' />
+              {row.original.barcode}
             </span>
           )}
         </div>
@@ -93,33 +134,97 @@ export const getColumns = (
     },
   },
   {
-    id: 'variant',
-    accessorFn: (row) => row.product_variants?.sku || row.product_variants?.name || '',
+    id: 'tracking_type',
+    accessorKey: 'tracking_type',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title={t('inventory.columns.variant', 'Variant / SKU')}
+        title={t('inventory.columns.tracking', 'Tracking')}
       />
     ),
     cell: ({ row }) => {
-      const variant = row.original.product_variants
-      if (!variant) {
-        return (
-          <Badge variant='outline' className='text-xs font-normal text-muted-foreground'>
-            {t('inventory.standardProduct', 'Standard Product')}
-          </Badge>
-        )
+      const tracking = row.original.tracking_type || 'NONE'
+      let label = 'Standard'
+      let variant: 'outline' | 'secondary' | 'default' = 'outline'
+
+      if (tracking === 'LOT') {
+        label = 'Lot / Batch'
+        variant = 'secondary'
+      } else if (tracking === 'SERIAL') {
+        label = 'Serial #'
+        variant = 'secondary'
+      } else if (tracking === 'LOT_AND_SERIAL') {
+        label = 'Lot & Serial'
+        variant = 'default'
       }
 
       return (
-        <div className='flex flex-col gap-0.5'>
-          <span className='font-medium text-sm text-foreground line-clamp-1'>
-            {variant.name || t('common.default', 'Default')}
-          </span>
-          <span className='text-xs font-mono text-muted-foreground'>
-            [{variant.sku}]
-          </span>
-        </div>
+        <Badge variant={variant} className='text-[10px] font-medium'>
+          {label}
+        </Badge>
+      )
+    },
+    filterFn: (row, id, value) => {
+      if (!value) return true
+      if (Array.isArray(value)) {
+        return value.length === 0 || value.includes(row.getValue(id))
+      }
+      return row.getValue(id) === value
+    },
+  },
+  {
+    id: 'policies',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t('inventory.columns.policies', 'Policies')}
+      />
+    ),
+    cell: ({ row }) => {
+      const item = row.original
+      return (
+        <TooltipProvider>
+          <div className='flex items-center gap-1.5'>
+            {item.is_stockable !== false && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className='flex h-5 w-5 items-center justify-center rounded bg-primary/10 text-primary'>
+                    <Boxes className='h-3 w-3' />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side='bottom' className='text-xs'>
+                  Stock Tracked
+                </TooltipContent>
+              </Tooltip>
+            )}
+
+            {item.is_sellable !== false && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className='flex h-5 w-5 items-center justify-center rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'>
+                    <ShoppingCart className='h-3 w-3' />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side='bottom' className='text-xs'>
+                  Sellable on POS & Checkout
+                </TooltipContent>
+              </Tooltip>
+            )}
+
+            {item.is_purchasable !== false && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className='flex h-5 w-5 items-center justify-center rounded bg-blue-500/10 text-blue-600 dark:text-blue-400'>
+                    <Truck className='h-3 w-3' />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side='bottom' className='text-xs'>
+                  Purchasable on POs
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
+        </TooltipProvider>
       )
     },
   },
@@ -144,10 +249,10 @@ export const getColumns = (
 
       return (
         <div className='flex items-center gap-1.5'>
-          <Badge variant='outline' className='font-mono text-xs px-1.5 py-0'>
+          <Badge variant='outline' className='px-1.5 py-0 font-mono text-xs'>
             {warehouse.code}
           </Badge>
-          <span className='text-xs font-medium text-foreground line-clamp-1'>
+          <span className='line-clamp-1 text-xs font-medium text-foreground'>
             {warehouse.name}
           </span>
         </div>
@@ -180,17 +285,27 @@ export const getColumns = (
         )
       }
 
+      const aisle = location?.aisle || row.original.aisle
+      const rack = location?.rack || row.original.rack
+      const shelf = location?.shelf || row.original.shelf
+      const bin = location?.bin || row.original.bin
+
       const coords = [
-        location?.aisle || row.original.aisle ? `Aisle ${location?.aisle || row.original.aisle}` : null,
-        location?.rack || row.original.rack ? `R:${location?.rack || row.original.rack}` : null,
-        location?.shelf || row.original.shelf ? `S:${location?.shelf || row.original.shelf}` : null,
-        location?.bin || row.original.bin ? `B:${location?.bin || row.original.bin}` : null,
-      ].filter(Boolean).join(' ')
+        aisle ? `Aisle ${aisle}` : null,
+        rack ? `R:${rack}` : null,
+        shelf ? `S:${shelf}` : null,
+        bin ? `B:${bin}` : null,
+      ]
+        .filter(Boolean)
+        .join(' ')
 
       return (
         <div className='flex flex-col gap-0.5'>
           <div className='flex items-center gap-1.5'>
-            <Badge variant='secondary' className='text-xs font-mono px-1.5 py-0'>
+            <Badge
+              variant='secondary'
+              className='px-1.5 py-0 font-mono text-xs'
+            >
               {location.code}
             </Badge>
             {location.location_type && (
@@ -200,11 +315,11 @@ export const getColumns = (
             )}
           </div>
           {coords ? (
-            <span className='text-[10px] font-mono text-muted-foreground truncate max-w-32'>
+            <span className='max-w-32 truncate font-mono text-[10px] text-muted-foreground'>
               {coords}
             </span>
           ) : location.path ? (
-            <span className='text-[10px] text-muted-foreground font-mono truncate max-w-28'>
+            <span className='max-w-28 truncate font-mono text-[10px] text-muted-foreground'>
               {location.path}
             </span>
           ) : null}
@@ -223,10 +338,16 @@ export const getColumns = (
     ),
     cell: ({ row }) => {
       const qty = Number(row.original.qty_on_hand ?? row.original.quantity ?? 0)
+      const uomCode = row.original.uoms?.code
       return (
         <div className='flex flex-col'>
-          <span className='font-bold text-base text-foreground'>
-            {qty.toLocaleString()}
+          <span className='text-base font-bold text-foreground'>
+            {qty.toLocaleString()}{' '}
+            {uomCode && (
+              <span className='text-xs font-normal text-muted-foreground'>
+                {uomCode}
+              </span>
+            )}
           </span>
           <span className='text-[10px] text-muted-foreground uppercase'>
             {row.original.condition || 'good'}
@@ -244,16 +365,18 @@ export const getColumns = (
       />
     ),
     cell: ({ row }) => {
-      const avail = Number(row.original.qty_available ?? row.original.qty_on_hand ?? 0)
+      const avail = Number(
+        row.original.qty_available ?? row.original.qty_on_hand ?? 0
+      )
       const rsvd = Number(row.original.qty_reserved ?? 0)
 
       return (
-        <div className='text-xs space-y-0.5'>
-          <div className='text-emerald-600 dark:text-emerald-400 font-medium'>
+        <div className='space-y-0.5 text-xs'>
+          <div className='font-medium text-emerald-600 dark:text-emerald-400'>
             {t('inventory.detail.available', 'Avail')}: {avail.toLocaleString()}
           </div>
           {rsvd > 0 && (
-            <div className='text-amber-600 dark:text-amber-400 font-medium'>
+            <div className='font-medium text-amber-600 dark:text-amber-400'>
               {t('inventory.detail.reserved', 'Rsvd')}: {rsvd.toLocaleString()}
             </div>
           )}
@@ -279,7 +402,7 @@ export const getColumns = (
       const safety = row.original.safety_stock
 
       return (
-        <div className='text-xs text-muted-foreground space-y-0.5'>
+        <div className='space-y-0.5 text-xs text-muted-foreground'>
           <div>
             {t('inventory.columns.min', 'Min')}:{' '}
             <strong className='text-foreground'>{min}</strong>
@@ -309,7 +432,9 @@ export const getColumns = (
     ),
     cell: ({ row }) => {
       const qty = Number(row.original.qty_on_hand ?? row.original.quantity ?? 0)
-      const avgCost = Number(row.original.avg_cost ?? row.original.unit_cost ?? 0)
+      const avgCost = Number(
+        row.original.avg_cost ?? row.original.unit_cost ?? 0
+      )
       const totalVal = qty * avgCost
 
       return (
@@ -318,7 +443,7 @@ export const getColumns = (
             ${totalVal.toFixed(2)}
           </div>
           {avgCost > 0 && (
-            <div className='text-muted-foreground text-[10px] font-mono'>
+            <div className='font-mono text-[10px] text-muted-foreground'>
               @${avgCost.toFixed(2)}/u
             </div>
           )}
@@ -337,11 +462,19 @@ export const getColumns = (
     ),
     cell: ({ row }) => {
       if (row.original.is_active === false) {
-        return <Badge variant='outline' className='text-muted-foreground border-dashed'>Inactive</Badge>
+        return (
+          <Badge
+            variant='outline'
+            className='border-dashed text-muted-foreground'
+          >
+            Inactive
+          </Badge>
+        )
       }
 
       const statusCode = getInventoryStatus(row.original)
-      let statusVariant: 'default' | 'destructive' | 'secondary' | 'outline' = 'default'
+      let statusVariant: 'default' | 'destructive' | 'secondary' | 'outline' =
+        'default'
       let text = t('inventory.status.inStock', 'In Stock')
 
       if (statusCode === 'out_of_stock') {
@@ -355,7 +488,16 @@ export const getColumns = (
         text = t('inventory.status.overstocked', 'Overstocked')
       }
 
-      return <Badge variant={statusVariant}>{text}</Badge>
+      return (
+        <div className='flex flex-col items-start gap-1'>
+          <Badge variant={statusVariant}>{text}</Badge>
+          {row.original.status && row.original.status !== 'ACTIVE' && (
+            <span className='font-mono text-[10px] text-muted-foreground'>
+              {row.original.status}
+            </span>
+          )}
+        </div>
+      )
     },
     filterFn: (row, id, value) => {
       if (!value) return true
@@ -380,7 +522,7 @@ export const getColumns = (
         row.original.updated_at
       if (!dateStr) {
         return (
-          <div className='text-muted-foreground text-xs'>
+          <div className='text-xs text-muted-foreground'>
             {t('common.never', 'Never')}
           </div>
         )
@@ -394,6 +536,8 @@ export const getColumns = (
   },
   {
     id: 'actions',
-    cell: ({ row }) => <InventoryRowActions row={row} onOpenDetail={actions?.onOpenDetail} />,
+    cell: ({ row }) => (
+      <InventoryRowActions row={row} onOpenDetail={actions?.onOpenDetail} />
+    ),
   },
 ]

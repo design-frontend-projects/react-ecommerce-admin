@@ -212,6 +212,16 @@ export function InventoryTable({ data }: Props) {
               title: t('inventory.columns.status', 'Status'),
               options: statusFilterOptions,
             },
+            {
+              columnId: 'tracking_type',
+              title: t('inventory.columns.tracking', 'Tracking'),
+              options: [
+                { label: 'Standard', value: 'NONE' },
+                { label: 'Lot / Batch', value: 'LOT' },
+                { label: 'Serial #', value: 'SERIAL' },
+                { label: 'Lot & Serial', value: 'LOT_AND_SERIAL' },
+              ],
+            },
             ...(warehouseFilterOptions.length > 0
               ? [
                   {

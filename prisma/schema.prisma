@@ -497,6 +497,8 @@ model inventory_items {
   @@index([tenant_id, status])
   @@index([tenant_id, tracking_type])
   @@index([tenant_id, is_active])
+  @@index([created_at(sort: Desc)])
+  @@index([tenant_id, created_at(sort: Desc)])
 
   @@map("inventory_items")
 }

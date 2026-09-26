@@ -2,17 +2,18 @@ import { z } from 'zod'
 
 export const inventorySchema = z.object({
   id: z.string().optional(),
-  product_id: z.string().min(1, 'Product is required'),
-  product_variant_id: z.string().optional().nullable(),
-  sku: z.string().optional(),
+  // Core inventory_items fields
+  product_variant_id: z.string().min(1, 'Product variant is required'),
+  product_id: z.string().optional().nullable(),
+  sku: z.string().min(1, 'SKU is required'),
   barcode: z.string().optional().nullable(),
-  is_stockable: z.boolean().optional().default(true),
-  is_sellable: z.boolean().optional().default(true),
-  is_purchasable: z.boolean().optional().default(true),
-  tracking_type: z.enum(['NONE', 'LOT', 'SERIAL', 'LOT_AND_SERIAL']).optional().default('NONE'),
+  is_stockable: z.boolean().default(true),
+  is_sellable: z.boolean().default(true),
+  is_purchasable: z.boolean().default(true),
+  tracking_type: z.enum(['NONE', 'LOT', 'SERIAL', 'LOT_AND_SERIAL']).default('NONE'),
   unit_of_measure_id: z.string().optional().nullable().or(z.literal('')).or(z.literal('none')),
-  status: z.string().optional().default('ACTIVE'),
-  is_active: z.boolean().optional().default(true),
+  status: z.string().default('ACTIVE'),
+  is_active: z.boolean().default(true),
   notes: z.string().optional().nullable(),
   tenant_id: z.string().optional().nullable(),
 
@@ -101,6 +102,10 @@ export interface InventoryLocationRelation {
   is_pickable?: boolean
   is_receivable?: boolean
   is_default?: boolean
+  aisle?: string | null
+  rack?: string | null
+  shelf?: string | null
+  bin?: string | null
 }
 
 export interface InventoryStoreRelation {
@@ -113,6 +118,7 @@ export interface InventoryUomRelation {
   code: string
   name: string
   is_base?: boolean
+  uom_category?: string | null
 }
 
 export interface InventoryStockBalanceSummary {
@@ -187,4 +193,42 @@ export type Inventory = {
   max_stock_level?: number | null
   location?: string | null
   last_restocked?: string | null
+}
+
+export interface ProductVariantItem {
+  id: string
+  product_id?: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  product_name: string
+  brand_name?: string | null
+  category_name?: string | null
+  uom_id?: string | null
+  dimensions?: unknown
+  weight?: number | null
+  is_active?: boolean
+  price?: number
+  cost_price?: number | null
+  is_assigned_to_inventory?: boolean
+  inventory_item_id?: string | null
+  inventory_item_sku?: string | null
+  inventory_item_status?: string | null
+  qty_on_hand?: number
+  qty_available?: number
+  qty_reserved?: number
+}
+
+export interface ProductVariantPagination {
+  page: number
+  pageSize: number
+  totalCount: number
+  totalPages: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
+}
+
+export interface PaginatedProductVariantsResult {
+  items: ProductVariantItem[]
+  pagination: ProductVariantPagination
 }
