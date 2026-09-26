@@ -210,7 +210,8 @@ function InventoryContent() {
             onTrackingTypeChange={handleTrackingTypeChange}
             warehouse={warehouse}
             onWarehouseChange={handleWarehouseChange}
-            isLoading={isFetching}
+            isLoading={isLoading}
+            isFetching={isFetching}
             isServer={true}
           />
         </motion.div>

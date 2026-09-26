@@ -1,6 +1,7 @@
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { type Table } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableFacetedFilter } from './faceted-filter'
@@ -20,6 +21,7 @@ type DataTableToolbarProps<TData> = {
     }[]
   }[]
   toolbarActions?: React.ReactNode
+  isSearching?: boolean
 }
 
 export function DataTableToolbar<TData>({
@@ -28,6 +30,7 @@ export function DataTableToolbar<TData>({
   searchKey,
   filters = [],
   toolbarActions,
+  isSearching = false,
 }: DataTableToolbarProps<TData>) {
   const isFiltered =
     table.getState().columnFilters.length > 0 || table.getState().globalFilter
@@ -37,16 +40,23 @@ export function DataTableToolbar<TData>({
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
         {searchKey ? (
-          <Input
-            placeholder={searchPlaceholder ?? t('dataTable.filterPlaceholder', 'Filter...')}
-            value={
-              (table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
-            }
-            onChange={(event) =>
-              table.getColumn(searchKey)?.setFilterValue(event.target.value)
-            }
-            className='h-8 w-[150px] lg:w-[250px]'
-          />
+          <div className='relative'>
+            <Input
+              placeholder={searchPlaceholder ?? t('dataTable.filterPlaceholder', 'Filter...')}
+              value={
+                (table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
+              }
+              onChange={(event) =>
+                table.getColumn(searchKey)?.setFilterValue(event.target.value)
+              }
+              className='h-8 w-[150px] lg:w-[250px] pe-8'
+            />
+            {isSearching && (
+              <div className='pointer-events-none absolute inset-y-0 end-0 flex items-center pe-2.5'>
+                <Loader2 className='h-3.5 w-3.5 animate-spin text-muted-foreground' />
+              </div>
+            )}
+          </div>
         ) : (
           <Input
             placeholder={searchPlaceholder ?? t('dataTable.filterPlaceholder', 'Filter...')}

@@ -23,7 +23,6 @@ import {
   AlertTriangle,
   XCircle,
   Package,
-  Loader2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -62,6 +61,7 @@ export interface InventoryTableProps {
   warehouse?: string
   onWarehouseChange?: (warehouse?: string) => void
   isLoading?: boolean
+  isFetching?: boolean
   isServer?: boolean
 }
 
@@ -85,6 +85,7 @@ export function InventoryTable({
   warehouse,
   onWarehouseChange,
   isLoading = false,
+  isFetching = false,
   isServer = true,
 }: InventoryTableProps) {
   const { t } = useTranslation()
@@ -132,6 +133,7 @@ export function InventoryTable({
   }, [search])
 
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [isSearchPending, setIsSearchPending] = useState(false)
 
   useEffect(() => {
     return () => {
@@ -139,18 +141,22 @@ export function InventoryTable({
     }
   }, [])
 
+  // Derived: search is "in progress" when debounce is pending OR server is fetching
+  const isSearching = isSearchPending || (isFetching && !isLoading)
+
   const handleColumnFiltersChange = (updater: Updater<ColumnFiltersState>) => {
     const nextFilters =
       typeof updater === 'function' ? updater(columnFilters) : updater
     setColumnFilters(nextFilters)
 
     if (isServer) {
-      // 1. Search filter with 300ms debounce
       const searchVal =
         (nextFilters.find((f) => f.id === 'product_name')?.value as string) ?? ''
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current)
+      setIsSearchPending(true)
       searchTimeoutRef.current = setTimeout(() => {
         onSearchChange?.(searchVal)
+        setIsSearchPending(false)
       }, 300)
 
       // 2. Status filter
@@ -396,15 +402,10 @@ export function InventoryTable({
                 ]
               : []),
           ]}
+          isSearching={isSearching}
         />
 
         <div className='flex items-center gap-2 ms-auto'>
-          {isLoading && data.length > 0 && (
-            <div className='flex items-center gap-1.5 text-xs text-muted-foreground me-2'>
-              <Loader2 className='h-3.5 w-3.5 animate-spin text-primary' />
-              <span>{t('common.updating', 'Updating...')}</span>
-            </div>
-          )}
 
           <Button
             variant='outline'
@@ -429,7 +430,7 @@ export function InventoryTable({
         </div>
       </div>
 
-      <div className='overflow-hidden rounded-xl border bg-card shadow-2xs'>
+      <div className={`overflow-hidden rounded-xl border bg-card shadow-2xs transition-opacity duration-200 ${isFetching && data.length > 0 ? 'opacity-60' : 'opacity-100'}`}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
