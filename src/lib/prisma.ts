@@ -14,6 +14,17 @@ const globalForPrisma = globalThis as unknown as {
 
 if (typeof window === 'undefined') {
   if (globalForPrisma.__prismaClient) {
+    // Invalidate stale in-memory client if schema was updated while dev server was running
+    const sbFields = (globalForPrisma.__prismaClient as any)?._runtimeDataModel?.models?.stock_balances?.fields
+    const iiFields = (globalForPrisma.__prismaClient as any)?._runtimeDataModel?.models?.inventory_items?.fields
+    const hasSbRelation = Array.isArray(sbFields) && sbFields.some((f: any) => f.name === 'inventory_items')
+    const hasIiRelation = Array.isArray(iiFields) && iiFields.some((f: any) => f.name === 'stock_balances')
+    if (!hasSbRelation || !hasIiRelation) {
+      delete globalForPrisma.__prismaClient
+    }
+  }
+
+  if (globalForPrisma.__prismaClient) {
     prisma = globalForPrisma.__prismaClient
   } else {
     // Use dynamic import to prevent browser bundlers from resolving this statically
@@ -51,6 +62,7 @@ if (typeof window === 'undefined') {
 
 // Allow HMR to clear cached client during development
 if (import.meta.hot) {
+  delete globalForPrisma.__prismaClient
   import.meta.hot.dispose(() => {
     delete globalForPrisma.__prismaClient
   })
