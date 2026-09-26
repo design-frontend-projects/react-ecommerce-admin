@@ -157,7 +157,9 @@ export async function dispatchSalesShipment(authUserId: string, id: string) {
             where: {
               tenant_id: tenantId,
               warehouse_id: existing.warehouse_id,
-              product_variant_id: item.product_variant_id,
+              inventory_items: {
+                product_variant_id: item.product_variant_id,
+              },
               condition: 'good',
             },
           })
@@ -167,8 +169,6 @@ export async function dispatchSalesShipment(authUserId: string, id: string) {
               where: { id: balance.id },
               data: {
                 qty_on_hand: { decrement: qty },
-                qty_available: { decrement: qty },
-                last_movement_at: new Date(),
                 updated_by_user_id: tenantUserId,
               },
             })

@@ -1,6 +1,6 @@
 'use server'
 
-import { ApiError, rpcError } from '@/server/utils/api-error'
+import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import { Prisma } from '@/generated/prisma/client'
@@ -77,15 +77,14 @@ export async function runCheck(authUserId: string, storeId?: string) {
   for (const rule of rules) {
     // 2. Compute available stock
     const stockRows = await prisma.$queryRawUnsafe<StockAggRow[]>(
-      `SELECT COALESCE(SUM(
-          COALESCE(qty_available, qty_on_hand - qty_reserved)
-        ), 0)::float8 AS available
-       FROM stock_balances
-       WHERE tenant_id = $1::uuid
-         AND product_variant_id = $2::uuid
+      `SELECT COALESCE(SUM(sb.qty_on_hand - sb.qty_reserved), 0)::float8 AS available
+       FROM stock_balances sb
+       JOIN inventory_items ii ON ii.id = sb.inventory_item_id
+       WHERE sb.tenant_id = $1::uuid
+         AND ii.product_variant_id = $2::uuid
          AND (
-           ($3::uuid IS NOT NULL AND store_id = $3::uuid)
-           OR ($3::uuid IS NULL AND $4::uuid IS NOT NULL AND warehouse_id = $4::uuid)
+           ($3::uuid IS NOT NULL AND sb.store_id = $3::uuid)
+           OR ($3::uuid IS NULL AND $4::uuid IS NOT NULL AND sb.warehouse_id = $4::uuid)
            OR ($3::uuid IS NULL AND $4::uuid IS NULL)
          )`,
       tenantId,
@@ -225,19 +224,32 @@ export async function convertSuggestions(authUserId: string, ids: string[]) {
     branchId = store?.branch_id ?? null
   }
 
-  // Look up cost estimates from stock_balances avg_cost
+  // Look up cost estimates from stock_balances avg_cost via inventory_items
   const variantIds = [...new Set(openSuggestions.map((s) => s.product_variant_id))]
-  const costRows = await prisma.stock_balances.groupBy({
-    by: ['product_variant_id'],
+  const balances = await prisma.stock_balances.findMany({
     where: {
       tenant_id: tenantId,
-      product_variant_id: { in: variantIds },
+      inventory_items: {
+        product_variant_id: { in: variantIds },
+      },
     },
-    _avg: { avg_cost: true },
+    select: {
+      inventory_items: {
+        select: { product_variant_id: true },
+      },
+      avg_cost: true,
+    },
   })
-  const costMap = new Map(
-    costRows.map((r) => [r.product_variant_id, Number(r._avg.avg_cost) || 0])
-  )
+  const costMap = new Map<string, number>()
+  for (const b of balances) {
+    const vId = b.inventory_items?.product_variant_id
+    if (!vId) continue
+    const existing = costMap.get(vId)
+    const cost = Number(b.avg_cost || 0)
+    if (existing === undefined || cost > existing) {
+      costMap.set(vId, cost)
+    }
+  }
 
   // Execute within a transaction
   const result = await prisma.$transaction(async (tx) => {

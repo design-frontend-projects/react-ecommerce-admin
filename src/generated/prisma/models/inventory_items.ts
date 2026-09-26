@@ -280,6 +280,7 @@ export type inventory_itemsWhereInput = {
   updated_by_user_id?: Prisma.UuidNullableFilter<"inventory_items"> | string | null
   product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
   uoms?: Prisma.XOR<Prisma.UomsNullableScalarRelationFilter, Prisma.uomsWhereInput> | null
+  stock_balances?: Prisma.Stock_balancesListRelationFilter
 }
 
 export type inventory_itemsOrderByWithRelationInput = {
@@ -302,6 +303,7 @@ export type inventory_itemsOrderByWithRelationInput = {
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   product_variants?: Prisma.product_variantsOrderByWithRelationInput
   uoms?: Prisma.uomsOrderByWithRelationInput
+  stock_balances?: Prisma.stock_balancesOrderByRelationAggregateInput
 }
 
 export type inventory_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -329,6 +331,7 @@ export type inventory_itemsWhereUniqueInput = Prisma.AtLeast<{
   updated_by_user_id?: Prisma.UuidNullableFilter<"inventory_items"> | string | null
   product_variants?: Prisma.XOR<Prisma.Product_variantsScalarRelationFilter, Prisma.product_variantsWhereInput>
   uoms?: Prisma.XOR<Prisma.UomsNullableScalarRelationFilter, Prisma.uomsWhereInput> | null
+  stock_balances?: Prisma.Stock_balancesListRelationFilter
 }, "id" | "tenant_id_product_variant_id" | "tenant_id_sku">
 
 export type inventory_itemsOrderByWithAggregationInput = {
@@ -394,6 +397,7 @@ export type inventory_itemsCreateInput = {
   updated_by_user_id?: string | null
   product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_itemsInput
   uoms?: Prisma.uomsCreateNestedOneWithoutInventory_itemsInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutInventory_itemsInput
 }
 
 export type inventory_itemsUncheckedCreateInput = {
@@ -414,6 +418,7 @@ export type inventory_itemsUncheckedCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutInventory_itemsInput
 }
 
 export type inventory_itemsUpdateInput = {
@@ -433,6 +438,7 @@ export type inventory_itemsUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_itemsNestedInput
   uoms?: Prisma.uomsUpdateOneWithoutInventory_itemsNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutInventory_itemsNestedInput
 }
 
 export type inventory_itemsUncheckedUpdateInput = {
@@ -453,6 +459,7 @@ export type inventory_itemsUncheckedUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutInventory_itemsNestedInput
 }
 
 export type inventory_itemsCreateManyInput = {
@@ -587,6 +594,11 @@ export type inventory_itemsMinOrderByAggregateInput = {
   updated_by_user_id?: Prisma.SortOrder
 }
 
+export type Inventory_itemsScalarRelationFilter = {
+  is?: Prisma.inventory_itemsWhereInput
+  isNot?: Prisma.inventory_itemsWhereInput
+}
+
 export type Inventory_itemsListRelationFilter = {
   every?: Prisma.inventory_itemsWhereInput
   some?: Prisma.inventory_itemsWhereInput
@@ -627,6 +639,20 @@ export type inventory_itemsUncheckedUpdateOneWithoutProduct_variantsNestedInput 
   delete?: Prisma.inventory_itemsWhereInput | boolean
   connect?: Prisma.inventory_itemsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.inventory_itemsUpdateToOneWithWhereWithoutProduct_variantsInput, Prisma.inventory_itemsUpdateWithoutProduct_variantsInput>, Prisma.inventory_itemsUncheckedUpdateWithoutProduct_variantsInput>
+}
+
+export type inventory_itemsCreateNestedOneWithoutStock_balancesInput = {
+  create?: Prisma.XOR<Prisma.inventory_itemsCreateWithoutStock_balancesInput, Prisma.inventory_itemsUncheckedCreateWithoutStock_balancesInput>
+  connectOrCreate?: Prisma.inventory_itemsCreateOrConnectWithoutStock_balancesInput
+  connect?: Prisma.inventory_itemsWhereUniqueInput
+}
+
+export type inventory_itemsUpdateOneRequiredWithoutStock_balancesNestedInput = {
+  create?: Prisma.XOR<Prisma.inventory_itemsCreateWithoutStock_balancesInput, Prisma.inventory_itemsUncheckedCreateWithoutStock_balancesInput>
+  connectOrCreate?: Prisma.inventory_itemsCreateOrConnectWithoutStock_balancesInput
+  upsert?: Prisma.inventory_itemsUpsertWithoutStock_balancesInput
+  connect?: Prisma.inventory_itemsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.inventory_itemsUpdateToOneWithWhereWithoutStock_balancesInput, Prisma.inventory_itemsUpdateWithoutStock_balancesInput>, Prisma.inventory_itemsUncheckedUpdateWithoutStock_balancesInput>
 }
 
 export type inventory_itemsCreateNestedManyWithoutUomsInput = {
@@ -687,6 +713,7 @@ export type inventory_itemsCreateWithoutProduct_variantsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   uoms?: Prisma.uomsCreateNestedOneWithoutInventory_itemsInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutInventory_itemsInput
 }
 
 export type inventory_itemsUncheckedCreateWithoutProduct_variantsInput = {
@@ -705,6 +732,7 @@ export type inventory_itemsUncheckedCreateWithoutProduct_variantsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutInventory_itemsInput
 }
 
 export type inventory_itemsCreateOrConnectWithoutProduct_variantsInput = {
@@ -739,10 +767,106 @@ export type inventory_itemsUpdateWithoutProduct_variantsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uoms?: Prisma.uomsUpdateOneWithoutInventory_itemsNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutInventory_itemsNestedInput
 }
 
 export type inventory_itemsUncheckedUpdateWithoutProduct_variantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_stockable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_sellable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_purchasable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tracking_type?: Prisma.StringFieldUpdateOperationsInput | string
+  unit_of_measure_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutInventory_itemsNestedInput
+}
+
+export type inventory_itemsCreateWithoutStock_balancesInput = {
+  id?: string
+  sku: string
+  barcode?: string | null
+  is_stockable?: boolean
+  is_sellable?: boolean
+  is_purchasable?: boolean
+  tracking_type?: string
+  status?: string
+  is_active?: boolean
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_itemsInput
+  uoms?: Prisma.uomsCreateNestedOneWithoutInventory_itemsInput
+}
+
+export type inventory_itemsUncheckedCreateWithoutStock_balancesInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  sku: string
+  barcode?: string | null
+  is_stockable?: boolean
+  is_sellable?: boolean
+  is_purchasable?: boolean
+  tracking_type?: string
+  unit_of_measure_id?: string | null
+  status?: string
+  is_active?: boolean
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type inventory_itemsCreateOrConnectWithoutStock_balancesInput = {
+  where: Prisma.inventory_itemsWhereUniqueInput
+  create: Prisma.XOR<Prisma.inventory_itemsCreateWithoutStock_balancesInput, Prisma.inventory_itemsUncheckedCreateWithoutStock_balancesInput>
+}
+
+export type inventory_itemsUpsertWithoutStock_balancesInput = {
+  update: Prisma.XOR<Prisma.inventory_itemsUpdateWithoutStock_balancesInput, Prisma.inventory_itemsUncheckedUpdateWithoutStock_balancesInput>
+  create: Prisma.XOR<Prisma.inventory_itemsCreateWithoutStock_balancesInput, Prisma.inventory_itemsUncheckedCreateWithoutStock_balancesInput>
+  where?: Prisma.inventory_itemsWhereInput
+}
+
+export type inventory_itemsUpdateToOneWithWhereWithoutStock_balancesInput = {
+  where?: Prisma.inventory_itemsWhereInput
+  data: Prisma.XOR<Prisma.inventory_itemsUpdateWithoutStock_balancesInput, Prisma.inventory_itemsUncheckedUpdateWithoutStock_balancesInput>
+}
+
+export type inventory_itemsUpdateWithoutStock_balancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sku?: Prisma.StringFieldUpdateOperationsInput | string
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_stockable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_sellable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_purchasable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tracking_type?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_itemsNestedInput
+  uoms?: Prisma.uomsUpdateOneWithoutInventory_itemsNestedInput
+}
+
+export type inventory_itemsUncheckedUpdateWithoutStock_balancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_stockable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -775,6 +899,7 @@ export type inventory_itemsCreateWithoutUomsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   product_variants: Prisma.product_variantsCreateNestedOneWithoutInventory_itemsInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutInventory_itemsInput
 }
 
 export type inventory_itemsUncheckedCreateWithoutUomsInput = {
@@ -794,6 +919,7 @@ export type inventory_itemsUncheckedCreateWithoutUomsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutInventory_itemsInput
 }
 
 export type inventory_itemsCreateOrConnectWithoutUomsInput = {
@@ -880,6 +1006,7 @@ export type inventory_itemsUpdateWithoutUomsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product_variants?: Prisma.product_variantsUpdateOneRequiredWithoutInventory_itemsNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutInventory_itemsNestedInput
 }
 
 export type inventory_itemsUncheckedUpdateWithoutUomsInput = {
@@ -899,6 +1026,7 @@ export type inventory_itemsUncheckedUpdateWithoutUomsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutInventory_itemsNestedInput
 }
 
 export type inventory_itemsUncheckedUpdateManyWithoutUomsInput = {
@@ -921,6 +1049,35 @@ export type inventory_itemsUncheckedUpdateManyWithoutUomsInput = {
 }
 
 
+/**
+ * Count Type Inventory_itemsCountOutputType
+ */
+
+export type Inventory_itemsCountOutputType = {
+  stock_balances: number
+}
+
+export type Inventory_itemsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_balances?: boolean | Inventory_itemsCountOutputTypeCountStock_balancesArgs
+}
+
+/**
+ * Inventory_itemsCountOutputType without action
+ */
+export type Inventory_itemsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Inventory_itemsCountOutputType
+   */
+  select?: Prisma.Inventory_itemsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Inventory_itemsCountOutputType without action
+ */
+export type Inventory_itemsCountOutputTypeCountStock_balancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_balancesWhereInput
+}
+
 
 export type inventory_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -942,6 +1099,8 @@ export type inventory_itemsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updated_by_user_id?: boolean
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
   uoms?: boolean | Prisma.inventory_items$uomsArgs<ExtArgs>
+  stock_balances?: boolean | Prisma.inventory_items$stock_balancesArgs<ExtArgs>
+  _count?: boolean | Prisma.Inventory_itemsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventory_items"]>
 
 export type inventory_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1012,6 +1171,8 @@ export type inventory_itemsOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type inventory_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
   uoms?: boolean | Prisma.inventory_items$uomsArgs<ExtArgs>
+  stock_balances?: boolean | Prisma.inventory_items$stock_balancesArgs<ExtArgs>
+  _count?: boolean | Prisma.Inventory_itemsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type inventory_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product_variants?: boolean | Prisma.product_variantsDefaultArgs<ExtArgs>
@@ -1027,6 +1188,7 @@ export type $inventory_itemsPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     product_variants: Prisma.$product_variantsPayload<ExtArgs>
     uoms: Prisma.$uomsPayload<ExtArgs> | null
+    stock_balances: Prisma.$stock_balancesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1442,6 +1604,7 @@ export interface Prisma__inventory_itemsClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   product_variants<T extends Prisma.product_variantsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_variantsDefaultArgs<ExtArgs>>): Prisma.Prisma__product_variantsClient<runtime.Types.Result.GetResult<Prisma.$product_variantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   uoms<T extends Prisma.inventory_items$uomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory_items$uomsArgs<ExtArgs>>): Prisma.Prisma__uomsClient<runtime.Types.Result.GetResult<Prisma.$uomsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stock_balances<T extends Prisma.inventory_items$stock_balancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.inventory_items$stock_balancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_balancesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1905,6 +2068,30 @@ export type inventory_items$uomsArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.uomsInclude<ExtArgs> | null
   where?: Prisma.uomsWhereInput
+}
+
+/**
+ * inventory_items.stock_balances
+ */
+export type inventory_items$stock_balancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_balances
+   */
+  select?: Prisma.stock_balancesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_balances
+   */
+  omit?: Prisma.stock_balancesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_balancesInclude<ExtArgs> | null
+  where?: Prisma.stock_balancesWhereInput
+  orderBy?: Prisma.stock_balancesOrderByWithRelationInput | Prisma.stock_balancesOrderByWithRelationInput[]
+  cursor?: Prisma.stock_balancesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_balancesScalarFieldEnum | Prisma.Stock_balancesScalarFieldEnum[]
 }
 
 /**

@@ -340,11 +340,18 @@ async function validateOrderStock(
     where: {
       tenant_id: tenantId,
       warehouse_id: effectiveWarehouseId,
-      product_variant_id: { in: variantIds },
+      inventory_items: {
+        product_variant_id: { in: variantIds },
+      },
     },
     include: {
-      product_variants: {
-        select: { sku: true, name: true },
+      inventory_items: {
+        select: {
+          product_variant_id: true,
+          product_variants: {
+            select: { sku: true, name: true },
+          },
+        },
       },
     },
   })
@@ -356,13 +363,11 @@ async function validateOrderStock(
   >()
 
   for (const b of balances) {
-    const vId = b.product_variant_id
+    const vId = b.inventory_items?.product_variant_id
+    if (!vId) continue
     const onHand = Number(b.qty_on_hand ?? 0)
     const reserved = Number(b.qty_reserved ?? 0)
-    const available =
-      b.qty_available !== null && b.qty_available !== undefined
-        ? Number(b.qty_available)
-        : Math.max(0, onHand - reserved)
+    const available = Math.max(0, onHand - reserved)
 
     const existing = stockByVariant.get(vId)
     if (existing) {
@@ -374,8 +379,8 @@ async function validateOrderStock(
         onHand,
         reserved,
         available,
-        sku: b.product_variants?.sku || 'Unknown SKU',
-        name: b.product_variants?.name,
+        sku: b.inventory_items?.product_variants?.sku || 'Unknown SKU',
+        name: b.inventory_items?.product_variants?.name,
       })
     }
   }

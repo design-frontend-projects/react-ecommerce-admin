@@ -200,7 +200,7 @@ export async function generateInvoiceNumber(
     where: {
       tenant_id_store_id_prefix_fiscal_year: {
         tenant_id: tenantId,
-        store_id: storeId ?? null,
+        store_id: storeId ?? ('' as any),
         prefix,
         fiscal_year: currentYear,
       },
@@ -675,12 +675,19 @@ export async function createCreditNote(
         throw new ApiError('Original sales invoice not found.', 404)
       }
 
-      const creditNoteItems: InvoiceItemInput[] = (input.items || original.sales_invoice_items).map((item) => ({
-        productVariantId: item.productVariantId,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-        description: `Credit return for Inv #${original.invoice_no}`,
-      }))
+      const creditNoteItems: InvoiceItemInput[] = input.items
+        ? input.items.map((item) => ({
+            productVariantId: item.productVariantId,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            description: (item as any).description ?? (item as any).reason ?? `Credit return for Inv #${original.invoice_no}`,
+          }))
+        : original.sales_invoice_items.map((item) => ({
+            productVariantId: item.product_variant_id,
+            quantity: Number(item.quantity),
+            unitPrice: Number(item.unit_price),
+            description: `Credit return for Inv #${original.invoice_no}`,
+          }))
 
       const creditNote = await createSalesInvoice(
         authUserId,
@@ -748,7 +755,7 @@ export async function getInvoiceById(authUserId: string, invoiceId: string) {
           select: { id: true, code: true, symbol: true },
         },
         channels: {
-          select: { id: true, name: true, channel_type: true },
+          select: { id: true, name: true, code: true },
         },
       },
     })

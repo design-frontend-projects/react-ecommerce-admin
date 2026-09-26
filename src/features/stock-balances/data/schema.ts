@@ -10,7 +10,8 @@ export const stockBalanceSchema = z.object({
   warehouse_id: z.string().uuid().nullable().optional(),
   location_id: z.string().uuid().nullable().optional(),
   store_id: z.string().uuid().nullable().optional(),
-  product_variant_id: z.string().uuid(),
+  inventory_item_id: z.string().uuid().optional(),
+  product_variant_id: z.string().uuid().optional(),
   condition: stockConditionEnum.default('good'),
   batch_id: z.string().uuid().nullable().optional(),
   serial_id: z.string().uuid().nullable().optional(),
@@ -28,6 +29,25 @@ export type StockBalance = z.infer<typeof stockBalanceSchema>
 
 // ── Joined row shape for UI display & table columns ──
 export interface StockBalanceRow extends StockBalance {
+  inventory_item_id?: string
+  inventory_items?: {
+    id: string
+    product_variant_id: string
+    product_variants?: {
+      id: string
+      sku: string
+      barcode?: string | null
+      name?: string | null
+      products?: {
+        id: string
+        name: string
+        sku?: string | null
+        is_batch_tracked?: boolean
+        is_serial_tracked?: boolean
+        reorder_level?: number | string | null
+      } | null
+    } | null
+  } | null
   product_variants?: {
     id: string
     sku: string

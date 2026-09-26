@@ -115,7 +115,7 @@ export async function listInventoryItemsPaginated(
     }
 
     if (warehouseId || warehouseName || storeId) {
-      const variantFilter: Prisma.product_variantsWhereInput = {
+      andConditions.push({
         stock_balances: {
           some: {
             tenant_id: tenantId,
@@ -130,9 +130,6 @@ export async function listInventoryItemsPaginated(
             ...(storeId ? { store_id: storeId } : {}),
           },
         },
-      }
-      andConditions.push({
-        product_variants: variantFilter,
       })
     }
 
@@ -167,22 +164,22 @@ export async function listInventoryItemsPaginated(
     const rawRows = await prisma.inventory_items.findMany({
       where,
       include: {
+        stock_balances: {
+          where: { tenant_id: tenantId },
+          include: {
+            warehouses: { select: { id: true, code: true, name: true } },
+            warehouse_locations: {
+              select: { id: true, code: true, name: true, path: true },
+            },
+            stores: { select: { store_id: true, name: true } },
+          },
+        },
         product_variants: {
           include: {
             products: {
               include: {
                 categories: { select: { name: true } },
                 brands: { select: { name: true } },
-              },
-            },
-            stock_balances: {
-              where: { tenant_id: tenantId },
-              include: {
-                warehouses: { select: { id: true, code: true, name: true } },
-                warehouse_locations: {
-                  select: { id: true, code: true, name: true, path: true },
-                },
-                stores: { select: { store_id: true, name: true } },
               },
             },
             reorder_rules: {
@@ -216,25 +213,25 @@ export async function listInventoryItemsPaginated(
     // Map rows to Inventory domain model with aggregated metrics
     const mappedItems: Inventory[] = rawRows.map((item) => {
       const variant = item.product_variants
-      const balances = variant?.stock_balances || []
+      const balances = (item as any).stock_balances || []
       const rules = variant?.reorder_rules || []
       const primaryRule = rules[0] || null
 
       const qty_on_hand = balances.reduce(
-        (sum: number, b) => sum + toNum(b.qty_on_hand),
+        (sum: number, b: any) => sum + toNum(b.qty_on_hand),
         0
       )
       const qty_reserved = balances.reduce(
-        (sum: number, b) => sum + toNum(b.qty_reserved),
+        (sum: number, b: any) => sum + toNum(b.qty_reserved),
         0
       )
       const qty_available = balances.reduce(
-        (sum: number, b) => sum + toNum(b.qty_available, toNum(b.qty_on_hand) - toNum(b.qty_reserved)),
+        (sum: number, b: any) => sum + Math.max(0, toNum(b.qty_on_hand) - toNum(b.qty_reserved)),
         0
       )
 
       const totalVal = balances.reduce(
-        (sum: number, b) => sum + toNum(b.qty_on_hand) * toNum(b.avg_cost),
+        (sum: number, b: any) => sum + toNum(b.qty_on_hand) * toNum(b.avg_cost),
         0
       )
       const avg_cost =
@@ -404,22 +401,22 @@ export async function listInventoryItemsPaginated(
       prisma.stock_balances.findMany({
         where: { tenant_id: tenantId },
         select: {
-          product_variant_id: true,
+          inventory_item_id: true,
           qty_on_hand: true,
           avg_cost: true,
         },
       }),
     ])
 
-    // Build variant to balance map for fast metric aggregation
+    // Build inventory_item_id to balance map for fast metric aggregation
     const balanceAggMap = new Map<string, { qty: number; valuation: number }>()
     for (const sb of tenantBalances) {
-      const cur = balanceAggMap.get(sb.product_variant_id) || { qty: 0, valuation: 0 }
+      const cur = balanceAggMap.get(sb.inventory_item_id) || { qty: 0, valuation: 0 }
       const qty = toNum(sb.qty_on_hand)
       const cost = toNum(sb.avg_cost)
       cur.qty += qty
       cur.valuation += qty * cost
-      balanceAggMap.set(sb.product_variant_id, cur)
+      balanceAggMap.set(sb.inventory_item_id, cur)
     }
 
     let inStockCount = 0
@@ -430,7 +427,7 @@ export async function listInventoryItemsPaginated(
 
     for (const inv of allTenantItems) {
       if (inv.product_variant_id) withVariantsCount++
-      const agg = balanceAggMap.get(inv.product_variant_id)
+      const agg = balanceAggMap.get(inv.id)
       const qty = agg?.qty ?? 0
       totalValuation += agg?.valuation ?? 0
 

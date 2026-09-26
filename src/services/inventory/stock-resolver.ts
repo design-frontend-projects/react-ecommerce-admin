@@ -22,7 +22,11 @@ export interface StockBalanceRecord {
   warehouse_id?: string | null
   location_id?: string | null
   store_id?: string | null
-  product_variant_id: string
+  inventory_item_id?: string | null
+  product_variant_id?: string | null
+  inventory_items?: {
+    product_variant_id: string
+  } | null
   qty_on_hand: number | string
   qty_reserved: number | string
   qty_available?: number | string | null
@@ -49,7 +53,8 @@ export function aggregateStockBalances(
 
   // Filter by store or warehouse if specified
   const filtered = balances.filter((b) => {
-    if (b.product_variant_id !== context.variantId) return false
+    const vId = b.product_variant_id || b.inventory_items?.product_variant_id
+    if (vId && vId !== context.variantId) return false
     if (context.storeId && b.store_id && b.store_id !== context.storeId) return false
     if (context.warehouseId && b.warehouse_id && b.warehouse_id !== context.warehouseId) return false
     return true
@@ -92,8 +97,10 @@ export async function resolveVariantStock(
 ): Promise<ResolvedStock> {
   let query = supabase
     .from('stock_balances')
-    .select('id, warehouse_id, store_id, product_variant_id, qty_on_hand, qty_reserved, qty_available, avg_cost')
-    .eq('product_variant_id', context.variantId)
+    .select(
+      'id, warehouse_id, store_id, inventory_item_id, product_variant_id, qty_on_hand, qty_reserved, avg_cost, inventory_items(product_variant_id)'
+    )
+    .or(`product_variant_id.eq.${context.variantId},inventory_items.product_variant_id.eq.${context.variantId}`)
 
   if (context.tenantId) {
     query = query.eq('tenant_id', context.tenantId)

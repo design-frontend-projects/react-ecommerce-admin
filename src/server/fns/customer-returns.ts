@@ -218,12 +218,32 @@ export async function receiveCustomerReturn(authUserId: string, id: string) {
             },
           })
 
+          let inventoryItem = await tx.inventory_items.findFirst({
+            where: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+            },
+            select: { id: true },
+          })
+          if (!inventoryItem) {
+            inventoryItem = await tx.inventory_items.create({
+              data: {
+                tenant_id: tenantId,
+                product_variant_id: item.product_variant_id,
+                status: 'active',
+                created_by_user_id: tenantUserId,
+                updated_by_user_id: tenantUserId,
+              },
+              select: { id: true },
+            })
+          }
+
           // Upsert stock balances
           const balance = await tx.stock_balances.findFirst({
             where: {
               tenant_id: tenantId,
               warehouse_id: existing.warehouse_id,
-              product_variant_id: item.product_variant_id,
+              inventory_item_id: inventoryItem.id,
               condition: 'good',
             },
           })
@@ -233,8 +253,6 @@ export async function receiveCustomerReturn(authUserId: string, id: string) {
               where: { id: balance.id },
               data: {
                 qty_on_hand: { increment: qty },
-                qty_available: { increment: qty },
-                last_movement_at: new Date(),
                 updated_by_user_id: tenantUserId,
               },
             })
@@ -244,13 +262,11 @@ export async function receiveCustomerReturn(authUserId: string, id: string) {
                 tenant_id: tenantId,
                 warehouse_id: existing.warehouse_id,
                 store_id: existing.store_id ?? null,
-                product_variant_id: item.product_variant_id,
+                inventory_item_id: inventoryItem.id,
                 qty_on_hand: qty,
-                qty_available: qty,
                 qty_reserved: 0,
                 condition: 'good',
                 avg_cost: item.unit_cost,
-                last_movement_at: new Date(),
                 created_by_user_id: tenantUserId,
                 updated_by_user_id: tenantUserId,
               },

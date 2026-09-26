@@ -53,6 +53,9 @@ vi.mock('@/lib/prisma', () => {
     shipments: {
       create: vi.fn(),
     },
+    stock_balances: {
+      findMany: vi.fn(),
+    },
   }
 
   return {
@@ -119,16 +122,22 @@ describe('POS Checkout Engine with Shipment', () => {
       status: 'open',
     })
 
-    ;(prisma.stock_balances.findMany as any).mockResolvedValue([
+    const stockMock = [
       {
         id: stockBalanceId,
+        inventory_items: { product_variant_id: variantId },
         product_variant_id: variantId,
         warehouse_id: warehouseId,
         tenant_id: 'tenant-uuid-123',
         qty_on_hand: new Prisma.Decimal(10),
+        qty_reserved: new Prisma.Decimal(0),
         qty_available: new Prisma.Decimal(10),
       },
-    ])
+    ]
+    ;(prisma.stock_balances.findMany as any).mockResolvedValue(stockMock)
+    if (mockTx.stock_balances?.findMany) {
+      ;(mockTx.stock_balances.findMany as any).mockResolvedValue(stockMock)
+    }
 
     mockTx.sales_orders.create.mockResolvedValue({
       id: 'order-uuid-999',

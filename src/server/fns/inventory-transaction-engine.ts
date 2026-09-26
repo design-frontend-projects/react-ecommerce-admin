@@ -334,9 +334,38 @@ export async function postInventoryTransaction(
 
     // 2. Process each item and mutate stock balances
     for (const item of txn.items) {
+      // Resolve inventory_item_id for this product_variant_id
+      let inventoryItemId: string
+      const invItem = await tx.inventory_items.findUnique({
+        where: {
+          tenant_id_product_variant_id: {
+            tenant_id: tenantId,
+            product_variant_id: item.product_variant_id,
+          },
+        },
+        select: { id: true },
+      })
+      if (invItem) {
+        inventoryItemId = invItem.id
+      } else {
+        const pv = await tx.product_variants.findUnique({
+          where: { id: item.product_variant_id },
+          select: { sku: true },
+        })
+        const createdItem = await tx.inventory_items.create({
+          data: {
+            tenant_id: tenantId,
+            product_variant_id: item.product_variant_id,
+            sku: pv?.sku ?? `SKU-${item.product_variant_id.slice(0, 8)}`,
+            created_by_user_id: tenantUserId,
+          },
+        })
+        inventoryItemId = createdItem.id
+      }
+
       // --- Process SOURCE side rules (if any rule applies to SOURCE or BOTH) ---
       const sourceRules = rules.filter(
-        (r) => r.applies_to === 'SOURCE' || r.applies_to === 'BOTH'
+        (r: any) => r.applies_to === 'SOURCE' || r.applies_to === 'BOTH'
       )
       if (sourceRules.length > 0) {
         const sWarehouseId = item.source_warehouse_id ?? txn.source_warehouse_id
@@ -361,7 +390,7 @@ export async function postInventoryTransaction(
           sourceBalance = await tx.stock_balances.findFirst({
             where: {
               tenant_id: tenantId,
-              product_variant_id: item.product_variant_id,
+              inventory_item_id: inventoryItemId,
               warehouse_id: sWarehouseId,
               store_id: sStoreId,
               location_id: sLocationId,
@@ -376,7 +405,7 @@ export async function postInventoryTransaction(
           sourceBalance = await tx.stock_balances.findFirst({
             where: {
               tenant_id: tenantId,
-              product_variant_id: item.product_variant_id,
+              inventory_item_id: inventoryItemId,
               warehouse_id: sWarehouseId,
             },
             orderBy: { qty_on_hand: 'desc' },
@@ -388,20 +417,14 @@ export async function postInventoryTransaction(
           sourceBalance = await tx.stock_balances.create({
             data: {
               tenant_id: tenantId,
-              product_variant_id: item.product_variant_id,
+              inventory_item_id: inventoryItemId,
               warehouse_id: sWarehouseId,
               store_id: sStoreId,
               location_id: sLocationId,
               condition: item.condition,
               batch_id: item.batch_id,
-              serial_id: item.serial_id,
               qty_on_hand: 0,
-              qty_available: 0,
               qty_reserved: 0,
-              qty_in_transit: 0,
-              qty_incoming: 0,
-              qty_outgoing: 0,
-              qty_damaged: 0,
               avg_cost: 0,
               created_by_user_id: tenantUserId,
             },
@@ -409,12 +432,7 @@ export async function postInventoryTransaction(
         }
 
         let onHand = toDecimal(sourceBalance.qty_on_hand)
-        let available = toDecimal(
-          sourceBalance.qty_available ?? sourceBalance.qty_on_hand
-        )
         let reserved = toDecimal(sourceBalance.qty_reserved)
-        let inTransit = toDecimal(sourceBalance.qty_in_transit)
-        let damaged = toDecimal(sourceBalance.qty_damaged)
 
         const qtyBefore = onHand
 
@@ -429,13 +447,6 @@ export async function postInventoryTransaction(
                 : op === 'SUBTRACT'
                   ? onHand.minus(delta)
                   : onHand
-          } else if (rule.stock_field === 'AVAILABLE') {
-            available =
-              op === 'ADD'
-                ? available.plus(delta)
-                : op === 'SUBTRACT'
-                  ? available.minus(delta)
-                  : available
           } else if (rule.stock_field === 'RESERVED') {
             reserved =
               op === 'ADD'
@@ -443,23 +454,11 @@ export async function postInventoryTransaction(
                 : op === 'SUBTRACT'
                   ? reserved.minus(delta)
                   : reserved
-          } else if (rule.stock_field === 'IN_TRANSIT') {
-            inTransit =
-              op === 'ADD'
-                ? inTransit.plus(delta)
-                : op === 'SUBTRACT'
-                  ? inTransit.minus(delta)
-                  : inTransit
-          } else if (rule.stock_field === 'DAMAGED') {
-            damaged =
-              op === 'ADD'
-                ? damaged.plus(delta)
-                : op === 'SUBTRACT'
-                  ? damaged.minus(delta)
-                  : damaged
           }
         }
 
+        // Available is computed dynamically as onHand - reserved
+        const available = onHand.minus(reserved)
 
         if (!allowsNegative && (onHand.lt(0) || available.lt(0))) {
           throw new ApiError(
@@ -473,11 +472,7 @@ export async function postInventoryTransaction(
           where: { id: sourceBalance.id },
           data: {
             qty_on_hand: onHand,
-            qty_available: available,
             qty_reserved: reserved,
-            qty_in_transit: inTransit,
-            qty_damaged: damaged,
-            last_movement_at: new Date(),
             last_transaction_id: txn.id,
             last_transaction_at: new Date(),
             version: { increment: 1 },
@@ -498,7 +493,7 @@ export async function postInventoryTransaction(
 
       // --- Process DESTINATION side rules (if any rule applies to DESTINATION or BOTH) ---
       const destRules = rules.filter(
-        (r) => r.applies_to === 'DESTINATION' || r.applies_to === 'BOTH'
+        (r: any) => r.applies_to === 'DESTINATION' || r.applies_to === 'BOTH'
       )
       if (destRules.length > 0) {
         const dWarehouseId = item.dest_warehouse_id ?? txn.dest_warehouse_id
@@ -508,7 +503,7 @@ export async function postInventoryTransaction(
         let destBalance = await tx.stock_balances.findFirst({
           where: {
             tenant_id: tenantId,
-            product_variant_id: item.product_variant_id,
+            inventory_item_id: inventoryItemId,
             warehouse_id: dWarehouseId,
             store_id: dStoreId,
             location_id: dLocationId,
@@ -521,20 +516,14 @@ export async function postInventoryTransaction(
           destBalance = await tx.stock_balances.create({
             data: {
               tenant_id: tenantId,
-              product_variant_id: item.product_variant_id,
+              inventory_item_id: inventoryItemId,
               warehouse_id: dWarehouseId,
               store_id: dStoreId,
               location_id: dLocationId,
               condition: item.condition,
               batch_id: item.batch_id,
-              serial_id: item.serial_id,
               qty_on_hand: 0,
-              qty_available: 0,
               qty_reserved: 0,
-              qty_in_transit: 0,
-              qty_incoming: 0,
-              qty_outgoing: 0,
-              qty_damaged: 0,
               avg_cost: 0,
               created_by_user_id: tenantUserId,
             },
@@ -542,12 +531,7 @@ export async function postInventoryTransaction(
         }
 
         let onHand = toDecimal(destBalance.qty_on_hand)
-        let available = toDecimal(
-          destBalance.qty_available ?? destBalance.qty_on_hand
-        )
         let reserved = toDecimal(destBalance.qty_reserved)
-        let inTransit = toDecimal(destBalance.qty_in_transit)
-        let damaged = toDecimal(destBalance.qty_damaged)
         let avgCost = toDecimal(destBalance.avg_cost)
 
         const qtyBefore = onHand
@@ -564,13 +548,6 @@ export async function postInventoryTransaction(
                 : op === 'SUBTRACT'
                   ? onHand.minus(delta)
                   : onHand
-          } else if (rule.stock_field === 'AVAILABLE') {
-            available =
-              op === 'ADD'
-                ? available.plus(delta)
-                : op === 'SUBTRACT'
-                  ? available.minus(delta)
-                  : available
           } else if (rule.stock_field === 'RESERVED') {
             reserved =
               op === 'ADD'
@@ -578,20 +555,6 @@ export async function postInventoryTransaction(
                 : op === 'SUBTRACT'
                   ? reserved.minus(delta)
                   : reserved
-          } else if (rule.stock_field === 'IN_TRANSIT') {
-            inTransit =
-              op === 'ADD'
-                ? inTransit.plus(delta)
-                : op === 'SUBTRACT'
-                  ? inTransit.minus(delta)
-                  : inTransit
-          } else if (rule.stock_field === 'DAMAGED') {
-            damaged =
-              op === 'ADD'
-                ? damaged.plus(delta)
-                : op === 'SUBTRACT'
-                  ? damaged.minus(delta)
-                  : damaged
           }
         }
 
@@ -617,12 +580,8 @@ export async function postInventoryTransaction(
           where: { id: destBalance.id },
           data: {
             qty_on_hand: onHand,
-            qty_available: available,
             qty_reserved: reserved,
-            qty_in_transit: inTransit,
-            qty_damaged: damaged,
             avg_cost: avgCost,
-            last_movement_at: new Date(),
             last_transaction_id: txn.id,
             last_transaction_at: new Date(),
             version: { increment: 1 },
@@ -1169,20 +1128,32 @@ export async function reserveInventoryStock(
   const tenantUserId = await resolveTenantUserId(authUserId)
 
   return runWithTenantContext({ tenantId, userId: authUserId }, async () => {
-    // 1. Check current available stock
-    const balance = await prisma.stock_balances.findFirst({
+    // 1. Check current available stock via inventory_items
+    const invItem = await prisma.inventory_items.findUnique({
       where: {
-        tenant_id: tenantId,
-        product_variant_id: params.productVariantId,
-        warehouse_id: params.warehouseId ?? undefined,
-        store_id: params.storeId ?? undefined,
+        tenant_id_product_variant_id: {
+          tenant_id: tenantId,
+          product_variant_id: params.productVariantId,
+        },
       },
+      select: { id: true },
     })
 
+    const balance = invItem
+      ? await prisma.stock_balances.findFirst({
+          where: {
+            tenant_id: tenantId,
+            inventory_item_id: invItem.id,
+            warehouse_id: params.warehouseId ?? undefined,
+            store_id: params.storeId ?? undefined,
+          },
+        })
+      : null
+
     const qty = toDecimal(params.quantity)
-    const available = toDecimal(
-      balance?.qty_available ?? balance?.qty_on_hand ?? 0
-    )
+    const onHand = toDecimal(balance?.qty_on_hand ?? 0)
+    const reserved = toDecimal(balance?.qty_reserved ?? 0)
+    const available = onHand.minus(reserved)
 
     if (available.lt(qty)) {
       throw new ApiError(

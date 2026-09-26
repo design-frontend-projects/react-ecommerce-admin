@@ -237,7 +237,9 @@ export async function listInventoryValuation(
     }
 
     if (Object.keys(productVariantConditions).length > 0) {
-      where.product_variants = productVariantConditions
+      where.inventory_items = {
+        product_variants: productVariantConditions,
+      }
     }
 
     // Fetch tenant default currency & matching stock balance records
@@ -246,40 +248,48 @@ export async function listInventoryValuation(
       prisma.stock_balances.findMany({
         where,
         include: {
-          product_variants: {
+          inventory_items: {
             select: {
               id: true,
               sku: true,
               barcode: true,
-              name: true,
-              products: {
+              product_variant_id: true,
+              product_variants: {
                 select: {
                   id: true,
-                  name: true,
                   sku: true,
-                  category_id: true,
-                  supplier_id: true,
-                  categories: {
+                  barcode: true,
+                  name: true,
+                  products: {
                     select: {
                       id: true,
                       name: true,
+                      sku: true,
+                      category_id: true,
+                      supplier_id: true,
+                      categories: {
+                        select: {
+                          id: true,
+                          name: true,
+                        },
+                      },
+                      suppliers: {
+                        select: {
+                          id: true,
+                          name: true,
+                          code: true,
+                        },
+                      },
                     },
                   },
-                  suppliers: {
+                  price_list_items: {
                     select: {
-                      id: true,
-                      name: true,
-                      code: true,
+                      price: true,
+                      cost_price: true,
                     },
+                    take: 1,
                   },
                 },
-              },
-              price_list_items: {
-                select: {
-                  price: true,
-                  cost_price: true,
-                },
-                take: 1,
               },
             },
           },
@@ -318,15 +328,13 @@ export async function listInventoryValuation(
     let outOfStockCount = 0
 
     const mappedRows: ValuationItemRow[] = rawBalances.map((b) => {
-      const v = b.product_variants
+      const item = b.inventory_items
+      const v = item?.product_variants
       const pli = v?.price_list_items?.[0]
 
       const onHand = Number(b.qty_on_hand || 0)
       const reserved = Number(b.qty_reserved || 0)
-      const computedAvailable =
-        b.qty_available !== null && b.qty_available !== undefined
-          ? Number(b.qty_available)
-          : Math.max(0, onHand - reserved)
+      const computedAvailable = Math.max(0, onHand - reserved)
 
       const reorderLevel = 10
 
@@ -386,9 +394,9 @@ export async function listInventoryValuation(
         locationId: b.location_id,
         locationName: b.warehouse_locations?.name || null,
         locationCode: b.warehouse_locations?.code || null,
-        variantId: b.product_variant_id,
-        sku: v?.sku || b.product_variant_id.slice(0, 8),
-        barcode: v?.barcode || null,
+        variantId: item?.product_variant_id ?? '',
+        sku: item?.sku ?? v?.sku ?? '',
+        barcode: item?.barcode ?? v?.barcode ?? null,
         productName: v?.products?.name || v?.name || '—',
         productId: v?.products?.id || '',
         categoryId: v?.products?.category_id || null,
@@ -409,8 +417,8 @@ export async function listInventoryValuation(
         potentialRevenue,
         potentialMargin,
         sharePercent: 0, // Will be computed after total
-        lastMovementAt: b.last_movement_at
-          ? b.last_movement_at.toISOString()
+        lastMovementAt: b.last_transaction_at
+          ? b.last_transaction_at.toISOString()
           : null,
         stockStatus,
         currencySymbol: tenantCurrency.currencySymbol,

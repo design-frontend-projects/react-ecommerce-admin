@@ -24,6 +24,7 @@ vi.mock('@/lib/prisma', () => ({
     },
     stock_balances: {
       groupBy: vi.fn(),
+      findMany: vi.fn(),
     },
     $queryRawUnsafe: vi.fn(),
     $transaction: vi.fn(),
@@ -153,8 +154,8 @@ describe('reorder-suggestions server functions', () => {
         store_id: 'store-1',
         branch_id: 'branch-1',
       } as any)
-      vi.mocked(prisma.stock_balances.groupBy).mockResolvedValue([
-        { product_variant_id: 'var-1', _avg: { avg_cost: 15.5 } },
+      vi.mocked(prisma.stock_balances.findMany).mockResolvedValue([
+        { inventory_items: { product_variant_id: 'var-1' }, avg_cost: 15.5 },
       ] as any)
 
       const mockTx = {

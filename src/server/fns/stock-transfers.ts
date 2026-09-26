@@ -681,11 +681,39 @@ export async function shipTransfer(authUserId: string, id: string) {
         const itemQty = toNumeric(item.qty, 0)
         if (itemQty <= 0) continue
 
+        let inventoryItemId: string
+        const invItem = await tx.inventory_items.findUnique({
+          where: {
+            tenant_id_product_variant_id: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+            },
+          },
+          select: { id: true },
+        })
+        if (invItem) {
+          inventoryItemId = invItem.id
+        } else {
+          const pv = await tx.product_variants.findUnique({
+            where: { id: item.product_variant_id },
+            select: { sku: true },
+          })
+          const createdItem = await tx.inventory_items.create({
+            data: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+              sku: pv?.sku ?? `SKU-${item.product_variant_id.slice(0, 8)}`,
+              created_by_user_id: tenantUserId,
+            },
+          })
+          inventoryItemId = createdItem.id
+        }
+
         const balance = await tx.stock_balances.findFirst({
           where: {
             tenant_id: tenantId,
             warehouse_id: existing.source_warehouse_id,
-            product_variant_id: item.product_variant_id,
+            inventory_item_id: inventoryItemId,
           },
         })
 
@@ -697,10 +725,10 @@ export async function shipTransfer(authUserId: string, id: string) {
             where: { id: balance.id },
             data: {
               qty_on_hand: new Decimal(newOnHand),
-              qty_available: new Decimal(toNumeric(balance.qty_available, 0) - itemQty),
-              qty_in_transit: new Decimal(toNumeric(balance.qty_in_transit, 0) + itemQty),
-              last_movement_at: new Date(),
+              last_transaction_at: new Date(),
+              updated_at: new Date(),
               updated_by_user_id: tenantUserId,
+              version: { increment: 1 },
             },
           })
         }
@@ -785,11 +813,39 @@ export async function receiveTransfer(authUserId: string, id: string) {
 
       // If destination_warehouse_id exists, record transfer_in movements and increment stock balances
       if (existing.destination_warehouse_id && recvQty > 0) {
+        let inventoryItemId: string
+        const invItem = await tx.inventory_items.findUnique({
+          where: {
+            tenant_id_product_variant_id: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+            },
+          },
+          select: { id: true },
+        })
+        if (invItem) {
+          inventoryItemId = invItem.id
+        } else {
+          const pv = await tx.product_variants.findUnique({
+            where: { id: item.product_variant_id },
+            select: { sku: true },
+          })
+          const createdItem = await tx.inventory_items.create({
+            data: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+              sku: pv?.sku ?? `SKU-${item.product_variant_id.slice(0, 8)}`,
+              created_by_user_id: tenantUserId,
+            },
+          })
+          inventoryItemId = createdItem.id
+        }
+
         const destBalance = await tx.stock_balances.findFirst({
           where: {
             tenant_id: tenantId,
             warehouse_id: existing.destination_warehouse_id,
-            product_variant_id: item.product_variant_id,
+            inventory_item_id: inventoryItemId,
           },
         })
 
@@ -801,9 +857,10 @@ export async function receiveTransfer(authUserId: string, id: string) {
             where: { id: destBalance.id },
             data: {
               qty_on_hand: new Decimal(newOnHand),
-              qty_available: new Decimal(toNumeric(destBalance.qty_available, 0) + recvQty),
-              last_movement_at: new Date(),
+              last_transaction_at: new Date(),
+              updated_at: new Date(),
               updated_by_user_id: tenantUserId,
+              version: { increment: 1 },
             },
           })
         } else {
@@ -812,11 +869,11 @@ export async function receiveTransfer(authUserId: string, id: string) {
               tenant_id: tenantId,
               warehouse_id: existing.destination_warehouse_id,
               location_id: item.destination_location_id ?? null,
-              product_variant_id: item.product_variant_id,
+              inventory_item_id: inventoryItemId,
               condition: item.condition,
               qty_on_hand: new Decimal(newOnHand),
-              qty_available: new Decimal(newOnHand),
               qty_reserved: new Decimal(0),
+              last_transaction_at: new Date(),
               created_by_user_id: tenantUserId,
               updated_by_user_id: tenantUserId,
             },

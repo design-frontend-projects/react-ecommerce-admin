@@ -9,6 +9,7 @@ import type {
   DiscountItemAllocation,
   AppliedPromotionSummary,
   PromotionType,
+  CartItemForEvaluation,
 } from '@/features/promotions/types'
 
 // ============================================================================
@@ -531,7 +532,7 @@ export async function calculateApplicableDiscounts(
                     promotionId: promo.id,
                     promotionRuleId: rule.id,
                     promotionName: promo.name,
-                    couponId: isCouponPromo ? couponRecord.id : null,
+                    couponId: isCouponPromo ? couponRecord?.id ?? null : null,
                     source: isCouponPromo ? 'coupon' : 'promotion',
                     type: 'percentage',
                     rate: percent,
@@ -557,7 +558,7 @@ export async function calculateApplicableDiscounts(
                     promotionId: promo.id,
                     promotionRuleId: rule.id,
                     promotionName: promo.name,
-                    couponId: isCouponPromo ? couponRecord.id : null,
+                    couponId: isCouponPromo ? couponRecord?.id ?? null : null,
                     source: isCouponPromo ? 'coupon' : 'promotion',
                     type: 'percentage',
                     rate: percent,
@@ -587,7 +588,7 @@ export async function calculateApplicableDiscounts(
                   promotionId: promo.id,
                   promotionRuleId: rule.id,
                   promotionName: promo.name,
-                  couponId: isCouponPromo ? couponRecord.id : null,
+                  couponId: isCouponPromo ? couponRecord?.id ?? null : null,
                   source: isCouponPromo ? 'coupon' : 'promotion',
                   type: 'fixed',
                   rate: null,
@@ -629,7 +630,7 @@ export async function calculateApplicableDiscounts(
                   promotionId: promo.id,
                   promotionRuleId: rule.id,
                   promotionName: promo.name,
-                  couponId: isCouponPromo ? couponRecord.id : null,
+                  couponId: isCouponPromo ? couponRecord?.id ?? null : null,
                   source: isCouponPromo ? 'coupon' : 'promotion',
                   type: 'percentage',
                   rate: discountPct,
@@ -659,7 +660,7 @@ export async function calculateApplicableDiscounts(
                 promotionId: promo.id,
                 promotionRuleId: rule.id,
                 promotionName: promo.name,
-                couponId: isCouponPromo ? couponRecord.id : null,
+                couponId: isCouponPromo ? couponRecord?.id ?? null : null,
                 source: isCouponPromo ? 'coupon' : 'promotion',
                 type: 'fixed',
                 rate: 100,
@@ -675,7 +676,7 @@ export async function calculateApplicableDiscounts(
       }
 
       if (promoTotalDiscount > 0) {
-        if (isCouponPromo) {
+        if (isCouponPromo && couponRecord) {
           totalCouponDiscount += promoTotalDiscount
           appliedCoupon = {
             couponId: couponRecord.id,

@@ -61,6 +61,24 @@ export async function fetchStockBalances(
     .select(
       `
       *,
+      inventory_items (
+        id,
+        product_variant_id,
+        product_variants (
+          id,
+          sku,
+          barcode,
+          name,
+          products (
+            id,
+            name,
+            sku,
+            is_batch_tracked,
+            is_serial_tracked,
+            reorder_level
+          )
+        )
+      ),
       product_variants (
         id,
         sku,
@@ -121,7 +139,7 @@ export async function fetchStockBalances(
     sbQuery = sbQuery.eq('location_id', filters.locationId)
   }
   if (filters.productVariantId) {
-    sbQuery = sbQuery.eq('product_variant_id', filters.productVariantId)
+    sbQuery = sbQuery.or(`product_variant_id.eq.${filters.productVariantId},inventory_items.product_variant_id.eq.${filters.productVariantId}`)
   }
   if (filters.condition) {
     sbQuery = sbQuery.eq('condition', filters.condition)
@@ -151,7 +169,8 @@ export async function fetchStockBalances(
   const uniqueVariants = new Set<string>()
 
   const items: StockBalanceRow[] = rawRows.map((row) => {
-    uniqueVariants.add(row.product_variant_id)
+    const variantId = row.product_variant_id || (row as any).inventory_items?.product_variant_id
+    if (variantId) uniqueVariants.add(variantId)
     const onHand = Number(row.qty_on_hand || 0)
     const reserved = Number(row.qty_reserved || 0)
     const available =
@@ -173,8 +192,12 @@ export async function fetchStockBalances(
       lowStockCount += 1
     }
 
+    const resolvedVariants = row.product_variants || (row as any).inventory_items?.product_variants
+
     return {
       ...row,
+      product_variant_id: variantId ?? row.product_variant_id,
+      product_variants: resolvedVariants ?? null,
       qty_on_hand: onHand,
       qty_reserved: reserved,
       qty_available: available,

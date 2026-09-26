@@ -92,9 +92,9 @@ describe('POS Products API & Pricing Resolver', () => {
     vi.mocked(prisma.tax_rates.findFirst).mockResolvedValue(mockTaxRate as any)
     vi.mocked(prisma.stock_balances.findMany).mockResolvedValue([
       {
-        product_variant_id: 'var-1',
+        inventory_items: { product_variant_id: 'var-1' },
         qty_on_hand: new Prisma.Decimal('50'),
-        qty_available: new Prisma.Decimal('45'),
+        qty_reserved: new Prisma.Decimal('5'),
       } as any,
     ])
 

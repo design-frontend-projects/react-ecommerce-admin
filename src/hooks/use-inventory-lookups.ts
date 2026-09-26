@@ -419,13 +419,15 @@ export function useStoreOnHand(storeId?: string) {
       }
       const { data, error } = await supabase
         .from('stock_balances')
-        .select('product_variant_id, qty_on_hand')
+        .select('product_variant_id, qty_on_hand, inventory_items(product_variant_id)')
         .eq('store_id', storeId as string)
       if (error) throw error
       const map: Record<string, number> = {}
-      for (const row of data ?? []) {
-        map[(row as { product_variant_id: string }).product_variant_id] =
-          Number((row as { qty_on_hand: number | string }).qty_on_hand)
+      for (const row of (data ?? []) as any[]) {
+        const vid = row.product_variant_id || row.inventory_items?.product_variant_id
+        if (vid) {
+          map[vid] = Number(row.qty_on_hand)
+        }
       }
       return map
     },
@@ -458,13 +460,15 @@ export function useWarehouseOnHand(warehouseId?: string) {
       }
       const { data, error } = await supabase
         .from('stock_balances')
-        .select('product_variant_id, qty_on_hand')
+        .select('product_variant_id, qty_on_hand, inventory_items(product_variant_id)')
         .eq('warehouse_id', warehouseId as string)
       if (error) throw error
       const map: Record<string, number> = {}
-      for (const row of data ?? []) {
-        map[(row as { product_variant_id: string }).product_variant_id] =
-          Number((row as { qty_on_hand: number | string }).qty_on_hand)
+      for (const row of (data ?? []) as any[]) {
+        const vid = row.product_variant_id || row.inventory_items?.product_variant_id
+        if (vid) {
+          map[vid] = Number(row.qty_on_hand)
+        }
       }
       return map
     },

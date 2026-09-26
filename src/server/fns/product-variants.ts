@@ -137,13 +137,12 @@ export async function searchProductVariantsPaginated(
               sku: true,
               status: true,
               is_active: true,
-            },
-          },
-          stock_balances: {
-            select: {
-              qty_on_hand: true,
-              qty_reserved: true,
-              qty_available: true,
+              stock_balances: {
+                select: {
+                  qty_on_hand: true,
+                  qty_reserved: true,
+                },
+              },
             },
           },
         },
@@ -157,18 +156,16 @@ export async function searchProductVariantsPaginated(
 
     const items: PaginatedVariantItem[] = variants.map((v) => {
       const pli = v.price_list_items?.[0]
-      const onHand = (v.stock_balances || []).reduce(
+      const balances = v.inventory_items?.stock_balances || []
+      const onHand = balances.reduce(
         (sum, s) => sum + Number(s.qty_on_hand || 0),
         0
       )
-      const reserved = (v.stock_balances || []).reduce(
+      const reserved = balances.reduce(
         (sum, s) => sum + Number(s.qty_reserved || 0),
         0
       )
-      const available = (v.stock_balances || []).reduce(
-        (sum, s) => sum + Number(s.qty_available || 0),
-        0
-      )
+      const available = Math.max(0, onHand - reserved)
       const inv = v.inventory_items
 
       return {

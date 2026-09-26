@@ -236,10 +236,9 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
 
         // ── Query stock_balances for all variants at once ──
         // Scope: by store_id OR by linked warehouse IDs OR by direct warehouseId
-        let stockBalances: Array<{
-          product_variant_id: string
+        let stockBalanceRows: Array<{
+          inventory_items: { product_variant_id: string } | null
           qty_on_hand: any
-          qty_available: any
           qty_reserved: any
         }> = []
 
@@ -262,16 +261,21 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
 
           const stockWhere: Prisma.stock_balancesWhereInput = {
             tenant_id: tenantId,
-            product_variant_id: { in: allVariantIds },
+            inventory_items: {
+              product_variant_id: { in: allVariantIds },
+            },
             ...(stockOrConditions.length > 0 ? { OR: stockOrConditions } : {}),
           }
 
-          stockBalances = await prisma.stock_balances.findMany({
+          stockBalanceRows = await prisma.stock_balances.findMany({
             where: stockWhere,
             select: {
-              product_variant_id: true,
+              inventory_items: {
+                select: {
+                  product_variant_id: true,
+                },
+              },
               qty_on_hand: true,
-              qty_available: true,
               qty_reserved: true,
             },
           })
@@ -283,8 +287,9 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
           { totalAvailable: number; totalOnHand: number; totalReserved: number }
         >()
 
-        for (const sb of stockBalances) {
-          const variantId = sb.product_variant_id
+        for (const sb of stockBalanceRows) {
+          const variantId = sb.inventory_items?.product_variant_id
+          if (!variantId) continue
           const existing = stockMap.get(variantId) ?? {
             totalAvailable: 0,
             totalOnHand: 0,
@@ -292,10 +297,7 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
           }
           const onHand = Number(sb.qty_on_hand ?? 0)
           const reserved = Number(sb.qty_reserved ?? 0)
-          const available =
-            sb.qty_available != null
-              ? Number(sb.qty_available)
-              : Math.max(0, onHand - reserved)
+          const available = Math.max(0, onHand - reserved)
 
           existing.totalAvailable += available
           existing.totalOnHand += onHand

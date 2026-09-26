@@ -207,20 +207,34 @@ export async function resolvePosVariantPrices(
     const stockBalances = warehouseId
       ? await prisma.stock_balances.findMany({
           where: {
-            product_variant_id: { in: variantIds },
+            inventory_items: {
+              product_variant_id: { in: variantIds },
+            },
             warehouse_id: warehouseId,
             tenant_id: tenantId,
           },
           select: {
-            product_variant_id: true,
+            inventory_items: {
+              select: { product_variant_id: true },
+            },
             qty_on_hand: true,
-            qty_available: true,
+            qty_reserved: true,
           },
         })
       : []
 
     const stockMap = new Map(
-      stockBalances.map((sb) => [sb.product_variant_id, sb])
+      stockBalances.map((sb) => {
+        const onHand = Number(sb.qty_on_hand ?? 0)
+        const reserved = Number(sb.qty_reserved ?? 0)
+        return [
+          sb.inventory_items?.product_variant_id ?? '',
+          {
+            qty_on_hand: sb.qty_on_hand,
+            qty_available: new Prisma.Decimal(Math.max(0, onHand - reserved)),
+          },
+        ]
+      })
     )
 
     // 6. Assemble resolved prices

@@ -6,12 +6,9 @@ import {
   Package,
   Store,
   Warehouse,
-  UserCheck,
   History,
-  TrendingUp,
   Weight,
   DollarSign,
-  Tag,
 } from 'lucide-react'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Button } from '@/components/ui/button'
@@ -125,7 +122,7 @@ function StockTransferDetailPage() {
   const totalWeight = items.reduce(
     (acc, it) =>
       acc +
-      Number(it.weight || it.product_variants?.weight || it.product_variants?.products?.weight || 0) *
+      Number(it.weight || it.product_variants?.weight || (it.product_variants?.products as any)?.weight || 0) *
         Number(it.qty || 0),
     0
   )
@@ -350,10 +347,10 @@ function StockTransferDetailPage() {
                       const subtotal = qty * cost
                       const sku = item.product_variants?.sku ?? item.product_variant_id
                       const productName = item.product_variants?.products?.name
-                      const brand = item.brand ?? item.product_variants?.products?.brands?.name
-                      const category = item.category ?? item.product_variants?.products?.categories?.name
-                      const uom = item.uom ?? item.product_variants?.products?.base_uom?.name ?? item.product_variants?.products?.base_uom?.code
-                      const weight = Number(item.weight || item.product_variants?.weight || item.product_variants?.products?.weight || 0)
+                      const brand = item.brand ?? (item.product_variants?.products as any)?.brands?.name
+                      const category = item.category ?? (item.product_variants?.products as any)?.categories?.name
+                      const uom = item.uom ?? (item.product_variants?.products as any)?.base_uom?.name ?? (item.product_variants?.products as any)?.base_uom?.code
+                      const weight = Number(item.weight || item.product_variants?.weight || (item.product_variants?.products as any)?.weight || 0)
                       const listPrice = Number(item.list_price || 0)
 
                       return (

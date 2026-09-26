@@ -179,7 +179,7 @@ export async function getDashboardAnalyticsData(
       prisma.$queryRawUnsafe<KpiAggResult[]>(
         `SELECT 
            COALESCE(SUM(qty_on_hand * avg_cost), 0)::float8 AS total_value,
-           COUNT(DISTINCT CASE WHEN qty_on_hand > 0 THEN product_variant_id END)::int AS active_skus
+           COUNT(DISTINCT CASE WHEN qty_on_hand > 0 THEN inventory_item_id END)::int AS active_skus
          FROM stock_balances
          WHERE tenant_id = $1::uuid
            AND ($2::uuid IS NULL OR warehouse_id = $2::uuid)`,
@@ -199,14 +199,16 @@ export async function getDashboardAnalyticsData(
       prisma.$queryRawUnsafe<TrackedSkusResult[]>(
         `WITH stock_levels AS (
            SELECT 
-             sb.product_variant_id,
-             SUM(COALESCE(sb.qty_available, sb.qty_on_hand - sb.qty_reserved)) AS total_avail,
+             sb.inventory_item_id,
+             ii.product_variant_id,
+             SUM(sb.qty_on_hand - sb.qty_reserved) AS total_avail,
              COALESCE(MAX(inv.min_quantity), 0) AS min_qty
            FROM stock_balances sb
-           LEFT JOIN inventory inv ON inv.product_variant_id = sb.product_variant_id AND inv.tenant_id = sb.tenant_id
+           JOIN inventory_items ii ON ii.id = sb.inventory_item_id
+           LEFT JOIN inventory inv ON inv.product_variant_id = ii.product_variant_id AND inv.tenant_id = sb.tenant_id
            WHERE sb.tenant_id = $1::uuid
              AND ($2::uuid IS NULL OR sb.warehouse_id = $2::uuid)
-           GROUP BY sb.product_variant_id
+           GROUP BY sb.inventory_item_id, ii.product_variant_id
          )
          SELECT 
            COUNT(*)::int AS tracked_skus,
@@ -266,12 +268,13 @@ export async function getDashboardAnalyticsData(
            COALESCE(c.name, 'Uncategorized') AS category_name,
            COALESCE(w.name, 'All Warehouses') AS warehouse_name,
            COALESCE(sb.qty_on_hand, 0)::float8 AS qty_on_hand,
-           COALESCE(sb.qty_available, sb.qty_on_hand - sb.qty_reserved, 0)::float8 AS qty_available,
+           COALESCE(sb.qty_on_hand - sb.qty_reserved, 0)::float8 AS qty_available,
            COALESCE(inv.min_quantity, 5)::int AS min_quantity,
            COALESCE(inv.reorder_point, 10)::int AS reorder_point,
            COALESCE(sb.avg_cost, 0)::float8 AS cost_price
          FROM stock_balances sb
-         JOIN product_variants pv ON pv.id = sb.product_variant_id
+         JOIN inventory_items ii ON ii.id = sb.inventory_item_id
+         JOIN product_variants pv ON pv.id = ii.product_variant_id
          JOIN products p ON p.id = pv.product_id
          LEFT JOIN categories c ON c.id = p.category_id
          LEFT JOIN warehouses w ON w.id = sb.warehouse_id
@@ -280,11 +283,11 @@ export async function getDashboardAnalyticsData(
            AND ($2::uuid IS NULL OR sb.warehouse_id = $2::uuid)
            AND (
              sb.qty_on_hand <= 0 
-             OR (sb.qty_available <= COALESCE(inv.min_quantity, 5) AND sb.qty_available > 0)
+             OR ((sb.qty_on_hand - sb.qty_reserved) <= COALESCE(inv.min_quantity, 5) AND (sb.qty_on_hand - sb.qty_reserved) > 0)
            )
          ORDER BY 
            CASE WHEN sb.qty_on_hand <= 0 THEN 0 ELSE 1 END,
-           sb.qty_available ASC
+           (sb.qty_on_hand - sb.qty_reserved) ASC
          LIMIT 30`,
         tenantId,
         warehouseFilter
@@ -345,9 +348,10 @@ export async function getDashboardAnalyticsData(
            COALESCE(c.id::text, 'uncategorized') AS category_id,
            COALESCE(c.name, 'General / Uncategorized') AS category_name,
            COALESCE(SUM(sb.qty_on_hand * sb.avg_cost), 0)::float8 AS stock_value,
-           COUNT(DISTINCT sb.product_variant_id)::int AS item_count
+           COUNT(DISTINCT sb.inventory_item_id)::int AS item_count
          FROM stock_balances sb
-         JOIN product_variants pv ON pv.id = sb.product_variant_id
+         JOIN inventory_items ii ON ii.id = sb.inventory_item_id
+         JOIN product_variants pv ON pv.id = ii.product_variant_id
          JOIN products p ON p.id = pv.product_id
          LEFT JOIN categories c ON c.id = p.category_id
          WHERE sb.tenant_id = $1::uuid

@@ -278,9 +278,9 @@ describe('Lookup Hierarchy & Tree Architecture', () => {
 
       const hqNode = rootNodes.find((n) => n.code === 'hq')
       expect(hqNode).toBeDefined()
-      expect(hqNode.children.length).toBe(1)
-      expect(hqNode.children[0].children[0].children[0].code).toBe('b_101')
-      expect(hqNode.children[0].children[0].children[0].depth).toBe(4)
+      expect(hqNode?.children.length).toBe(1)
+      expect(hqNode?.children[0].children[0].children[0].code).toBe('b_101')
+      expect(hqNode?.children[0].children[0].children[0].depth).toBe(4)
     })
   })
 })

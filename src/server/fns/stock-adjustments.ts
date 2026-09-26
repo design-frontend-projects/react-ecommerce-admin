@@ -1,6 +1,7 @@
 'use server'
 
 import type {
+  Prisma,
   adjustment_reason_enum,
   adjustment_status_enum,
   adjustment_type_enum,
@@ -59,8 +60,10 @@ async function snapshotBalances(
   locationFilter: { warehouseId?: string | null; storeId?: string | null },
   variantIds: string[]
 ): Promise<Map<string, number>> {
-  const whereClause: Record<string, any> = {
-    product_variant_id: { in: variantIds },
+  const whereClause: Prisma.stock_balancesWhereInput = {
+    inventory_items: {
+      product_variant_id: { in: variantIds },
+    },
   }
   if (locationFilter.warehouseId) {
     whereClause.warehouse_id = locationFilter.warehouseId
@@ -68,13 +71,21 @@ async function snapshotBalances(
     whereClause.store_id = locationFilter.storeId
   }
 
-  const balances = (await prisma.stock_balances.findMany({
+  const balances = await prisma.stock_balances.findMany({
     where: whereClause,
-    select: { product_variant_id: true, qty_on_hand: true },
-  })) as Array<{ product_variant_id: string; qty_on_hand: unknown }>
+    select: {
+      inventory_items: {
+        select: { product_variant_id: true },
+      },
+      qty_on_hand: true,
+    },
+  })
   const map = new Map<string, number>()
   for (const balance of balances) {
-    map.set(balance.product_variant_id, Number(balance.qty_on_hand))
+    const vId = balance.inventory_items?.product_variant_id
+    if (vId) {
+      map.set(vId, Number(balance.qty_on_hand))
+    }
   }
   return map
 }

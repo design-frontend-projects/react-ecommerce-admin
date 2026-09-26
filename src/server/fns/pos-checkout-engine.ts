@@ -175,7 +175,9 @@ export async function processPosSale(
     const variantIds = [...new Set(input.items.map((i) => i.productVariantId))]
     const stockBalances = await prisma.stock_balances.findMany({
       where: {
-        product_variant_id: { in: variantIds },
+        inventory_items: {
+          product_variant_id: { in: variantIds },
+        },
         warehouse_id: input.warehouseId,
         tenant_id: tenantId,
         OR: [
@@ -183,20 +185,29 @@ export async function processPosSale(
           { store_id: null },
         ],
       },
+      include: {
+        inventory_items: {
+          select: { product_variant_id: true },
+        },
+      },
     })
-    // Pick the best balance per variant (highest qty_available)
-    const stockMap = new Map<string, (typeof stockBalances)[number]>()
+    // Pick the best balance per variant (highest computed available: onHand - reserved)
+    const stockMap = new Map<string, { available: Prisma.Decimal; id: string }>()
     for (const sb of stockBalances) {
-      const existing = stockMap.get(sb.product_variant_id)
-      if (!existing || (sb.qty_available ?? sb.qty_on_hand).gt(existing.qty_available ?? existing.qty_on_hand)) {
-        stockMap.set(sb.product_variant_id, sb)
+      const vId = sb.inventory_items?.product_variant_id
+      if (!vId) continue
+      const onHand = toDecimal(sb.qty_on_hand)
+      const reserved = toDecimal(sb.qty_reserved)
+      const available = Prisma.Decimal.max(new Prisma.Decimal(0), onHand.minus(reserved))
+      const existing = stockMap.get(vId)
+      if (!existing || available.gt(existing.available)) {
+        stockMap.set(vId, { available, id: sb.id })
       }
     }
 
     for (const item of input.items) {
       const qty = toDecimal(item.quantity)
-      const balance = stockMap.get(item.productVariantId)
-      const available = balance?.qty_available ?? new Prisma.Decimal(0)
+      const available = stockMap.get(item.productVariantId)?.available ?? new Prisma.Decimal(0)
 
       if (qty.gt(available)) {
         throw new ApiError(
@@ -445,7 +456,7 @@ export async function processPosSale(
           tax_rate_id: li.taxRateId,
           tax_rate: new Prisma.Decimal(0),
           net_amount: li.quantity.times(li.unitPrice).minus(li.discountAmount),
-          line_subtotal: li.lineSubtotal,
+          line_subtotal: li.lineTotal,
           line_total: li.lineTotal,
           warehouse_id: input.warehouseId,
           batch_id: li.batchId,

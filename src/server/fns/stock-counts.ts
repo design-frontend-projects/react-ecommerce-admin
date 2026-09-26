@@ -228,12 +228,14 @@ export async function snapshotCount(authUserId: string, id: string) {
     })
 
     if (existingItems.length > 0) {
-      // Refresh quantities from stock_balances
+      // Refresh quantities from stock_balances via inventory_items
       const vIds = existingItems.map((i) => i.product_variant_id)
       const balances = await prisma.stock_balances.findMany({
         where: {
           tenant_id: tenantId,
-          product_variant_id: { in: vIds },
+          inventory_items: {
+            product_variant_id: { in: vIds },
+          },
           OR: [
             ...(countRecord.warehouse_id
               ? [{ warehouse_id: countRecord.warehouse_id }]
@@ -243,9 +245,14 @@ export async function snapshotCount(authUserId: string, id: string) {
               : []),
           ],
         },
+        include: {
+          inventory_items: {
+            select: { product_variant_id: true },
+          },
+        },
       })
       const balanceMap = new Map(
-        balances.map((b) => [b.product_variant_id, b])
+        balances.map((b) => [b.inventory_items?.product_variant_id, b])
       )
 
       for (const item of existingItems) {
@@ -277,16 +284,22 @@ export async function snapshotCount(authUserId: string, id: string) {
             : {}),
           ...(countRecord.category_id
             ? {
-                product_variants: {
-                  products: {
-                    category_id: countRecord.category_id,
+                inventory_items: {
+                  product_variants: {
+                    products: {
+                      category_id: countRecord.category_id,
+                    },
                   },
                 },
               }
             : {}),
         },
         select: {
-          product_variant_id: true,
+          inventory_items: {
+            select: {
+              product_variant_id: true,
+            },
+          },
           location_id: true,
           batch_id: true,
           qty_on_hand: true,
@@ -299,7 +312,7 @@ export async function snapshotCount(authUserId: string, id: string) {
           data: balances.map((b) => ({
             tenant_id: tenantId,
             stock_count_id: id,
-            product_variant_id: b.product_variant_id,
+            product_variant_id: b.inventory_items?.product_variant_id ?? '',
             warehouse_location_id:
               b.location_id ?? countRecord.warehouse_location_id ?? null,
             batch_id: b.batch_id ?? null,
@@ -500,7 +513,9 @@ export async function postCount(authUserId: string, id: string) {
       const existingBal = await prisma.stock_balances.findFirst({
         where: {
           tenant_id: tenantId,
-          product_variant_id: vItem.product_variant_id,
+          inventory_items: {
+            product_variant_id: vItem.product_variant_id,
+          },
           OR: [
             ...(countRecord.warehouse_id
               ? [{ warehouse_id: countRecord.warehouse_id }]
@@ -516,8 +531,10 @@ export async function postCount(authUserId: string, id: string) {
           where: { id: existingBal.id },
           data: {
             qty_on_hand: vItem.qty_counted ?? 0,
-            last_movement_at: new Date(),
+            last_transaction_at: new Date(),
+            updated_at: new Date(),
             updated_by_user_id: tenantUserId,
+            version: { increment: 1 },
           },
         })
       }

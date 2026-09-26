@@ -77,17 +77,21 @@ export async function lookupOrderForReturn(authUserId: string, orderIdOrNumber: 
     // Load order items with existing return quantities
     const orderItems = await prisma.sales_order_items.findMany({
       where: { sales_order_id: order.id },
-      include: {
-        product_variants: {
+    })
+
+    const variantIds = [...new Set(orderItems.map((oi) => oi.product_variant_id))]
+    const variants = variantIds.length > 0
+      ? await prisma.product_variants.findMany({
+          where: { id: { in: variantIds } },
           select: {
             id: true,
             sku: true,
             name: true,
             products: { select: { name: true } },
           },
-        },
-      },
-    })
+        })
+      : []
+    const variantMap = new Map(variants.map((v) => [v.id, v]))
 
     // Check existing returns for these items
     const existingReturns = await prisma.sales_return_items.findMany({
@@ -115,13 +119,14 @@ export async function lookupOrderForReturn(authUserId: string, orderIdOrNumber: 
       items: orderItems.map((oi) => {
         const alreadyReturned = returnedQtyMap.get(oi.id) ?? new Prisma.Decimal(0)
         const returnableQty = oi.qty_ordered.minus(alreadyReturned)
+        const v = variantMap.get(oi.product_variant_id)
 
         return {
           id: oi.id,
           productVariantId: oi.product_variant_id,
-          sku: oi.product_variants?.sku ?? null,
-          productName: oi.product_variants?.products?.name ?? null,
-          variantName: oi.product_variants?.name ?? null,
+          sku: v?.sku ?? null,
+          productName: v?.products?.name ?? null,
+          variantName: v?.name ?? null,
           qtyOrdered: oi.qty_ordered.toString(),
           qtyAlreadyReturned: alreadyReturned.toString(),
           qtyReturnable: returnableQty.toString(),
