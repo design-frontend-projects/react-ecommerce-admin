@@ -30,7 +30,7 @@ export function POAnalytics({
   const metrics = React.useMemo(() => {
     const totalCount = orders.length
     const totalSpend = orders.reduce((sum, po) => {
-      const val = Number(po.grand_total ?? po.total_amount ?? 0)
+      const val = Number(po.grand_total ?? 0)
       return sum + (isNaN(val) ? 0 : val)
     }, 0)
 

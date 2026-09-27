@@ -150,13 +150,11 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
       },
       items: [
         {
-          product_id: 'prod-1',
           product_variant_id: 'var-1',
           quantity_ordered: 10,
           unit_cost: 15,
           subtotal: 150,
-          has_expiration: true,
-          expiration_date: '2026-12-31',
+          total_amount: 150,
         },
       ],
     })
@@ -166,20 +164,18 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
     const insertedPo = poQueryBuilder.insert.mock.calls[0][0]
     expect(insertedPo.tenant_id).toBe(mockTenantId)
     expect(insertedPo.supplier_id).toBe('supplier-456')
-    expect(insertedPo.total_amount).toBe(150)
+    expect(insertedPo.grand_total).toBe(150)
     expect(insertedPo.created_by_user_id).toBe(mockUserId)
     expect(insertedPo.updated_by_user_id).toBe(mockUserId)
 
-    // Verify purchase_order_items insert contains tenant_id, audit fields, and expiration fields
+    // Verify purchase_order_items insert contains tenant_id and audit fields
     expect(itemsQueryBuilder.insert).toHaveBeenCalledTimes(1)
     const insertedItems = itemsQueryBuilder.insert.mock.calls[0][0]
     expect(insertedItems).toHaveLength(1)
     expect(insertedItems[0].tenant_id).toBe(mockTenantId)
     expect(insertedItems[0].po_id).toBe('po-123')
-    expect(insertedItems[0].product_id).toBe('prod-1')
     expect(insertedItems[0].product_variant_id).toBe('var-1')
-    expect(insertedItems[0].has_expiration).toBe(true)
-    expect(insertedItems[0].expiration_date).toBe('2026-12-31')
+    expect(insertedItems[0].total_amount).toBe(150)
     expect(insertedItems[0].created_by_user_id).toBe(mockUserId)
     expect(insertedItems[0].updated_by_user_id).toBe(mockUserId)
   })
@@ -189,7 +185,7 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
       id: 'po-123',
       tenant_id: mockTenantId,
       supplier_id: 'supplier-456',
-      total_amount: 200,
+      grand_total: 200,
     }
 
     poQueryBuilder.maybeSingle.mockResolvedValue({
@@ -214,11 +210,11 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
       },
       items: [
         {
-          product_id: 'prod-2',
           product_variant_id: 'var-2',
           quantity_ordered: 5,
           unit_cost: 40,
           subtotal: 200,
+          total_amount: 200,
         },
       ],
     })
@@ -234,6 +230,7 @@ describe('Purchase Orders Multi-Tenant & Audit Isolation', () => {
     const insertedItems = itemsQueryBuilder.insert.mock.calls[0][0]
     expect(insertedItems[0].tenant_id).toBe(mockTenantId)
     expect(insertedItems[0].po_id).toBe('po-123')
+    expect(insertedItems[0].product_variant_id).toBe('var-2')
   })
 
   it('filters purchase orders listing by tenant_id', async () => {

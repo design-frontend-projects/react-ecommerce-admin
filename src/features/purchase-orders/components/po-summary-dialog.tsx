@@ -45,7 +45,7 @@ import { usePurchaseOrder } from '../hooks/use-purchase-orders'
 import { getLocalizedUomDescription } from '../utils/format-uom'
 
 export interface POSummaryDraftItem {
-  productId: number | string
+  productId?: number | string
   productName: string
   productSku?: string
   variantId: string | null
@@ -56,7 +56,10 @@ export interface POSummaryDraftItem {
   uomCode?: string
   quantity: number
   unitCost: number
+  discountAmount?: number
+  taxAmount?: number
   subtotal: number
+  totalAmount?: number
   hasExpiration?: boolean | null
   expirationDate?: string | null
 }
@@ -169,28 +172,30 @@ export function POSummaryDialog({
   const lineItems: POSummaryDraftItem[] = isDraftMode
     ? draftData?.items || []
     : (fullPO?.purchase_order_items || []).map((item) => {
-        const variant = item.products?.product_variants?.find(
-          (v) => v.id === item.product_variant_id
-        )
+        const variant = (item as any).product_variants
+        const prod = variant?.products
         return {
-          productId: item.product_id,
-          productName: item.products?.name || `Product #${item.product_id}`,
+          productId: prod?.id,
+          productName: prod?.name || `Product`,
+          productSku: prod?.sku,
           variantId: item.product_variant_id,
           variantSku: variant?.sku || item.product_variant_id || 'Standard',
+          variantLabel: variant?.name || undefined,
           uomId: item.uom_id,
-          uomName: item.uoms?.name,
-          uomCode: item.uoms?.code,
-          quantity: item.quantity_ordered,
-          unitCost: item.unit_cost,
-          subtotal: item.subtotal,
-          hasExpiration: item.has_expiration,
-          expirationDate: item.expiration_date,
+          uomName: (item as any).uoms?.name,
+          uomCode: (item as any).uoms?.code,
+          quantity: Number(item.quantity_ordered),
+          unitCost: Number(item.unit_cost),
+          discountAmount: Number((item as any).discount_amount || 0),
+          taxAmount: Number((item as any).tax_amount || 0),
+          subtotal: Number(item.subtotal),
+          totalAmount: Number((item as any).total_amount ?? item.subtotal),
         }
       })
 
   const totalAmount = isDraftMode
     ? draftData?.totalAmount || 0
-    : Number(fullPO?.grand_total ?? fullPO?.total_amount ?? currentRow?.grand_total ?? currentRow?.total_amount ?? 0)
+    : Number(fullPO?.grand_total ?? currentRow?.grand_total ?? 0)
 
   const subtotalAmount = lineItems.reduce((sum, item) => sum + item.subtotal, 0)
   const hasFinancialAdjustments = taxAmount > 0 || shippingAmount > 0 || discountAmount > 0
@@ -470,17 +475,6 @@ export function POSummaryDialog({
                               {item.productSku && (
                                 <div className='font-mono text-xs text-muted-foreground'>
                                   SKU: {item.productSku}
-                                </div>
-                              )}
-                              {item.hasExpiration && (
-                                <div className='inline-flex items-center gap-1 mt-1 text-[11px] font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/60'>
-                                  <Calendar className='h-3 w-3' />
-                                  <span>
-                                    {t('purchaseOrders.summary.expires', 'Expires')}:{' '}
-                                    {item.expirationDate
-                                      ? formatDateDisplay(item.expirationDate)
-                                      : t('purchaseOrders.summary.unspecified', 'Unspecified')}
-                                  </span>
                                 </div>
                               )}
                             </TableCell>

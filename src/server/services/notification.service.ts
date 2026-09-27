@@ -83,7 +83,10 @@ export class NotificationService {
 
       case 'ROLE': {
         if (input.targetRoleId) {
-          const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(input.targetRoleId)
+          const isUuid =
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+              input.targetRoleId
+            )
           if (isUuid) {
             const userRoles = await prisma.user_roles.findMany({
               where: {
@@ -106,12 +109,20 @@ export class NotificationService {
                 is_blocked: false,
                 deleted_at: null,
                 OR: [
-                  { default_role: { equals: input.targetRoleId, mode: 'insensitive' } },
+                  {
+                    default_role: {
+                      equals: input.targetRoleId,
+                      mode: 'insensitive',
+                    },
+                  },
                   {
                     user_roles: {
                       some: {
                         roles: {
-                          name: { equals: input.targetRoleId, mode: 'insensitive' },
+                          name: {
+                            equals: input.targetRoleId,
+                            mode: 'insensitive',
+                          },
                         },
                       },
                     },
@@ -264,11 +275,17 @@ export class NotificationService {
     // 2. Resolve Recipients
     const recipients = await this.resolveRecipients(input)
 
-    const isTargetRoleUuid = input.targetRoleId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(input.targetRoleId)
+    const isTargetRoleUuid =
+      input.targetRoleId &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        input.targetRoleId
+      )
     const sanitizedTargetRoleId = isTargetRoleUuid ? input.targetRoleId : null
     const mergedMetadata = {
       ...(input.metadata ?? {}),
-      ...(!isTargetRoleUuid && input.targetRoleId ? { target_role: input.targetRoleId } : {}),
+      ...(!isTargetRoleUuid && input.targetRoleId
+        ? { target_role: input.targetRoleId }
+        : {}),
     }
 
     // 3. Atomically persist notification, recipients, and outbox queue entry
@@ -387,7 +404,8 @@ export class NotificationService {
 
     // 4. Immediate best-effort publish via Redis Pub/Sub
     try {
-      const { NotificationPublisher } = await import('../redis/notification-publisher')
+      const { NotificationPublisher } =
+        await import('../redis/notification-publisher')
       await NotificationPublisher.publish({
         v: 1,
         id: result.notification.id,
@@ -421,7 +439,10 @@ export class NotificationService {
         },
       })
     } catch (err: any) {
-      console.warn('[NotificationService] Immediate publish deferred to outbox worker:', err?.message)
+      console.warn(
+        '[NotificationService] Immediate publish deferred to outbox worker:',
+        err?.message
+      )
     }
 
     return result
@@ -493,7 +514,10 @@ export class NotificationService {
   /**
    * Returns unread notifications count for a given user.
    */
-  static async getUnreadCount(tenantUserId: string, tenantId: string): Promise<number> {
+  static async getUnreadCount(
+    tenantUserId: string,
+    tenantId: string
+  ): Promise<number> {
     return prisma.notification_recipients.count({
       where: {
         tenant_id: tenantId,
@@ -525,7 +549,8 @@ export class NotificationService {
     })
 
     try {
-      const { NotificationPublisher } = await import('../redis/notification-publisher')
+      const { NotificationPublisher } =
+        await import('../redis/notification-publisher')
       await NotificationPublisher.invalidateUnreadCount(tenantId, tenantUserId)
     } catch {}
 
@@ -550,9 +575,16 @@ export class NotificationService {
     })
 
     try {
-      const { NotificationPublisher } = await import('../redis/notification-publisher')
-      await NotificationPublisher.setCachedUnreadCount(tenantId, tenantUserId, 0)
-    } catch {}
+      const { NotificationPublisher } =
+        await import('../redis/notification-publisher')
+      await NotificationPublisher.setCachedUnreadCount(
+        tenantId,
+        tenantUserId,
+        0
+      )
+    } catch {
+      console.error('an error goes here!')
+    }
 
     return updated
   }

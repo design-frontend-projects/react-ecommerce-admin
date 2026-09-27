@@ -212,8 +212,14 @@ export async function listReceivablePurchaseOrders(authUserId: string) {
       warehouses: { select: { id: true, name: true, code: true } },
       purchase_order_items: {
         include: {
-          products: { select: { name: true, sku: true } },
-          product_variants: { select: { id: true, sku: true } },
+          product_variants: {
+            select: {
+              id: true,
+              sku: true,
+              name: true,
+              products: { select: { name: true, sku: true } },
+            },
+          },
         },
       },
     },
@@ -228,7 +234,16 @@ export async function listReceivablePurchaseOrders(authUserId: string) {
           const received = Number(item.received_quantity) || 0
           const cancelled = Number(item.cancelled_qty) || 0
           const outstanding = Math.max(0, ordered - received - cancelled)
-          return { ...item, outstanding_qty: outstanding }
+          const productName =
+            item.product_variants?.products?.name || item.product_variants?.name || ''
+          const sku =
+            item.product_variants?.sku || item.product_variants?.products?.sku || ''
+
+          return {
+            ...item,
+            outstanding_qty: outstanding,
+            products: { name: productName, sku },
+          }
         })
         .filter((item) => item.outstanding_qty > 0)
 

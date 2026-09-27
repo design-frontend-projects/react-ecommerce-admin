@@ -5,23 +5,31 @@ export interface PurchaseOrderItemRecord {
   id?: string
   po_item_id?: number | string
   po_id: number | string
-  product_id: number | string
-  quantity: number
+  product_variant_id: string
+  uom_id?: string | null
+  quantity_ordered: number
   unit_cost: number
+  discount_amount?: number
+  tax_amount?: number
   subtotal: number
+  total_amount?: number
   received_quantity: number
-  has_expiration?: boolean | null
-  expiration_date?: string | null
-  products?: { name: string } | null
+  product_variants?: {
+    sku?: string
+    name?: string | null
+    products?: { name: string } | null
+  } | null
 }
 
 export interface PurchaseOrderItemInput {
-  product_id: number | string
-  quantity: number
+  product_variant_id: string
+  uom_id?: string | null
+  quantity_ordered: number
   unit_cost: number
+  discount_amount?: number
+  tax_amount?: number
   subtotal: number
-  has_expiration?: boolean | null
-  expiration_date?: string | null
+  total_amount?: number
 }
 
 // ─── Update received qty for a single item ────────────────

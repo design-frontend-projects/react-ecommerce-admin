@@ -207,6 +207,7 @@ import { Route as AuthenticatedAccessControlAuditRouteImport } from './routes/_a
 import { Route as AuthenticatedSystemSystemManagementRouteImport } from './routes/_authenticated/_system/system-management'
 import { Route as AuthenticatedSystemSystemDashboardRouteImport } from './routes/_authenticated/_system/system-dashboard'
 import { Route as AuthenticatedSystemAuditLogsRouteImport } from './routes/_authenticated/_system/audit-logs'
+import { Route as ApiInventoryPurchaseOrdersIndexRouteImport } from './routes/api/inventory/purchase-orders/index'
 import { Route as AuthenticatedSystemRestaurantsIndexRouteImport } from './routes/_authenticated/_system/restaurants/index'
 import { Route as ApiTenantSubscriptionStatusRouteImport } from './routes/api/tenant/subscription/status'
 import { Route as ApiRbacScreensAccessRouteImport } from './routes/api/rbac/screens/access'
@@ -1358,6 +1359,12 @@ const AuthenticatedSystemAuditLogsRoute =
     path: '/audit-logs',
     getParentRoute: () => AuthenticatedSystemRoute,
   } as any)
+const ApiInventoryPurchaseOrdersIndexRoute =
+  ApiInventoryPurchaseOrdersIndexRouteImport.update({
+    id: '/api/inventory/purchase-orders/',
+    path: '/api/inventory/purchase-orders/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedSystemRestaurantsIndexRoute =
   AuthenticatedSystemRestaurantsIndexRouteImport.update({
     id: '/restaurants/',
@@ -1778,6 +1785,7 @@ export interface FileRoutesByFullPath {
   '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
   '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
+  '/api/inventory/purchase-orders/': typeof ApiInventoryPurchaseOrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -2008,6 +2016,7 @@ export interface FileRoutesByTo {
   '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
   '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/restaurants': typeof AuthenticatedSystemRestaurantsIndexRoute
+  '/api/inventory/purchase-orders': typeof ApiInventoryPurchaseOrdersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -2243,6 +2252,7 @@ export interface FileRoutesById {
   '/api/rbac/screens/access': typeof ApiRbacScreensAccessRoute
   '/api/tenant/subscription/status': typeof ApiTenantSubscriptionStatusRoute
   '/_authenticated/_system/restaurants/': typeof AuthenticatedSystemRestaurantsIndexRoute
+  '/api/inventory/purchase-orders/': typeof ApiInventoryPurchaseOrdersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -2477,6 +2487,7 @@ export interface FileRouteTypes {
     | '/api/rbac/screens/access'
     | '/api/tenant/subscription/status'
     | '/restaurants/'
+    | '/api/inventory/purchase-orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -2707,6 +2718,7 @@ export interface FileRouteTypes {
     | '/api/rbac/screens/access'
     | '/api/tenant/subscription/status'
     | '/restaurants'
+    | '/api/inventory/purchase-orders'
   id:
     | '__root__'
     | '/_authenticated'
@@ -2941,6 +2953,7 @@ export interface FileRouteTypes {
     | '/api/rbac/screens/access'
     | '/api/tenant/subscription/status'
     | '/_authenticated/_system/restaurants/'
+    | '/api/inventory/purchase-orders/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -3033,6 +3046,7 @@ export interface RootRouteChildren {
   ApiCrmCustomersSegmentRoute: typeof ApiCrmCustomersSegmentRoute
   ApiInventoryPurchaseOrdersStatusRoute: typeof ApiInventoryPurchaseOrdersStatusRoute
   ApiTenantSubscriptionStatusRoute: typeof ApiTenantSubscriptionStatusRoute
+  ApiInventoryPurchaseOrdersIndexRoute: typeof ApiInventoryPurchaseOrdersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -4437,6 +4451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSystemAuditLogsRouteImport
       parentRoute: typeof AuthenticatedSystemRoute
     }
+    '/api/inventory/purchase-orders/': {
+      id: '/api/inventory/purchase-orders/'
+      path: '/api/inventory/purchase-orders'
+      fullPath: '/api/inventory/purchase-orders/'
+      preLoaderRoute: typeof ApiInventoryPurchaseOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/_system/restaurants/': {
       id: '/_authenticated/_system/restaurants/'
       path: '/restaurants'
@@ -5301,7 +5322,17 @@ const rootRouteChildren: RootRouteChildren = {
   ApiCrmCustomersSegmentRoute: ApiCrmCustomersSegmentRoute,
   ApiInventoryPurchaseOrdersStatusRoute: ApiInventoryPurchaseOrdersStatusRoute,
   ApiTenantSubscriptionStatusRoute: ApiTenantSubscriptionStatusRoute,
+  ApiInventoryPurchaseOrdersIndexRoute: ApiInventoryPurchaseOrdersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

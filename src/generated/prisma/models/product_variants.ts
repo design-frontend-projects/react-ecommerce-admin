@@ -784,12 +784,10 @@ export type product_variantsCreateNestedOneWithoutPurchase_order_itemsInput = {
   connect?: Prisma.product_variantsWhereUniqueInput
 }
 
-export type product_variantsUpdateOneWithoutPurchase_order_itemsNestedInput = {
+export type product_variantsUpdateOneRequiredWithoutPurchase_order_itemsNestedInput = {
   create?: Prisma.XOR<Prisma.product_variantsCreateWithoutPurchase_order_itemsInput, Prisma.product_variantsUncheckedCreateWithoutPurchase_order_itemsInput>
   connectOrCreate?: Prisma.product_variantsCreateOrConnectWithoutPurchase_order_itemsInput
   upsert?: Prisma.product_variantsUpsertWithoutPurchase_order_itemsInput
-  disconnect?: Prisma.product_variantsWhereInput | boolean
-  delete?: Prisma.product_variantsWhereInput | boolean
   connect?: Prisma.product_variantsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.product_variantsUpdateToOneWithWhereWithoutPurchase_order_itemsInput, Prisma.product_variantsUpdateWithoutPurchase_order_itemsInput>, Prisma.product_variantsUncheckedUpdateWithoutPurchase_order_itemsInput>
 }

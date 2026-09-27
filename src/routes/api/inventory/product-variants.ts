@@ -10,6 +10,8 @@ const GET = withAuth(
     PERMISSIONS.SALES_VIEW,
     PERMISSIONS.ORDERS_VIEW,
     PERMISSIONS.ORDERS_CREATE,
+    PERMISSIONS.PURCHASING_VIEW,
+    PERMISSIONS.PURCHASING_MANAGE,
   ],
   async ({ request, auth }) => {
     try {

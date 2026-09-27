@@ -185,12 +185,12 @@ export const getPOColumns = (
     },
   },
   {
-    accessorKey: 'total_amount',
+    accessorKey: 'grand_total',
     header: () => (
       <div className='text-right'>{t('purchaseOrders.columns.total', 'Total')}</div>
     ),
     cell: ({ row }) => {
-      const amount = Number(row.original.grand_total ?? row.original.total_amount ?? 0)
+      const amount = Number(row.original.grand_total ?? 0)
       const currency = row.original.currency || row.original.currencies?.code || 'USD'
       const symbol = row.original.currencies?.symbol || '$'
       return (

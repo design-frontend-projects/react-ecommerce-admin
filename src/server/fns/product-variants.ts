@@ -87,6 +87,10 @@ export async function searchProductVariantsPaginated(
         { barcode: { contains: search, mode: 'insensitive' } },
         { name: { contains: search, mode: 'insensitive' } },
         { products: { name: { contains: search, mode: 'insensitive' } } },
+        { products: { sku: { contains: search, mode: 'insensitive' } } },
+        { products: { barcode: { contains: search, mode: 'insensitive' } } },
+        { products: { brands: { name: { contains: search, mode: 'insensitive' } } } },
+        { products: { categories: { name: { contains: search, mode: 'insensitive' } } } },
       ]
     }
 

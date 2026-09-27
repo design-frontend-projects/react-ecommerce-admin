@@ -29,12 +29,15 @@ import {
   usePOProductSearch,
   usePOVariants,
   usePOProduct,
+  usePOVariantSearch,
+  useSinglePOVariant,
   useDebounce,
   type POProductOption,
   type VariantOption,
+  type POVariantSearchItem,
 } from '../hooks/use-po-product-search'
 
-export type { VariantOption, POProductOption }
+export type { VariantOption, POProductOption, POVariantSearchItem }
 
 export interface POProductSelectProps {
   productId: string | number | null
@@ -821,3 +824,217 @@ export function POProductVariantPicker({
     </div>
   )
 }
+
+// ─── 4. Searchable Direct Variant Autocomplete Component ────────────
+export interface POVariantAutocompleteProps {
+  variantId: string | null
+  selectedVariantInfo?: {
+    sku?: string | null
+    name?: string | null
+    product_name?: string | null
+    barcode?: string | null
+    cost_price?: number | null
+    price?: number | null
+  } | null
+  onSelectVariant: (variant: POVariantSearchItem) => void
+  disabled?: boolean
+  showValidation?: boolean
+  placeholder?: string
+  staticVariants?: POVariantSearchItem[]
+}
+
+export function POVariantAutocomplete({
+  variantId,
+  selectedVariantInfo,
+  onSelectVariant,
+  disabled,
+  showValidation,
+  placeholder,
+  staticVariants,
+}: POVariantAutocompleteProps) {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const { data: serverVariants = [], isLoading } = usePOVariantSearch(search, 30, {
+    enabled: open && !staticVariants,
+  })
+  const { data: singleVariant } = useSinglePOVariant(
+    !staticVariants && variantId && !selectedVariantInfo?.product_name ? variantId : null
+  )
+
+  const activeDisplay = useMemo(() => {
+    if (selectedVariantInfo && (selectedVariantInfo.sku || selectedVariantInfo.product_name)) {
+      return {
+        productName: selectedVariantInfo.product_name || 'Product',
+        variantName: selectedVariantInfo.name,
+        sku: selectedVariantInfo.sku,
+        barcode: selectedVariantInfo.barcode,
+      }
+    }
+    if (singleVariant) {
+      return {
+        productName: singleVariant.product_name,
+        variantName: singleVariant.name,
+        sku: singleVariant.sku,
+        barcode: singleVariant.barcode,
+      }
+    }
+    if (staticVariants && variantId) {
+      const found = staticVariants.find((v) => v.id === variantId)
+      if (found) {
+        return {
+          productName: found.product_name,
+          variantName: found.name,
+          sku: found.sku,
+          barcode: found.barcode,
+        }
+      }
+    }
+    return null
+  }, [selectedVariantInfo, singleVariant, staticVariants, variantId])
+
+  const displayedList: POVariantSearchItem[] = useMemo(() => {
+    if (staticVariants) {
+      if (!search.trim()) return staticVariants
+      const q = search.toLowerCase()
+      return staticVariants.filter(
+        (v) =>
+          v.sku.toLowerCase().includes(q) ||
+          v.product_name.toLowerCase().includes(q) ||
+          (v.name && v.name.toLowerCase().includes(q)) ||
+          (v.barcode && v.barcode.toLowerCase().includes(q))
+      )
+    }
+    return serverVariants
+  }, [staticVariants, serverVariants, search])
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          type='button'
+          variant='outline'
+          role='combobox'
+          aria-expanded={open}
+          disabled={disabled}
+          className={cn(
+            'w-full justify-between font-normal h-9 text-xs sm:text-sm px-2.5 bg-background',
+            !variantId && 'text-muted-foreground',
+            showValidation && !variantId && 'border-destructive ring-1 ring-destructive/30'
+          )}
+        >
+          <div className='flex items-center gap-2 truncate'>
+            <Package className='h-4 w-4 shrink-0 text-muted-foreground' />
+            {activeDisplay ? (
+              <span className='truncate font-medium text-foreground'>
+                <span>{activeDisplay.productName}</span>
+                {activeDisplay.variantName && (
+                  <span className='text-muted-foreground font-normal ml-1'>
+                    ({activeDisplay.variantName})
+                  </span>
+                )}
+                {activeDisplay.sku && (
+                  <span className='ml-1.5 font-mono text-xs text-muted-foreground'>
+                    [{activeDisplay.sku}]
+                  </span>
+                )}
+              </span>
+            ) : (
+              <span className='truncate'>
+                {placeholder ||
+                  t(
+                    'purchaseOrders.variantPicker.searchVariantPlaceholder',
+                    'Search variant (SKU, name, barcode)...'
+                  )}
+              </span>
+            )}
+          </div>
+          <ChevronsUpDown className='ml-1.5 h-3.5 w-3.5 shrink-0 opacity-50' />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className='w-[350px] sm:w-[500px] p-0' align='start'>
+        <Command shouldFilter={Boolean(staticVariants)}>
+          <CommandInput
+            value={search}
+            onValueChange={setSearch}
+            placeholder={t(
+              'purchaseOrders.variantPicker.searchVariantInput',
+              'Type SKU, variant name, barcode, product...'
+            )}
+          />
+          <CommandList className='max-h-72'>
+            {isLoading && (
+              <div className='flex items-center justify-center gap-2 py-6 text-xs text-muted-foreground'>
+                <Loader2 className='h-4 w-4 animate-spin text-primary' />
+                <span>{t('purchaseOrders.variantPicker.searchingVariants', 'Searching variants...')}</span>
+              </div>
+            )}
+            {!isLoading && displayedList.length === 0 && (
+              <CommandEmpty>
+                {t('purchaseOrders.variantPicker.noVariantsFound', 'No product variants found.')}
+              </CommandEmpty>
+            )}
+            {!isLoading && displayedList.length > 0 && (
+              <CommandGroup>
+                {displayedList.map((v) => {
+                  const isSelected = v.id === variantId
+                  return (
+                    <CommandItem
+                      key={v.id}
+                      value={`${v.product_name} ${v.name || ''} ${v.sku} ${v.barcode || ''} ${v.brand_name || ''} ${v.id}`}
+                      onSelect={() => {
+                        onSelectVariant(v)
+                        setOpen(false)
+                      }}
+                      className='flex items-start justify-between py-2 cursor-pointer gap-2'
+                    >
+                      <div className='flex items-start gap-2 truncate'>
+                        <Check
+                          className={cn(
+                            'h-4 w-4 shrink-0 mt-0.5',
+                            isSelected ? 'opacity-100 text-primary' : 'opacity-0'
+                          )}
+                        />
+                        <div className='flex flex-col truncate text-left'>
+                          <span className='text-xs sm:text-sm font-semibold truncate text-foreground'>
+                            {v.product_name}
+                            {v.name && (
+                              <span className='font-normal text-muted-foreground ml-1.5'>
+                                — {v.name}
+                              </span>
+                            )}
+                          </span>
+                          <div className='flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground font-mono mt-0.5'>
+                            <span className='font-bold text-foreground/80 bg-muted/60 px-1 py-0.2 rounded'>
+                              SKU: {v.sku}
+                            </span>
+                            {v.barcode && <span>Barcode: {v.barcode}</span>}
+                            {v.brand_name && <span>• {v.brand_name}</span>}
+                            {v.category_name && <span>• {v.category_name}</span>}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-col items-end shrink-0 text-right text-[11px] gap-0.5 ml-2'>
+                        {v.cost_price != null && (
+                          <span className='font-mono font-medium text-foreground'>
+                            Cost: ${v.cost_price.toFixed(2)}
+                          </span>
+                        )}
+                        {v.stock_quantity !== undefined && (
+                          <span className='text-muted-foreground text-[10px]'>
+                            Stock: {v.stock_quantity}
+                          </span>
+                        )}
+                      </div>
+                    </CommandItem>
+                  )
+                })}
+              </CommandGroup>
+            )}
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  )
+}
+

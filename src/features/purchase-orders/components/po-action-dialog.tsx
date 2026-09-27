@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { z } from 'zod'
 import { format } from 'date-fns'
 import { useForm, type SubmitHandler } from 'react-hook-form'
@@ -16,7 +16,6 @@ import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   Command,
   CommandEmpty,
@@ -75,11 +74,13 @@ import {
 } from '../hooks/use-purchase-orders'
 import { usePOContext } from './po-provider'
 import {
-  POProductSelect,
-  POVariantSelect,
-  type VariantOption,
-  type POProductOption,
+  POVariantAutocomplete,
 } from './po-product-variant-picker'
+import type { POVariantSearchItem } from '../hooks/use-po-product-search'
+import {
+  calculatePOLine,
+  calculatePOTotals,
+} from '../utils/po-calculations'
 import {
   POSummaryDialog,
   type POSummaryDraftData,
@@ -99,28 +100,28 @@ const poFormSchema = z.object({
   currency: z.string().default('USD'),
   order_date: z.string().min(1, 'Order date is required'),
   expected_delivery_date: z.string().optional(),
-  tax_amount: z.coerce.number().min(0).default(0),
   shipping_amount: z.coerce.number().min(0).default(0),
-  discount_amount: z.coerce.number().min(0).default(0),
   notes: z.string().optional(),
 })
 
 type POFormValues = z.infer<typeof poFormSchema>
 
-// ─── Line item type ───────────────────────────────────────
+// ─── Line item type (Authoritative) ─────────────────────────
 interface LineItem {
-  product_id: string
-  product_variant_id: string | null
+  id?: string
+  product_variant_id: string
   uom_id: string | null
   quantity_ordered: number
   unit_cost: number
-  subtotal: number
-  has_expiration?: boolean
-  expiration_date?: string | null
-  product_name?: string
-  product_sku?: string | null
+  discount_amount: number
+  tax_amount: number
+  subtotal: number // gross = qty * cost
+  total_amount: number // line total = gross - discount + tax
+  // Display metadata
   variant_sku?: string
-  variant_label?: string
+  variant_name?: string
+  product_name?: string
+  barcode?: string | null
 }
 
 export function POActionDialog() {
@@ -160,11 +161,7 @@ export function POActionDialog() {
         expected_delivery_date: activePO.expected_delivery_date
           ? format(new Date(activePO.expected_delivery_date), 'yyyy-MM-dd')
           : '',
-        tax_amount: Number(activePO.tax_amount ?? activePO.tax_total ?? 0),
         shipping_amount: Number(activePO.shipping_amount ?? 0),
-        discount_amount: Number(
-          activePO.discount_amount ?? activePO.discount_total ?? 0
-        ),
         notes: activePO.notes || '',
       }
     }
@@ -175,9 +172,7 @@ export function POActionDialog() {
       currency: 'USD',
       order_date: format(new Date(), 'yyyy-MM-dd'),
       expected_delivery_date: '',
-      tax_amount: 0,
       shipping_amount: 0,
-      discount_amount: 0,
       notes: '',
     }
   }, [isEdit, currentRow, fullPO])
@@ -190,9 +185,7 @@ export function POActionDialog() {
 
   // Watch financials & currency from form
   const { data: currencies = [] } = useCurrencies({ onlyActive: true })
-  const watchedTax = form.watch('tax_amount') || 0
   const watchedShipping = form.watch('shipping_amount') || 0
-  const watchedDiscount = form.watch('discount_amount') || 0
   const watchedCurrency = form.watch('currency') || 'USD'
   const watchedCurrencyId = form.watch('currency_id') || ''
 
@@ -207,106 +200,33 @@ export function POActionDialog() {
     return matchByCode?.symbol || '$'
   }, [currencies, watchedCurrencyId, watchedCurrency])
 
-  // Cache of product metadata loaded from selection or edit mode
-  const [productsMetaCache, setProductsMetaCache] = useState<
-    Record<
-      string,
-      {
-        name: string
-        sku?: string | null
-        base_uom_id?: string | null
-        has_expiration?: boolean | null
-      }
-    >
-  >({})
-
-  // Cache of variants loaded on-demand per product
-  const [variantsCache, setVariantsCache] = useState<
-    Record<string, VariantOption[]>
-  >({})
-
-  const handleVariantsLoaded = useCallback(
-    (productId: string, loadedVariants: VariantOption[]) => {
-      setVariantsCache((prev) => {
-        if (prev[productId] === loadedVariants) return prev
-        return { ...prev, [productId]: loadedVariants }
-      })
-    },
-    []
-  )
-
-  // Seed metadata cache when editing existing PO
-  useEffect(() => {
-    if (isEdit && fullPO?.purchase_order_items) {
-      setProductsMetaCache((prev) => {
-        const next = { ...prev }
-        for (const item of fullPO.purchase_order_items || []) {
-          const pId = String(item.product_id || '')
-          if (pId && item.products) {
-            next[pId] = {
-              name: item.products.name,
-              sku: item.products.sku,
-              base_uom_id: item.products.base_uom_id ?? undefined,
-              has_expiration: item.has_expiration,
-            }
-          }
-        }
-        return next
-      })
-
-      setVariantsCache((prev) => {
-        let changed = false
-        const next = { ...prev }
-        for (const item of fullPO.purchase_order_items || []) {
-          const pId = String(item.product_id || '')
-          if (pId && item.products?.product_variants?.length && !next[pId]) {
-            next[pId] = item.products.product_variants.map((v) => ({
-              id: v.id,
-              sku: v.sku,
-              price:
-                v.price ??
-                (typeof v.price_list_items?.[0]?.price === 'number'
-                  ? Number(v.price_list_items[0].price)
-                  : 0),
-              cost_price:
-                v.cost_price ??
-                (typeof v.price_list_items?.[0]?.cost_price === 'number'
-                  ? Number(v.price_list_items[0].cost_price)
-                  : null),
-            }))
-            changed = true
-          }
-        }
-        return changed ? next : prev
-      })
-    }
-  }, [isEdit, fullPO])
-
   // Compute initial line items from PO data
   const initialLineItems = useMemo<LineItem[]>(() => {
-    if (isEdit && fullPO) {
-      return (fullPO.purchase_order_items || []).map((item) => {
-        const prodId = String(item.product_id || '')
-        const itemVariants = item.products?.product_variants || []
-        const matchedVariant = itemVariants.find(
-          (v) => v.id === item.product_variant_id
-        )
+    if (isEdit && fullPO?.purchase_order_items) {
+      return fullPO.purchase_order_items.map((item) => {
+        const variant = (item as unknown as { product_variants?: { sku?: string; name?: string | null; barcode?: string | null; products?: { name?: string } } }).product_variants
+        const prod = variant?.products
+        const qty = Number(item.quantity_ordered)
+        const cost = Number(item.unit_cost)
+        const discount = Number((item as unknown as { discount_amount?: number }).discount_amount || 0)
+        const tax = Number((item as unknown as { tax_amount?: number }).tax_amount || 0)
+        const gross = Number(item.subtotal) || qty * cost
+        const lineTot = Number((item as unknown as { total_amount?: number }).total_amount) || Math.max(0, gross - discount + tax)
+
         return {
-          product_id: prodId,
-          product_variant_id:
-            item.product_variant_id ??
-            (itemVariants.length === 1 ? itemVariants[0].id : null),
+          id: item.id,
+          product_variant_id: item.product_variant_id,
           uom_id: item.uom_id ?? null,
-          quantity_ordered: item.quantity_ordered,
-          unit_cost: item.unit_cost,
-          subtotal: item.subtotal,
-          has_expiration: item.has_expiration ?? false,
-          expiration_date: item.expiration_date
-            ? String(item.expiration_date).split('T')[0]
-            : null,
-          product_name: item.products?.name,
-          product_sku: item.products?.sku,
-          variant_sku: matchedVariant?.sku,
+          quantity_ordered: qty,
+          unit_cost: cost,
+          discount_amount: discount,
+          tax_amount: tax,
+          subtotal: gross,
+          total_amount: lineTot,
+          variant_sku: variant?.sku,
+          variant_name: variant?.name || undefined,
+          product_name: prod?.name || `Product`,
+          barcode: variant?.barcode,
         }
       })
     }
@@ -321,17 +241,6 @@ export function POActionDialog() {
   // Active line items: user-edited values or computed initial values
   const lineItems = lineItemOverrides ?? initialLineItems
 
-  const getProductName = useCallback(
-    (productId: string): string => {
-      const inLine = lineItems.find((li) => li.product_id === productId)?.product_name
-      if (inLine) return inLine
-      const inMeta = productsMetaCache[productId]?.name
-      if (inMeta) return inMeta
-      return `Product`
-    },
-    [lineItems, productsMetaCache]
-  )
-
   const closeDialog = () => {
     setLineItemOverrides(null)
     setShowLineValidation(false)
@@ -345,14 +254,14 @@ export function POActionDialog() {
     setLineItemOverrides([
       ...current,
       {
-        product_id: '',
-        product_variant_id: null,
+        product_variant_id: '',
         uom_id: null,
         quantity_ordered: 1,
         unit_cost: 0,
+        discount_amount: 0,
+        tax_amount: 0,
         subtotal: 0,
-        has_expiration: false,
-        expiration_date: null,
+        total_amount: 0,
       },
     ])
   }
@@ -362,130 +271,99 @@ export function POActionDialog() {
     setLineItemOverrides(current.filter((_, i) => i !== index))
   }
 
-  const updateLineItem = (
-    index: number,
-    field: keyof LineItem,
-    value: number | string | boolean | null,
-    extra?: {
-      product?: POProductOption
-      variant?: VariantOption
+  const handleSelectVariantForLine = (index: number, variant: POVariantSearchItem) => {
+    const current = lineItemOverrides ?? initialLineItems
+
+    // 14. DUPLICATE VARIANT VALIDATION: prevent adding same variant twice
+    const isDuplicate = current.some(
+      (li, i) => i !== index && li.product_variant_id === variant.id
+    )
+    if (isDuplicate) {
+      toast.error(
+        t(
+          'purchaseOrders.validation.duplicateVariant',
+          `Variant "${variant.sku}" is already in this purchase order. Please adjust the existing line quantity instead.`
+        )
+      )
+      return
     }
+
+    const updated = [...current]
+    const item = { ...updated[index] }
+    item.product_variant_id = variant.id
+    item.variant_sku = variant.sku
+    item.variant_name = variant.name || undefined
+    item.product_name = variant.product_name
+    item.barcode = variant.barcode
+    item.uom_id = variant.uom_id || item.uom_id || null
+    item.unit_cost = Number(variant.cost_price ?? variant.price ?? 0)
+
+    const calculated = calculatePOLine({
+      quantity_ordered: item.quantity_ordered,
+      unit_cost: item.unit_cost,
+      discount_amount: item.discount_amount,
+      tax_amount: item.tax_amount,
+    })
+    item.subtotal = calculated.subtotal
+    item.total_amount = calculated.total_amount
+
+    updated[index] = item
+    setLineItemOverrides(updated)
+    setShowLineValidation(false)
+  }
+
+  const updateLineNumberField = (
+    index: number,
+    field: 'quantity_ordered' | 'unit_cost' | 'discount_amount' | 'tax_amount',
+    val: number
   ) => {
     const current = lineItemOverrides ?? initialLineItems
     const updated = [...current]
-    setShowLineValidation(false)
-
     const item = { ...updated[index] }
-
-    if (field === 'product_id') {
-      const nextProductId = String(value || '')
-      const selectedProduct =
-        extra?.product ||
-        (nextProductId ? productsMetaCache[nextProductId] : undefined)
-
-      item.product_id = nextProductId
-      item.product_variant_id = null
-      item.product_name = selectedProduct?.name
-      item.product_sku = selectedProduct?.sku ?? null
-      item.variant_sku = undefined
-      item.variant_label = undefined
-      item.unit_cost = 0
-      item.subtotal = 0
-
-      item.uom_id =
-        selectedProduct?.base_uom_id ||
-        (selectedProduct as { base_uom?: { id?: string } })?.base_uom?.id ||
-        null
-
-      // Pre-fill expiration tracking if product has expiration
-      const productHasExp = Boolean(
-        (selectedProduct as { has_expiration?: boolean | null })?.has_expiration
-      )
-      item.has_expiration = productHasExp
-      item.expiration_date = null
-
-      updated[index] = item
-      setLineItemOverrides(updated)
-      return
-    }
-
-    if (field === 'uom_id') {
-      item.uom_id = value ? String(value) : null
-      updated[index] = item
-      setLineItemOverrides(updated)
-      return
-    }
-
-    if (field === 'has_expiration') {
-      const hasExp = Boolean(value)
-      item.has_expiration = hasExp
-      if (!hasExp) {
-        item.expiration_date = null
-      }
-      updated[index] = item
-      setLineItemOverrides(updated)
-      return
-    }
-
-    if (field === 'expiration_date') {
-      item.expiration_date = value ? String(value) : null
-      updated[index] = item
-      setLineItemOverrides(updated)
-      return
-    }
-
-    if (field === 'product_variant_id') {
-      const vId = value ? String(value) : null
-      item.product_variant_id = vId
-      const variant =
-        extra?.variant ||
-        variantsCache[item.product_id]?.find((v) => v.id === vId)
-
-      if (variant) {
-        item.variant_sku = variant.sku
-        item.variant_label =
-          variant.attributes_label || variant.name || undefined
-        item.unit_cost = Number(variant.cost_price ?? variant.price ?? 0)
-        const variantExp = (
-          variant as unknown as { expiration_date?: string | null }
-        )?.expiration_date
-        if (item.has_expiration && variantExp && !item.expiration_date) {
-          item.expiration_date = variantExp
-        }
-      } else {
-        item.unit_cost = 0
-      }
-
-      item.subtotal = Number(item.quantity_ordered) * Number(item.unit_cost)
-      updated[index] = item
-      setLineItemOverrides(updated)
-      return
-    }
+    const num = isNaN(val) ? 0 : val
 
     if (field === 'quantity_ordered') {
-      item.quantity_ordered = Math.max(1, Number(value) || 1)
+      item.quantity_ordered = Math.max(0, num)
     } else if (field === 'unit_cost') {
-      item.unit_cost = Math.max(0, Number(value) || 0)
+      item.unit_cost = Math.max(0, num)
+    } else if (field === 'discount_amount') {
+      const gross = item.quantity_ordered * item.unit_cost
+      item.discount_amount = Math.min(gross, Math.max(0, num))
+    } else if (field === 'tax_amount') {
+      item.tax_amount = Math.max(0, num)
     }
 
-    item.subtotal = Number(item.quantity_ordered) * Number(item.unit_cost)
+    const calculated = calculatePOLine({
+      quantity_ordered: item.quantity_ordered,
+      unit_cost: item.unit_cost,
+      discount_amount: item.discount_amount,
+      tax_amount: item.tax_amount,
+    })
+    item.subtotal = calculated.subtotal
+    item.total_amount = calculated.total_amount
+
     updated[index] = item
+    setLineItemOverrides(updated)
+    setShowLineValidation(false)
+  }
+
+  const updateLineUom = (index: number, uomId: string | null) => {
+    const current = lineItemOverrides ?? initialLineItems
+    const updated = [...current]
+    updated[index] = { ...updated[index], uom_id: uomId }
     setLineItemOverrides(updated)
   }
 
-  // Financial calculations
-  const itemsSubtotal = lineItems.reduce((sum, item) => sum + item.subtotal, 0)
-  const grandTotal = Math.max(
-    0,
-    itemsSubtotal +
-      Number(watchedTax || 0) +
-      Number(watchedShipping || 0) -
-      Number(watchedDiscount || 0)
-  )
+  // 10. Financial calculations: authoritative totals
+  const totals = useMemo(() => {
+    return calculatePOTotals(lineItems, {
+      shipping_amount: watchedShipping,
+    })
+  }, [lineItems, watchedShipping])
 
   // ─── Submit ─────────────────────────────────────────────
   const onSubmit: SubmitHandler<POFormValues> = async (values) => {
-    const validItems = lineItems.filter((item) => Boolean(item.product_id))
+    const validItems = lineItems.filter((item) => Boolean(item.product_variant_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
       toast.error(
@@ -494,35 +372,41 @@ export function POActionDialog() {
       return
     }
 
+    // Check for 0 or negative quantities
     for (const item of validItems) {
-      const cachedVariants = variantsCache[item.product_id]
-      if (cachedVariants && cachedVariants.length === 0) {
+      if (item.quantity_ordered <= 0) {
         setShowLineValidation(true)
         toast.error(
-          `${getProductName(item.product_id)} ${t('purchaseOrders.validation.noVariants', 'has no variants. Select a product that has variants.')}`
-        )
-        return
-      }
-
-      if (!item.product_variant_id) {
-        setShowLineValidation(true)
-        toast.error(
-          `${t('purchaseOrders.validation.variantRequired', 'Variant is required for')} ${getProductName(item.product_id)}.`
+          t('purchaseOrders.validation.invalidQty', 'Quantity ordered must be greater than 0.')
         )
         return
       }
     }
 
+    // Check for duplicate variants on submit
+    const variantIdSet = new Set<string>()
+    for (const item of validItems) {
+      if (variantIdSet.has(item.product_variant_id)) {
+        toast.error(
+          t(
+            'purchaseOrders.validation.duplicateVariantSubmit',
+            'Duplicate variants detected in purchase order. Please combine lines before submitting.'
+          )
+        )
+        return
+      }
+      variantIdSet.add(item.product_variant_id)
+    }
+
     const items: PurchaseOrderItemInput[] = validItems.map((item) => ({
-      product_id: item.product_id,
-      product_variant_id: item.product_variant_id!,
+      product_variant_id: item.product_variant_id,
       uom_id: item.uom_id || null,
       quantity_ordered: item.quantity_ordered,
       unit_cost: item.unit_cost,
+      discount_amount: item.discount_amount,
+      tax_amount: item.tax_amount,
       subtotal: item.subtotal,
-      has_expiration: Boolean(item.has_expiration),
-      expiration_date:
-        item.has_expiration && item.expiration_date ? item.expiration_date : null,
+      total_amount: item.total_amount,
     }))
 
     try {
@@ -535,15 +419,13 @@ export function POActionDialog() {
             order_date: values.order_date,
             expected_delivery_date: values.expected_delivery_date || null,
             currency: values.currency || 'USD',
-            tax_amount: Number(values.tax_amount || 0),
             shipping_amount: Number(values.shipping_amount || 0),
-            discount_amount: Number(values.discount_amount || 0),
             notes: values.notes || undefined,
           },
           items,
         })
         toast.success(
-          t('purchaseOrders.messages.created', 'Purchase order created')
+          t('purchaseOrders.messages.created', 'Purchase order created successfully')
         )
       } else if (isEdit && currentRow) {
         await updateMutation.mutateAsync({
@@ -555,15 +437,13 @@ export function POActionDialog() {
             order_date: values.order_date,
             expected_delivery_date: values.expected_delivery_date || null,
             currency: values.currency || 'USD',
-            tax_amount: Number(values.tax_amount || 0),
             shipping_amount: Number(values.shipping_amount || 0),
-            discount_amount: Number(values.discount_amount || 0),
             notes: values.notes || undefined,
           },
           items,
         })
         toast.success(
-          t('purchaseOrders.messages.updated', 'Purchase order updated')
+          t('purchaseOrders.messages.updated', 'Purchase order updated successfully')
         )
       }
       closeDialog()
@@ -595,32 +475,13 @@ export function POActionDialog() {
       return
     }
 
-    const validItems = lineItems.filter((item) => Boolean(item.product_id))
+    const validItems = lineItems.filter((item) => Boolean(item.product_variant_id))
     if (validItems.length === 0) {
       setShowLineValidation(true)
       toast.error(
         t('purchaseOrders.validation.atLeastOneItem', 'Add at least one line item')
       )
       return
-    }
-
-    for (const item of validItems) {
-      const cachedVariants = variantsCache[item.product_id]
-      if (cachedVariants && cachedVariants.length === 0) {
-        setShowLineValidation(true)
-        toast.error(
-          `${getProductName(item.product_id)} ${t('purchaseOrders.validation.noVariants', 'has no variants. Select a product that has variants.')}`
-        )
-        return
-      }
-
-      if (!item.product_variant_id) {
-        setShowLineValidation(true)
-        toast.error(
-          `${t('purchaseOrders.validation.variantRequired', 'Variant is required for')} ${getProductName(item.product_id)}.`
-        )
-        return
-      }
     }
 
     setShowSummaryModal(true)
@@ -635,7 +496,7 @@ export function POActionDialog() {
       (w) => w.id === values.warehouse_id
     )
 
-    const validItems = lineItems.filter((item) => Boolean(item.product_id))
+    const validItems = lineItems.filter((item) => Boolean(item.product_variant_id))
 
     return {
       supplierId: values.supplier_id,
@@ -647,58 +508,39 @@ export function POActionDialog() {
       currencyId: values.currency_id,
       currency: values.currency || 'USD',
       currencySymbol: currencySymbol,
-      taxAmount: Number(values.tax_amount || 0),
       shippingAmount: Number(values.shipping_amount || 0),
-      discountAmount: Number(values.discount_amount || 0),
-      subtotal: itemsSubtotal,
+      taxAmount: totals.tax_total,
+      discountAmount: totals.discount_total,
+      subtotal: totals.subtotal,
       notes: values.notes || undefined,
       items: validItems.map((item) => {
-        const prodName =
-          item.product_name ||
-          productsMetaCache[item.product_id]?.name ||
-          getProductName(item.product_id)
-        const prodSku =
-          item.product_sku || productsMetaCache[item.product_id]?.sku
-        const variant =
-          variantsCache[item.product_id]?.find(
-            (v) => v.id === item.product_variant_id
-          )
         const selectedUom = uoms.find((u) => u.id === item.uom_id)
 
         return {
-          productId: item.product_id,
-          productName: prodName,
-          productSku: prodSku ?? undefined,
+          productName: item.product_name || 'Product',
           variantId: item.product_variant_id,
-          variantSku: item.variant_sku || variant?.sku || 'Standard',
-          variantLabel:
-            item.variant_label ||
-            variant?.attributes_label ||
-            variant?.name ||
-            undefined,
+          variantSku: item.variant_sku || 'Standard',
+          variantLabel: item.variant_name,
           uomId: item.uom_id,
           uomName: selectedUom?.name,
           uomCode: selectedUom?.code,
           quantity: item.quantity_ordered,
           unitCost: item.unit_cost,
+          discountAmount: item.discount_amount,
+          taxAmount: item.tax_amount,
           subtotal: item.subtotal,
-          hasExpiration: Boolean(item.has_expiration),
-          expirationDate: item.expiration_date || null,
+          totalAmount: item.total_amount,
         }
       }),
-      totalAmount: grandTotal,
+      totalAmount: totals.grand_total,
     }
   }, [
     form,
     suppliers,
     warehouses,
     lineItems,
-    productsMetaCache,
-    variantsCache,
-    getProductName,
     uoms,
-    itemsSubtotal,
-    grandTotal,
+    totals,
     currencySymbol,
   ])
 
@@ -949,7 +791,7 @@ export function POActionDialog() {
                   )}
                 />
 
-                {/* 5. Notes */}
+                {/* 6. Notes */}
                 <FormField
                   control={form.control}
                   name='notes'
@@ -1005,101 +847,61 @@ export function POActionDialog() {
                       <Table className='w-full'>
                         <TableHeader className='bg-muted/40'>
                           <TableRow>
-                            <TableHead className='min-w-[200px] text-xs font-semibold'>
-                              {t('purchaseOrders.lineItems.product', 'Product')}
-                            </TableHead>
-                            <TableHead className='min-w-[180px] text-xs font-semibold'>
-                              {t('purchaseOrders.lineItems.variant', 'Variant')}
+                            <TableHead className='min-w-[280px] text-xs font-semibold'>
+                              {t('purchaseOrders.lineItems.variant', 'Product Variant')} *
                             </TableHead>
                             <TableHead className='min-w-[130px] text-xs font-semibold'>
                               {t('purchaseOrders.lineItems.receivingUom', 'UOM')}
                             </TableHead>
-                            <TableHead className='min-w-[140px] text-xs font-semibold'>
-                              {t('purchaseOrders.lineItems.expiration', 'Expiration')}
-                            </TableHead>
                             <TableHead className='w-[100px] text-center text-xs font-semibold'>
-                              {t('purchaseOrders.lineItems.qty', 'Qty')}
+                              {t('purchaseOrders.lineItems.qty', 'Qty')} *
                             </TableHead>
-                            <TableHead className='w-[120px] text-right text-xs font-semibold'>
+                            <TableHead className='w-[110px] text-right text-xs font-semibold'>
                               {t('purchaseOrders.lineItems.unitCost', 'Unit Cost')}
                             </TableHead>
-                            <TableHead className='w-[110px] text-right text-xs font-semibold pr-3'>
+                            <TableHead className='w-[100px] text-right text-xs font-semibold'>
+                              {t('purchaseOrders.lineItems.discount', 'Discount')}
+                            </TableHead>
+                            <TableHead className='w-[100px] text-right text-xs font-semibold'>
+                              {t('purchaseOrders.lineItems.tax', 'Tax')}
+                            </TableHead>
+                            <TableHead className='w-[105px] text-right text-xs font-semibold'>
                               {t('purchaseOrders.lineItems.subtotal', 'Subtotal')}
+                            </TableHead>
+                            <TableHead className='w-[110px] text-right text-xs font-semibold pr-3'>
+                              {t('purchaseOrders.lineItems.total', 'Line Total')}
                             </TableHead>
                             <TableHead className='w-[44px]' />
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           {lineItems.map((item, index) => {
-                            const itemVariants = item.product_id
-                              ? variantsCache[item.product_id] ?? []
-                              : []
                             return (
                               <TableRow key={index} className='align-top'>
-                                <TableCell className='min-w-[200px]'>
-                                  <POProductSelect
-                                    productId={item.product_id}
-                                    selectedProductInfo={{
-                                      name: item.product_name || productsMetaCache[item.product_id]?.name,
-                                      sku: item.product_sku || productsMetaCache[item.product_id]?.sku,
+                                <TableCell className='min-w-[280px]'>
+                                  <POVariantAutocomplete
+                                    variantId={item.product_variant_id || null}
+                                    selectedVariantInfo={{
+                                      product_name: item.product_name,
+                                      name: item.variant_name,
+                                      sku: item.variant_sku,
+                                      barcode: item.barcode,
+                                      cost_price: item.unit_cost,
                                     }}
-                                    onSelectProduct={(pId, productOption) => {
-                                      if (productOption) {
-                                        setProductsMetaCache((prev) => ({
-                                          ...prev,
-                                          [pId]: {
-                                            name: productOption.name,
-                                            sku: productOption.sku,
-                                            base_uom_id: productOption.base_uom_id,
-                                            has_expiration: productOption.has_expiration,
-                                          },
-                                        }))
-                                      }
-                                      updateLineItem(index, 'product_id', pId, { product: productOption })
-                                    }}
+                                    onSelectVariant={(variant) =>
+                                      handleSelectVariantForLine(index, variant)
+                                    }
                                     disabled={isPending}
                                     showValidation={showLineValidation}
                                   />
                                 </TableCell>
-                                <TableCell className='min-w-[180px]'>
-                                  <POVariantSelect
-                                    productId={item.product_id}
-                                    variantId={item.product_variant_id}
-                                    onVariantsLoaded={(vars) => handleVariantsLoaded(item.product_id, vars)}
-                                    onSelectVariant={(vId, cost, variant) => {
-                                      const current =
-                                        lineItemOverrides ?? initialLineItems
-                                      const updated = [...current]
-                                      const rowItem = { ...updated[index] }
-                                      rowItem.product_variant_id = vId
-                                      rowItem.unit_cost = cost
-                                      rowItem.subtotal =
-                                        Number(rowItem.quantity_ordered) *
-                                        Number(cost)
-                                      if (variant) {
-                                        rowItem.variant_sku = variant.sku
-                                        rowItem.variant_label =
-                                          variant.attributes_label || variant.name || undefined
-                                      }
-                                      updated[index] = rowItem
-                                      setLineItemOverrides(updated)
-                                      setShowLineValidation(false)
-                                    }}
-                                    disabled={isPending}
-                                    showValidation={showLineValidation}
-                                  />
-                                </TableCell>
-                                <TableCell className='min-w-[140px]'>
+                                <TableCell className='min-w-[130px]'>
                                   <Select
                                     value={item.uom_id || 'none'}
                                     onValueChange={(val) =>
-                                      updateLineItem(
-                                        index,
-                                        'uom_id',
-                                        val === 'none' ? null : val
-                                      )
+                                      updateLineUom(index, val === 'none' ? null : val)
                                     }
-                                    disabled={isPending || !item.product_id}
+                                    disabled={isPending}
                                   >
                                     <SelectTrigger className='h-9 w-full text-xs'>
                                       <SelectValue
@@ -1128,88 +930,79 @@ export function POActionDialog() {
                                     </SelectContent>
                                   </Select>
                                 </TableCell>
-                                <TableCell className='min-w-[140px]'>
-                                  <div className='flex flex-col gap-1.5 pt-1'>
-                                    <label className='flex items-center gap-1.5 text-xs text-muted-foreground cursor-pointer select-none'>
-                                      <Checkbox
-                                        checked={Boolean(item.has_expiration)}
-                                        onCheckedChange={(checked) =>
-                                          updateLineItem(
-                                            index,
-                                            'has_expiration',
-                                            Boolean(checked)
-                                          )
-                                        }
-                                        disabled={isPending || !item.product_id}
-                                        className='h-3.5 w-3.5'
-                                      />
-                                      <span>
-                                        {t('purchaseOrders.lineItems.hasExpiry', 'Expires')}
-                                      </span>
-                                    </label>
-                                    {item.has_expiration && (
-                                      <PODatePicker
-                                        value={
-                                          item.expiration_date
-                                            ? String(item.expiration_date).split('T')[0]
-                                            : ''
-                                        }
-                                        disabled={isPending || !item.product_id}
-                                        onChange={(val) =>
-                                          updateLineItem(
-                                            index,
-                                            'expiration_date',
-                                            val
-                                          )
-                                        }
-                                        clearable
-                                        compact
-                                        placeholder={t('common.selectDate', 'Date')}
-                                        className='w-[130px]'
-                                      />
-                                    )}
-                                  </div>
-                                </TableCell>
                                 <TableCell className='w-[100px]'>
                                   <Input
                                     type='number'
-                                    min={1}
+                                    step='0.0001'
+                                    min='0.0001'
                                     className='h-9 w-full text-center font-semibold text-xs'
                                     value={item.quantity_ordered}
                                     disabled={isPending}
                                     onChange={(e) =>
-                                      updateLineItem(
+                                      updateLineNumberField(
                                         index,
                                         'quantity_ordered',
-                                        Number(e.target.value)
+                                        parseFloat(e.target.value)
                                       )
                                     }
                                   />
                                 </TableCell>
-                                <TableCell className='w-[120px]'>
+                                <TableCell className='w-[110px]'>
                                   <Input
                                     type='number'
                                     min={0}
-                                    step={0.01}
+                                    step='0.0001'
                                     className='h-9 w-full font-mono text-right text-xs'
                                     value={item.unit_cost}
-                                    disabled={
-                                      isPending ||
-                                      !item.product_id ||
-                                      (itemVariants.length > 0 &&
-                                        !item.product_variant_id)
-                                    }
+                                    disabled={isPending || !item.product_variant_id}
                                     onChange={(e) =>
-                                      updateLineItem(
+                                      updateLineNumberField(
                                         index,
                                         'unit_cost',
-                                        Number(e.target.value)
+                                        parseFloat(e.target.value)
                                       )
                                     }
                                   />
                                 </TableCell>
-                                <TableCell className='w-[110px] text-right font-mono font-semibold text-xs pt-3 pr-3'>
+                                <TableCell className='w-[100px]'>
+                                  <Input
+                                    type='number'
+                                    min={0}
+                                    step='0.01'
+                                    className='h-9 w-full font-mono text-right text-xs'
+                                    value={item.discount_amount}
+                                    disabled={isPending || !item.product_variant_id}
+                                    onChange={(e) =>
+                                      updateLineNumberField(
+                                        index,
+                                        'discount_amount',
+                                        parseFloat(e.target.value)
+                                      )
+                                    }
+                                  />
+                                </TableCell>
+                                <TableCell className='w-[100px]'>
+                                  <Input
+                                    type='number'
+                                    min={0}
+                                    step='0.01'
+                                    className='h-9 w-full font-mono text-right text-xs'
+                                    value={item.tax_amount}
+                                    disabled={isPending || !item.product_variant_id}
+                                    onChange={(e) =>
+                                      updateLineNumberField(
+                                        index,
+                                        'tax_amount',
+                                        parseFloat(e.target.value)
+                                      )
+                                    }
+                                  />
+                                </TableCell>
+                                <TableCell className='w-[105px] text-right font-mono text-xs pt-3'>
                                   {currencySymbol}{item.subtotal.toFixed(2)}
+                                </TableCell>
+                                <TableCell className='w-[110px] text-right font-mono font-semibold text-xs pt-3 pr-3 text-primary'>
+                                  {currencySymbol}{item.total_amount.toFixed(2)}
                                 </TableCell>
                                 <TableCell className='w-[44px] text-center'>
                                   <Button
@@ -1233,9 +1026,6 @@ export function POActionDialog() {
                     {/* Mobile Stacked Cards View (< 768px) */}
                     <div className='block md:hidden space-y-3'>
                       {lineItems.map((item, index) => {
-                        const itemVariants = item.product_id
-                          ? variantsCache[item.product_id] ?? []
-                          : []
                         return (
                           <Card
                             key={index}
@@ -1260,198 +1050,142 @@ export function POActionDialog() {
 
                               <div className='space-y-2.5'>
                                 <div>
-                                  <label className='text-[11px] font-medium text-muted-foreground block mb-1'>
-                                    {t('purchaseOrders.lineItems.product', 'Product')}
+                                  <label className='text-[11px] font-semibold text-muted-foreground mb-1 block'>
+                                    {t('purchaseOrders.lineItems.variant', 'Product Variant')} *
                                   </label>
-                                  <POProductSelect
-                                    productId={item.product_id}
-                                    selectedProductInfo={{
-                                      name: item.product_name || productsMetaCache[item.product_id]?.name,
-                                      sku: item.product_sku || productsMetaCache[item.product_id]?.sku,
+                                  <POVariantAutocomplete
+                                    variantId={item.product_variant_id || null}
+                                    selectedVariantInfo={{
+                                      product_name: item.product_name,
+                                      name: item.variant_name,
+                                      sku: item.variant_sku,
+                                      barcode: item.barcode,
+                                      cost_price: item.unit_cost,
                                     }}
-                                    onSelectProduct={(pId, productOption) => {
-                                      if (productOption) {
-                                        setProductsMetaCache((prev) => ({
-                                          ...prev,
-                                          [pId]: {
-                                            name: productOption.name,
-                                            sku: productOption.sku,
-                                            base_uom_id: productOption.base_uom_id,
-                                            has_expiration: productOption.has_expiration,
-                                          },
-                                        }))
-                                      }
-                                      updateLineItem(index, 'product_id', pId, { product: productOption })
-                                    }}
+                                    onSelectVariant={(variant) =>
+                                      handleSelectVariantForLine(index, variant)
+                                    }
                                     disabled={isPending}
                                     showValidation={showLineValidation}
                                   />
                                 </div>
 
-                                <div>
-                                  <label className='text-[11px] font-medium text-muted-foreground block mb-1'>
-                                    {t('purchaseOrders.lineItems.variant', 'Variant')}
-                                  </label>
-                                  <POVariantSelect
-                                    productId={item.product_id}
-                                    variantId={item.product_variant_id}
-                                    onVariantsLoaded={(vars) => handleVariantsLoaded(item.product_id, vars)}
-                                    onSelectVariant={(vId, cost, variant) => {
-                                      const current =
-                                        lineItemOverrides ?? initialLineItems
-                                      const updated = [...current]
-                                      const rowItem = { ...updated[index] }
-                                      rowItem.product_variant_id = vId
-                                      rowItem.unit_cost = cost
-                                      rowItem.subtotal =
-                                        Number(rowItem.quantity_ordered) *
-                                        Number(cost)
-                                      if (variant) {
-                                        rowItem.variant_sku = variant.sku
-                                        rowItem.variant_label =
-                                          variant.attributes_label || variant.name || undefined
-                                      }
-                                      updated[index] = rowItem
-                                      setLineItemOverrides(updated)
-                                      setShowLineValidation(false)
-                                    }}
-                                    disabled={isPending}
-                                    showValidation={showLineValidation}
-                                  />
-                                </div>
-
-                                <div className='grid grid-cols-3 gap-2'>
+                                <div className='grid grid-cols-2 gap-2'>
                                   <div>
-                                    <label className='text-[11px] font-medium text-muted-foreground block mb-1'>
+                                    <label className='text-[11px] font-semibold text-muted-foreground mb-1 block'>
                                       {t('purchaseOrders.lineItems.receivingUom', 'UOM')}
                                     </label>
                                     <Select
                                       value={item.uom_id || 'none'}
                                       onValueChange={(val) =>
-                                        updateLineItem(
-                                          index,
-                                          'uom_id',
-                                          val === 'none' ? null : val
-                                        )
+                                        updateLineUom(index, val === 'none' ? null : val)
                                       }
-                                      disabled={isPending || !item.product_id}
+                                      disabled={isPending}
                                     >
-                                      <SelectTrigger className='h-9 w-full text-xs'>
-                                        <SelectValue placeholder='UOM' />
+                                      <SelectTrigger className='h-8 text-xs'>
+                                        <SelectValue placeholder='Select UOM' />
                                       </SelectTrigger>
                                       <SelectContent>
-                                        <SelectItem value='none'>
-                                          <span className='italic text-xs text-muted-foreground'>
-                                            —
-                                          </span>
-                                        </SelectItem>
+                                        <SelectItem value='none'>Default</SelectItem>
                                         {uoms.map((uom) => (
-                                          <SelectItem
-                                            key={uom.id}
-                                            value={uom.id}
-                                            className='text-xs'
-                                          >
-                                            {uom.code || uom.name}
+                                          <SelectItem key={uom.id} value={uom.id} className='text-xs'>
+                                            {uom.name}
                                           </SelectItem>
                                         ))}
                                       </SelectContent>
                                     </Select>
                                   </div>
-
                                   <div>
-                                    <label className='text-[11px] font-medium text-muted-foreground block mb-1'>
-                                      {t('purchaseOrders.lineItems.qty', 'Qty')}
+                                    <label className='text-[11px] font-semibold text-muted-foreground mb-1 block'>
+                                      {t('purchaseOrders.lineItems.qty', 'Qty')} *
                                     </label>
                                     <Input
                                       type='number'
-                                      min={1}
-                                      className='h-9 w-full text-center font-semibold text-xs'
+                                      step='0.0001'
+                                      min='0.0001'
+                                      className='h-8 text-center text-xs font-semibold'
                                       value={item.quantity_ordered}
                                       disabled={isPending}
                                       onChange={(e) =>
-                                        updateLineItem(
+                                        updateLineNumberField(
                                           index,
                                           'quantity_ordered',
-                                          Number(e.target.value)
+                                          parseFloat(e.target.value)
                                         )
                                       }
                                     />
                                   </div>
+                                </div>
 
+                                <div className='grid grid-cols-3 gap-2'>
                                   <div>
-                                    <label className='text-[11px] font-medium text-muted-foreground block mb-1'>
-                                      {t('purchaseOrders.lineItems.unitCost', 'Unit Cost')}
+                                    <label className='text-[11px] font-semibold text-muted-foreground mb-1 block'>
+                                      {t('purchaseOrders.lineItems.unitCost', 'Cost')}
                                     </label>
                                     <Input
                                       type='number'
+                                      step='0.0001'
                                       min={0}
-                                      step={0.01}
-                                      className='h-9 w-full font-mono text-right text-xs'
+                                      className='h-8 font-mono text-right text-xs'
                                       value={item.unit_cost}
-                                      disabled={
-                                        isPending ||
-                                        !item.product_id ||
-                                        (itemVariants.length > 0 &&
-                                          !item.product_variant_id)
-                                      }
+                                      disabled={isPending}
                                       onChange={(e) =>
-                                        updateLineItem(
+                                        updateLineNumberField(
                                           index,
                                           'unit_cost',
-                                          Number(e.target.value)
+                                          parseFloat(e.target.value)
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className='text-[11px] font-semibold text-muted-foreground mb-1 block'>
+                                      {t('purchaseOrders.lineItems.discount', 'Disc')}
+                                    </label>
+                                    <Input
+                                      type='number'
+                                      step='0.01'
+                                      min={0}
+                                      className='h-8 font-mono text-right text-xs'
+                                      value={item.discount_amount}
+                                      disabled={isPending}
+                                      onChange={(e) =>
+                                        updateLineNumberField(
+                                          index,
+                                          'discount_amount',
+                                          parseFloat(e.target.value)
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className='text-[11px] font-semibold text-muted-foreground mb-1 block'>
+                                      {t('purchaseOrders.lineItems.tax', 'Tax')}
+                                    </label>
+                                    <Input
+                                      type='number'
+                                      step='0.01'
+                                      min={0}
+                                      className='h-8 font-mono text-right text-xs'
+                                      value={item.tax_amount}
+                                      disabled={isPending}
+                                      onChange={(e) =>
+                                        updateLineNumberField(
+                                          index,
+                                          'tax_amount',
+                                          parseFloat(e.target.value)
                                         )
                                       }
                                     />
                                   </div>
                                 </div>
 
-                                <div className='flex items-center justify-between p-2 rounded-md bg-muted/30 border text-xs'>
-                                  <label className='flex items-center gap-2 cursor-pointer select-none'>
-                                    <Checkbox
-                                      checked={Boolean(item.has_expiration)}
-                                      onCheckedChange={(checked) =>
-                                        updateLineItem(
-                                          index,
-                                          'has_expiration',
-                                          Boolean(checked)
-                                        )
-                                      }
-                                      disabled={isPending || !item.product_id}
-                                      className='h-3.5 w-3.5'
-                                    />
-                                    <span className='text-xs font-medium'>
-                                      {t('purchaseOrders.lineItems.hasExpiry', 'Has Expiration')}
-                                    </span>
-                                  </label>
-                                  {item.has_expiration && (
-                                    <PODatePicker
-                                      value={
-                                        item.expiration_date
-                                          ? String(item.expiration_date).split('T')[0]
-                                          : ''
-                                      }
-                                      disabled={isPending || !item.product_id}
-                                      onChange={(val) =>
-                                        updateLineItem(
-                                          index,
-                                          'expiration_date',
-                                          val
-                                        )
-                                      }
-                                      clearable
-                                      compact
-                                      placeholder={t('common.selectDate', 'Date')}
-                                      className='w-36'
-                                    />
-                                  )}
-                                </div>
-
-                                <div className='flex items-center justify-between pt-1 border-t'>
-                                  <span className='text-xs text-muted-foreground'>
-                                    {t('purchaseOrders.lineItems.subtotal', 'Subtotal')}:
+                                <div className='flex items-center justify-between pt-2 border-t text-xs'>
+                                  <span className='text-muted-foreground'>
+                                    {t('purchaseOrders.lineItems.total', 'Line Total')}:
                                   </span>
-                                  <span className='font-mono font-bold text-xs text-foreground'>
-                                    {currencySymbol}{item.subtotal.toFixed(2)}
+                                  <span className='font-mono font-bold text-foreground text-sm'>
+                                    {currencySymbol}{item.total_amount.toFixed(2)}
                                   </span>
                                 </div>
                               </div>
@@ -1460,49 +1194,55 @@ export function POActionDialog() {
                         )
                       })}
                     </div>
-                    </>
-                  ) : (
-                    <div className='rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground bg-muted/10'>
-                      <p className='mb-2'>
-                        {t(
-                          'purchaseOrders.lineItems.noItems',
-                          'No line items. Click "Add Item" to begin adding products.'
-                        )}
-                      </p>
-                      <Button
-                        type='button'
-                        variant='outline'
-                        size='sm'
-                        onClick={addLineItem}
-                      >
-                        <Plus className='mr-1 h-3.5 w-3.5' />
-                        {t('purchaseOrders.lineItems.addItem', 'Add Item')}
-                      </Button>
-                    </div>
-                  )}
+                  </>
+                ) : (
+                  <div className='rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground bg-muted/10'>
+                    <p className='mb-2'>
+                      {t(
+                        'purchaseOrders.lineItems.noItems',
+                        'No line items. Click "Add Item" to begin adding product variants.'
+                      )}
+                    </p>
+                    <Button
+                      type='button'
+                      variant='outline'
+                      size='sm'
+                      onClick={addLineItem}
+                    >
+                      <Plus className='mr-1 h-3.5 w-3.5' />
+                      {t('purchaseOrders.lineItems.addItem', 'Add Item')}
+                    </Button>
+                  </div>
+                )}
 
-                {/* Financial Summary & Breakdown Card */}
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-muted/30 p-4 rounded-xl border'>
-                  <FormField
-                    control={form.control}
-                    name='tax_amount'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='text-xs text-muted-foreground font-medium'>
-                          {t('purchaseOrders.financials.taxAmount', 'Tax Total')} ({currencySymbol})
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            min={0}
-                            step={0.01}
-                            className='h-8 text-xs font-mono bg-background'
-                            {...field}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                {/* Financial Summary & Breakdown Card (Section 17) */}
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 bg-muted/30 p-4 rounded-xl border items-center'>
+                  <div className='flex flex-col'>
+                    <span className='text-xs text-muted-foreground font-medium'>
+                      {t('purchaseOrders.financials.itemsSubtotal', 'Items Subtotal')} ({currencySymbol})
+                    </span>
+                    <span className='text-base font-bold font-mono text-foreground mt-1'>
+                      {currencySymbol}{totals.subtotal.toFixed(2)}
+                    </span>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <span className='text-xs text-muted-foreground font-medium'>
+                      {t('purchaseOrders.financials.discountAmount', 'Discount Total')} ({currencySymbol})
+                    </span>
+                    <span className='text-base font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-1'>
+                      -{currencySymbol}{totals.discount_total.toFixed(2)}
+                    </span>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <span className='text-xs text-muted-foreground font-medium'>
+                      {t('purchaseOrders.financials.taxAmount', 'Tax Total')} ({currencySymbol})
+                    </span>
+                    <span className='text-base font-bold font-mono text-foreground mt-1'>
+                      +{currencySymbol}{totals.tax_total.toFixed(2)}
+                    </span>
+                  </div>
 
                   <FormField
                     control={form.control}
@@ -1516,7 +1256,7 @@ export function POActionDialog() {
                           <Input
                             type='number'
                             min={0}
-                            step={0.01}
+                            step='0.01'
                             className='h-8 text-xs font-mono bg-background'
                             {...field}
                           />
@@ -1525,40 +1265,13 @@ export function POActionDialog() {
                     )}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name='discount_amount'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className='text-xs text-muted-foreground font-medium'>
-                          {t('purchaseOrders.financials.discountAmount', 'Discount')} ({currencySymbol})
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            min={0}
-                            step={0.01}
-                            className='h-8 text-xs font-mono bg-background'
-                            {...field}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className='flex flex-col justify-end text-right sm:border-l sm:pl-4'>
-                    <span className='text-xs text-muted-foreground'>
-                      {t('purchaseOrders.financials.itemsSubtotal', 'Items Subtotal')}:{' '}
-                      <span className='font-mono font-medium'>{currencySymbol}{itemsSubtotal.toFixed(2)}</span>
+                  <div className='flex flex-col justify-center text-right sm:border-l sm:pl-4'>
+                    <span className='text-xs text-muted-foreground font-semibold'>
+                      {t('purchaseOrders.financials.grandTotal', 'Grand Total')}:
                     </span>
-                    <div className='mt-1'>
-                      <span className='text-xs text-muted-foreground font-semibold'>
-                        {t('purchaseOrders.financials.grandTotal', 'Grand Total')}:
-                      </span>
-                      <p className='text-lg font-bold font-mono text-primary'>
-                        {currencySymbol}{grandTotal.toFixed(2)}
-                      </p>
-                    </div>
+                    <p className='text-xl font-extrabold font-mono text-primary'>
+                      {currencySymbol}{totals.grand_total.toFixed(2)}
+                    </p>
                   </div>
                 </div>
               </div>

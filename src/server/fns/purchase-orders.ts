@@ -5,6 +5,11 @@ import { ApiError, rpcError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
+import {
+  PurchaseOrderService,
+  type CreatePurchaseOrderDto,
+  type UpdatePurchaseOrderDto,
+} from '@/server/services/purchase-order-service'
 
 export type PurchaseOrderLifecycleStatus =
   | 'draft'
@@ -14,6 +19,42 @@ export type PurchaseOrderLifecycleStatus =
   | 'received'
   | 'closed'
   | 'cancelled'
+
+export async function createPurchaseOrder(
+  authUserId: string,
+  dto: CreatePurchaseOrderDto
+) {
+  const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
+  return await PurchaseOrderService.createPurchaseOrder(
+    authUserId,
+    tenantId,
+    tenantUserId,
+    dto
+  )
+}
+
+export async function updatePurchaseOrder(
+  authUserId: string,
+  dto: UpdatePurchaseOrderDto
+) {
+  const tenantId = await requireTenantId(authUserId)
+  const tenantUserId = await resolveTenantUserId(authUserId)
+  return await PurchaseOrderService.updatePurchaseOrder(
+    authUserId,
+    tenantId,
+    tenantUserId,
+    dto
+  )
+}
+
+export async function getPurchaseOrderById(
+  authUserId: string,
+  poId: string
+) {
+  const tenantId = await requireTenantId(authUserId)
+  return await PurchaseOrderService.getPurchaseOrderById(tenantId, poId)
+}
 
 export async function setPurchaseOrderStatus(
   authUserId: string,
@@ -28,7 +69,7 @@ export async function setPurchaseOrderStatus(
       id: true,
       po_number: true,
       lifecycle_status: true,
-      total_amount: true,
+      grand_total: true,
       suppliers: { select: { name: true } },
     },
   })
@@ -60,7 +101,7 @@ export async function setPurchaseOrderStatus(
         poId,
         poNumber,
         supplierName,
-        totalAmount: existing.total_amount ? Number(existing.total_amount) : null,
+        totalAmount: existing.grand_total ? Number(existing.grand_total) : null,
         createdByUserId: tenantUserId,
       })
     } else if (status === 'received') {

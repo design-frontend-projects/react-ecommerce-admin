@@ -324,7 +324,7 @@ export function POTable({
               const po = row.original
               const poNum = po.po_number ?? po.po_id
               const poLabel = `PO-${String(poNum).padStart(4, '0')}`
-              const total = Number(po.grand_total ?? po.total_amount ?? 0)
+              const total = Number(po.grand_total ?? 0)
               const currency = po.currency || po.currencies?.code || 'USD'
               const symbol = po.currencies?.symbol || '$'
 

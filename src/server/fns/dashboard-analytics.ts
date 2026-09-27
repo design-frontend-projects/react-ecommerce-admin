@@ -237,12 +237,12 @@ export async function getDashboardAnalyticsData(
       // 5. Pending purchase orders value & count
       prisma.$queryRawUnsafe<PendingPoResult[]>(
         `SELECT 
-           COALESCE(SUM(COALESCE(grand_total, total_amount, subtotal, 0)), 0)::float8 AS pending_po_value,
+           COALESCE(SUM(COALESCE(grand_total, subtotal, 0)), 0)::float8 AS pending_po_value,
            COUNT(*)::int AS pending_po_count
          FROM purchase_orders
          WHERE tenant_id = $1::uuid
            AND ($2::uuid IS NULL OR warehouse_id = $2::uuid)
-           AND COALESCE(lifecycle_status::text, status, 'draft') IN ('draft', 'approved', 'sent', 'partially_received', 'pending')`,
+           AND COALESCE(lifecycle_status::text, 'draft') IN ('draft', 'approved', 'sent', 'partially_received', 'pending')`,
         tenantId,
         warehouseFilter
       ),
@@ -367,13 +367,13 @@ export async function getDashboardAnalyticsData(
       // 10. Purchase order status distribution
       prisma.$queryRawUnsafe<PoStatusRawRow[]>(
         `SELECT 
-           COALESCE(lifecycle_status::text, status, 'draft') AS status_key,
+           COALESCE(lifecycle_status::text, 'draft') AS status_key,
            COUNT(*)::int AS po_count,
-           COALESCE(SUM(COALESCE(grand_total, total_amount, subtotal, 0)), 0)::float8 AS total_val
+           COALESCE(SUM(COALESCE(grand_total, subtotal, 0)), 0)::float8 AS total_val
          FROM purchase_orders
          WHERE tenant_id = $1::uuid
            AND ($2::uuid IS NULL OR warehouse_id = $2::uuid)
-         GROUP BY COALESCE(lifecycle_status::text, status, 'draft')`,
+         GROUP BY COALESCE(lifecycle_status::text, 'draft')`,
         tenantId,
         warehouseFilter
       ),
@@ -387,9 +387,9 @@ export async function getDashboardAnalyticsData(
            to_char(po.order_date, 'YYYY-MM-DD') AS order_date,
            to_char(po.expected_delivery_date, 'YYYY-MM-DD') AS expected_delivery_date,
            (CURRENT_DATE - po.expected_delivery_date::date)::int AS days_overdue,
-           COALESCE(po.grand_total, po.total_amount, po.subtotal, 0)::float8 AS total_amount,
+           COALESCE(po.grand_total, po.subtotal, 0)::float8 AS total_amount,
            COALESCE(po.currency, 'USD') AS currency,
-           COALESCE(po.lifecycle_status::text, po.status, 'pending') AS status,
+           COALESCE(po.lifecycle_status::text, 'draft') AS status,
            (SELECT COUNT(*)::int FROM purchase_order_items poi WHERE poi.po_id = po.id) AS items_count
          FROM purchase_orders po
          LEFT JOIN suppliers s ON s.id = po.supplier_id
@@ -397,7 +397,7 @@ export async function getDashboardAnalyticsData(
            AND ($2::uuid IS NULL OR po.warehouse_id = $2::uuid)
            AND po.expected_delivery_date IS NOT NULL
            AND po.expected_delivery_date < CURRENT_DATE
-           AND COALESCE(po.lifecycle_status::text, po.status, '') NOT IN ('received', 'closed', 'cancelled')
+           AND COALESCE(po.lifecycle_status::text, '') NOT IN ('received', 'closed', 'cancelled')
          ORDER BY days_overdue DESC
          LIMIT 15`,
         tenantId,

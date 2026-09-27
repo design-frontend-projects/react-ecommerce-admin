@@ -109,7 +109,8 @@ function POReceiveDialogContent({
       if (allReceived) newStatus = 'received'
       else if (someReceived) newStatus = 'partial'
 
-      if (newStatus !== po.status) {
+      const currentStatus = String((po as any).lifecycle_status ?? po.status ?? 'pending').toLowerCase()
+      if (newStatus !== currentStatus) {
         await updateStatus.mutateAsync({
           id: po.id || po.po_id,
           status: newStatus,
@@ -223,22 +224,12 @@ function POReceiveDialogContent({
                     <TableCell className='font-medium'>
                       <div className='flex flex-col gap-1'>
                         <span>
-                          {item.products?.name || `Product #${item.product_id}`}
+                          {item.product_variants?.products?.name || (item as any).products?.name || 'Product'}
                         </span>
                         {item.product_variant_id && (
-                          <span className='text-xs text-muted-foreground'>
-                            {item.products?.product_variants?.find(
-                              (v) => v.id === item.product_variant_id
-                            )?.sku ||
-                              `Variant ID: ${item.product_variant_id.split('-')[0]}...`}
-                          </span>
-                        )}
-                        {item.has_expiration && (
-                          <span className='inline-flex items-center gap-1 text-[11px] font-medium text-amber-600 dark:text-amber-400'>
-                            <Calendar className='h-3 w-3' />
-                            {item.expiration_date
-                              ? `${t('purchaseOrders.receiveDialog.expires', 'Expires')}: ${String(item.expiration_date).split('T')[0]}`
-                              : t('purchaseOrders.receiveDialog.perishable', 'Perishable')}
+                          <span className='text-xs text-muted-foreground font-mono'>
+                            {item.product_variants?.sku ||
+                              `Variant: ${item.product_variant_id.slice(0, 8)}...`}
                           </span>
                         )}
                       </div>
