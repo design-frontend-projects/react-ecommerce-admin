@@ -445,6 +445,17 @@ export const product_type_enum = {
 export type product_type_enum = (typeof product_type_enum)[keyof typeof product_type_enum]
 
 
+export const attribute_data_type_enum = {
+  text: 'text',
+  number: 'number',
+  boolean: 'boolean',
+  color: 'color',
+  select: 'select'
+} as const
+
+export type attribute_data_type_enum = (typeof attribute_data_type_enum)[keyof typeof attribute_data_type_enum]
+
+
 export const batch_status_enum = {
   active: 'active',
   depleted: 'depleted',

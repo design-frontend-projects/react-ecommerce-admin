@@ -116,6 +116,27 @@ export interface NotifyCustomerCreatedInput {
   actionUrl?: string | null
 }
 
+export interface NotifyProductCreatedInput {
+  tenantId: string
+  productId: string
+  productCode?: string | null
+  name: string
+  sku: string
+  categoryName?: string | null
+  createdByUserId?: string | null
+  actionUrl?: string | null
+}
+
+export interface NotifyProductUpdatedInput {
+  tenantId: string
+  productId: string
+  productCode?: string | null
+  name: string
+  sku: string
+  updatedByUserId?: string | null
+  actionUrl?: string | null
+}
+
 /**
  * Domain Event Notification Facade.
  * Maps business operations across purchasing, inventory, CRM, and catalog into
@@ -583,5 +604,69 @@ export class BusinessEventNotifications {
     }
 
     return { scanned: batches.length, notifications: results }
+  }
+
+  /**
+   * 12. Product Master Created
+   */
+  static async notifyProductCreated(input: NotifyProductCreatedInput) {
+    const codeInfo = input.productCode || input.sku ? ` (${input.productCode || input.sku})` : ''
+
+    return NotificationService.createNotification({
+      tenantId: input.tenantId,
+      title: `Product Added: ${input.name}`,
+      message: `Product ${input.name}${codeInfo} has been added to catalog under ${input.categoryName || 'General'}.`,
+      type: 'announcement',
+      severity: 'INFO',
+      priority: 'normal',
+      targetType: 'ROLE',
+      targetRoleId: 'inventory_manager',
+      senderType: 'system',
+      senderUserId: input.createdByUserId,
+      businessEventType: 'product_added',
+      sourceEntityType: 'products',
+      sourceEntityId: isValidUuid(input.productId) ? input.productId : null,
+      idempotencyKey: `product_created:${input.tenantId}:${input.productId}`,
+      actionUrl: input.actionUrl || `/products/${input.productId}`,
+      actionLabel: 'View Product',
+      metadata: {
+        productId: input.productId,
+        name: input.name,
+        sku: input.sku,
+        productCode: input.productCode,
+      },
+    })
+  }
+
+  /**
+   * 13. Product Master Updated
+   */
+  static async notifyProductUpdated(input: NotifyProductUpdatedInput) {
+    const codeInfo = input.productCode || input.sku ? ` (${input.productCode || input.sku})` : ''
+
+    return NotificationService.createNotification({
+      tenantId: input.tenantId,
+      title: `Product Updated: ${input.name}`,
+      message: `Product master ${input.name}${codeInfo} was updated.`,
+      type: 'system',
+      severity: 'INFO',
+      priority: 'normal',
+      targetType: 'ROLE',
+      targetRoleId: 'inventory_manager',
+      senderType: 'system',
+      senderUserId: input.updatedByUserId,
+      businessEventType: 'product_updated',
+      sourceEntityType: 'products',
+      sourceEntityId: isValidUuid(input.productId) ? input.productId : null,
+      idempotencyKey: `product_updated:${input.tenantId}:${input.productId}:${Date.now()}`,
+      actionUrl: input.actionUrl || `/products/${input.productId}`,
+      actionLabel: 'View Product',
+      metadata: {
+        productId: input.productId,
+        name: input.name,
+        sku: input.sku,
+        productCode: input.productCode,
+      },
+    })
   }
 }

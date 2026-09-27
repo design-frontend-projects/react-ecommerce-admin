@@ -406,6 +406,9 @@ model product_variants {
   inv_promotion_products inv_promotion_products[]
   inv_promotion_rules_free inv_promotion_rules[] @relation("inv_free_variant")
   goods_receipt_items  goods_receipt_items[]
+  product_variant_attributes product_variant_attributes[]
+  product_suppliers    product_suppliers[]
+  product_media        product_media[]
 
   @@unique([tenant_id, id])
 }
@@ -443,6 +446,13 @@ model products {
   category_id            String?                @db.Uuid
   created_by_user_id     String?                @db.Uuid
   updated_by_user_id     String?                @db.Uuid
+
+  // ── New Product Master fields ─────────────────────────────────────
+  product_code           String?                @db.VarChar(30)
+  name_ar                String?                @db.VarChar(200)
+  short_description      String?                @db.VarChar(500)
+
+  // ── Relations ─────────────────────────────────────────────────────
   pos_reorder_requests   pos_reorder_requests[]
   product_variants       product_variants[]
   base_uom               uoms?                  @relation(fields: [base_uom_id], references: [id], onUpdate: NoAction)
@@ -453,6 +463,15 @@ model products {
   price_list             price_list[]
   price_list_items       price_list_items[]
   inv_promotion_products inv_promotion_products[]
+  product_suppliers      product_suppliers[]
+  product_media          product_media[]
+
+  @@index([tenant_id])
+  @@index([tenant_id, is_active])
+  @@index([tenant_id, category_id])
+  @@index([tenant_id, brand_id])
+  @@index([tenant_id, product_type_id])
+  @@index([tenant_id, created_at(sort: Desc)])
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -469,6 +488,115 @@ model product_types {
   created_at  DateTime?  @default(now()) @db.Timestamptz(6)
   updated_at  DateTime?  @default(now()) @db.Timestamptz(6)
   products    products[]
+}
+
+model product_suppliers {
+  id                    String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String            @db.Uuid
+  product_id            String            @db.Uuid
+  product_variant_id    String?           @db.Uuid
+  supplier_id           String            @db.Uuid
+  supplier_product_code String?           @db.VarChar(100)
+  supplier_barcode      String?           @db.VarChar(100)
+  purchase_uom_id       String?           @db.Uuid
+  minimum_order_qty     Decimal?          @default(0) @db.Decimal(18, 4)
+  lead_time_days        Int?              @default(0)
+  unit_cost             Decimal?          @default(0) @db.Decimal(18, 4)
+  is_preferred          Boolean           @default(false)
+  is_active             Boolean           @default(true)
+  created_at            DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime          @default(now()) @db.Timestamptz(6)
+  created_by_user_id    String?           @db.Uuid
+  updated_by_user_id    String?           @db.Uuid
+
+  product               products          @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "fk_product_suppliers_product")
+  product_variant       product_variants? @relation(fields: [product_variant_id], references: [id], onDelete: SetNull, map: "fk_product_suppliers_variant")
+  supplier              suppliers         @relation(fields: [supplier_id], references: [id], onDelete: Cascade, map: "fk_product_suppliers_supplier")
+  purchase_uom          uoms?             @relation(fields: [purchase_uom_id], references: [id], onDelete: SetNull, map: "fk_product_suppliers_uom")
+
+  @@index([tenant_id], map: "idx_product_suppliers_tenant")
+  @@index([product_id], map: "idx_product_suppliers_product")
+  @@index([supplier_id], map: "idx_product_suppliers_supplier")
+}
+
+model product_media {
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String            @db.Uuid
+  product_id         String            @db.Uuid
+  variant_id         String?           @db.Uuid
+  storage_path       String            @db.VarChar(500)
+  file_name          String            @db.VarChar(255)
+  mime_type          String            @default("image/jpeg") @db.VarChar(100)
+  file_size          BigInt?
+  alt_text           String?           @db.VarChar(255)
+  sort_order         Int               @default(0)
+  is_primary         Boolean           @default(false)
+  is_active          Boolean           @default(true)
+  created_at         DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime          @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?           @db.Uuid
+
+  product            products          @relation(fields: [product_id], references: [id], onDelete: Cascade, map: "fk_product_media_product")
+  variant            product_variants? @relation(fields: [variant_id], references: [id], onDelete: SetNull, map: "fk_product_media_variant")
+
+  @@index([tenant_id], map: "idx_product_media_tenant")
+  @@index([product_id, sort_order], map: "idx_product_media_product")
+}
+
+model attribute_definitions {
+  id                         String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                  String                      @db.Uuid
+  code                       String                      @db.VarChar(50)
+  name                       String                      @db.VarChar(100)
+  name_ar                    String?                     @db.VarChar(100)
+  data_type                  attribute_data_type_enum    @default(text)
+  sort_order                 Int                         @default(0)
+  is_active                  Boolean                     @default(true)
+  created_at                 DateTime                    @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime                    @default(now()) @db.Timestamptz(6)
+  created_by_user_id         String?                     @db.Uuid
+  updated_by_user_id         String?                     @db.Uuid
+
+  attribute_values           attribute_values[]
+  product_variant_attributes product_variant_attributes[]
+
+  @@unique([tenant_id, code], map: "uq_attribute_definitions_tenant_code")
+  @@index([tenant_id, is_active], map: "idx_attribute_definitions_tenant")
+}
+
+model attribute_values {
+  id                         String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                  String                      @db.Uuid
+  attribute_definition_id    String                      @db.Uuid
+  value                      String                      @db.VarChar(200)
+  value_ar                   String?                     @db.VarChar(200)
+  color_hex                  String?                     @db.VarChar(10)
+  sort_order                 Int                         @default(0)
+  is_active                  Boolean                     @default(true)
+  created_at                 DateTime                    @default(now()) @db.Timestamptz(6)
+  created_by_user_id         String?                     @db.Uuid
+
+  attribute_definition       attribute_definitions       @relation(fields: [attribute_definition_id], references: [id], onDelete: Cascade, map: "fk_attribute_values_definition")
+  product_variant_attributes product_variant_attributes[]
+
+  @@index([attribute_definition_id, is_active], map: "idx_attribute_values_definition")
+  @@index([tenant_id], map: "idx_attribute_values_tenant")
+}
+
+model product_variant_attributes {
+  id                      String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id               String                @db.Uuid
+  product_variant_id      String                @db.Uuid
+  attribute_definition_id String                @db.Uuid
+  attribute_value_id      String                @db.Uuid
+
+  product_variant         product_variants      @relation(fields: [product_variant_id], references: [id], onDelete: Cascade, map: "fk_pva_variant")
+  attribute_definition    attribute_definitions @relation(fields: [attribute_definition_id], references: [id], onDelete: Cascade, map: "fk_pva_definition")
+  attribute_value         attribute_values      @relation(fields: [attribute_value_id], references: [id], onDelete: Cascade, map: "fk_pva_value")
+
+  @@unique([product_variant_id, attribute_definition_id], map: "uq_pva_variant_attribute")
+  @@index([tenant_id], map: "idx_pva_tenant")
+  @@index([product_variant_id], map: "idx_pva_variant")
 }
 
 model inventory_items {
@@ -1419,6 +1547,7 @@ model suppliers {
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
   purchase_requisition_items purchase_requisition_items[]
+  product_suppliers    product_suppliers[]
 }
 
 model tax_rates {
@@ -2484,6 +2613,7 @@ model uoms {
   purchase_requisition_items purchase_requisition_items[]
   inventory_items      inventory_items[]
   goods_receipt_items  goods_receipt_items[]
+  product_suppliers    product_suppliers[]
 }
 
 model unit_conversions {
@@ -3015,6 +3145,14 @@ enum product_type_enum {
   bundle
   service
   composite
+}
+
+enum attribute_data_type_enum {
+  text
+  number
+  boolean
+  color
+  select
 }
 
 enum batch_status_enum {

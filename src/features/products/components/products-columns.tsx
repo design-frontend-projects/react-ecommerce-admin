@@ -77,9 +77,21 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
     ),
     cell: ({ row }) => (
       <div className='flex flex-col gap-0.5'>
-        <LongText className='max-w-48 font-medium'>
-          {row.getValue('name')}
-        </LongText>
+        <div className='flex items-center gap-1.5'>
+          <LongText className='max-w-48 font-medium'>
+            {row.getValue('name')}
+          </LongText>
+          {row.original.product_code && (
+            <Badge variant='outline' className='text-[10px] font-mono py-0 px-1 border-primary/30 text-primary'>
+              {row.original.product_code}
+            </Badge>
+          )}
+        </div>
+        {row.original.name_ar && (
+          <span className='text-xs text-muted-foreground' dir='rtl'>
+            {row.original.name_ar}
+          </span>
+        )}
         {row.original.barcode && (
           <span className='text-xs text-muted-foreground font-mono'>
             {row.original.barcode}
@@ -152,14 +164,25 @@ export const getColumns = (t: TFunction): ColumnDef<Product>[] => [
       />
     ),
     cell: ({ row }) => {
-      const supplierName = row.original.suppliers?.name
-      const supplierCode = row.original.suppliers?.code
+      const productSuppliers = row.original.product_suppliers || []
+      const preferred = productSuppliers.find((s) => s.is_preferred) || productSuppliers[0]
+      const supplierName = preferred?.supplier?.name || row.original.suppliers?.name
+      const supplierCode = preferred?.supplier?.code || row.original.suppliers?.code
+      const extraCount = productSuppliers.length > 1 ? productSuppliers.length - 1 : 0
+
       if (!supplierName) return <span className='text-xs text-muted-foreground'>—</span>
       return (
         <div className='flex flex-col text-xs'>
-          <span className='font-medium text-foreground truncate max-w-[130px]'>
-            {supplierName}
-          </span>
+          <div className='flex items-center gap-1'>
+            <span className='font-medium text-foreground truncate max-w-[120px]'>
+              {supplierName}
+            </span>
+            {extraCount > 0 && (
+              <Badge variant='secondary' className='text-[10px] px-1 py-0 h-4'>
+                +{extraCount}
+              </Badge>
+            )}
+          </div>
           {supplierCode && (
             <span className='text-[10px] text-muted-foreground font-mono'>
               {supplierCode}

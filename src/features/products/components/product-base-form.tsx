@@ -73,6 +73,9 @@ export function ProductBaseForm({
     resolver: zodResolver(baseProductSchema) as Resolver<BaseProductFormData>,
     defaultValues: baseProductData || {
       name: '',
+      name_ar: '',
+      product_code: '',
+      short_description: '',
       description: '',
       sku: '',
       barcode: '',
@@ -98,7 +101,6 @@ export function ProductBaseForm({
   })
 
   const hasVariants = form.watch('has_variants')
-  const hasExpiration = form.watch('has_expiration')
   const productType = form.watch('product_type')
 
   useEffect(() => {
@@ -151,24 +153,63 @@ export function ProductBaseForm({
            ========================================================================= */}
         {currentStep === 1 && (
           <div className='animate-in space-y-4 duration-200 fade-in-50'>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t('products.form.name')} *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={t('products.form.namePlaceholder')}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('products.form.name')} *</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t('products.form.namePlaceholder')}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='name_ar'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Arabic Name (الاسم بالعربية)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='اسم المنتج بالعربية'
+                        dir='rtl'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+              <FormField
+                control={form.control}
+                name='product_code'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Product Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Auto (PRD-XXXXXX)'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name='sku'
@@ -275,6 +316,24 @@ export function ProductBaseForm({
 
             <FormField
               control={form.control}
+              name='short_description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Short Description</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Brief summary or highlights of the product'
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name='description'
               render={({ field }) => (
                 <FormItem>
@@ -282,7 +341,7 @@ export function ProductBaseForm({
                   <FormControl>
                     <Textarea
                       placeholder={t('products.form.descriptionPlaceholder')}
-                      className='min-h-[90px] resize-none'
+                      className='min-h-22.5 resize-none'
                       {...field}
                       value={field.value || ''}
                     />

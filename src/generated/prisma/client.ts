@@ -142,6 +142,31 @@ export type products = Prisma.productsModel
  */
 export type product_types = Prisma.product_typesModel
 /**
+ * Model product_suppliers
+ * 
+ */
+export type product_suppliers = Prisma.product_suppliersModel
+/**
+ * Model product_media
+ * 
+ */
+export type product_media = Prisma.product_mediaModel
+/**
+ * Model attribute_definitions
+ * 
+ */
+export type attribute_definitions = Prisma.attribute_definitionsModel
+/**
+ * Model attribute_values
+ * 
+ */
+export type attribute_values = Prisma.attribute_valuesModel
+/**
+ * Model product_variant_attributes
+ * 
+ */
+export type product_variant_attributes = Prisma.product_variant_attributesModel
+/**
  * Model inventory_items
  * 
  */

@@ -404,6 +404,11 @@ export const ModelName = {
   product_variants: 'product_variants',
   products: 'products',
   product_types: 'product_types',
+  product_suppliers: 'product_suppliers',
+  product_media: 'product_media',
+  attribute_definitions: 'attribute_definitions',
+  attribute_values: 'attribute_values',
+  product_variant_attributes: 'product_variant_attributes',
   inventory_items: 'inventory_items',
   pos_reorder_requests: 'pos_reorder_requests',
   promotion_usage: 'promotion_usage',
@@ -551,7 +556,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2032,6 +2037,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.product_typesCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Product_typesCountAggregateOutputType> | number
+        }
+      }
+    }
+    product_suppliers: {
+      payload: Prisma.$product_suppliersPayload<ExtArgs>
+      fields: Prisma.product_suppliersFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.product_suppliersFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.product_suppliersFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>
+        }
+        findFirst: {
+          args: Prisma.product_suppliersFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.product_suppliersFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>
+        }
+        findMany: {
+          args: Prisma.product_suppliersFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>[]
+        }
+        create: {
+          args: Prisma.product_suppliersCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>
+        }
+        createMany: {
+          args: Prisma.product_suppliersCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.product_suppliersCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>[]
+        }
+        delete: {
+          args: Prisma.product_suppliersDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>
+        }
+        update: {
+          args: Prisma.product_suppliersUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>
+        }
+        deleteMany: {
+          args: Prisma.product_suppliersDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.product_suppliersUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.product_suppliersUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>[]
+        }
+        upsert: {
+          args: Prisma.product_suppliersUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_suppliersPayload>
+        }
+        aggregate: {
+          args: Prisma.Product_suppliersAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProduct_suppliers>
+        }
+        groupBy: {
+          args: Prisma.product_suppliersGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Product_suppliersGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.product_suppliersCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Product_suppliersCountAggregateOutputType> | number
+        }
+      }
+    }
+    product_media: {
+      payload: Prisma.$product_mediaPayload<ExtArgs>
+      fields: Prisma.product_mediaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.product_mediaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.product_mediaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>
+        }
+        findFirst: {
+          args: Prisma.product_mediaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.product_mediaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>
+        }
+        findMany: {
+          args: Prisma.product_mediaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>[]
+        }
+        create: {
+          args: Prisma.product_mediaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>
+        }
+        createMany: {
+          args: Prisma.product_mediaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.product_mediaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>[]
+        }
+        delete: {
+          args: Prisma.product_mediaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>
+        }
+        update: {
+          args: Prisma.product_mediaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>
+        }
+        deleteMany: {
+          args: Prisma.product_mediaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.product_mediaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.product_mediaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>[]
+        }
+        upsert: {
+          args: Prisma.product_mediaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_mediaPayload>
+        }
+        aggregate: {
+          args: Prisma.Product_mediaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProduct_media>
+        }
+        groupBy: {
+          args: Prisma.product_mediaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Product_mediaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.product_mediaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Product_mediaCountAggregateOutputType> | number
+        }
+      }
+    }
+    attribute_definitions: {
+      payload: Prisma.$attribute_definitionsPayload<ExtArgs>
+      fields: Prisma.attribute_definitionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.attribute_definitionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.attribute_definitionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>
+        }
+        findFirst: {
+          args: Prisma.attribute_definitionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.attribute_definitionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>
+        }
+        findMany: {
+          args: Prisma.attribute_definitionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>[]
+        }
+        create: {
+          args: Prisma.attribute_definitionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>
+        }
+        createMany: {
+          args: Prisma.attribute_definitionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.attribute_definitionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>[]
+        }
+        delete: {
+          args: Prisma.attribute_definitionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>
+        }
+        update: {
+          args: Prisma.attribute_definitionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.attribute_definitionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.attribute_definitionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.attribute_definitionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.attribute_definitionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_definitionsPayload>
+        }
+        aggregate: {
+          args: Prisma.Attribute_definitionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAttribute_definitions>
+        }
+        groupBy: {
+          args: Prisma.attribute_definitionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Attribute_definitionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.attribute_definitionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Attribute_definitionsCountAggregateOutputType> | number
+        }
+      }
+    }
+    attribute_values: {
+      payload: Prisma.$attribute_valuesPayload<ExtArgs>
+      fields: Prisma.attribute_valuesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.attribute_valuesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.attribute_valuesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>
+        }
+        findFirst: {
+          args: Prisma.attribute_valuesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.attribute_valuesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>
+        }
+        findMany: {
+          args: Prisma.attribute_valuesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>[]
+        }
+        create: {
+          args: Prisma.attribute_valuesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>
+        }
+        createMany: {
+          args: Prisma.attribute_valuesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.attribute_valuesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>[]
+        }
+        delete: {
+          args: Prisma.attribute_valuesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>
+        }
+        update: {
+          args: Prisma.attribute_valuesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>
+        }
+        deleteMany: {
+          args: Prisma.attribute_valuesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.attribute_valuesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.attribute_valuesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>[]
+        }
+        upsert: {
+          args: Prisma.attribute_valuesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$attribute_valuesPayload>
+        }
+        aggregate: {
+          args: Prisma.Attribute_valuesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAttribute_values>
+        }
+        groupBy: {
+          args: Prisma.attribute_valuesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Attribute_valuesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.attribute_valuesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Attribute_valuesCountAggregateOutputType> | number
+        }
+      }
+    }
+    product_variant_attributes: {
+      payload: Prisma.$product_variant_attributesPayload<ExtArgs>
+      fields: Prisma.product_variant_attributesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.product_variant_attributesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.product_variant_attributesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>
+        }
+        findFirst: {
+          args: Prisma.product_variant_attributesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.product_variant_attributesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>
+        }
+        findMany: {
+          args: Prisma.product_variant_attributesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>[]
+        }
+        create: {
+          args: Prisma.product_variant_attributesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>
+        }
+        createMany: {
+          args: Prisma.product_variant_attributesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.product_variant_attributesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>[]
+        }
+        delete: {
+          args: Prisma.product_variant_attributesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>
+        }
+        update: {
+          args: Prisma.product_variant_attributesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>
+        }
+        deleteMany: {
+          args: Prisma.product_variant_attributesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.product_variant_attributesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.product_variant_attributesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>[]
+        }
+        upsert: {
+          args: Prisma.product_variant_attributesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$product_variant_attributesPayload>
+        }
+        aggregate: {
+          args: Prisma.Product_variant_attributesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProduct_variant_attributes>
+        }
+        groupBy: {
+          args: Prisma.product_variant_attributesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Product_variant_attributesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.product_variant_attributesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Product_variant_attributesCountAggregateOutputType> | number
         }
       }
     }
@@ -12213,7 +12588,10 @@ export const ProductsScalarFieldEnum = {
   supplier_id: 'supplier_id',
   category_id: 'category_id',
   created_by_user_id: 'created_by_user_id',
-  updated_by_user_id: 'updated_by_user_id'
+  updated_by_user_id: 'updated_by_user_id',
+  product_code: 'product_code',
+  name_ar: 'name_ar',
+  short_description: 'short_description'
 } as const
 
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
@@ -12234,6 +12612,95 @@ export const Product_typesScalarFieldEnum = {
 } as const
 
 export type Product_typesScalarFieldEnum = (typeof Product_typesScalarFieldEnum)[keyof typeof Product_typesScalarFieldEnum]
+
+
+export const Product_suppliersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_id: 'product_id',
+  product_variant_id: 'product_variant_id',
+  supplier_id: 'supplier_id',
+  supplier_product_code: 'supplier_product_code',
+  supplier_barcode: 'supplier_barcode',
+  purchase_uom_id: 'purchase_uom_id',
+  minimum_order_qty: 'minimum_order_qty',
+  lead_time_days: 'lead_time_days',
+  unit_cost: 'unit_cost',
+  is_preferred: 'is_preferred',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Product_suppliersScalarFieldEnum = (typeof Product_suppliersScalarFieldEnum)[keyof typeof Product_suppliersScalarFieldEnum]
+
+
+export const Product_mediaScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_id: 'product_id',
+  variant_id: 'variant_id',
+  storage_path: 'storage_path',
+  file_name: 'file_name',
+  mime_type: 'mime_type',
+  file_size: 'file_size',
+  alt_text: 'alt_text',
+  sort_order: 'sort_order',
+  is_primary: 'is_primary',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Product_mediaScalarFieldEnum = (typeof Product_mediaScalarFieldEnum)[keyof typeof Product_mediaScalarFieldEnum]
+
+
+export const Attribute_definitionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  code: 'code',
+  name: 'name',
+  name_ar: 'name_ar',
+  data_type: 'data_type',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Attribute_definitionsScalarFieldEnum = (typeof Attribute_definitionsScalarFieldEnum)[keyof typeof Attribute_definitionsScalarFieldEnum]
+
+
+export const Attribute_valuesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  attribute_definition_id: 'attribute_definition_id',
+  value: 'value',
+  value_ar: 'value_ar',
+  color_hex: 'color_hex',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Attribute_valuesScalarFieldEnum = (typeof Attribute_valuesScalarFieldEnum)[keyof typeof Attribute_valuesScalarFieldEnum]
+
+
+export const Product_variant_attributesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  attribute_definition_id: 'attribute_definition_id',
+  attribute_value_id: 'attribute_value_id'
+} as const
+
+export type Product_variant_attributesScalarFieldEnum = (typeof Product_variant_attributesScalarFieldEnum)[keyof typeof Product_variant_attributesScalarFieldEnum]
 
 
 export const Inventory_itemsScalarFieldEnum = {
@@ -15253,6 +15720,34 @@ export type ListEnumproduct_type_enumFieldRefInput<$PrismaModel> = FieldRefInput
 
 
 /**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+    
+
+
+/**
+ * Reference to a field of type 'attribute_data_type_enum'
+ */
+export type Enumattribute_data_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'attribute_data_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'attribute_data_type_enum[]'
+ */
+export type ListEnumattribute_data_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'attribute_data_type_enum[]'>
+    
+
+
+/**
  * Reference to a field of type 'reorder_request_status'
  */
 export type Enumreorder_request_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'reorder_request_status'>
@@ -15571,20 +16066,6 @@ export type Enumfinancial_transaction_type_enumFieldRefInput<$PrismaModel> = Fie
  * Reference to a field of type 'financial_transaction_type_enum[]'
  */
 export type ListEnumfinancial_transaction_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'financial_transaction_type_enum[]'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt'
- */
-export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
-    
-
-
-/**
- * Reference to a field of type 'BigInt[]'
- */
-export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -16360,6 +16841,11 @@ export type GlobalOmitConfig = {
   product_variants?: Prisma.product_variantsOmit
   products?: Prisma.productsOmit
   product_types?: Prisma.product_typesOmit
+  product_suppliers?: Prisma.product_suppliersOmit
+  product_media?: Prisma.product_mediaOmit
+  attribute_definitions?: Prisma.attribute_definitionsOmit
+  attribute_values?: Prisma.attribute_valuesOmit
+  product_variant_attributes?: Prisma.product_variant_attributesOmit
   inventory_items?: Prisma.inventory_itemsOmit
   pos_reorder_requests?: Prisma.pos_reorder_requestsOmit
   promotion_usage?: Prisma.promotion_usageOmit

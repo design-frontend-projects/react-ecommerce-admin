@@ -71,6 +71,11 @@ export const ModelName = {
   product_variants: 'product_variants',
   products: 'products',
   product_types: 'product_types',
+  product_suppliers: 'product_suppliers',
+  product_media: 'product_media',
+  attribute_definitions: 'attribute_definitions',
+  attribute_values: 'attribute_values',
+  product_variant_attributes: 'product_variant_attributes',
   inventory_items: 'inventory_items',
   pos_reorder_requests: 'pos_reorder_requests',
   promotion_usage: 'promotion_usage',
@@ -592,7 +597,10 @@ export const ProductsScalarFieldEnum = {
   supplier_id: 'supplier_id',
   category_id: 'category_id',
   created_by_user_id: 'created_by_user_id',
-  updated_by_user_id: 'updated_by_user_id'
+  updated_by_user_id: 'updated_by_user_id',
+  product_code: 'product_code',
+  name_ar: 'name_ar',
+  short_description: 'short_description'
 } as const
 
 export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
@@ -613,6 +621,95 @@ export const Product_typesScalarFieldEnum = {
 } as const
 
 export type Product_typesScalarFieldEnum = (typeof Product_typesScalarFieldEnum)[keyof typeof Product_typesScalarFieldEnum]
+
+
+export const Product_suppliersScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_id: 'product_id',
+  product_variant_id: 'product_variant_id',
+  supplier_id: 'supplier_id',
+  supplier_product_code: 'supplier_product_code',
+  supplier_barcode: 'supplier_barcode',
+  purchase_uom_id: 'purchase_uom_id',
+  minimum_order_qty: 'minimum_order_qty',
+  lead_time_days: 'lead_time_days',
+  unit_cost: 'unit_cost',
+  is_preferred: 'is_preferred',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Product_suppliersScalarFieldEnum = (typeof Product_suppliersScalarFieldEnum)[keyof typeof Product_suppliersScalarFieldEnum]
+
+
+export const Product_mediaScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_id: 'product_id',
+  variant_id: 'variant_id',
+  storage_path: 'storage_path',
+  file_name: 'file_name',
+  mime_type: 'mime_type',
+  file_size: 'file_size',
+  alt_text: 'alt_text',
+  sort_order: 'sort_order',
+  is_primary: 'is_primary',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Product_mediaScalarFieldEnum = (typeof Product_mediaScalarFieldEnum)[keyof typeof Product_mediaScalarFieldEnum]
+
+
+export const Attribute_definitionsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  code: 'code',
+  name: 'name',
+  name_ar: 'name_ar',
+  data_type: 'data_type',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Attribute_definitionsScalarFieldEnum = (typeof Attribute_definitionsScalarFieldEnum)[keyof typeof Attribute_definitionsScalarFieldEnum]
+
+
+export const Attribute_valuesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  attribute_definition_id: 'attribute_definition_id',
+  value: 'value',
+  value_ar: 'value_ar',
+  color_hex: 'color_hex',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Attribute_valuesScalarFieldEnum = (typeof Attribute_valuesScalarFieldEnum)[keyof typeof Attribute_valuesScalarFieldEnum]
+
+
+export const Product_variant_attributesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  product_variant_id: 'product_variant_id',
+  attribute_definition_id: 'attribute_definition_id',
+  attribute_value_id: 'attribute_value_id'
+} as const
+
+export type Product_variant_attributesScalarFieldEnum = (typeof Product_variant_attributesScalarFieldEnum)[keyof typeof Product_variant_attributesScalarFieldEnum]
 
 
 export const Inventory_itemsScalarFieldEnum = {

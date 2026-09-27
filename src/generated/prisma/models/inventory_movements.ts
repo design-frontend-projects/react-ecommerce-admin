@@ -1083,14 +1083,6 @@ export type inventory_movementsSumOrderByAggregateInput = {
   qty_before?: Prisma.SortOrder
 }
 
-export type NullableBigIntFieldUpdateOperationsInput = {
-  set?: bigint | number | null
-  increment?: bigint | number
-  decrement?: bigint | number
-  multiply?: bigint | number
-  divide?: bigint | number
-}
-
 export type Enummovement_type_enumFieldUpdateOperationsInput = {
   set?: $Enums.movement_type_enum
 }

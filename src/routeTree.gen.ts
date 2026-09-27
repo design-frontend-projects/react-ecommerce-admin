@@ -147,6 +147,7 @@ import { Route as ApiInventoryReservationsRouteImport } from './routes/api/inven
 import { Route as ApiInventoryReorderSuggestionsRouteImport } from './routes/api/inventory/reorder-suggestions'
 import { Route as ApiInventoryReorderRulesRouteImport } from './routes/api/inventory/reorder-rules'
 import { Route as ApiInventoryPurchaseRequisitionsRouteImport } from './routes/api/inventory/purchase-requisitions'
+import { Route as ApiInventoryProductsRouteImport } from './routes/api/inventory/products'
 import { Route as ApiInventoryProductVariantsRouteImport } from './routes/api/inventory/product-variants'
 import { Route as ApiInventoryOpeningStockRouteImport } from './routes/api/inventory/opening-stock'
 import { Route as ApiInventoryMovementsRouteImport } from './routes/api/inventory/movements'
@@ -156,6 +157,7 @@ import { Route as ApiInventoryCustomerReturnsRouteImport } from './routes/api/in
 import { Route as ApiInventoryCategoriesRouteImport } from './routes/api/inventory/categories'
 import { Route as ApiInventoryBrandsRouteImport } from './routes/api/inventory/brands'
 import { Route as ApiInventoryBatchesRouteImport } from './routes/api/inventory/batches'
+import { Route as ApiInventoryAttributesRouteImport } from './routes/api/inventory/attributes'
 import { Route as ApiInventoryAdjustmentsRouteImport } from './routes/api/inventory/adjustments'
 import { Route as ApiFinancialTransactionsStatusRouteImport } from './routes/api/financial-transactions/status'
 import { Route as ApiFinancialTransactionsRefundRouteImport } from './routes/api/financial-transactions/refund'
@@ -1011,6 +1013,11 @@ const ApiInventoryPurchaseRequisitionsRoute =
     path: '/api/inventory/purchase-requisitions',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiInventoryProductsRoute = ApiInventoryProductsRouteImport.update({
+  id: '/api/inventory/products',
+  path: '/api/inventory/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInventoryProductVariantsRoute =
   ApiInventoryProductVariantsRouteImport.update({
     id: '/api/inventory/product-variants',
@@ -1058,6 +1065,11 @@ const ApiInventoryBrandsRoute = ApiInventoryBrandsRouteImport.update({
 const ApiInventoryBatchesRoute = ApiInventoryBatchesRouteImport.update({
   id: '/api/inventory/batches',
   path: '/api/inventory/batches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInventoryAttributesRoute = ApiInventoryAttributesRouteImport.update({
+  id: '/api/inventory/attributes',
+  path: '/api/inventory/attributes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiInventoryAdjustmentsRoute = ApiInventoryAdjustmentsRouteImport.update({
@@ -1659,6 +1671,7 @@ export interface FileRoutesByFullPath {
   '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
   '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
+  '/api/inventory/attributes': typeof ApiInventoryAttributesRoute
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
   '/api/inventory/brands': typeof ApiInventoryBrandsRoute
   '/api/inventory/categories': typeof ApiInventoryCategoriesRoute
@@ -1668,6 +1681,7 @@ export interface FileRoutesByFullPath {
   '/api/inventory/movements': typeof ApiInventoryMovementsRoute
   '/api/inventory/opening-stock': typeof ApiInventoryOpeningStockRoute
   '/api/inventory/product-variants': typeof ApiInventoryProductVariantsRoute
+  '/api/inventory/products': typeof ApiInventoryProductsRoute
   '/api/inventory/purchase-requisitions': typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
   '/api/inventory/reorder-rules': typeof ApiInventoryReorderRulesRoute
   '/api/inventory/reorder-suggestions': typeof ApiInventoryReorderSuggestionsRouteWithChildren
@@ -1890,6 +1904,7 @@ export interface FileRoutesByTo {
   '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
   '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
+  '/api/inventory/attributes': typeof ApiInventoryAttributesRoute
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
   '/api/inventory/brands': typeof ApiInventoryBrandsRoute
   '/api/inventory/categories': typeof ApiInventoryCategoriesRoute
@@ -1899,6 +1914,7 @@ export interface FileRoutesByTo {
   '/api/inventory/movements': typeof ApiInventoryMovementsRoute
   '/api/inventory/opening-stock': typeof ApiInventoryOpeningStockRoute
   '/api/inventory/product-variants': typeof ApiInventoryProductVariantsRoute
+  '/api/inventory/products': typeof ApiInventoryProductsRoute
   '/api/inventory/purchase-requisitions': typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
   '/api/inventory/reorder-rules': typeof ApiInventoryReorderRulesRoute
   '/api/inventory/reorder-suggestions': typeof ApiInventoryReorderSuggestionsRouteWithChildren
@@ -2126,6 +2142,7 @@ export interface FileRoutesById {
   '/api/financial-transactions/refund': typeof ApiFinancialTransactionsRefundRoute
   '/api/financial-transactions/status': typeof ApiFinancialTransactionsStatusRoute
   '/api/inventory/adjustments': typeof ApiInventoryAdjustmentsRouteWithChildren
+  '/api/inventory/attributes': typeof ApiInventoryAttributesRoute
   '/api/inventory/batches': typeof ApiInventoryBatchesRouteWithChildren
   '/api/inventory/brands': typeof ApiInventoryBrandsRoute
   '/api/inventory/categories': typeof ApiInventoryCategoriesRoute
@@ -2135,6 +2152,7 @@ export interface FileRoutesById {
   '/api/inventory/movements': typeof ApiInventoryMovementsRoute
   '/api/inventory/opening-stock': typeof ApiInventoryOpeningStockRoute
   '/api/inventory/product-variants': typeof ApiInventoryProductVariantsRoute
+  '/api/inventory/products': typeof ApiInventoryProductsRoute
   '/api/inventory/purchase-requisitions': typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
   '/api/inventory/reorder-rules': typeof ApiInventoryReorderRulesRoute
   '/api/inventory/reorder-suggestions': typeof ApiInventoryReorderSuggestionsRouteWithChildren
@@ -2361,6 +2379,7 @@ export interface FileRouteTypes {
     | '/api/financial-transactions/refund'
     | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
+    | '/api/inventory/attributes'
     | '/api/inventory/batches'
     | '/api/inventory/brands'
     | '/api/inventory/categories'
@@ -2370,6 +2389,7 @@ export interface FileRouteTypes {
     | '/api/inventory/movements'
     | '/api/inventory/opening-stock'
     | '/api/inventory/product-variants'
+    | '/api/inventory/products'
     | '/api/inventory/purchase-requisitions'
     | '/api/inventory/reorder-rules'
     | '/api/inventory/reorder-suggestions'
@@ -2592,6 +2612,7 @@ export interface FileRouteTypes {
     | '/api/financial-transactions/refund'
     | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
+    | '/api/inventory/attributes'
     | '/api/inventory/batches'
     | '/api/inventory/brands'
     | '/api/inventory/categories'
@@ -2601,6 +2622,7 @@ export interface FileRouteTypes {
     | '/api/inventory/movements'
     | '/api/inventory/opening-stock'
     | '/api/inventory/product-variants'
+    | '/api/inventory/products'
     | '/api/inventory/purchase-requisitions'
     | '/api/inventory/reorder-rules'
     | '/api/inventory/reorder-suggestions'
@@ -2827,6 +2849,7 @@ export interface FileRouteTypes {
     | '/api/financial-transactions/refund'
     | '/api/financial-transactions/status'
     | '/api/inventory/adjustments'
+    | '/api/inventory/attributes'
     | '/api/inventory/batches'
     | '/api/inventory/brands'
     | '/api/inventory/categories'
@@ -2836,6 +2859,7 @@ export interface FileRouteTypes {
     | '/api/inventory/movements'
     | '/api/inventory/opening-stock'
     | '/api/inventory/product-variants'
+    | '/api/inventory/products'
     | '/api/inventory/purchase-requisitions'
     | '/api/inventory/reorder-rules'
     | '/api/inventory/reorder-suggestions'
@@ -2992,6 +3016,7 @@ export interface RootRouteChildren {
   ApiFinancialTransactionsRefundRoute: typeof ApiFinancialTransactionsRefundRoute
   ApiFinancialTransactionsStatusRoute: typeof ApiFinancialTransactionsStatusRoute
   ApiInventoryAdjustmentsRoute: typeof ApiInventoryAdjustmentsRouteWithChildren
+  ApiInventoryAttributesRoute: typeof ApiInventoryAttributesRoute
   ApiInventoryBatchesRoute: typeof ApiInventoryBatchesRouteWithChildren
   ApiInventoryBrandsRoute: typeof ApiInventoryBrandsRoute
   ApiInventoryCategoriesRoute: typeof ApiInventoryCategoriesRoute
@@ -3001,6 +3026,7 @@ export interface RootRouteChildren {
   ApiInventoryMovementsRoute: typeof ApiInventoryMovementsRoute
   ApiInventoryOpeningStockRoute: typeof ApiInventoryOpeningStockRoute
   ApiInventoryProductVariantsRoute: typeof ApiInventoryProductVariantsRoute
+  ApiInventoryProductsRoute: typeof ApiInventoryProductsRoute
   ApiInventoryPurchaseRequisitionsRoute: typeof ApiInventoryPurchaseRequisitionsRouteWithChildren
   ApiInventoryReorderRulesRoute: typeof ApiInventoryReorderRulesRoute
   ApiInventoryReorderSuggestionsRoute: typeof ApiInventoryReorderSuggestionsRouteWithChildren
@@ -4031,6 +4057,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInventoryPurchaseRequisitionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/inventory/products': {
+      id: '/api/inventory/products'
+      path: '/api/inventory/products'
+      fullPath: '/api/inventory/products'
+      preLoaderRoute: typeof ApiInventoryProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/inventory/product-variants': {
       id: '/api/inventory/product-variants'
       path: '/api/inventory/product-variants'
@@ -4092,6 +4125,13 @@ declare module '@tanstack/react-router' {
       path: '/api/inventory/batches'
       fullPath: '/api/inventory/batches'
       preLoaderRoute: typeof ApiInventoryBatchesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/inventory/attributes': {
+      id: '/api/inventory/attributes'
+      path: '/api/inventory/attributes'
+      fullPath: '/api/inventory/attributes'
+      preLoaderRoute: typeof ApiInventoryAttributesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inventory/adjustments': {
@@ -5265,6 +5305,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiFinancialTransactionsRefundRoute: ApiFinancialTransactionsRefundRoute,
   ApiFinancialTransactionsStatusRoute: ApiFinancialTransactionsStatusRoute,
   ApiInventoryAdjustmentsRoute: ApiInventoryAdjustmentsRouteWithChildren,
+  ApiInventoryAttributesRoute: ApiInventoryAttributesRoute,
   ApiInventoryBatchesRoute: ApiInventoryBatchesRouteWithChildren,
   ApiInventoryBrandsRoute: ApiInventoryBrandsRoute,
   ApiInventoryCategoriesRoute: ApiInventoryCategoriesRoute,
@@ -5275,6 +5316,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInventoryMovementsRoute: ApiInventoryMovementsRoute,
   ApiInventoryOpeningStockRoute: ApiInventoryOpeningStockRoute,
   ApiInventoryProductVariantsRoute: ApiInventoryProductVariantsRoute,
+  ApiInventoryProductsRoute: ApiInventoryProductsRoute,
   ApiInventoryPurchaseRequisitionsRoute:
     ApiInventoryPurchaseRequisitionsRouteWithChildren,
   ApiInventoryReorderRulesRoute: ApiInventoryReorderRulesRoute,
