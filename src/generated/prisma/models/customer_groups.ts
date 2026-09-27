@@ -256,6 +256,7 @@ export type customer_groupsWhereInput = {
   price_list?: Prisma.Price_listListRelationFilter
   price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   inv_promotion_customer_groups?: Prisma.Inv_promotion_customer_groupsListRelationFilter
+  notification_channels?: Prisma.Notification_channelsListRelationFilter
 }
 
 export type customer_groupsOrderByWithRelationInput = {
@@ -272,6 +273,7 @@ export type customer_groupsOrderByWithRelationInput = {
   price_list?: Prisma.price_listOrderByRelationAggregateInput
   price_list_assignments?: Prisma.price_list_assignmentsOrderByRelationAggregateInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsOrderByRelationAggregateInput
+  notification_channels?: Prisma.notification_channelsOrderByRelationAggregateInput
 }
 
 export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
@@ -291,6 +293,7 @@ export type customer_groupsWhereUniqueInput = Prisma.AtLeast<{
   price_list?: Prisma.Price_listListRelationFilter
   price_list_assignments?: Prisma.Price_list_assignmentsListRelationFilter
   inv_promotion_customer_groups?: Prisma.Inv_promotion_customer_groupsListRelationFilter
+  notification_channels?: Prisma.Notification_channelsListRelationFilter
 }, "id">
 
 export type customer_groupsOrderByWithAggregationInput = {
@@ -339,6 +342,7 @@ export type customer_groupsCreateInput = {
   price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsUncheckedCreateInput = {
@@ -355,6 +359,7 @@ export type customer_groupsUncheckedCreateInput = {
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsUpdateInput = {
@@ -371,6 +376,7 @@ export type customer_groupsUpdateInput = {
   price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsUncheckedUpdateInput = {
@@ -387,6 +393,7 @@ export type customer_groupsUncheckedUpdateInput = {
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsCreateManyInput = {
@@ -543,6 +550,22 @@ export type customer_groupsUpdateOneRequiredWithoutInv_promotion_customer_groups
   update?: Prisma.XOR<Prisma.XOR<Prisma.customer_groupsUpdateToOneWithWhereWithoutInv_promotion_customer_groupsInput, Prisma.customer_groupsUpdateWithoutInv_promotion_customer_groupsInput>, Prisma.customer_groupsUncheckedUpdateWithoutInv_promotion_customer_groupsInput>
 }
 
+export type customer_groupsCreateNestedOneWithoutNotification_channelsInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutNotification_channelsInput, Prisma.customer_groupsUncheckedCreateWithoutNotification_channelsInput>
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutNotification_channelsInput
+  connect?: Prisma.customer_groupsWhereUniqueInput
+}
+
+export type customer_groupsUpdateOneWithoutNotification_channelsNestedInput = {
+  create?: Prisma.XOR<Prisma.customer_groupsCreateWithoutNotification_channelsInput, Prisma.customer_groupsUncheckedCreateWithoutNotification_channelsInput>
+  connectOrCreate?: Prisma.customer_groupsCreateOrConnectWithoutNotification_channelsInput
+  upsert?: Prisma.customer_groupsUpsertWithoutNotification_channelsInput
+  disconnect?: Prisma.customer_groupsWhereInput | boolean
+  delete?: Prisma.customer_groupsWhereInput | boolean
+  connect?: Prisma.customer_groupsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.customer_groupsUpdateToOneWithWhereWithoutNotification_channelsInput, Prisma.customer_groupsUpdateWithoutNotification_channelsInput>, Prisma.customer_groupsUncheckedUpdateWithoutNotification_channelsInput>
+}
+
 export type customer_groupsCreateWithoutCustomersInput = {
   name: string
   description?: string | null
@@ -556,6 +579,7 @@ export type customer_groupsCreateWithoutCustomersInput = {
   price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsUncheckedCreateWithoutCustomersInput = {
@@ -571,6 +595,7 @@ export type customer_groupsUncheckedCreateWithoutCustomersInput = {
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsCreateOrConnectWithoutCustomersInput = {
@@ -602,6 +627,7 @@ export type customer_groupsUpdateWithoutCustomersInput = {
   price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
@@ -617,6 +643,7 @@ export type customer_groupsUncheckedUpdateWithoutCustomersInput = {
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsCreateWithoutPrice_listInput = {
@@ -632,6 +659,7 @@ export type customer_groupsCreateWithoutPrice_listInput = {
   customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsUncheckedCreateWithoutPrice_listInput = {
@@ -647,6 +675,7 @@ export type customer_groupsUncheckedCreateWithoutPrice_listInput = {
   customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsCreateOrConnectWithoutPrice_listInput = {
@@ -678,6 +707,7 @@ export type customer_groupsUpdateWithoutPrice_listInput = {
   customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutPrice_listInput = {
@@ -693,6 +723,7 @@ export type customer_groupsUncheckedUpdateWithoutPrice_listInput = {
   customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsCreateWithoutPrice_list_assignmentsInput = {
@@ -708,6 +739,7 @@ export type customer_groupsCreateWithoutPrice_list_assignmentsInput = {
   customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
   price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsUncheckedCreateWithoutPrice_list_assignmentsInput = {
@@ -723,6 +755,7 @@ export type customer_groupsUncheckedCreateWithoutPrice_list_assignmentsInput = {
   customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsCreateOrConnectWithoutPrice_list_assignmentsInput = {
@@ -754,6 +787,7 @@ export type customer_groupsUpdateWithoutPrice_list_assignmentsInput = {
   customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutPrice_list_assignmentsInput = {
@@ -769,6 +803,7 @@ export type customer_groupsUncheckedUpdateWithoutPrice_list_assignmentsInput = {
   customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsCreateWithoutInv_promotion_customer_groupsInput = {
@@ -784,6 +819,7 @@ export type customer_groupsCreateWithoutInv_promotion_customer_groupsInput = {
   customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
   price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsUncheckedCreateWithoutInv_promotion_customer_groupsInput = {
@@ -799,6 +835,7 @@ export type customer_groupsUncheckedCreateWithoutInv_promotion_customer_groupsIn
   customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
   price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_customer_groupInput
 }
 
 export type customer_groupsCreateOrConnectWithoutInv_promotion_customer_groupsInput = {
@@ -830,6 +867,7 @@ export type customer_groupsUpdateWithoutInv_promotion_customer_groupsInput = {
   customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
   price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_customer_groupNestedInput
 }
 
 export type customer_groupsUncheckedUpdateWithoutInv_promotion_customer_groupsInput = {
@@ -845,6 +883,87 @@ export type customer_groupsUncheckedUpdateWithoutInv_promotion_customer_groupsIn
   customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_customer_groupNestedInput
+}
+
+export type customer_groupsCreateWithoutNotification_channelsInput = {
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  id?: string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  customers?: Prisma.customersCreateNestedManyWithoutCustomer_groupsInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutCustomer_groupsInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutCustomer_groupsInput
+  inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsCreateNestedManyWithoutCustomer_groupsInput
+}
+
+export type customer_groupsUncheckedCreateWithoutNotification_channelsInput = {
+  name: string
+  description?: string | null
+  minimum_order_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  id?: string
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  customers?: Prisma.customersUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+  inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedCreateNestedManyWithoutCustomer_groupsInput
+}
+
+export type customer_groupsCreateOrConnectWithoutNotification_channelsInput = {
+  where: Prisma.customer_groupsWhereUniqueInput
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutNotification_channelsInput, Prisma.customer_groupsUncheckedCreateWithoutNotification_channelsInput>
+}
+
+export type customer_groupsUpsertWithoutNotification_channelsInput = {
+  update: Prisma.XOR<Prisma.customer_groupsUpdateWithoutNotification_channelsInput, Prisma.customer_groupsUncheckedUpdateWithoutNotification_channelsInput>
+  create: Prisma.XOR<Prisma.customer_groupsCreateWithoutNotification_channelsInput, Prisma.customer_groupsUncheckedCreateWithoutNotification_channelsInput>
+  where?: Prisma.customer_groupsWhereInput
+}
+
+export type customer_groupsUpdateToOneWithWhereWithoutNotification_channelsInput = {
+  where?: Prisma.customer_groupsWhereInput
+  data: Prisma.XOR<Prisma.customer_groupsUpdateWithoutNotification_channelsInput, Prisma.customer_groupsUncheckedUpdateWithoutNotification_channelsInput>
+}
+
+export type customer_groupsUpdateWithoutNotification_channelsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUpdateManyWithoutCustomer_groupsNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutCustomer_groupsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutCustomer_groupsNestedInput
+  inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUpdateManyWithoutCustomer_groupsNestedInput
+}
+
+export type customer_groupsUncheckedUpdateWithoutNotification_channelsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minimum_order_amount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  discount_percentage?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customers?: Prisma.customersUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
+  inv_promotion_customer_groups?: Prisma.inv_promotion_customer_groupsUncheckedUpdateManyWithoutCustomer_groupsNestedInput
 }
 
 
@@ -857,6 +976,7 @@ export type Customer_groupsCountOutputType = {
   price_list: number
   price_list_assignments: number
   inv_promotion_customer_groups: number
+  notification_channels: number
 }
 
 export type Customer_groupsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -864,6 +984,7 @@ export type Customer_groupsCountOutputTypeSelect<ExtArgs extends runtime.Types.E
   price_list?: boolean | Customer_groupsCountOutputTypeCountPrice_listArgs
   price_list_assignments?: boolean | Customer_groupsCountOutputTypeCountPrice_list_assignmentsArgs
   inv_promotion_customer_groups?: boolean | Customer_groupsCountOutputTypeCountInv_promotion_customer_groupsArgs
+  notification_channels?: boolean | Customer_groupsCountOutputTypeCountNotification_channelsArgs
 }
 
 /**
@@ -904,6 +1025,13 @@ export type Customer_groupsCountOutputTypeCountInv_promotion_customer_groupsArgs
   where?: Prisma.inv_promotion_customer_groupsWhereInput
 }
 
+/**
+ * Customer_groupsCountOutputType without action
+ */
+export type Customer_groupsCountOutputTypeCountNotification_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.notification_channelsWhereInput
+}
+
 
 export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   name?: boolean
@@ -919,6 +1047,7 @@ export type customer_groupsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
   price_list_assignments?: boolean | Prisma.customer_groups$price_list_assignmentsArgs<ExtArgs>
   inv_promotion_customer_groups?: boolean | Prisma.customer_groups$inv_promotion_customer_groupsArgs<ExtArgs>
+  notification_channels?: boolean | Prisma.customer_groups$notification_channelsArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer_groups"]>
 
@@ -964,6 +1093,7 @@ export type customer_groupsInclude<ExtArgs extends runtime.Types.Extensions.Inte
   price_list?: boolean | Prisma.customer_groups$price_listArgs<ExtArgs>
   price_list_assignments?: boolean | Prisma.customer_groups$price_list_assignmentsArgs<ExtArgs>
   inv_promotion_customer_groups?: boolean | Prisma.customer_groups$inv_promotion_customer_groupsArgs<ExtArgs>
+  notification_channels?: boolean | Prisma.customer_groups$notification_channelsArgs<ExtArgs>
   _count?: boolean | Prisma.Customer_groupsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type customer_groupsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -976,6 +1106,7 @@ export type $customer_groupsPayload<ExtArgs extends runtime.Types.Extensions.Int
     price_list: Prisma.$price_listPayload<ExtArgs>[]
     price_list_assignments: Prisma.$price_list_assignmentsPayload<ExtArgs>[]
     inv_promotion_customer_groups: Prisma.$inv_promotion_customer_groupsPayload<ExtArgs>[]
+    notification_channels: Prisma.$notification_channelsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     name: string
@@ -1385,6 +1516,7 @@ export interface Prisma__customer_groupsClient<T, Null = never, ExtArgs extends 
   price_list<T extends Prisma.customer_groups$price_listArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$price_listArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_listPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   price_list_assignments<T extends Prisma.customer_groups$price_list_assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$price_list_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$price_list_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inv_promotion_customer_groups<T extends Prisma.customer_groups$inv_promotion_customer_groupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$inv_promotion_customer_groupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_promotion_customer_groupsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notification_channels<T extends Prisma.customer_groups$notification_channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.customer_groups$notification_channelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notification_channelsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1909,6 +2041,30 @@ export type customer_groups$inv_promotion_customer_groupsArgs<ExtArgs extends ru
   take?: number
   skip?: number
   distinct?: Prisma.Inv_promotion_customer_groupsScalarFieldEnum | Prisma.Inv_promotion_customer_groupsScalarFieldEnum[]
+}
+
+/**
+ * customer_groups.notification_channels
+ */
+export type customer_groups$notification_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the notification_channels
+   */
+  select?: Prisma.notification_channelsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the notification_channels
+   */
+  omit?: Prisma.notification_channelsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notification_channelsInclude<ExtArgs> | null
+  where?: Prisma.notification_channelsWhereInput
+  orderBy?: Prisma.notification_channelsOrderByWithRelationInput | Prisma.notification_channelsOrderByWithRelationInput[]
+  cursor?: Prisma.notification_channelsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Notification_channelsScalarFieldEnum | Prisma.Notification_channelsScalarFieldEnum[]
 }
 
 /**

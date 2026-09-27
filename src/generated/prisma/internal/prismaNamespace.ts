@@ -527,7 +527,14 @@ export const ModelName = {
   inv_discount_approval_requests: 'inv_discount_approval_requests',
   inv_promotion_usage_logs: 'inv_promotion_usage_logs',
   sales_invoice_payments: 'sales_invoice_payments',
-  invoice_number_sequences: 'invoice_number_sequences'
+  invoice_number_sequences: 'invoice_number_sequences',
+  notification_channels: 'notification_channels',
+  notification_channel_members: 'notification_channel_members',
+  notifications: 'notifications',
+  notification_recipients: 'notification_recipients',
+  notification_templates: 'notification_templates',
+  notification_preferences: 'notification_preferences',
+  notification_publish_queue: 'notification_publish_queue'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -543,7 +550,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -11203,6 +11210,524 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    notification_channels: {
+      payload: Prisma.$notification_channelsPayload<ExtArgs>
+      fields: Prisma.notification_channelsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_channelsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_channelsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>
+        }
+        findFirst: {
+          args: Prisma.notification_channelsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_channelsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>
+        }
+        findMany: {
+          args: Prisma.notification_channelsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>[]
+        }
+        create: {
+          args: Prisma.notification_channelsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>
+        }
+        createMany: {
+          args: Prisma.notification_channelsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_channelsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>[]
+        }
+        delete: {
+          args: Prisma.notification_channelsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>
+        }
+        update: {
+          args: Prisma.notification_channelsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_channelsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_channelsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_channelsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_channelsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channelsPayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_channelsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_channels>
+        }
+        groupBy: {
+          args: Prisma.notification_channelsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_channelsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_channelsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_channelsCountAggregateOutputType> | number
+        }
+      }
+    }
+    notification_channel_members: {
+      payload: Prisma.$notification_channel_membersPayload<ExtArgs>
+      fields: Prisma.notification_channel_membersFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_channel_membersFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_channel_membersFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>
+        }
+        findFirst: {
+          args: Prisma.notification_channel_membersFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_channel_membersFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>
+        }
+        findMany: {
+          args: Prisma.notification_channel_membersFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>[]
+        }
+        create: {
+          args: Prisma.notification_channel_membersCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>
+        }
+        createMany: {
+          args: Prisma.notification_channel_membersCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_channel_membersCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>[]
+        }
+        delete: {
+          args: Prisma.notification_channel_membersDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>
+        }
+        update: {
+          args: Prisma.notification_channel_membersUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_channel_membersDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_channel_membersUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_channel_membersUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_channel_membersUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_channel_membersPayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_channel_membersAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_channel_members>
+        }
+        groupBy: {
+          args: Prisma.notification_channel_membersGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_channel_membersGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_channel_membersCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_channel_membersCountAggregateOutputType> | number
+        }
+      }
+    }
+    notifications: {
+      payload: Prisma.$notificationsPayload<ExtArgs>
+      fields: Prisma.notificationsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notificationsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notificationsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        findFirst: {
+          args: Prisma.notificationsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notificationsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        findMany: {
+          args: Prisma.notificationsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>[]
+        }
+        create: {
+          args: Prisma.notificationsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        createMany: {
+          args: Prisma.notificationsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notificationsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>[]
+        }
+        delete: {
+          args: Prisma.notificationsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        update: {
+          args: Prisma.notificationsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        deleteMany: {
+          args: Prisma.notificationsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notificationsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notificationsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>[]
+        }
+        upsert: {
+          args: Prisma.notificationsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notificationsPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotifications>
+        }
+        groupBy: {
+          args: Prisma.notificationsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notificationsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationsCountAggregateOutputType> | number
+        }
+      }
+    }
+    notification_recipients: {
+      payload: Prisma.$notification_recipientsPayload<ExtArgs>
+      fields: Prisma.notification_recipientsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_recipientsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_recipientsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>
+        }
+        findFirst: {
+          args: Prisma.notification_recipientsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_recipientsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>
+        }
+        findMany: {
+          args: Prisma.notification_recipientsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>[]
+        }
+        create: {
+          args: Prisma.notification_recipientsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>
+        }
+        createMany: {
+          args: Prisma.notification_recipientsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_recipientsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>[]
+        }
+        delete: {
+          args: Prisma.notification_recipientsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>
+        }
+        update: {
+          args: Prisma.notification_recipientsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_recipientsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_recipientsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_recipientsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_recipientsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_recipientsPayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_recipientsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_recipients>
+        }
+        groupBy: {
+          args: Prisma.notification_recipientsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_recipientsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_recipientsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_recipientsCountAggregateOutputType> | number
+        }
+      }
+    }
+    notification_templates: {
+      payload: Prisma.$notification_templatesPayload<ExtArgs>
+      fields: Prisma.notification_templatesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_templatesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_templatesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        findFirst: {
+          args: Prisma.notification_templatesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_templatesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        findMany: {
+          args: Prisma.notification_templatesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>[]
+        }
+        create: {
+          args: Prisma.notification_templatesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        createMany: {
+          args: Prisma.notification_templatesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_templatesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>[]
+        }
+        delete: {
+          args: Prisma.notification_templatesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        update: {
+          args: Prisma.notification_templatesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_templatesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_templatesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_templatesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_templatesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_templatesPayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_templatesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_templates>
+        }
+        groupBy: {
+          args: Prisma.notification_templatesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_templatesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_templatesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_templatesCountAggregateOutputType> | number
+        }
+      }
+    }
+    notification_preferences: {
+      payload: Prisma.$notification_preferencesPayload<ExtArgs>
+      fields: Prisma.notification_preferencesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_preferencesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_preferencesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>
+        }
+        findFirst: {
+          args: Prisma.notification_preferencesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_preferencesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>
+        }
+        findMany: {
+          args: Prisma.notification_preferencesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>[]
+        }
+        create: {
+          args: Prisma.notification_preferencesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>
+        }
+        createMany: {
+          args: Prisma.notification_preferencesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_preferencesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>[]
+        }
+        delete: {
+          args: Prisma.notification_preferencesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>
+        }
+        update: {
+          args: Prisma.notification_preferencesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_preferencesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_preferencesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_preferencesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_preferencesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_preferencesPayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_preferencesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_preferences>
+        }
+        groupBy: {
+          args: Prisma.notification_preferencesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_preferencesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_preferencesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_preferencesCountAggregateOutputType> | number
+        }
+      }
+    }
+    notification_publish_queue: {
+      payload: Prisma.$notification_publish_queuePayload<ExtArgs>
+      fields: Prisma.notification_publish_queueFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.notification_publish_queueFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.notification_publish_queueFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>
+        }
+        findFirst: {
+          args: Prisma.notification_publish_queueFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.notification_publish_queueFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>
+        }
+        findMany: {
+          args: Prisma.notification_publish_queueFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>[]
+        }
+        create: {
+          args: Prisma.notification_publish_queueCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>
+        }
+        createMany: {
+          args: Prisma.notification_publish_queueCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.notification_publish_queueCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>[]
+        }
+        delete: {
+          args: Prisma.notification_publish_queueDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>
+        }
+        update: {
+          args: Prisma.notification_publish_queueUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>
+        }
+        deleteMany: {
+          args: Prisma.notification_publish_queueDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.notification_publish_queueUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.notification_publish_queueUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>[]
+        }
+        upsert: {
+          args: Prisma.notification_publish_queueUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$notification_publish_queuePayload>
+        }
+        aggregate: {
+          args: Prisma.Notification_publish_queueAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification_publish_queue>
+        }
+        groupBy: {
+          args: Prisma.notification_publish_queueGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_publish_queueGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.notification_publish_queueCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Notification_publish_queueCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -11428,6 +11953,7 @@ export const CustomersScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   group_id: 'group_id',
+  notification_channel_id: 'notification_channel_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -12553,6 +13079,7 @@ export const SuppliersScalarFieldEnum = {
   is_system: 'is_system',
   id: 'id',
   tenant_id: 'tenant_id',
+  notification_channel_id: 'notification_channel_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -14289,6 +14816,165 @@ export const Invoice_number_sequencesScalarFieldEnum = {
 export type Invoice_number_sequencesScalarFieldEnum = (typeof Invoice_number_sequencesScalarFieldEnum)[keyof typeof Invoice_number_sequencesScalarFieldEnum]
 
 
+export const Notification_channelsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  channel_type: 'channel_type',
+  is_active: 'is_active',
+  is_system: 'is_system',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id',
+  target_role_id: 'target_role_id',
+  target_branch_id: 'target_branch_id',
+  target_store_id: 'target_store_id',
+  target_warehouse_id: 'target_warehouse_id',
+  target_customer_group_id: 'target_customer_group_id'
+} as const
+
+export type Notification_channelsScalarFieldEnum = (typeof Notification_channelsScalarFieldEnum)[keyof typeof Notification_channelsScalarFieldEnum]
+
+
+export const Notification_channel_membersScalarFieldEnum = {
+  id: 'id',
+  notification_channel_id: 'notification_channel_id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  customer_id: 'customer_id',
+  supplier_id: 'supplier_id',
+  is_active: 'is_active',
+  is_muted: 'is_muted',
+  joined_at: 'joined_at',
+  left_at: 'left_at'
+} as const
+
+export type Notification_channel_membersScalarFieldEnum = (typeof Notification_channel_membersScalarFieldEnum)[keyof typeof Notification_channel_membersScalarFieldEnum]
+
+
+export const NotificationsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  severity: 'severity',
+  priority: 'priority',
+  target_type: 'target_type',
+  notification_channel_id: 'notification_channel_id',
+  target_role_id: 'target_role_id',
+  target_user_id: 'target_user_id',
+  target_customer_id: 'target_customer_id',
+  target_supplier_id: 'target_supplier_id',
+  target_branch_id: 'target_branch_id',
+  target_store_id: 'target_store_id',
+  target_warehouse_id: 'target_warehouse_id',
+  sender_type: 'sender_type',
+  sender_user_id: 'sender_user_id',
+  sender_name: 'sender_name',
+  business_event_type: 'business_event_type',
+  source_entity_type: 'source_entity_type',
+  source_entity_id: 'source_entity_id',
+  metadata: 'metadata',
+  idempotency_key: 'idempotency_key',
+  template_id: 'template_id',
+  action_url: 'action_url',
+  action_label: 'action_label',
+  is_active: 'is_active',
+  is_archived: 'is_archived',
+  expires_at: 'expires_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
+export const Notification_recipientsScalarFieldEnum = {
+  id: 'id',
+  notification_id: 'notification_id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  customer_id: 'customer_id',
+  supplier_id: 'supplier_id',
+  delivery_status: 'delivery_status',
+  is_read: 'is_read',
+  is_archived: 'is_archived',
+  is_deleted: 'is_deleted',
+  dispatched_at: 'dispatched_at',
+  delivered_at: 'delivered_at',
+  read_at: 'read_at',
+  archived_at: 'archived_at',
+  deleted_at: 'deleted_at',
+  created_at: 'created_at',
+  retry_count: 'retry_count',
+  last_retry_at: 'last_retry_at',
+  failure_reason: 'failure_reason'
+} as const
+
+export type Notification_recipientsScalarFieldEnum = (typeof Notification_recipientsScalarFieldEnum)[keyof typeof Notification_recipientsScalarFieldEnum]
+
+
+export const Notification_templatesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  code: 'code',
+  title_template: 'title_template',
+  message_template: 'message_template',
+  type: 'type',
+  severity: 'severity',
+  priority: 'priority',
+  variables: 'variables',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Notification_templatesScalarFieldEnum = (typeof Notification_templatesScalarFieldEnum)[keyof typeof Notification_templatesScalarFieldEnum]
+
+
+export const Notification_preferencesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  notification_channel_id: 'notification_channel_id',
+  is_enabled: 'is_enabled',
+  is_muted: 'is_muted',
+  mute_until: 'mute_until',
+  min_severity: 'min_severity',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Notification_preferencesScalarFieldEnum = (typeof Notification_preferencesScalarFieldEnum)[keyof typeof Notification_preferencesScalarFieldEnum]
+
+
+export const Notification_publish_queueScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  notification_id: 'notification_id',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  max_attempts: 'max_attempts',
+  next_retry_at: 'next_retry_at',
+  last_error: 'last_error',
+  created_at: 'created_at',
+  processed_at: 'processed_at'
+} as const
+
+export type Notification_publish_queueScalarFieldEnum = (typeof Notification_publish_queueScalarFieldEnum)[keyof typeof Notification_publish_queueScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -15359,6 +16045,118 @@ export type ListEnuminv_approval_status_enumFieldRefInput<$PrismaModel> = FieldR
 
 
 /**
+ * Reference to a field of type 'notification_channel_type_enum'
+ */
+export type Enumnotification_channel_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_channel_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_channel_type_enum[]'
+ */
+export type ListEnumnotification_channel_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_channel_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_type_enum'
+ */
+export type Enumnotification_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_type_enum[]'
+ */
+export type ListEnumnotification_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_severity'
+ */
+export type Enumnotification_severityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_severity'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_severity[]'
+ */
+export type ListEnumnotification_severityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_severity[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_priority_enum'
+ */
+export type Enumnotification_priority_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_priority_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_priority_enum[]'
+ */
+export type ListEnumnotification_priority_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_priority_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_target_type'
+ */
+export type Enumnotification_target_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_target_type'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_target_type[]'
+ */
+export type ListEnumnotification_target_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_target_type[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_sender_type_enum'
+ */
+export type Enumnotification_sender_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_sender_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_sender_type_enum[]'
+ */
+export type ListEnumnotification_sender_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_sender_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'business_event_type_enum'
+ */
+export type Enumbusiness_event_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'business_event_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'business_event_type_enum[]'
+ */
+export type ListEnumbusiness_event_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'business_event_type_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_delivery_status_enum'
+ */
+export type Enumnotification_delivery_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_delivery_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'notification_delivery_status_enum[]'
+ */
+export type ListEnumnotification_delivery_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'notification_delivery_status_enum[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -15610,6 +16408,13 @@ export type GlobalOmitConfig = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsOmit
   sales_invoice_payments?: Prisma.sales_invoice_paymentsOmit
   invoice_number_sequences?: Prisma.invoice_number_sequencesOmit
+  notification_channels?: Prisma.notification_channelsOmit
+  notification_channel_members?: Prisma.notification_channel_membersOmit
+  notifications?: Prisma.notificationsOmit
+  notification_recipients?: Prisma.notification_recipientsOmit
+  notification_templates?: Prisma.notification_templatesOmit
+  notification_preferences?: Prisma.notification_preferencesOmit
+  notification_publish_queue?: Prisma.notification_publish_queueOmit
 }
 
 /* Types for Logging */

@@ -8,6 +8,7 @@ import {
   isValidUuid,
 } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
 
 export interface CreateSupplierInput {
   name: string
@@ -83,7 +84,7 @@ export async function createSupplier(
       ? input.supplierCategoryId
       : null
 
-  return prisma.suppliers.create({
+  const supplier = await prisma.suppliers.create({
     data: {
       tenant_id: tenantId,
       name: input.name.trim(),
@@ -104,6 +105,23 @@ export async function createSupplier(
       updated_by_user_id: tenantUserId,
     },
   })
+
+  // Auto-provision supplier notification channel and send domain event
+  try {
+    await BusinessEventNotifications.notifySupplierCreated({
+      tenantId,
+      supplierId: supplier.id,
+      name: supplier.name,
+      code: supplier.code,
+      email: supplier.email,
+      phone: supplier.phone,
+      createdByUserId: tenantUserId,
+    })
+  } catch (err: any) {
+    console.warn('[createSupplier] Notification dispatch deferred:', err?.message)
+  }
+
+  return supplier
 }
 
 export async function updateSupplier(

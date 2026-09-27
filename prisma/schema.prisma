@@ -78,6 +78,7 @@ model branches {
   inv_promotion_branches inv_promotion_branches[]
   inv_promotion_usage_logs inv_promotion_usage_logs[]
   inv_discount_approval_requests inv_discount_approval_requests[]
+  notification_channels notification_channels[]
 }
 
 model categories {
@@ -182,6 +183,7 @@ model customer_groups {
   price_list           price_list[]
   price_list_assignments price_list_assignments[]
   inv_promotion_customer_groups inv_promotion_customer_groups[]
+  notification_channels notification_channels[]
 }
 
 model customers {
@@ -206,10 +208,14 @@ model customers {
   id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id          String           @db.Uuid
   group_id           String?          @db.Uuid
+  notification_channel_id String?     @db.Uuid
   created_by_user_id String?          @db.Uuid
   updated_by_user_id String?          @db.Uuid
   customer_cards     customer_cards[]
   customer_groups    customer_groups? @relation(fields: [group_id], references: [id], onUpdate: NoAction, map: "fk_customers_customer_groups")
+  notification_channel notification_channels? @relation("customer_notification_channel", fields: [notification_channel_id], references: [id], onDelete: SetNull)
+  notification_channel_members notification_channel_members[]
+  notification_recipients notification_recipients[]
   sales_invoices         sales_invoices[]
   inv_coupons            inv_coupons[]
   inv_coupon_redemptions inv_coupon_redemptions[]
@@ -847,6 +853,7 @@ model res_menu_items {
   res_order_items     res_order_items[]
 }
 
+/// @deprecated — Use `notifications` + `notification_recipients` instead.
 model res_notifications {
   id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   recipient_id       String?
@@ -1052,6 +1059,7 @@ model roles {
   role_permissions role_permissions[]
   screen_roles     screen_roles[]
   user_roles       user_roles[]
+  notification_channels notification_channels[]
 }
 
 model sales_invoice_items {
@@ -1288,6 +1296,7 @@ model stores {
   inv_promotion_usage_logs inv_promotion_usage_logs[]
   inv_discount_approval_requests inv_discount_approval_requests[]
   tenant_users         tenant_users[]
+  notification_channels notification_channels[]
 }
 
 model channels {
@@ -1388,10 +1397,14 @@ model suppliers {
   is_system            Boolean?          @default(false)
   id                   String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id            String            @db.Uuid
+  notification_channel_id String?        @db.Uuid
   created_by_user_id   String?           @db.Uuid
   updated_by_user_id   String?           @db.Uuid
   purchase_orders      purchase_orders[]
   cities               cities?           @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  notification_channel notification_channels? @relation("supplier_notification_channel", fields: [notification_channel_id], references: [id], onDelete: SetNull)
+  notification_channel_members notification_channel_members[]
+  notification_recipients notification_recipients[]
   products             products[]
   reorder_rules        reorder_rules[]
   reorder_suggestions  reorder_suggestions[]
@@ -1538,6 +1551,8 @@ model tenants {
   subscription_usage      tenant_subscription_usage?
   subscription_invoices   subscription_invoices[]
   tenant_users            tenant_users[]
+  notification_channels   notification_channels[]
+  notifications           notifications[]
   countries               countries?                  @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   currencies              currencies?                 @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   cities                  cities?                     @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -1597,6 +1612,9 @@ model tenant_users {
   tenants             tenants?           @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_permissions    user_permissions[]
   user_roles          user_roles[]
+  notification_channel_members notification_channel_members[]
+  notification_recipients      notification_recipients[]
+  notification_preferences     notification_preferences[]
 
   @@index([tenant_id, is_active], map: "idx_tenant_users_tenant_active")
   @@index([email], map: "idx_tenant_users_email")
@@ -2331,6 +2349,7 @@ model warehouses {
   pos_terminals        pos_terminals[]
   sales_invoices       sales_invoices[]
   tenant_users         tenant_users[]
+  notification_channels notification_channels[]
 
   @@index([tenant_id])
   @@index([branch_id])
@@ -3062,12 +3081,90 @@ enum notification_severity {
   WARNING
   ERROR
   SUCCESS
+  CRITICAL
 }
 
 enum notification_target_type {
   ALL
   ROLE
   USER
+  CHANNEL
+  DEPARTMENT
+  ENTITY
+  CUSTOMER_GROUP
+  STORE
+  WAREHOUSE
+}
+
+enum notification_priority_enum {
+  low
+  normal
+  high
+  urgent
+  critical
+}
+
+enum notification_type_enum {
+  system
+  admin_message
+  alert
+  announcement
+  task
+  reminder
+}
+
+enum notification_channel_type_enum {
+  tenant_wide
+  role_based
+  department_based
+  entity_based
+  user_specific
+  customer_group
+  store_based
+  warehouse_based
+}
+
+enum notification_delivery_status_enum {
+  pending
+  dispatched
+  delivered
+  failed
+  expired
+}
+
+enum notification_sender_type_enum {
+  system
+  admin
+  super_admin
+  service
+}
+
+enum business_event_type_enum {
+  purchase_order_received
+  purchase_order_approved
+  purchase_order_rejected
+  product_added
+  product_updated
+  product_expiring_soon
+  product_expired
+  supplier_added
+  supplier_updated
+  customer_added
+  customer_updated
+  stock_low
+  stock_reorder_needed
+  stock_received
+  stock_adjustment
+  stock_transfer
+  sales_order_created
+  sales_invoice_created
+  sales_return_created
+  payment_received
+  user_registered
+  user_role_changed
+  system_maintenance
+  subscription_expiring
+  custom
 }
 
 enum tracking_mode_enum {
@@ -4017,4 +4114,262 @@ model invoice_number_sequences {
 
   @@unique([tenant_id, store_id, prefix, fiscal_year], map: "uq_inv_num_seq_tenant")
   @@index([tenant_id], map: "idx_inv_num_seq_tenant")
+}
+
+// =============================================================================
+// REAL-TIME NOTIFICATION & IN-APP MESSAGING ENGINE
+// =============================================================================
+
+/// Notification channel — a named pub/sub topic within a tenant.
+model notification_channels {
+  id                 String                          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                          @db.Uuid
+  code               String                          @db.VarChar(100)
+  name               String                          @db.VarChar(200)
+  description        String?
+  channel_type       notification_channel_type_enum
+  is_active          Boolean                         @default(true)
+  is_system          Boolean                         @default(false)
+  created_at         DateTime                        @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                        @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                         @db.Uuid
+  updated_by_user_id String?                         @db.Uuid
+
+  // ── Targeting references (nullable polymorphic) ────────────────────
+  target_role_id           String?                   @db.Uuid
+  target_branch_id         String?                   @db.Uuid
+  target_store_id          String?                   @db.Uuid
+  target_warehouse_id      String?                   @db.Uuid
+  target_customer_group_id String?                   @db.Uuid
+
+  // ── Relations ──────────────────────────────────────────────────────
+  tenants                       tenants                        @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  target_role                   roles?                         @relation(fields: [target_role_id], references: [id], onDelete: SetNull)
+  target_branch                 branches?                      @relation(fields: [target_branch_id], references: [id], onDelete: SetNull)
+  target_store                  stores?                        @relation(fields: [target_store_id], references: [store_id], onDelete: SetNull)
+  target_warehouse              warehouses?                    @relation(fields: [target_warehouse_id], references: [id], onDelete: SetNull)
+  target_customer_group         customer_groups?               @relation(fields: [target_customer_group_id], references: [id], onDelete: SetNull)
+
+  assigned_customers            customers[]                    @relation("customer_notification_channel")
+  assigned_suppliers            suppliers[]                    @relation("supplier_notification_channel")
+  notification_channel_members  notification_channel_members[]
+  notifications                 notifications[]
+  notification_preferences       notification_preferences[]
+
+  @@unique([tenant_id, code])
+  @@index([tenant_id, channel_type, is_active])
+  @@index([tenant_id, target_role_id])
+  @@index([tenant_id, target_branch_id])
+}
+
+/// Links users, customers, or suppliers to notification channels.
+model notification_channel_members {
+  id                         String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  notification_channel_id    String                @db.Uuid
+  tenant_id                  String                @db.Uuid
+
+  // ── Polymorphic member reference ───────────────────────────────────
+  tenant_user_id             String?               @db.Uuid
+  customer_id                String?               @db.Uuid
+  supplier_id                String?               @db.Uuid
+
+  is_active                  Boolean               @default(true)
+  is_muted                   Boolean               @default(false)
+  joined_at                  DateTime              @default(now()) @db.Timestamptz(6)
+  left_at                    DateTime?             @db.Timestamptz(6)
+
+  // ── Relations ──────────────────────────────────────────────────────
+  notification_channels      notification_channels  @relation(fields: [notification_channel_id], references: [id], onDelete: Cascade)
+  tenant_users               tenant_users?          @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
+  customers                  customers?             @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  suppliers                  suppliers?             @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
+
+  @@unique([notification_channel_id, tenant_user_id])
+  @@unique([notification_channel_id, customer_id])
+  @@unique([notification_channel_id, supplier_id])
+  @@index([tenant_id, tenant_user_id, is_active])
+  @@index([tenant_id, customer_id])
+  @@index([tenant_id, supplier_id])
+}
+
+/// The canonical notification record. Contains the payload, targeting, and lifecycle.
+model notifications {
+  id                         String                              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                  String                              @db.Uuid
+
+  // ── Content ────────────────────────────────────────────────────────
+  title                      String                              @db.VarChar(255)
+  message                    String
+  type                       notification_type_enum              @default(system)
+  severity                   notification_severity               @default(INFO)
+  priority                   notification_priority_enum          @default(normal)
+
+  // ── Targeting ──────────────────────────────────────────────────────
+  target_type                notification_target_type            @default(ALL)
+  notification_channel_id    String?                             @db.Uuid
+  target_role_id             String?                             @db.Uuid
+  target_user_id             String?                             @db.Uuid
+  target_customer_id         String?                             @db.Uuid
+  target_supplier_id         String?                             @db.Uuid
+  target_branch_id           String?                             @db.Uuid
+  target_store_id            String?                             @db.Uuid
+  target_warehouse_id        String?                             @db.Uuid
+
+  // ── Sender ─────────────────────────────────────────────────────────
+  sender_type                notification_sender_type_enum       @default(system)
+  sender_user_id             String?                             @db.Uuid
+  sender_name                String?                             @db.VarChar(200)
+
+  // ── Business Event Link ────────────────────────────────────────────
+  business_event_type        business_event_type_enum?
+  source_entity_type         String?                             @db.VarChar(100)
+  source_entity_id           String?                             @db.Uuid
+  metadata                   Json?                               @default("{}")
+
+  // ── Deduplication ──────────────────────────────────────────────────
+  idempotency_key            String?                             @db.VarChar(255)
+
+  // ── Template ───────────────────────────────────────────────────────
+  template_id                String?                             @db.Uuid
+
+  // ── Action ─────────────────────────────────────────────────────────
+  action_url                 String?                             @db.VarChar(500)
+  action_label               String?                             @db.VarChar(100)
+
+  // ── Lifecycle ──────────────────────────────────────────────────────
+  is_active                  Boolean                             @default(true)
+  is_archived                Boolean                             @default(false)
+  expires_at                 DateTime?                           @db.Timestamptz(6)
+  created_at                 DateTime                            @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime                            @default(now()) @db.Timestamptz(6)
+  deleted_at                 DateTime?                           @db.Timestamptz(6)
+
+  created_by_user_id         String?                             @db.Uuid
+  updated_by_user_id         String?                             @db.Uuid
+
+  // ── Relations ──────────────────────────────────────────────────────
+  tenants                    tenants                             @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  notification_channels      notification_channels?              @relation(fields: [notification_channel_id], references: [id], onDelete: SetNull)
+  notification_template      notification_templates?             @relation(fields: [template_id], references: [id], onDelete: SetNull)
+  notification_recipients    notification_recipients[]
+
+  @@unique([tenant_id, idempotency_key])
+  @@index([tenant_id, created_at(sort: Desc)])
+  @@index([tenant_id, type, severity])
+  @@index([tenant_id, target_type])
+  @@index([tenant_id, business_event_type])
+  @@index([tenant_id, notification_channel_id])
+  @@index([tenant_id, is_active, is_archived])
+}
+
+/// One row per recipient per notification. Tracks delivery lifecycle.
+model notification_recipients {
+  id                    String                                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  notification_id       String                                @db.Uuid
+  tenant_id             String                                @db.Uuid
+
+  // ── Recipient ──────────────────────────────────────────────────────
+  tenant_user_id        String?                               @db.Uuid
+  customer_id           String?                               @db.Uuid
+  supplier_id           String?                               @db.Uuid
+
+  // ── Delivery State ─────────────────────────────────────────────────
+  delivery_status       notification_delivery_status_enum     @default(pending)
+  is_read               Boolean                               @default(false)
+  is_archived           Boolean                               @default(false)
+  is_deleted            Boolean                               @default(false)
+
+  // ── Timestamps ─────────────────────────────────────────────────────
+  dispatched_at         DateTime?                             @db.Timestamptz(6)
+  delivered_at          DateTime?                             @db.Timestamptz(6)
+  read_at               DateTime?                             @db.Timestamptz(6)
+  archived_at           DateTime?                             @db.Timestamptz(6)
+  deleted_at            DateTime?                             @db.Timestamptz(6)
+  created_at            DateTime                              @default(now()) @db.Timestamptz(6)
+
+  // ── Retry Tracking ─────────────────────────────────────────────────
+  retry_count           Int                                   @default(0)
+  last_retry_at         DateTime?                             @db.Timestamptz(6)
+  failure_reason        String?
+
+  // ── Relations ──────────────────────────────────────────────────────
+  notifications         notifications                         @relation(fields: [notification_id], references: [id], onDelete: Cascade)
+  tenant_users          tenant_users?                         @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
+  customers             customers?                            @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  suppliers             suppliers?                            @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
+
+  @@unique([notification_id, tenant_user_id])
+  @@unique([notification_id, customer_id])
+  @@unique([notification_id, supplier_id])
+  @@index([tenant_id, tenant_user_id, is_read, is_deleted])
+  @@index([tenant_id, tenant_user_id, delivery_status])
+  @@index([tenant_id, customer_id, is_read])
+  @@index([tenant_id, supplier_id, is_read])
+  @@index([delivery_status, retry_count])
+}
+
+/// Reusable notification templates for admin messages and system events.
+model notification_templates {
+  id                 String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                     @db.Uuid
+  name               String                     @db.VarChar(200)
+  code               String                     @db.VarChar(100)
+  title_template     String                     @db.VarChar(255)
+  message_template   String
+  type               notification_type_enum     @default(system)
+  severity           notification_severity      @default(INFO)
+  priority           notification_priority_enum @default(normal)
+  variables          Json                       @default("[]")
+  is_active          Boolean                    @default(true)
+  created_at         DateTime                   @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime                   @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?                    @db.Uuid
+  updated_by_user_id String?                    @db.Uuid
+
+  notifications      notifications[]
+
+  @@unique([tenant_id, code])
+  @@index([tenant_id, is_active])
+}
+
+/// Per-user, per-channel notification preferences.
+model notification_preferences {
+  id                         String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                  String                @db.Uuid
+  tenant_user_id             String                @db.Uuid
+  notification_channel_id    String?               @db.Uuid
+
+  // ── Preferences ────────────────────────────────────────────────────
+  is_enabled                 Boolean               @default(true)
+  is_muted                   Boolean               @default(false)
+  mute_until                 DateTime?             @db.Timestamptz(6)
+  min_severity               notification_severity @default(INFO)
+
+  created_at                 DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime              @default(now()) @db.Timestamptz(6)
+
+  // ── Relations ──────────────────────────────────────────────────────
+  tenant_users               tenant_users          @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
+  notification_channels      notification_channels? @relation(fields: [notification_channel_id], references: [id], onDelete: Cascade)
+
+  @@unique([tenant_user_id, notification_channel_id])
+  @@index([tenant_id, tenant_user_id])
+}
+
+/// Transactional outbox pattern — ensures notifications are published to Redis
+model notification_publish_queue {
+  id                 String                              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String                              @db.Uuid
+  notification_id    String                              @db.Uuid
+  payload            Json
+  status             notification_delivery_status_enum   @default(pending)
+  attempts           Int                                 @default(0)
+  max_attempts       Int                                 @default(5)
+  next_retry_at      DateTime?                           @db.Timestamptz(6)
+  last_error         String?
+  created_at         DateTime                            @default(now()) @db.Timestamptz(6)
+  processed_at       DateTime?                           @db.Timestamptz(6)
+
+  @@index([status, next_retry_at])
+  @@index([tenant_id, status])
 }

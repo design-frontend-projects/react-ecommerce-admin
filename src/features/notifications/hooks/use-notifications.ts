@@ -3,6 +3,7 @@ import {
   type UserNotificationItem,
   type SendNotificationInput,
   type NotificationTemplateItem,
+  type NotificationChannelItem,
   type CreateTemplateInput,
 } from '../data/schema'
 import { useAuth } from '@/hooks/use-auth'
@@ -14,9 +15,12 @@ async function getAuthToken() {
   return data.session?.access_token ?? null
 }
 
+import { useWebSocketNotifications } from './use-websocket-notifications'
+
 export function useUserNotifications() {
   const { isSignedIn } = useAuth()
   const queryClient = useQueryClient()
+  const { isConnected, transport, socket } = useWebSocketNotifications()
 
   const query = useQuery({
     queryKey: ['notifications', 'user'],
@@ -30,9 +34,9 @@ export function useUserNotifications() {
       return res.data ?? { notifications: [], unreadCount: 0 }
     },
     enabled: !!isSignedIn,
-    // Real-time polling every 10 seconds when app is open
-    refetchInterval: 10000,
-    refetchOnWindowFocus: false,
+    // Real-time WebSocket active: back off polling to 60s; if disconnected: poll every 15s
+    refetchInterval: isConnected ? 60000 : 15000,
+    refetchOnWindowFocus: true,
   })
 
   const markReadMutation = useMutation({
@@ -42,7 +46,38 @@ export function useUserNotifications() {
         body: JSON.stringify({ userNotificationId }),
       })
     },
-    onSuccess: () => {
+    onMutate: async (userNotificationId: string) => {
+      await queryClient.cancelQueries({ queryKey: ['notifications', 'user'] })
+      const previous = queryClient.getQueryData(['notifications', 'user'])
+
+      queryClient.setQueryData(
+        ['notifications', 'user'],
+        (old: { notifications: UserNotificationItem[]; unreadCount: number } | undefined) => {
+          if (!old) return old
+          const updated = old.notifications.map((n) =>
+            n.id === userNotificationId || n.notification_id === userNotificationId
+              ? { ...n, is_read: true, read_at: new Date().toISOString() }
+              : n
+          )
+          const newUnread = Math.max(0, old.unreadCount - 1)
+          return { ...old, notifications: updated, unreadCount: newUnread }
+        }
+      )
+
+      try {
+        socket?.emit('notification:read', { notification_id: userNotificationId })
+      } catch {
+        // Socket emit is non-blocking best effort
+      }
+
+      return { previous }
+    },
+    onError: (_err, _id, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(['notifications', 'user'], context.previous)
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications', 'user'] })
     },
   })
@@ -54,7 +89,37 @@ export function useUserNotifications() {
         body: JSON.stringify({ markAll: true }),
       })
     },
-    onSuccess: () => {
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['notifications', 'user'] })
+      const previous = queryClient.getQueryData(['notifications', 'user'])
+
+      queryClient.setQueryData(
+        ['notifications', 'user'],
+        (old: { notifications: UserNotificationItem[]; unreadCount: number } | undefined) => {
+          if (!old) return old
+          const updated = old.notifications.map((n) => ({
+            ...n,
+            is_read: true,
+            read_at: new Date().toISOString(),
+          }))
+          return { ...old, notifications: updated, unreadCount: 0 }
+        }
+      )
+
+      try {
+        socket?.emit('notification:read_all')
+      } catch {
+        // Socket emit is non-blocking best effort
+      }
+
+      return { previous }
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(['notifications', 'user'], context.previous)
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications', 'user'] })
     },
   })
@@ -68,6 +133,8 @@ export function useUserNotifications() {
     isMarkingRead: markReadMutation.isPending,
     markAllAsRead: markAllReadMutation.mutateAsync,
     isMarkingAllRead: markAllReadMutation.isPending,
+    isConnected,
+    transport,
   }
 }
 
@@ -156,6 +223,18 @@ export function useAdminNotifications() {
     },
   })
 
+  // Channels query
+  const channelsQuery = useQuery({
+    queryKey: ['notifications', 'channels'],
+    queryFn: async () => {
+      const res = (await authorizedRequest(
+        getAuthToken,
+        '/api/notifications?mode=channels'
+      )) as { data?: NotificationChannelItem[] }
+      return res.data ?? []
+    },
+  })
+
   return {
     historyLog: historyQuery.data ?? [],
     isHistoryLoading: historyQuery.isLoading,
@@ -163,6 +242,9 @@ export function useAdminNotifications() {
 
     templates: templatesQuery.data ?? [],
     isTemplatesLoading: templatesQuery.isLoading,
+
+    channels: channelsQuery.data ?? [],
+    isChannelsLoading: channelsQuery.isLoading,
 
     sendNotification: sendMutation.mutateAsync,
     isSending: sendMutation.isPending,

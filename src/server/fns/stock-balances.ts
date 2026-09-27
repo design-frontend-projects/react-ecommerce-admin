@@ -5,6 +5,7 @@ import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { runWithTenantContext } from '@/server/context/tenant-context'
 import prisma from '@/lib/prisma'
+import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
 
 const Decimal = Prisma.Decimal
 
@@ -526,7 +527,7 @@ export async function adjustStockBalance(
       movementType = 'adjustment_out'
     }
 
-    return prisma.$transaction(
+    const result = await prisma.$transaction(
       async (tx) => {
         // 1. Upsert stock_balances
         let updatedBalance
@@ -595,6 +596,35 @@ export async function adjustStockBalance(
       },
       { maxWait: 10000, timeout: 30000 }
     )
+
+    // Real-time Business Event Notification Trigger: Low stock threshold check
+    if (newOnHand <= 10 && productVariantId) {
+      const activeVariantId = productVariantId
+      try {
+        const variant = await prisma.product_variants.findUnique({
+          where: { id: activeVariantId },
+          select: {
+            sku: true,
+            products: { select: { name: true } },
+          },
+        })
+        if (variant) {
+          await BusinessEventNotifications.notifyLowStockThreshold({
+            tenantId,
+            productVariantId: activeVariantId,
+            sku: variant.sku,
+            productName: variant.products?.name || 'Product',
+            currentQty: newOnHand,
+            warehouseId: input.warehouseId ?? null,
+            storeId: input.storeId ?? null,
+          })
+        }
+      } catch (err: any) {
+        console.warn('[adjustStockBalance] Low stock alert deferred:', err?.message)
+      }
+    }
+
+    return result
   })
 }
 

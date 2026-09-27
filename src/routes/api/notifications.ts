@@ -13,6 +13,9 @@ import {
 import { jsonError } from '@/server/utils/http'
 import { withAuth } from '@/server/utils/with-auth'
 
+import prisma from '@/lib/prisma'
+import { resolveTenantId } from '@/server/utils/tenant'
+
 const GET = withAuth(null, async ({ auth, request }) => {
   const url = new URL(request.url)
   const mode = url.searchParams.get('mode')
@@ -25,6 +28,21 @@ const GET = withAuth(null, async ({ auth, request }) => {
   if (mode === 'templates') {
     const templates = await getNotificationTemplates()
     return Response.json({ success: true, data: templates })
+  }
+
+  if (mode === 'channels') {
+    const tenantId = await resolveTenantId(auth.userId)
+    if (!tenantId) return Response.json({ success: true, data: [] })
+    const channels = await prisma.notification_channels.findMany({
+      where: { tenant_id: tenantId, is_active: true },
+      orderBy: { created_at: 'desc' },
+      include: {
+        _count: {
+          select: { notification_channel_members: true },
+        },
+      },
+    })
+    return Response.json({ success: true, data: channels })
   }
 
   // Default: fetch user notifications

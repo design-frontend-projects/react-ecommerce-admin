@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model res_notifications
- * 
+ * @deprecated — Use `notifications` + `notification_recipients` instead.
  */
 export type res_notificationsModel = runtime.Types.Result.DefaultSelection<Prisma.$res_notificationsPayload>
 

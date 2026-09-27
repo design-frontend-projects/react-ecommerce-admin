@@ -3,6 +3,7 @@
 import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
+import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
 
 export type BatchToggleStatus = 'active' | 'blocked'
 export type BatchStatus = 'active' | 'depleted' | 'expired' | 'blocked'
@@ -413,6 +414,25 @@ export async function expireBatches(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
+  // Find batches that are about to be expired for notification dispatch
+  const expiredBatchesToNotify = await prisma.product_batches.findMany({
+    where: {
+      tenant_id: tenantId,
+      status: 'active',
+      expiry_date: { lt: new Date() },
+    },
+    include: {
+      product_variants: {
+        select: {
+          id: true,
+          sku: true,
+          products: { select: { name: true } },
+        },
+      },
+    },
+    take: 20,
+  })
+
   const result = await prisma.product_batches.updateMany({
     where: {
       tenant_id: tenantId,
@@ -426,5 +446,32 @@ export async function expireBatches(authUserId: string) {
     },
   })
 
+  // Real-time Business Event Notification Trigger
+  for (const b of expiredBatchesToNotify) {
+    try {
+      await BusinessEventNotifications.notifyProductExpiring({
+        tenantId,
+        batchId: b.id,
+        batchNumber: b.batch_number,
+        productVariantId: b.product_variant_id,
+        sku: b.product_variants?.sku || 'SKU-UNKNOWN',
+        productName: b.product_variants?.products?.name || 'Product',
+        expiryDate: b.expiry_date || new Date(),
+        daysRemaining: 0,
+      })
+    } catch (err: any) {
+      console.warn('[expireBatches] Expiry notification deferred:', err?.message)
+    }
+  }
+
   return { expired: result.count }
+}
+
+/**
+ * Scan active batches approaching expiration within the given threshold days (default: 30)
+ * and trigger real-time alert notifications.
+ */
+export async function checkExpiringBatches(authUserId: string, daysThreshold = 30) {
+  const tenantId = await requireTenantId(authUserId)
+  return BusinessEventNotifications.scanAndNotifyExpiringBatches(tenantId, daysThreshold)
 }

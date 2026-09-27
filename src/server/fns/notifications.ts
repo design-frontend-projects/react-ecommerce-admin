@@ -9,6 +9,8 @@ import { resolveTenantId, resolveTenantUserId, isValidUuid } from '@/server/util
 
 /**
  * Fetch unread count and list of user notifications
+ * Queries modern `notification_recipients` joined with `notifications`,
+ * with seamless fallback to legacy `res_notifications`.
  */
 export async function getUserNotifications(userId: string) {
   if (!userId || !isValidUuid(userId)) {
@@ -33,6 +35,59 @@ export async function getUserNotifications(userId: string) {
     }
   }
 
+  // 1. Query modern notification_recipients
+  const recipients = await prisma.notification_recipients.findMany({
+    where: {
+      tenant_user_id: { in: targetUserIds },
+    },
+    include: {
+      notifications: true,
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+    take: 50,
+  })
+
+  const unreadCount = await prisma.notification_recipients.count({
+    where: {
+      tenant_user_id: { in: targetUserIds },
+      is_read: false,
+    },
+  })
+
+  if (recipients.length > 0) {
+    const formatted = recipients.map((r) => ({
+      id: r.id,
+      notification_id: r.notification_id,
+      user_id: r.tenant_user_id || userId,
+      is_read: r.is_read,
+      read_at: r.read_at ? r.read_at.toISOString() : null,
+      created_at: r.created_at ? r.created_at.toISOString() : new Date().toISOString(),
+      notifications: {
+        id: r.notifications.id,
+        title: r.notifications.title,
+        content: r.notifications.message || '',
+        severity: r.notifications.severity,
+        target_type: r.notifications.target_type,
+        target_role: r.notifications.target_role_id,
+        sender_id: r.notifications.sender_user_id,
+        template_id: r.notifications.template_id,
+        is_active: r.notifications.is_active,
+        created_at: r.notifications.created_at.toISOString(),
+        updated_at: r.notifications.updated_at.toISOString(),
+        action_url: r.notifications.action_url,
+        action_label: r.notifications.action_label,
+      },
+    }))
+
+    return {
+      notifications: formatted,
+      unreadCount,
+    }
+  }
+
+  // 2. Legacy fallback if modern table has no rows
   const items = await prisma.res_notifications.findMany({
     where: {
       recipient_id: { in: targetUserIds },
@@ -43,7 +98,7 @@ export async function getUserNotifications(userId: string) {
     take: 50,
   })
 
-  const unreadCount = await prisma.res_notifications.count({
+  const legacyUnreadCount = await prisma.res_notifications.count({
     where: {
       recipient_id: { in: targetUserIds },
       is_read: false,
@@ -74,7 +129,7 @@ export async function getUserNotifications(userId: string) {
 
   return {
     notifications: formatted,
-    unreadCount,
+    unreadCount: legacyUnreadCount,
   }
 }
 
@@ -83,6 +138,18 @@ export async function getUserNotifications(userId: string) {
  */
 export async function markNotificationAsRead(userNotificationId: string) {
   try {
+    const updated = await prisma.notification_recipients.updateMany({
+      where: { id: userNotificationId },
+      data: {
+        is_read: true,
+        read_at: new Date(),
+      },
+    })
+    if (updated.count > 0) {
+      return updated
+    }
+
+    // Legacy fallback
     return await prisma.res_notifications.update({
       where: { id: userNotificationId },
       data: {
@@ -105,7 +172,7 @@ export async function markAllNotificationsAsRead(userId: string) {
     where: {
       OR: [{ auth_user_id: userId }, { id: userId }],
     },
-    select: { id: true, auth_user_id: true },
+    select: { id: true, auth_user_id: true, tenant_id: true },
   })
 
   const targetUserIds = [userId]
@@ -118,7 +185,32 @@ export async function markAllNotificationsAsRead(userId: string) {
     }
   }
 
-  return await prisma.res_notifications.updateMany({
+  // Update modern notification_recipients
+  const modernUpdate = await prisma.notification_recipients.updateMany({
+    where: {
+      tenant_user_id: { in: targetUserIds },
+      is_read: false,
+    },
+    data: {
+      is_read: true,
+      read_at: new Date(),
+    },
+  })
+
+  // Invalidate Redis unread count cache if tenant is known
+  if (tenantUser?.tenant_id) {
+    try {
+      const { getRedisClient } = await import('@/server/redis/redis-client')
+      const { RedisChannelStrategy } = await import('@/server/redis/channel-strategy')
+      const client = getRedisClient()
+      for (const uid of targetUserIds) {
+        await client.del(RedisChannelStrategy.getUnreadCountKey(tenantUser.tenant_id, uid))
+      }
+    } catch {}
+  }
+
+  // Update legacy table
+  await prisma.res_notifications.updateMany({
     where: {
       recipient_id: { in: targetUserIds },
       is_read: false,
@@ -126,17 +218,19 @@ export async function markAllNotificationsAsRead(userId: string) {
     data: {
       is_read: true,
     },
-  })
+  }).catch(() => {})
+
+  return modernUpdate
 }
 
 /**
  * Send notification to targeted employees (ALL, ROLE, or USER)
+ * Routes through NotificationService with Redis Pub/Sub and transactional outbox.
  */
 export async function sendNotification(
   input: SendNotificationInput,
   senderId?: string
 ) {
-  let targetUserIds: string[] = []
   let tenantId = senderId ? await resolveTenantId(senderId) : null
   const senderTenantUserId = senderId ? await resolveTenantUserId(senderId) : null
 
@@ -145,74 +239,37 @@ export async function sendNotification(
     tenantId = firstTenant?.id ?? null
   }
 
-  if (input.target_type === 'ALL') {
-    const allUsers = await prisma.tenant_users.findMany({
-      where: {
-        is_active: true,
-        ...(tenantId ? { OR: [{ tenant_id: tenantId }, { parent_tenant_id: tenantId }] } : {}),
-      },
-      select: { id: true, auth_user_id: true },
-    })
-    targetUserIds = allUsers
-      .map((u) => u.id || u.auth_user_id)
-      .filter((id): id is string => Boolean(id))
-  } else if (input.target_type === 'ROLE' && input.target_role) {
-    const matchedUsers = await prisma.tenant_users.findMany({
-      where: {
-        is_active: true,
-        ...(tenantId ? { OR: [{ tenant_id: tenantId }, { parent_tenant_id: tenantId }] } : {}),
-        OR: [
-          { default_role: input.target_role },
-          {
-            user_roles: {
-              some: {
-                roles: {
-                  name: {
-                    equals: input.target_role,
-                    mode: 'insensitive',
-                  },
-                },
-              },
-            },
-          },
-        ],
-      },
-      select: { id: true, auth_user_id: true },
-    })
-    targetUserIds = matchedUsers
-      .map((u) => u.id || u.auth_user_id)
-      .filter((id): id is string => Boolean(id))
-  } else if (input.target_type === 'USER' && input.target_user_ids) {
-    targetUserIds = input.target_user_ids
+  if (!tenantId) {
+    throw new Error('Tenant context required.')
   }
 
-  targetUserIds = Array.from(new Set(targetUserIds))
-  if (targetUserIds.length === 0 && senderId) {
-    targetUserIds = [senderId]
-  }
+  const { NotificationService } = await import('@/server/services/notification.service')
 
-  if (targetUserIds.length > 0 && tenantId) {
-    await prisma.res_notifications.createMany({
-      data: targetUserIds.map((uId) => ({
-        tenant_id: tenantId!,
-        recipient_id: uId,
-        type: input.severity ? input.severity.toLowerCase() : 'info',
-        title: input.title,
-        message: input.content,
-        is_read: false,
-        created_by_user_id: senderTenantUserId,
-        updated_by_user_id: senderTenantUserId,
-      })),
-    })
-  }
+  const result = await NotificationService.createNotification({
+    tenantId,
+    title: input.title,
+    message: input.message ?? input.content ?? '',
+    type: 'admin_message',
+    severity: input.severity || 'INFO',
+    priority: 'normal',
+    targetType: input.target_type,
+    targetRoleId: input.target_role || null,
+    targetUserId: input.target_user_ids?.[0] || null,
+    senderType: 'admin',
+    senderUserId: senderTenantUserId,
+    metadata: {
+      target_user_ids: input.target_user_ids,
+      target_role: input.target_role,
+    },
+  })
 
   return {
     notification: {
-      title: input.title,
-      content: input.content,
-      severity: input.severity,
+      title: result.notification.title,
+      content: result.notification.message,
+      severity: result.notification.severity,
     },
-    recipientsCount: targetUserIds.length,
+    recipientsCount: result.recipientCount,
   }
 }
 
@@ -220,14 +277,49 @@ export async function sendNotification(
  * Get notification history log for admin dashboard
  */
 export async function getSentNotificationsLog() {
-  const items = await prisma.res_notifications.findMany({
+  const items = await prisma.notifications.findMany({
+    orderBy: {
+      created_at: 'desc',
+    },
+    include: {
+      notification_recipients: {
+        take: 10,
+        select: {
+          id: true,
+          is_read: true,
+          read_at: true,
+          tenant_user_id: true,
+        },
+      },
+    },
+    take: 100,
+  })
+
+  if (items.length > 0) {
+    return items.map((item) => ({
+      id: item.id,
+      title: item.title,
+      content: item.message || '',
+      severity: item.severity,
+      created_at: item.created_at,
+      user_notifications: item.notification_recipients.map((r) => ({
+        id: r.id,
+        is_read: r.is_read,
+        read_at: r.read_at,
+        user_id: r.tenant_user_id,
+      })),
+    }))
+  }
+
+  // Legacy fallback
+  const legacyItems = await prisma.res_notifications.findMany({
     orderBy: {
       created_at: 'desc',
     },
     take: 100,
   })
 
-  return items.map((item) => ({
+  return legacyItems.map((item) => ({
     id: item.id,
     title: item.title,
     content: item.message || '',

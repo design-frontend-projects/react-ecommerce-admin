@@ -583,7 +583,8 @@ export const notification_severity = {
   INFO: 'INFO',
   WARNING: 'WARNING',
   ERROR: 'ERROR',
-  SUCCESS: 'SUCCESS'
+  SUCCESS: 'SUCCESS',
+  CRITICAL: 'CRITICAL'
 } as const
 
 export type notification_severity = (typeof notification_severity)[keyof typeof notification_severity]
@@ -592,10 +593,105 @@ export type notification_severity = (typeof notification_severity)[keyof typeof 
 export const notification_target_type = {
   ALL: 'ALL',
   ROLE: 'ROLE',
-  USER: 'USER'
+  USER: 'USER',
+  CHANNEL: 'CHANNEL',
+  DEPARTMENT: 'DEPARTMENT',
+  ENTITY: 'ENTITY',
+  CUSTOMER_GROUP: 'CUSTOMER_GROUP',
+  STORE: 'STORE',
+  WAREHOUSE: 'WAREHOUSE'
 } as const
 
 export type notification_target_type = (typeof notification_target_type)[keyof typeof notification_target_type]
+
+
+export const notification_priority_enum = {
+  low: 'low',
+  normal: 'normal',
+  high: 'high',
+  urgent: 'urgent',
+  critical: 'critical'
+} as const
+
+export type notification_priority_enum = (typeof notification_priority_enum)[keyof typeof notification_priority_enum]
+
+
+export const notification_type_enum = {
+  system: 'system',
+  admin_message: 'admin_message',
+  alert: 'alert',
+  announcement: 'announcement',
+  task: 'task',
+  reminder: 'reminder'
+} as const
+
+export type notification_type_enum = (typeof notification_type_enum)[keyof typeof notification_type_enum]
+
+
+export const notification_channel_type_enum = {
+  tenant_wide: 'tenant_wide',
+  role_based: 'role_based',
+  department_based: 'department_based',
+  entity_based: 'entity_based',
+  user_specific: 'user_specific',
+  customer_group: 'customer_group',
+  store_based: 'store_based',
+  warehouse_based: 'warehouse_based'
+} as const
+
+export type notification_channel_type_enum = (typeof notification_channel_type_enum)[keyof typeof notification_channel_type_enum]
+
+
+export const notification_delivery_status_enum = {
+  pending: 'pending',
+  dispatched: 'dispatched',
+  delivered: 'delivered',
+  failed: 'failed',
+  expired: 'expired'
+} as const
+
+export type notification_delivery_status_enum = (typeof notification_delivery_status_enum)[keyof typeof notification_delivery_status_enum]
+
+
+export const notification_sender_type_enum = {
+  system: 'system',
+  admin: 'admin',
+  super_admin: 'super_admin',
+  service: 'service'
+} as const
+
+export type notification_sender_type_enum = (typeof notification_sender_type_enum)[keyof typeof notification_sender_type_enum]
+
+
+export const business_event_type_enum = {
+  purchase_order_received: 'purchase_order_received',
+  purchase_order_approved: 'purchase_order_approved',
+  purchase_order_rejected: 'purchase_order_rejected',
+  product_added: 'product_added',
+  product_updated: 'product_updated',
+  product_expiring_soon: 'product_expiring_soon',
+  product_expired: 'product_expired',
+  supplier_added: 'supplier_added',
+  supplier_updated: 'supplier_updated',
+  customer_added: 'customer_added',
+  customer_updated: 'customer_updated',
+  stock_low: 'stock_low',
+  stock_reorder_needed: 'stock_reorder_needed',
+  stock_received: 'stock_received',
+  stock_adjustment: 'stock_adjustment',
+  stock_transfer: 'stock_transfer',
+  sales_order_created: 'sales_order_created',
+  sales_invoice_created: 'sales_invoice_created',
+  sales_return_created: 'sales_return_created',
+  payment_received: 'payment_received',
+  user_registered: 'user_registered',
+  user_role_changed: 'user_role_changed',
+  system_maintenance: 'system_maintenance',
+  subscription_expiring: 'subscription_expiring',
+  custom: 'custom'
+} as const
+
+export type business_event_type_enum = (typeof business_event_type_enum)[keyof typeof business_event_type_enum]
 
 
 export const tracking_mode_enum = {

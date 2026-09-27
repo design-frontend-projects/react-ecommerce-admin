@@ -5,6 +5,7 @@ import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import type { receipt_status_enum, stock_condition_enum } from '@/generated/prisma/client'
+import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
 
 export interface ReceiptItemInput {
   productVariantId: string
@@ -361,10 +362,18 @@ export async function cancelReceipt(authUserId: string, id: string) {
 export async function postReceipt(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
-  const existing = (await prisma.goods_receipts.findFirst({
+  const existing = await prisma.goods_receipts.findFirst({
     where: { id, tenant_id: tenantId },
-    select: { id: true },
-  })) as { id: string } | null
+    select: {
+      id: true,
+      receipt_number: true,
+      warehouse_id: true,
+      store_id: true,
+      warehouses: { select: { name: true } },
+      purchase_orders: { select: { po_number: true } },
+      _count: { select: { goods_receipt_items: true } },
+    },
+  })
   if (!existing) {
     throw new ApiError('Goods receipt not found.', 404)
   }
@@ -388,6 +397,23 @@ export async function postReceipt(authUserId: string, id: string) {
   }).catch(() => {
     // Audit update best-effort
   })
+
+  // Real-time Business Event Notification Trigger
+  try {
+    await BusinessEventNotifications.notifyGoodsReceiptConfirmed({
+      tenantId,
+      receiptId: id,
+      receiptNumber: existing.receipt_number,
+      poNumber: existing.purchase_orders?.po_number ?? null,
+      warehouseName: existing.warehouses?.name ?? null,
+      warehouseId: existing.warehouse_id,
+      storeId: existing.store_id,
+      itemsCount: existing._count?.goods_receipt_items ?? 1,
+      userId: tenantUserId,
+    })
+  } catch (err: any) {
+    console.warn('[postReceipt] Notification dispatch deferred:', err?.message)
+  }
 
   return data
 }

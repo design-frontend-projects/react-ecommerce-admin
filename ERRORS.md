@@ -955,3 +955,53 @@
 - **Status**: Fixed
 
 ---
+
+## [2026-09-27 21:16] - Argument Mismatch for NotificationService.autoAssignEntityChannel
+
+- **Type**: Syntax
+- **Severity**: Medium
+- **File**: `src/server/services/business-event-notifications.ts:424`
+- **Agent**: antigravity-ide (@backend-specialist)
+- **Root Cause**: `NotificationService.autoAssignEntityChannel` accepts a single parameter object `{ tenantId, entityType, entityId, name? }`, but `notifySupplierCreated` and `notifyCustomerCreated` invoked it with 4 positional arguments (`'SUPPLIER'`, `input.supplierId`, `input.name`, `input.tenantId`), triggering TS2554 ("Expected 1 arguments, but got 4") and passing uppercase entity type strings instead of the required union type `'customer' | 'supplier' | 'user'`.
+- **Error Message**: 
+  ```
+  src/server/services/business-event-notifications.ts(426,9): error TS2554: Expected 1 arguments, but got 4.
+  src/server/services/business-event-notifications.ts(473,9): error TS2554: Expected 1 arguments, but got 4.
+  ```
+- **Fix Applied**: 
+  1. Updated `notifySupplierCreated` and `notifyCustomerCreated` in `src/server/services/business-event-notifications.ts` to pass a single options object with lowercase `'supplier'` and `'customer'` respectively.
+  2. Updated corresponding mock verification tests in `src/__tests__/business-events.test.ts`.
+  3. Verified all unit tests in `business-events.test.ts` and `notification-service.test.ts` pass cleanly.
+- **Prevention**: Adhere to unified parameter object conventions for domain service methods and run targeted `tsc` type validation when writing service cross-calls.
+- **Status**: Fixed
+
+---
+
+## [2026-09-27 21:28] - Backend Integration & Type Mismatch Fixes Across Notification Event Triggers
+
+- **Type**: Syntax
+- **Severity**: High
+- **File**: `src/server/fns/purchase-orders.ts:53`, `src/server/fns/notifications.ts:251`, `src/server/fns/stock-balances.ts:530`, `src/server/services/business-event-notifications.ts:528`
+- **Agent**: antigravity-ide (@backend-specialist)
+- **Root Cause**: 
+  1. `purchase-orders.ts`: `existing.po_number` is typed as `Int?` (number | null), causing `existing.po_number || poId.slice(0, 8)` to yield `string | number`, conflicting with the required `string` for `poNumber`.
+  2. `notifications.ts`: `input.content` and `input.message` are optional (`string | undefined`), conflicting with `CreateNotificationInput.message` which requires `string`.
+  3. `stock-balances.ts`: `prisma.$transaction` returned immediately at line 530, rendering the low stock alert logic unreachable and leaving `result` undeclared while control flow analysis failed to narrow `productVariantId`.
+  4. `business-event-notifications.ts`: `prisma.product_batches` attempted to include non-existent relation `product_variants`, breaking Prisma query types and failing `stock_by_location.reduce()`.
+- **Error Message**: 
+  ```
+  src/server/fns/purchase-orders.ts(61,9): error TS2322: Type 'string | number' is not assignable to type 'string'.
+  src/server/fns/notifications.ts(251,5): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  src/server/fns/stock-balances.ts(613,13): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  src/server/fns/stock-balances.ts(626,12): error TS2304: Cannot find name 'result'.
+  src/server/services/business-event-notifications.ts(528,9): error TS2353: Object literal may only specify known properties, and 'product_variants' does not exist in type 'product_batchesInclude<DefaultArgs>'.
+  ```
+- **Fix Applied**: 
+  1. In `purchase-orders.ts`, converted `existing.po_number` via `existing.po_number != null ? String(existing.po_number) : poId.slice(0, 8)`.
+  2. In `notifications.ts`, provided fallback `message: input.message ?? input.content ?? ''`.
+  3. In `stock-balances.ts`, assigned transaction output to `const result = await prisma.$transaction(...)`, making the post-transaction notification reachable, created a scoped `activeVariantId` for strict type narrowing, and returned `result`.
+  4. In `business-event-notifications.ts`, removed invalid relation `product_variants` from `include` and implemented a batched lookup with `prisma.product_variants.findMany` mapped by `variantIds`.
+- **Prevention**: Run targeted `tsc` type validation on server actions and ensure Prisma model definitions are cross-checked before declaring relation includes.
+- **Status**: Fixed
+
+---

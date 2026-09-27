@@ -194,7 +194,14 @@ export const ModelName = {
   inv_discount_approval_requests: 'inv_discount_approval_requests',
   inv_promotion_usage_logs: 'inv_promotion_usage_logs',
   sales_invoice_payments: 'sales_invoice_payments',
-  invoice_number_sequences: 'invoice_number_sequences'
+  invoice_number_sequences: 'invoice_number_sequences',
+  notification_channels: 'notification_channels',
+  notification_channel_members: 'notification_channel_members',
+  notifications: 'notifications',
+  notification_recipients: 'notification_recipients',
+  notification_templates: 'notification_templates',
+  notification_preferences: 'notification_preferences',
+  notification_publish_queue: 'notification_publish_queue'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -399,6 +406,7 @@ export const CustomersScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   group_id: 'group_id',
+  notification_channel_id: 'notification_channel_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -1524,6 +1532,7 @@ export const SuppliersScalarFieldEnum = {
   is_system: 'is_system',
   id: 'id',
   tenant_id: 'tenant_id',
+  notification_channel_id: 'notification_channel_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -3258,6 +3267,165 @@ export const Invoice_number_sequencesScalarFieldEnum = {
 } as const
 
 export type Invoice_number_sequencesScalarFieldEnum = (typeof Invoice_number_sequencesScalarFieldEnum)[keyof typeof Invoice_number_sequencesScalarFieldEnum]
+
+
+export const Notification_channelsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  channel_type: 'channel_type',
+  is_active: 'is_active',
+  is_system: 'is_system',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id',
+  target_role_id: 'target_role_id',
+  target_branch_id: 'target_branch_id',
+  target_store_id: 'target_store_id',
+  target_warehouse_id: 'target_warehouse_id',
+  target_customer_group_id: 'target_customer_group_id'
+} as const
+
+export type Notification_channelsScalarFieldEnum = (typeof Notification_channelsScalarFieldEnum)[keyof typeof Notification_channelsScalarFieldEnum]
+
+
+export const Notification_channel_membersScalarFieldEnum = {
+  id: 'id',
+  notification_channel_id: 'notification_channel_id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  customer_id: 'customer_id',
+  supplier_id: 'supplier_id',
+  is_active: 'is_active',
+  is_muted: 'is_muted',
+  joined_at: 'joined_at',
+  left_at: 'left_at'
+} as const
+
+export type Notification_channel_membersScalarFieldEnum = (typeof Notification_channel_membersScalarFieldEnum)[keyof typeof Notification_channel_membersScalarFieldEnum]
+
+
+export const NotificationsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  severity: 'severity',
+  priority: 'priority',
+  target_type: 'target_type',
+  notification_channel_id: 'notification_channel_id',
+  target_role_id: 'target_role_id',
+  target_user_id: 'target_user_id',
+  target_customer_id: 'target_customer_id',
+  target_supplier_id: 'target_supplier_id',
+  target_branch_id: 'target_branch_id',
+  target_store_id: 'target_store_id',
+  target_warehouse_id: 'target_warehouse_id',
+  sender_type: 'sender_type',
+  sender_user_id: 'sender_user_id',
+  sender_name: 'sender_name',
+  business_event_type: 'business_event_type',
+  source_entity_type: 'source_entity_type',
+  source_entity_id: 'source_entity_id',
+  metadata: 'metadata',
+  idempotency_key: 'idempotency_key',
+  template_id: 'template_id',
+  action_url: 'action_url',
+  action_label: 'action_label',
+  is_active: 'is_active',
+  is_archived: 'is_archived',
+  expires_at: 'expires_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type NotificationsScalarFieldEnum = (typeof NotificationsScalarFieldEnum)[keyof typeof NotificationsScalarFieldEnum]
+
+
+export const Notification_recipientsScalarFieldEnum = {
+  id: 'id',
+  notification_id: 'notification_id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  customer_id: 'customer_id',
+  supplier_id: 'supplier_id',
+  delivery_status: 'delivery_status',
+  is_read: 'is_read',
+  is_archived: 'is_archived',
+  is_deleted: 'is_deleted',
+  dispatched_at: 'dispatched_at',
+  delivered_at: 'delivered_at',
+  read_at: 'read_at',
+  archived_at: 'archived_at',
+  deleted_at: 'deleted_at',
+  created_at: 'created_at',
+  retry_count: 'retry_count',
+  last_retry_at: 'last_retry_at',
+  failure_reason: 'failure_reason'
+} as const
+
+export type Notification_recipientsScalarFieldEnum = (typeof Notification_recipientsScalarFieldEnum)[keyof typeof Notification_recipientsScalarFieldEnum]
+
+
+export const Notification_templatesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  code: 'code',
+  title_template: 'title_template',
+  message_template: 'message_template',
+  type: 'type',
+  severity: 'severity',
+  priority: 'priority',
+  variables: 'variables',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id',
+  updated_by_user_id: 'updated_by_user_id'
+} as const
+
+export type Notification_templatesScalarFieldEnum = (typeof Notification_templatesScalarFieldEnum)[keyof typeof Notification_templatesScalarFieldEnum]
+
+
+export const Notification_preferencesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  notification_channel_id: 'notification_channel_id',
+  is_enabled: 'is_enabled',
+  is_muted: 'is_muted',
+  mute_until: 'mute_until',
+  min_severity: 'min_severity',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Notification_preferencesScalarFieldEnum = (typeof Notification_preferencesScalarFieldEnum)[keyof typeof Notification_preferencesScalarFieldEnum]
+
+
+export const Notification_publish_queueScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  notification_id: 'notification_id',
+  payload: 'payload',
+  status: 'status',
+  attempts: 'attempts',
+  max_attempts: 'max_attempts',
+  next_retry_at: 'next_retry_at',
+  last_error: 'last_error',
+  created_at: 'created_at',
+  processed_at: 'processed_at'
+} as const
+
+export type Notification_publish_queueScalarFieldEnum = (typeof Notification_publish_queueScalarFieldEnum)[keyof typeof Notification_publish_queueScalarFieldEnum]
 
 
 export const SortOrder = {

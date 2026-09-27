@@ -331,6 +331,7 @@ export type storesWhereInput = {
   inv_promotion_usage_logs?: Prisma.Inv_promotion_usage_logsListRelationFilter
   inv_discount_approval_requests?: Prisma.Inv_discount_approval_requestsListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
+  notification_channels?: Prisma.Notification_channelsListRelationFilter
 }
 
 export type storesOrderByWithRelationInput = {
@@ -366,6 +367,7 @@ export type storesOrderByWithRelationInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsOrderByRelationAggregateInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsOrderByRelationAggregateInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
+  notification_channels?: Prisma.notification_channelsOrderByRelationAggregateInput
 }
 
 export type storesWhereUniqueInput = Prisma.AtLeast<{
@@ -404,6 +406,7 @@ export type storesWhereUniqueInput = Prisma.AtLeast<{
   inv_promotion_usage_logs?: Prisma.Inv_promotion_usage_logsListRelationFilter
   inv_discount_approval_requests?: Prisma.Inv_discount_approval_requestsListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
+  notification_channels?: Prisma.Notification_channelsListRelationFilter
 }, "store_id">
 
 export type storesOrderByWithAggregationInput = {
@@ -484,6 +487,7 @@ export type storesCreateInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateInput = {
@@ -516,6 +520,7 @@ export type storesUncheckedCreateInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUpdateInput = {
@@ -548,6 +553,7 @@ export type storesUpdateInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateInput = {
@@ -580,6 +586,7 @@ export type storesUncheckedUpdateInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateManyInput = {
@@ -1043,6 +1050,22 @@ export type storesUpdateOneWithoutInv_promotion_usage_logsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.storesUpdateToOneWithWhereWithoutInv_promotion_usage_logsInput, Prisma.storesUpdateWithoutInv_promotion_usage_logsInput>, Prisma.storesUncheckedUpdateWithoutInv_promotion_usage_logsInput>
 }
 
+export type storesCreateNestedOneWithoutNotification_channelsInput = {
+  create?: Prisma.XOR<Prisma.storesCreateWithoutNotification_channelsInput, Prisma.storesUncheckedCreateWithoutNotification_channelsInput>
+  connectOrCreate?: Prisma.storesCreateOrConnectWithoutNotification_channelsInput
+  connect?: Prisma.storesWhereUniqueInput
+}
+
+export type storesUpdateOneWithoutNotification_channelsNestedInput = {
+  create?: Prisma.XOR<Prisma.storesCreateWithoutNotification_channelsInput, Prisma.storesUncheckedCreateWithoutNotification_channelsInput>
+  connectOrCreate?: Prisma.storesCreateOrConnectWithoutNotification_channelsInput
+  upsert?: Prisma.storesUpsertWithoutNotification_channelsInput
+  disconnect?: Prisma.storesWhereInput | boolean
+  delete?: Prisma.storesWhereInput | boolean
+  connect?: Prisma.storesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.storesUpdateToOneWithWhereWithoutNotification_channelsInput, Prisma.storesUpdateWithoutNotification_channelsInput>, Prisma.storesUncheckedUpdateWithoutNotification_channelsInput>
+}
+
 export type storesCreateWithoutBranchesInput = {
   phone?: string | null
   email?: string | null
@@ -1072,6 +1095,7 @@ export type storesCreateWithoutBranchesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutBranchesInput = {
@@ -1103,6 +1127,7 @@ export type storesUncheckedCreateWithoutBranchesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutBranchesInput = {
@@ -1183,6 +1208,7 @@ export type storesCreateWithoutCitiesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutCitiesInput = {
@@ -1214,6 +1240,7 @@ export type storesUncheckedCreateWithoutCitiesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutCitiesInput = {
@@ -1271,6 +1298,7 @@ export type storesCreateWithoutCountriesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutCountriesInput = {
@@ -1302,6 +1330,7 @@ export type storesUncheckedCreateWithoutCountriesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutCountriesInput = {
@@ -1359,6 +1388,7 @@ export type storesCreateWithoutPrice_listInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutPrice_listInput = {
@@ -1390,6 +1420,7 @@ export type storesUncheckedCreateWithoutPrice_listInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutPrice_listInput = {
@@ -1437,6 +1468,7 @@ export type storesUpdateWithoutPrice_listInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutPrice_listInput = {
@@ -1468,6 +1500,7 @@ export type storesUncheckedUpdateWithoutPrice_listInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutPrice_list_assignmentsInput = {
@@ -1499,6 +1532,7 @@ export type storesCreateWithoutPrice_list_assignmentsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutPrice_list_assignmentsInput = {
@@ -1530,6 +1564,7 @@ export type storesUncheckedCreateWithoutPrice_list_assignmentsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutPrice_list_assignmentsInput = {
@@ -1577,6 +1612,7 @@ export type storesUpdateWithoutPrice_list_assignmentsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutPrice_list_assignmentsInput = {
@@ -1608,6 +1644,7 @@ export type storesUncheckedUpdateWithoutPrice_list_assignmentsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutTenant_usersInput = {
@@ -1639,6 +1676,7 @@ export type storesCreateWithoutTenant_usersInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesCreateNestedManyWithoutStoresInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutTenant_usersInput = {
@@ -1670,6 +1708,7 @@ export type storesUncheckedCreateWithoutTenant_usersInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedCreateNestedManyWithoutStoresInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutTenant_usersInput = {
@@ -1717,6 +1756,7 @@ export type storesUpdateWithoutTenant_usersInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUpdateManyWithoutStoresNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutTenant_usersInput = {
@@ -1748,6 +1788,7 @@ export type storesUncheckedUpdateWithoutTenant_usersInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedUpdateManyWithoutStoresNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutStock_balancesInput = {
@@ -1779,6 +1820,7 @@ export type storesCreateWithoutStock_balancesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutStock_balancesInput = {
@@ -1810,6 +1852,7 @@ export type storesUncheckedCreateWithoutStock_balancesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutStock_balancesInput = {
@@ -1857,6 +1900,7 @@ export type storesUpdateWithoutStock_balancesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutStock_balancesInput = {
@@ -1888,6 +1932,7 @@ export type storesUncheckedUpdateWithoutStock_balancesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutPurchase_requisitionsInput = {
@@ -1919,6 +1964,7 @@ export type storesCreateWithoutPurchase_requisitionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutPurchase_requisitionsInput = {
@@ -1950,6 +1996,7 @@ export type storesUncheckedCreateWithoutPurchase_requisitionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutPurchase_requisitionsInput = {
@@ -1997,6 +2044,7 @@ export type storesUpdateWithoutPurchase_requisitionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutPurchase_requisitionsInput = {
@@ -2028,6 +2076,7 @@ export type storesUncheckedUpdateWithoutPurchase_requisitionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutReorder_rulesInput = {
@@ -2059,6 +2108,7 @@ export type storesCreateWithoutReorder_rulesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutReorder_rulesInput = {
@@ -2090,6 +2140,7 @@ export type storesUncheckedCreateWithoutReorder_rulesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutReorder_rulesInput = {
@@ -2137,6 +2188,7 @@ export type storesUpdateWithoutReorder_rulesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutReorder_rulesInput = {
@@ -2168,6 +2220,7 @@ export type storesUncheckedUpdateWithoutReorder_rulesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutReorder_suggestionsInput = {
@@ -2199,6 +2252,7 @@ export type storesCreateWithoutReorder_suggestionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutReorder_suggestionsInput = {
@@ -2230,6 +2284,7 @@ export type storesUncheckedCreateWithoutReorder_suggestionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutReorder_suggestionsInput = {
@@ -2277,6 +2332,7 @@ export type storesUpdateWithoutReorder_suggestionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutReorder_suggestionsInput = {
@@ -2308,6 +2364,7 @@ export type storesUncheckedUpdateWithoutReorder_suggestionsInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutStore_warehousesInput = {
@@ -2339,6 +2396,7 @@ export type storesCreateWithoutStore_warehousesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutStore_warehousesInput = {
@@ -2370,6 +2428,7 @@ export type storesUncheckedCreateWithoutStore_warehousesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutStore_warehousesInput = {
@@ -2417,6 +2476,7 @@ export type storesUpdateWithoutStore_warehousesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutStore_warehousesInput = {
@@ -2448,6 +2508,7 @@ export type storesUncheckedUpdateWithoutStore_warehousesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutStock_by_locationInput = {
@@ -2479,6 +2540,7 @@ export type storesCreateWithoutStock_by_locationInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutStock_by_locationInput = {
@@ -2510,6 +2572,7 @@ export type storesUncheckedCreateWithoutStock_by_locationInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutStock_by_locationInput = {
@@ -2557,6 +2620,7 @@ export type storesUpdateWithoutStock_by_locationInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutStock_by_locationInput = {
@@ -2588,6 +2652,7 @@ export type storesUncheckedUpdateWithoutStock_by_locationInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutInv_promotion_storesInput = {
@@ -2619,6 +2684,7 @@ export type storesCreateWithoutInv_promotion_storesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutInv_promotion_storesInput = {
@@ -2650,6 +2716,7 @@ export type storesUncheckedCreateWithoutInv_promotion_storesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutInv_promotion_storesInput = {
@@ -2697,6 +2764,7 @@ export type storesUpdateWithoutInv_promotion_storesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutInv_promotion_storesInput = {
@@ -2728,6 +2796,7 @@ export type storesUncheckedUpdateWithoutInv_promotion_storesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutInv_discount_approval_requestsInput = {
@@ -2759,6 +2828,7 @@ export type storesCreateWithoutInv_discount_approval_requestsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesCreateNestedManyWithoutStoresInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutInv_discount_approval_requestsInput = {
@@ -2790,6 +2860,7 @@ export type storesUncheckedCreateWithoutInv_discount_approval_requestsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedCreateNestedManyWithoutStoresInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutInv_discount_approval_requestsInput = {
@@ -2837,6 +2908,7 @@ export type storesUpdateWithoutInv_discount_approval_requestsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUpdateManyWithoutStoresNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutInv_discount_approval_requestsInput = {
@@ -2868,6 +2940,7 @@ export type storesUncheckedUpdateWithoutInv_discount_approval_requestsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedUpdateManyWithoutStoresNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesCreateWithoutInv_promotion_usage_logsInput = {
@@ -2899,6 +2972,7 @@ export type storesCreateWithoutInv_promotion_usage_logsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesUncheckedCreateWithoutInv_promotion_usage_logsInput = {
@@ -2930,6 +3004,7 @@ export type storesUncheckedCreateWithoutInv_promotion_usage_logsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedCreateNestedManyWithoutStoresInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_storeInput
 }
 
 export type storesCreateOrConnectWithoutInv_promotion_usage_logsInput = {
@@ -2977,6 +3052,7 @@ export type storesUpdateWithoutInv_promotion_usage_logsInput = {
   inv_promotion_stores?: Prisma.inv_promotion_storesUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutInv_promotion_usage_logsInput = {
@@ -3006,6 +3082,151 @@ export type storesUncheckedUpdateWithoutInv_promotion_usage_logsInput = {
   price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
   purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
   inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedUpdateManyWithoutStoresNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
+}
+
+export type storesCreateWithoutNotification_channelsInput = {
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  store_type_id?: string | null
+  name?: string | null
+  store_id?: string
+  status?: boolean | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  branches?: Prisma.branchesCreateNestedOneWithoutStoresInput
+  cities?: Prisma.citiesCreateNestedOneWithoutStoresInput
+  countries?: Prisma.countriesCreateNestedOneWithoutStoresInput
+  store_warehouses?: Prisma.store_warehousesCreateNestedManyWithoutStoresInput
+  reorder_rules?: Prisma.reorder_rulesCreateNestedManyWithoutStoresInput
+  reorder_suggestions?: Prisma.reorder_suggestionsCreateNestedManyWithoutStoresInput
+  stock_balances?: Prisma.stock_balancesCreateNestedManyWithoutStoresInput
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutStoresInput
+  price_list?: Prisma.price_listCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsCreateNestedManyWithoutStoresInput
+  purchase_requisitions?: Prisma.purchase_requisitionsCreateNestedManyWithoutStoresInput
+  inv_promotion_stores?: Prisma.inv_promotion_storesCreateNestedManyWithoutStoresInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutStoresInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutStoresInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutStoresInput
+}
+
+export type storesUncheckedCreateWithoutNotification_channelsInput = {
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  city_id?: string | null
+  country_id?: string | null
+  store_type_id?: string | null
+  name?: string | null
+  store_id?: string
+  status?: boolean | null
+  branch_id?: string | null
+  tenant_id: string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  store_warehouses?: Prisma.store_warehousesUncheckedCreateNestedManyWithoutStoresInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedCreateNestedManyWithoutStoresInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedCreateNestedManyWithoutStoresInput
+  stock_balances?: Prisma.stock_balancesUncheckedCreateNestedManyWithoutStoresInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutStoresInput
+  price_list?: Prisma.price_listUncheckedCreateNestedManyWithoutStoresInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedCreateNestedManyWithoutStoresInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedCreateNestedManyWithoutStoresInput
+  inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedCreateNestedManyWithoutStoresInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutStoresInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutStoresInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutStoresInput
+}
+
+export type storesCreateOrConnectWithoutNotification_channelsInput = {
+  where: Prisma.storesWhereUniqueInput
+  create: Prisma.XOR<Prisma.storesCreateWithoutNotification_channelsInput, Prisma.storesUncheckedCreateWithoutNotification_channelsInput>
+}
+
+export type storesUpsertWithoutNotification_channelsInput = {
+  update: Prisma.XOR<Prisma.storesUpdateWithoutNotification_channelsInput, Prisma.storesUncheckedUpdateWithoutNotification_channelsInput>
+  create: Prisma.XOR<Prisma.storesCreateWithoutNotification_channelsInput, Prisma.storesUncheckedCreateWithoutNotification_channelsInput>
+  where?: Prisma.storesWhereInput
+}
+
+export type storesUpdateToOneWithWhereWithoutNotification_channelsInput = {
+  where?: Prisma.storesWhereInput
+  data: Prisma.XOR<Prisma.storesUpdateWithoutNotification_channelsInput, Prisma.storesUncheckedUpdateWithoutNotification_channelsInput>
+}
+
+export type storesUpdateWithoutNotification_channelsInput = {
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branches?: Prisma.branchesUpdateOneWithoutStoresNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutStoresNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutStoresNestedInput
+  store_warehouses?: Prisma.store_warehousesUpdateManyWithoutStoresNestedInput
+  reorder_rules?: Prisma.reorder_rulesUpdateManyWithoutStoresNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUpdateManyWithoutStoresNestedInput
+  stock_balances?: Prisma.stock_balancesUpdateManyWithoutStoresNestedInput
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutStoresNestedInput
+  price_list?: Prisma.price_listUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUpdateManyWithoutStoresNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUpdateManyWithoutStoresNestedInput
+  inv_promotion_stores?: Prisma.inv_promotion_storesUpdateManyWithoutStoresNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+}
+
+export type storesUncheckedUpdateWithoutNotification_channelsInput = {
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  store_warehouses?: Prisma.store_warehousesUncheckedUpdateManyWithoutStoresNestedInput
+  reorder_rules?: Prisma.reorder_rulesUncheckedUpdateManyWithoutStoresNestedInput
+  reorder_suggestions?: Prisma.reorder_suggestionsUncheckedUpdateManyWithoutStoresNestedInput
+  stock_balances?: Prisma.stock_balancesUncheckedUpdateManyWithoutStoresNestedInput
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutStoresNestedInput
+  price_list?: Prisma.price_listUncheckedUpdateManyWithoutStoresNestedInput
+  price_list_assignments?: Prisma.price_list_assignmentsUncheckedUpdateManyWithoutStoresNestedInput
+  purchase_requisitions?: Prisma.purchase_requisitionsUncheckedUpdateManyWithoutStoresNestedInput
+  inv_promotion_stores?: Prisma.inv_promotion_storesUncheckedUpdateManyWithoutStoresNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
 }
@@ -3058,6 +3279,7 @@ export type storesUpdateWithoutBranchesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutBranchesInput = {
@@ -3089,6 +3311,7 @@ export type storesUncheckedUpdateWithoutBranchesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutBranchesInput = {
@@ -3158,6 +3381,7 @@ export type storesUpdateWithoutCitiesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutCitiesInput = {
@@ -3189,6 +3413,7 @@ export type storesUncheckedUpdateWithoutCitiesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutCitiesInput = {
@@ -3258,6 +3483,7 @@ export type storesUpdateWithoutCountriesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateWithoutCountriesInput = {
@@ -3289,6 +3515,7 @@ export type storesUncheckedUpdateWithoutCountriesInput = {
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutStoresNestedInput
   inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutStoresNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutStoresNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_storeNestedInput
 }
 
 export type storesUncheckedUpdateManyWithoutCountriesInput = {
@@ -3328,6 +3555,7 @@ export type StoresCountOutputType = {
   inv_promotion_usage_logs: number
   inv_discount_approval_requests: number
   tenant_users: number
+  notification_channels: number
 }
 
 export type StoresCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3343,6 +3571,7 @@ export type StoresCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   inv_promotion_usage_logs?: boolean | StoresCountOutputTypeCountInv_promotion_usage_logsArgs
   inv_discount_approval_requests?: boolean | StoresCountOutputTypeCountInv_discount_approval_requestsArgs
   tenant_users?: boolean | StoresCountOutputTypeCountTenant_usersArgs
+  notification_channels?: boolean | StoresCountOutputTypeCountNotification_channelsArgs
 }
 
 /**
@@ -3439,6 +3668,13 @@ export type StoresCountOutputTypeCountTenant_usersArgs<ExtArgs extends runtime.T
   where?: Prisma.tenant_usersWhereInput
 }
 
+/**
+ * StoresCountOutputType without action
+ */
+export type StoresCountOutputTypeCountNotification_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.notification_channelsWhereInput
+}
+
 
 export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   phone?: boolean
@@ -3473,6 +3709,7 @@ export type storesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   inv_promotion_usage_logs?: boolean | Prisma.stores$inv_promotion_usage_logsArgs<ExtArgs>
   inv_discount_approval_requests?: boolean | Prisma.stores$inv_discount_approval_requestsArgs<ExtArgs>
   tenant_users?: boolean | Prisma.stores$tenant_usersArgs<ExtArgs>
+  notification_channels?: boolean | Prisma.stores$notification_channelsArgs<ExtArgs>
   _count?: boolean | Prisma.StoresCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stores"]>
 
@@ -3559,6 +3796,7 @@ export type storesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   inv_promotion_usage_logs?: boolean | Prisma.stores$inv_promotion_usage_logsArgs<ExtArgs>
   inv_discount_approval_requests?: boolean | Prisma.stores$inv_discount_approval_requestsArgs<ExtArgs>
   tenant_users?: boolean | Prisma.stores$tenant_usersArgs<ExtArgs>
+  notification_channels?: boolean | Prisma.stores$notification_channelsArgs<ExtArgs>
   _count?: boolean | Prisma.StoresCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type storesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3590,6 +3828,7 @@ export type $storesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     inv_promotion_usage_logs: Prisma.$inv_promotion_usage_logsPayload<ExtArgs>[]
     inv_discount_approval_requests: Prisma.$inv_discount_approval_requestsPayload<ExtArgs>[]
     tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
+    notification_channels: Prisma.$notification_channelsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     phone: string | null
@@ -4018,6 +4257,7 @@ export interface Prisma__storesClient<T, Null = never, ExtArgs extends runtime.T
   inv_promotion_usage_logs<T extends Prisma.stores$inv_promotion_usage_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$inv_promotion_usage_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_promotion_usage_logsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inv_discount_approval_requests<T extends Prisma.stores$inv_discount_approval_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$inv_discount_approval_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_discount_approval_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant_users<T extends Prisma.stores$tenant_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notification_channels<T extends Prisma.stores$notification_channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stores$notification_channelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notification_channelsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4807,6 +5047,30 @@ export type stores$tenant_usersArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.Tenant_usersScalarFieldEnum | Prisma.Tenant_usersScalarFieldEnum[]
+}
+
+/**
+ * stores.notification_channels
+ */
+export type stores$notification_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the notification_channels
+   */
+  select?: Prisma.notification_channelsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the notification_channels
+   */
+  omit?: Prisma.notification_channelsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.notification_channelsInclude<ExtArgs> | null
+  where?: Prisma.notification_channelsWhereInput
+  orderBy?: Prisma.notification_channelsOrderByWithRelationInput | Prisma.notification_channelsOrderByWithRelationInput[]
+  cursor?: Prisma.notification_channelsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Notification_channelsScalarFieldEnum | Prisma.Notification_channelsScalarFieldEnum[]
 }
 
 /**

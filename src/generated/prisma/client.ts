@@ -233,7 +233,7 @@ export type res_menu_categories = Prisma.res_menu_categoriesModel
 export type res_menu_items = Prisma.res_menu_itemsModel
 /**
  * Model res_notifications
- * 
+ * @deprecated — Use `notifications` + `notification_recipients` instead.
  */
 export type res_notifications = Prisma.res_notificationsModel
 /**
@@ -763,3 +763,38 @@ export type sales_invoice_payments = Prisma.sales_invoice_paymentsModel
  * Supports per-tenant, per-store, per-fiscal-year numbering.
  */
 export type invoice_number_sequences = Prisma.invoice_number_sequencesModel
+/**
+ * Model notification_channels
+ * Notification channel — a named pub/sub topic within a tenant.
+ */
+export type notification_channels = Prisma.notification_channelsModel
+/**
+ * Model notification_channel_members
+ * Links users, customers, or suppliers to notification channels.
+ */
+export type notification_channel_members = Prisma.notification_channel_membersModel
+/**
+ * Model notifications
+ * The canonical notification record. Contains the payload, targeting, and lifecycle.
+ */
+export type notifications = Prisma.notificationsModel
+/**
+ * Model notification_recipients
+ * One row per recipient per notification. Tracks delivery lifecycle.
+ */
+export type notification_recipients = Prisma.notification_recipientsModel
+/**
+ * Model notification_templates
+ * Reusable notification templates for admin messages and system events.
+ */
+export type notification_templates = Prisma.notification_templatesModel
+/**
+ * Model notification_preferences
+ * Per-user, per-channel notification preferences.
+ */
+export type notification_preferences = Prisma.notification_preferencesModel
+/**
+ * Model notification_publish_queue
+ * Transactional outbox pattern — ensures notifications are published to Redis
+ */
+export type notification_publish_queue = Prisma.notification_publish_queueModel

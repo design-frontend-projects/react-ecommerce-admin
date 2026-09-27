@@ -34,6 +34,7 @@ vi.mock('@/lib/prisma', () => ({
 vi.mock('@/server/utils/tenant', () => ({
   requireTenantId: vi.fn().mockResolvedValue('00000000-0000-0000-0000-000000000001'),
   resolveTenantUserId: vi.fn().mockResolvedValue('00000000-0000-0000-0000-000000000002'),
+  isValidUuid: vi.fn().mockReturnValue(true),
 }))
 
 describe('reorder-suggestions server functions', () => {

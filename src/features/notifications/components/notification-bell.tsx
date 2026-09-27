@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Bell,
   Check,
@@ -8,8 +9,10 @@ import {
   AlertTriangle,
   AlertOctagon,
   CheckCircle2,
-  Send,
+  ExternalLink,
+  Radio,
   Loader2,
+  Inbox,
 } from 'lucide-react'
 import { useUserNotifications } from '../hooks/use-notifications'
 import { useAuth } from '@/hooks/use-auth'
@@ -23,10 +26,12 @@ import {
 } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 
 export function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<'all' | 'unread'>('all')
   const { has } = useAuth()
   const {
     notifications,
@@ -36,16 +41,29 @@ export function NotificationBell() {
     isMarkingRead,
     markAllAsRead,
     isMarkingAllRead,
+    isConnected,
+    transport,
   } = useUserNotifications()
 
-  // Check if user is admin or super_admin
   const isAdmin =
     has({ role: UserRole.Admin }) ||
     has({ role: UserRole.SuperAdmin }) ||
     has({ permission: 'general.notifications.manage' })
 
+  const filteredNotifications = notifications.filter((item) => {
+    if (activeTab === 'unread') return !item.is_read
+    return true
+  })
+
   const renderSeverityBadge = (severity?: string) => {
-    switch (severity) {
+    switch (severity?.toUpperCase()) {
+      case 'CRITICAL':
+        return (
+          <Badge className='flex items-center gap-1 border-red-500 bg-red-600 text-white dark:bg-red-700 text-[10px] uppercase animate-pulse shadow-sm'>
+            <AlertOctagon className='h-3 w-3' />
+            Critical
+          </Badge>
+        )
       case 'ERROR':
         return (
           <Badge variant='destructive' className='flex items-center gap-1 text-[10px] uppercase'>
@@ -88,34 +106,51 @@ export function NotificationBell() {
           aria-label='Notifications'
         >
           <Bell className='h-5 w-5 text-muted-foreground transition-colors group-hover:text-foreground' />
-          {unreadCount > 0 && (
-            <span className='absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[11px] font-bold text-primary-foreground shadow-md animate-pulse'>
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
-          )}
+          <AnimatePresence>
+            {unreadCount > 0 && (
+              <motion.span
+                key='badge'
+                initial={{ scale: 0.4, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.4, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                className='absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[11px] font-bold text-primary-foreground shadow-md'
+              >
+                {unreadCount > 99 ? '99+' : unreadCount}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </Button>
       </PopoverTrigger>
 
       <PopoverContent
         align='end'
-        className='w-80 sm:w-96 p-0 shadow-xl border-border/60 backdrop-blur-md'
+        className='w-80 sm:w-96 p-0 shadow-2xl border-border/80 backdrop-blur-xl bg-background/95'
       >
         {/* Header */}
-        <div className='flex items-center justify-between p-4 border-b border-border/40 bg-muted/20'>
+        <div className='flex items-center justify-between p-3.5 border-b border-border/60 bg-muted/30'>
           <div className='flex items-center gap-2'>
             <h4 className='font-semibold text-sm'>Notifications</h4>
-            {unreadCount > 0 && (
-              <Badge variant='secondary' className='h-5 px-2 text-xs font-semibold'>
-                {unreadCount} new
-              </Badge>
-            )}
+            {/* Live WebSocket connection indicator */}
+            <div
+              className='flex items-center gap-1 text-[10px] font-medium text-muted-foreground'
+              title={isConnected ? `Real-time WebSocket connected (${transport})` : 'Polling fallback active'}
+            >
+              <span
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'
+                )}
+              />
+              <span className='hidden sm:inline'>{isConnected ? 'Live' : 'Syncing'}</span>
+            </div>
           </div>
           <Button
             variant='ghost'
             size='sm'
             disabled={unreadCount === 0 || isMarkingAllRead}
             onClick={() => markAllAsRead()}
-            className='h-8 text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1'
+            className='h-7 text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1 px-2'
           >
             {isMarkingAllRead ? (
               <Loader2 className='h-3 w-3 animate-spin' />
@@ -126,6 +161,20 @@ export function NotificationBell() {
           </Button>
         </div>
 
+        {/* Filter Tabs */}
+        <div className='px-3 pt-2 pb-1 bg-muted/10 border-b border-border/40'>
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'all' | 'unread')}>
+            <TabsList className='grid w-full grid-cols-2 h-7'>
+              <TabsTrigger value='all' className='text-xs'>
+                All ({notifications.length})
+              </TabsTrigger>
+              <TabsTrigger value='unread' className='text-xs'>
+                Unread ({unreadCount})
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+
         {/* Notifications List */}
         <ScrollArea className='h-[360px] p-2'>
           {isLoading ? (
@@ -133,15 +182,17 @@ export function NotificationBell() {
               <Loader2 className='h-4 w-4 animate-spin' />
               Loading notifications...
             </div>
-          ) : notifications.length === 0 ? (
+          ) : filteredNotifications.length === 0 ? (
             <div className='flex flex-col h-40 items-center justify-center text-center p-4 text-muted-foreground'>
-              <Bell className='h-8 w-8 mb-2 stroke-[1.5] text-muted-foreground/40' />
-              <p className='text-sm font-medium'>No notifications yet</p>
+              <Inbox className='h-8 w-8 mb-2 stroke-[1.5] text-muted-foreground/40' />
+              <p className='text-sm font-medium'>
+                {activeTab === 'unread' ? 'No unread notifications' : 'No notifications yet'}
+              </p>
               <p className='text-xs text-muted-foreground/70'>You are all caught up!</p>
             </div>
           ) : (
             <div className='space-y-1.5'>
-              {notifications.map((item) => {
+              {filteredNotifications.map((item) => {
                 const notif = item.notifications
                 return (
                   <div
@@ -156,7 +207,7 @@ export function NotificationBell() {
                     <div className='flex items-center justify-between gap-2'>
                       <div className='flex items-center gap-2 overflow-hidden'>
                         {!item.is_read && (
-                          <span className='h-2 w-2 rounded-full bg-primary shrink-0' />
+                          <span className='h-2 w-2 rounded-full bg-primary shrink-0 animate-ping' />
                         )}
                         {renderSeverityBadge(notif?.severity)}
                       </div>
@@ -180,24 +231,41 @@ export function NotificationBell() {
                         {notif?.title || 'Notification'}
                       </h5>
                       <p className='text-xs text-muted-foreground mt-0.5 line-clamp-2 leading-relaxed'>
-                        {notif?.content || ''}
+                        {notif?.message || notif?.content || ''}
                       </p>
                     </div>
 
-                    {!item.is_read && (
-                      <div className='flex justify-end mt-1'>
+                    {/* Action button if notification has action URL */}
+                    <div className='flex items-center justify-between mt-1 pt-1 border-t border-border/30'>
+                      {notif?.action_url ? (
+                        <Link
+                          to={notif.action_url}
+                          onClick={() => {
+                            if (!item.is_read) markAsRead(item.id)
+                            setIsOpen(false)
+                          }}
+                          className='text-[11px] font-medium text-primary hover:underline flex items-center gap-1'
+                        >
+                          <ExternalLink className='h-3 w-3' />
+                          {notif.action_label || 'View'}
+                        </Link>
+                      ) : (
+                        <span />
+                      )}
+
+                      {!item.is_read && (
                         <Button
                           variant='ghost'
                           size='sm'
                           disabled={isMarkingRead}
                           onClick={() => markAsRead(item.id)}
-                          className='h-6 px-2 text-[11px] font-medium text-primary hover:text-primary/80 hover:bg-primary/10 flex items-center gap-1'
+                          className='h-6 px-2 text-[11px] font-medium text-primary hover:text-primary/80 hover:bg-primary/10 flex items-center gap-1 ml-auto'
                         >
                           <Check className='h-3 w-3' />
                           Mark read
                         </Button>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 )
               })}
@@ -205,28 +273,33 @@ export function NotificationBell() {
           )}
         </ScrollArea>
 
-        {/* Admin Link Footer */}
-        {isAdmin && (
-          <>
-            <Separator />
-            <div className='p-2 bg-muted/10'>
-              <Link
-                to='/notifications'
-                onClick={() => setIsOpen(false)}
-                className='w-full'
-              >
-                <Button
-                  variant='default'
-                  size='sm'
-                  className='w-full text-xs font-semibold flex items-center justify-center gap-2 h-9 shadow-sm'
-                >
-                  <Send className='h-3.5 w-3.5' />
-                  Notification Management & Sender
-                </Button>
-              </Link>
-            </div>
-          </>
-        )}
+        {/* Footer Navigation */}
+        <Separator />
+        <div className='p-2 bg-muted/15 flex items-center justify-between gap-2'>
+          <Link
+            to='/notifications'
+            onClick={() => setIsOpen(false)}
+            className='w-full'
+          >
+            <Button
+              variant='outline'
+              size='sm'
+              className='w-full text-xs font-semibold flex items-center justify-center gap-2 h-8 shadow-sm hover:bg-accent'
+            >
+              {isAdmin ? (
+                <>
+                  <Radio className='h-3.5 w-3.5 text-primary' />
+                  Notification Center & Admin Console
+                </>
+              ) : (
+                <>
+                  <Bell className='h-3.5 w-3.5' />
+                  View All Notifications
+                </>
+              )}
+            </Button>
+          </Link>
+        </div>
       </PopoverContent>
     </Popover>
   )

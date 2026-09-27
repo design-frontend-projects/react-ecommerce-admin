@@ -60,6 +60,20 @@ export async function syncTransactionToCRM(payload: SyncPayload) {
         updated_at: new Date(),
       },
     })
+
+    // Real-time Business Event Notification Trigger + channel auto-provisioning
+    try {
+      const { BusinessEventNotifications } = await import('@/server/services/business-event-notifications')
+      await BusinessEventNotifications.notifyCustomerCreated({
+        tenantId,
+        customerId: customerRecord.id,
+        name: [customer.firstName, customer.lastName].filter(Boolean).join(' ') || 'Customer',
+        email: customer.email,
+        phone: customer.phone,
+      })
+    } catch (err: any) {
+      console.warn('[syncTransactionToCRM] Customer notification deferred:', err?.message)
+    }
   }
 
   // Link the sale invoice to the customer

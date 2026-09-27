@@ -3,11 +3,5 @@ allowBuilds:
   '@prisma/engines': true
   '@swc/core': true
   esbuild: true
+  msgpackr-extract: true
   prisma: true
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@prisma/engines'
-  - '@swc/core'
-  - esbuild
-  - prisma
-  - sharp

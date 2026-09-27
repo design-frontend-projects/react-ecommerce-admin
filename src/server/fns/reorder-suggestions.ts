@@ -4,6 +4,7 @@ import { ApiError } from '@/server/utils/api-error'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import { Prisma } from '@/generated/prisma/client'
+import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
 
 // ---------------------------------------------------------------------------
 // LIST suggestions (unchanged – already Prisma-based)
@@ -68,6 +69,16 @@ export async function runCheck(authUserId: string, storeId?: string) {
       tenant_id: tenantId,
       is_active: true,
       ...(storeId ? { store_id: storeId } : {}),
+    },
+    include: {
+      product_variants: {
+        select: {
+          id: true,
+          sku: true,
+          products: { select: { name: true } },
+        },
+      },
+      suppliers: { select: { id: true, name: true } },
     },
     orderBy: [{ store_id: 'asc' }, { product_variant_id: 'asc' }],
   })
@@ -165,6 +176,27 @@ export async function runCheck(authUserId: string, storeId?: string) {
         tenantUserId ?? null,
       )
       suggestionsOpen++
+
+      // Real-time Business Event Notification Trigger
+      try {
+        const pvName = (rule as any).product_variants?.products?.name || 'Product'
+        const pvSku = (rule as any).product_variants?.sku || 'SKU-UNKNOWN'
+        await BusinessEventNotifications.notifyReorderSuggestionGenerated({
+          tenantId,
+          suggestionId: rule.id,
+          productVariantId: rule.product_variant_id,
+          sku: pvSku,
+          productName: pvName,
+          suggestedQty: suggestQty,
+          currentAvailable: available,
+          supplierName: (rule as any).suppliers?.name ?? null,
+          supplierId: rule.preferred_supplier_id ?? null,
+          storeId: rule.store_id ?? null,
+          warehouseId: rule.warehouse_id ?? null,
+        })
+      } catch (err: any) {
+        console.warn('[runCheck] Reorder notification deferred:', err?.message)
+      }
     } else {
       // 6. Demand satisfied — expire stale open suggestion for this rule
       await prisma.reorder_suggestions.updateMany({
