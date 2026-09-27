@@ -290,7 +290,7 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                           const costPrice = (pli && pli.length > 0 && pli[0].cost_price != null) ? pli[0].cost_price : null
                           const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances || []
                           const availableStock = balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
-                          const pva = (v as any).product_variant_attributes || []
+                          const pva = v.product_variant_attributes || []
 
                           return (
                             <tr key={v.id || index} className='bg-background'>
@@ -301,7 +301,7 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                               <td className='px-4 py-3'>
                                 {pva.length > 0 ? (
                                   <div className='flex flex-wrap gap-1'>
-                                    {pva.map((a: any, aIdx: number) => (
+                                    {pva.map((a, aIdx: number) => (
                                       <Badge key={aIdx} variant='outline' className='text-[10px] px-1 py-0'>
                                         {a.attribute_definition?.name}: {a.attribute_value?.value}
                                       </Badge>
@@ -316,9 +316,9 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                                 {costPrice ? formatPrice(costPrice) : '-'}
                               </td>
                               <td className='px-4 py-3 text-xs'>
-                                {(v as any).tax_rates ? (
+                                {v.tax_rates ? (
                                   <Badge variant='outline' className='text-[10px] font-mono'>
-                                    {(v as any).tax_rates.tax_type} ({(v as any).tax_rates.rate}%)
+                                    {v.tax_rates.tax_type} ({v.tax_rates.rate}%)
                                   </Badge>
                                 ) : (
                                   <span className='text-muted-foreground'>—</span>

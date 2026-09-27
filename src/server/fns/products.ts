@@ -7,7 +7,12 @@ import {
   isValidUuid,
 } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
-import type { Prisma } from '@/generated/prisma/client'
+import type {
+  Prisma,
+  product_type_enum,
+  tracking_mode_enum,
+  attribute_data_type_enum,
+} from '@/generated/prisma/client'
 import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
 
 // ── Types & Interfaces ───────────────────────────────────────────────────────
@@ -88,9 +93,9 @@ export interface CreateProductMasterInput {
   brandId?: string | null
   baseUomId?: string | null
   supplierId?: string | null // Primary / legacy supplier
-  productType?: 'simple' | 'variant' | 'bundle' | 'service' | 'composite'
+  productType?: product_type_enum | 'simple' | 'variant' | 'bundle' | 'service' | 'composite'
   productTypeId?: string | null
-  trackingMode?: 'none' | 'batch' | 'serial' | 'batch_and_serial'
+  trackingMode?: tracking_mode_enum | 'none' | 'batch' | 'serial' | 'batch_and_serial'
   weight?: number | null
   dimensions?: string | null
   isActive?: boolean
@@ -112,7 +117,7 @@ export interface AttributeDefinitionInput {
   code: string
   name: string
   nameAr?: string | null
-  dataType?: 'text' | 'number' | 'boolean' | 'color' | 'select'
+  dataType?: attribute_data_type_enum | 'text' | 'number' | 'boolean' | 'color' | 'select'
   sortOrder?: number
   isActive?: boolean
   values?: Array<{
@@ -235,7 +240,7 @@ export async function listProducts(
       ? params.productType.filter(Boolean)
       : [params.productType].filter(Boolean)
     if (typeList.length > 0) {
-      where.product_type = { in: typeList as any }
+      where.product_type = { in: typeList as product_type_enum[] }
     }
   }
 
@@ -503,10 +508,10 @@ export async function createProductMaster(
         brand_id: input.brandId && isValidUuid(input.brandId) ? input.brandId : null,
         base_uom_id: input.baseUomId && isValidUuid(input.baseUomId) ? input.baseUomId : null,
         supplier_id: input.supplierId && isValidUuid(input.supplierId) ? input.supplierId : null,
-        product_type: (input.productType as any) || 'simple',
+        product_type: (input.productType as product_type_enum) || 'simple',
         product_type_id:
           input.productTypeId && isValidUuid(input.productTypeId) ? input.productTypeId : null,
-        tracking_mode: (input.trackingMode as any) || 'none',
+        tracking_mode: (input.trackingMode as tracking_mode_enum) || 'none',
         weight: input.weight !== undefined && input.weight !== null ? Number(input.weight) : null,
         dimensions: input.dimensions ? String(input.dimensions) : null,
         is_active: input.isActive ?? true,
@@ -598,7 +603,7 @@ export async function createProductMaster(
           name: v.name ? sanitizeString(v.name) : null,
           tax_rate_id: v.taxRateId && isValidUuid(v.taxRateId) ? v.taxRateId : null,
           weight: v.weight !== undefined && v.weight !== null ? Number(v.weight) : null,
-          dimensions: v.dimensions ? (v.dimensions as any) : null,
+          dimensions: v.dimensions ? (v.dimensions as Prisma.InputJsonValue) : undefined,
           uom_id: v.uomId && isValidUuid(v.uomId) ? v.uomId : null,
           is_active: v.isActive ?? true,
           expiration_date: v.expirationDate ? new Date(v.expirationDate) : null,
@@ -690,8 +695,10 @@ export async function createProductMaster(
       createdByUserId: tenantUserId,
       actionUrl: `/products`,
     })
-  } catch (err: any) {
-    console.warn('[Products Master] Notification trigger failed:', err?.message)
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : String(err)
+    // eslint-disable-next-line no-console
+    console.warn('[Products Master] Notification trigger failed:', errorMsg)
   }
 
   return getProduct(authUserId, createdProduct.id)
@@ -795,7 +802,8 @@ export async function updateProductMaster(
           ? { connect: { id: input.supplierId } }
           : { disconnect: true }
     }
-    if (input.productType !== undefined) dataToUpdate.product_type = input.productType as any
+    if (input.productType !== undefined)
+      dataToUpdate.product_type = input.productType as product_type_enum
     if (input.productTypeId !== undefined) {
       dataToUpdate.product_types =
         input.productTypeId && isValidUuid(input.productTypeId)
@@ -803,7 +811,7 @@ export async function updateProductMaster(
           : { disconnect: true }
     }
     if (input.trackingMode !== undefined)
-      dataToUpdate.tracking_mode = input.trackingMode as any
+      dataToUpdate.tracking_mode = input.trackingMode as tracking_mode_enum
     if (input.weight !== undefined)
       dataToUpdate.weight = input.weight != null ? Number(input.weight) : null
     if (input.dimensions !== undefined)
@@ -894,6 +902,65 @@ export async function updateProductMaster(
         }
       }
     }
+
+    // 3. Synchronize Variants if provided
+    if (input.variants !== undefined) {
+      const incomingVariants = input.variants.filter((v) => v.sku)
+      for (const v of incomingVariants) {
+        if (v.id && isValidUuid(v.id)) {
+          await tx.product_variants.update({
+            where: { id: v.id },
+            data: {
+              sku: sanitizeString(v.sku),
+              barcode: v.barcode ? sanitizeString(v.barcode) : null,
+              name: v.name ? sanitizeString(v.name) : null,
+              tax_rate_id:
+                v.taxRateId && isValidUuid(v.taxRateId) ? v.taxRateId : null,
+              weight:
+                v.weight !== undefined && v.weight !== null
+                  ? Number(v.weight)
+                  : null,
+              dimensions: v.dimensions
+                ? (v.dimensions as Prisma.InputJsonValue)
+                : undefined,
+              uom_id: v.uomId && isValidUuid(v.uomId) ? v.uomId : null,
+              is_active: v.isActive ?? true,
+              expiration_date: v.expirationDate
+                ? new Date(v.expirationDate)
+                : null,
+              updated_by_user_id: tenantUserId,
+              updated_at: new Date(),
+            },
+          })
+        } else {
+          await tx.product_variants.create({
+            data: {
+              tenant_id: tenantId,
+              product_id: id,
+              sku: sanitizeString(v.sku),
+              barcode: v.barcode ? sanitizeString(v.barcode) : null,
+              name: v.name ? sanitizeString(v.name) : null,
+              tax_rate_id:
+                v.taxRateId && isValidUuid(v.taxRateId) ? v.taxRateId : null,
+              weight:
+                v.weight !== undefined && v.weight !== null
+                  ? Number(v.weight)
+                  : null,
+              dimensions: v.dimensions
+                ? (v.dimensions as Prisma.InputJsonValue)
+                : undefined,
+              uom_id: v.uomId && isValidUuid(v.uomId) ? v.uomId : null,
+              is_active: v.isActive ?? true,
+              expiration_date: v.expirationDate
+                ? new Date(v.expirationDate)
+                : null,
+              created_by_user_id: tenantUserId,
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+      }
+    }
   })
 
   // Trigger update notification
@@ -912,8 +979,10 @@ export async function updateProductMaster(
         updatedByUserId: tenantUserId,
       })
     }
-  } catch (err: any) {
-    console.warn('[Products Master] Update notification failed:', err?.message)
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : String(err)
+    // eslint-disable-next-line no-console
+    console.warn('[Products Master] Update notification failed:', errorMsg)
   }
 
   return getProduct(authUserId, id)
@@ -1007,7 +1076,7 @@ export async function createAttributeDefinition(
       code,
       name,
       name_ar: input.nameAr ? sanitizeString(input.nameAr) : null,
-      data_type: (input.dataType as any) || 'text',
+      data_type: (input.dataType as attribute_data_type_enum) || 'text',
       sort_order: input.sortOrder ?? 0,
       is_active: input.isActive ?? true,
       created_by_user_id: tenantUserId,

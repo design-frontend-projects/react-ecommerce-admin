@@ -1,9 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '@/hooks/use-auth'
-import { useAuthEnabled } from '@/hooks/use-auth-query'
+import { useQueryClient } from '@tanstack/react-query'
+import { useAuthQuery } from '@/hooks/use-auth-query'
+import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import { useAuthStore } from '@/stores/auth-store'
 import type {
   Product,
+  ProductType,
+  TrackingMode,
   VariantRowFormData,
   SupplierRowFormData,
   AttributeDefinition,
@@ -75,36 +77,30 @@ function getAuthTenantAndUser() {
 }
 
 export const useServerProducts = (params: ProductQueryParams = {}) => {
-  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
-  const { getToken } = useAuth()
   const { tenantId } = getAuthTenantAndUser()
 
   const page = Math.max(1, params.page ?? 1)
   const pageSize = Math.max(1, params.pageSize ?? 20)
 
-  return useQuery({
+  return useAuthQuery<PaginatedProductsResult>({
     queryKey: ['products', 'server', tenantId, params, page, pageSize],
-    queryFn: async (): Promise<PaginatedProductsResult> => {
-      const res = await fetchProductsApi(getToken, {
+    queryFn: (getToken) =>
+      fetchProductsApi(getToken, {
         ...params,
         page,
         pageSize,
-      })
-      return res
-    },
+      }),
     placeholderData: (previousData) => previousData,
-    enabled: authEnabled,
+    rbac: { permission: 'products.view' },
   })
 }
 
 export const useProductsStats = () => {
-  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
-  const { getToken } = useAuth()
   const { tenantId } = getAuthTenantAndUser()
 
-  return useQuery({
+  return useAuthQuery<ProductSummaryStats>({
     queryKey: ['products', 'stats', tenantId],
-    queryFn: async (): Promise<ProductSummaryStats> => {
+    queryFn: async (getToken): Promise<ProductSummaryStats> => {
       const stats = await fetchProductStatsApi(getToken)
       return {
         ...stats,
@@ -112,52 +108,44 @@ export const useProductsStats = () => {
         outOfStock: 0,
       }
     },
-    enabled: authEnabled,
     staleTime: 60000,
+    rbac: { permission: 'products.view' },
   })
 }
 
 export const useProducts = () => {
-  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
-  const { getToken } = useAuth()
   const { tenantId } = getAuthTenantAndUser()
 
-  return useQuery({
+  return useAuthQuery<Product[]>({
     queryKey: ['products', 'list', tenantId],
-    queryFn: async (): Promise<Product[]> => {
+    queryFn: async (getToken): Promise<Product[]> => {
       const res = await fetchProductsApi(getToken, { pageSize: 100 })
       return res.products
     },
-    enabled: authEnabled,
+    rbac: { permission: 'products.view' },
   })
 }
 
 export const useProduct = (id?: string | number | null) => {
-  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
-  const { getToken } = useAuth()
   const productId = id ? String(id) : null
 
-  return useQuery({
+  return useAuthQuery<Product | null>({
     queryKey: ['products', productId],
-    queryFn: async (): Promise<Product | null> => {
-      if (!productId) return null
+    queryFn: (getToken): Promise<Product | null> => {
+      if (!productId) return Promise.resolve(null)
       return fetchProductApi(getToken, productId)
     },
-    enabled: Boolean(productId) && authEnabled,
+    enabled: Boolean(productId),
+    rbac: { permission: 'products.view' },
   })
 }
 
 export const useCreateProduct = () => {
-  const { getToken, has } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: async (input: CreateProductMasterInput) => {
-      if (!has({ permission: 'products.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-      return createProductApi(getToken, input)
-    },
+  return useAuthMutation<Product, CreateProductMasterInput>({
+    mutationFn: (getToken, input) => createProductApi(getToken, input),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
@@ -166,19 +154,15 @@ export const useCreateProduct = () => {
 }
 
 export const useUpdateProduct = () => {
-  const { getToken, has } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: async ({
-      id,
-      ...updates
-    }: UpdateProductMasterInput & { id: string | number }) => {
-      if (!has({ permission: 'products.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-      return updateProductApi(getToken, String(id), updates)
-    },
+  return useAuthMutation<
+    Product,
+    UpdateProductMasterInput & { id: string | number }
+  >({
+    mutationFn: (getToken, { id, ...updates }) =>
+      updateProductApi(getToken, String(id), updates),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['price-list'] })
@@ -187,16 +171,11 @@ export const useUpdateProduct = () => {
 }
 
 export const useDeleteProduct = () => {
-  const { getToken, has } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: async (id: string | number) => {
-      if (!has({ permission: 'products.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-      return deleteProductApi(getToken, String(id))
-    },
+  return useAuthMutation<void, string | number>({
+    mutationFn: (getToken, id) => deleteProductApi(getToken, String(id)),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
     },
@@ -205,14 +184,10 @@ export const useDeleteProduct = () => {
 
 export const useCreateProductWithVariants = () => {
   const queryClient = useQueryClient()
-  const { getToken, has } = useAuth()
 
-  return useMutation({
-    mutationFn: async ({
-      base,
-      variants,
-      suppliers,
-    }: {
+  return useAuthMutation<
+    Product,
+    {
       base: Partial<Product> & {
         product_code?: string | null
         name_ar?: string | null
@@ -220,11 +195,9 @@ export const useCreateProductWithVariants = () => {
       }
       variants: Array<VariantRowFormData>
       suppliers?: Array<SupplierRowFormData>
-    }) => {
-      if (!has({ permission: 'products.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-
+    }
+  >({
+    mutationFn: async (getToken, { base, variants, suppliers }) => {
       const input: CreateProductMasterInput = {
         name: base.name || '',
         nameAr: base.name_ar,
@@ -237,9 +210,9 @@ export const useCreateProductWithVariants = () => {
         brandId: base.brandId || base.brand_id || null,
         baseUomId: base.baseUomId || base.base_uom_id || null,
         supplierId: base.supplierId || base.supplier_id || null,
-        productType: (base.product_type as any) || 'simple',
+        productType: (base.product_type as ProductType) || 'simple',
         productTypeId: base.product_type_id || null,
-        trackingMode: (base.tracking_mode as any) || 'none',
+        trackingMode: (base.tracking_mode as TrackingMode) || 'none',
         weight: base.weight != null ? Number(base.weight) : null,
         dimensions: base.dimensions ? String(base.dimensions) : null,
         isActive: base.is_active ?? true,
@@ -279,6 +252,7 @@ export const useCreateProductWithVariants = () => {
 
       return createProductApi(getToken, input)
     },
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
@@ -289,15 +263,10 @@ export const useCreateProductWithVariants = () => {
 
 export const useUpdateProductWithVariants = () => {
   const queryClient = useQueryClient()
-  const { getToken, has } = useAuth()
 
-  return useMutation({
-    mutationFn: async ({
-      id,
-      base,
-      variants,
-      suppliers,
-    }: {
+  return useAuthMutation<
+    Product,
+    {
       id: string | number
       base: Partial<Product> & {
         product_code?: string | null
@@ -306,11 +275,9 @@ export const useUpdateProductWithVariants = () => {
       }
       variants: Array<VariantRowFormData & { id?: string }>
       suppliers?: Array<SupplierRowFormData>
-    }) => {
-      if (!has({ permission: 'products.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-
+    }
+  >({
+    mutationFn: async (getToken, { id, base, variants, suppliers }) => {
       const input: UpdateProductMasterInput = {
         name: base.name,
         nameAr: base.name_ar,
@@ -323,9 +290,13 @@ export const useUpdateProductWithVariants = () => {
         brandId: base.brandId || base.brand_id,
         baseUomId: base.baseUomId || base.base_uom_id,
         supplierId: base.supplierId || base.supplier_id,
-        productType: base.product_type as any,
+        productType: base.product_type
+          ? (base.product_type as ProductType)
+          : undefined,
         productTypeId: base.product_type_id,
-        trackingMode: base.tracking_mode as any,
+        trackingMode: base.tracking_mode
+          ? (base.tracking_mode as TrackingMode)
+          : undefined,
         weight: base.weight != null ? Number(base.weight) : undefined,
         dimensions: base.dimensions ? String(base.dimensions) : undefined,
         isActive: base.is_active,
@@ -367,6 +338,7 @@ export const useUpdateProductWithVariants = () => {
 
       return updateProductApi(getToken, String(id), input)
     },
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
       queryClient.invalidateQueries({ queryKey: ['stock-balances'] })
@@ -378,30 +350,22 @@ export const useUpdateProductWithVariants = () => {
 // ── Attribute Definitions Hooks ─────────────────────────────────────────────
 
 export const useAttributeDefinitions = () => {
-  const { authEnabled } = useAuthEnabled({ permission: 'products.view' })
-  const { getToken } = useAuth()
   const { tenantId } = getAuthTenantAndUser()
 
-  return useQuery({
+  return useAuthQuery<AttributeDefinition[]>({
     queryKey: ['attribute-definitions', tenantId],
-    queryFn: async (): Promise<AttributeDefinition[]> => {
-      return fetchAttributeDefinitionsApi(getToken)
-    },
-    enabled: authEnabled,
+    queryFn: (getToken) => fetchAttributeDefinitionsApi(getToken),
+    rbac: { permission: 'products.view' },
   })
 }
 
 export const useCreateAttributeDefinition = () => {
-  const { getToken, has } = useAuth()
   const queryClient = useQueryClient()
 
-  return useMutation({
-    mutationFn: async (input: AttributeDefinitionInput) => {
-      if (!has({ permission: 'products.manage' })) {
-        throw new Error('You do not have permission to perform this action.')
-      }
-      return createAttributeDefinitionApi(getToken, input)
-    },
+  return useAuthMutation<AttributeDefinition, AttributeDefinitionInput>({
+    mutationFn: (getToken, input) =>
+      createAttributeDefinitionApi(getToken, input),
+    rbac: { permission: 'products.manage' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['attribute-definitions'] })
     },

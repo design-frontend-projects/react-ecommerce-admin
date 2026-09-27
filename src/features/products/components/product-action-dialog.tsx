@@ -160,12 +160,12 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         sku: v.sku,
         barcode: v.barcode || '',
         name: v.name || '',
-        tax_rate_id: (v as any).tax_rate_id || null,
-        tax_rates: (v as any).tax_rates || null,
+        tax_rate_id: v.tax_rate_id || null,
+        tax_rates: v.tax_rates || null,
         weight: v.weight ? Number(v.weight) : null,
         dimensions: dimLabel,
         is_active: v.is_active ?? true,
-        expiration_date: (v as any).expiration_date || null,
+        expiration_date: v.expiration_date || null,
         uom_id: v.uom_id || null,
         attributes_label: dimLabel || v.name || '',
       }
@@ -1637,11 +1637,10 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                   #{index + 1}
                                 </Badge>
                                 <CardTitle className='text-sm font-semibold'>
-                                  {form.watch(
-                                    `variants.${index}.attributes_label`
-                                  ) || `Variant ${index + 1}`}
+                                  {watchedVariants[index]?.attributes_label ||
+                                    `Variant ${index + 1}`}
                                 </CardTitle>
-                                {form.watch(`variants.${index}.is_active`) ? (
+                                {watchedVariants[index]?.is_active !== false ? (
                                   <Badge
                                     variant='default'
                                     className='h-5 gap-1 px-1.5 text-[10px]'
@@ -1958,12 +1957,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               </div>
 
                               {/* Barcode Display if Barcode Exists */}
-                              {form.watch(`variants.${index}.barcode`) && (
+                              {watchedVariants[index]?.barcode && (
                                 <div className='pt-1'>
                                   <BarcodeDisplay
                                     value={
-                                      form.watch(`variants.${index}.barcode`) ||
-                                      ''
+                                      watchedVariants[index]?.barcode || ''
                                     }
                                     type='barcode'
                                   />

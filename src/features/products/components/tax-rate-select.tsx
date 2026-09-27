@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Check, ChevronsUpDown, Percent, Loader2, X } from 'lucide-react'
+import { Check, ChevronsUpDown, Loader2, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -76,7 +76,7 @@ export function TaxRateSelect({
           aria-expanded={open}
           disabled={disabled || isLoading}
           className={cn(
-            'w-full justify-between font-normal px-2.5',
+            'w-full justify-between px-2.5 font-normal',
             isSmall ? 'h-8 text-xs' : 'h-9 text-xs sm:text-sm',
             !selectedItem && 'text-muted-foreground',
             className
@@ -94,31 +94,33 @@ export function TaxRateSelect({
               <Badge
                 variant='outline'
                 className={cn(
-                  'h-4 px-1 text-[10px] font-mono font-semibold shrink-0',
+                  'h-4 shrink-0 px-1 font-mono text-[10px] font-semibold',
                   getRateBadgeVariant(selectedItem.rate)
                 )}
               >
                 {selectedItem.rate}%
               </Badge>
-              <span className='truncate font-medium text-xs text-foreground'>
+              <span className='truncate text-xs font-medium text-foreground'>
                 {selectedItem.tax_type}
               </span>
               {selectedItem.is_inclusive && (
-                <span className='text-[9px] text-muted-foreground shrink-0'>
+                <span className='shrink-0 text-[9px] text-muted-foreground'>
                   ({t('taxRates.inclusive', 'Inc')})
                 </span>
               )}
             </div>
           ) : (
-            <span className='truncate text-xs'>{placeholder || defaultPlaceholder}</span>
+            <span className='truncate text-xs'>
+              {placeholder || defaultPlaceholder}
+            </span>
           )}
 
-          <div className='flex items-center gap-1 shrink-0 ms-1'>
+          <div className='ms-1 flex shrink-0 items-center gap-1'>
             {selectedItem && !disabled && (
               <span
                 role='button'
                 tabIndex={0}
-                className='rounded-sm p-0.5 opacity-60 hover:opacity-100 hover:bg-muted focus:outline-hidden'
+                className='rounded-sm p-0.5 opacity-60 hover:bg-muted hover:opacity-100 focus:outline-hidden'
                 onClick={(e) => {
                   e.stopPropagation()
                   onChange?.(null, undefined)
@@ -138,10 +140,7 @@ export function TaxRateSelect({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent
-        className='w-[280px] p-0 shadow-lg'
-        align='start'
-      >
+      <PopoverContent className='w-70 p-0 shadow-lg' align='start'>
         <Command>
           <CommandInput
             placeholder={t(
@@ -152,10 +151,7 @@ export function TaxRateSelect({
           />
           <CommandList className='max-h-56'>
             <CommandEmpty className='py-4 text-center text-xs text-muted-foreground'>
-              {t(
-                'products.form.noTaxRateFound',
-                'No tax rate found.'
-              )}
+              {t('products.form.noTaxRateFound', 'No tax rate found.')}
             </CommandEmpty>
             <CommandGroup>
               <CommandItem
@@ -164,7 +160,7 @@ export function TaxRateSelect({
                   onChange?.(null, undefined)
                   setOpen(false)
                 }}
-                className='flex items-center justify-between text-xs py-2'
+                className='flex items-center justify-between py-2 text-xs'
               >
                 <span className='text-muted-foreground italic'>
                   -- {t('common.none', 'None / Exempt (0%)')} --
@@ -182,13 +178,13 @@ export function TaxRateSelect({
                       onChange?.(item.id, item)
                       setOpen(false)
                     }}
-                    className='flex items-center justify-between text-xs py-2'
+                    className='flex items-center justify-between py-2 text-xs'
                   >
-                    <div className='flex items-center gap-2 min-w-0'>
+                    <div className='flex min-w-0 items-center gap-2'>
                       <Badge
                         variant='outline'
                         className={cn(
-                          'h-4.5 px-1.5 text-[10px] font-mono font-semibold shrink-0',
+                          'h-4.5 shrink-0 px-1.5 font-mono text-[10px] font-semibold',
                           getRateBadgeVariant(item.rate)
                         )}
                       >
@@ -206,14 +202,14 @@ export function TaxRateSelect({
                       </div>
                     </div>
 
-                    <div className='flex items-center gap-1 shrink-0'>
+                    <div className='flex shrink-0 items-center gap-1'>
                       {item.is_inclusive && (
                         <span className='text-[9px] text-muted-foreground'>
                           Inc
                         </span>
                       )}
                       {isSelected && (
-                        <Check className='h-3.5 w-3.5 text-primary ms-1' />
+                        <Check className='ms-1 h-3.5 w-3.5 text-primary' />
                       )}
                     </div>
                   </CommandItem>

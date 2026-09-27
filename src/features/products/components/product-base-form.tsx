@@ -101,7 +101,6 @@ export function ProductBaseForm({
   })
 
   const hasVariants = form.watch('has_variants')
-  const hasExpiration = form.watch('has_expiration')
   const productType = form.watch('product_type')
 
   useEffect(() => {
@@ -342,7 +341,7 @@ export function ProductBaseForm({
                   <FormControl>
                     <Textarea
                       placeholder={t('products.form.descriptionPlaceholder')}
-                      className='min-h-[90px] resize-none'
+                      className='min-h-22.5 resize-none'
                       {...field}
                       value={field.value || ''}
                     />
