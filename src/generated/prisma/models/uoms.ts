@@ -243,6 +243,7 @@ export type uomsWhereInput = {
   purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
   inventory_items?: Prisma.Inventory_itemsListRelationFilter
   goods_receipt_items?: Prisma.Goods_receipt_itemsListRelationFilter
+  product_suppliers?: Prisma.Product_suppliersListRelationFilter
 }
 
 export type uomsOrderByWithRelationInput = {
@@ -263,6 +264,7 @@ export type uomsOrderByWithRelationInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsOrderByRelationAggregateInput
   inventory_items?: Prisma.inventory_itemsOrderByRelationAggregateInput
   goods_receipt_items?: Prisma.goods_receipt_itemsOrderByRelationAggregateInput
+  product_suppliers?: Prisma.product_suppliersOrderByRelationAggregateInput
 }
 
 export type uomsWhereUniqueInput = Prisma.AtLeast<{
@@ -286,6 +288,7 @@ export type uomsWhereUniqueInput = Prisma.AtLeast<{
   purchase_requisition_items?: Prisma.Purchase_requisition_itemsListRelationFilter
   inventory_items?: Prisma.Inventory_itemsListRelationFilter
   goods_receipt_items?: Prisma.Goods_receipt_itemsListRelationFilter
+  product_suppliers?: Prisma.Product_suppliersListRelationFilter
 }, "id">
 
 export type uomsOrderByWithAggregationInput = {
@@ -342,6 +345,7 @@ export type uomsCreateInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUncheckedCreateInput = {
@@ -362,6 +366,7 @@ export type uomsUncheckedCreateInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsUncheckedCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersUncheckedCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUpdateInput = {
@@ -382,6 +387,7 @@ export type uomsUpdateInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsUncheckedUpdateInput = {
@@ -402,6 +408,7 @@ export type uomsUncheckedUpdateInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUncheckedUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUncheckedUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsCreateManyInput = {
@@ -515,6 +522,22 @@ export type uomsUpdateOneWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.uomsUpdateToOneWithWhereWithoutProductsInput, Prisma.uomsUpdateWithoutProductsInput>, Prisma.uomsUncheckedUpdateWithoutProductsInput>
 }
 
+export type uomsCreateNestedOneWithoutProduct_suppliersInput = {
+  create?: Prisma.XOR<Prisma.uomsCreateWithoutProduct_suppliersInput, Prisma.uomsUncheckedCreateWithoutProduct_suppliersInput>
+  connectOrCreate?: Prisma.uomsCreateOrConnectWithoutProduct_suppliersInput
+  connect?: Prisma.uomsWhereUniqueInput
+}
+
+export type uomsUpdateOneWithoutProduct_suppliersNestedInput = {
+  create?: Prisma.XOR<Prisma.uomsCreateWithoutProduct_suppliersInput, Prisma.uomsUncheckedCreateWithoutProduct_suppliersInput>
+  connectOrCreate?: Prisma.uomsCreateOrConnectWithoutProduct_suppliersInput
+  upsert?: Prisma.uomsUpsertWithoutProduct_suppliersInput
+  disconnect?: Prisma.uomsWhereInput | boolean
+  delete?: Prisma.uomsWhereInput | boolean
+  connect?: Prisma.uomsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.uomsUpdateToOneWithWhereWithoutProduct_suppliersInput, Prisma.uomsUpdateWithoutProduct_suppliersInput>, Prisma.uomsUncheckedUpdateWithoutProduct_suppliersInput>
+}
+
 export type uomsCreateNestedOneWithoutInventory_itemsInput = {
   create?: Prisma.XOR<Prisma.uomsCreateWithoutInventory_itemsInput, Prisma.uomsUncheckedCreateWithoutInventory_itemsInput>
   connectOrCreate?: Prisma.uomsCreateOrConnectWithoutInventory_itemsInput
@@ -596,6 +619,7 @@ export type uomsCreateWithoutProductsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUncheckedCreateWithoutProductsInput = {
@@ -615,6 +639,7 @@ export type uomsUncheckedCreateWithoutProductsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsUncheckedCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersUncheckedCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsCreateOrConnectWithoutProductsInput = {
@@ -650,6 +675,7 @@ export type uomsUpdateWithoutProductsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutProductsInput = {
@@ -665,6 +691,103 @@ export type uomsUncheckedUpdateWithoutProductsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  inventory_items?: Prisma.inventory_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUncheckedUpdateManyWithoutPurchase_uomNestedInput
+}
+
+export type uomsCreateWithoutProduct_suppliersInput = {
+  id?: string
+  tenant_id?: string | null
+  code: string
+  name: string
+  uom_category?: string
+  uom_category_id?: string | null
+  is_base?: boolean
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsCreateNestedManyWithoutBase_uomInput
+  purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
+  inventory_items?: Prisma.inventory_itemsCreateNestedManyWithoutUomsInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutUomsInput
+}
+
+export type uomsUncheckedCreateWithoutProduct_suppliersInput = {
+  id?: string
+  tenant_id?: string | null
+  code: string
+  name: string
+  uom_category?: string
+  uom_category_id?: string | null
+  is_base?: boolean
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  products?: Prisma.productsUncheckedCreateNestedManyWithoutBase_uomInput
+  purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
+  inventory_items?: Prisma.inventory_itemsUncheckedCreateNestedManyWithoutUomsInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutUomsInput
+}
+
+export type uomsCreateOrConnectWithoutProduct_suppliersInput = {
+  where: Prisma.uomsWhereUniqueInput
+  create: Prisma.XOR<Prisma.uomsCreateWithoutProduct_suppliersInput, Prisma.uomsUncheckedCreateWithoutProduct_suppliersInput>
+}
+
+export type uomsUpsertWithoutProduct_suppliersInput = {
+  update: Prisma.XOR<Prisma.uomsUpdateWithoutProduct_suppliersInput, Prisma.uomsUncheckedUpdateWithoutProduct_suppliersInput>
+  create: Prisma.XOR<Prisma.uomsCreateWithoutProduct_suppliersInput, Prisma.uomsUncheckedCreateWithoutProduct_suppliersInput>
+  where?: Prisma.uomsWhereInput
+}
+
+export type uomsUpdateToOneWithWhereWithoutProduct_suppliersInput = {
+  where?: Prisma.uomsWhereInput
+  data: Prisma.XOR<Prisma.uomsUpdateWithoutProduct_suppliersInput, Prisma.uomsUncheckedUpdateWithoutProduct_suppliersInput>
+}
+
+export type uomsUpdateWithoutProduct_suppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_base?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUpdateManyWithoutBase_uomNestedInput
+  purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
+  purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
+  inventory_items?: Prisma.inventory_itemsUpdateManyWithoutUomsNestedInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutUomsNestedInput
+}
+
+export type uomsUncheckedUpdateWithoutProduct_suppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category?: Prisma.StringFieldUpdateOperationsInput | string
+  uom_category_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_base?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.productsUncheckedUpdateManyWithoutBase_uomNestedInput
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUncheckedUpdateManyWithoutUomsNestedInput
@@ -688,6 +811,7 @@ export type uomsCreateWithoutInventory_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUncheckedCreateWithoutInventory_itemsInput = {
@@ -707,6 +831,7 @@ export type uomsUncheckedCreateWithoutInventory_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersUncheckedCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsCreateOrConnectWithoutInventory_itemsInput = {
@@ -742,6 +867,7 @@ export type uomsUpdateWithoutInventory_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutInventory_itemsInput = {
@@ -761,6 +887,7 @@ export type uomsUncheckedUpdateWithoutInventory_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUncheckedUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsCreateWithoutPurchase_order_itemsInput = {
@@ -780,6 +907,7 @@ export type uomsCreateWithoutPurchase_order_itemsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUncheckedCreateWithoutPurchase_order_itemsInput = {
@@ -799,6 +927,7 @@ export type uomsUncheckedCreateWithoutPurchase_order_itemsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsUncheckedCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersUncheckedCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsCreateOrConnectWithoutPurchase_order_itemsInput = {
@@ -834,6 +963,7 @@ export type uomsUpdateWithoutPurchase_order_itemsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
@@ -853,6 +983,7 @@ export type uomsUncheckedUpdateWithoutPurchase_order_itemsInput = {
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUncheckedUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUncheckedUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsCreateWithoutPurchase_requisition_itemsInput = {
@@ -872,6 +1003,7 @@ export type uomsCreateWithoutPurchase_requisition_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUncheckedCreateWithoutPurchase_requisition_itemsInput = {
@@ -891,6 +1023,7 @@ export type uomsUncheckedCreateWithoutPurchase_requisition_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsUncheckedCreateNestedManyWithoutUomsInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersUncheckedCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsCreateOrConnectWithoutPurchase_requisition_itemsInput = {
@@ -926,6 +1059,7 @@ export type uomsUpdateWithoutPurchase_requisition_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
@@ -945,6 +1079,7 @@ export type uomsUncheckedUpdateWithoutPurchase_requisition_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUncheckedUpdateManyWithoutUomsNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUncheckedUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsCreateWithoutGoods_receipt_itemsInput = {
@@ -964,6 +1099,7 @@ export type uomsCreateWithoutGoods_receipt_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsCreateNestedManyWithoutUomsInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsUncheckedCreateWithoutGoods_receipt_itemsInput = {
@@ -983,6 +1119,7 @@ export type uomsUncheckedCreateWithoutGoods_receipt_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedCreateNestedManyWithoutUomsInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedCreateNestedManyWithoutUomsInput
   inventory_items?: Prisma.inventory_itemsUncheckedCreateNestedManyWithoutUomsInput
+  product_suppliers?: Prisma.product_suppliersUncheckedCreateNestedManyWithoutPurchase_uomInput
 }
 
 export type uomsCreateOrConnectWithoutGoods_receipt_itemsInput = {
@@ -1018,6 +1155,7 @@ export type uomsUpdateWithoutGoods_receipt_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUpdateManyWithoutUomsNestedInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUpdateManyWithoutPurchase_uomNestedInput
 }
 
 export type uomsUncheckedUpdateWithoutGoods_receipt_itemsInput = {
@@ -1037,6 +1175,7 @@ export type uomsUncheckedUpdateWithoutGoods_receipt_itemsInput = {
   purchase_order_items?: Prisma.purchase_order_itemsUncheckedUpdateManyWithoutUomsNestedInput
   purchase_requisition_items?: Prisma.purchase_requisition_itemsUncheckedUpdateManyWithoutUomsNestedInput
   inventory_items?: Prisma.inventory_itemsUncheckedUpdateManyWithoutUomsNestedInput
+  product_suppliers?: Prisma.product_suppliersUncheckedUpdateManyWithoutPurchase_uomNestedInput
 }
 
 
@@ -1050,6 +1189,7 @@ export type UomsCountOutputType = {
   purchase_requisition_items: number
   inventory_items: number
   goods_receipt_items: number
+  product_suppliers: number
 }
 
 export type UomsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1058,6 +1198,7 @@ export type UomsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   purchase_requisition_items?: boolean | UomsCountOutputTypeCountPurchase_requisition_itemsArgs
   inventory_items?: boolean | UomsCountOutputTypeCountInventory_itemsArgs
   goods_receipt_items?: boolean | UomsCountOutputTypeCountGoods_receipt_itemsArgs
+  product_suppliers?: boolean | UomsCountOutputTypeCountProduct_suppliersArgs
 }
 
 /**
@@ -1105,6 +1246,13 @@ export type UomsCountOutputTypeCountGoods_receipt_itemsArgs<ExtArgs extends runt
   where?: Prisma.goods_receipt_itemsWhereInput
 }
 
+/**
+ * UomsCountOutputType without action
+ */
+export type UomsCountOutputTypeCountProduct_suppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.product_suppliersWhereInput
+}
+
 
 export type uomsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1124,6 +1272,7 @@ export type uomsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   purchase_requisition_items?: boolean | Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs>
   inventory_items?: boolean | Prisma.uoms$inventory_itemsArgs<ExtArgs>
   goods_receipt_items?: boolean | Prisma.uoms$goods_receipt_itemsArgs<ExtArgs>
+  product_suppliers?: boolean | Prisma.uoms$product_suppliersArgs<ExtArgs>
   _count?: boolean | Prisma.UomsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["uoms"]>
 
@@ -1179,6 +1328,7 @@ export type uomsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   purchase_requisition_items?: boolean | Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs>
   inventory_items?: boolean | Prisma.uoms$inventory_itemsArgs<ExtArgs>
   goods_receipt_items?: boolean | Prisma.uoms$goods_receipt_itemsArgs<ExtArgs>
+  product_suppliers?: boolean | Prisma.uoms$product_suppliersArgs<ExtArgs>
   _count?: boolean | Prisma.UomsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type uomsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1192,6 +1342,7 @@ export type $uomsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     purchase_requisition_items: Prisma.$purchase_requisition_itemsPayload<ExtArgs>[]
     inventory_items: Prisma.$inventory_itemsPayload<ExtArgs>[]
     goods_receipt_items: Prisma.$goods_receipt_itemsPayload<ExtArgs>[]
+    product_suppliers: Prisma.$product_suppliersPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1605,6 +1756,7 @@ export interface Prisma__uomsClient<T, Null = never, ExtArgs extends runtime.Typ
   purchase_requisition_items<T extends Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$purchase_requisition_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$purchase_requisition_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventory_items<T extends Prisma.uoms$inventory_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$inventory_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventory_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   goods_receipt_items<T extends Prisma.uoms$goods_receipt_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$goods_receipt_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$goods_receipt_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  product_suppliers<T extends Prisma.uoms$product_suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.uoms$product_suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$product_suppliersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2156,6 +2308,30 @@ export type uoms$goods_receipt_itemsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.Goods_receipt_itemsScalarFieldEnum | Prisma.Goods_receipt_itemsScalarFieldEnum[]
+}
+
+/**
+ * uoms.product_suppliers
+ */
+export type uoms$product_suppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the product_suppliers
+   */
+  select?: Prisma.product_suppliersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the product_suppliers
+   */
+  omit?: Prisma.product_suppliersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_suppliersInclude<ExtArgs> | null
+  where?: Prisma.product_suppliersWhereInput
+  orderBy?: Prisma.product_suppliersOrderByWithRelationInput | Prisma.product_suppliersOrderByWithRelationInput[]
+  cursor?: Prisma.product_suppliersWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Product_suppliersScalarFieldEnum | Prisma.Product_suppliersScalarFieldEnum[]
 }
 
 /**

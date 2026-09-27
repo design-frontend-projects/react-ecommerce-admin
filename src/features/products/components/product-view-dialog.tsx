@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { type Product } from '../data/schema'
+import { Star, Truck } from 'lucide-react'
 
 interface Props {
   open: boolean
@@ -38,6 +39,8 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
 
   const variants = currentRow.product_variants || []
   const hasVariants = variants.length > 0
+  const suppliers = currentRow.product_suppliers || []
+  const hasSuppliers = suppliers.length > 0
 
   const formatPrice = (price: number | string | null | undefined) => {
     if (price === null || price === undefined) return 'N/A'
@@ -52,13 +55,32 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='flex max-h-[90vh] max-w-2xl flex-col overflow-hidden'>
+      <DialogContent className='flex max-h-[90vh] max-w-3xl flex-col overflow-hidden'>
         <DialogHeader>
-          <div className='mt-2 flex items-center justify-between'>
-            <DialogTitle className='text-2xl font-bold'>
-              {currentRow.name}
-            </DialogTitle>
-            <div className='flex items-center gap-2'>
+          <div className='mt-2 flex items-start justify-between gap-4'>
+            <div>
+              <div className='flex items-center gap-2'>
+                <DialogTitle className='text-2xl font-bold'>
+                  {currentRow.name}
+                </DialogTitle>
+                {currentRow.product_code && (
+                  <Badge variant='outline' className='font-mono text-xs border-primary/40 text-primary'>
+                    {currentRow.product_code}
+                  </Badge>
+                )}
+              </div>
+              {currentRow.name_ar && (
+                <p className='text-sm text-muted-foreground mt-0.5' dir='rtl'>
+                  {currentRow.name_ar}
+                </p>
+              )}
+              {currentRow.short_description && (
+                <p className='text-xs text-muted-foreground mt-1'>
+                  {currentRow.short_description}
+                </p>
+              )}
+            </div>
+            <div className='flex flex-wrap items-center gap-2 shrink-0'>
               <Badge variant={currentRow.is_active ? 'default' : 'secondary'}>
                 {currentRow.is_active ? t('products.form.active') : t('products.form.inactive')}
               </Badge>
@@ -82,11 +104,6 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                     />
                   )}
                   <span>{currentRow.product_types.name}</span>
-                  {currentRow.product_types.name_ar && (
-                    <span className='text-[10px] text-muted-foreground'>
-                      ({currentRow.product_types.name_ar})
-                    </span>
-                  )}
                 </Badge>
               )}
             </div>
@@ -185,19 +202,80 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
               </div>
             </div>
 
+            {/* Multi-Supplier Details */}
+            {hasSuppliers && (
+              <>
+                <Separator />
+                <div className='space-y-3'>
+                  <div className='flex items-center gap-2'>
+                    <Truck className='h-4 w-4 text-muted-foreground' />
+                    <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
+                      Suppliers ({suppliers.length})
+                    </h4>
+                  </div>
+                  <div className='overflow-hidden rounded-md border'>
+                    <table className='w-full text-left text-sm'>
+                      <thead className='border-b bg-muted/50'>
+                        <tr>
+                          <th className='px-4 py-2 font-medium'>Supplier</th>
+                          <th className='px-4 py-2 font-medium'>Supplier Code</th>
+                          <th className='px-4 py-2 font-medium'>Unit Cost</th>
+                          <th className='px-4 py-2 font-medium'>Lead Time</th>
+                          <th className='px-4 py-2 font-medium'>Min Order Qty</th>
+                          <th className='px-4 py-2 text-right font-medium'>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className='divide-y'>
+                        {suppliers.map((s, idx) => (
+                          <tr key={s.id || idx} className='bg-background'>
+                            <td className='px-4 py-3 font-medium flex items-center gap-1.5'>
+                              {s.supplier?.name || 'Unknown'}
+                              {s.is_preferred && (
+                                <Badge variant='default' className='text-[10px] px-1 py-0 h-4 bg-amber-500 hover:bg-amber-600 gap-0.5'>
+                                  <Star className='h-2.5 w-2.5 fill-current' /> Preferred
+                                </Badge>
+                              )}
+                            </td>
+                            <td className='px-4 py-3 text-xs font-mono text-muted-foreground'>
+                              {s.supplier_product_code || s.supplier?.code || '—'}
+                            </td>
+                            <td className='px-4 py-3'>
+                              {s.unit_cost != null ? formatPrice(s.unit_cost) : '—'}
+                            </td>
+                            <td className='px-4 py-3 text-xs text-muted-foreground'>
+                              {s.lead_time_days ? `${s.lead_time_days} days` : '0 days'}
+                            </td>
+                            <td className='px-4 py-3 text-xs text-muted-foreground'>
+                              {s.minimum_order_qty != null ? Number(s.minimum_order_qty) : '0'}
+                            </td>
+                            <td className='px-4 py-3 text-right'>
+                              <Badge variant={s.is_active ? 'outline' : 'secondary'} className='text-[11px]'>
+                                {s.is_active ? 'Active' : 'Inactive'}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </>
+            )}
+
             {/* Variants table if exists */}
             {hasVariants && (
               <>
                 <Separator />
                 <div className='space-y-3'>
                   <h4 className='text-xs font-bold tracking-wider text-muted-foreground uppercase'>
-                    {t('products.form.variants')}
+                    {t('products.form.variants')} ({variants.length})
                   </h4>
                   <div className='overflow-hidden rounded-md border'>
                     <table className='w-full text-left text-sm'>
                       <thead className='border-b bg-muted/50'>
                         <tr>
                           <th className='px-4 py-2 font-medium'>{t('products.form.variantSku')}</th>
+                          <th className='px-4 py-2 font-medium'>Attributes</th>
                           <th className='px-4 py-2 font-medium'>{t('products.form.variantPrice')}</th>
                           <th className='px-4 py-2 font-medium'>{t('products.form.variantCost')}</th>
                           <th className='px-4 py-2 font-medium'>{t('products.form.taxRate', 'Tax Rate')}</th>
@@ -212,12 +290,26 @@ export function ProductViewDialog({ open, onOpenChange, currentRow }: Props) {
                           const costPrice = (pli && pli.length > 0 && pli[0].cost_price != null) ? pli[0].cost_price : null
                           const balances = (v as { stock_balances?: Array<{ qty_available?: number | string; qty_on_hand?: number | string; qty_reserved?: number | string }> }).stock_balances || []
                           const availableStock = balances.reduce((sum, b) => sum + Number(b.qty_available ?? (Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0))), 0)
+                          const pva = (v as any).product_variant_attributes || []
 
                           return (
                             <tr key={v.id || index} className='bg-background'>
                               <td className='px-4 py-3 font-medium'>
                                 {v.sku}
                                 {v.name ? ` (${v.name})` : ''}
+                              </td>
+                              <td className='px-4 py-3'>
+                                {pva.length > 0 ? (
+                                  <div className='flex flex-wrap gap-1'>
+                                    {pva.map((a: any, aIdx: number) => (
+                                      <Badge key={aIdx} variant='outline' className='text-[10px] px-1 py-0'>
+                                        {a.attribute_definition?.name}: {a.attribute_value?.value}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <span className='text-xs text-muted-foreground'>—</span>
+                                )}
                               </td>
                               <td className='px-4 py-3'>{itemPrice ? formatPrice(itemPrice) : '-'}</td>
                               <td className='px-4 py-3 text-muted-foreground'>

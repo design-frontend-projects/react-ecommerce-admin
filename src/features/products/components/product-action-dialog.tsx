@@ -178,6 +178,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
     ) as Resolver<ProductActionFormData>,
     defaultValues: {
       name: '',
+      name_ar: '',
+      product_code: '',
+      short_description: '',
       description: '',
       sku: '',
       barcode: '',
@@ -215,6 +218,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
         form.reset({
           name: activeProduct.name || '',
+          name_ar: activeProduct.name_ar || '',
+          product_code: activeProduct.product_code || '',
+          short_description: activeProduct.short_description || '',
           description: activeProduct.description || '',
           sku: activeProduct.sku || '',
           barcode: activeProduct.barcode || '',
@@ -241,6 +247,9 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       } else {
         form.reset({
           name: '',
+          name_ar: '',
+          product_code: '',
+          short_description: '',
           description: '',
           sku: '',
           barcode: '',
@@ -528,24 +537,63 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
               <div className='flex-1 overflow-y-auto px-6 py-4'>
                 {/* ── TAB 1: BASIC INFORMATION ──────────────────────── */}
                 <TabsContent value='basic' className='m-0 space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='name'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t('products.form.name')} *</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder={t('products.form.namePlaceholder')}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
                   <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    <FormField
+                      control={form.control}
+                      name='name'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t('products.form.name')} *</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={t('products.form.namePlaceholder')}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='name_ar'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Arabic Name (الاسم بالعربية)</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='اسم المنتج بالعربية'
+                              dir='rtl'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
+                    <FormField
+                      control={form.control}
+                      name='product_code'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Product Code</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Auto (PRD-XXXXXX)'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <FormField
                       control={form.control}
                       name='sku'
@@ -613,6 +661,24 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                       )}
                     />
                   </div>
+
+                  <FormField
+                    control={form.control}
+                    name='short_description'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Short Description</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder='Brief summary or highlights of the product'
+                            {...field}
+                            value={field.value || ''}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <FormField
                     control={form.control}
