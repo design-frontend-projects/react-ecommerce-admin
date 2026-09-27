@@ -37,6 +37,7 @@ vi.mock('@/lib/prisma', () => ({
   default: {
     purchase_orders: {
       findFirst: vi.fn(),
+      findUnique: vi.fn(),
       update: vi.fn(),
     },
     goods_receipts: {
@@ -48,6 +49,7 @@ vi.mock('@/lib/prisma', () => ({
       findFirst: vi.fn(),
       update: vi.fn(),
     },
+    $queryRaw: vi.fn(),
     $transaction: vi.fn(),
   },
 }))
@@ -68,6 +70,7 @@ describe('Business Event Server Function Wiring Integration', () => {
       id: poId,
       po_number: 'PO-999',
       lifecycle_status: 'draft',
+      grand_total: 1200 as any,
       total_amount: 1200 as any,
       suppliers: { name: 'Acme Supplies' },
     } as any)
@@ -94,6 +97,7 @@ describe('Business Event Server Function Wiring Integration', () => {
       id: poId,
       po_number: 'PO-999',
       lifecycle_status: 'sent',
+      grand_total: 1200 as any,
       total_amount: 1200 as any,
       suppliers: { name: 'Acme Supplies' },
     } as any)
@@ -118,15 +122,28 @@ describe('Business Event Server Function Wiring Integration', () => {
     vi.mocked(prisma.goods_receipts.findFirst).mockResolvedValue({
       id: receiptId,
       receipt_number: 'GR-100',
+      status: 'draft',
+      purchase_order_id: poId,
       warehouse_id: 'wh-1',
-      store_id: null,
       warehouses: { name: 'East Coast DC' },
       purchase_orders: { po_number: 'PO-999' },
+      goods_receipt_items: [
+        { id: 'item-1', qty_received: 1, accepted_qty: 1, rejected_qty: 0 },
+        { id: 'item-2', qty_received: 1, accepted_qty: 1, rejected_qty: 0 },
+        { id: 'item-3', qty_received: 1, accepted_qty: 1, rejected_qty: 0 },
+        { id: 'item-4', qty_received: 1, accepted_qty: 1, rejected_qty: 0 },
+      ],
       _count: { goods_receipt_items: 4 },
     } as any)
 
-    vi.mocked(supabaseAdmin.rpc).mockResolvedValue({ data: { id: receiptId, status: 'posted' }, error: null } as any)
+    vi.mocked(prisma.$queryRaw).mockResolvedValue([{ post_goods_receipt: { id: receiptId, status: 'posted' } }])
     vi.mocked(prisma.goods_receipts.update).mockResolvedValue({ id: receiptId } as any)
+    vi.mocked(prisma.purchase_orders.findUnique).mockResolvedValue({
+      id: poId,
+      po_number: 'PO-999',
+      lifecycle_status: 'received',
+      purchase_order_items: [],
+    } as any)
 
     await postReceipt(userId, receiptId)
 

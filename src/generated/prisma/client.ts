@@ -612,6 +612,11 @@ export type goods_receipts = Prisma.goods_receiptsModel
  */
 export type goods_receipt_items = Prisma.goods_receipt_itemsModel
 /**
+ * Model goods_receipt_item_serials
+ * 
+ */
+export type goods_receipt_item_serials = Prisma.goods_receipt_item_serialsModel
+/**
  * Model lookup_types
  * 
  */

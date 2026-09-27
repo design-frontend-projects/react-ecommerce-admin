@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle2, XCircle, FileText } from 'lucide-react'
+import { CheckCircle2, XCircle, FileText, MapPin, Hash } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -72,10 +72,15 @@ export function ReceiptViewDialog({
       ? `PO-${receipt.purchase_order_id.slice(0, 8)}`
       : '—'
 
+  const supplierDisplay =
+    receipt.purchase_orders?.suppliers?.name ??
+    receipt.suppliers?.name ??
+    '—'
+
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className='sm:max-w-4xl'>
+        <DialogContent className='sm:max-w-4xl max-h-[90vh] flex flex-col'>
           <DialogHeader>
             <DialogTitle className='flex items-center gap-2'>
               <FileText className='h-5 w-5 text-primary' />
@@ -94,7 +99,7 @@ export function ReceiptViewDialog({
               </Badge>
             </DialogTitle>
             <DialogDescription>
-              {receipt.warehouses?.name ?? receipt.stores?.name ?? '—'}
+              {receipt.warehouses?.name ?? '—'}
             </DialogDescription>
           </DialogHeader>
 
@@ -109,7 +114,7 @@ export function ReceiptViewDialog({
               <p className='text-xs text-muted-foreground font-medium'>
                 {t('goodsReceipts.columns.supplier', { defaultValue: 'Supplier' })}
               </p>
-              <p className='font-semibold mt-0.5'>{receipt.suppliers?.name ?? '—'}</p>
+              <p className='font-semibold mt-0.5'>{supplierDisplay}</p>
             </div>
             <div>
               <p className='text-xs text-muted-foreground font-medium'>
@@ -125,12 +130,14 @@ export function ReceiptViewDialog({
             </div>
             <div>
               <p className='text-xs text-muted-foreground font-medium'>
-                {t('goodsReceipts.items', { defaultValue: 'Total Items' })}
+                {receipt.status === 'posted'
+                  ? t('goodsReceipts.columns.postedBy', { defaultValue: 'Posted By' })
+                  : t('goodsReceipts.items', { defaultValue: 'Total Items' })}
               </p>
               <p className='font-semibold mt-0.5'>
-                {receipt._count?.goods_receipt_items ??
-                  detail?.goods_receipt_items.length ??
-                  0}
+                {receipt.status === 'posted'
+                  ? (receipt.posted_by_user?.email ?? 'System')
+                  : (receipt._count?.goods_receipt_items ?? detail?.goods_receipt_items.length ?? 0)}
               </p>
             </div>
           </div>
@@ -140,64 +147,96 @@ export function ReceiptViewDialog({
               {t('goodsReceipts.form.saving', { defaultValue: 'Loading details...' })}
             </div>
           ) : (
-            <div className='overflow-hidden rounded-md border'>
+            <div className='overflow-y-auto max-h-[45vh] rounded-md border'>
               <Table>
-                <TableHeader>
+                <TableHeader className='bg-muted/40 sticky top-0'>
                   <TableRow>
                     <TableHead>{t('goodsReceipts.columns.product', { defaultValue: 'Product / Variant' })}</TableHead>
                     <TableHead className='text-end'>{t('goodsReceipts.receivingQty', { defaultValue: 'Received' })}</TableHead>
                     <TableHead className='text-end text-emerald-600'>{t('goodsReceipts.acceptedQty', { defaultValue: 'Accepted' })}</TableHead>
                     <TableHead className='text-end text-rose-600'>{t('goodsReceipts.rejectedQty', { defaultValue: 'Rejected' })}</TableHead>
                     <TableHead className='text-end'>{t('goodsReceipts.unitCost', { defaultValue: 'Unit Cost' })}</TableHead>
+                    <TableHead>{t('goodsReceipts.columns.location', { defaultValue: 'Location' })}</TableHead>
                     <TableHead>{t('goodsReceipts.batchNumber', { defaultValue: 'Batch' })}</TableHead>
                     <TableHead>{t('goodsReceipts.expiryDate', { defaultValue: 'Expiry' })}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {detail?.goods_receipt_items.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>
-                        <span className='font-medium'>
-                          {item.product_variants?.products?.name ?? item.product_variants?.sku ?? '—'}
-                        </span>
-                        {item.product_variants?.sku && item.product_variants?.products?.name ? (
-                          <div className='text-xs text-muted-foreground font-mono'>
-                            {item.product_variants.sku}
-                          </div>
-                        ) : null}
-                        {item.rejection_reason && (
-                          <div className='text-[11px] text-rose-500 mt-0.5'>
-                            {t('goodsReceipts.rejectionReason', { defaultValue: 'Reason' })}: {item.rejection_reason}
-                          </div>
-                        )}
-                      </TableCell>
-                      <TableCell className='text-end font-semibold'>
-                        {item.qty_received}
-                      </TableCell>
-                      <TableCell className='text-end text-emerald-600 font-medium'>
-                        {item.accepted_qty ?? item.qty_received}
-                      </TableCell>
-                      <TableCell className='text-end text-rose-600 font-medium'>
-                        {item.rejected_qty ?? 0}
-                      </TableCell>
-                      <TableCell className='text-end font-mono'>
-                        {item.unit_cost}
-                      </TableCell>
-                      <TableCell>{item.batch_number ?? '—'}</TableCell>
-                      <TableCell>
-                        {item.expiry_date
-                          ? new Date(item.expiry_date).toLocaleDateString(
-                              undefined,
-                              {
+                  {detail?.goods_receipt_items.map((item) => {
+                    const batchNum = item.product_batches?.batch_number ?? item.batch_number ?? '—'
+                    const expiryDateVal = item.product_batches?.expiry_date || item.expiry_date
+                    const locationCode = item.warehouse_locations?.code || item.warehouse_locations?.name || '—'
+
+                    return (
+                      <TableRow key={item.id}>
+                        <TableCell>
+                          <span className='font-medium'>
+                            {item.product_variants?.products?.name ?? item.product_variants?.name ?? item.product_variants?.sku ?? '—'}
+                          </span>
+                          {item.product_variants?.sku && (
+                            <div className='text-xs text-muted-foreground font-mono'>
+                              {item.product_variants.sku}
+                            </div>
+                          )}
+                          {item.rejection_reason && (
+                            <div className='text-[11px] text-rose-500 mt-0.5'>
+                              {t('goodsReceipts.rejectionReason', { defaultValue: 'Reason' })}: {item.rejection_reason}
+                            </div>
+                          )}
+                          {item.serials && item.serials.length > 0 && (
+                            <div className='mt-1 flex flex-wrap gap-1'>
+                              {item.serials.map((sn, sIdx) => (
+                                <Badge key={sIdx} variant='secondary' className='text-[10px] font-mono py-0 px-1'>
+                                  <Hash className='h-2.5 w-2.5 me-0.5 inline' />
+                                  {sn}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell className='text-end font-semibold'>
+                          {item.qty_received}
+                        </TableCell>
+                        <TableCell className='text-end text-emerald-600 font-medium'>
+                          {item.accepted_qty ?? item.qty_received}
+                        </TableCell>
+                        <TableCell className='text-end text-rose-600 font-medium'>
+                          {item.rejected_qty ?? 0}
+                        </TableCell>
+                        <TableCell className='text-end font-mono'>
+                          {item.unit_cost}
+                        </TableCell>
+                        <TableCell>
+                          {locationCode !== '—' ? (
+                            <span className='flex items-center gap-1 text-xs'>
+                              <MapPin className='h-3 w-3 text-muted-foreground' />
+                              {locationCode}
+                            </span>
+                          ) : (
+                            '—'
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {batchNum !== '—' ? (
+                            <Badge variant='outline' className='text-xs font-mono'>
+                              {batchNum}
+                            </Badge>
+                          ) : (
+                            '—'
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {expiryDateVal
+                            ? new Date(expiryDateVal).toLocaleDateString(undefined, {
                                 year: 'numeric',
                                 month: 'short',
                                 day: 'numeric',
-                              }
-                            )
-                          : '—'}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                              })
+                            : '—'}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </div>

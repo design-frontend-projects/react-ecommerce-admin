@@ -165,6 +165,7 @@ export const ModelName = {
   inventory_movement_serials: 'inventory_movement_serials',
   goods_receipts: 'goods_receipts',
   goods_receipt_items: 'goods_receipt_items',
+  goods_receipt_item_serials: 'goods_receipt_item_serials',
   lookup_types: 'lookup_types',
   lookup_values: 'lookup_values',
   inventory_transaction_types: 'inventory_transaction_types',
@@ -1941,6 +1942,7 @@ export const Stock_balancesScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   inventory_item_id: 'inventory_item_id',
+  product_variant_id: 'product_variant_id',
   warehouse_id: 'warehouse_id',
   location_id: 'location_id',
   store_id: 'store_id',
@@ -2626,18 +2628,15 @@ export const Goods_receiptsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   receipt_number: 'receipt_number',
-  store_id: 'store_id',
   warehouse_id: 'warehouse_id',
+  purchase_order_id: 'purchase_order_id',
   status: 'status',
   received_date: 'received_date',
   notes: 'notes',
-  created_by: 'created_by',
-  posted_by: 'posted_by',
+  posted_by_user_id: 'posted_by_user_id',
   posted_at: 'posted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  purchase_order_id: 'purchase_order_id',
-  supplier_id: 'supplier_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -2648,6 +2647,7 @@ export type Goods_receiptsScalarFieldEnum = (typeof Goods_receiptsScalarFieldEnu
 export const Goods_receipt_itemsScalarFieldEnum = {
   id: 'id',
   goods_receipt_id: 'goods_receipt_id',
+  purchase_order_item_id: 'purchase_order_item_id',
   product_variant_id: 'product_variant_id',
   qty_received: 'qty_received',
   accepted_qty: 'accepted_qty',
@@ -2658,17 +2658,22 @@ export const Goods_receipt_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   warehouse_location_id: 'warehouse_location_id',
   batch_id: 'batch_id',
-  batch_number: 'batch_number',
-  serial_id: 'serial_id',
-  expiry_date: 'expiry_date',
-  serial_numbers: 'serial_numbers',
   created_at: 'created_at',
-  purchase_order_item_id: 'purchase_order_item_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
 export type Goods_receipt_itemsScalarFieldEnum = (typeof Goods_receipt_itemsScalarFieldEnum)[keyof typeof Goods_receipt_itemsScalarFieldEnum]
+
+
+export const Goods_receipt_item_serialsScalarFieldEnum = {
+  id: 'id',
+  goods_receipt_item_id: 'goods_receipt_item_id',
+  serial_id: 'serial_id',
+  created_at: 'created_at'
+} as const
+
+export type Goods_receipt_item_serialsScalarFieldEnum = (typeof Goods_receipt_item_serialsScalarFieldEnum)[keyof typeof Goods_receipt_item_serialsScalarFieldEnum]
 
 
 export const Lookup_typesScalarFieldEnum = {

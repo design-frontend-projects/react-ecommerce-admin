@@ -30,11 +30,8 @@ export const getColumns = (t: TFunction = i18n.t): ColumnDef<ReceiptListItem>[] 
   },
   {
     id: 'warehouse',
-    header: t('goodsReceipts.columns.warehouse', { defaultValue: 'Warehouse / Store' }),
-    cell: ({ row }) =>
-      row.original.warehouses?.name ??
-      row.original.stores?.name ??
-      '—',
+    header: t('goodsReceipts.columns.warehouse', { defaultValue: 'Warehouse' }),
+    cell: ({ row }) => row.original.warehouses?.name ?? '—',
   },
   {
     id: 'purchase_order',
@@ -51,7 +48,10 @@ export const getColumns = (t: TFunction = i18n.t): ColumnDef<ReceiptListItem>[] 
   {
     id: 'supplier',
     header: t('goodsReceipts.columns.supplier', { defaultValue: 'Supplier' }),
-    cell: ({ row }) => row.original.suppliers?.name ?? '—',
+    cell: ({ row }) =>
+      row.original.purchase_orders?.suppliers?.name ??
+      row.original.suppliers?.name ??
+      '—',
   },
   {
     accessorKey: 'status',

@@ -498,6 +498,7 @@ export const ModelName = {
   inventory_movement_serials: 'inventory_movement_serials',
   goods_receipts: 'goods_receipts',
   goods_receipt_items: 'goods_receipt_items',
+  goods_receipt_item_serials: 'goods_receipt_item_serials',
   lookup_types: 'lookup_types',
   lookup_values: 'lookup_values',
   inventory_transaction_types: 'inventory_transaction_types',
@@ -550,7 +551,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -8990,6 +8991,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    goods_receipt_item_serials: {
+      payload: Prisma.$goods_receipt_item_serialsPayload<ExtArgs>
+      fields: Prisma.goods_receipt_item_serialsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.goods_receipt_item_serialsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.goods_receipt_item_serialsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>
+        }
+        findFirst: {
+          args: Prisma.goods_receipt_item_serialsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.goods_receipt_item_serialsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>
+        }
+        findMany: {
+          args: Prisma.goods_receipt_item_serialsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>[]
+        }
+        create: {
+          args: Prisma.goods_receipt_item_serialsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>
+        }
+        createMany: {
+          args: Prisma.goods_receipt_item_serialsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.goods_receipt_item_serialsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>[]
+        }
+        delete: {
+          args: Prisma.goods_receipt_item_serialsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>
+        }
+        update: {
+          args: Prisma.goods_receipt_item_serialsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>
+        }
+        deleteMany: {
+          args: Prisma.goods_receipt_item_serialsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.goods_receipt_item_serialsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.goods_receipt_item_serialsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>[]
+        }
+        upsert: {
+          args: Prisma.goods_receipt_item_serialsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$goods_receipt_item_serialsPayload>
+        }
+        aggregate: {
+          args: Prisma.Goods_receipt_item_serialsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGoods_receipt_item_serials>
+        }
+        groupBy: {
+          args: Prisma.goods_receipt_item_serialsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Goods_receipt_item_serialsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.goods_receipt_item_serialsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Goods_receipt_item_serialsCountAggregateOutputType> | number
+        }
+      }
+    }
     lookup_types: {
       payload: Prisma.$lookup_typesPayload<ExtArgs>
       fields: Prisma.lookup_typesFieldRefs
@@ -13488,6 +13563,7 @@ export const Stock_balancesScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   inventory_item_id: 'inventory_item_id',
+  product_variant_id: 'product_variant_id',
   warehouse_id: 'warehouse_id',
   location_id: 'location_id',
   store_id: 'store_id',
@@ -14173,18 +14249,15 @@ export const Goods_receiptsScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   receipt_number: 'receipt_number',
-  store_id: 'store_id',
   warehouse_id: 'warehouse_id',
+  purchase_order_id: 'purchase_order_id',
   status: 'status',
   received_date: 'received_date',
   notes: 'notes',
-  created_by: 'created_by',
-  posted_by: 'posted_by',
+  posted_by_user_id: 'posted_by_user_id',
   posted_at: 'posted_at',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  purchase_order_id: 'purchase_order_id',
-  supplier_id: 'supplier_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
@@ -14195,6 +14268,7 @@ export type Goods_receiptsScalarFieldEnum = (typeof Goods_receiptsScalarFieldEnu
 export const Goods_receipt_itemsScalarFieldEnum = {
   id: 'id',
   goods_receipt_id: 'goods_receipt_id',
+  purchase_order_item_id: 'purchase_order_item_id',
   product_variant_id: 'product_variant_id',
   qty_received: 'qty_received',
   accepted_qty: 'accepted_qty',
@@ -14205,17 +14279,22 @@ export const Goods_receipt_itemsScalarFieldEnum = {
   unit_cost: 'unit_cost',
   warehouse_location_id: 'warehouse_location_id',
   batch_id: 'batch_id',
-  batch_number: 'batch_number',
-  serial_id: 'serial_id',
-  expiry_date: 'expiry_date',
-  serial_numbers: 'serial_numbers',
   created_at: 'created_at',
-  purchase_order_item_id: 'purchase_order_item_id',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
 export type Goods_receipt_itemsScalarFieldEnum = (typeof Goods_receipt_itemsScalarFieldEnum)[keyof typeof Goods_receipt_itemsScalarFieldEnum]
+
+
+export const Goods_receipt_item_serialsScalarFieldEnum = {
+  id: 'id',
+  goods_receipt_item_id: 'goods_receipt_item_id',
+  serial_id: 'serial_id',
+  created_at: 'created_at'
+} as const
+
+export type Goods_receipt_item_serialsScalarFieldEnum = (typeof Goods_receipt_item_serialsScalarFieldEnum)[keyof typeof Goods_receipt_item_serialsScalarFieldEnum]
 
 
 export const Lookup_typesScalarFieldEnum = {
@@ -16375,6 +16454,7 @@ export type GlobalOmitConfig = {
   inventory_movement_serials?: Prisma.inventory_movement_serialsOmit
   goods_receipts?: Prisma.goods_receiptsOmit
   goods_receipt_items?: Prisma.goods_receipt_itemsOmit
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsOmit
   lookup_types?: Prisma.lookup_typesOmit
   lookup_values?: Prisma.lookup_valuesOmit
   inventory_transaction_types?: Prisma.inventory_transaction_typesOmit

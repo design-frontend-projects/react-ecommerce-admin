@@ -1,5 +1,57 @@
 # Error Log
 
+## [2026-09-28 01:20] - Prisma Interactive Transaction Timeout (5000ms Exceeded) During Serial Receipt Creation
+
+- **Type**: Integration / Database / Performance
+- **Severity**: High
+- **File**: `src/server/fns/goods-receipts.ts:731`
+- **Agent**: @backend-specialist
+- **Root Cause**: During `createReceipt` in `goods-receipts.ts`, `prisma.$transaction` was executed with Prisma's default interactive transaction timeout of 5,000 ms. For each serial in `item.serials`, sequential individual remote database queries (`tx.product_serials.findFirst`, `tx.product_serials.create`, `tx.goods_receipt_item_serials.create`) were executed inside the transaction loop. Over remote Supabase connections, these roundtrips accumulated over 5,300 ms, causing Prisma to expire the interactive transaction with `Transaction API error: A query cannot be executed on an expired transaction`.
+- **Error Message**:
+  ```
+  Invalid `tx.product_serials.findFirst()` invocation in
+  src/server/fns/goods-receipts.ts:769:49
+
+  Transaction API error: A query cannot be executed on an expired transaction.
+  The timeout for this transaction was 5000 ms, however 5326 ms passed since the start of the transaction.
+  Consider increasing the interactive transaction timeout or doing less work in the transaction.
+  ```
+- **Fix Applied**:
+  1. Configured explicit extended timeout options on `prisma.$transaction`: `{ maxWait: 15000, timeout: 30000 }` (30 seconds).
+  2. Batched serial lookup into a single `tx.product_serials.findMany` query per receipt item instead of N individual queries.
+  3. Pre-allocated UUIDs (`crypto.randomUUID()`) and executed bulk inserts via `tx.product_serials.createMany` and `tx.goods_receipt_item_serials.createMany`.
+  4. Updated vitest test in `src/__tests__/goods-receipts-enhanced.test.ts` to assert bulk inserts and extended transaction options.
+- **Prevention**: Never run unbatched N-per-item sequential queries inside interactive Prisma transactions over network database connections. Always batch lookups with `findMany({ where: { in: ... } })` and inserts with `createMany()`, and explicitly configure `{ maxWait: 15000, timeout: 30000 }` for multi-table transactions.
+- **Status**: Fixed
+
+---
+
+## [2026-09-28 01:14] - Unknown Argument warehouse_id in tx.product_serials.create During Goods Receipt Creation
+
+- **Type**: Syntax / Database / Integration
+- **Severity**: High
+- **File**: `src/server/fns/goods-receipts.ts:778`
+- **Agent**: @backend-specialist
+- **Root Cause**: During Goods Receipt creation for serial-tracked items, `tx.product_serials.create` included `warehouse_id: warehouse.id` in its payload. In the database schema and Prisma model, `product_serials` tracks warehouse position via `warehouse_location_id` and does not have a `warehouse_id` column. Prisma rejected the call with `Unknown argument warehouse_id. Available options are marked with ?`, causing the entire `prisma.$transaction` in `createReceipt` to fail and rollback.
+- **Error Message**:
+  ```
+  Invalid `tx.product_serials.create()` invocation in
+  src/server/fns/goods-receipts.ts:778:47
+
+  Unknown argument `warehouse_id`. Available options are marked with ?.
+  ```
+- **Fix Applied**:
+  1. Removed `warehouse_id: warehouse.id` from `tx.product_serials.create` in `src/server/fns/goods-receipts.ts`.
+  2. Populated explicit receipt linkage audit fields (`received_at`, `received_reference_type: 'goods_receipt'`, `received_reference_id`, `created_by_user_id`, `updated_by_user_id`).
+  3. Added update branch for existing serials to safely transition status to `'in_stock'` when re-received.
+  4. Linked `inventory_movement_serials` in `postReceipt` after receipt confirmation for full audit trail visibility.
+  5. Removed `'inventory_movement_serials'` from `TENANT_SCOPED_MODELS` in `src/server/db/tenant-prisma.ts` because that junction table does not possess a direct `tenant_id` column.
+  6. Added automated vitest test in `src/__tests__/goods-receipts-enhanced.test.ts` verifying serial creation and schema payload conformity without `warehouse_id`.
+- **Prevention**: Cross-reference Prisma model properties in `prisma/schema.prisma` before assigning object keys in nested mutations or repository creation logic. Ensure junction models without `tenant_id` are not included in tenant query extension interceptors.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-25 23:35] - Statement Timeout 57014 in useInventory Query Across 20,863 Inventory Items
 
 - **Type**: Integration / Database / Performance

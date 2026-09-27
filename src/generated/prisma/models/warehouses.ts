@@ -1166,12 +1166,10 @@ export type warehousesCreateNestedOneWithoutGoods_receiptsInput = {
   connect?: Prisma.warehousesWhereUniqueInput
 }
 
-export type warehousesUpdateOneWithoutGoods_receiptsNestedInput = {
+export type warehousesUpdateOneRequiredWithoutGoods_receiptsNestedInput = {
   create?: Prisma.XOR<Prisma.warehousesCreateWithoutGoods_receiptsInput, Prisma.warehousesUncheckedCreateWithoutGoods_receiptsInput>
   connectOrCreate?: Prisma.warehousesCreateOrConnectWithoutGoods_receiptsInput
   upsert?: Prisma.warehousesUpsertWithoutGoods_receiptsInput
-  disconnect?: Prisma.warehousesWhereInput | boolean
-  delete?: Prisma.warehousesWhereInput | boolean
   connect?: Prisma.warehousesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.warehousesUpdateToOneWithWhereWithoutGoods_receiptsInput, Prisma.warehousesUpdateWithoutGoods_receiptsInput>, Prisma.warehousesUncheckedUpdateWithoutGoods_receiptsInput>
 }

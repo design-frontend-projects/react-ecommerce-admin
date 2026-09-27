@@ -8,7 +8,8 @@ export type ReceiptStatus = z.infer<typeof receiptStatusSchema>
 
 // ── Inputs ──
 export const receiptItemInputSchema = z.object({
-  productVariantId: z.string().uuid('Select a variant.'),
+  purchaseOrderItemId: z.string().uuid('PO item reference is required.').optional().nullable(),
+  productVariantId: z.string().uuid().optional(),
   qtyReceived: z.coerce.number().positive('Quantity must be > 0.'),
   acceptedQty: z.coerce.number().min(0).optional(),
   rejectedQty: z.coerce.number().min(0).optional(),
@@ -19,19 +20,15 @@ export const receiptItemInputSchema = z.object({
     .min(0, 'Unit cost cannot be negative.')
     .optional(),
   warehouseLocationId: z.string().uuid().optional().nullable(),
-  batchNumber: z.string().optional().nullable(),
   batchId: z.string().uuid().optional().nullable(),
-  serialId: z.string().uuid().optional().nullable(),
+  batchNumber: z.string().optional().nullable(),
   expiryDate: z.string().optional().nullable(),
-  serialNumbers: z.array(z.string()).optional(),
-  purchaseOrderItemId: z.string().uuid().optional().nullable(),
+  serials: z.array(z.string()).optional(),
 })
 
 export const createReceiptInputSchema = z.object({
-  warehouseId: z.string().uuid().optional().nullable(),
-  storeId: z.string().uuid().optional().nullable(),
-  purchaseOrderId: z.string().uuid().optional().nullable(),
-  supplierId: z.string().uuid().optional().nullable(),
+  purchaseOrderId: z.string().uuid('Select a valid Purchase Order.'),
+  warehouseId: z.string().uuid('Select a destination warehouse.'),
   notes: z.string().optional().nullable(),
   items: z.array(receiptItemInputSchema).min(1, 'Add at least one item.'),
   autoPost: z.boolean().optional(),
@@ -44,7 +41,6 @@ export type CreateReceiptInput = z.infer<typeof createReceiptInputSchema>
 const entityRefSchema = z
   .object({
     id: z.string().optional(),
-    store_id: z.string().optional(),
     name: z.string().nullable(),
     code: z.string().optional().nullable(),
   })
@@ -55,19 +51,24 @@ export const receiptListItemSchema = z.object({
   receipt_number: z.string(),
   status: receiptStatusSchema,
   received_date: z.string(),
-  warehouse_id: z.string().nullable().optional(),
-  store_id: z.string().nullable().optional(),
-  purchase_order_id: z.string().nullable().optional(),
-  supplier_id: z.string().nullable().optional(),
+  warehouse_id: z.string(),
+  purchase_order_id: z.string(),
   notes: z.string().nullable(),
   warehouses: entityRefSchema.optional(),
-  stores: entityRefSchema.optional(),
   suppliers: entityRefSchema.optional(),
   purchase_orders: z
     .object({
       id: z.string().optional(),
       po_number: z.number().nullable().optional(),
       lifecycle_status: z.string().nullable().optional(),
+      suppliers: entityRefSchema.optional(),
+    })
+    .nullable()
+    .optional(),
+  posted_by_user: z
+    .object({
+      id: z.string(),
+      email: z.string(),
     })
     .nullable()
     .optional(),
@@ -83,18 +84,18 @@ export const receiptItemRowSchema = z.object({
   rejection_reason: z.string().nullable().optional(),
   condition: z.string().default('good').optional(),
   unit_cost: z.coerce.number(),
-  batch_number: z.string().nullable().optional(),
   batch_id: z.string().nullable().optional(),
-  serial_id: z.string().nullable().optional(),
+  batch_number: z.string().nullable().optional(),
   expiry_date: z.string().nullable().optional(),
-  serial_numbers: z.unknown().nullable().optional(),
+  serials: z.array(z.string()).optional(),
   purchase_order_item_id: z.string().nullable().optional(),
   product_variants: z
     .object({
       id: z.string(),
       sku: z.string(),
       barcode: z.string().nullable().optional(),
-      products: z.object({ name: z.string() }).nullable().optional(),
+      name: z.string().nullable().optional(),
+      products: z.object({ name: z.string(), sku: z.string().nullable().optional() }).nullable().optional(),
     })
     .nullable()
     .optional(),
@@ -103,6 +104,16 @@ export const receiptItemRowSchema = z.object({
       id: z.string(),
       code: z.string().optional(),
       path: z.string().nullable().optional(),
+      name: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  product_batches: z
+    .object({
+      id: z.string(),
+      batch_number: z.string(),
+      expiry_date: z.string().nullable().optional(),
+      status: z.string().optional(),
     })
     .nullable()
     .optional(),
@@ -121,46 +132,22 @@ export const receiptListResponseSchema = successEnvelope(
 )
 export const receiptDetailResponseSchema = successEnvelope(receiptDetailSchema)
 
-// ── Receivable Purchase Orders ──
-export const receivablePoItemSchema = z.object({
-  id: z.string().uuid(),
-  po_id: z.string().uuid(),
-  line_no: z.number(),
-  quantity_ordered: z.number(),
-  unit_cost: z.coerce.number(),
-  received_quantity: z.coerce.number().nullable().optional(),
-  outstanding_qty: z.number(),
-  product_id: z.string().uuid().nullable().optional(),
-  product_variant_id: z.string().uuid().nullable().optional(),
-  products: z
-    .object({
-      name: z.string(),
-      sku: z.string().nullable().optional(),
-    })
-    .nullable()
-    .optional(),
-  product_variants: z
-    .object({
-      id: z.string(),
-      sku: z.string(),
-    })
-    .nullable()
-    .optional(),
-  has_expiration: z.boolean().nullable().optional(),
-  expiration_date: z.string().nullable().optional(),
-})
-
-export const receivablePurchaseOrderSchema = z.object({
+// ── Searchable PO Models ──
+export const receivablePoSummaryItemSchema = z.object({
   id: z.string().uuid(),
   po_number: z.number().nullable().optional(),
   order_date: z.string().nullable().optional(),
-  supplier_id: z.string().uuid().nullable().optional(),
-  warehouse_id: z.string().uuid().nullable().optional(),
-  lifecycle_status: z.string().nullable().optional(),
+  expected_delivery_date: z.string().nullable().optional(),
+  lifecycle_status: z.string(),
+  currency: z.string(),
+  total_amount: z.number(),
+  warehouse_id: z.string(),
+  supplier_id: z.string(),
   suppliers: z
     .object({
       id: z.string(),
       name: z.string(),
+      code: z.string().nullable().optional(),
     })
     .nullable()
     .optional(),
@@ -172,12 +159,116 @@ export const receivablePurchaseOrderSchema = z.object({
     })
     .nullable()
     .optional(),
-  purchase_order_items: z.array(receivablePoItemSchema),
+  items_count: z.number(),
+  ordered_quantity: z.number(),
+  received_quantity: z.number(),
+  remaining_quantity: z.number(),
 })
 
-export type ReceivablePurchaseOrder = z.infer<typeof receivablePurchaseOrderSchema>
-export type ReceivablePoItem = z.infer<typeof receivablePoItemSchema>
-
-export const receivablePoListResponseSchema = successEnvelope(
-  z.array(receivablePurchaseOrderSchema)
+export const searchReceivablePOsResponseSchema = successEnvelope(
+  z.object({
+    items: z.array(receivablePoSummaryItemSchema),
+    pagination: z.object({
+      total: z.number(),
+      page: z.number(),
+      limit: z.number(),
+      totalPages: z.number(),
+    }),
+  })
 )
+
+export type ReceivablePoSummaryItem = z.infer<typeof receivablePoSummaryItemSchema>
+
+// ── PO Detailed Receiving Model ──
+export const poReceivingItemSchema = z.object({
+  id: z.string().uuid(),
+  po_id: z.string().uuid(),
+  line_no: z.number(),
+  product_variant_id: z.string().uuid(),
+  product_name: z.string(),
+  variant_name: z.string().nullable().optional(),
+  sku: z.string(),
+  barcode: z.string().nullable().optional(),
+  uom: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      code: z.string(),
+    })
+    .nullable()
+    .optional(),
+  quantity_ordered: z.number(),
+  previously_received_qty: z.number(),
+  cancelled_qty: z.number(),
+  remaining_quantity: z.number(),
+  unit_cost: z.number(),
+  total_amount: z.number(),
+  receiving_status: z.string(),
+  is_batch_tracked: z.boolean(),
+  is_serial_tracked: z.boolean(),
+  has_expiration: z.boolean(),
+  available_batches: z.array(
+    z.object({
+      id: z.string(),
+      batch_number: z.string(),
+      expiry_date: z.string().nullable().optional(),
+    })
+  ),
+})
+
+export const poPreviousReceiptSchema = z.object({
+  id: z.string().uuid(),
+  receipt_number: z.string(),
+  status: z.string(),
+  received_date: z.string().nullable().optional(),
+  posted_at: z.string().nullable().optional(),
+  posted_by: z.string().nullable().optional(),
+  warehouse: entityRefSchema.optional(),
+  items_count: z.number(),
+  received_quantity: z.number(),
+  accepted_quantity: z.number(),
+  rejected_quantity: z.number(),
+  notes: z.string().nullable().optional(),
+})
+
+export const poReceivingDetailsSchema = z.object({
+  header: z.object({
+    id: z.string().uuid(),
+    po_number: z.number().nullable().optional(),
+    order_date: z.string().nullable().optional(),
+    expected_delivery_date: z.string().nullable().optional(),
+    currency: z.string(),
+    lifecycle_status: z.string(),
+    po_total: z.number(),
+    supplier: z
+      .object({
+        id: z.string(),
+        name: z.string(),
+        code: z.string().nullable().optional(),
+        email: z.string().nullable().optional(),
+        phone: z.string().nullable().optional(),
+      })
+      .nullable()
+      .optional(),
+    warehouse: entityRefSchema.optional(),
+    notes: z.string().nullable().optional(),
+  }),
+  summary: z.object({
+    total_lines: z.number(),
+    ordered_quantity: z.number(),
+    received_quantity: z.number(),
+    remaining_quantity: z.number(),
+    rejected_quantity: z.number(),
+    po_total: z.number(),
+  }),
+  items: z.array(poReceivingItemSchema),
+  receipts_history: z.array(poPreviousReceiptSchema),
+})
+
+export const poReceivingDetailsResponseSchema = successEnvelope(
+  poReceivingDetailsSchema
+)
+
+export type PoReceivingDetails = z.infer<typeof poReceivingDetailsSchema>
+export type PoReceivingItem = z.infer<typeof poReceivingItemSchema>
+export type PoPreviousReceipt = z.infer<typeof poPreviousReceiptSchema>

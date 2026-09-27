@@ -405,6 +405,7 @@ model product_variants {
   inventory_transaction_items inventory_transaction_items[]
   inv_promotion_products inv_promotion_products[]
   inv_promotion_rules_free inv_promotion_rules[] @relation("inv_free_variant")
+  goods_receipt_items  goods_receipt_items[]
 
   @@unique([tenant_id, id])
 }
@@ -661,12 +662,14 @@ model purchase_order_items {
   purchase_orders    purchase_orders  @relation(fields: [po_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_purchase_order_items_po")
   product_variants   product_variants @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction, map: "fk_purchase_order_items_variants")
   uoms               uoms?            @relation(fields: [uom_id], references: [id], onUpdate: NoAction, map: "fk_purchase_order_items_uom")
+  goods_receipt_items goods_receipt_items[]
 
   @@unique([po_id, line_no], map: "uq_purchase_order_items_po_line")
   @@unique([po_id, product_variant_id], map: "uq_purchase_order_items_po_variant")
   @@index([po_id], map: "idx_purchase_order_items_po_id")
   @@index([product_variant_id], map: "idx_purchase_order_items_variant_id")
   @@index([tenant_id], map: "idx_purchase_order_items_tenant_id")
+  @@index([tenant_id, product_variant_id], map: "idx_purchase_order_items_tenant_variant")
 }
 
 model purchase_orders {
@@ -698,6 +701,7 @@ model purchase_orders {
   updated_at             DateTime?                 @default(now()) @db.Timestamptz(6)
   updated_by_user_id     String?                   @db.Uuid
   purchase_order_items   purchase_order_items[]
+  goods_receipts         goods_receipts[]
   currencies             currencies?               @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   suppliers              suppliers                 @relation(fields: [supplier_id], references: [id], onUpdate: NoAction, map: "fk_purchase_orders_suppliers")
   warehouses             warehouses?               @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
@@ -705,6 +709,7 @@ model purchase_orders {
   @@index([tenant_id], map: "idx_purchase_orders_tenant_id")
   @@index([supplier_id], map: "idx_purchase_orders_supplier_id")
   @@index([warehouse_id], map: "idx_purchase_orders_warehouse_id")
+  @@index([tenant_id, lifecycle_status], map: "idx_purchase_orders_tenant_lifecycle")
 }
 
 model purchase_return_items {
@@ -1620,6 +1625,7 @@ model tenant_users {
   notification_channel_members notification_channel_members[]
   notification_recipients      notification_recipients[]
   notification_preferences     notification_preferences[]
+  goods_receipts_posted        goods_receipts[] @relation("goods_receipts_posted_by_user_idTotenant_users")
 
   @@index([tenant_id, is_active], map: "idx_tenant_users_tenant_active")
   @@index([email], map: "idx_tenant_users_email")
@@ -1861,6 +1867,7 @@ model stock_balances {
   id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   tenant_id             String               @db.Uuid
   inventory_item_id     String               @db.Uuid
+  product_variant_id    String               @db.Uuid
   warehouse_id          String?              @db.Uuid
   location_id           String?              @db.Uuid
   store_id              String?              @db.Uuid
@@ -2414,6 +2421,7 @@ model warehouse_locations {
   warehouses         warehouses         @relation(fields: [warehouse_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   stock_balances     stock_balances[]
   stock_by_location  stock_by_location[]
+  goods_receipt_items goods_receipt_items[]
 }
 
 model stock_by_location {
@@ -2475,6 +2483,7 @@ model uoms {
   purchase_order_items purchase_order_items[]
   purchase_requisition_items purchase_requisition_items[]
   inventory_items      inventory_items[]
+  goods_receipt_items  goods_receipt_items[]
 }
 
 model unit_conversions {
@@ -2537,6 +2546,7 @@ model product_batches {
   created_by_user_id      String?           @db.Uuid
   updated_by_user_id      String?           @db.Uuid
   stock_by_location       stock_by_location[]
+  goods_receipt_items     goods_receipt_items[]
 }
 
 model product_serials {
@@ -2561,6 +2571,7 @@ model product_serials {
   updated_at              DateTime           @default(now()) @db.Timestamptz(6)
   created_by_user_id      String?            @db.Uuid
   updated_by_user_id      String?            @db.Uuid
+  goods_receipt_item_serials goods_receipt_item_serials[]
 }
 
 model inventory_movement_serials {
@@ -2571,29 +2582,34 @@ model inventory_movement_serials {
 }
 
 model goods_receipts {
-  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id         String              @db.Uuid
-  receipt_number    String              @default(dbgenerated("('GR-'::text || lpad((nextval('goods_receipts_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
-  store_id          String?             @db.Uuid
-  warehouse_id      String?             @db.Uuid
-  status            receipt_status_enum @default(draft)
-  received_date     DateTime            @default(now()) @db.Timestamptz(6)
-  notes             String?
-  created_by        String?
-  posted_by         String?
-  posted_at         DateTime?           @db.Timestamptz(6)
-  created_at        DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime            @default(now()) @db.Timestamptz(6)
-  purchase_order_id String?             @db.Uuid
-  supplier_id       String?             @db.Uuid
-  created_by_user_id String?            @db.Uuid
-  updated_by_user_id String?            @db.Uuid
-  warehouses         warehouses?        @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction)
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String              @db.Uuid
+  receipt_number     String              @default(dbgenerated("('GR-'::text || lpad((nextval('goods_receipts_seq'::regclass))::text, 6, '0'::text))")) @db.VarChar(30)
+  warehouse_id       String              @db.Uuid
+  purchase_order_id  String              @db.Uuid
+  status             receipt_status_enum @default(draft)
+  received_date      DateTime            @default(now()) @db.Timestamptz(6)
+  notes              String?
+  posted_by_user_id  String?             @db.Uuid
+  posted_at          DateTime?           @db.Timestamptz(6)
+  created_at         DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime            @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?             @db.Uuid
+  updated_by_user_id String?             @db.Uuid
+
+  purchase_orders     purchase_orders      @relation(fields: [purchase_order_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipts_po")
+  warehouses          warehouses           @relation(fields: [warehouse_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipts_warehouse")
+  tenant_users_goods_receipts_posted_by_user_idTotenant_users tenant_users? @relation("goods_receipts_posted_by_user_idTotenant_users", fields: [posted_by_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  goods_receipt_items goods_receipt_items[]
+
+  @@index([tenant_id, purchase_order_id], map: "idx_goods_receipts_tenant_po")
+  @@index([tenant_id, receipt_number], map: "idx_goods_receipts_tenant_number")
 }
 
 model goods_receipt_items {
   id                     String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   goods_receipt_id       String               @db.Uuid
+  purchase_order_item_id String               @db.Uuid
   product_variant_id     String               @db.Uuid
   qty_received           Decimal              @db.Decimal(18, 4)
   accepted_qty           Decimal?             @default(0) @db.Decimal(18, 4)
@@ -2604,14 +2620,35 @@ model goods_receipt_items {
   unit_cost              Decimal              @default(0) @db.Decimal(18, 4)
   warehouse_location_id  String?              @db.Uuid
   batch_id               String?              @db.Uuid
-  batch_number           String?              @db.VarChar(60)
-  serial_id              String?              @db.Uuid
-  expiry_date            DateTime?            @db.Date
-  serial_numbers         Json?
   created_at             DateTime             @default(now()) @db.Timestamptz(6)
-  purchase_order_item_id String?              @db.Uuid
   created_by_user_id     String?              @db.Uuid
   updated_by_user_id     String?              @db.Uuid
+
+  goods_receipts         goods_receipts       @relation(fields: [goods_receipt_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_goods_receipt_items_receipt")
+  purchase_order_items   purchase_order_items @relation(fields: [purchase_order_item_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipt_items_po_item")
+  product_variants       product_variants     @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipt_items_variant")
+  uoms                   uoms?                @relation(fields: [uom_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipt_items_uom")
+  warehouse_locations    warehouse_locations? @relation(fields: [warehouse_location_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipt_items_location")
+  product_batches        product_batches?     @relation(fields: [batch_id], references: [id], onUpdate: NoAction, map: "fk_goods_receipt_items_batch")
+  goods_receipt_item_serials goods_receipt_item_serials[]
+
+  @@index([goods_receipt_id], map: "idx_goods_receipt_items_receipt_id")
+  @@index([purchase_order_item_id], map: "idx_goods_receipt_items_po_item_id")
+  @@index([product_variant_id], map: "idx_goods_receipt_items_variant_id")
+}
+
+model goods_receipt_item_serials {
+  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  goods_receipt_item_id String              @db.Uuid
+  serial_id             String              @db.Uuid
+  created_at            DateTime            @default(now()) @db.Timestamptz(6)
+
+  goods_receipt_items   goods_receipt_items @relation(fields: [goods_receipt_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_goods_receipt_item_serials_item")
+  product_serials       product_serials     @relation(fields: [serial_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "fk_goods_receipt_item_serials_serial")
+
+  @@unique([goods_receipt_item_id, serial_id], map: "uq_goods_receipt_item_serials")
+  @@index([goods_receipt_item_id], map: "idx_goods_receipt_item_serials_item")
+  @@index([serial_id], map: "idx_goods_receipt_item_serials_serial")
 }
 
 model lookup_types {

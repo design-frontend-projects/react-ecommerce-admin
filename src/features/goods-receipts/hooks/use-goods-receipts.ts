@@ -6,16 +6,19 @@ import { useAuthMutation } from '@/hooks/use-auth-mutation'
 import {
   cancelReceipt,
   createReceipt,
+  fetchPoReceivingDetails,
   fetchReceipt,
   fetchReceipts,
-  fetchReceivablePurchaseOrders,
+  fetchWarehouseLocations,
   postReceipt,
+  searchReceivablePurchaseOrders,
 } from '../data/actions'
 import type { CreateReceiptInput } from '../data/schema'
 
 const receiptsKey = ['inventory', 'goods-receipts'] as const
 const receivablePosKey = ['inventory', 'goods-receipts', 'receivable-pos'] as const
 const receiptKey = (id: string) => ['inventory', 'goods-receipts', id] as const
+const poDetailsKey = (poId: string) => ['inventory', 'goods-receipts', 'po-details', poId] as const
 
 export function useReceipts() {
   return useAuthQuery({
@@ -34,11 +37,36 @@ export function useReceipt(id: string | undefined) {
   })
 }
 
-export function useReceivablePurchaseOrders() {
+export function useReceivablePoSearch(params: {
+  query?: string
+  supplierId?: string
+  warehouseId?: string
+  status?: string
+  page?: number
+  limit?: number
+}) {
   return useAuthQuery({
-    queryKey: receivablePosKey,
-    queryFn: (getToken) => fetchReceivablePurchaseOrders(getToken),
+    queryKey: [...receivablePosKey, params],
+    queryFn: (getToken) => searchReceivablePurchaseOrders(getToken, params),
     rbac: { permission: 'purchasing.view' },
+  })
+}
+
+export function usePoReceivingDetails(poId: string | undefined) {
+  return useAuthQuery({
+    queryKey: poDetailsKey(poId ?? ''),
+    queryFn: (getToken) => fetchPoReceivingDetails(getToken, poId as string),
+    enabled: Boolean(poId && poId !== 'none'),
+    rbac: { permission: 'purchasing.view' },
+  })
+}
+
+export function useWarehouseLocations(warehouseId: string | undefined) {
+  return useAuthQuery({
+    queryKey: ['warehouse-locations', warehouseId ?? 'none'],
+    queryFn: (getToken) => fetchWarehouseLocations(getToken, warehouseId as string),
+    enabled: Boolean(warehouseId),
+    rbac: { permission: 'inventory.stock.view' },
   })
 }
 

@@ -1,13 +1,15 @@
 import { authorizedRequest, type TokenGetter } from '@/lib/authorized-request'
 import {
   createReceiptInputSchema,
+  poReceivingDetailsResponseSchema,
   receiptDetailResponseSchema,
   receiptListResponseSchema,
-  receivablePoListResponseSchema,
+  searchReceivablePOsResponseSchema,
   type CreateReceiptInput,
+  type PoReceivingDetails,
   type ReceiptDetail,
   type ReceiptListItem,
-  type ReceivablePurchaseOrder,
+  type ReceivablePoSummaryItem,
 } from './schema'
 
 const BASE = '/api/inventory/goods-receipts'
@@ -30,22 +32,56 @@ export async function fetchReceipt(
   return receiptDetailResponseSchema.parse(payload).data
 }
 
-export async function fetchReceivablePurchaseOrders(
-  getToken: TokenGetter
-): Promise<ReceivablePurchaseOrder[]> {
-  const payload = await authorizedRequest(getToken, `${BASE}/receivable-pos`)
-  return receivablePoListResponseSchema.parse(payload).data
+export async function searchReceivablePurchaseOrders(
+  getToken: TokenGetter,
+  params: {
+    query?: string
+    supplierId?: string
+    warehouseId?: string
+    status?: string
+    page?: number
+    limit?: number
+  } = {}
+): Promise<{
+  items: ReceivablePoSummaryItem[]
+  pagination: { total: number; page: number; limit: number; totalPages: number }
+}> {
+  const q = new URLSearchParams()
+  if (params.query) q.set('query', params.query)
+  if (params.supplierId) q.set('supplierId', params.supplierId)
+  if (params.warehouseId) q.set('warehouseId', params.warehouseId)
+  if (params.status) q.set('status', params.status)
+  if (params.page) q.set('page', String(params.page))
+  if (params.limit) q.set('limit', String(params.limit))
+
+  const payload = await authorizedRequest(
+    getToken,
+    `${BASE}/receivable-pos?${q.toString()}`
+  )
+  return searchReceivablePOsResponseSchema.parse(payload).data
+}
+
+export async function fetchPoReceivingDetails(
+  getToken: TokenGetter,
+  poId: string
+): Promise<PoReceivingDetails> {
+  const payload = await authorizedRequest(
+    getToken,
+    `${BASE}/receivable-pos?poId=${encodeURIComponent(poId)}`
+  )
+  return poReceivingDetailsResponseSchema.parse(payload).data
 }
 
 export async function createReceipt(
   getToken: TokenGetter,
   input: CreateReceiptInput
-): Promise<void> {
+): Promise<ReceiptDetail> {
   const body = createReceiptInputSchema.parse(input)
-  await authorizedRequest(getToken, BASE, {
+  const payload = await authorizedRequest(getToken, BASE, {
     method: 'POST',
     body: JSON.stringify(body),
   })
+  return receiptDetailResponseSchema.parse(payload).data
 }
 
 export async function cancelReceipt(
@@ -65,4 +101,15 @@ export async function postReceipt(
     method: 'POST',
     body: JSON.stringify({ id }),
   })
+}
+
+export async function fetchWarehouseLocations(
+  getToken: TokenGetter,
+  warehouseId: string
+): Promise<Array<{ id: string; code: string; name: string | null; path: string | null }>> {
+  const payload = (await authorizedRequest(
+    getToken,
+    `/api/inventory/warehouses/locations?warehouseId=${encodeURIComponent(warehouseId)}`
+  )) as { success?: boolean; data?: Array<{ id: string; code: string; name: string | null; path: string | null }> }
+  return payload?.data || []
 }

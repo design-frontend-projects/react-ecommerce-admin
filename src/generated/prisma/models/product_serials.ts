@@ -344,6 +344,7 @@ export type product_serialsWhereInput = {
   updated_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
+  goods_receipt_item_serials?: Prisma.Goods_receipt_item_serialsListRelationFilter
 }
 
 export type product_serialsOrderByWithRelationInput = {
@@ -368,6 +369,7 @@ export type product_serialsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsOrderByRelationAggregateInput
 }
 
 export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
@@ -395,6 +397,7 @@ export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"product_serials"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
+  goods_receipt_item_serials?: Prisma.Goods_receipt_item_serialsListRelationFilter
 }, "id">
 
 export type product_serialsOrderByWithAggregationInput = {
@@ -475,6 +478,7 @@ export type product_serialsCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsCreateNestedManyWithoutProduct_serialsInput
 }
 
 export type product_serialsUncheckedCreateInput = {
@@ -499,6 +503,7 @@ export type product_serialsUncheckedCreateInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUncheckedCreateNestedManyWithoutProduct_serialsInput
 }
 
 export type product_serialsUpdateInput = {
@@ -523,6 +528,7 @@ export type product_serialsUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUpdateManyWithoutProduct_serialsNestedInput
 }
 
 export type product_serialsUncheckedUpdateInput = {
@@ -547,6 +553,7 @@ export type product_serialsUncheckedUpdateInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUncheckedUpdateManyWithoutProduct_serialsNestedInput
 }
 
 export type product_serialsCreateManyInput = {
@@ -701,10 +708,170 @@ export type product_serialsSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
+export type Product_serialsScalarRelationFilter = {
+  is?: Prisma.product_serialsWhereInput
+  isNot?: Prisma.product_serialsWhereInput
+}
+
 export type Enumserial_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.serial_status_enum
 }
 
+export type product_serialsCreateNestedOneWithoutGoods_receipt_item_serialsInput = {
+  create?: Prisma.XOR<Prisma.product_serialsCreateWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput>
+  connectOrCreate?: Prisma.product_serialsCreateOrConnectWithoutGoods_receipt_item_serialsInput
+  connect?: Prisma.product_serialsWhereUniqueInput
+}
+
+export type product_serialsUpdateOneRequiredWithoutGoods_receipt_item_serialsNestedInput = {
+  create?: Prisma.XOR<Prisma.product_serialsCreateWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput>
+  connectOrCreate?: Prisma.product_serialsCreateOrConnectWithoutGoods_receipt_item_serialsInput
+  upsert?: Prisma.product_serialsUpsertWithoutGoods_receipt_item_serialsInput
+  connect?: Prisma.product_serialsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_serialsUpdateToOneWithWhereWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUpdateWithoutGoods_receipt_item_serialsInput>, Prisma.product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput>
+}
+
+export type product_serialsCreateWithoutGoods_receipt_item_serialsInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_id?: string | null
+  serial_number: string
+  status?: $Enums.serial_status_enum
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Date | string | null
+  sold_at?: Date | string | null
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  last_reference_type?: string | null
+  last_reference_id?: string | null
+  warranty_until?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_id?: string | null
+  serial_number: string
+  status?: $Enums.serial_status_enum
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Date | string | null
+  sold_at?: Date | string | null
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  last_reference_type?: string | null
+  last_reference_id?: string | null
+  warranty_until?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type product_serialsCreateOrConnectWithoutGoods_receipt_item_serialsInput = {
+  where: Prisma.product_serialsWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_serialsCreateWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput>
+}
+
+export type product_serialsUpsertWithoutGoods_receipt_item_serialsInput = {
+  update: Prisma.XOR<Prisma.product_serialsUpdateWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput>
+  create: Prisma.XOR<Prisma.product_serialsCreateWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput>
+  where?: Prisma.product_serialsWhereInput
+}
+
+export type product_serialsUpdateToOneWithWhereWithoutGoods_receipt_item_serialsInput = {
+  where?: Prisma.product_serialsWhereInput
+  data: Prisma.XOR<Prisma.product_serialsUpdateWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput>
+}
+
+export type product_serialsUpdateWithoutGoods_receipt_item_serialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_number?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumserial_status_enumFieldUpdateOperationsInput | $Enums.serial_status_enum
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sold_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warranty_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_number?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumserial_status_enumFieldUpdateOperationsInput | $Enums.serial_status_enum
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sold_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warranty_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type Product_serialsCountOutputType
+ */
+
+export type Product_serialsCountOutputType = {
+  goods_receipt_item_serials: number
+}
+
+export type Product_serialsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  goods_receipt_item_serials?: boolean | Product_serialsCountOutputTypeCountGoods_receipt_item_serialsArgs
+}
+
+/**
+ * Product_serialsCountOutputType without action
+ */
+export type Product_serialsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Product_serialsCountOutputType
+   */
+  select?: Prisma.Product_serialsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Product_serialsCountOutputType without action
+ */
+export type Product_serialsCountOutputTypeCountGoods_receipt_item_serialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.goods_receipt_item_serialsWhereInput
+}
 
 
 export type product_serialsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -729,6 +896,8 @@ export type product_serialsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  goods_receipt_item_serials?: boolean | Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs>
+  _count?: boolean | Prisma.Product_serialsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product_serials"]>
 
 export type product_serialsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -804,10 +973,18 @@ export type product_serialsSelectScalar = {
 }
 
 export type product_serialsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_id" | "serial_number" | "status" | "store_id" | "warehouse_location_id" | "unit_cost" | "received_at" | "sold_at" | "received_reference_type" | "received_reference_id" | "last_reference_type" | "last_reference_id" | "warranty_until" | "notes" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_serials"]>
+export type product_serialsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  goods_receipt_item_serials?: boolean | Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs>
+  _count?: boolean | Prisma.Product_serialsCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type product_serialsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type product_serialsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $product_serialsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "product_serials"
-  objects: {}
+  objects: {
+    goods_receipt_item_serials: Prisma.$goods_receipt_item_serialsPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
@@ -1224,6 +1401,7 @@ readonly fields: product_serialsFieldRefs;
  */
 export interface Prisma__product_serialsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  goods_receipt_item_serials<T extends Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$goods_receipt_item_serialsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1291,6 +1469,10 @@ export type product_serialsFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
+  /**
    * Filter, which product_serials to fetch.
    */
   where: Prisma.product_serialsWhereUniqueInput
@@ -1309,6 +1491,10 @@ export type product_serialsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
+  /**
    * Filter, which product_serials to fetch.
    */
   where: Prisma.product_serialsWhereUniqueInput
@@ -1326,6 +1512,10 @@ export type product_serialsFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the product_serials
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
   /**
    * Filter, which product_serials to fetch.
    */
@@ -1375,6 +1565,10 @@ export type product_serialsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
+  /**
    * Filter, which product_serials to fetch.
    */
   where?: Prisma.product_serialsWhereInput
@@ -1422,6 +1616,10 @@ export type product_serialsFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the product_serials
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
   /**
    * Filter, which product_serials to fetch.
    */
@@ -1471,6 +1669,10 @@ export type product_serialsCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
+  /**
    * The data needed to create a product_serials.
    */
   data: Prisma.XOR<Prisma.product_serialsCreateInput, Prisma.product_serialsUncheckedCreateInput>
@@ -1518,6 +1720,10 @@ export type product_serialsUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the product_serials
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
   /**
    * The data needed to update a product_serials.
    */
@@ -1585,6 +1791,10 @@ export type product_serialsUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
+  /**
    * The filter to search for the product_serials to update in case it exists.
    */
   where: Prisma.product_serialsWhereUniqueInput
@@ -1611,6 +1821,10 @@ export type product_serialsDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
+  /**
    * Filter which product_serials to delete.
    */
   where: Prisma.product_serialsWhereUniqueInput
@@ -1631,6 +1845,30 @@ export type product_serialsDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * product_serials.goods_receipt_item_serials
+ */
+export type product_serials$goods_receipt_item_serialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the goods_receipt_item_serials
+   */
+  select?: Prisma.goods_receipt_item_serialsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the goods_receipt_item_serials
+   */
+  omit?: Prisma.goods_receipt_item_serialsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.goods_receipt_item_serialsInclude<ExtArgs> | null
+  where?: Prisma.goods_receipt_item_serialsWhereInput
+  orderBy?: Prisma.goods_receipt_item_serialsOrderByWithRelationInput | Prisma.goods_receipt_item_serialsOrderByWithRelationInput[]
+  cursor?: Prisma.goods_receipt_item_serialsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Goods_receipt_item_serialsScalarFieldEnum | Prisma.Goods_receipt_item_serialsScalarFieldEnum[]
+}
+
+/**
  * product_serials without action
  */
 export type product_serialsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1642,4 +1880,8 @@ export type product_serialsDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the product_serials
    */
   omit?: Prisma.product_serialsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.product_serialsInclude<ExtArgs> | null
 }
