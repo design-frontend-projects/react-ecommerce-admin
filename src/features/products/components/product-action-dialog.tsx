@@ -155,6 +155,11 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         dimLabel = String((v.dimensions as Record<string, unknown>).label || '')
       }
 
+      const priceItem = v.price_list_items?.[0]
+      const price = priceItem?.price != null ? Number(priceItem.price) : 0
+      const costPrice =
+        priceItem?.cost_price != null ? Number(priceItem.cost_price) : 0
+
       return {
         id: v.id,
         sku: v.sku,
@@ -168,6 +173,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         expiration_date: v.expiration_date || null,
         uom_id: v.uom_id || null,
         attributes_label: dimLabel || v.name || '',
+        price,
+        cost_price: costPrice,
       }
     })
   }
@@ -307,6 +314,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         uom_id: currentValues.base_uom_id || null,
         attributes_label: 'Default',
         expiration_date: null,
+        price: 0,
+        cost_price: 0,
       })
     }
   }, [hasVariants, productType, fields.length, open, append, form])
@@ -340,6 +349,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
       uom_id: currentValues.base_uom_id || null,
       attributes_label: `Variant ${nextIdx}`,
       expiration_date: null,
+      price: 0,
+      cost_price: 0,
     })
   }
 
@@ -360,6 +371,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         ? `${item.attributes_label} (Copy)`
         : `Variant ${nextIdx}`,
       expiration_date: item.expiration_date || null,
+      price: item.price ?? 0,
+      cost_price: item.cost_price ?? 0,
     })
     toast.success(t('products.form.duplicateVariant') + ' OK')
   }
@@ -374,7 +387,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
 
   const onSubmit = async (values: ProductActionFormData) => {
     try {
-      const { variants, ...baseData } = values
+      const { variants, suppliers, ...baseData } = values
 
       const targetId =
         currentRow?.id ||
@@ -401,6 +414,8 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
         dimensions: values.dimensions,
         uom_id: values.base_uom_id,
         attributes_label: 'Default',
+        price: 0,
+        cost_price: 0,
       }
 
       const finalVariants =
@@ -411,12 +426,14 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
           id: targetId,
           base: cleanedBase,
           variants: finalVariants,
+          suppliers,
         })
         toast.success(t('products.toast.updated'))
       } else {
         await createProduct({
           base: cleanedBase,
           variants: finalVariants,
+          suppliers,
         })
         toast.success(t('products.toast.created'))
       }
@@ -691,7 +708,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                             placeholder={t(
                               'products.form.descriptionPlaceholder'
                             )}
-                            className='min-h-[100px] resize-y'
+                            className='min-h-25 resize-y'
                             {...field}
                             value={field.value || ''}
                           />
@@ -1434,7 +1451,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                         <Table>
                           <TableHeader className='bg-muted/50'>
                             <TableRow>
-                              <TableHead className='w-[60px] text-center'>
+                              <TableHead className='w-15 text-center'>
                                 {t('products.columns.status')}
                               </TableHead>
                               <TableHead>
@@ -1449,16 +1466,16 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                               <TableHead>
                                 {t('products.form.variantUom')}
                               </TableHead>
-                              <TableHead className='min-w-[130px]'>
+                              <TableHead className='min-w-32.5'>
                                 {t('products.form.taxRate', 'Tax Rate')}
                               </TableHead>
-                              <TableHead className='min-w-[130px]'>
+                              <TableHead className='min-w-32.5'>
                                 {t(
                                   'products.form.expirationDate',
                                   'Expiry Date'
                                 )}
                               </TableHead>
-                              <TableHead className='w-[80px] text-right'>
+                              <TableHead className='w-20 text-right'>
                                 {t('products.columns.actions')}
                               </TableHead>
                             </TableRow>
@@ -1535,7 +1552,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                     {uomObj ? `${uomObj.code}` : '—'}
                                   </TableCell>
 
-                                  <TableCell className='min-w-[140px]'>
+                                  <TableCell className='min-w-35'>
                                     <FormField
                                       control={form.control}
                                       name={`variants.${index}.tax_rate_id`}
@@ -1777,7 +1794,7 @@ export function ProductActionDialog({ currentRow, open, onOpenChange }: Props) {
                                   control={form.control}
                                   name={`variants.${index}.is_active`}
                                   render={({ field: vField }) => (
-                                    <FormItem className='flex h-[36px] flex-row items-center justify-between rounded-lg border px-3 sm:mt-[22px]'>
+                                    <FormItem className='flex h-9 flex-row items-center justify-between rounded-lg border px-3 sm:mt-[22px]'>
                                       <FormLabel className='text-xs'>
                                         {t('products.form.active')}
                                       </FormLabel>

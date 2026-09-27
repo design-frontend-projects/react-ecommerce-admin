@@ -301,7 +301,11 @@ export async function listProducts(
               select: { id: true, tax_type: true, rate: true, is_inclusive: true },
             },
             price_list_items: true,
-            stock_balances: true,
+            inventory_items: {
+              include: {
+                stock_balances: true,
+              },
+            },
             product_variant_attributes: {
               include: {
                 attribute_definition: true,
@@ -315,10 +319,24 @@ export async function listProducts(
     prisma.products.count({ where }),
   ])
 
+  const formattedProducts = products.map((product) => ({
+    ...product,
+    product_variants: product.product_variants.map((v) => {
+      const balances = v.inventory_items?.stock_balances ?? []
+      return {
+        ...v,
+        stock_balances: balances.map((b) => ({
+          ...b,
+          qty_available: Number(b.qty_on_hand ?? 0) - Number(b.qty_reserved ?? 0),
+        })),
+      }
+    }),
+  }))
+
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
 
   return {
-    products,
+    products: formattedProducts,
     totalCount,
     page,
     pageSize,
@@ -360,8 +378,11 @@ export async function getProduct(authUserId: string, id: string) {
         include: {
           tax_rates: true,
           price_list_items: true,
-          stock_balances: true,
-          product_barcodes: true,
+          inventory_items: {
+            include: {
+              stock_balances: true,
+            },
+          },
           product_variant_attributes: {
             include: {
               attribute_definition: true,
@@ -377,7 +398,31 @@ export async function getProduct(authUserId: string, id: string) {
     throw new ApiError('Product not found.', 404)
   }
 
-  return product
+  const variantIds = product.product_variants.map((v) => v.id)
+  const barcodes =
+    variantIds.length > 0
+      ? await prisma.product_barcodes.findMany({
+          where: {
+            tenant_id: tenantId,
+            product_variant_id: { in: variantIds },
+          },
+        })
+      : []
+
+  return {
+    ...product,
+    product_variants: product.product_variants.map((v) => {
+      const balances = v.inventory_items?.stock_balances ?? []
+      return {
+        ...v,
+        stock_balances: balances.map((b) => ({
+          ...b,
+          qty_available: Number(b.qty_on_hand ?? 0) - Number(b.qty_reserved ?? 0),
+        })),
+        product_barcodes: barcodes.filter((b) => b.product_variant_id === v.id),
+      }
+    }),
+  }
 }
 
 export async function getProductStats(authUserId: string) {

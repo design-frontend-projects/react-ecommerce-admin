@@ -104,6 +104,8 @@ export function ProductVariantsForm({
       uom_id: baseProductData?.base_uom_id || null,
       attributes_label: `Variant ${nextIdx}`,
       expiration_date: null,
+      price: 0,
+      cost_price: 0,
     })
   }
 
@@ -124,6 +126,8 @@ export function ProductVariantsForm({
         ? `${item.attributes_label} (Copy)`
         : `Variant ${nextIdx}`,
       expiration_date: item.expiration_date || null,
+      price: item.price ?? 0,
+      cost_price: item.cost_price ?? 0,
     })
   }
 
