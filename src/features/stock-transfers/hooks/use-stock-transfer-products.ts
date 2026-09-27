@@ -89,9 +89,9 @@ export function useStockTransferProductVariants(search?: string) {
               weight,
               is_batch_tracked,
               is_serial_tracked,
-              brands:brand_id ( name ),
-              categories:category_id ( name ),
-              uoms:base_uom_id ( name, code )
+              brands ( name ),
+              categories ( name ),
+              uoms ( name, code )
             ),
             price_list_items (
               price,

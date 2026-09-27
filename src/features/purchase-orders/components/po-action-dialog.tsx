@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { format } from 'date-fns'
 import { useForm, type SubmitHandler } from 'react-hook-form'
@@ -64,7 +64,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Card, CardContent } from '@/components/ui/card'
-import { useProducts } from '@/features/products/hooks/use-products'
 import { useUomOptions } from '@/features/products/hooks/use-product-options'
 import { useSuppliers } from '@/features/suppliers/hooks/use-suppliers'
 import { useWarehouses } from '@/features/warehouses/hooks/use-warehouses'
@@ -79,6 +78,7 @@ import {
   POProductSelect,
   POVariantSelect,
   type VariantOption,
+  type POProductOption,
 } from './po-product-variant-picker'
 import {
   POSummaryDialog,
@@ -117,6 +117,10 @@ interface LineItem {
   subtotal: number
   has_expiration?: boolean
   expiration_date?: string | null
+  product_name?: string
+  product_sku?: string | null
+  variant_sku?: string
+  variant_label?: string
 }
 
 export function POActionDialog() {
@@ -128,7 +132,6 @@ export function POActionDialog() {
 
   const { data: suppliers } = useSuppliers()
   const { data: warehouses = [] } = useWarehouses()
-  const { data: products } = useProducts()
   const { data: uoms = [] } = useUomOptions()
   const createMutation = useCreatePurchaseOrder()
   const updateMutation = useUpdatePurchaseOrder()
@@ -204,116 +207,95 @@ export function POActionDialog() {
     return matchByCode?.symbol || '$'
   }, [currencies, watchedCurrencyId, watchedCurrency])
 
-  // Map variants by product id string (UUID)
-  const variantsByProductId = useMemo(() => {
-    const map = new Map<string, VariantOption[]>()
+  // Cache of product metadata loaded from selection or edit mode
+  const [productsMetaCache, setProductsMetaCache] = useState<
+    Record<
+      string,
+      {
+        name: string
+        sku?: string | null
+        base_uom_id?: string | null
+        has_expiration?: boolean | null
+      }
+    >
+  >({})
 
-    for (const product of products ?? []) {
-      const pId = String(product.id || product.product_id || '')
-      if (!pId) continue
+  // Cache of variants loaded on-demand per product
+  const [variantsCache, setVariantsCache] = useState<
+    Record<string, VariantOption[]>
+  >({})
 
-      const variants: VariantOption[] = (product.product_variants ?? [])
-        .filter((variant) => !!variant.id)
-        .map((variant) => {
-          let attrLabel = variant.attributes_label
-          if (!attrLabel && variant.dimensions) {
-            try {
-              const parsed =
-                typeof variant.dimensions === 'string'
-                  ? JSON.parse(variant.dimensions)
-                  : variant.dimensions
-              attrLabel = parsed?.label || undefined
-            } catch {
-              attrLabel =
-                typeof variant.dimensions === 'string'
-                  ? variant.dimensions
-                  : undefined
-            }
-          }
-
-          const pli = (
-            variant as {
-              price_list_items?: Array<{
-                price: number | string
-                cost_price?: number | string | null
-              }>
-            }
-          ).price_list_items
-          const resolvedCost =
-            pli && pli.length > 0 && pli[0].cost_price != null
-              ? Number(pli[0].cost_price)
-              : (variant as { cost_price?: number | null }).cost_price != null
-                ? Number((variant as { cost_price?: number | null }).cost_price)
-                : null
-          const resolvedPrice =
-            pli && pli.length > 0
-              ? Number(pli[0].price)
-              : Number((variant as { price?: number }).price ?? 0)
-
-          const balances = (
-            variant as {
-              stock_balances?: Array<{
-                qty_available?: number | string
-                qty_on_hand?: number | string
-                qty_reserved?: number | string
-              }>
-            }
-          ).stock_balances
-          const resolvedStock =
-            balances && balances.length > 0
-              ? balances.reduce(
-                  (sum, b) =>
-                    sum +
-                    Number(
-                      b.qty_available ??
-                        Number(b.qty_on_hand || 0) - Number(b.qty_reserved || 0)
-                    ),
-                  0
-                )
-              : (variant as { stock_quantity?: number }).stock_quantity !==
-                  undefined
-                ? Number((variant as { stock_quantity?: number }).stock_quantity)
-                : undefined
-
-          return {
-            id: String(variant.id),
-            sku: variant.sku,
-            name: variant.name ?? null,
-            attributes_label: attrLabel,
-            price: resolvedPrice,
-            cost_price: resolvedCost,
-            stock_quantity: resolvedStock,
-          }
-        })
-
-      map.set(pId, variants)
-    }
-
-    return map
-  }, [products])
-
-  const getVariantsForProduct = useCallback(
-    (productId: string): VariantOption[] =>
-      variantsByProductId.get(productId) ?? [],
-    [variantsByProductId]
+  const handleVariantsLoaded = useCallback(
+    (productId: string, loadedVariants: VariantOption[]) => {
+      setVariantsCache((prev) => {
+        if (prev[productId] === loadedVariants) return prev
+        return { ...prev, [productId]: loadedVariants }
+      })
+    },
+    []
   )
 
-  const getProductName = (productId: string): string =>
-    products?.find(
-      (product) => String(product.id || product.product_id) === productId
-    )?.name ?? `Product`
+  // Seed metadata cache when editing existing PO
+  useEffect(() => {
+    if (isEdit && fullPO?.purchase_order_items) {
+      setProductsMetaCache((prev) => {
+        const next = { ...prev }
+        for (const item of fullPO.purchase_order_items || []) {
+          const pId = String(item.product_id || '')
+          if (pId && item.products) {
+            next[pId] = {
+              name: item.products.name,
+              sku: item.products.sku,
+              base_uom_id: item.products.base_uom_id ?? undefined,
+              has_expiration: item.has_expiration,
+            }
+          }
+        }
+        return next
+      })
+
+      setVariantsCache((prev) => {
+        let changed = false
+        const next = { ...prev }
+        for (const item of fullPO.purchase_order_items || []) {
+          const pId = String(item.product_id || '')
+          if (pId && item.products?.product_variants?.length && !next[pId]) {
+            next[pId] = item.products.product_variants.map((v) => ({
+              id: v.id,
+              sku: v.sku,
+              price:
+                v.price ??
+                (typeof v.price_list_items?.[0]?.price === 'number'
+                  ? Number(v.price_list_items[0].price)
+                  : 0),
+              cost_price:
+                v.cost_price ??
+                (typeof v.price_list_items?.[0]?.cost_price === 'number'
+                  ? Number(v.price_list_items[0].cost_price)
+                  : null),
+            }))
+            changed = true
+          }
+        }
+        return changed ? next : prev
+      })
+    }
+  }, [isEdit, fullPO])
 
   // Compute initial line items from PO data
   const initialLineItems = useMemo<LineItem[]>(() => {
     if (isEdit && fullPO) {
       return (fullPO.purchase_order_items || []).map((item) => {
         const prodId = String(item.product_id || '')
-        const variants = variantsByProductId.get(prodId) ?? []
+        const itemVariants = item.products?.product_variants || []
+        const matchedVariant = itemVariants.find(
+          (v) => v.id === item.product_variant_id
+        )
         return {
           product_id: prodId,
           product_variant_id:
             item.product_variant_id ??
-            (variants.length === 1 ? variants[0].id : null),
+            (itemVariants.length === 1 ? itemVariants[0].id : null),
           uom_id: item.uom_id ?? null,
           quantity_ordered: item.quantity_ordered,
           unit_cost: item.unit_cost,
@@ -322,11 +304,14 @@ export function POActionDialog() {
           expiration_date: item.expiration_date
             ? String(item.expiration_date).split('T')[0]
             : null,
+          product_name: item.products?.name,
+          product_sku: item.products?.sku,
+          variant_sku: matchedVariant?.sku,
         }
       })
     }
     return []
-  }, [isEdit, fullPO, variantsByProductId])
+  }, [isEdit, fullPO])
 
   // User edits tracked separately; null = no user edits yet
   const [lineItemOverrides, setLineItemOverrides] = useState<LineItem[] | null>(
@@ -335,6 +320,17 @@ export function POActionDialog() {
 
   // Active line items: user-edited values or computed initial values
   const lineItems = lineItemOverrides ?? initialLineItems
+
+  const getProductName = useCallback(
+    (productId: string): string => {
+      const inLine = lineItems.find((li) => li.product_id === productId)?.product_name
+      if (inLine) return inLine
+      const inMeta = productsMetaCache[productId]?.name
+      if (inMeta) return inMeta
+      return `Product`
+    },
+    [lineItems, productsMetaCache]
+  )
 
   const closeDialog = () => {
     setLineItemOverrides(null)
@@ -369,7 +365,11 @@ export function POActionDialog() {
   const updateLineItem = (
     index: number,
     field: keyof LineItem,
-    value: number | string | boolean | null
+    value: number | string | boolean | null,
+    extra?: {
+      product?: POProductOption
+      variant?: VariantOption
+    }
   ) => {
     const current = lineItemOverrides ?? initialLineItems
     const updated = [...current]
@@ -379,38 +379,31 @@ export function POActionDialog() {
 
     if (field === 'product_id') {
       const nextProductId = String(value || '')
-      const variants = getVariantsForProduct(nextProductId)
-      const selectedProduct = products?.find(
-        (p) => String(p.id || p.product_id) === nextProductId
-      )
+      const selectedProduct =
+        extra?.product ||
+        (nextProductId ? productsMetaCache[nextProductId] : undefined)
 
       item.product_id = nextProductId
       item.product_variant_id = null
+      item.product_name = selectedProduct?.name
+      item.product_sku = selectedProduct?.sku ?? null
+      item.variant_sku = undefined
+      item.variant_label = undefined
+      item.unit_cost = 0
+      item.subtotal = 0
+
       item.uom_id =
         selectedProduct?.base_uom_id ||
         (selectedProduct as { base_uom?: { id?: string } })?.base_uom?.id ||
         null
 
       // Pre-fill expiration tracking if product has expiration
-      const productHasExp = Boolean((selectedProduct as { has_expiration?: boolean | null })?.has_expiration)
+      const productHasExp = Boolean(
+        (selectedProduct as { has_expiration?: boolean | null })?.has_expiration
+      )
       item.has_expiration = productHasExp
-      const prodExp = (selectedProduct as unknown as { expiration_date?: string | null })?.expiration_date
-      const singleVarExp =
-        variants.length === 1
-          ? (variants[0] as unknown as { expiration_date?: string | null })?.expiration_date
-          : null
-      item.expiration_date = productHasExp
-        ? (singleVarExp || prodExp || null)
-        : null
+      item.expiration_date = null
 
-      if (variants.length === 1) {
-        item.product_variant_id = variants[0].id
-        item.unit_cost = Number(variants[0].cost_price ?? variants[0].price ?? 0)
-      } else {
-        item.unit_cost = 0
-      }
-
-      item.subtotal = Number(item.quantity_ordered) * Number(item.unit_cost)
       updated[index] = item
       setLineItemOverrides(updated)
       return
@@ -444,12 +437,18 @@ export function POActionDialog() {
     if (field === 'product_variant_id') {
       const vId = value ? String(value) : null
       item.product_variant_id = vId
-      const variants = getVariantsForProduct(item.product_id)
-      const variant = variants.find((v) => v.id === vId)
+      const variant =
+        extra?.variant ||
+        variantsCache[item.product_id]?.find((v) => v.id === vId)
 
       if (variant) {
+        item.variant_sku = variant.sku
+        item.variant_label =
+          variant.attributes_label || variant.name || undefined
         item.unit_cost = Number(variant.cost_price ?? variant.price ?? 0)
-        const variantExp = (variant as unknown as { expiration_date?: string | null })?.expiration_date
+        const variantExp = (
+          variant as unknown as { expiration_date?: string | null }
+        )?.expiration_date
         if (item.has_expiration && variantExp && !item.expiration_date) {
           item.expiration_date = variantExp
         }
@@ -496,9 +495,8 @@ export function POActionDialog() {
     }
 
     for (const item of validItems) {
-      const variants = getVariantsForProduct(item.product_id)
-
-      if (variants.length === 0) {
+      const cachedVariants = variantsCache[item.product_id]
+      if (cachedVariants && cachedVariants.length === 0) {
         setShowLineValidation(true)
         toast.error(
           `${getProductName(item.product_id)} ${t('purchaseOrders.validation.noVariants', 'has no variants. Select a product that has variants.')}`
@@ -607,9 +605,8 @@ export function POActionDialog() {
     }
 
     for (const item of validItems) {
-      const variants = getVariantsForProduct(item.product_id)
-
-      if (variants.length === 0) {
+      const cachedVariants = variantsCache[item.product_id]
+      if (cachedVariants && cachedVariants.length === 0) {
         setShowLineValidation(true)
         toast.error(
           `${getProductName(item.product_id)} ${t('purchaseOrders.validation.noVariants', 'has no variants. Select a product that has variants.')}`
@@ -656,20 +653,29 @@ export function POActionDialog() {
       subtotal: itemsSubtotal,
       notes: values.notes || undefined,
       items: validItems.map((item) => {
-        const prod = products?.find(
-          (p) => String(p.id || p.product_id) === item.product_id
-        )
-        const variants = getVariantsForProduct(item.product_id)
-        const variant = variants.find((v) => v.id === item.product_variant_id)
+        const prodName =
+          item.product_name ||
+          productsMetaCache[item.product_id]?.name ||
+          getProductName(item.product_id)
+        const prodSku =
+          item.product_sku || productsMetaCache[item.product_id]?.sku
+        const variant =
+          variantsCache[item.product_id]?.find(
+            (v) => v.id === item.product_variant_id
+          )
         const selectedUom = uoms.find((u) => u.id === item.uom_id)
 
         return {
           productId: item.product_id,
-          productName: prod?.name || `Product`,
-          productSku: prod?.sku,
+          productName: prodName,
+          productSku: prodSku ?? undefined,
           variantId: item.product_variant_id,
-          variantSku: variant?.sku || 'Standard',
-          variantLabel: variant?.attributes_label || variant?.name || undefined,
+          variantSku: item.variant_sku || variant?.sku || 'Standard',
+          variantLabel:
+            item.variant_label ||
+            variant?.attributes_label ||
+            variant?.name ||
+            undefined,
           uomId: item.uom_id,
           uomName: selectedUom?.name,
           uomCode: selectedUom?.code,
@@ -687,8 +693,9 @@ export function POActionDialog() {
     suppliers,
     warehouses,
     lineItems,
-    products,
-    getVariantsForProduct,
+    productsMetaCache,
+    variantsCache,
+    getProductName,
     uoms,
     itemsSubtotal,
     grandTotal,
@@ -1024,19 +1031,32 @@ export function POActionDialog() {
                         </TableHeader>
                         <TableBody>
                           {lineItems.map((item, index) => {
-                            const itemVariants = getVariantsForProduct(
-                              item.product_id
-                            )
+                            const itemVariants = item.product_id
+                              ? variantsCache[item.product_id] ?? []
+                              : []
                             return (
                               <TableRow key={index} className='align-top'>
                                 <TableCell className='min-w-[200px]'>
                                   <POProductSelect
                                     productId={item.product_id}
-                                    products={products}
-                                    variantsByProductId={variantsByProductId}
-                                    onSelectProduct={(pId) =>
-                                      updateLineItem(index, 'product_id', pId)
-                                    }
+                                    selectedProductInfo={{
+                                      name: item.product_name || productsMetaCache[item.product_id]?.name,
+                                      sku: item.product_sku || productsMetaCache[item.product_id]?.sku,
+                                    }}
+                                    onSelectProduct={(pId, productOption) => {
+                                      if (productOption) {
+                                        setProductsMetaCache((prev) => ({
+                                          ...prev,
+                                          [pId]: {
+                                            name: productOption.name,
+                                            sku: productOption.sku,
+                                            base_uom_id: productOption.base_uom_id,
+                                            has_expiration: productOption.has_expiration,
+                                          },
+                                        }))
+                                      }
+                                      updateLineItem(index, 'product_id', pId, { product: productOption })
+                                    }}
                                     disabled={isPending}
                                     showValidation={showLineValidation}
                                   />
@@ -1045,8 +1065,8 @@ export function POActionDialog() {
                                   <POVariantSelect
                                     productId={item.product_id}
                                     variantId={item.product_variant_id}
-                                    variants={itemVariants}
-                                    onSelectVariant={(vId, cost) => {
+                                    onVariantsLoaded={(vars) => handleVariantsLoaded(item.product_id, vars)}
+                                    onSelectVariant={(vId, cost, variant) => {
                                       const current =
                                         lineItemOverrides ?? initialLineItems
                                       const updated = [...current]
@@ -1056,6 +1076,11 @@ export function POActionDialog() {
                                       rowItem.subtotal =
                                         Number(rowItem.quantity_ordered) *
                                         Number(cost)
+                                      if (variant) {
+                                        rowItem.variant_sku = variant.sku
+                                        rowItem.variant_label =
+                                          variant.attributes_label || variant.name || undefined
+                                      }
                                       updated[index] = rowItem
                                       setLineItemOverrides(updated)
                                       setShowLineValidation(false)
@@ -1208,7 +1233,9 @@ export function POActionDialog() {
                     {/* Mobile Stacked Cards View (< 768px) */}
                     <div className='block md:hidden space-y-3'>
                       {lineItems.map((item, index) => {
-                        const itemVariants = getVariantsForProduct(item.product_id)
+                        const itemVariants = item.product_id
+                          ? variantsCache[item.product_id] ?? []
+                          : []
                         return (
                           <Card
                             key={index}
@@ -1238,11 +1265,24 @@ export function POActionDialog() {
                                   </label>
                                   <POProductSelect
                                     productId={item.product_id}
-                                    products={products}
-                                    variantsByProductId={variantsByProductId}
-                                    onSelectProduct={(pId) =>
-                                      updateLineItem(index, 'product_id', pId)
-                                    }
+                                    selectedProductInfo={{
+                                      name: item.product_name || productsMetaCache[item.product_id]?.name,
+                                      sku: item.product_sku || productsMetaCache[item.product_id]?.sku,
+                                    }}
+                                    onSelectProduct={(pId, productOption) => {
+                                      if (productOption) {
+                                        setProductsMetaCache((prev) => ({
+                                          ...prev,
+                                          [pId]: {
+                                            name: productOption.name,
+                                            sku: productOption.sku,
+                                            base_uom_id: productOption.base_uom_id,
+                                            has_expiration: productOption.has_expiration,
+                                          },
+                                        }))
+                                      }
+                                      updateLineItem(index, 'product_id', pId, { product: productOption })
+                                    }}
                                     disabled={isPending}
                                     showValidation={showLineValidation}
                                   />
@@ -1255,8 +1295,8 @@ export function POActionDialog() {
                                   <POVariantSelect
                                     productId={item.product_id}
                                     variantId={item.product_variant_id}
-                                    variants={itemVariants}
-                                    onSelectVariant={(vId, cost) => {
+                                    onVariantsLoaded={(vars) => handleVariantsLoaded(item.product_id, vars)}
+                                    onSelectVariant={(vId, cost, variant) => {
                                       const current =
                                         lineItemOverrides ?? initialLineItems
                                       const updated = [...current]
@@ -1266,6 +1306,11 @@ export function POActionDialog() {
                                       rowItem.subtotal =
                                         Number(rowItem.quantity_ordered) *
                                         Number(cost)
+                                      if (variant) {
+                                        rowItem.variant_sku = variant.sku
+                                        rowItem.variant_label =
+                                          variant.attributes_label || variant.name || undefined
+                                      }
                                       updated[index] = rowItem
                                       setLineItemOverrides(updated)
                                       setShowLineValidation(false)

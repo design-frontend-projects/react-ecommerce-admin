@@ -8,7 +8,6 @@ import { LanguageSwitch } from '@/components/language-switch'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useProducts } from '../products/hooks/use-products'
 import { PODialogs } from './components/po-dialogs'
 import { POPrimaryButtons } from './components/po-primary-buttons'
 import { POProvider } from './components/po-provider'
@@ -71,9 +70,6 @@ function PurchaseOrdersContent() {
     refetch,
   } = usePurchaseOrders()
   const [statusFilter, setStatusFilter] = useState<string | null>(null)
-
-  // Warm products + variants query cache before opening PO dialogs.
-  useProducts()
 
   return (
     <>
