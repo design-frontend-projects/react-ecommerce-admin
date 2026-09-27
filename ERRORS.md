@@ -1,5 +1,32 @@
 # Error Log
 
+## [2026-09-28 01:28] - Post Goods Receipt Raw Query Failed: Record "h" Has No Field "store_id" (Code 42703)
+
+- **Type**: Database / Stored Procedure
+- **Severity**: Critical
+- **File**: `public.post_goods_receipt(p_receipt_id uuid)` / `src/server/fns/goods-receipts.ts:925` / `src/features/goods-receipts/components/view-dialog.tsx:51`
+- **Agent**: @backend-specialist
+- **Root Cause**: When posting a Goods Receipt from the dialog or server action, `postReceipt` executes `SELECT post_goods_receipt(${id}::uuid)` via `prisma.$queryRaw`. The PostgreSQL stored procedure `public.post_goods_receipt` declared `h goods_receipts%ROWTYPE;` and attempted to evaluate `IF h.store_id IS NOT NULL THEN` and update `posted_by = ...`. The `goods_receipts` table was previously normalized to remove `store_id` (receipts are received strictly at `warehouse_id`) and uses `posted_by_user_id` instead of `posted_by`. This column mismatch caused PostgreSQL to throw error `42703 (undefined_column)`: `record "h" has no field "store_id"`.
+- **Error Message**:
+  ```json
+  {
+    "success": false,
+    "message": "\nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `42703`. Message: `record \"h\" has no field \"store_id\"`",
+    "error": {
+      "message": "\nInvalid `prisma.$queryRaw()` invocation:\n\n\nRaw query failed. Code: `42703`. Message: `record \"h\" has no field \"store_id\"`"
+    }
+  }
+  ```
+- **Fix Applied**:
+  1. Updated the deployed PostgreSQL stored procedure `public.post_goods_receipt(p_receipt_id uuid)` in Supabase to remove `h.store_id` references, routing goods receipts directly to `warehouse_id` with `dest_store_id = NULL`.
+  2. Fixed `goods_receipts` status update to set `posted_by_user_id` rather than nonexistent column `posted_by`.
+  3. Aligned `prisma/migrations/20260927230000_enhance_purchase_order_and_items/migration.sql` with `prisma/migrations/20260927240000_enhance_goods_receipt_and_serials/migration.sql` so historical migration scripts do not re-introduce the obsolete `store_id` logic.
+  4. Verified `post_goods_receipt` definition in `pg_proc` and confirmed all goods receipts posting test suites pass (`src/__tests__/goods-receipts-posting.test.ts`, `src/__tests__/goods-receipts-enhanced.test.ts`).
+- **Prevention**: When dropping or renaming columns on PostgreSQL tables whose rowtype is consumed by PL/pgSQL procedures (`table%ROWTYPE`), always update and deploy the corresponding stored procedures before or along with the DDL migration.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-28 01:20] - Prisma Interactive Transaction Timeout (5000ms Exceeded) During Serial Receipt Creation
 
 - **Type**: Integration / Database / Performance

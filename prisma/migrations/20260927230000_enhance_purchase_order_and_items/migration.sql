@@ -185,9 +185,11 @@ DECLARE
   v_total_items          int := 0;
   v_accepted_count       int := 0;
   v_open                 int;
-  v_store_id             uuid := NULL;
   v_item_accounted_qty   numeric := 0;
   v_po_total_received    numeric := 0;
+  v_inventory_item_id    uuid;
+  v_po_status            po_lifecycle_status_enum;
+  v_po_supplier_id       uuid;
 BEGIN
   -- 1. Lock the receipt record
   SELECT * INTO h FROM goods_receipts WHERE id = p_receipt_id FOR UPDATE;
@@ -199,11 +201,11 @@ BEGIN
     RAISE EXCEPTION 'RECEIPT_ALREADY_POSTED|Goods receipt % is in status %', p_receipt_id, h.status USING ERRCODE = 'P0001';
   END IF;
 
-  -- Validate store_id: ensure it actually exists in stores table
-  IF h.store_id IS NOT NULL THEN
-    IF EXISTS (SELECT 1 FROM stores WHERE store_id = h.store_id) THEN
-      v_store_id := h.store_id;
-    END IF;
+  -- Verify PO is receivable
+  SELECT lifecycle_status, supplier_id INTO v_po_status, v_po_supplier_id
+  FROM purchase_orders WHERE id = h.purchase_order_id;
+  IF v_po_status IN ('closed', 'cancelled') THEN
+    RAISE EXCEPTION 'PO_NOT_RECEIVABLE|Purchase order % is %', h.purchase_order_id, v_po_status USING ERRCODE = 'P0001';
   END IF;
 
   -- 2. Find transaction type ID for PURCHASE_RECEIPT
@@ -260,7 +262,7 @@ BEGIN
       'posted',
       'inbound',
       h.warehouse_id,
-      v_store_id,
+      NULL,
       'goods_receipt',
       p_receipt_id,
       v_total_qty,
@@ -272,7 +274,7 @@ BEGIN
     );
   END IF;
 
-  -- 5. Process each item: update stock balances and PO items
+  -- 5. Process each item: update stock balances, movements, and PO items
   FOR it IN
     SELECT * FROM goods_receipt_items
     WHERE goods_receipt_id = p_receipt_id
@@ -281,7 +283,7 @@ BEGIN
     v_qty := COALESCE(it.accepted_qty, 0);
     v_item_accounted_qty := v_qty + COALESCE(it.rejected_qty, 0);
 
-    -- Only move inventory into stock balances if accepted_qty > 0
+    -- Only move inventory into stock balances and movements if accepted_qty > 0
     IF v_qty > 0 THEN
       -- Resolve destination location
       v_location := it.warehouse_location_id;
@@ -297,21 +299,32 @@ BEGIN
         END IF;
       END IF;
 
+      -- Ensure inventory_items record exists
+      SELECT id INTO v_inventory_item_id FROM inventory_items
+      WHERE tenant_id = h.tenant_id AND product_variant_id = it.product_variant_id LIMIT 1;
+
+      IF v_inventory_item_id IS NULL THEN
+        INSERT INTO inventory_items (tenant_id, product_variant_id, sku, is_stockable, is_purchasable, is_sellable, created_at, updated_at)
+        SELECT h.tenant_id, it.product_variant_id, COALESCE(pv.sku, 'ITEM-' || substr(it.product_variant_id::text, 1, 8)), true, true, true, now(), now()
+        FROM product_variants pv WHERE pv.id = it.product_variant_id
+        RETURNING id INTO v_inventory_item_id;
+      END IF;
+
       -- Update or Insert stock_balances
       SELECT id INTO v_balance_id
         FROM stock_balances
         WHERE tenant_id = h.tenant_id
           AND product_variant_id = it.product_variant_id
           AND (warehouse_id = h.warehouse_id OR (warehouse_id IS NULL AND h.warehouse_id IS NULL))
-          AND (store_id = v_store_id OR (store_id IS NULL AND v_store_id IS NULL))
           AND (location_id = v_location OR (location_id IS NULL AND v_location IS NULL))
           AND condition = it.condition
+          AND (batch_id = it.batch_id OR (batch_id IS NULL AND it.batch_id IS NULL))
         LIMIT 1;
 
       IF v_balance_id IS NOT NULL THEN
         UPDATE stock_balances
         SET qty_on_hand = qty_on_hand + v_qty,
-            qty_available = qty_available + v_qty,
+            qty_available = COALESCE(qty_available, 0) + v_qty,
             avg_cost = CASE WHEN (qty_on_hand + v_qty) > 0
                             THEN ((qty_on_hand * avg_cost) + (v_qty * COALESCE(it.unit_cost, 0))) / (qty_on_hand + v_qty)
                             ELSE avg_cost END,
@@ -326,6 +339,7 @@ BEGIN
           warehouse_id,
           store_id,
           location_id,
+          inventory_item_id,
           product_variant_id,
           condition,
           batch_id,
@@ -342,12 +356,13 @@ BEGIN
         ) VALUES (
           h.tenant_id,
           h.warehouse_id,
-          v_store_id,
+          NULL,
           v_location,
+          v_inventory_item_id,
           it.product_variant_id,
           it.condition,
           it.batch_id,
-          it.serial_id,
+          NULL,
           v_qty,
           v_qty,
           0,
@@ -360,6 +375,51 @@ BEGIN
         )
         RETURNING id INTO v_balance_id;
       END IF;
+
+      -- Update or Insert stock_by_location
+      IF v_location IS NOT NULL THEN
+        IF EXISTS (
+          SELECT 1 FROM stock_by_location
+          WHERE tenant_id = h.tenant_id
+            AND warehouse_id = h.warehouse_id
+            AND warehouse_location_id = v_location
+            AND product_variant_id = it.product_variant_id
+            AND condition = it.condition
+            AND (batch_id = it.batch_id OR (batch_id IS NULL AND it.batch_id IS NULL))
+        ) THEN
+          UPDATE stock_by_location
+          SET qty_on_hand = qty_on_hand + v_qty,
+              last_movement_at = now(),
+              updated_at = now()
+          WHERE tenant_id = h.tenant_id
+            AND warehouse_id = h.warehouse_id
+            AND warehouse_location_id = v_location
+            AND product_variant_id = it.product_variant_id
+            AND condition = it.condition
+            AND (batch_id = it.batch_id OR (batch_id IS NULL AND it.batch_id IS NULL));
+        ELSE
+          INSERT INTO stock_by_location (
+            tenant_id, warehouse_id, warehouse_location_id, product_variant_id, batch_id,
+            condition, qty_on_hand, qty_reserved, last_movement_at, created_at, updated_at
+          ) VALUES (
+            h.tenant_id, h.warehouse_id, v_location, it.product_variant_id, it.batch_id,
+            it.condition, v_qty, 0, now(), now(), now()
+          );
+        END IF;
+      END IF;
+
+      -- Create inventory_movements ledger entry
+      INSERT INTO inventory_movements (
+        id, tenant_id, warehouse_id, location_id, warehouse_location_id, product_variant_id,
+        movement_type, status, condition, quantity_delta, unit_cost, total_cost,
+        reference_type, reference_id, source_document_type, source_document_id,
+        batch_id, occurred_at, movement_date, created_at, created_by_user_id
+      ) VALUES (
+        gen_random_uuid(), h.tenant_id, h.warehouse_id, v_location, v_location, it.product_variant_id,
+        'purchase', 'posted', it.condition, v_qty, COALESCE(it.unit_cost, 0), v_qty * COALESCE(it.unit_cost, 0),
+        'goods_receipt', p_receipt_id, 'goods_receipt', p_receipt_id,
+        it.batch_id, now(), now(), now(), h.created_by_user_id
+      );
 
       -- Insert into inventory_transaction_items
       IF v_type_id IS NOT NULL THEN
@@ -391,11 +451,11 @@ BEGIN
           COALESCE(it.unit_cost, 0),
           v_qty * COALESCE(it.unit_cost, 0),
           h.warehouse_id,
-          v_store_id,
+          NULL,
           v_location,
           it.condition,
           it.batch_id,
-          it.serial_id,
+          NULL,
           'goods_receipt_item',
           it.id,
           now()
@@ -403,7 +463,7 @@ BEGIN
       END IF;
     END IF;
 
-    -- Update purchase_order_items received_quantity with total accounted units
+    -- Update purchase_order_items received_quantity with total accounted units (accepted + rejected)
     IF it.purchase_order_item_id IS NOT NULL AND v_item_accounted_qty > 0 THEN
       UPDATE purchase_order_items
       SET received_quantity = COALESCE(received_quantity, 0) + v_item_accounted_qty,
@@ -415,12 +475,12 @@ BEGIN
   -- 6. Update receipt header to posted
   UPDATE goods_receipts
   SET status = 'posted',
-      posted_by = COALESCE(posted_by, v_caller::text),
+      posted_by_user_id = COALESCE(posted_by_user_id, v_caller, h.updated_by_user_id, h.created_by_user_id),
       posted_at = now(),
       updated_at = now()
   WHERE id = p_receipt_id;
 
-  -- 7. Update purchase order lifecycle if linked (using lifecycle_status only)
+  -- 7. Update purchase order lifecycle (using lifecycle_status)
   IF h.purchase_order_id IS NOT NULL THEN
     SELECT COALESCE(SUM(received_quantity), 0) INTO v_po_total_received
     FROM purchase_order_items
