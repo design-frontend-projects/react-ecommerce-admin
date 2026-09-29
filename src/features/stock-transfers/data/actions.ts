@@ -101,6 +101,38 @@ export async function receiveTransfer(
   })
 }
 
+export async function submitTransfer(
+  getToken: TokenGetter,
+  id: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/submit`, {
+    method: 'POST',
+    body: JSON.stringify({ id }),
+  })
+}
+
+export async function rejectTransfer(
+  getToken: TokenGetter,
+  id: string,
+  reason?: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/reject`, {
+    method: 'POST',
+    body: JSON.stringify({ id, reason }),
+  })
+}
+
+export async function closeTransfer(
+  getToken: TokenGetter,
+  id: string,
+  notes?: string
+): Promise<void> {
+  await authorizedRequest(getToken, `${BASE}/close`, {
+    method: 'POST',
+    body: JSON.stringify({ id, notes }),
+  })
+}
+
 export async function completeTransfer(
   getToken: TokenGetter,
   id: string

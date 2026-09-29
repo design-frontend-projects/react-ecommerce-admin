@@ -217,10 +217,13 @@ import { Route as ApiRbacMeNavRouteImport } from './routes/api/rbac/me/nav'
 import { Route as ApiRbacMeAccessRouteImport } from './routes/api/rbac/me/access'
 import { Route as ApiInventoryWarehousesLocationsRouteImport } from './routes/api/inventory/warehouses/locations'
 import { Route as ApiInventoryUomsConversionsRouteImport } from './routes/api/inventory/uoms/conversions'
+import { Route as ApiInventoryTransfersSubmitRouteImport } from './routes/api/inventory/transfers/submit'
 import { Route as ApiInventoryTransfersShipRouteImport } from './routes/api/inventory/transfers/ship'
+import { Route as ApiInventoryTransfersRejectRouteImport } from './routes/api/inventory/transfers/reject'
 import { Route as ApiInventoryTransfersReceiveRouteImport } from './routes/api/inventory/transfers/receive'
 import { Route as ApiInventoryTransfersPickRouteImport } from './routes/api/inventory/transfers/pick'
 import { Route as ApiInventoryTransfersCompleteRouteImport } from './routes/api/inventory/transfers/complete'
+import { Route as ApiInventoryTransfersCloseRouteImport } from './routes/api/inventory/transfers/close'
 import { Route as ApiInventoryTransfersApproveRouteImport } from './routes/api/inventory/transfers/approve'
 import { Route as ApiInventoryTransfersApplyRouteImport } from './routes/api/inventory/transfers/apply'
 import { Route as ApiInventoryTransactionsReverseRouteImport } from './routes/api/inventory/transactions/reverse'
@@ -1416,10 +1419,22 @@ const ApiInventoryUomsConversionsRoute =
     path: '/conversions',
     getParentRoute: () => ApiInventoryUomsRoute,
   } as any)
+const ApiInventoryTransfersSubmitRoute =
+  ApiInventoryTransfersSubmitRouteImport.update({
+    id: '/submit',
+    path: '/submit',
+    getParentRoute: () => ApiInventoryTransfersRoute,
+  } as any)
 const ApiInventoryTransfersShipRoute =
   ApiInventoryTransfersShipRouteImport.update({
     id: '/ship',
     path: '/ship',
+    getParentRoute: () => ApiInventoryTransfersRoute,
+  } as any)
+const ApiInventoryTransfersRejectRoute =
+  ApiInventoryTransfersRejectRouteImport.update({
+    id: '/reject',
+    path: '/reject',
     getParentRoute: () => ApiInventoryTransfersRoute,
   } as any)
 const ApiInventoryTransfersReceiveRoute =
@@ -1438,6 +1453,12 @@ const ApiInventoryTransfersCompleteRoute =
   ApiInventoryTransfersCompleteRouteImport.update({
     id: '/complete',
     path: '/complete',
+    getParentRoute: () => ApiInventoryTransfersRoute,
+  } as any)
+const ApiInventoryTransfersCloseRoute =
+  ApiInventoryTransfersCloseRouteImport.update({
+    id: '/close',
+    path: '/close',
     getParentRoute: () => ApiInventoryTransfersRoute,
   } as any)
 const ApiInventoryTransfersApproveRoute =
@@ -1788,10 +1809,13 @@ export interface FileRoutesByFullPath {
   '/api/inventory/transactions/reverse': typeof ApiInventoryTransactionsReverseRoute
   '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
   '/api/inventory/transfers/approve': typeof ApiInventoryTransfersApproveRoute
+  '/api/inventory/transfers/close': typeof ApiInventoryTransfersCloseRoute
   '/api/inventory/transfers/complete': typeof ApiInventoryTransfersCompleteRoute
   '/api/inventory/transfers/pick': typeof ApiInventoryTransfersPickRoute
   '/api/inventory/transfers/receive': typeof ApiInventoryTransfersReceiveRoute
+  '/api/inventory/transfers/reject': typeof ApiInventoryTransfersRejectRoute
   '/api/inventory/transfers/ship': typeof ApiInventoryTransfersShipRoute
+  '/api/inventory/transfers/submit': typeof ApiInventoryTransfersSubmitRoute
   '/api/inventory/uoms/conversions': typeof ApiInventoryUomsConversionsRoute
   '/api/inventory/warehouses/locations': typeof ApiInventoryWarehousesLocationsRoute
   '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
@@ -2021,10 +2045,13 @@ export interface FileRoutesByTo {
   '/api/inventory/transactions/reverse': typeof ApiInventoryTransactionsReverseRoute
   '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
   '/api/inventory/transfers/approve': typeof ApiInventoryTransfersApproveRoute
+  '/api/inventory/transfers/close': typeof ApiInventoryTransfersCloseRoute
   '/api/inventory/transfers/complete': typeof ApiInventoryTransfersCompleteRoute
   '/api/inventory/transfers/pick': typeof ApiInventoryTransfersPickRoute
   '/api/inventory/transfers/receive': typeof ApiInventoryTransfersReceiveRoute
+  '/api/inventory/transfers/reject': typeof ApiInventoryTransfersRejectRoute
   '/api/inventory/transfers/ship': typeof ApiInventoryTransfersShipRoute
+  '/api/inventory/transfers/submit': typeof ApiInventoryTransfersSubmitRoute
   '/api/inventory/uoms/conversions': typeof ApiInventoryUomsConversionsRoute
   '/api/inventory/warehouses/locations': typeof ApiInventoryWarehousesLocationsRoute
   '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
@@ -2259,10 +2286,13 @@ export interface FileRoutesById {
   '/api/inventory/transactions/reverse': typeof ApiInventoryTransactionsReverseRoute
   '/api/inventory/transfers/apply': typeof ApiInventoryTransfersApplyRoute
   '/api/inventory/transfers/approve': typeof ApiInventoryTransfersApproveRoute
+  '/api/inventory/transfers/close': typeof ApiInventoryTransfersCloseRoute
   '/api/inventory/transfers/complete': typeof ApiInventoryTransfersCompleteRoute
   '/api/inventory/transfers/pick': typeof ApiInventoryTransfersPickRoute
   '/api/inventory/transfers/receive': typeof ApiInventoryTransfersReceiveRoute
+  '/api/inventory/transfers/reject': typeof ApiInventoryTransfersRejectRoute
   '/api/inventory/transfers/ship': typeof ApiInventoryTransfersShipRoute
+  '/api/inventory/transfers/submit': typeof ApiInventoryTransfersSubmitRoute
   '/api/inventory/uoms/conversions': typeof ApiInventoryUomsConversionsRoute
   '/api/inventory/warehouses/locations': typeof ApiInventoryWarehousesLocationsRoute
   '/api/rbac/me/access': typeof ApiRbacMeAccessRoute
@@ -2496,10 +2526,13 @@ export interface FileRouteTypes {
     | '/api/inventory/transactions/reverse'
     | '/api/inventory/transfers/apply'
     | '/api/inventory/transfers/approve'
+    | '/api/inventory/transfers/close'
     | '/api/inventory/transfers/complete'
     | '/api/inventory/transfers/pick'
     | '/api/inventory/transfers/receive'
+    | '/api/inventory/transfers/reject'
     | '/api/inventory/transfers/ship'
+    | '/api/inventory/transfers/submit'
     | '/api/inventory/uoms/conversions'
     | '/api/inventory/warehouses/locations'
     | '/api/rbac/me/access'
@@ -2729,10 +2762,13 @@ export interface FileRouteTypes {
     | '/api/inventory/transactions/reverse'
     | '/api/inventory/transfers/apply'
     | '/api/inventory/transfers/approve'
+    | '/api/inventory/transfers/close'
     | '/api/inventory/transfers/complete'
     | '/api/inventory/transfers/pick'
     | '/api/inventory/transfers/receive'
+    | '/api/inventory/transfers/reject'
     | '/api/inventory/transfers/ship'
+    | '/api/inventory/transfers/submit'
     | '/api/inventory/uoms/conversions'
     | '/api/inventory/warehouses/locations'
     | '/api/rbac/me/access'
@@ -2966,10 +3002,13 @@ export interface FileRouteTypes {
     | '/api/inventory/transactions/reverse'
     | '/api/inventory/transfers/apply'
     | '/api/inventory/transfers/approve'
+    | '/api/inventory/transfers/close'
     | '/api/inventory/transfers/complete'
     | '/api/inventory/transfers/pick'
     | '/api/inventory/transfers/receive'
+    | '/api/inventory/transfers/reject'
     | '/api/inventory/transfers/ship'
+    | '/api/inventory/transfers/submit'
     | '/api/inventory/uoms/conversions'
     | '/api/inventory/warehouses/locations'
     | '/api/rbac/me/access'
@@ -4547,11 +4586,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInventoryUomsConversionsRouteImport
       parentRoute: typeof ApiInventoryUomsRoute
     }
+    '/api/inventory/transfers/submit': {
+      id: '/api/inventory/transfers/submit'
+      path: '/submit'
+      fullPath: '/api/inventory/transfers/submit'
+      preLoaderRoute: typeof ApiInventoryTransfersSubmitRouteImport
+      parentRoute: typeof ApiInventoryTransfersRoute
+    }
     '/api/inventory/transfers/ship': {
       id: '/api/inventory/transfers/ship'
       path: '/ship'
       fullPath: '/api/inventory/transfers/ship'
       preLoaderRoute: typeof ApiInventoryTransfersShipRouteImport
+      parentRoute: typeof ApiInventoryTransfersRoute
+    }
+    '/api/inventory/transfers/reject': {
+      id: '/api/inventory/transfers/reject'
+      path: '/reject'
+      fullPath: '/api/inventory/transfers/reject'
+      preLoaderRoute: typeof ApiInventoryTransfersRejectRouteImport
       parentRoute: typeof ApiInventoryTransfersRoute
     }
     '/api/inventory/transfers/receive': {
@@ -4573,6 +4626,13 @@ declare module '@tanstack/react-router' {
       path: '/complete'
       fullPath: '/api/inventory/transfers/complete'
       preLoaderRoute: typeof ApiInventoryTransfersCompleteRouteImport
+      parentRoute: typeof ApiInventoryTransfersRoute
+    }
+    '/api/inventory/transfers/close': {
+      id: '/api/inventory/transfers/close'
+      path: '/close'
+      fullPath: '/api/inventory/transfers/close'
+      preLoaderRoute: typeof ApiInventoryTransfersCloseRouteImport
       parentRoute: typeof ApiInventoryTransfersRoute
     }
     '/api/inventory/transfers/approve': {
@@ -5224,19 +5284,25 @@ const ApiInventoryTransactionsRouteWithChildren =
 interface ApiInventoryTransfersRouteChildren {
   ApiInventoryTransfersApplyRoute: typeof ApiInventoryTransfersApplyRoute
   ApiInventoryTransfersApproveRoute: typeof ApiInventoryTransfersApproveRoute
+  ApiInventoryTransfersCloseRoute: typeof ApiInventoryTransfersCloseRoute
   ApiInventoryTransfersCompleteRoute: typeof ApiInventoryTransfersCompleteRoute
   ApiInventoryTransfersPickRoute: typeof ApiInventoryTransfersPickRoute
   ApiInventoryTransfersReceiveRoute: typeof ApiInventoryTransfersReceiveRoute
+  ApiInventoryTransfersRejectRoute: typeof ApiInventoryTransfersRejectRoute
   ApiInventoryTransfersShipRoute: typeof ApiInventoryTransfersShipRoute
+  ApiInventoryTransfersSubmitRoute: typeof ApiInventoryTransfersSubmitRoute
 }
 
 const ApiInventoryTransfersRouteChildren: ApiInventoryTransfersRouteChildren = {
   ApiInventoryTransfersApplyRoute: ApiInventoryTransfersApplyRoute,
   ApiInventoryTransfersApproveRoute: ApiInventoryTransfersApproveRoute,
+  ApiInventoryTransfersCloseRoute: ApiInventoryTransfersCloseRoute,
   ApiInventoryTransfersCompleteRoute: ApiInventoryTransfersCompleteRoute,
   ApiInventoryTransfersPickRoute: ApiInventoryTransfersPickRoute,
   ApiInventoryTransfersReceiveRoute: ApiInventoryTransfersReceiveRoute,
+  ApiInventoryTransfersRejectRoute: ApiInventoryTransfersRejectRoute,
   ApiInventoryTransfersShipRoute: ApiInventoryTransfersShipRoute,
+  ApiInventoryTransfersSubmitRoute: ApiInventoryTransfersSubmitRoute,
 }
 
 const ApiInventoryTransfersRouteWithChildren =
@@ -5369,12 +5435,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

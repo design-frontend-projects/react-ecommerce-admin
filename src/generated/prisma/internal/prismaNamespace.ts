@@ -473,6 +473,12 @@ export const ModelName = {
   stock_balances: 'stock_balances',
   stock_transfers: 'stock_transfers',
   stock_transfer_items: 'stock_transfer_items',
+  stock_transfer_shipments: 'stock_transfer_shipments',
+  stock_transfer_shipment_items: 'stock_transfer_shipment_items',
+  stock_transfer_receipts: 'stock_transfer_receipts',
+  stock_transfer_receipt_items: 'stock_transfer_receipt_items',
+  stock_transfer_item_batches: 'stock_transfer_item_batches',
+  stock_transfer_item_serials: 'stock_transfer_item_serials',
   stock_adjustments: 'stock_adjustments',
   stock_adjustment_items: 'stock_adjustment_items',
   stock_counts: 'stock_counts',
@@ -556,7 +562,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -7143,6 +7149,450 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.stock_transfer_itemsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_itemsCountAggregateOutputType> | number
+        }
+      }
+    }
+    stock_transfer_shipments: {
+      payload: Prisma.$stock_transfer_shipmentsPayload<ExtArgs>
+      fields: Prisma.stock_transfer_shipmentsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.stock_transfer_shipmentsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.stock_transfer_shipmentsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>
+        }
+        findFirst: {
+          args: Prisma.stock_transfer_shipmentsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.stock_transfer_shipmentsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>
+        }
+        findMany: {
+          args: Prisma.stock_transfer_shipmentsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>[]
+        }
+        create: {
+          args: Prisma.stock_transfer_shipmentsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>
+        }
+        createMany: {
+          args: Prisma.stock_transfer_shipmentsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.stock_transfer_shipmentsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>[]
+        }
+        delete: {
+          args: Prisma.stock_transfer_shipmentsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>
+        }
+        update: {
+          args: Prisma.stock_transfer_shipmentsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>
+        }
+        deleteMany: {
+          args: Prisma.stock_transfer_shipmentsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.stock_transfer_shipmentsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.stock_transfer_shipmentsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>[]
+        }
+        upsert: {
+          args: Prisma.stock_transfer_shipmentsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipmentsPayload>
+        }
+        aggregate: {
+          args: Prisma.Stock_transfer_shipmentsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStock_transfer_shipments>
+        }
+        groupBy: {
+          args: Prisma.stock_transfer_shipmentsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_shipmentsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.stock_transfer_shipmentsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_shipmentsCountAggregateOutputType> | number
+        }
+      }
+    }
+    stock_transfer_shipment_items: {
+      payload: Prisma.$stock_transfer_shipment_itemsPayload<ExtArgs>
+      fields: Prisma.stock_transfer_shipment_itemsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.stock_transfer_shipment_itemsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.stock_transfer_shipment_itemsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>
+        }
+        findFirst: {
+          args: Prisma.stock_transfer_shipment_itemsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.stock_transfer_shipment_itemsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>
+        }
+        findMany: {
+          args: Prisma.stock_transfer_shipment_itemsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>[]
+        }
+        create: {
+          args: Prisma.stock_transfer_shipment_itemsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>
+        }
+        createMany: {
+          args: Prisma.stock_transfer_shipment_itemsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.stock_transfer_shipment_itemsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>[]
+        }
+        delete: {
+          args: Prisma.stock_transfer_shipment_itemsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>
+        }
+        update: {
+          args: Prisma.stock_transfer_shipment_itemsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>
+        }
+        deleteMany: {
+          args: Prisma.stock_transfer_shipment_itemsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.stock_transfer_shipment_itemsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.stock_transfer_shipment_itemsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>[]
+        }
+        upsert: {
+          args: Prisma.stock_transfer_shipment_itemsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_shipment_itemsPayload>
+        }
+        aggregate: {
+          args: Prisma.Stock_transfer_shipment_itemsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStock_transfer_shipment_items>
+        }
+        groupBy: {
+          args: Prisma.stock_transfer_shipment_itemsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_shipment_itemsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.stock_transfer_shipment_itemsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_shipment_itemsCountAggregateOutputType> | number
+        }
+      }
+    }
+    stock_transfer_receipts: {
+      payload: Prisma.$stock_transfer_receiptsPayload<ExtArgs>
+      fields: Prisma.stock_transfer_receiptsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.stock_transfer_receiptsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.stock_transfer_receiptsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>
+        }
+        findFirst: {
+          args: Prisma.stock_transfer_receiptsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.stock_transfer_receiptsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>
+        }
+        findMany: {
+          args: Prisma.stock_transfer_receiptsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>[]
+        }
+        create: {
+          args: Prisma.stock_transfer_receiptsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>
+        }
+        createMany: {
+          args: Prisma.stock_transfer_receiptsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.stock_transfer_receiptsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>[]
+        }
+        delete: {
+          args: Prisma.stock_transfer_receiptsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>
+        }
+        update: {
+          args: Prisma.stock_transfer_receiptsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>
+        }
+        deleteMany: {
+          args: Prisma.stock_transfer_receiptsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.stock_transfer_receiptsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.stock_transfer_receiptsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>[]
+        }
+        upsert: {
+          args: Prisma.stock_transfer_receiptsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receiptsPayload>
+        }
+        aggregate: {
+          args: Prisma.Stock_transfer_receiptsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStock_transfer_receipts>
+        }
+        groupBy: {
+          args: Prisma.stock_transfer_receiptsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_receiptsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.stock_transfer_receiptsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_receiptsCountAggregateOutputType> | number
+        }
+      }
+    }
+    stock_transfer_receipt_items: {
+      payload: Prisma.$stock_transfer_receipt_itemsPayload<ExtArgs>
+      fields: Prisma.stock_transfer_receipt_itemsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.stock_transfer_receipt_itemsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.stock_transfer_receipt_itemsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>
+        }
+        findFirst: {
+          args: Prisma.stock_transfer_receipt_itemsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.stock_transfer_receipt_itemsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>
+        }
+        findMany: {
+          args: Prisma.stock_transfer_receipt_itemsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>[]
+        }
+        create: {
+          args: Prisma.stock_transfer_receipt_itemsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>
+        }
+        createMany: {
+          args: Prisma.stock_transfer_receipt_itemsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.stock_transfer_receipt_itemsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>[]
+        }
+        delete: {
+          args: Prisma.stock_transfer_receipt_itemsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>
+        }
+        update: {
+          args: Prisma.stock_transfer_receipt_itemsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>
+        }
+        deleteMany: {
+          args: Prisma.stock_transfer_receipt_itemsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.stock_transfer_receipt_itemsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.stock_transfer_receipt_itemsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>[]
+        }
+        upsert: {
+          args: Prisma.stock_transfer_receipt_itemsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_receipt_itemsPayload>
+        }
+        aggregate: {
+          args: Prisma.Stock_transfer_receipt_itemsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStock_transfer_receipt_items>
+        }
+        groupBy: {
+          args: Prisma.stock_transfer_receipt_itemsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_receipt_itemsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.stock_transfer_receipt_itemsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_receipt_itemsCountAggregateOutputType> | number
+        }
+      }
+    }
+    stock_transfer_item_batches: {
+      payload: Prisma.$stock_transfer_item_batchesPayload<ExtArgs>
+      fields: Prisma.stock_transfer_item_batchesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.stock_transfer_item_batchesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.stock_transfer_item_batchesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>
+        }
+        findFirst: {
+          args: Prisma.stock_transfer_item_batchesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.stock_transfer_item_batchesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>
+        }
+        findMany: {
+          args: Prisma.stock_transfer_item_batchesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>[]
+        }
+        create: {
+          args: Prisma.stock_transfer_item_batchesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>
+        }
+        createMany: {
+          args: Prisma.stock_transfer_item_batchesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.stock_transfer_item_batchesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>[]
+        }
+        delete: {
+          args: Prisma.stock_transfer_item_batchesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>
+        }
+        update: {
+          args: Prisma.stock_transfer_item_batchesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>
+        }
+        deleteMany: {
+          args: Prisma.stock_transfer_item_batchesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.stock_transfer_item_batchesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.stock_transfer_item_batchesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>[]
+        }
+        upsert: {
+          args: Prisma.stock_transfer_item_batchesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_batchesPayload>
+        }
+        aggregate: {
+          args: Prisma.Stock_transfer_item_batchesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStock_transfer_item_batches>
+        }
+        groupBy: {
+          args: Prisma.stock_transfer_item_batchesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_item_batchesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.stock_transfer_item_batchesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_item_batchesCountAggregateOutputType> | number
+        }
+      }
+    }
+    stock_transfer_item_serials: {
+      payload: Prisma.$stock_transfer_item_serialsPayload<ExtArgs>
+      fields: Prisma.stock_transfer_item_serialsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.stock_transfer_item_serialsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.stock_transfer_item_serialsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>
+        }
+        findFirst: {
+          args: Prisma.stock_transfer_item_serialsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.stock_transfer_item_serialsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>
+        }
+        findMany: {
+          args: Prisma.stock_transfer_item_serialsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>[]
+        }
+        create: {
+          args: Prisma.stock_transfer_item_serialsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>
+        }
+        createMany: {
+          args: Prisma.stock_transfer_item_serialsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.stock_transfer_item_serialsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>[]
+        }
+        delete: {
+          args: Prisma.stock_transfer_item_serialsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>
+        }
+        update: {
+          args: Prisma.stock_transfer_item_serialsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>
+        }
+        deleteMany: {
+          args: Prisma.stock_transfer_item_serialsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.stock_transfer_item_serialsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.stock_transfer_item_serialsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>[]
+        }
+        upsert: {
+          args: Prisma.stock_transfer_item_serialsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$stock_transfer_item_serialsPayload>
+        }
+        aggregate: {
+          args: Prisma.Stock_transfer_item_serialsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStock_transfer_item_serials>
+        }
+        groupBy: {
+          args: Prisma.stock_transfer_item_serialsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_item_serialsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.stock_transfer_item_serialsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Stock_transfer_item_serialsCountAggregateOutputType> | number
         }
       }
     }
@@ -14055,6 +14505,8 @@ export const Stock_transfersScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   transfer_no: 'transfer_no',
+  reference_no: 'reference_no',
+  transfer_type: 'transfer_type',
   source_warehouse_id: 'source_warehouse_id',
   destination_warehouse_id: 'destination_warehouse_id',
   from_store_id: 'from_store_id',
@@ -14062,19 +14514,31 @@ export const Stock_transfersScalarFieldEnum = {
   from_branch_id: 'from_branch_id',
   to_branch_id: 'to_branch_id',
   status: 'status',
-  reference_no: 'reference_no',
-  notes: 'notes',
+  priority: 'priority',
+  reason_code: 'reason_code',
+  requested_by_user_id: 'requested_by_user_id',
+  approved_by_user_id: 'approved_by_user_id',
+  shipped_by_user_id: 'shipped_by_user_id',
+  received_by_user_id: 'received_by_user_id',
+  cancelled_by_user_id: 'cancelled_by_user_id',
   created_by: 'created_by',
   shipped_by: 'shipped_by',
   received_by: 'received_by',
   approved_by: 'approved_by',
+  requested_at: 'requested_at',
   approved_at: 'approved_at',
   shipped_at: 'shipped_at',
   received_at: 'received_at',
+  cancelled_at: 'cancelled_at',
+  expected_ship_date: 'expected_ship_date',
+  expected_receive_date: 'expected_receive_date',
+  notes: 'notes',
+  cancellation_reason: 'cancellation_reason',
   created_at: 'created_at',
   updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
-  updated_by_user_id: 'updated_by_user_id'
+  updated_by_user_id: 'updated_by_user_id',
+  deleted_at: 'deleted_at'
 } as const
 
 export type Stock_transfersScalarFieldEnum = (typeof Stock_transfersScalarFieldEnum)[keyof typeof Stock_transfersScalarFieldEnum]
@@ -14088,17 +14552,118 @@ export const Stock_transfer_itemsScalarFieldEnum = {
   source_location_id: 'source_location_id',
   destination_location_id: 'destination_location_id',
   qty: 'qty',
+  shipped_qty: 'shipped_qty',
   received_qty: 'received_qty',
+  rejected_qty: 'rejected_qty',
   unit_cost: 'unit_cost',
   condition: 'condition',
   batch_id: 'batch_id',
   serial_id: 'serial_id',
+  rejection_reason: 'rejection_reason',
+  notes: 'notes',
   created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
 export type Stock_transfer_itemsScalarFieldEnum = (typeof Stock_transfer_itemsScalarFieldEnum)[keyof typeof Stock_transfer_itemsScalarFieldEnum]
+
+
+export const Stock_transfer_shipmentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  stock_transfer_id: 'stock_transfer_id',
+  shipment_number: 'shipment_number',
+  shipped_by_user_id: 'shipped_by_user_id',
+  shipped_at: 'shipped_at',
+  notes: 'notes',
+  idempotency_key: 'idempotency_key',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Stock_transfer_shipmentsScalarFieldEnum = (typeof Stock_transfer_shipmentsScalarFieldEnum)[keyof typeof Stock_transfer_shipmentsScalarFieldEnum]
+
+
+export const Stock_transfer_shipment_itemsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  shipment_id: 'shipment_id',
+  transfer_item_id: 'transfer_item_id',
+  product_variant_id: 'product_variant_id',
+  shipped_qty: 'shipped_qty',
+  source_location_id: 'source_location_id',
+  batch_id: 'batch_id',
+  serial_id: 'serial_id',
+  unit_cost: 'unit_cost',
+  condition: 'condition',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_shipment_itemsScalarFieldEnum = (typeof Stock_transfer_shipment_itemsScalarFieldEnum)[keyof typeof Stock_transfer_shipment_itemsScalarFieldEnum]
+
+
+export const Stock_transfer_receiptsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  stock_transfer_id: 'stock_transfer_id',
+  receipt_number: 'receipt_number',
+  received_by_user_id: 'received_by_user_id',
+  received_at: 'received_at',
+  notes: 'notes',
+  idempotency_key: 'idempotency_key',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Stock_transfer_receiptsScalarFieldEnum = (typeof Stock_transfer_receiptsScalarFieldEnum)[keyof typeof Stock_transfer_receiptsScalarFieldEnum]
+
+
+export const Stock_transfer_receipt_itemsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  receipt_id: 'receipt_id',
+  transfer_item_id: 'transfer_item_id',
+  product_variant_id: 'product_variant_id',
+  received_qty: 'received_qty',
+  rejected_qty: 'rejected_qty',
+  rejection_reason: 'rejection_reason',
+  condition: 'condition',
+  destination_location_id: 'destination_location_id',
+  batch_id: 'batch_id',
+  serial_id: 'serial_id',
+  unit_cost: 'unit_cost',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_receipt_itemsScalarFieldEnum = (typeof Stock_transfer_receipt_itemsScalarFieldEnum)[keyof typeof Stock_transfer_receipt_itemsScalarFieldEnum]
+
+
+export const Stock_transfer_item_batchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  transfer_item_id: 'transfer_item_id',
+  batch_id: 'batch_id',
+  quantity: 'quantity',
+  unit_cost: 'unit_cost',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_item_batchesScalarFieldEnum = (typeof Stock_transfer_item_batchesScalarFieldEnum)[keyof typeof Stock_transfer_item_batchesScalarFieldEnum]
+
+
+export const Stock_transfer_item_serialsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  transfer_item_id: 'transfer_item_id',
+  serial_id: 'serial_id',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_item_serialsScalarFieldEnum = (typeof Stock_transfer_item_serialsScalarFieldEnum)[keyof typeof Stock_transfer_item_serialsScalarFieldEnum]
 
 
 export const Stock_adjustmentsScalarFieldEnum = {
@@ -16112,6 +16677,20 @@ export type ListEnumstock_condition_enumFieldRefInput<$PrismaModel> = FieldRefIn
 
 
 /**
+ * Reference to a field of type 'transfer_type_enum'
+ */
+export type Enumtransfer_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'transfer_type_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'transfer_type_enum[]'
+ */
+export type ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'transfer_type_enum[]'>
+    
+
+
+/**
  * Reference to a field of type 'transfer_status_enum'
  */
 export type Enumtransfer_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'transfer_status_enum'>
@@ -16122,6 +16701,20 @@ export type Enumtransfer_status_enumFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'transfer_status_enum[]'
  */
 export type ListEnumtransfer_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'transfer_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'transfer_priority_enum'
+ */
+export type Enumtransfer_priority_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'transfer_priority_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'transfer_priority_enum[]'
+ */
+export type ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'transfer_priority_enum[]'>
     
 
 
@@ -16910,6 +17503,12 @@ export type GlobalOmitConfig = {
   stock_balances?: Prisma.stock_balancesOmit
   stock_transfers?: Prisma.stock_transfersOmit
   stock_transfer_items?: Prisma.stock_transfer_itemsOmit
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsOmit
+  stock_transfer_shipment_items?: Prisma.stock_transfer_shipment_itemsOmit
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsOmit
+  stock_transfer_receipt_items?: Prisma.stock_transfer_receipt_itemsOmit
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesOmit
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsOmit
   stock_adjustments?: Prisma.stock_adjustmentsOmit
   stock_adjustment_items?: Prisma.stock_adjustment_itemsOmit
   stock_counts?: Prisma.stock_countsOmit

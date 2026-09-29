@@ -140,6 +140,12 @@ export const ModelName = {
   stock_balances: 'stock_balances',
   stock_transfers: 'stock_transfers',
   stock_transfer_items: 'stock_transfer_items',
+  stock_transfer_shipments: 'stock_transfer_shipments',
+  stock_transfer_shipment_items: 'stock_transfer_shipment_items',
+  stock_transfer_receipts: 'stock_transfer_receipts',
+  stock_transfer_receipt_items: 'stock_transfer_receipt_items',
+  stock_transfer_item_batches: 'stock_transfer_item_batches',
+  stock_transfer_item_serials: 'stock_transfer_item_serials',
   stock_adjustments: 'stock_adjustments',
   stock_adjustment_items: 'stock_adjustment_items',
   stock_counts: 'stock_counts',
@@ -2064,6 +2070,8 @@ export const Stock_transfersScalarFieldEnum = {
   id: 'id',
   tenant_id: 'tenant_id',
   transfer_no: 'transfer_no',
+  reference_no: 'reference_no',
+  transfer_type: 'transfer_type',
   source_warehouse_id: 'source_warehouse_id',
   destination_warehouse_id: 'destination_warehouse_id',
   from_store_id: 'from_store_id',
@@ -2071,19 +2079,31 @@ export const Stock_transfersScalarFieldEnum = {
   from_branch_id: 'from_branch_id',
   to_branch_id: 'to_branch_id',
   status: 'status',
-  reference_no: 'reference_no',
-  notes: 'notes',
+  priority: 'priority',
+  reason_code: 'reason_code',
+  requested_by_user_id: 'requested_by_user_id',
+  approved_by_user_id: 'approved_by_user_id',
+  shipped_by_user_id: 'shipped_by_user_id',
+  received_by_user_id: 'received_by_user_id',
+  cancelled_by_user_id: 'cancelled_by_user_id',
   created_by: 'created_by',
   shipped_by: 'shipped_by',
   received_by: 'received_by',
   approved_by: 'approved_by',
+  requested_at: 'requested_at',
   approved_at: 'approved_at',
   shipped_at: 'shipped_at',
   received_at: 'received_at',
+  cancelled_at: 'cancelled_at',
+  expected_ship_date: 'expected_ship_date',
+  expected_receive_date: 'expected_receive_date',
+  notes: 'notes',
+  cancellation_reason: 'cancellation_reason',
   created_at: 'created_at',
   updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
-  updated_by_user_id: 'updated_by_user_id'
+  updated_by_user_id: 'updated_by_user_id',
+  deleted_at: 'deleted_at'
 } as const
 
 export type Stock_transfersScalarFieldEnum = (typeof Stock_transfersScalarFieldEnum)[keyof typeof Stock_transfersScalarFieldEnum]
@@ -2097,17 +2117,118 @@ export const Stock_transfer_itemsScalarFieldEnum = {
   source_location_id: 'source_location_id',
   destination_location_id: 'destination_location_id',
   qty: 'qty',
+  shipped_qty: 'shipped_qty',
   received_qty: 'received_qty',
+  rejected_qty: 'rejected_qty',
   unit_cost: 'unit_cost',
   condition: 'condition',
   batch_id: 'batch_id',
   serial_id: 'serial_id',
+  rejection_reason: 'rejection_reason',
+  notes: 'notes',
   created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
 export type Stock_transfer_itemsScalarFieldEnum = (typeof Stock_transfer_itemsScalarFieldEnum)[keyof typeof Stock_transfer_itemsScalarFieldEnum]
+
+
+export const Stock_transfer_shipmentsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  stock_transfer_id: 'stock_transfer_id',
+  shipment_number: 'shipment_number',
+  shipped_by_user_id: 'shipped_by_user_id',
+  shipped_at: 'shipped_at',
+  notes: 'notes',
+  idempotency_key: 'idempotency_key',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Stock_transfer_shipmentsScalarFieldEnum = (typeof Stock_transfer_shipmentsScalarFieldEnum)[keyof typeof Stock_transfer_shipmentsScalarFieldEnum]
+
+
+export const Stock_transfer_shipment_itemsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  shipment_id: 'shipment_id',
+  transfer_item_id: 'transfer_item_id',
+  product_variant_id: 'product_variant_id',
+  shipped_qty: 'shipped_qty',
+  source_location_id: 'source_location_id',
+  batch_id: 'batch_id',
+  serial_id: 'serial_id',
+  unit_cost: 'unit_cost',
+  condition: 'condition',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_shipment_itemsScalarFieldEnum = (typeof Stock_transfer_shipment_itemsScalarFieldEnum)[keyof typeof Stock_transfer_shipment_itemsScalarFieldEnum]
+
+
+export const Stock_transfer_receiptsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  stock_transfer_id: 'stock_transfer_id',
+  receipt_number: 'receipt_number',
+  received_by_user_id: 'received_by_user_id',
+  received_at: 'received_at',
+  notes: 'notes',
+  idempotency_key: 'idempotency_key',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Stock_transfer_receiptsScalarFieldEnum = (typeof Stock_transfer_receiptsScalarFieldEnum)[keyof typeof Stock_transfer_receiptsScalarFieldEnum]
+
+
+export const Stock_transfer_receipt_itemsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  receipt_id: 'receipt_id',
+  transfer_item_id: 'transfer_item_id',
+  product_variant_id: 'product_variant_id',
+  received_qty: 'received_qty',
+  rejected_qty: 'rejected_qty',
+  rejection_reason: 'rejection_reason',
+  condition: 'condition',
+  destination_location_id: 'destination_location_id',
+  batch_id: 'batch_id',
+  serial_id: 'serial_id',
+  unit_cost: 'unit_cost',
+  notes: 'notes',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_receipt_itemsScalarFieldEnum = (typeof Stock_transfer_receipt_itemsScalarFieldEnum)[keyof typeof Stock_transfer_receipt_itemsScalarFieldEnum]
+
+
+export const Stock_transfer_item_batchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  transfer_item_id: 'transfer_item_id',
+  batch_id: 'batch_id',
+  quantity: 'quantity',
+  unit_cost: 'unit_cost',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_item_batchesScalarFieldEnum = (typeof Stock_transfer_item_batchesScalarFieldEnum)[keyof typeof Stock_transfer_item_batchesScalarFieldEnum]
+
+
+export const Stock_transfer_item_serialsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  transfer_item_id: 'transfer_item_id',
+  serial_id: 'serial_id',
+  created_at: 'created_at'
+} as const
+
+export type Stock_transfer_item_serialsScalarFieldEnum = (typeof Stock_transfer_item_serialsScalarFieldEnum)[keyof typeof Stock_transfer_item_serialsScalarFieldEnum]
 
 
 export const Stock_adjustmentsScalarFieldEnum = {

@@ -15,14 +15,37 @@ export type StockCondition = z.infer<typeof stockConditionSchema>
 
 export const transferStatusSchema = z.enum([
   'draft',
+  'pending_approval',
   'approved',
+  'ready_to_ship',
   'picked',
+  'partially_shipped',
+  'shipped',
   'in_transit',
+  'partially_received',
   'received',
+  'closed',
   'completed',
+  'rejected',
   'cancelled',
 ])
 export type TransferStatus = z.infer<typeof transferStatusSchema>
+
+export const transferTypeSchema = z.enum([
+  'internal',
+  'inter_warehouse',
+  'inter_store',
+  'inter_branch',
+])
+export type TransferType = z.infer<typeof transferTypeSchema>
+
+export const transferPrioritySchema = z.enum([
+  'low',
+  'normal',
+  'high',
+  'urgent',
+])
+export type TransferPriority = z.infer<typeof transferPrioritySchema>
 
 // ── Inputs ──
 const optionalUuid = z.preprocess(
@@ -158,6 +181,12 @@ export const transferListItemSchema = z.object({
   id: z.string().uuid(),
   transfer_no: z.coerce.string().nullable().optional(),
   status: transferStatusSchema,
+  transfer_type: transferTypeSchema.nullable().optional(),
+  priority: transferPrioritySchema.nullable().optional(),
+  reason_code: z.string().nullable().optional(),
+  expected_ship_date: z.string().nullable().optional(),
+  expected_receive_date: z.string().nullable().optional(),
+  cancellation_reason: z.string().nullable().optional(),
   reference_no: z.string().nullable(),
   notes: z.string().nullable(),
   source_warehouse_id: z.string().nullable().optional(),
@@ -181,7 +210,11 @@ export const transferListItemSchema = z.object({
   to_store: entityRefSchema.optional(),
   from_branch: entityRefSchema.optional(),
   to_branch: entityRefSchema.optional(),
-  _count: z.object({ stock_transfer_items: z.number().optional() }).optional(),
+  _count: z.object({
+    stock_transfer_items: z.number().optional(),
+    stock_transfer_shipments: z.number().optional(),
+    stock_transfer_receipts: z.number().optional(),
+  }).optional(),
 })
 
 export const inventoryMovementRecordSchema = z.object({
@@ -233,7 +266,10 @@ export const transferItemRowSchema = z.object({
   id: z.string().uuid(),
   product_variant_id: z.string(),
   qty: z.coerce.number(),
+  shipped_qty: z.coerce.number().optional().default(0),
   received_qty: z.coerce.number().optional().default(0),
+  rejected_qty: z.coerce.number().optional().default(0),
+  rejection_reason: z.string().nullable().optional(),
   unit_cost: z.coerce.number().optional().default(0),
   list_price: z.coerce.number().nullable().optional(),
   weight: z.coerce.number().nullable().optional(),
@@ -246,6 +282,7 @@ export const transferItemRowSchema = z.object({
   destination_location_id: z.string().nullable().optional(),
   batch_id: z.string().nullable().optional(),
   serial_id: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
   source_location: entityRefSchema.optional(),
   destination_location: entityRefSchema.optional(),
   product_variants: z
@@ -278,8 +315,60 @@ export const transferItemRowSchema = z.object({
     .optional(),
 })
 
+export const transferShipmentItemSchema = z.object({
+  id: z.string().uuid(),
+  transfer_item_id: z.string().uuid(),
+  product_variant_id: z.string().uuid(),
+  shipped_qty: z.coerce.number(),
+  source_location_id: z.string().nullable().optional(),
+  batch_id: z.string().nullable().optional(),
+  serial_id: z.string().nullable().optional(),
+  unit_cost: z.coerce.number().optional().default(0),
+  condition: stockConditionSchema.default('good'),
+  notes: z.string().nullable().optional(),
+})
+
+export const transferShipmentSchema = z.object({
+  id: z.string().uuid(),
+  stock_transfer_id: z.string().uuid(),
+  shipment_number: z.string().nullable().optional(),
+  shipped_by_user_id: z.string().nullable().optional(),
+  shipped_at: z.string(),
+  notes: z.string().nullable().optional(),
+  idempotency_key: z.string().nullable().optional(),
+  stock_transfer_shipment_items: z.array(transferShipmentItemSchema).optional().default([]),
+})
+
+export const transferReceiptItemSchema = z.object({
+  id: z.string().uuid(),
+  transfer_item_id: z.string().uuid(),
+  product_variant_id: z.string().uuid(),
+  received_qty: z.coerce.number(),
+  rejected_qty: z.coerce.number().optional().default(0),
+  rejection_reason: z.string().nullable().optional(),
+  condition: stockConditionSchema.default('good'),
+  destination_location_id: z.string().nullable().optional(),
+  batch_id: z.string().nullable().optional(),
+  serial_id: z.string().nullable().optional(),
+  unit_cost: z.coerce.number().optional().default(0),
+  notes: z.string().nullable().optional(),
+})
+
+export const transferReceiptSchema = z.object({
+  id: z.string().uuid(),
+  stock_transfer_id: z.string().uuid(),
+  receipt_number: z.string().nullable().optional(),
+  received_by_user_id: z.string().nullable().optional(),
+  received_at: z.string(),
+  notes: z.string().nullable().optional(),
+  idempotency_key: z.string().nullable().optional(),
+  stock_transfer_receipt_items: z.array(transferReceiptItemSchema).optional().default([]),
+})
+
 export const transferDetailSchema = transferListItemSchema.extend({
   stock_transfer_items: z.array(transferItemRowSchema),
+  stock_transfer_shipments: z.array(transferShipmentSchema).optional().default([]),
+  stock_transfer_receipts: z.array(transferReceiptSchema).optional().default([]),
   inventory_movements: z.array(inventoryMovementRecordSchema).optional().default([]),
   total_weight: z.coerce.number().nullable().optional(),
   total_price_valuation: z.coerce.number().nullable().optional(),

@@ -38,6 +38,8 @@ export type Stock_transfersMinAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   transfer_no: bigint | null
+  reference_no: string | null
+  transfer_type: $Enums.transfer_type_enum | null
   source_warehouse_id: string | null
   destination_warehouse_id: string | null
   from_store_id: string | null
@@ -45,25 +47,39 @@ export type Stock_transfersMinAggregateOutputType = {
   from_branch_id: string | null
   to_branch_id: string | null
   status: $Enums.transfer_status_enum | null
-  reference_no: string | null
-  notes: string | null
+  priority: $Enums.transfer_priority_enum | null
+  reason_code: string | null
+  requested_by_user_id: string | null
+  approved_by_user_id: string | null
+  shipped_by_user_id: string | null
+  received_by_user_id: string | null
+  cancelled_by_user_id: string | null
   created_by: string | null
   shipped_by: string | null
   received_by: string | null
   approved_by: string | null
+  requested_at: Date | null
   approved_at: Date | null
   shipped_at: Date | null
   received_at: Date | null
+  cancelled_at: Date | null
+  expected_ship_date: Date | null
+  expected_receive_date: Date | null
+  notes: string | null
+  cancellation_reason: string | null
   created_at: Date | null
   updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
+  deleted_at: Date | null
 }
 
 export type Stock_transfersMaxAggregateOutputType = {
   id: string | null
   tenant_id: string | null
   transfer_no: bigint | null
+  reference_no: string | null
+  transfer_type: $Enums.transfer_type_enum | null
   source_warehouse_id: string | null
   destination_warehouse_id: string | null
   from_store_id: string | null
@@ -71,25 +87,39 @@ export type Stock_transfersMaxAggregateOutputType = {
   from_branch_id: string | null
   to_branch_id: string | null
   status: $Enums.transfer_status_enum | null
-  reference_no: string | null
-  notes: string | null
+  priority: $Enums.transfer_priority_enum | null
+  reason_code: string | null
+  requested_by_user_id: string | null
+  approved_by_user_id: string | null
+  shipped_by_user_id: string | null
+  received_by_user_id: string | null
+  cancelled_by_user_id: string | null
   created_by: string | null
   shipped_by: string | null
   received_by: string | null
   approved_by: string | null
+  requested_at: Date | null
   approved_at: Date | null
   shipped_at: Date | null
   received_at: Date | null
+  cancelled_at: Date | null
+  expected_ship_date: Date | null
+  expected_receive_date: Date | null
+  notes: string | null
+  cancellation_reason: string | null
   created_at: Date | null
   updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
+  deleted_at: Date | null
 }
 
 export type Stock_transfersCountAggregateOutputType = {
   id: number
   tenant_id: number
   transfer_no: number
+  reference_no: number
+  transfer_type: number
   source_warehouse_id: number
   destination_warehouse_id: number
   from_store_id: number
@@ -97,19 +127,31 @@ export type Stock_transfersCountAggregateOutputType = {
   from_branch_id: number
   to_branch_id: number
   status: number
-  reference_no: number
-  notes: number
+  priority: number
+  reason_code: number
+  requested_by_user_id: number
+  approved_by_user_id: number
+  shipped_by_user_id: number
+  received_by_user_id: number
+  cancelled_by_user_id: number
   created_by: number
   shipped_by: number
   received_by: number
   approved_by: number
+  requested_at: number
   approved_at: number
   shipped_at: number
   received_at: number
+  cancelled_at: number
+  expected_ship_date: number
+  expected_receive_date: number
+  notes: number
+  cancellation_reason: number
   created_at: number
   updated_at: number
   created_by_user_id: number
   updated_by_user_id: number
+  deleted_at: number
   _all: number
 }
 
@@ -126,6 +168,8 @@ export type Stock_transfersMinAggregateInputType = {
   id?: true
   tenant_id?: true
   transfer_no?: true
+  reference_no?: true
+  transfer_type?: true
   source_warehouse_id?: true
   destination_warehouse_id?: true
   from_store_id?: true
@@ -133,25 +177,39 @@ export type Stock_transfersMinAggregateInputType = {
   from_branch_id?: true
   to_branch_id?: true
   status?: true
-  reference_no?: true
-  notes?: true
+  priority?: true
+  reason_code?: true
+  requested_by_user_id?: true
+  approved_by_user_id?: true
+  shipped_by_user_id?: true
+  received_by_user_id?: true
+  cancelled_by_user_id?: true
   created_by?: true
   shipped_by?: true
   received_by?: true
   approved_by?: true
+  requested_at?: true
   approved_at?: true
   shipped_at?: true
   received_at?: true
+  cancelled_at?: true
+  expected_ship_date?: true
+  expected_receive_date?: true
+  notes?: true
+  cancellation_reason?: true
   created_at?: true
   updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
+  deleted_at?: true
 }
 
 export type Stock_transfersMaxAggregateInputType = {
   id?: true
   tenant_id?: true
   transfer_no?: true
+  reference_no?: true
+  transfer_type?: true
   source_warehouse_id?: true
   destination_warehouse_id?: true
   from_store_id?: true
@@ -159,25 +217,39 @@ export type Stock_transfersMaxAggregateInputType = {
   from_branch_id?: true
   to_branch_id?: true
   status?: true
-  reference_no?: true
-  notes?: true
+  priority?: true
+  reason_code?: true
+  requested_by_user_id?: true
+  approved_by_user_id?: true
+  shipped_by_user_id?: true
+  received_by_user_id?: true
+  cancelled_by_user_id?: true
   created_by?: true
   shipped_by?: true
   received_by?: true
   approved_by?: true
+  requested_at?: true
   approved_at?: true
   shipped_at?: true
   received_at?: true
+  cancelled_at?: true
+  expected_ship_date?: true
+  expected_receive_date?: true
+  notes?: true
+  cancellation_reason?: true
   created_at?: true
   updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
+  deleted_at?: true
 }
 
 export type Stock_transfersCountAggregateInputType = {
   id?: true
   tenant_id?: true
   transfer_no?: true
+  reference_no?: true
+  transfer_type?: true
   source_warehouse_id?: true
   destination_warehouse_id?: true
   from_store_id?: true
@@ -185,19 +257,31 @@ export type Stock_transfersCountAggregateInputType = {
   from_branch_id?: true
   to_branch_id?: true
   status?: true
-  reference_no?: true
-  notes?: true
+  priority?: true
+  reason_code?: true
+  requested_by_user_id?: true
+  approved_by_user_id?: true
+  shipped_by_user_id?: true
+  received_by_user_id?: true
+  cancelled_by_user_id?: true
   created_by?: true
   shipped_by?: true
   received_by?: true
   approved_by?: true
+  requested_at?: true
   approved_at?: true
   shipped_at?: true
   received_at?: true
+  cancelled_at?: true
+  expected_ship_date?: true
+  expected_receive_date?: true
+  notes?: true
+  cancellation_reason?: true
   created_at?: true
   updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
+  deleted_at?: true
   _all?: true
 }
 
@@ -291,6 +375,8 @@ export type Stock_transfersGroupByOutputType = {
   id: string
   tenant_id: string
   transfer_no: bigint | null
+  reference_no: string | null
+  transfer_type: $Enums.transfer_type_enum | null
   source_warehouse_id: string | null
   destination_warehouse_id: string | null
   from_store_id: string | null
@@ -298,19 +384,31 @@ export type Stock_transfersGroupByOutputType = {
   from_branch_id: string | null
   to_branch_id: string | null
   status: $Enums.transfer_status_enum
-  reference_no: string | null
-  notes: string | null
+  priority: $Enums.transfer_priority_enum | null
+  reason_code: string | null
+  requested_by_user_id: string | null
+  approved_by_user_id: string | null
+  shipped_by_user_id: string | null
+  received_by_user_id: string | null
+  cancelled_by_user_id: string | null
   created_by: string | null
   shipped_by: string | null
   received_by: string | null
   approved_by: string | null
+  requested_at: Date | null
   approved_at: Date | null
   shipped_at: Date | null
   received_at: Date | null
+  cancelled_at: Date | null
+  expected_ship_date: Date | null
+  expected_receive_date: Date | null
+  notes: string | null
+  cancellation_reason: string | null
   created_at: Date
   updated_at: Date
   created_by_user_id: string | null
   updated_by_user_id: string | null
+  deleted_at: Date | null
   _count: Stock_transfersCountAggregateOutputType | null
   _avg: Stock_transfersAvgAggregateOutputType | null
   _sum: Stock_transfersSumAggregateOutputType | null
@@ -340,6 +438,8 @@ export type stock_transfersWhereInput = {
   id?: Prisma.UuidFilter<"stock_transfers"> | string
   tenant_id?: Prisma.UuidFilter<"stock_transfers"> | string
   transfer_no?: Prisma.BigIntNullableFilter<"stock_transfers"> | bigint | number | null
+  reference_no?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  transfer_type?: Prisma.Enumtransfer_type_enumNullableFilter<"stock_transfers"> | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   destination_warehouse_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   from_store_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
@@ -347,27 +447,44 @@ export type stock_transfersWhereInput = {
   from_branch_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   to_branch_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   status?: Prisma.Enumtransfer_status_enumFilter<"stock_transfers"> | $Enums.transfer_status_enum
-  reference_no?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
-  notes?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  priority?: Prisma.Enumtransfer_priority_enumNullableFilter<"stock_transfers"> | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  requested_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  shipped_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  received_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   created_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   shipped_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   received_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   approved_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  requested_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   approved_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   shipped_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   received_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  expected_ship_date?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  expected_receive_date?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  notes?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  cancellation_reason?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   created_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   source_warehouse?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
   destination_warehouse?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  stock_transfer_items?: Prisma.Stock_transfer_itemsListRelationFilter
+  stock_transfer_shipments?: Prisma.Stock_transfer_shipmentsListRelationFilter
+  stock_transfer_receipts?: Prisma.Stock_transfer_receiptsListRelationFilter
 }
 
 export type stock_transfersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transfer_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  reference_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  transfer_type?: Prisma.SortOrderInput | Prisma.SortOrder
   source_warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   destination_warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   from_store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -375,21 +492,36 @@ export type stock_transfersOrderByWithRelationInput = {
   from_branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   to_branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  reference_no?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  priority?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason_code?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  shipped_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  received_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_by?: Prisma.SortOrderInput | Prisma.SortOrder
   received_by?: Prisma.SortOrderInput | Prisma.SortOrder
   approved_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_at?: Prisma.SortOrderInput | Prisma.SortOrder
   approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_at?: Prisma.SortOrderInput | Prisma.SortOrder
   received_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  expected_ship_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  expected_receive_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   source_warehouse?: Prisma.warehousesOrderByWithRelationInput
   destination_warehouse?: Prisma.warehousesOrderByWithRelationInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsOrderByRelationAggregateInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsOrderByRelationAggregateInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsOrderByRelationAggregateInput
 }
 
 export type stock_transfersWhereUniqueInput = Prisma.AtLeast<{
@@ -399,6 +531,8 @@ export type stock_transfersWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.stock_transfersWhereInput | Prisma.stock_transfersWhereInput[]
   tenant_id?: Prisma.UuidFilter<"stock_transfers"> | string
   transfer_no?: Prisma.BigIntNullableFilter<"stock_transfers"> | bigint | number | null
+  reference_no?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  transfer_type?: Prisma.Enumtransfer_type_enumNullableFilter<"stock_transfers"> | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   destination_warehouse_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   from_store_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
@@ -406,27 +540,44 @@ export type stock_transfersWhereUniqueInput = Prisma.AtLeast<{
   from_branch_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   to_branch_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   status?: Prisma.Enumtransfer_status_enumFilter<"stock_transfers"> | $Enums.transfer_status_enum
-  reference_no?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
-  notes?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  priority?: Prisma.Enumtransfer_priority_enumNullableFilter<"stock_transfers"> | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  requested_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  shipped_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  received_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   created_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   shipped_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   received_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   approved_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  requested_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   approved_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   shipped_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   received_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  expected_ship_date?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  expected_receive_date?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  notes?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  cancellation_reason?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   created_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   source_warehouse?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
   destination_warehouse?: Prisma.XOR<Prisma.WarehousesNullableScalarRelationFilter, Prisma.warehousesWhereInput> | null
+  stock_transfer_items?: Prisma.Stock_transfer_itemsListRelationFilter
+  stock_transfer_shipments?: Prisma.Stock_transfer_shipmentsListRelationFilter
+  stock_transfer_receipts?: Prisma.Stock_transfer_receiptsListRelationFilter
 }, "id">
 
 export type stock_transfersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transfer_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  reference_no?: Prisma.SortOrderInput | Prisma.SortOrder
+  transfer_type?: Prisma.SortOrderInput | Prisma.SortOrder
   source_warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   destination_warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   from_store_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -434,19 +585,31 @@ export type stock_transfersOrderByWithAggregationInput = {
   from_branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   to_branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  reference_no?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  priority?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason_code?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  shipped_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  received_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_by?: Prisma.SortOrderInput | Prisma.SortOrder
   received_by?: Prisma.SortOrderInput | Prisma.SortOrder
   approved_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_at?: Prisma.SortOrderInput | Prisma.SortOrder
   approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   shipped_at?: Prisma.SortOrderInput | Prisma.SortOrder
   received_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  expected_ship_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  expected_receive_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.stock_transfersCountOrderByAggregateInput
   _avg?: Prisma.stock_transfersAvgOrderByAggregateInput
   _max?: Prisma.stock_transfersMaxOrderByAggregateInput
@@ -461,6 +624,8 @@ export type stock_transfersScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"stock_transfers"> | string
   tenant_id?: Prisma.UuidWithAggregatesFilter<"stock_transfers"> | string
   transfer_no?: Prisma.BigIntNullableWithAggregatesFilter<"stock_transfers"> | bigint | number | null
+  reference_no?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  transfer_type?: Prisma.Enumtransfer_type_enumNullableWithAggregatesFilter<"stock_transfers"> | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
   destination_warehouse_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
   from_store_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
@@ -468,51 +633,82 @@ export type stock_transfersScalarWhereWithAggregatesInput = {
   from_branch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
   to_branch_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
   status?: Prisma.Enumtransfer_status_enumWithAggregatesFilter<"stock_transfers"> | $Enums.transfer_status_enum
-  reference_no?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
-  notes?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  priority?: Prisma.Enumtransfer_priority_enumNullableWithAggregatesFilter<"stock_transfers"> | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  requested_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  approved_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  shipped_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  received_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
   created_by?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
   shipped_by?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
   received_by?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
   approved_by?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  requested_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
   approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
   shipped_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
   received_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
+  expected_ship_date?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
+  expected_receive_date?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
+  notes?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  cancellation_reason?: Prisma.StringNullableWithAggregatesFilter<"stock_transfers"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"stock_transfers"> | Date | string
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"stock_transfers"> | string | null
+  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"stock_transfers"> | Date | string | null
 }
 
 export type stock_transfersCreateInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
   source_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_fromInput
   destination_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_toInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsCreateNestedManyWithoutStock_transfersInput
 }
 
 export type stock_transfersUncheckedCreateInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   source_warehouse_id?: string | null
   destination_warehouse_id?: string | null
   from_store_id?: string | null
@@ -520,51 +716,85 @@ export type stock_transfersUncheckedCreateInput = {
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedCreateNestedManyWithoutStock_transfersInput
 }
 
 export type stock_transfersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   source_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_fromNestedInput
   destination_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_toNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUpdateManyWithoutStock_transfersNestedInput
 }
 
 export type stock_transfersUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -572,25 +802,42 @@ export type stock_transfersUncheckedUpdateInput = {
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedUpdateManyWithoutStock_transfersNestedInput
 }
 
 export type stock_transfersCreateManyInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   source_warehouse_id?: string | null
   destination_warehouse_id?: string | null
   from_store_id?: string | null
@@ -598,49 +845,77 @@ export type stock_transfersCreateManyInput = {
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
 }
 
 export type stock_transfersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type stock_transfersUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -648,25 +923,39 @@ export type stock_transfersUncheckedUpdateManyInput = {
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type stock_transfersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transfer_no?: Prisma.SortOrder
+  reference_no?: Prisma.SortOrder
+  transfer_type?: Prisma.SortOrder
   source_warehouse_id?: Prisma.SortOrder
   destination_warehouse_id?: Prisma.SortOrder
   from_store_id?: Prisma.SortOrder
@@ -674,19 +963,31 @@ export type stock_transfersCountOrderByAggregateInput = {
   from_branch_id?: Prisma.SortOrder
   to_branch_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  reference_no?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  reason_code?: Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  shipped_by_user_id?: Prisma.SortOrder
+  received_by_user_id?: Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   shipped_by?: Prisma.SortOrder
   received_by?: Prisma.SortOrder
   approved_by?: Prisma.SortOrder
+  requested_at?: Prisma.SortOrder
   approved_at?: Prisma.SortOrder
   shipped_at?: Prisma.SortOrder
   received_at?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  expected_ship_date?: Prisma.SortOrder
+  expected_receive_date?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
 }
 
 export type stock_transfersAvgOrderByAggregateInput = {
@@ -697,6 +998,8 @@ export type stock_transfersMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transfer_no?: Prisma.SortOrder
+  reference_no?: Prisma.SortOrder
+  transfer_type?: Prisma.SortOrder
   source_warehouse_id?: Prisma.SortOrder
   destination_warehouse_id?: Prisma.SortOrder
   from_store_id?: Prisma.SortOrder
@@ -704,25 +1007,39 @@ export type stock_transfersMaxOrderByAggregateInput = {
   from_branch_id?: Prisma.SortOrder
   to_branch_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  reference_no?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  reason_code?: Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  shipped_by_user_id?: Prisma.SortOrder
+  received_by_user_id?: Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   shipped_by?: Prisma.SortOrder
   received_by?: Prisma.SortOrder
   approved_by?: Prisma.SortOrder
+  requested_at?: Prisma.SortOrder
   approved_at?: Prisma.SortOrder
   shipped_at?: Prisma.SortOrder
   received_at?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  expected_ship_date?: Prisma.SortOrder
+  expected_receive_date?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
 }
 
 export type stock_transfersMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
   transfer_no?: Prisma.SortOrder
+  reference_no?: Prisma.SortOrder
+  transfer_type?: Prisma.SortOrder
   source_warehouse_id?: Prisma.SortOrder
   destination_warehouse_id?: Prisma.SortOrder
   from_store_id?: Prisma.SortOrder
@@ -730,23 +1047,40 @@ export type stock_transfersMinOrderByAggregateInput = {
   from_branch_id?: Prisma.SortOrder
   to_branch_id?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  reference_no?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  reason_code?: Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  shipped_by_user_id?: Prisma.SortOrder
+  received_by_user_id?: Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   shipped_by?: Prisma.SortOrder
   received_by?: Prisma.SortOrder
   approved_by?: Prisma.SortOrder
+  requested_at?: Prisma.SortOrder
   approved_at?: Prisma.SortOrder
   shipped_at?: Prisma.SortOrder
   received_at?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  expected_ship_date?: Prisma.SortOrder
+  expected_receive_date?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
+  deleted_at?: Prisma.SortOrder
 }
 
 export type stock_transfersSumOrderByAggregateInput = {
   transfer_no?: Prisma.SortOrder
+}
+
+export type Stock_transfersScalarRelationFilter = {
+  is?: Prisma.stock_transfersWhereInput
+  isNot?: Prisma.stock_transfersWhereInput
 }
 
 export type Stock_transfersListRelationFilter = {
@@ -759,8 +1093,58 @@ export type stock_transfersOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type NullableEnumtransfer_type_enumFieldUpdateOperationsInput = {
+  set?: $Enums.transfer_type_enum | null
+}
+
 export type Enumtransfer_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.transfer_status_enum
+}
+
+export type NullableEnumtransfer_priority_enumFieldUpdateOperationsInput = {
+  set?: $Enums.transfer_priority_enum | null
+}
+
+export type stock_transfersCreateNestedOneWithoutStock_transfer_itemsInput = {
+  create?: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_itemsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_itemsInput>
+  connectOrCreate?: Prisma.stock_transfersCreateOrConnectWithoutStock_transfer_itemsInput
+  connect?: Prisma.stock_transfersWhereUniqueInput
+}
+
+export type stock_transfersUpdateOneRequiredWithoutStock_transfer_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_itemsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_itemsInput>
+  connectOrCreate?: Prisma.stock_transfersCreateOrConnectWithoutStock_transfer_itemsInput
+  upsert?: Prisma.stock_transfersUpsertWithoutStock_transfer_itemsInput
+  connect?: Prisma.stock_transfersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.stock_transfersUpdateToOneWithWhereWithoutStock_transfer_itemsInput, Prisma.stock_transfersUpdateWithoutStock_transfer_itemsInput>, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_itemsInput>
+}
+
+export type stock_transfersCreateNestedOneWithoutStock_transfer_shipmentsInput = {
+  create?: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_shipmentsInput>
+  connectOrCreate?: Prisma.stock_transfersCreateOrConnectWithoutStock_transfer_shipmentsInput
+  connect?: Prisma.stock_transfersWhereUniqueInput
+}
+
+export type stock_transfersUpdateOneRequiredWithoutStock_transfer_shipmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_shipmentsInput>
+  connectOrCreate?: Prisma.stock_transfersCreateOrConnectWithoutStock_transfer_shipmentsInput
+  upsert?: Prisma.stock_transfersUpsertWithoutStock_transfer_shipmentsInput
+  connect?: Prisma.stock_transfersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.stock_transfersUpdateToOneWithWhereWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUpdateWithoutStock_transfer_shipmentsInput>, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_shipmentsInput>
+}
+
+export type stock_transfersCreateNestedOneWithoutStock_transfer_receiptsInput = {
+  create?: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_receiptsInput>
+  connectOrCreate?: Prisma.stock_transfersCreateOrConnectWithoutStock_transfer_receiptsInput
+  connect?: Prisma.stock_transfersWhereUniqueInput
+}
+
+export type stock_transfersUpdateOneRequiredWithoutStock_transfer_receiptsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_receiptsInput>
+  connectOrCreate?: Prisma.stock_transfersCreateOrConnectWithoutStock_transfer_receiptsInput
+  upsert?: Prisma.stock_transfersUpsertWithoutStock_transfer_receiptsInput
+  connect?: Prisma.stock_transfersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.stock_transfersUpdateToOneWithWhereWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUpdateWithoutStock_transfer_receiptsInput>, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_receiptsInput>
 }
 
 export type stock_transfersCreateNestedManyWithoutSource_warehouseInput = {
@@ -847,54 +1231,640 @@ export type stock_transfersUncheckedUpdateManyWithoutDestination_warehouseNested
   deleteMany?: Prisma.stock_transfersScalarWhereInput | Prisma.stock_transfersScalarWhereInput[]
 }
 
-export type stock_transfersCreateWithoutSource_warehouseInput = {
+export type stock_transfersCreateWithoutStock_transfer_itemsInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  source_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_fromInput
   destination_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_toInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsCreateNestedManyWithoutStock_transfersInput
 }
 
-export type stock_transfersUncheckedCreateWithoutSource_warehouseInput = {
+export type stock_transfersUncheckedCreateWithoutStock_transfer_itemsInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  source_warehouse_id?: string | null
   destination_warehouse_id?: string | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedCreateNestedManyWithoutStock_transfersInput
+}
+
+export type stock_transfersCreateOrConnectWithoutStock_transfer_itemsInput = {
+  where: Prisma.stock_transfersWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_itemsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_itemsInput>
+}
+
+export type stock_transfersUpsertWithoutStock_transfer_itemsInput = {
+  update: Prisma.XOR<Prisma.stock_transfersUpdateWithoutStock_transfer_itemsInput, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_itemsInput>
+  create: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_itemsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_itemsInput>
+  where?: Prisma.stock_transfersWhereInput
+}
+
+export type stock_transfersUpdateToOneWithWhereWithoutStock_transfer_itemsInput = {
+  where?: Prisma.stock_transfersWhereInput
+  data: Prisma.XOR<Prisma.stock_transfersUpdateWithoutStock_transfer_itemsInput, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_itemsInput>
+}
+
+export type stock_transfersUpdateWithoutStock_transfer_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
+  from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_fromNestedInput
+  destination_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_toNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUpdateManyWithoutStock_transfersNestedInput
+}
+
+export type stock_transfersUncheckedUpdateWithoutStock_transfer_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
+  source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedUpdateManyWithoutStock_transfersNestedInput
+}
+
+export type stock_transfersCreateWithoutStock_transfer_shipmentsInput = {
+  id?: string
+  tenant_id: string
+  transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  from_store_id?: string | null
+  to_store_id?: string | null
+  from_branch_id?: string | null
+  to_branch_id?: string | null
+  status?: $Enums.transfer_status_enum
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
+  created_by?: string | null
+  shipped_by?: string | null
+  received_by?: string | null
+  approved_by?: string | null
+  requested_at?: Date | string | null
+  approved_at?: Date | string | null
+  shipped_at?: Date | string | null
+  received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  source_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_fromInput
+  destination_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_toInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsCreateNestedManyWithoutStock_transfersInput
+}
+
+export type stock_transfersUncheckedCreateWithoutStock_transfer_shipmentsInput = {
+  id?: string
+  tenant_id: string
+  transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  source_warehouse_id?: string | null
+  destination_warehouse_id?: string | null
+  from_store_id?: string | null
+  to_store_id?: string | null
+  from_branch_id?: string | null
+  to_branch_id?: string | null
+  status?: $Enums.transfer_status_enum
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
+  created_by?: string | null
+  shipped_by?: string | null
+  received_by?: string | null
+  approved_by?: string | null
+  requested_at?: Date | string | null
+  approved_at?: Date | string | null
+  shipped_at?: Date | string | null
+  received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedCreateNestedManyWithoutStock_transfersInput
+}
+
+export type stock_transfersCreateOrConnectWithoutStock_transfer_shipmentsInput = {
+  where: Prisma.stock_transfersWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_shipmentsInput>
+}
+
+export type stock_transfersUpsertWithoutStock_transfer_shipmentsInput = {
+  update: Prisma.XOR<Prisma.stock_transfersUpdateWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_shipmentsInput>
+  create: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_shipmentsInput>
+  where?: Prisma.stock_transfersWhereInput
+}
+
+export type stock_transfersUpdateToOneWithWhereWithoutStock_transfer_shipmentsInput = {
+  where?: Prisma.stock_transfersWhereInput
+  data: Prisma.XOR<Prisma.stock_transfersUpdateWithoutStock_transfer_shipmentsInput, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_shipmentsInput>
+}
+
+export type stock_transfersUpdateWithoutStock_transfer_shipmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
+  from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_fromNestedInput
+  destination_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_toNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUpdateManyWithoutStock_transfersNestedInput
+}
+
+export type stock_transfersUncheckedUpdateWithoutStock_transfer_shipmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
+  source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedUpdateManyWithoutStock_transfersNestedInput
+}
+
+export type stock_transfersCreateWithoutStock_transfer_receiptsInput = {
+  id?: string
+  tenant_id: string
+  transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  from_store_id?: string | null
+  to_store_id?: string | null
+  from_branch_id?: string | null
+  to_branch_id?: string | null
+  status?: $Enums.transfer_status_enum
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
+  created_by?: string | null
+  shipped_by?: string | null
+  received_by?: string | null
+  approved_by?: string | null
+  requested_at?: Date | string | null
+  approved_at?: Date | string | null
+  shipped_at?: Date | string | null
+  received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  source_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_fromInput
+  destination_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_toInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsCreateNestedManyWithoutStock_transfersInput
+}
+
+export type stock_transfersUncheckedCreateWithoutStock_transfer_receiptsInput = {
+  id?: string
+  tenant_id: string
+  transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  source_warehouse_id?: string | null
+  destination_warehouse_id?: string | null
+  from_store_id?: string | null
+  to_store_id?: string | null
+  from_branch_id?: string | null
+  to_branch_id?: string | null
+  status?: $Enums.transfer_status_enum
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
+  created_by?: string | null
+  shipped_by?: string | null
+  received_by?: string | null
+  approved_by?: string | null
+  requested_at?: Date | string | null
+  approved_at?: Date | string | null
+  shipped_at?: Date | string | null
+  received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedCreateNestedManyWithoutStock_transfersInput
+}
+
+export type stock_transfersCreateOrConnectWithoutStock_transfer_receiptsInput = {
+  where: Prisma.stock_transfersWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_receiptsInput>
+}
+
+export type stock_transfersUpsertWithoutStock_transfer_receiptsInput = {
+  update: Prisma.XOR<Prisma.stock_transfersUpdateWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_receiptsInput>
+  create: Prisma.XOR<Prisma.stock_transfersCreateWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUncheckedCreateWithoutStock_transfer_receiptsInput>
+  where?: Prisma.stock_transfersWhereInput
+}
+
+export type stock_transfersUpdateToOneWithWhereWithoutStock_transfer_receiptsInput = {
+  where?: Prisma.stock_transfersWhereInput
+  data: Prisma.XOR<Prisma.stock_transfersUpdateWithoutStock_transfer_receiptsInput, Prisma.stock_transfersUncheckedUpdateWithoutStock_transfer_receiptsInput>
+}
+
+export type stock_transfersUpdateWithoutStock_transfer_receiptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
+  from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_fromNestedInput
+  destination_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_toNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUpdateManyWithoutStock_transfersNestedInput
+}
+
+export type stock_transfersUncheckedUpdateWithoutStock_transfer_receiptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
+  source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedUpdateManyWithoutStock_transfersNestedInput
+}
+
+export type stock_transfersCreateWithoutSource_warehouseInput = {
+  id?: string
+  tenant_id: string
+  transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  from_store_id?: string | null
+  to_store_id?: string | null
+  from_branch_id?: string | null
+  to_branch_id?: string | null
+  status?: $Enums.transfer_status_enum
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
+  created_by?: string | null
+  shipped_by?: string | null
+  received_by?: string | null
+  approved_by?: string | null
+  requested_at?: Date | string | null
+  approved_at?: Date | string | null
+  shipped_at?: Date | string | null
+  received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  destination_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_toInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsCreateNestedManyWithoutStock_transfersInput
+}
+
+export type stock_transfersUncheckedCreateWithoutSource_warehouseInput = {
+  id?: string
+  tenant_id: string
+  transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
+  destination_warehouse_id?: string | null
+  from_store_id?: string | null
+  to_store_id?: string | null
+  from_branch_id?: string | null
+  to_branch_id?: string | null
+  status?: $Enums.transfer_status_enum
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
+  created_by?: string | null
+  shipped_by?: string | null
+  received_by?: string | null
+  approved_by?: string | null
+  requested_at?: Date | string | null
+  approved_at?: Date | string | null
+  shipped_at?: Date | string | null
+  received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedCreateNestedManyWithoutStock_transfersInput
 }
 
 export type stock_transfersCreateOrConnectWithoutSource_warehouseInput = {
@@ -911,50 +1881,84 @@ export type stock_transfersCreateWithoutDestination_warehouseInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
   source_warehouse?: Prisma.warehousesCreateNestedOneWithoutStock_transfers_fromInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsCreateNestedManyWithoutStock_transfersInput
 }
 
 export type stock_transfersUncheckedCreateWithoutDestination_warehouseInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   source_warehouse_id?: string | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedCreateNestedManyWithoutStock_transfersInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedCreateNestedManyWithoutStock_transfersInput
 }
 
 export type stock_transfersCreateOrConnectWithoutDestination_warehouseInput = {
@@ -990,6 +1994,8 @@ export type stock_transfersScalarWhereInput = {
   id?: Prisma.UuidFilter<"stock_transfers"> | string
   tenant_id?: Prisma.UuidFilter<"stock_transfers"> | string
   transfer_no?: Prisma.BigIntNullableFilter<"stock_transfers"> | bigint | number | null
+  reference_no?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  transfer_type?: Prisma.Enumtransfer_type_enumNullableFilter<"stock_transfers"> | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   destination_warehouse_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   from_store_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
@@ -997,19 +2003,31 @@ export type stock_transfersScalarWhereInput = {
   from_branch_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   to_branch_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   status?: Prisma.Enumtransfer_status_enumFilter<"stock_transfers"> | $Enums.transfer_status_enum
-  reference_no?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
-  notes?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  priority?: Prisma.Enumtransfer_priority_enumNullableFilter<"stock_transfers"> | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  requested_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  shipped_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  received_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   created_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   shipped_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   received_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   approved_by?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  requested_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   approved_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   shipped_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
   received_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  expected_ship_date?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  expected_receive_date?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
+  notes?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
+  cancellation_reason?: Prisma.StringNullableFilter<"stock_transfers"> | string | null
   created_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"stock_transfers"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_transfers"> | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"stock_transfers"> | Date | string | null
 }
 
 export type stock_transfersUpsertWithWhereUniqueWithoutDestination_warehouseInput = {
@@ -1032,208 +2050,381 @@ export type stock_transfersCreateManySource_warehouseInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   destination_warehouse_id?: string | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
 }
 
 export type stock_transfersCreateManyDestination_warehouseInput = {
   id?: string
   tenant_id: string
   transfer_no?: bigint | number | null
+  reference_no?: string | null
+  transfer_type?: $Enums.transfer_type_enum | null
   source_warehouse_id?: string | null
   from_store_id?: string | null
   to_store_id?: string | null
   from_branch_id?: string | null
   to_branch_id?: string | null
   status?: $Enums.transfer_status_enum
-  reference_no?: string | null
-  notes?: string | null
+  priority?: $Enums.transfer_priority_enum | null
+  reason_code?: string | null
+  requested_by_user_id?: string | null
+  approved_by_user_id?: string | null
+  shipped_by_user_id?: string | null
+  received_by_user_id?: string | null
+  cancelled_by_user_id?: string | null
   created_by?: string | null
   shipped_by?: string | null
   received_by?: string | null
   approved_by?: string | null
+  requested_at?: Date | string | null
   approved_at?: Date | string | null
   shipped_at?: Date | string | null
   received_at?: Date | string | null
+  cancelled_at?: Date | string | null
+  expected_ship_date?: Date | string | null
+  expected_receive_date?: Date | string | null
+  notes?: string | null
+  cancellation_reason?: string | null
   created_at?: Date | string
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  deleted_at?: Date | string | null
 }
 
 export type stock_transfersUpdateWithoutSource_warehouseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   destination_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_toNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUpdateManyWithoutStock_transfersNestedInput
 }
 
 export type stock_transfersUncheckedUpdateWithoutSource_warehouseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedUpdateManyWithoutStock_transfersNestedInput
 }
 
 export type stock_transfersUncheckedUpdateManyWithoutSource_warehouseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   destination_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type stock_transfersUpdateWithoutDestination_warehouseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   source_warehouse?: Prisma.warehousesUpdateOneWithoutStock_transfers_fromNestedInput
+  stock_transfer_items?: Prisma.stock_transfer_itemsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUpdateManyWithoutStock_transfersNestedInput
 }
 
 export type stock_transfersUncheckedUpdateWithoutDestination_warehouseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stock_transfer_items?: Prisma.stock_transfer_itemsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_shipments?: Prisma.stock_transfer_shipmentsUncheckedUpdateManyWithoutStock_transfersNestedInput
+  stock_transfer_receipts?: Prisma.stock_transfer_receiptsUncheckedUpdateManyWithoutStock_transfersNestedInput
 }
 
 export type stock_transfersUncheckedUpdateManyWithoutDestination_warehouseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
   transfer_no?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transfer_type?: Prisma.NullableEnumtransfer_type_enumFieldUpdateOperationsInput | $Enums.transfer_type_enum | null
   source_warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   from_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   to_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.Enumtransfer_status_enumFieldUpdateOperationsInput | $Enums.transfer_status_enum
-  reference_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.NullableEnumtransfer_priority_enumFieldUpdateOperationsInput | $Enums.transfer_priority_enum | null
+  reason_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipped_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipped_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   received_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shipped_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_ship_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expected_receive_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+
+/**
+ * Count Type Stock_transfersCountOutputType
+ */
+
+export type Stock_transfersCountOutputType = {
+  stock_transfer_items: number
+  stock_transfer_shipments: number
+  stock_transfer_receipts: number
+}
+
+export type Stock_transfersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_transfer_items?: boolean | Stock_transfersCountOutputTypeCountStock_transfer_itemsArgs
+  stock_transfer_shipments?: boolean | Stock_transfersCountOutputTypeCountStock_transfer_shipmentsArgs
+  stock_transfer_receipts?: boolean | Stock_transfersCountOutputTypeCountStock_transfer_receiptsArgs
+}
+
+/**
+ * Stock_transfersCountOutputType without action
+ */
+export type Stock_transfersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Stock_transfersCountOutputType
+   */
+  select?: Prisma.Stock_transfersCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * Stock_transfersCountOutputType without action
+ */
+export type Stock_transfersCountOutputTypeCountStock_transfer_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_transfer_itemsWhereInput
+}
+
+/**
+ * Stock_transfersCountOutputType without action
+ */
+export type Stock_transfersCountOutputTypeCountStock_transfer_shipmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_transfer_shipmentsWhereInput
+}
+
+/**
+ * Stock_transfersCountOutputType without action
+ */
+export type Stock_transfersCountOutputTypeCountStock_transfer_receiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_transfer_receiptsWhereInput
+}
 
 
 export type stock_transfersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
   transfer_no?: boolean
+  reference_no?: boolean
+  transfer_type?: boolean
   source_warehouse_id?: boolean
   destination_warehouse_id?: boolean
   from_store_id?: boolean
@@ -1241,27 +2432,45 @@ export type stock_transfersSelect<ExtArgs extends runtime.Types.Extensions.Inter
   from_branch_id?: boolean
   to_branch_id?: boolean
   status?: boolean
-  reference_no?: boolean
-  notes?: boolean
+  priority?: boolean
+  reason_code?: boolean
+  requested_by_user_id?: boolean
+  approved_by_user_id?: boolean
+  shipped_by_user_id?: boolean
+  received_by_user_id?: boolean
+  cancelled_by_user_id?: boolean
   created_by?: boolean
   shipped_by?: boolean
   received_by?: boolean
   approved_by?: boolean
+  requested_at?: boolean
   approved_at?: boolean
   shipped_at?: boolean
   received_at?: boolean
+  cancelled_at?: boolean
+  expected_ship_date?: boolean
+  expected_receive_date?: boolean
+  notes?: boolean
+  cancellation_reason?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  deleted_at?: boolean
   source_warehouse?: boolean | Prisma.stock_transfers$source_warehouseArgs<ExtArgs>
   destination_warehouse?: boolean | Prisma.stock_transfers$destination_warehouseArgs<ExtArgs>
+  stock_transfer_items?: boolean | Prisma.stock_transfers$stock_transfer_itemsArgs<ExtArgs>
+  stock_transfer_shipments?: boolean | Prisma.stock_transfers$stock_transfer_shipmentsArgs<ExtArgs>
+  stock_transfer_receipts?: boolean | Prisma.stock_transfers$stock_transfer_receiptsArgs<ExtArgs>
+  _count?: boolean | Prisma.Stock_transfersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_transfers"]>
 
 export type stock_transfersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenant_id?: boolean
   transfer_no?: boolean
+  reference_no?: boolean
+  transfer_type?: boolean
   source_warehouse_id?: boolean
   destination_warehouse_id?: boolean
   from_store_id?: boolean
@@ -1269,19 +2478,31 @@ export type stock_transfersSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   from_branch_id?: boolean
   to_branch_id?: boolean
   status?: boolean
-  reference_no?: boolean
-  notes?: boolean
+  priority?: boolean
+  reason_code?: boolean
+  requested_by_user_id?: boolean
+  approved_by_user_id?: boolean
+  shipped_by_user_id?: boolean
+  received_by_user_id?: boolean
+  cancelled_by_user_id?: boolean
   created_by?: boolean
   shipped_by?: boolean
   received_by?: boolean
   approved_by?: boolean
+  requested_at?: boolean
   approved_at?: boolean
   shipped_at?: boolean
   received_at?: boolean
+  cancelled_at?: boolean
+  expected_ship_date?: boolean
+  expected_receive_date?: boolean
+  notes?: boolean
+  cancellation_reason?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  deleted_at?: boolean
   source_warehouse?: boolean | Prisma.stock_transfers$source_warehouseArgs<ExtArgs>
   destination_warehouse?: boolean | Prisma.stock_transfers$destination_warehouseArgs<ExtArgs>
 }, ExtArgs["result"]["stock_transfers"]>
@@ -1290,6 +2511,8 @@ export type stock_transfersSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   id?: boolean
   tenant_id?: boolean
   transfer_no?: boolean
+  reference_no?: boolean
+  transfer_type?: boolean
   source_warehouse_id?: boolean
   destination_warehouse_id?: boolean
   from_store_id?: boolean
@@ -1297,19 +2520,31 @@ export type stock_transfersSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   from_branch_id?: boolean
   to_branch_id?: boolean
   status?: boolean
-  reference_no?: boolean
-  notes?: boolean
+  priority?: boolean
+  reason_code?: boolean
+  requested_by_user_id?: boolean
+  approved_by_user_id?: boolean
+  shipped_by_user_id?: boolean
+  received_by_user_id?: boolean
+  cancelled_by_user_id?: boolean
   created_by?: boolean
   shipped_by?: boolean
   received_by?: boolean
   approved_by?: boolean
+  requested_at?: boolean
   approved_at?: boolean
   shipped_at?: boolean
   received_at?: boolean
+  cancelled_at?: boolean
+  expected_ship_date?: boolean
+  expected_receive_date?: boolean
+  notes?: boolean
+  cancellation_reason?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  deleted_at?: boolean
   source_warehouse?: boolean | Prisma.stock_transfers$source_warehouseArgs<ExtArgs>
   destination_warehouse?: boolean | Prisma.stock_transfers$destination_warehouseArgs<ExtArgs>
 }, ExtArgs["result"]["stock_transfers"]>
@@ -1318,6 +2553,8 @@ export type stock_transfersSelectScalar = {
   id?: boolean
   tenant_id?: boolean
   transfer_no?: boolean
+  reference_no?: boolean
+  transfer_type?: boolean
   source_warehouse_id?: boolean
   destination_warehouse_id?: boolean
   from_store_id?: boolean
@@ -1325,25 +2562,41 @@ export type stock_transfersSelectScalar = {
   from_branch_id?: boolean
   to_branch_id?: boolean
   status?: boolean
-  reference_no?: boolean
-  notes?: boolean
+  priority?: boolean
+  reason_code?: boolean
+  requested_by_user_id?: boolean
+  approved_by_user_id?: boolean
+  shipped_by_user_id?: boolean
+  received_by_user_id?: boolean
+  cancelled_by_user_id?: boolean
   created_by?: boolean
   shipped_by?: boolean
   received_by?: boolean
   approved_by?: boolean
+  requested_at?: boolean
   approved_at?: boolean
   shipped_at?: boolean
   received_at?: boolean
+  cancelled_at?: boolean
+  expected_ship_date?: boolean
+  expected_receive_date?: boolean
+  notes?: boolean
+  cancellation_reason?: boolean
   created_at?: boolean
   updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  deleted_at?: boolean
 }
 
-export type stock_transfersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transfer_no" | "source_warehouse_id" | "destination_warehouse_id" | "from_store_id" | "to_store_id" | "from_branch_id" | "to_branch_id" | "status" | "reference_no" | "notes" | "created_by" | "shipped_by" | "received_by" | "approved_by" | "approved_at" | "shipped_at" | "received_at" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_transfers"]>
+export type stock_transfersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "transfer_no" | "reference_no" | "transfer_type" | "source_warehouse_id" | "destination_warehouse_id" | "from_store_id" | "to_store_id" | "from_branch_id" | "to_branch_id" | "status" | "priority" | "reason_code" | "requested_by_user_id" | "approved_by_user_id" | "shipped_by_user_id" | "received_by_user_id" | "cancelled_by_user_id" | "created_by" | "shipped_by" | "received_by" | "approved_by" | "requested_at" | "approved_at" | "shipped_at" | "received_at" | "cancelled_at" | "expected_ship_date" | "expected_receive_date" | "notes" | "cancellation_reason" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id" | "deleted_at", ExtArgs["result"]["stock_transfers"]>
 export type stock_transfersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   source_warehouse?: boolean | Prisma.stock_transfers$source_warehouseArgs<ExtArgs>
   destination_warehouse?: boolean | Prisma.stock_transfers$destination_warehouseArgs<ExtArgs>
+  stock_transfer_items?: boolean | Prisma.stock_transfers$stock_transfer_itemsArgs<ExtArgs>
+  stock_transfer_shipments?: boolean | Prisma.stock_transfers$stock_transfer_shipmentsArgs<ExtArgs>
+  stock_transfer_receipts?: boolean | Prisma.stock_transfers$stock_transfer_receiptsArgs<ExtArgs>
+  _count?: boolean | Prisma.Stock_transfersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type stock_transfersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   source_warehouse?: boolean | Prisma.stock_transfers$source_warehouseArgs<ExtArgs>
@@ -1359,31 +2612,60 @@ export type $stock_transfersPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     source_warehouse: Prisma.$warehousesPayload<ExtArgs> | null
     destination_warehouse: Prisma.$warehousesPayload<ExtArgs> | null
+    stock_transfer_items: Prisma.$stock_transfer_itemsPayload<ExtArgs>[]
+    stock_transfer_shipments: Prisma.$stock_transfer_shipmentsPayload<ExtArgs>[]
+    stock_transfer_receipts: Prisma.$stock_transfer_receiptsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenant_id: string
     transfer_no: bigint | null
+    reference_no: string | null
+    transfer_type: $Enums.transfer_type_enum | null
     source_warehouse_id: string | null
     destination_warehouse_id: string | null
+    /**
+     * @deprecated Use warehouse relationships via store_warehouses
+     */
     from_store_id: string | null
+    /**
+     * @deprecated Use warehouse relationships via store_warehouses
+     */
     to_store_id: string | null
+    /**
+     * @deprecated Use warehouse relationships via store_warehouses
+     */
     from_branch_id: string | null
+    /**
+     * @deprecated Use warehouse relationships via store_warehouses
+     */
     to_branch_id: string | null
     status: $Enums.transfer_status_enum
-    reference_no: string | null
-    notes: string | null
+    priority: $Enums.transfer_priority_enum | null
+    reason_code: string | null
+    requested_by_user_id: string | null
+    approved_by_user_id: string | null
+    shipped_by_user_id: string | null
+    received_by_user_id: string | null
+    cancelled_by_user_id: string | null
     created_by: string | null
     shipped_by: string | null
     received_by: string | null
     approved_by: string | null
+    requested_at: Date | null
     approved_at: Date | null
     shipped_at: Date | null
     received_at: Date | null
+    cancelled_at: Date | null
+    expected_ship_date: Date | null
+    expected_receive_date: Date | null
+    notes: string | null
+    cancellation_reason: string | null
     created_at: Date
     updated_at: Date
     created_by_user_id: string | null
     updated_by_user_id: string | null
+    deleted_at: Date | null
   }, ExtArgs["result"]["stock_transfers"]>
   composites: {}
 }
@@ -1780,6 +3062,9 @@ export interface Prisma__stock_transfersClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   source_warehouse<T extends Prisma.stock_transfers$source_warehouseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfers$source_warehouseArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   destination_warehouse<T extends Prisma.stock_transfers$destination_warehouseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfers$destination_warehouseArgs<ExtArgs>>): Prisma.Prisma__warehousesClient<runtime.Types.Result.GetResult<Prisma.$warehousesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  stock_transfer_items<T extends Prisma.stock_transfers$stock_transfer_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfers$stock_transfer_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfer_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stock_transfer_shipments<T extends Prisma.stock_transfers$stock_transfer_shipmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfers$stock_transfer_shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfer_shipmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stock_transfer_receipts<T extends Prisma.stock_transfers$stock_transfer_receiptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_transfers$stock_transfer_receiptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfer_receiptsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1812,6 +3097,8 @@ export interface stock_transfersFieldRefs {
   readonly id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly tenant_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly transfer_no: Prisma.FieldRef<"stock_transfers", 'BigInt'>
+  readonly reference_no: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly transfer_type: Prisma.FieldRef<"stock_transfers", 'transfer_type_enum'>
   readonly source_warehouse_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly destination_warehouse_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly from_store_id: Prisma.FieldRef<"stock_transfers", 'String'>
@@ -1819,19 +3106,31 @@ export interface stock_transfersFieldRefs {
   readonly from_branch_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly to_branch_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly status: Prisma.FieldRef<"stock_transfers", 'transfer_status_enum'>
-  readonly reference_no: Prisma.FieldRef<"stock_transfers", 'String'>
-  readonly notes: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly priority: Prisma.FieldRef<"stock_transfers", 'transfer_priority_enum'>
+  readonly reason_code: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly requested_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly approved_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly shipped_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly received_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly cancelled_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly created_by: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly shipped_by: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly received_by: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly approved_by: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly requested_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly approved_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly shipped_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly received_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
+  readonly cancelled_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
+  readonly expected_ship_date: Prisma.FieldRef<"stock_transfers", 'DateTime'>
+  readonly expected_receive_date: Prisma.FieldRef<"stock_transfers", 'DateTime'>
+  readonly notes: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly cancellation_reason: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly created_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
   readonly created_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"stock_transfers", 'String'>
+  readonly deleted_at: Prisma.FieldRef<"stock_transfers", 'DateTime'>
 }
     
 
@@ -2268,6 +3567,78 @@ export type stock_transfers$destination_warehouseArgs<ExtArgs extends runtime.Ty
    */
   include?: Prisma.warehousesInclude<ExtArgs> | null
   where?: Prisma.warehousesWhereInput
+}
+
+/**
+ * stock_transfers.stock_transfer_items
+ */
+export type stock_transfers$stock_transfer_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_transfer_items
+   */
+  select?: Prisma.stock_transfer_itemsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_transfer_items
+   */
+  omit?: Prisma.stock_transfer_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_transfer_itemsInclude<ExtArgs> | null
+  where?: Prisma.stock_transfer_itemsWhereInput
+  orderBy?: Prisma.stock_transfer_itemsOrderByWithRelationInput | Prisma.stock_transfer_itemsOrderByWithRelationInput[]
+  cursor?: Prisma.stock_transfer_itemsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_transfer_itemsScalarFieldEnum | Prisma.Stock_transfer_itemsScalarFieldEnum[]
+}
+
+/**
+ * stock_transfers.stock_transfer_shipments
+ */
+export type stock_transfers$stock_transfer_shipmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_transfer_shipments
+   */
+  select?: Prisma.stock_transfer_shipmentsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_transfer_shipments
+   */
+  omit?: Prisma.stock_transfer_shipmentsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_transfer_shipmentsInclude<ExtArgs> | null
+  where?: Prisma.stock_transfer_shipmentsWhereInput
+  orderBy?: Prisma.stock_transfer_shipmentsOrderByWithRelationInput | Prisma.stock_transfer_shipmentsOrderByWithRelationInput[]
+  cursor?: Prisma.stock_transfer_shipmentsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_transfer_shipmentsScalarFieldEnum | Prisma.Stock_transfer_shipmentsScalarFieldEnum[]
+}
+
+/**
+ * stock_transfers.stock_transfer_receipts
+ */
+export type stock_transfers$stock_transfer_receiptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_transfer_receipts
+   */
+  select?: Prisma.stock_transfer_receiptsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_transfer_receipts
+   */
+  omit?: Prisma.stock_transfer_receiptsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_transfer_receiptsInclude<ExtArgs> | null
+  where?: Prisma.stock_transfer_receiptsWhereInput
+  orderBy?: Prisma.stock_transfer_receiptsOrderByWithRelationInput | Prisma.stock_transfer_receiptsOrderByWithRelationInput[]
+  cursor?: Prisma.stock_transfer_receiptsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_transfer_receiptsScalarFieldEnum | Prisma.Stock_transfer_receiptsScalarFieldEnum[]
 }
 
 /**

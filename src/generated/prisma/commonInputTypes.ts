@@ -996,11 +996,35 @@ export type Enumstock_condition_enumWithAggregatesFilter<$PrismaModel = never> =
   _max?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel>
 }
 
+export type Enumtransfer_type_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_type_enum | Prisma.Enumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_type_enumNullableFilter<$PrismaModel> | $Enums.transfer_type_enum | null
+}
+
 export type Enumtransfer_status_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.transfer_status_enum | Prisma.Enumtransfer_status_enumFieldRefInput<$PrismaModel>
   in?: $Enums.transfer_status_enum[] | Prisma.ListEnumtransfer_status_enumFieldRefInput<$PrismaModel>
   notIn?: $Enums.transfer_status_enum[] | Prisma.ListEnumtransfer_status_enumFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumtransfer_status_enumFilter<$PrismaModel> | $Enums.transfer_status_enum
+}
+
+export type Enumtransfer_priority_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_priority_enum | Prisma.Enumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel> | $Enums.transfer_priority_enum | null
+}
+
+export type Enumtransfer_type_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_type_enum | Prisma.Enumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_type_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.transfer_type_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumtransfer_type_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumtransfer_type_enumNullableFilter<$PrismaModel>
 }
 
 export type Enumtransfer_status_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -1011,6 +1035,16 @@ export type Enumtransfer_status_enumWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumtransfer_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumtransfer_status_enumFilter<$PrismaModel>
+}
+
+export type Enumtransfer_priority_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_priority_enum | Prisma.Enumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_priority_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.transfer_priority_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel>
 }
 
 export type Enumadjustment_status_enumFilter<$PrismaModel = never> = {
@@ -2681,11 +2715,35 @@ export type NestedEnumstock_condition_enumWithAggregatesFilter<$PrismaModel = ne
   _max?: Prisma.NestedEnumstock_condition_enumFilter<$PrismaModel>
 }
 
+export type NestedEnumtransfer_type_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_type_enum | Prisma.Enumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_type_enumNullableFilter<$PrismaModel> | $Enums.transfer_type_enum | null
+}
+
 export type NestedEnumtransfer_status_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.transfer_status_enum | Prisma.Enumtransfer_status_enumFieldRefInput<$PrismaModel>
   in?: $Enums.transfer_status_enum[] | Prisma.ListEnumtransfer_status_enumFieldRefInput<$PrismaModel>
   notIn?: $Enums.transfer_status_enum[] | Prisma.ListEnumtransfer_status_enumFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumtransfer_status_enumFilter<$PrismaModel> | $Enums.transfer_status_enum
+}
+
+export type NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_priority_enum | Prisma.Enumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel> | $Enums.transfer_priority_enum | null
+}
+
+export type NestedEnumtransfer_type_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_type_enum | Prisma.Enumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_type_enum[] | Prisma.ListEnumtransfer_type_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_type_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.transfer_type_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumtransfer_type_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumtransfer_type_enumNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumtransfer_status_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -2696,6 +2754,16 @@ export type NestedEnumtransfer_status_enumWithAggregatesFilter<$PrismaModel = ne
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumtransfer_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumtransfer_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumtransfer_priority_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.transfer_priority_enum | Prisma.Enumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.transfer_priority_enum[] | Prisma.ListEnumtransfer_priority_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumtransfer_priority_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.transfer_priority_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumtransfer_priority_enumNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumadjustment_status_enumFilter<$PrismaModel = never> = {

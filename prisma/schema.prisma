@@ -409,6 +409,7 @@ model product_variants {
   product_variant_attributes product_variant_attributes[]
   product_suppliers    product_suppliers[]
   product_media        product_media[]
+  stock_transfer_items stock_transfer_items[] @relation("transfer_item_variant")
 
   @@unique([tenant_id, id])
 }
@@ -2030,31 +2031,75 @@ model stock_balances {
 
 
 model stock_transfers {
-  id                       String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tenant_id                String               @db.Uuid
+  id                       String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                String                  @db.Uuid
   transfer_no              BigInt?
-  source_warehouse_id      String?              @db.Uuid
-  destination_warehouse_id String?              @db.Uuid
-  from_store_id            String?              @db.Uuid
-  to_store_id              String?              @db.Uuid
-  from_branch_id           String?              @db.Uuid
-  to_branch_id             String?              @db.Uuid
-  status                   transfer_status_enum @default(draft)
-  reference_no             String?              @db.VarChar(50)
-  notes                    String?
+  reference_no             String?                 @db.VarChar(50)
+
+  transfer_type            transfer_type_enum?     @default(inter_warehouse)
+
+  source_warehouse_id      String?                 @db.Uuid
+  destination_warehouse_id String?                 @db.Uuid
+
+  /// @deprecated Use warehouse relationships via store_warehouses
+  from_store_id            String?                 @db.Uuid
+  /// @deprecated Use warehouse relationships via store_warehouses
+  to_store_id              String?                 @db.Uuid
+  /// @deprecated Use warehouse relationships via store_warehouses
+  from_branch_id           String?                 @db.Uuid
+  /// @deprecated Use warehouse relationships via store_warehouses
+  to_branch_id             String?                 @db.Uuid
+
+  status                   transfer_status_enum    @default(draft)
+  priority                 transfer_priority_enum? @default(normal)
+  reason_code              String?                 @db.VarChar(40)
+
+  // Workflow user references (proper UUIDs)
+  requested_by_user_id     String?                 @db.Uuid
+  approved_by_user_id      String?                 @db.Uuid
+  shipped_by_user_id       String?                 @db.Uuid
+  received_by_user_id      String?                 @db.Uuid
+  cancelled_by_user_id     String?                 @db.Uuid
+
+  // Legacy string references (kept for backward compat)
   created_by               String?
   shipped_by               String?
   received_by              String?
   approved_by              String?
-  approved_at              DateTime?            @db.Timestamptz(6)
-  shipped_at               DateTime?            @db.Timestamptz(6)
-  received_at              DateTime?            @db.Timestamptz(6)
-  created_at               DateTime             @default(now()) @db.Timestamptz(6)
-  updated_at               DateTime             @default(now()) @db.Timestamptz(6)
-  created_by_user_id       String?              @db.Uuid
-  updated_by_user_id       String?              @db.Uuid
-  source_warehouse         warehouses?          @relation("transfer_source_warehouse", fields: [source_warehouse_id], references: [id], onUpdate: NoAction)
-  destination_warehouse    warehouses?          @relation("transfer_destination_warehouse", fields: [destination_warehouse_id], references: [id], onUpdate: NoAction)
+
+  // Workflow timestamps
+  requested_at             DateTime?               @db.Timestamptz(6)
+  approved_at              DateTime?               @db.Timestamptz(6)
+  shipped_at               DateTime?               @db.Timestamptz(6)
+  received_at              DateTime?               @db.Timestamptz(6)
+  cancelled_at             DateTime?               @db.Timestamptz(6)
+
+  // Expected dates
+  expected_ship_date       DateTime?               @db.Date
+  expected_receive_date    DateTime?               @db.Date
+
+  notes                    String?
+  cancellation_reason      String?
+
+  created_at               DateTime                @default(now()) @db.Timestamptz(6)
+  updated_at               DateTime                @default(now()) @db.Timestamptz(6)
+  created_by_user_id       String?                 @db.Uuid
+  updated_by_user_id       String?                 @db.Uuid
+  deleted_at               DateTime?               @db.Timestamptz(6)
+
+  // Relations
+  source_warehouse         warehouses?             @relation("transfer_source_warehouse", fields: [source_warehouse_id], references: [id], onUpdate: NoAction)
+  destination_warehouse    warehouses?             @relation("transfer_destination_warehouse", fields: [destination_warehouse_id], references: [id], onUpdate: NoAction)
+  stock_transfer_items     stock_transfer_items[]
+  stock_transfer_shipments stock_transfer_shipments[]
+  stock_transfer_receipts  stock_transfer_receipts[]
+
+  @@index([tenant_id], map: "idx_st_tenant")
+  @@index([tenant_id, status], map: "idx_st_tenant_status")
+  @@index([tenant_id, source_warehouse_id], map: "idx_st_tenant_source_wh")
+  @@index([tenant_id, destination_warehouse_id], map: "idx_st_tenant_dest_wh")
+  @@index([tenant_id, created_at(sort: Desc)], map: "idx_st_tenant_created")
+  @@index([reference_no], map: "idx_st_reference_no")
 }
 
 model stock_transfer_items {
@@ -2062,17 +2107,170 @@ model stock_transfer_items {
   tenant_id               String?              @db.Uuid
   stock_transfer_id       String               @db.Uuid
   product_variant_id      String               @db.Uuid
+
   source_location_id      String?              @db.Uuid
   destination_location_id String?              @db.Uuid
+
+  // Quantity tracking (qty = requested_qty for backward compat)
   qty                     Decimal              @db.Decimal(18, 4)
+  shipped_qty             Decimal              @default(0) @db.Decimal(18, 4)
   received_qty            Decimal              @default(0) @db.Decimal(18, 4)
+  rejected_qty            Decimal              @default(0) @db.Decimal(18, 4)
+
   unit_cost               Decimal              @default(0) @db.Decimal(18, 4)
   condition               stock_condition_enum @default(good)
+
   batch_id                String?              @db.Uuid
   serial_id               String?              @db.Uuid
+
+  rejection_reason        String?
+  notes                   String?
+
   created_at              DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime             @default(now()) @db.Timestamptz(6)
   created_by_user_id      String?              @db.Uuid
   updated_by_user_id      String?              @db.Uuid
+
+  // Relations
+  stock_transfers                    stock_transfers              @relation(fields: [stock_transfer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_variants                   product_variants             @relation("transfer_item_variant", fields: [product_variant_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  stock_transfer_shipment_items      stock_transfer_shipment_items[]
+  stock_transfer_receipt_items       stock_transfer_receipt_items[]
+  stock_transfer_item_batches        stock_transfer_item_batches[]
+  stock_transfer_item_serials        stock_transfer_item_serials[]
+
+  @@index([stock_transfer_id], map: "idx_sti_transfer")
+  @@index([tenant_id, product_variant_id], map: "idx_sti_tenant_variant")
+  @@index([batch_id], map: "idx_sti_batch")
+  @@index([serial_id], map: "idx_sti_serial")
+}
+
+/// Tracks each shipment event for a stock transfer (supports partial shipments)
+model stock_transfer_shipments {
+  id                  String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id           String               @db.Uuid
+  stock_transfer_id   String               @db.Uuid
+  shipment_number     String?              @db.VarChar(30)
+  shipped_by_user_id  String?              @db.Uuid
+  shipped_at          DateTime             @default(now()) @db.Timestamptz(6)
+  notes               String?
+  idempotency_key     String?              @db.VarChar(128)
+  created_at          DateTime             @default(now()) @db.Timestamptz(6)
+  created_by_user_id  String?              @db.Uuid
+
+  // Relations
+  stock_transfers     stock_transfers      @relation(fields: [stock_transfer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  items               stock_transfer_shipment_items[]
+
+  @@unique([idempotency_key], map: "uq_st_shipment_idempotency")
+  @@index([stock_transfer_id], map: "idx_sts_transfer")
+  @@index([tenant_id], map: "idx_sts_tenant")
+}
+
+/// Line items within a shipment event
+model stock_transfer_shipment_items {
+  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String               @db.Uuid
+  shipment_id           String               @db.Uuid
+  transfer_item_id      String               @db.Uuid
+  product_variant_id    String               @db.Uuid
+  shipped_qty           Decimal              @db.Decimal(18, 4)
+  source_location_id    String?              @db.Uuid
+  batch_id              String?              @db.Uuid
+  serial_id             String?              @db.Uuid
+  unit_cost             Decimal              @default(0) @db.Decimal(18, 4)
+  condition             stock_condition_enum @default(good)
+  notes                 String?
+  created_at            DateTime             @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  shipment              stock_transfer_shipments @relation(fields: [shipment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  transfer_item         stock_transfer_items     @relation(fields: [transfer_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([shipment_id], map: "idx_stsi_shipment")
+  @@index([transfer_item_id], map: "idx_stsi_transfer_item")
+}
+
+/// Tracks each receipt event for a stock transfer (supports partial receiving)
+model stock_transfer_receipts {
+  id                   String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id            String               @db.Uuid
+  stock_transfer_id    String               @db.Uuid
+  receipt_number       String?              @db.VarChar(30)
+  received_by_user_id  String?              @db.Uuid
+  received_at          DateTime             @default(now()) @db.Timestamptz(6)
+  notes                String?
+  idempotency_key      String?              @db.VarChar(128)
+  created_at           DateTime             @default(now()) @db.Timestamptz(6)
+  created_by_user_id   String?              @db.Uuid
+
+  // Relations
+  stock_transfers      stock_transfers      @relation(fields: [stock_transfer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  items                stock_transfer_receipt_items[]
+
+  @@unique([idempotency_key], map: "uq_st_receipt_idempotency")
+  @@index([stock_transfer_id], map: "idx_str_transfer")
+  @@index([tenant_id], map: "idx_str_tenant")
+}
+
+/// Line items within a receipt event
+model stock_transfer_receipt_items {
+  id                      String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id               String               @db.Uuid
+  receipt_id              String               @db.Uuid
+  transfer_item_id        String               @db.Uuid
+  product_variant_id      String               @db.Uuid
+  received_qty            Decimal              @default(0) @db.Decimal(18, 4)
+  rejected_qty            Decimal              @default(0) @db.Decimal(18, 4)
+  rejection_reason        String?
+  condition               stock_condition_enum @default(good)
+  destination_location_id String?              @db.Uuid
+  batch_id                String?              @db.Uuid
+  serial_id               String?              @db.Uuid
+  unit_cost               Decimal              @default(0) @db.Decimal(18, 4)
+  notes                   String?
+  created_at              DateTime             @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  receipt                 stock_transfer_receipts @relation(fields: [receipt_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  transfer_item           stock_transfer_items    @relation(fields: [transfer_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([receipt_id], map: "idx_stri_receipt")
+  @@index([transfer_item_id], map: "idx_stri_transfer_item")
+}
+
+/// Batch allocation for transfer items (supports batch splitting)
+model stock_transfer_item_batches {
+  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String               @db.Uuid
+  transfer_item_id      String               @db.Uuid
+  batch_id              String               @db.Uuid
+  quantity              Decimal              @db.Decimal(18, 4)
+  unit_cost             Decimal              @default(0) @db.Decimal(18, 4)
+  created_at            DateTime             @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  transfer_item         stock_transfer_items  @relation(fields: [transfer_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_batches       product_batches       @relation(fields: [batch_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([transfer_item_id], map: "idx_stib_transfer_item")
+  @@index([batch_id], map: "idx_stib_batch")
+}
+
+/// Serial allocation for transfer items
+model stock_transfer_item_serials {
+  id                    String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id             String               @db.Uuid
+  transfer_item_id      String               @db.Uuid
+  serial_id             String               @db.Uuid
+  created_at            DateTime             @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  transfer_item         stock_transfer_items  @relation(fields: [transfer_item_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_serials       product_serials       @relation(fields: [serial_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([transfer_item_id], map: "idx_stis_transfer_item")
+  @@index([serial_id], map: "idx_stis_serial")
 }
 
 model stock_adjustments {
@@ -2677,6 +2875,7 @@ model product_batches {
   updated_by_user_id      String?           @db.Uuid
   stock_by_location       stock_by_location[]
   goods_receipt_items     goods_receipt_items[]
+  stock_transfer_item_batches stock_transfer_item_batches[]
 }
 
 model product_serials {
@@ -2702,6 +2901,7 @@ model product_serials {
   created_by_user_id      String?            @db.Uuid
   updated_by_user_id      String?            @db.Uuid
   goods_receipt_item_serials goods_receipt_item_serials[]
+  stock_transfer_item_serials stock_transfer_item_serials[]
 }
 
 model inventory_movement_serials {
@@ -3087,12 +3287,33 @@ enum financial_transaction_type_enum {
 
 enum transfer_status_enum {
   draft
+  pending_approval
   approved
-  picked
-  in_transit
+  ready_to_ship
+  picked            /// @deprecated kept for backward compat
+  partially_shipped
+  shipped
+  in_transit         /// @deprecated use shipped
+  partially_received
   received
-  completed
+  completed          /// @deprecated use closed
+  closed
+  rejected
   cancelled
+}
+
+enum transfer_type_enum {
+  internal
+  inter_warehouse
+  inter_store
+  inter_branch
+}
+
+enum transfer_priority_enum {
+  low
+  normal
+  high
+  urgent
 }
 
 enum adjustment_status_enum {

@@ -463,6 +463,36 @@ export type stock_transfers = Prisma.stock_transfersModel
  */
 export type stock_transfer_items = Prisma.stock_transfer_itemsModel
 /**
+ * Model stock_transfer_shipments
+ * Tracks each shipment event for a stock transfer (supports partial shipments)
+ */
+export type stock_transfer_shipments = Prisma.stock_transfer_shipmentsModel
+/**
+ * Model stock_transfer_shipment_items
+ * Line items within a shipment event
+ */
+export type stock_transfer_shipment_items = Prisma.stock_transfer_shipment_itemsModel
+/**
+ * Model stock_transfer_receipts
+ * Tracks each receipt event for a stock transfer (supports partial receiving)
+ */
+export type stock_transfer_receipts = Prisma.stock_transfer_receiptsModel
+/**
+ * Model stock_transfer_receipt_items
+ * Line items within a receipt event
+ */
+export type stock_transfer_receipt_items = Prisma.stock_transfer_receipt_itemsModel
+/**
+ * Model stock_transfer_item_batches
+ * Batch allocation for transfer items (supports batch splitting)
+ */
+export type stock_transfer_item_batches = Prisma.stock_transfer_item_batchesModel
+/**
+ * Model stock_transfer_item_serials
+ * Serial allocation for transfer items
+ */
+export type stock_transfer_item_serials = Prisma.stock_transfer_item_serialsModel
+/**
  * Model stock_adjustments
  * 
  */

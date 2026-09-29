@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { receiveTransfer, type ReceiveTransferInput } from '@/server/fns/stock-transfers'
+import { rejectTransfer } from '@/server/fns/stock-transfers'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
@@ -10,23 +10,22 @@ const POST = withAuth(
     try {
       const { userId } = auth
 
-      const body = (await request.json()) as ReceiveTransferInput & { id?: string }
-      const transferId = body.transferId || body.id
-      if (!transferId) {
+      const body = (await request.json()) as { id?: string; reason?: string }
+      if (!body.id) {
         return Response.json(
           { success: false, error: { message: 'Transfer id is required.' } },
           { status: 400 }
         )
       }
-      const data = await receiveTransfer(userId, { ...body, transferId })
+      const data = await rejectTransfer(userId, body.id, body.reason)
       return Response.json({ success: true, data })
     } catch (error) {
-      return handleRouteError(error, 'Unable to receive transfer')
+      return handleRouteError(error, 'Unable to reject transfer')
     }
   }
 )
 
-export const Route = createFileRoute('/api/inventory/transfers/receive')({
+export const Route = createFileRoute('/api/inventory/transfers/reject')({
   server: {
     handlers: {
       POST,

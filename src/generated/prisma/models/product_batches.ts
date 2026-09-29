@@ -306,6 +306,7 @@ export type product_batchesWhereInput = {
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   stock_by_location?: Prisma.Stock_by_locationListRelationFilter
   goods_receipt_items?: Prisma.Goods_receipt_itemsListRelationFilter
+  stock_transfer_item_batches?: Prisma.Stock_transfer_item_batchesListRelationFilter
 }
 
 export type product_batchesOrderByWithRelationInput = {
@@ -327,6 +328,7 @@ export type product_batchesOrderByWithRelationInput = {
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   stock_by_location?: Prisma.stock_by_locationOrderByRelationAggregateInput
   goods_receipt_items?: Prisma.goods_receipt_itemsOrderByRelationAggregateInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesOrderByRelationAggregateInput
 }
 
 export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
@@ -351,6 +353,7 @@ export type product_batchesWhereUniqueInput = Prisma.AtLeast<{
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_batches"> | string | null
   stock_by_location?: Prisma.Stock_by_locationListRelationFilter
   goods_receipt_items?: Prisma.Goods_receipt_itemsListRelationFilter
+  stock_transfer_item_batches?: Prisma.Stock_transfer_item_batchesListRelationFilter
 }, "id">
 
 export type product_batchesOrderByWithAggregationInput = {
@@ -418,6 +421,7 @@ export type product_batchesCreateInput = {
   updated_by_user_id?: string | null
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutProduct_batchesInput
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutProduct_batchesInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesUncheckedCreateInput = {
@@ -439,6 +443,7 @@ export type product_batchesUncheckedCreateInput = {
   updated_by_user_id?: string | null
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutProduct_batchesInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutProduct_batchesInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUncheckedCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesUpdateInput = {
@@ -460,6 +465,7 @@ export type product_batchesUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutProduct_batchesNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutProduct_batchesNestedInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesUncheckedUpdateInput = {
@@ -481,6 +487,7 @@ export type product_batchesUncheckedUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_batchesNestedInput
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutProduct_batchesNestedInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUncheckedUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesCreateManyInput = {
@@ -538,6 +545,11 @@ export type product_batchesUncheckedUpdateManyInput = {
   supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Product_batchesScalarRelationFilter = {
+  is?: Prisma.product_batchesWhereInput
+  isNot?: Prisma.product_batchesWhereInput
 }
 
 export type Product_batchesNullableScalarRelationFilter = {
@@ -610,6 +622,20 @@ export type product_batchesSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
+export type product_batchesCreateNestedOneWithoutStock_transfer_item_batchesInput = {
+  create?: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUncheckedCreateWithoutStock_transfer_item_batchesInput>
+  connectOrCreate?: Prisma.product_batchesCreateOrConnectWithoutStock_transfer_item_batchesInput
+  connect?: Prisma.product_batchesWhereUniqueInput
+}
+
+export type product_batchesUpdateOneRequiredWithoutStock_transfer_item_batchesNestedInput = {
+  create?: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUncheckedCreateWithoutStock_transfer_item_batchesInput>
+  connectOrCreate?: Prisma.product_batchesCreateOrConnectWithoutStock_transfer_item_batchesInput
+  upsert?: Prisma.product_batchesUpsertWithoutStock_transfer_item_batchesInput
+  connect?: Prisma.product_batchesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_batchesUpdateToOneWithWhereWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUpdateWithoutStock_transfer_item_batchesInput>, Prisma.product_batchesUncheckedUpdateWithoutStock_transfer_item_batchesInput>
+}
+
 export type product_batchesCreateNestedOneWithoutStock_by_locationInput = {
   create?: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_by_locationInput, Prisma.product_batchesUncheckedCreateWithoutStock_by_locationInput>
   connectOrCreate?: Prisma.product_batchesCreateOrConnectWithoutStock_by_locationInput
@@ -646,6 +672,106 @@ export type product_batchesUpdateOneWithoutGoods_receipt_itemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.product_batchesUpdateToOneWithWhereWithoutGoods_receipt_itemsInput, Prisma.product_batchesUpdateWithoutGoods_receipt_itemsInput>, Prisma.product_batchesUncheckedUpdateWithoutGoods_receipt_itemsInput>
 }
 
+export type product_batchesCreateWithoutStock_transfer_item_batchesInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_number: string
+  manufacture_date?: Date | string | null
+  expiry_date?: Date | string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.batch_status_enum
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutProduct_batchesInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutProduct_batchesInput
+}
+
+export type product_batchesUncheckedCreateWithoutStock_transfer_item_batchesInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_number: string
+  manufacture_date?: Date | string | null
+  expiry_date?: Date | string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: $Enums.batch_status_enum
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  supplier_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutProduct_batchesInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutProduct_batchesInput
+}
+
+export type product_batchesCreateOrConnectWithoutStock_transfer_item_batchesInput = {
+  where: Prisma.product_batchesWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUncheckedCreateWithoutStock_transfer_item_batchesInput>
+}
+
+export type product_batchesUpsertWithoutStock_transfer_item_batchesInput = {
+  update: Prisma.XOR<Prisma.product_batchesUpdateWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUncheckedUpdateWithoutStock_transfer_item_batchesInput>
+  create: Prisma.XOR<Prisma.product_batchesCreateWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUncheckedCreateWithoutStock_transfer_item_batchesInput>
+  where?: Prisma.product_batchesWhereInput
+}
+
+export type product_batchesUpdateToOneWithWhereWithoutStock_transfer_item_batchesInput = {
+  where?: Prisma.product_batchesWhereInput
+  data: Prisma.XOR<Prisma.product_batchesUpdateWithoutStock_transfer_item_batchesInput, Prisma.product_batchesUncheckedUpdateWithoutStock_transfer_item_batchesInput>
+}
+
+export type product_batchesUpdateWithoutStock_transfer_item_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_number?: Prisma.StringFieldUpdateOperationsInput | string
+  manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumbatch_status_enumFieldUpdateOperationsInput | $Enums.batch_status_enum
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutProduct_batchesNestedInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutProduct_batchesNestedInput
+}
+
+export type product_batchesUncheckedUpdateWithoutStock_transfer_item_batchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_number?: Prisma.StringFieldUpdateOperationsInput | string
+  manufacture_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiry_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  status?: Prisma.Enumbatch_status_enumFieldUpdateOperationsInput | $Enums.batch_status_enum
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplier_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_batchesNestedInput
+  goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutProduct_batchesNestedInput
+}
+
 export type product_batchesCreateWithoutStock_by_locationInput = {
   id?: string
   tenant_id: string
@@ -664,6 +790,7 @@ export type product_batchesCreateWithoutStock_by_locationInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   goods_receipt_items?: Prisma.goods_receipt_itemsCreateNestedManyWithoutProduct_batchesInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesUncheckedCreateWithoutStock_by_locationInput = {
@@ -684,6 +811,7 @@ export type product_batchesUncheckedCreateWithoutStock_by_locationInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedCreateNestedManyWithoutProduct_batchesInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUncheckedCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesCreateOrConnectWithoutStock_by_locationInput = {
@@ -720,6 +848,7 @@ export type product_batchesUpdateWithoutStock_by_locationInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goods_receipt_items?: Prisma.goods_receipt_itemsUpdateManyWithoutProduct_batchesNestedInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesUncheckedUpdateWithoutStock_by_locationInput = {
@@ -740,6 +869,7 @@ export type product_batchesUncheckedUpdateWithoutStock_by_locationInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goods_receipt_items?: Prisma.goods_receipt_itemsUncheckedUpdateManyWithoutProduct_batchesNestedInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUncheckedUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesCreateWithoutGoods_receipt_itemsInput = {
@@ -760,6 +890,7 @@ export type product_batchesCreateWithoutGoods_receipt_itemsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   stock_by_location?: Prisma.stock_by_locationCreateNestedManyWithoutProduct_batchesInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesUncheckedCreateWithoutGoods_receipt_itemsInput = {
@@ -780,6 +911,7 @@ export type product_batchesUncheckedCreateWithoutGoods_receipt_itemsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   stock_by_location?: Prisma.stock_by_locationUncheckedCreateNestedManyWithoutProduct_batchesInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUncheckedCreateNestedManyWithoutProduct_batchesInput
 }
 
 export type product_batchesCreateOrConnectWithoutGoods_receipt_itemsInput = {
@@ -816,6 +948,7 @@ export type product_batchesUpdateWithoutGoods_receipt_itemsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_by_location?: Prisma.stock_by_locationUpdateManyWithoutProduct_batchesNestedInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUpdateManyWithoutProduct_batchesNestedInput
 }
 
 export type product_batchesUncheckedUpdateWithoutGoods_receipt_itemsInput = {
@@ -836,6 +969,7 @@ export type product_batchesUncheckedUpdateWithoutGoods_receipt_itemsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stock_by_location?: Prisma.stock_by_locationUncheckedUpdateManyWithoutProduct_batchesNestedInput
+  stock_transfer_item_batches?: Prisma.stock_transfer_item_batchesUncheckedUpdateManyWithoutProduct_batchesNestedInput
 }
 
 
@@ -846,11 +980,13 @@ export type product_batchesUncheckedUpdateWithoutGoods_receipt_itemsInput = {
 export type Product_batchesCountOutputType = {
   stock_by_location: number
   goods_receipt_items: number
+  stock_transfer_item_batches: number
 }
 
 export type Product_batchesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   stock_by_location?: boolean | Product_batchesCountOutputTypeCountStock_by_locationArgs
   goods_receipt_items?: boolean | Product_batchesCountOutputTypeCountGoods_receipt_itemsArgs
+  stock_transfer_item_batches?: boolean | Product_batchesCountOutputTypeCountStock_transfer_item_batchesArgs
 }
 
 /**
@@ -877,6 +1013,13 @@ export type Product_batchesCountOutputTypeCountGoods_receipt_itemsArgs<ExtArgs e
   where?: Prisma.goods_receipt_itemsWhereInput
 }
 
+/**
+ * Product_batchesCountOutputType without action
+ */
+export type Product_batchesCountOutputTypeCountStock_transfer_item_batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_transfer_item_batchesWhereInput
+}
+
 
 export type product_batchesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -897,6 +1040,7 @@ export type product_batchesSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updated_by_user_id?: boolean
   stock_by_location?: boolean | Prisma.product_batches$stock_by_locationArgs<ExtArgs>
   goods_receipt_items?: boolean | Prisma.product_batches$goods_receipt_itemsArgs<ExtArgs>
+  stock_transfer_item_batches?: boolean | Prisma.product_batches$stock_transfer_item_batchesArgs<ExtArgs>
   _count?: boolean | Prisma.Product_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product_batches"]>
 
@@ -961,6 +1105,7 @@ export type product_batchesOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type product_batchesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   stock_by_location?: boolean | Prisma.product_batches$stock_by_locationArgs<ExtArgs>
   goods_receipt_items?: boolean | Prisma.product_batches$goods_receipt_itemsArgs<ExtArgs>
+  stock_transfer_item_batches?: boolean | Prisma.product_batches$stock_transfer_item_batchesArgs<ExtArgs>
   _count?: boolean | Prisma.Product_batchesCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type product_batchesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -971,6 +1116,7 @@ export type $product_batchesPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     stock_by_location: Prisma.$stock_by_locationPayload<ExtArgs>[]
     goods_receipt_items: Prisma.$goods_receipt_itemsPayload<ExtArgs>[]
+    stock_transfer_item_batches: Prisma.$stock_transfer_item_batchesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1385,6 +1531,7 @@ export interface Prisma__product_batchesClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   stock_by_location<T extends Prisma.product_batches$stock_by_locationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_batches$stock_by_locationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_by_locationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   goods_receipt_items<T extends Prisma.product_batches$goods_receipt_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_batches$goods_receipt_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$goods_receipt_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stock_transfer_item_batches<T extends Prisma.product_batches$stock_transfer_item_batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_batches$stock_transfer_item_batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfer_item_batchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1868,6 +2015,30 @@ export type product_batches$goods_receipt_itemsArgs<ExtArgs extends runtime.Type
   take?: number
   skip?: number
   distinct?: Prisma.Goods_receipt_itemsScalarFieldEnum | Prisma.Goods_receipt_itemsScalarFieldEnum[]
+}
+
+/**
+ * product_batches.stock_transfer_item_batches
+ */
+export type product_batches$stock_transfer_item_batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_transfer_item_batches
+   */
+  select?: Prisma.stock_transfer_item_batchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_transfer_item_batches
+   */
+  omit?: Prisma.stock_transfer_item_batchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_transfer_item_batchesInclude<ExtArgs> | null
+  where?: Prisma.stock_transfer_item_batchesWhereInput
+  orderBy?: Prisma.stock_transfer_item_batchesOrderByWithRelationInput | Prisma.stock_transfer_item_batchesOrderByWithRelationInput[]
+  cursor?: Prisma.stock_transfer_item_batchesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_transfer_item_batchesScalarFieldEnum | Prisma.Stock_transfer_item_batchesScalarFieldEnum[]
 }
 
 /**

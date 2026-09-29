@@ -361,15 +361,42 @@ export type financial_transaction_type_enum = (typeof financial_transaction_type
 
 export const transfer_status_enum = {
   draft: 'draft',
+  pending_approval: 'pending_approval',
   approved: 'approved',
+  ready_to_ship: 'ready_to_ship',
   picked: 'picked',
+  partially_shipped: 'partially_shipped',
+  shipped: 'shipped',
   in_transit: 'in_transit',
+  partially_received: 'partially_received',
   received: 'received',
   completed: 'completed',
+  closed: 'closed',
+  rejected: 'rejected',
   cancelled: 'cancelled'
 } as const
 
 export type transfer_status_enum = (typeof transfer_status_enum)[keyof typeof transfer_status_enum]
+
+
+export const transfer_type_enum = {
+  internal: 'internal',
+  inter_warehouse: 'inter_warehouse',
+  inter_store: 'inter_store',
+  inter_branch: 'inter_branch'
+} as const
+
+export type transfer_type_enum = (typeof transfer_type_enum)[keyof typeof transfer_type_enum]
+
+
+export const transfer_priority_enum = {
+  low: 'low',
+  normal: 'normal',
+  high: 'high',
+  urgent: 'urgent'
+} as const
+
+export type transfer_priority_enum = (typeof transfer_priority_enum)[keyof typeof transfer_priority_enum]
 
 
 export const adjustment_status_enum = {

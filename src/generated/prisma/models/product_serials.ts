@@ -345,6 +345,7 @@ export type product_serialsWhereInput = {
   created_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
   goods_receipt_item_serials?: Prisma.Goods_receipt_item_serialsListRelationFilter
+  stock_transfer_item_serials?: Prisma.Stock_transfer_item_serialsListRelationFilter
 }
 
 export type product_serialsOrderByWithRelationInput = {
@@ -370,6 +371,7 @@ export type product_serialsOrderByWithRelationInput = {
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsOrderByRelationAggregateInput
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsOrderByRelationAggregateInput
 }
 
 export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
@@ -398,6 +400,7 @@ export type product_serialsWhereUniqueInput = Prisma.AtLeast<{
   created_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"product_serials"> | string | null
   goods_receipt_item_serials?: Prisma.Goods_receipt_item_serialsListRelationFilter
+  stock_transfer_item_serials?: Prisma.Stock_transfer_item_serialsListRelationFilter
 }, "id">
 
 export type product_serialsOrderByWithAggregationInput = {
@@ -479,6 +482,7 @@ export type product_serialsCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsCreateNestedManyWithoutProduct_serialsInput
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsCreateNestedManyWithoutProduct_serialsInput
 }
 
 export type product_serialsUncheckedCreateInput = {
@@ -504,6 +508,7 @@ export type product_serialsUncheckedCreateInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUncheckedCreateNestedManyWithoutProduct_serialsInput
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsUncheckedCreateNestedManyWithoutProduct_serialsInput
 }
 
 export type product_serialsUpdateInput = {
@@ -529,6 +534,7 @@ export type product_serialsUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUpdateManyWithoutProduct_serialsNestedInput
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsUpdateManyWithoutProduct_serialsNestedInput
 }
 
 export type product_serialsUncheckedUpdateInput = {
@@ -554,6 +560,7 @@ export type product_serialsUncheckedUpdateInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUncheckedUpdateManyWithoutProduct_serialsNestedInput
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsUncheckedUpdateManyWithoutProduct_serialsNestedInput
 }
 
 export type product_serialsCreateManyInput = {
@@ -626,6 +633,11 @@ export type product_serialsUncheckedUpdateManyInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Product_serialsScalarRelationFilter = {
+  is?: Prisma.product_serialsWhereInput
+  isNot?: Prisma.product_serialsWhereInput
 }
 
 export type product_serialsCountOrderByAggregateInput = {
@@ -708,9 +720,18 @@ export type product_serialsSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
-export type Product_serialsScalarRelationFilter = {
-  is?: Prisma.product_serialsWhereInput
-  isNot?: Prisma.product_serialsWhereInput
+export type product_serialsCreateNestedOneWithoutStock_transfer_item_serialsInput = {
+  create?: Prisma.XOR<Prisma.product_serialsCreateWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutStock_transfer_item_serialsInput>
+  connectOrCreate?: Prisma.product_serialsCreateOrConnectWithoutStock_transfer_item_serialsInput
+  connect?: Prisma.product_serialsWhereUniqueInput
+}
+
+export type product_serialsUpdateOneRequiredWithoutStock_transfer_item_serialsNestedInput = {
+  create?: Prisma.XOR<Prisma.product_serialsCreateWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutStock_transfer_item_serialsInput>
+  connectOrCreate?: Prisma.product_serialsCreateOrConnectWithoutStock_transfer_item_serialsInput
+  upsert?: Prisma.product_serialsUpsertWithoutStock_transfer_item_serialsInput
+  connect?: Prisma.product_serialsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.product_serialsUpdateToOneWithWhereWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUpdateWithoutStock_transfer_item_serialsInput>, Prisma.product_serialsUncheckedUpdateWithoutStock_transfer_item_serialsInput>
 }
 
 export type Enumserial_status_enumFieldUpdateOperationsInput = {
@@ -729,6 +750,122 @@ export type product_serialsUpdateOneRequiredWithoutGoods_receipt_item_serialsNes
   upsert?: Prisma.product_serialsUpsertWithoutGoods_receipt_item_serialsInput
   connect?: Prisma.product_serialsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.product_serialsUpdateToOneWithWhereWithoutGoods_receipt_item_serialsInput, Prisma.product_serialsUpdateWithoutGoods_receipt_item_serialsInput>, Prisma.product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput>
+}
+
+export type product_serialsCreateWithoutStock_transfer_item_serialsInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_id?: string | null
+  serial_number: string
+  status?: $Enums.serial_status_enum
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Date | string | null
+  sold_at?: Date | string | null
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  last_reference_type?: string | null
+  last_reference_id?: string | null
+  warranty_until?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsCreateNestedManyWithoutProduct_serialsInput
+}
+
+export type product_serialsUncheckedCreateWithoutStock_transfer_item_serialsInput = {
+  id?: string
+  tenant_id: string
+  product_variant_id: string
+  batch_id?: string | null
+  serial_number: string
+  status?: $Enums.serial_status_enum
+  store_id?: string | null
+  warehouse_location_id?: string | null
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Date | string | null
+  sold_at?: Date | string | null
+  received_reference_type?: string | null
+  received_reference_id?: string | null
+  last_reference_type?: string | null
+  last_reference_id?: string | null
+  warranty_until?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUncheckedCreateNestedManyWithoutProduct_serialsInput
+}
+
+export type product_serialsCreateOrConnectWithoutStock_transfer_item_serialsInput = {
+  where: Prisma.product_serialsWhereUniqueInput
+  create: Prisma.XOR<Prisma.product_serialsCreateWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutStock_transfer_item_serialsInput>
+}
+
+export type product_serialsUpsertWithoutStock_transfer_item_serialsInput = {
+  update: Prisma.XOR<Prisma.product_serialsUpdateWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUncheckedUpdateWithoutStock_transfer_item_serialsInput>
+  create: Prisma.XOR<Prisma.product_serialsCreateWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUncheckedCreateWithoutStock_transfer_item_serialsInput>
+  where?: Prisma.product_serialsWhereInput
+}
+
+export type product_serialsUpdateToOneWithWhereWithoutStock_transfer_item_serialsInput = {
+  where?: Prisma.product_serialsWhereInput
+  data: Prisma.XOR<Prisma.product_serialsUpdateWithoutStock_transfer_item_serialsInput, Prisma.product_serialsUncheckedUpdateWithoutStock_transfer_item_serialsInput>
+}
+
+export type product_serialsUpdateWithoutStock_transfer_item_serialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_number?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumserial_status_enumFieldUpdateOperationsInput | $Enums.serial_status_enum
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sold_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warranty_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUpdateManyWithoutProduct_serialsNestedInput
+}
+
+export type product_serialsUncheckedUpdateWithoutStock_transfer_item_serialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serial_number?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumserial_status_enumFieldUpdateOperationsInput | $Enums.serial_status_enum
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  received_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sold_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  received_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  received_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_reference_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warranty_until?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  goods_receipt_item_serials?: Prisma.goods_receipt_item_serialsUncheckedUpdateManyWithoutProduct_serialsNestedInput
 }
 
 export type product_serialsCreateWithoutGoods_receipt_item_serialsInput = {
@@ -753,6 +890,7 @@ export type product_serialsCreateWithoutGoods_receipt_item_serialsInput = {
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsCreateNestedManyWithoutProduct_serialsInput
 }
 
 export type product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput = {
@@ -777,6 +915,7 @@ export type product_serialsUncheckedCreateWithoutGoods_receipt_item_serialsInput
   updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsUncheckedCreateNestedManyWithoutProduct_serialsInput
 }
 
 export type product_serialsCreateOrConnectWithoutGoods_receipt_item_serialsInput = {
@@ -817,6 +956,7 @@ export type product_serialsUpdateWithoutGoods_receipt_item_serialsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsUpdateManyWithoutProduct_serialsNestedInput
 }
 
 export type product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput = {
@@ -841,6 +981,7 @@ export type product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_transfer_item_serials?: Prisma.stock_transfer_item_serialsUncheckedUpdateManyWithoutProduct_serialsNestedInput
 }
 
 
@@ -850,10 +991,12 @@ export type product_serialsUncheckedUpdateWithoutGoods_receipt_item_serialsInput
 
 export type Product_serialsCountOutputType = {
   goods_receipt_item_serials: number
+  stock_transfer_item_serials: number
 }
 
 export type Product_serialsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   goods_receipt_item_serials?: boolean | Product_serialsCountOutputTypeCountGoods_receipt_item_serialsArgs
+  stock_transfer_item_serials?: boolean | Product_serialsCountOutputTypeCountStock_transfer_item_serialsArgs
 }
 
 /**
@@ -871,6 +1014,13 @@ export type Product_serialsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Ty
  */
 export type Product_serialsCountOutputTypeCountGoods_receipt_item_serialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.goods_receipt_item_serialsWhereInput
+}
+
+/**
+ * Product_serialsCountOutputType without action
+ */
+export type Product_serialsCountOutputTypeCountStock_transfer_item_serialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.stock_transfer_item_serialsWhereInput
 }
 
 
@@ -897,6 +1047,7 @@ export type product_serialsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
   goods_receipt_item_serials?: boolean | Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs>
+  stock_transfer_item_serials?: boolean | Prisma.product_serials$stock_transfer_item_serialsArgs<ExtArgs>
   _count?: boolean | Prisma.Product_serialsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product_serials"]>
 
@@ -975,6 +1126,7 @@ export type product_serialsSelectScalar = {
 export type product_serialsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "product_variant_id" | "batch_id" | "serial_number" | "status" | "store_id" | "warehouse_location_id" | "unit_cost" | "received_at" | "sold_at" | "received_reference_type" | "received_reference_id" | "last_reference_type" | "last_reference_id" | "warranty_until" | "notes" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["product_serials"]>
 export type product_serialsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   goods_receipt_item_serials?: boolean | Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs>
+  stock_transfer_item_serials?: boolean | Prisma.product_serials$stock_transfer_item_serialsArgs<ExtArgs>
   _count?: boolean | Prisma.Product_serialsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type product_serialsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -984,6 +1136,7 @@ export type $product_serialsPayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "product_serials"
   objects: {
     goods_receipt_item_serials: Prisma.$goods_receipt_item_serialsPayload<ExtArgs>[]
+    stock_transfer_item_serials: Prisma.$stock_transfer_item_serialsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1402,6 +1555,7 @@ readonly fields: product_serialsFieldRefs;
 export interface Prisma__product_serialsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   goods_receipt_item_serials<T extends Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_serials$goods_receipt_item_serialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$goods_receipt_item_serialsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stock_transfer_item_serials<T extends Prisma.product_serials$stock_transfer_item_serialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.product_serials$stock_transfer_item_serialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$stock_transfer_item_serialsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1866,6 +2020,30 @@ export type product_serials$goods_receipt_item_serialsArgs<ExtArgs extends runti
   take?: number
   skip?: number
   distinct?: Prisma.Goods_receipt_item_serialsScalarFieldEnum | Prisma.Goods_receipt_item_serialsScalarFieldEnum[]
+}
+
+/**
+ * product_serials.stock_transfer_item_serials
+ */
+export type product_serials$stock_transfer_item_serialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the stock_transfer_item_serials
+   */
+  select?: Prisma.stock_transfer_item_serialsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the stock_transfer_item_serials
+   */
+  omit?: Prisma.stock_transfer_item_serialsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_transfer_item_serialsInclude<ExtArgs> | null
+  where?: Prisma.stock_transfer_item_serialsWhereInput
+  orderBy?: Prisma.stock_transfer_item_serialsOrderByWithRelationInput | Prisma.stock_transfer_item_serialsOrderByWithRelationInput[]
+  cursor?: Prisma.stock_transfer_item_serialsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Stock_transfer_item_serialsScalarFieldEnum | Prisma.Stock_transfer_item_serialsScalarFieldEnum[]
 }
 
 /**
