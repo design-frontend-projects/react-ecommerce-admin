@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { TransferListItem } from '../data/schema'
 
-export type TransferDialogType = 'create' | 'view'
+export type TransferDialogType = 'create' | 'edit' | 'view'
 
 interface TransfersContextValue {
   open: TransferDialogType | null

@@ -418,6 +418,9 @@ export async function createTransfer(authUserId: string, input: CreateTransferIn
       ...created,
       stock_transfer_items: items,
     })
+  }, {
+    maxWait: 15000,
+    timeout: 45000,
   })
 }
 
@@ -540,6 +543,9 @@ export async function updateTransferDraft(
       ...updated,
       stock_transfer_items: items,
     })
+  }, {
+    maxWait: 15000,
+    timeout: 45000,
   })
 }
 
@@ -575,62 +581,228 @@ export async function submitTransfer(authUserId: string, id: string) {
 
 /**
  * Approves a stock transfer (pending_approval -> approved).
+ * Automatically reserves requested stock at the sender warehouse or store.
  */
 export async function approveTransfer(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  const existing = await prisma.stock_transfers.findFirst({
-    where: { id, tenant_id: tenantId },
-    select: { status: true },
-  })
+  return prisma.$transaction(
+    async (tx) => {
+      const existing = await tx.stock_transfers.findFirst({
+        where: { id, tenant_id: tenantId },
+        include: {
+          stock_transfer_items: true,
+        },
+      })
 
-  if (!existing) {
-    throw new ApiError(`Stock transfer '${id}' not found.`, 404)
-  }
+      if (!existing) {
+        throw new ApiError(`Stock transfer '${id}' not found.`, 404)
+      }
 
-  assertValidTransition(existing.status, 'approved', id)
+      assertValidTransition(existing.status, 'approved', id)
 
-  return prisma.stock_transfers.update({
-    where: { id },
-    data: {
-      status: 'approved',
-      approved_by_user_id: tenantUserId,
-      approved_by: authUserId,
-      approved_at: new Date(),
-      updated_by_user_id: tenantUserId,
-      updated_at: new Date(),
+      // Reserve stock at sender location (warehouse or store)
+      const sourceWarehouseId = existing.source_warehouse_id
+      const sourceStoreId = existing.from_store_id
+
+      for (const item of existing.stock_transfer_items) {
+        const qtyToReserve = toNumeric(item.qty, 0)
+        if (qtyToReserve <= 0) continue
+
+        let invItem = await tx.inventory_items.findUnique({
+          where: {
+            tenant_id_product_variant_id: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+            },
+          },
+          select: { id: true, sku: true },
+        })
+        if (!invItem) {
+          const pv = await tx.product_variants.findUnique({
+            where: { id: item.product_variant_id },
+            select: { sku: true },
+          })
+          invItem = await tx.inventory_items.create({
+            data: {
+              tenant_id: tenantId,
+              product_variant_id: item.product_variant_id,
+              sku: pv?.sku ?? `SKU-${item.product_variant_id.slice(0, 8)}`,
+              created_by_user_id: tenantUserId,
+            },
+            select: { id: true, sku: true },
+          })
+        }
+
+        let balance = await tx.stock_balances.findFirst({
+          where: {
+            tenant_id: tenantId,
+            inventory_item_id: invItem.id,
+            ...(sourceWarehouseId ? { warehouse_id: sourceWarehouseId } : {}),
+            ...(sourceStoreId ? { store_id: sourceStoreId } : {}),
+            ...(item.source_location_id
+              ? { location_id: item.source_location_id }
+              : {}),
+            condition: item.condition,
+            ...(item.batch_id ? { batch_id: item.batch_id } : {}),
+          },
+        })
+
+        if (!balance) {
+          balance = await tx.stock_balances.findFirst({
+            where: {
+              tenant_id: tenantId,
+              inventory_item_id: invItem.id,
+              ...(sourceWarehouseId ? { warehouse_id: sourceWarehouseId } : {}),
+              ...(sourceStoreId ? { store_id: sourceStoreId } : {}),
+            },
+            orderBy: { qty_on_hand: 'desc' },
+          })
+        }
+
+        if (!balance) {
+          balance = await tx.stock_balances.create({
+            data: {
+              tenant_id: tenantId,
+              inventory_item_id: invItem.id,
+              product_variant_id: item.product_variant_id,
+              warehouse_id: sourceWarehouseId ?? null,
+              store_id: sourceStoreId ?? null,
+              location_id: item.source_location_id ?? null,
+              condition: item.condition,
+              batch_id: item.batch_id ?? null,
+              qty_on_hand: 0,
+              qty_reserved: 0,
+              avg_cost: 0,
+              created_by_user_id: tenantUserId,
+            },
+          })
+        }
+
+        // Increment qty_reserved on stock balance
+        await tx.stock_balances.update({
+          where: { id: balance.id },
+          data: {
+            qty_reserved: { increment: new Prisma.Decimal(qtyToReserve) },
+            updated_at: new Date(),
+            updated_by_user_id: tenantUserId,
+          },
+        })
+
+        // Create active stock_reservations record
+        await tx.stock_reservations.create({
+          data: {
+            tenant_id: tenantId,
+            reservation_no: `RES-TRF-${Date.now().toString().slice(-6)}-${item.id.slice(0, 4)}`,
+            warehouse_id: sourceWarehouseId ?? null,
+            store_id: sourceStoreId ?? null,
+            product_variant_id: item.product_variant_id,
+            stock_balance_id: balance.id,
+            qty: new Prisma.Decimal(qtyToReserve),
+            qty_consumed: 0,
+            status: 'active',
+            reference_type: 'stock_transfer',
+            reference_id: existing.id,
+            reference_item_id: item.id,
+            created_by_user_id: tenantUserId,
+          },
+        })
+      }
+
+      return tx.stock_transfers.update({
+        where: { id },
+        data: {
+          status: 'approved',
+          approved_by_user_id: tenantUserId,
+          approved_by: authUserId,
+          approved_at: new Date(),
+          updated_by_user_id: tenantUserId,
+          updated_at: new Date(),
+        },
+      })
     },
-  })
+    {
+      maxWait: 15000,
+      timeout: 45000,
+    }
+  )
 }
 
 /**
  * Rejects a transfer awaiting approval (pending_approval -> rejected).
+ * Releases any reserved stock back to available pool.
  */
-export async function rejectTransfer(authUserId: string, id: string, reason?: string) {
+export async function rejectTransfer(
+  authUserId: string,
+  id: string,
+  reason?: string
+) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  const existing = await prisma.stock_transfers.findFirst({
-    where: { id, tenant_id: tenantId },
-    select: { status: true },
-  })
+  return prisma.$transaction(
+    async (tx) => {
+      const existing = await tx.stock_transfers.findFirst({
+        where: { id, tenant_id: tenantId },
+        select: { status: true },
+      })
 
-  if (!existing) {
-    throw new ApiError(`Stock transfer '${id}' not found.`, 404)
-  }
+      if (!existing) {
+        throw new ApiError(`Stock transfer '${id}' not found.`, 404)
+      }
 
-  assertValidTransition(existing.status, 'rejected', id)
+      assertValidTransition(existing.status, 'rejected', id)
 
-  return prisma.stock_transfers.update({
-    where: { id },
-    data: {
-      status: 'rejected',
-      cancellation_reason: reason ?? 'Rejected during approval',
-      updated_by_user_id: tenantUserId,
-      updated_at: new Date(),
+      // Release any active stock reservations
+      const activeRes = await tx.stock_reservations.findMany({
+        where: {
+          tenant_id: tenantId,
+          reference_type: 'stock_transfer',
+          reference_id: id,
+          status: 'active',
+        },
+      })
+
+      for (const res of activeRes) {
+        const unconsumed = toNumeric(res.qty) - toNumeric(res.qty_consumed)
+        if (unconsumed > 0 && res.stock_balance_id) {
+          await tx.stock_balances.update({
+            where: { id: res.stock_balance_id },
+            data: {
+              qty_reserved: { decrement: new Prisma.Decimal(unconsumed) },
+              updated_at: new Date(),
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+        await tx.stock_reservations.update({
+          where: { id: res.id },
+          data: {
+            status: 'released',
+            release_reason: reason ?? 'Rejected during approval',
+            released_at: new Date(),
+            updated_at: new Date(),
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+
+      return tx.stock_transfers.update({
+        where: { id },
+        data: {
+          status: 'rejected',
+          cancellation_reason: reason ?? 'Rejected during approval',
+          updated_by_user_id: tenantUserId,
+          updated_at: new Date(),
+        },
+      })
     },
-  })
+    {
+      maxWait: 15000,
+      timeout: 45000,
+    }
+  )
 }
 
 /**
@@ -776,17 +948,21 @@ export async function shipTransfer(
       throw new ApiError('All items in this transfer have already been shipped.', 400)
     }
 
-    // 3. Validate stock availability at source warehouse
-    if (transfer.source_warehouse_id) {
+    // 3. Validate stock availability at source warehouse or store
+    if (transfer.source_warehouse_id || transfer.from_store_id) {
       await validateStockAvailabilityForShipment(
         tx,
         tenantId,
-        transfer.source_warehouse_id,
+        {
+          warehouseId: transfer.source_warehouse_id,
+          storeId: transfer.from_store_id,
+        },
         itemsToShip.map((it) => ({
           productVariantId: it.productVariantId,
           quantity: it.quantity,
           batchId: it.batchId,
           sourceLocationId: it.sourceLocationId,
+          transferItemId: it.transferItemId,
         }))
       )
     }
@@ -806,7 +982,7 @@ export async function shipTransfer(
       },
     })
 
-    // 5. Create shipment items & update line item shipped_qty
+    // 5. Create shipment items & update line item shipped_qty & consume active reservations
     for (const shipItem of itemsToShip) {
       await tx.stock_transfer_shipment_items.create({
         data: {
@@ -831,19 +1007,65 @@ export async function shipTransfer(
           updated_at: new Date(),
         },
       })
+
+      // Consume active stock reservation for this line item if present
+      const activeRes = await tx.stock_reservations.findFirst({
+        where: {
+          tenant_id: tenantId,
+          reference_type: 'stock_transfer',
+          reference_id: transfer.id,
+          reference_item_id: shipItem.transferItemId,
+          status: 'active',
+        },
+      })
+
+      if (activeRes) {
+        const remainingRes = toNumeric(activeRes.qty) - toNumeric(activeRes.qty_consumed)
+        const consumeQty = Math.min(remainingRes, shipItem.quantity)
+        if (consumeQty > 0) {
+          if (activeRes.stock_balance_id) {
+            await tx.stock_balances.update({
+              where: { id: activeRes.stock_balance_id },
+              data: {
+                qty_reserved: { decrement: new Decimal(consumeQty) },
+                updated_at: new Date(),
+                updated_by_user_id: tenantUserId,
+              },
+            })
+          }
+          const newConsumed = toNumeric(activeRes.qty_consumed) + consumeQty
+          await tx.stock_reservations.update({
+            where: { id: activeRes.id },
+            data: {
+              qty_consumed: new Decimal(newConsumed),
+              status: newConsumed >= toNumeric(activeRes.qty) - 0.0001 ? 'consumed' : 'active',
+              updated_at: new Date(),
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+      }
     }
 
     // 6. Post inventory transaction via engine (TRANSFER_SHIPMENT: subtract on-hand at source)
-    if (transfer.source_warehouse_id) {
+    const hasSource = Boolean(transfer.source_warehouse_id || transfer.from_store_id)
+    if (hasSource) {
+      const sourceWarehouseId = transfer.source_warehouse_id ?? null
+      const sourceStoreId = transfer.from_store_id ?? null
+      const destWarehouseId = transfer.destination_warehouse_id ?? null
+      const destStoreId = transfer.to_store_id ?? null
+
       const engineItems: InventoryTransactionItemInput[] = itemsToShip.map((si) => ({
         productVariantId: si.productVariantId,
         quantity: si.quantity,
         unitCost: si.unitCost,
-        sourceWarehouseId: transfer.source_warehouse_id,
-        destWarehouseId: transfer.destination_warehouse_id,
-        sourceLocationId: si.sourceLocationId,
-        batchId: si.batchId,
-        serialId: si.serialId,
+        sourceWarehouseId,
+        sourceStoreId,
+        destWarehouseId,
+        destStoreId,
+        sourceLocationId: si.sourceLocationId ?? null,
+        batchId: si.batchId ?? null,
+        serialId: si.serialId ?? null,
         condition: si.condition,
         referenceItemType: 'stock_transfer_shipment_item',
         referenceItemId: si.transferItemId,
@@ -853,8 +1075,10 @@ export async function shipTransfer(
         authUserId,
         {
           typeCode: 'TRANSFER_SHIPMENT',
-          sourceWarehouseId: transfer.source_warehouse_id,
-          destWarehouseId: transfer.destination_warehouse_id,
+          sourceWarehouseId,
+          sourceStoreId,
+          destWarehouseId,
+          destStoreId,
           referenceType: 'stock_transfer_shipment',
           referenceId: shipment.id,
           notes: `Transfer shipment ${shipmentNumber} for transfer ${transfer.reference_no ?? transfer.id}`,
@@ -892,6 +1116,9 @@ export async function shipTransfer(
     })
 
     return serializeTransfer(updatedTransfer)
+  }, {
+    maxWait: 15000,
+    timeout: 45000,
   })
 }
 
@@ -1067,18 +1294,26 @@ export async function receiveTransfer(
     }
 
     // 5. Post inventory transaction via engine (TRANSFER_RECEIPT: add on-hand at destination)
-    if (transfer.destination_warehouse_id) {
+    const hasDest = Boolean(transfer.destination_warehouse_id || transfer.to_store_id)
+    if (hasDest) {
       const itemsWithReceivedStock = itemsToReceive.filter((it) => it.receivedQty > 0)
       if (itemsWithReceivedStock.length > 0) {
+        const sourceWarehouseId = transfer.source_warehouse_id ?? null
+        const sourceStoreId = transfer.from_store_id ?? null
+        const destWarehouseId = transfer.destination_warehouse_id ?? null
+        const destStoreId = transfer.to_store_id ?? null
+
         const engineItems: InventoryTransactionItemInput[] = itemsWithReceivedStock.map((ri) => ({
           productVariantId: ri.productVariantId,
           quantity: ri.receivedQty,
           unitCost: ri.unitCost,
-          sourceWarehouseId: transfer.source_warehouse_id,
-          destWarehouseId: transfer.destination_warehouse_id,
-          destLocationId: ri.destinationLocationId,
-          batchId: ri.batchId,
-          serialId: ri.serialId,
+          sourceWarehouseId,
+          sourceStoreId,
+          destWarehouseId,
+          destStoreId,
+          destLocationId: ri.destinationLocationId ?? null,
+          batchId: ri.batchId ?? null,
+          serialId: ri.serialId ?? null,
           condition: ri.condition,
           referenceItemType: 'stock_transfer_receipt_item',
           referenceItemId: ri.transferItemId,
@@ -1088,8 +1323,10 @@ export async function receiveTransfer(
           authUserId,
           {
             typeCode: 'TRANSFER_RECEIPT',
-            sourceWarehouseId: transfer.source_warehouse_id,
-            destWarehouseId: transfer.destination_warehouse_id,
+            sourceWarehouseId,
+            sourceStoreId,
+            destWarehouseId,
+            destStoreId,
             referenceType: 'stock_transfer_receipt',
             referenceId: receipt.id,
             notes: `Transfer receipt ${receiptNumber} for transfer ${transfer.reference_no ?? transfer.id}`,
@@ -1132,6 +1369,9 @@ export async function receiveTransfer(
     })
 
     return serializeTransfer(updatedTransfer)
+  }, {
+    maxWait: 15000,
+    timeout: 45000,
   })
 }
 
@@ -1183,33 +1423,75 @@ export async function cancelTransfer(authUserId: string, id: string, reason?: st
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  const existing = await prisma.stock_transfers.findFirst({
-    where: { id, tenant_id: tenantId },
-    select: { status: true },
-  })
+  return prisma.$transaction(
+    async (tx) => {
+      const existing = await tx.stock_transfers.findFirst({
+        where: { id, tenant_id: tenantId },
+        select: { status: true },
+      })
 
-  if (!existing) {
-    throw new ApiError(`Stock transfer '${id}' not found.`, 404)
-  }
+      if (!existing) {
+        throw new ApiError(`Stock transfer '${id}' not found.`, 404)
+      }
 
-  if (!canCancelTransfer(existing.status)) {
-    throw new ApiError(
-      `Cannot cancel transfer in '${existing.status}' status. Dispatched or received transfers cannot be cancelled.`,
-      409
-    )
-  }
+      if (!canCancelTransfer(existing.status)) {
+        throw new ApiError(
+          `Cannot cancel transfer in '${existing.status}' status. Dispatched or received transfers cannot be cancelled.`,
+          409
+        )
+      }
 
-  return prisma.stock_transfers.update({
-    where: { id },
-    data: {
-      status: 'cancelled',
-      cancellation_reason: reason ?? null,
-      cancelled_by_user_id: tenantUserId,
-      cancelled_at: new Date(),
-      updated_by_user_id: tenantUserId,
-      updated_at: new Date(),
+      // Release any active stock reservations
+      const activeRes = await tx.stock_reservations.findMany({
+        where: {
+          tenant_id: tenantId,
+          reference_type: 'stock_transfer',
+          reference_id: id,
+          status: 'active',
+        },
+      })
+
+      for (const res of activeRes) {
+        const unconsumed = toNumeric(res.qty) - toNumeric(res.qty_consumed)
+        if (unconsumed > 0 && res.stock_balance_id) {
+          await tx.stock_balances.update({
+            where: { id: res.stock_balance_id },
+            data: {
+              qty_reserved: { decrement: new Prisma.Decimal(unconsumed) },
+              updated_at: new Date(),
+              updated_by_user_id: tenantUserId,
+            },
+          })
+        }
+        await tx.stock_reservations.update({
+          where: { id: res.id },
+          data: {
+            status: 'released',
+            release_reason: reason ?? 'Transfer cancelled',
+            released_at: new Date(),
+            updated_at: new Date(),
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+
+      return tx.stock_transfers.update({
+        where: { id },
+        data: {
+          status: 'cancelled',
+          cancellation_reason: reason ?? null,
+          cancelled_by_user_id: tenantUserId,
+          cancelled_at: new Date(),
+          updated_by_user_id: tenantUserId,
+          updated_at: new Date(),
+        },
+      })
     },
-  })
+    {
+      maxWait: 15000,
+      timeout: 45000,
+    }
+  )
 }
 
 /**

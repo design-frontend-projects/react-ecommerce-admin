@@ -458,6 +458,24 @@ describe('Stock Transfer Enhancements Test Suite', () => {
       expect(screen.getByText(/Received by: receiver-02/i)).toBeDefined()
       expect(screen.getByText('Urgent weekend restock')).toBeDefined()
     })
+
+    it('renders lifecycle audit trail with expected schedule and reason code', async () => {
+      const user = userEvent.setup()
+      const transferWithSchedule: TransferDetail = {
+        ...mockTransfer,
+        expected_ship_date: '2026-09-20',
+        expected_receive_date: '2026-09-22',
+        reason_code: 'STORE_RESTOCK',
+      }
+      render(<TransferMovementHistory transfer={transferWithSchedule} />)
+
+      const auditTab = screen.getByRole('tab', { name: /lifecycle audit/i })
+      await user.click(auditTab)
+
+      expect(screen.getByText('STORE_RESTOCK')).toBeDefined()
+      expect(screen.getByText(/Expected Ship Date:/i)).toBeDefined()
+      expect(screen.getByText(/Expected Receive Date:/i)).toBeDefined()
+    })
   })
 
   describe('i18n Translation Dictionary Parity', () => {

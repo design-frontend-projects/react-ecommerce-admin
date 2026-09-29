@@ -5,6 +5,7 @@ import { WorkflowStepper, type WorkflowStep } from '@/components/shared/workflow
 interface TransferTimelineProps {
   status: string
   createdAt?: string | null
+  requestedAt?: string | null
   approvedAt?: string | null
   shippedAt?: string | null
   receivedAt?: string | null
@@ -15,6 +16,7 @@ interface TransferTimelineProps {
 export function TransferTimeline({
   status,
   createdAt,
+  requestedAt,
   approvedAt,
   shippedAt,
   receivedAt,
@@ -25,8 +27,24 @@ export function TransferTimeline({
   const isCancelled = status === 'cancelled'
   const isRejected = status === 'rejected'
 
-  let currentKey = status
-  if (status === 'cancelled' || status === 'rejected') {
+  let currentKey = 'draft'
+  if (status === 'pending_approval') {
+    currentKey = 'pending_approval'
+  } else if (status === 'approved') {
+    currentKey = 'approved'
+  } else if (status === 'ready_to_ship' || status === 'picked') {
+    currentKey = 'picked'
+  } else if (
+    status === 'partially_shipped' ||
+    status === 'shipped' ||
+    status === 'in_transit'
+  ) {
+    currentKey = 'in_transit'
+  } else if (status === 'partially_received' || status === 'received') {
+    currentKey = 'received'
+  } else if (status === 'closed' || status === 'completed') {
+    currentKey = 'completed'
+  } else if (isCancelled || isRejected) {
     currentKey = 'draft'
   }
 
@@ -38,20 +56,26 @@ export function TransferTimeline({
       timestamp: createdAt ? new Date(createdAt).toLocaleDateString() : undefined,
     },
     {
+      key: 'pending_approval',
+      title: t('stockTransfers.timeline.pendingApproval.title', 'Pending Approval'),
+      description: t('stockTransfers.timeline.pendingApproval.description', 'Submitted for review'),
+      timestamp: requestedAt ? new Date(requestedAt).toLocaleDateString() : undefined,
+    },
+    {
       key: 'approved',
       title: t('stockTransfers.timeline.approved.title', 'Approved'),
-      description: t('stockTransfers.timeline.approved.description', 'Approved for picking'),
+      description: t('stockTransfers.timeline.approved.description', 'Authorized for dispatch'),
       timestamp: approvedAt ? new Date(approvedAt).toLocaleDateString() : undefined,
     },
     {
       key: 'picked',
-      title: t('stockTransfers.timeline.picked.title', 'Picked'),
-      description: t('stockTransfers.timeline.picked.description', 'Stock picked'),
+      title: t('stockTransfers.timeline.picked.title', 'Picked & Staged'),
+      description: t('stockTransfers.timeline.picked.description', 'Ready to ship'),
     },
     {
       key: 'in_transit',
-      title: t('stockTransfers.timeline.in_transit.title', 'In Transit'),
-      description: t('stockTransfers.timeline.in_transit.description', 'Shipped to destination'),
+      title: t('stockTransfers.timeline.in_transit.title', 'Shipped'),
+      description: t('stockTransfers.timeline.in_transit.description', 'In Logistics Transit'),
       timestamp: shippedAt ? new Date(shippedAt).toLocaleDateString() : undefined,
     },
     {
@@ -62,9 +86,12 @@ export function TransferTimeline({
     },
     {
       key: 'completed',
-      title: t('stockTransfers.timeline.completed.title', 'Completed'),
-      description: t('stockTransfers.timeline.completed.description', 'Transfer finalized'),
-      timestamp: status === 'completed' && updatedAt ? new Date(updatedAt).toLocaleDateString() : undefined,
+      title: t('stockTransfers.timeline.completed.title', 'Closed'),
+      description: t('stockTransfers.timeline.completed.description', 'Reconciled & finalized'),
+      timestamp:
+        (status === 'completed' || status === 'closed') && updatedAt
+          ? new Date(updatedAt).toLocaleDateString()
+          : undefined,
     },
   ]
 

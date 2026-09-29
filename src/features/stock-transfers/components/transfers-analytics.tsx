@@ -30,24 +30,25 @@ export function TransfersAnalytics({
   const metrics = React.useMemo(() => {
     const totalCount = transfers.length
     const draftCount = transfers.filter((t) => t.status === 'draft').length
-    const approvedCount = transfers.filter(
-      (t) => t.status === 'approved'
-    ).length
+    const pendingApprovalCount = transfers.filter((t) => t.status === 'pending_approval').length
+    const approvedCount = transfers.filter((t) => t.status === 'approved').length
+    const readyToShipCount = transfers.filter((t) => t.status === 'ready_to_ship').length
     const pickedCount = transfers.filter((t) => t.status === 'picked').length
-    const inTransitCount = transfers.filter(
-      (t) => t.status === 'in_transit'
+    const inTransitCount = transfers.filter((t) =>
+      ['partially_shipped', 'shipped', 'in_transit'].includes(t.status)
     ).length
-    const receivedCount = transfers.filter(
-      (t) => t.status === 'received'
+    const receivedCount = transfers.filter((t) =>
+      ['partially_received', 'received'].includes(t.status)
     ).length
-    const completedCount = transfers.filter(
-      (t) => t.status === 'completed'
+    const completedCount = transfers.filter((t) =>
+      ['completed', 'closed'].includes(t.status)
     ).length
-    const cancelledCount = transfers.filter(
-      (t) => t.status === 'cancelled'
+    const cancelledCount = transfers.filter((t) =>
+      ['cancelled', 'rejected'].includes(t.status)
     ).length
 
-    const pendingActionCount = draftCount + approvedCount + pickedCount
+    const pendingActionCount =
+      draftCount + pendingApprovalCount + approvedCount + readyToShipCount + pickedCount
     const successCount = receivedCount + completedCount
     const fulfillmentRate =
       totalCount - draftCount - cancelledCount > 0

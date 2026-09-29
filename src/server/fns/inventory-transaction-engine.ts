@@ -332,6 +332,12 @@ export async function postInventoryTransaction(
     const rules = txn.transaction_type.rules
     const allowsNegative = txn.transaction_type.allows_negative_stock
 
+    // Stock fields that map to real columns on stock_balances.
+    // Virtual fields like AVAILABLE (computed: on_hand - reserved) and
+    // IN_TRANSIT (no column) are silently skipped so they don't trigger
+    // unnecessary balance lookups or phantom mutations.
+    const ACTIONABLE_STOCK_FIELDS = new Set(['ON_HAND', 'RESERVED'])
+
     // 2. Process each item and mutate stock balances
     for (const item of txn.items) {
       // Resolve inventory_item_id for this product_variant_id
@@ -364,8 +370,11 @@ export async function postInventoryTransaction(
       }
 
       // --- Process SOURCE side rules (if any rule applies to SOURCE or BOTH) ---
+      // Only include rules for actionable stock_fields to avoid phantom balance mutations
       const sourceRules = rules.filter(
-        (r: any) => r.applies_to === 'SOURCE' || r.applies_to === 'BOTH'
+        (r: any) =>
+          (r.applies_to === 'SOURCE' || r.applies_to === 'BOTH') &&
+          ACTIONABLE_STOCK_FIELDS.has(r.stock_field)
       )
       if (sourceRules.length > 0) {
         const sWarehouseId = item.source_warehouse_id ?? txn.source_warehouse_id
@@ -401,12 +410,13 @@ export async function postInventoryTransaction(
         }
 
         if (!sourceBalance) {
-          // Tier 2: Relaxed fallback — find best matching balance in the same warehouse
+          // Tier 2: Relaxed fallback — find best matching balance in the same warehouse or store
           sourceBalance = await tx.stock_balances.findFirst({
             where: {
               tenant_id: tenantId,
               inventory_item_id: inventoryItemId,
-              warehouse_id: sWarehouseId,
+              ...(sWarehouseId ? { warehouse_id: sWarehouseId } : {}),
+              ...(sStoreId ? { store_id: sStoreId } : {}),
             },
             orderBy: { qty_on_hand: 'desc' },
           })
@@ -418,6 +428,7 @@ export async function postInventoryTransaction(
             data: {
               tenant_id: tenantId,
               inventory_item_id: inventoryItemId,
+              product_variant_id: item.product_variant_id,
               warehouse_id: sWarehouseId,
               store_id: sStoreId,
               location_id: sLocationId,
@@ -492,8 +503,11 @@ export async function postInventoryTransaction(
       }
 
       // --- Process DESTINATION side rules (if any rule applies to DESTINATION or BOTH) ---
+      // Only include rules for actionable stock_fields to avoid phantom balance mutations
       const destRules = rules.filter(
-        (r: any) => r.applies_to === 'DESTINATION' || r.applies_to === 'BOTH'
+        (r: any) =>
+          (r.applies_to === 'DESTINATION' || r.applies_to === 'BOTH') &&
+          ACTIONABLE_STOCK_FIELDS.has(r.stock_field)
       )
       if (destRules.length > 0) {
         const dWarehouseId = item.dest_warehouse_id ?? txn.dest_warehouse_id
@@ -513,10 +527,24 @@ export async function postInventoryTransaction(
         })
 
         if (!destBalance) {
+          // Tier 2: Relaxed fallback — find best matching balance in destination warehouse or store
+          destBalance = await tx.stock_balances.findFirst({
+            where: {
+              tenant_id: tenantId,
+              inventory_item_id: inventoryItemId,
+              ...(dWarehouseId ? { warehouse_id: dWarehouseId } : {}),
+              ...(dStoreId ? { store_id: dStoreId } : {}),
+            },
+            orderBy: { qty_on_hand: 'desc' },
+          })
+        }
+
+        if (!destBalance) {
           destBalance = await tx.stock_balances.create({
             data: {
               tenant_id: tenantId,
               inventory_item_id: inventoryItemId,
+              product_variant_id: item.product_variant_id,
               warehouse_id: dWarehouseId,
               store_id: dStoreId,
               location_id: dLocationId,
@@ -563,7 +591,8 @@ export async function postInventoryTransaction(
         if (
           unitCost.gt(0) &&
           (txn.transaction_type.category === 'purchase' ||
-            txn.transaction_type.category === 'opening')
+            txn.transaction_type.category === 'opening' ||
+            txn.transaction_type.category === 'transfer')
         ) {
           const prevTotalVal = qtyBefore.times(avgCostBefore)
           const addedVal = item.quantity.times(unitCost)
@@ -701,8 +730,8 @@ export async function postInventoryTransaction(
     return await prisma.$transaction(async (tx) => {
       return await executePosting(tx)
     }, {
-      maxWait: 10000,
-      timeout: 30000,
+      maxWait: 15000,
+      timeout: 45000,
     })
   })
 }

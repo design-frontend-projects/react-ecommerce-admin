@@ -1,5 +1,34 @@
 # Error Log
 
+## [2026-09-29 08:35] - Stock Transfer Dispatch Timeout (5000ms Exceeded) and Missing Store Stock Balance Reservation
+
+- **Type**: Integration / Database / Performance
+- **Severity**: High
+- **File**: `src/server/fns/inventory-transaction-engine.ts:484` / `src/server/domain/stock-transfer/stock-transfer-service.ts:690`
+- **Agent**: @backend-specialist
+- **Root Cause**: 
+  1. In `stock-transfer-service.ts`, `prisma.$transaction` calls in `shipTransfer`, `receiveTransfer`, `createTransfer`, and `updateTransfer` used Prisma's default interactive transaction timeout of 5,000 ms. Over remote connection poolers with multiple sequential database operations during shipment posting (`validateStockAvailabilityForShipment`, `stock_transfer_shipments.create`, item updates, and `createInventoryTransaction` with balance updates), elapsed time reached ~5,400 ms, causing Prisma to throw `Transaction API error: A query cannot be executed on an expired transaction`.
+  2. In `shipTransfer` and `receiveTransfer`, `TRANSFER_SHIPMENT` and `TRANSFER_RECEIPT` were guarded with `if (transfer.source_warehouse_id)` and `if (transfer.destination_warehouse_id)`, omitting transfers originating from or destined to stores (`from_store_id`, `to_store_id`).
+  3. `approveTransfer` did not reserve stock at the sender facility (`stock_balances.qty_reserved` and `stock_reservations`), leaving sender store balances unreserved prior to dispatch.
+- **Error Message**:
+  ```
+  Invalid `tx.inventory_transaction_items.update()` invocation in
+  src\server\fns\inventory-transaction-engine.ts:484:46
+
+  Transaction API error: A query cannot be executed on an expired transaction.
+  The timeout for this transaction was 5000 ms, however 5419 ms passed since the start of the transaction.
+  Consider increasing the interactive transaction timeout or doing less work in the transaction.
+  ```
+- **Fix Applied**:
+  1. Configured extended timeout options `{ maxWait: 15000, timeout: 45000 }` on `prisma.$transaction` across all stock transfer domain services and `postInventoryTransaction`.
+  2. Updated `validateStockAvailabilityForShipment`, `shipTransfer`, and `receiveTransfer` to support both warehouse and store facilities (`sourceWarehouseId`/`sourceStoreId`, `destWarehouseId`/`destStoreId`).
+  3. Enhanced `approveTransfer` to automatically reserve stock at the sender location (`stock_balances.qty_reserved` and `stock_reservations`), enhanced `shipTransfer` to consume active reservations upon dispatch without double-decrementing available stock, and updated `rejectTransfer`/`cancelTransfer` to release reservations back to the available pool.
+  4. Added Tier 2 relaxed store fallback and required `product_variant_id` on stock balance creation in `inventory-transaction-engine.ts`.
+- **Prevention**: Always configure explicit extended transaction timeouts (`{ maxWait: 15000, timeout: 45000 }`) on multi-step ERP transaction pipelines connecting to remote database poolers, and ensure all location-aware operations support both warehouses and stores.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-28 01:28] - Post Goods Receipt Raw Query Failed: Record "h" Has No Field "store_id" (Code 42703)
 
 - **Type**: Database / Stored Procedure

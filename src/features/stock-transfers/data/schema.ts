@@ -62,11 +62,38 @@ export const transferItemInputSchema = z.object({
   condition: stockConditionSchema.default('good'),
   batchId: optionalUuid,
   serialId: optionalUuid,
+  notes: z.preprocess(
+    (val) => (val === '' || val === undefined ? null : val),
+    z.string().nullable().optional()
+  ),
 })
 
 export const createTransferInputSchema = z
   .object({
-    transferType: z.enum(['warehouse', 'store', 'branch']).default('warehouse'),
+    transferType: z
+      .enum([
+        'warehouse',
+        'store',
+        'branch',
+        'inter_warehouse',
+        'internal',
+        'inter_store',
+        'inter_branch',
+      ])
+      .default('inter_warehouse'),
+    priority: transferPrioritySchema.default('normal'),
+    reasonCode: z.preprocess(
+      (val) => (val === '' || val === undefined ? null : val),
+      z.string().max(40, 'Reason code cannot exceed 40 characters.').nullable().optional()
+    ),
+    expectedShipDate: z.preprocess(
+      (val) => (val === '' || val === undefined ? null : val),
+      z.string().nullable().optional()
+    ),
+    expectedReceiveDate: z.preprocess(
+      (val) => (val === '' || val === undefined ? null : val),
+      z.string().nullable().optional()
+    ),
     sourceWarehouseId: optionalUuid,
     destinationWarehouseId: optionalUuid,
     fromStoreId: optionalUuid,
@@ -75,7 +102,7 @@ export const createTransferInputSchema = z
     toBranchId: optionalUuid,
     referenceNo: z.preprocess(
       (val) => (val === '' || val === undefined ? null : val),
-      z.string().max(50).nullable().optional()
+      z.string().max(50, 'Reference cannot exceed 50 characters.').nullable().optional()
     ),
     notes: z.preprocess(
       (val) => (val === '' || val === undefined ? null : val),
@@ -84,7 +111,21 @@ export const createTransferInputSchema = z
     items: z.array(transferItemInputSchema).min(1, 'Add at least one item to transfer.'),
   })
   .superRefine((value, ctx) => {
-    if (value.transferType === 'warehouse') {
+    // Expected dates business validation
+    if (value.expectedShipDate && value.expectedReceiveDate) {
+      const shipTime = new Date(value.expectedShipDate).getTime()
+      const receiveTime = new Date(value.expectedReceiveDate).getTime()
+      if (!isNaN(shipTime) && !isNaN(receiveTime) && receiveTime < shipTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Expected receive date must be on or after expected ship date.',
+          path: ['expectedReceiveDate'],
+        })
+      }
+    }
+
+    // Routing business validations
+    if (value.transferType === 'warehouse' || value.transferType === 'inter_warehouse') {
       if (!value.sourceWarehouseId) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -108,7 +149,29 @@ export const createTransferInputSchema = z
           path: ['destinationWarehouseId'],
         })
       }
-    } else if (value.transferType === 'store') {
+    } else if (value.transferType === 'internal') {
+      if (!value.sourceWarehouseId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Source warehouse is required for internal transfer.',
+          path: ['sourceWarehouseId'],
+        })
+      }
+      // Check if any items have identical source and destination locations
+      value.items.forEach((item, idx) => {
+        if (
+          item.sourceLocationId &&
+          item.destinationLocationId &&
+          item.sourceLocationId === item.destinationLocationId
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Target location must differ from source location.',
+            path: ['items', idx, 'destinationLocationId'],
+          })
+        }
+      })
+    } else if (value.transferType === 'store' || value.transferType === 'inter_store') {
       if (!value.fromStoreId) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -129,7 +192,7 @@ export const createTransferInputSchema = z
           path: ['toStoreId'],
         })
       }
-    } else if (value.transferType === 'branch') {
+    } else if (value.transferType === 'branch' || value.transferType === 'inter_branch') {
       if (!value.fromBranchId) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -156,12 +219,30 @@ export const createTransferInputSchema = z
     }
   })
 
-export const updateTransferInputSchema = z.object({
-  id: z.string().uuid(),
-  referenceNo: z.string().max(50).optional().nullable(),
-  notes: z.string().optional().nullable(),
-  items: z.array(transferItemInputSchema).min(1).optional(),
-})
+export const updateTransferInputSchema = z
+  .object({
+    id: z.string().uuid(),
+    referenceNo: z.string().max(50).optional().nullable(),
+    priority: transferPrioritySchema.optional(),
+    reasonCode: z.string().max(40).optional().nullable(),
+    expectedShipDate: z.string().optional().nullable(),
+    expectedReceiveDate: z.string().optional().nullable(),
+    notes: z.string().optional().nullable(),
+    items: z.array(transferItemInputSchema).min(1, 'At least one item is required.').optional(),
+  })
+  .superRefine((value, ctx) => {
+    if (value.expectedShipDate && value.expectedReceiveDate) {
+      const shipTime = new Date(value.expectedShipDate).getTime()
+      const receiveTime = new Date(value.expectedReceiveDate).getTime()
+      if (!isNaN(shipTime) && !isNaN(receiveTime) && receiveTime < shipTime) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Expected receive date must be on or after expected ship date.',
+          path: ['expectedReceiveDate'],
+        })
+      }
+    }
+  })
 
 export type TransferItemInput = z.infer<typeof transferItemInputSchema>
 export type CreateTransferInput = z.infer<typeof createTransferInputSchema>
@@ -201,9 +282,16 @@ export const transferListItemSchema = z.object({
   received_by: z.string().nullable().optional(),
   created_at: z.string(),
   updated_at: z.string().nullable().optional(),
+  requested_at: z.string().nullable().optional(),
   approved_at: z.string().nullable().optional(),
   shipped_at: z.string().nullable().optional(),
   received_at: z.string().nullable().optional(),
+  cancelled_at: z.string().nullable().optional(),
+  requested_by_user_id: z.string().nullable().optional(),
+  approved_by_user_id: z.string().nullable().optional(),
+  shipped_by_user_id: z.string().nullable().optional(),
+  received_by_user_id: z.string().nullable().optional(),
+  cancelled_by_user_id: z.string().nullable().optional(),
   source_warehouse: entityRefSchema.optional(),
   destination_warehouse: entityRefSchema.optional(),
   from_store: entityRefSchema.optional(),

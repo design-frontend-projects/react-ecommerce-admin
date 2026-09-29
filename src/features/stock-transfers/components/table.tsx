@@ -49,21 +49,49 @@ export function TransfersTable({ data }: { data: TransferListItem[] }) {
     () => [
       { label: t('stockTransfers.status.draft', 'Draft'), value: 'draft' },
       {
+        label: t('stockTransfers.status.pending_approval', 'Pending Approval'),
+        value: 'pending_approval',
+      },
+      {
         label: t('stockTransfers.status.approved', 'Approved'),
         value: 'approved',
       },
+      {
+        label: t('stockTransfers.status.ready_to_ship', 'Ready to Ship'),
+        value: 'ready_to_ship',
+      },
       { label: t('stockTransfers.status.picked', 'Picked'), value: 'picked' },
+      {
+        label: t('stockTransfers.status.partially_shipped', 'Partially Shipped'),
+        value: 'partially_shipped',
+      },
+      {
+        label: t('stockTransfers.status.shipped', 'Shipped'),
+        value: 'shipped',
+      },
       {
         label: t('stockTransfers.status.in_transit', 'In Transit'),
         value: 'in_transit',
+      },
+      {
+        label: t('stockTransfers.status.partially_received', 'Partially Received'),
+        value: 'partially_received',
       },
       {
         label: t('stockTransfers.status.received', 'Received'),
         value: 'received',
       },
       {
+        label: t('stockTransfers.status.closed', 'Closed'),
+        value: 'closed',
+      },
+      {
         label: t('stockTransfers.status.completed', 'Completed'),
         value: 'completed',
+      },
+      {
+        label: t('stockTransfers.status.rejected', 'Rejected'),
+        value: 'rejected',
       },
       {
         label: t('stockTransfers.status.cancelled', 'Cancelled'),

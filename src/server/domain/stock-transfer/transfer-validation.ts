@@ -152,19 +152,25 @@ export async function validateTransferItems(
 }
 
 /**
- * Validates that the source warehouse has sufficient available stock for each shipping item.
+ * Validates that the source warehouse or store has sufficient available stock for each shipping item.
  */
 export async function validateStockAvailabilityForShipment(
   tx: Prisma.TransactionClient,
   tenantId: string,
-  sourceWarehouseId: string,
+  facility: { warehouseId?: string | null; storeId?: string | null } | string,
   shippingItems: Array<{
     productVariantId: string
     quantity: number
     batchId?: string | null
     sourceLocationId?: string | null
+    transferItemId?: string | null
   }>
 ): Promise<void> {
+  const warehouseId =
+    typeof facility === 'string' ? facility : facility.warehouseId ?? null
+  const storeId =
+    typeof facility === 'string' ? null : facility.storeId ?? null
+
   for (const item of shippingItems) {
     if (item.quantity <= 0) continue
 
@@ -181,17 +187,18 @@ export async function validateStockAvailabilityForShipment(
 
     if (!invItem) {
       throw new ApiError(
-        `No inventory item record exists for variant '${item.productVariantId}' in warehouse. Insufficient stock to ship.`,
+        `No inventory item record exists for variant '${item.productVariantId}'. Insufficient stock to ship.`,
         400
       )
     }
 
-    // Query balances in source warehouse
+    // Query balances in source warehouse or store
     const balances = await tx.stock_balances.findMany({
       where: {
         tenant_id: tenantId,
         inventory_item_id: invItem.id,
-        warehouse_id: sourceWarehouseId,
+        ...(warehouseId ? { warehouse_id: warehouseId } : {}),
+        ...(storeId ? { store_id: storeId } : {}),
         ...(item.batchId ? { batch_id: item.batchId } : {}),
         ...(item.sourceLocationId ? { location_id: item.sourceLocationId } : {}),
       },
@@ -207,9 +214,32 @@ export async function validateStockAvailabilityForShipment(
       }
     }
 
-    if (totalAvailable.lt(item.quantity)) {
+    // If stock for this transfer line was already reserved, include that reservation in available quota
+    let reservedForThisLine = new Prisma.Decimal(0)
+    if (item.transferItemId) {
+      const activeRes = await tx.stock_reservations.findFirst({
+        where: {
+          tenant_id: tenantId,
+          reference_type: 'stock_transfer',
+          reference_item_id: item.transferItemId,
+          status: 'active',
+        },
+        select: { qty: true, qty_consumed: true },
+      })
+      if (activeRes) {
+        const remaining = activeRes.qty.minus(activeRes.qty_consumed)
+        if (remaining.gt(0)) {
+          reservedForThisLine = remaining
+        }
+      }
+    }
+
+    const effectiveAvailable = totalAvailable.plus(reservedForThisLine)
+
+    if (effectiveAvailable.lt(item.quantity)) {
+      const facilityLabel = storeId ? 'source store' : 'source warehouse'
       throw new ApiError(
-        `Insufficient stock for SKU '${invItem.sku}' in source warehouse. Available: ${totalAvailable.toString()}, Requested to ship: ${item.quantity}.`,
+        `Insufficient stock for SKU '${invItem.sku}' in ${facilityLabel}. Available: ${effectiveAvailable.toString()}, Requested to ship: ${item.quantity}.`,
         400
       )
     }

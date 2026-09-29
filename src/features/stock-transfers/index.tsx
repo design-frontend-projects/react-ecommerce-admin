@@ -23,12 +23,23 @@ export function StockTransfers() {
     if (!statusFilter) return transfers
     if (statusFilter === 'pending') {
       return transfers.filter((t) =>
-        ['draft', 'approved', 'picked'].includes(t.status)
+        [
+          'draft',
+          'pending_approval',
+          'approved',
+          'ready_to_ship',
+          'picked',
+        ].includes(t.status)
+      )
+    }
+    if (statusFilter === 'in_transit') {
+      return transfers.filter((t) =>
+        ['partially_shipped', 'shipped', 'in_transit'].includes(t.status)
       )
     }
     if (statusFilter === 'completed') {
       return transfers.filter((t) =>
-        ['received', 'completed'].includes(t.status)
+        ['partially_received', 'received', 'completed', 'closed'].includes(t.status)
       )
     }
     return transfers.filter((t) => t.status === statusFilter)

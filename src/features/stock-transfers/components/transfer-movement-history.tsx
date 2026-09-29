@@ -338,14 +338,17 @@ export function TransferMovementHistory({
             <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
               <div className='space-y-1'>
                 <span className='font-medium text-muted-foreground'>
-                  {t('stockTransfers.history.creation', 'Creation:')}
+                  {t('stockTransfers.history.creation', 'Creation / Request:')}
                 </span>
                 <p className='font-semibold text-foreground'>
-                  {new Date(transfer.created_at).toLocaleString()}
+                  {new Date(transfer.requested_at || transfer.created_at).toLocaleString()}
                 </p>
-                {transfer.created_by && (
+                {(transfer.created_by || transfer.requested_by_user_id) && (
                   <p className='text-[11px] text-muted-foreground'>
-                    {t('stockTransfers.history.byUser', { user: transfer.created_by, defaultValue: `By User: ${transfer.created_by}` })}
+                    {t('stockTransfers.history.byUser', {
+                      user: transfer.created_by || transfer.requested_by_user_id,
+                      defaultValue: `By User: ${transfer.created_by || transfer.requested_by_user_id}`,
+                    })}
                   </p>
                 )}
               </div>
@@ -358,9 +361,12 @@ export function TransferMovementHistory({
                   <p className='font-semibold text-foreground'>
                     {new Date(transfer.approved_at).toLocaleString()}
                   </p>
-                  {transfer.approved_by && (
+                  {(transfer.approved_by || transfer.approved_by_user_id) && (
                     <p className='text-[11px] text-muted-foreground'>
-                      {t('stockTransfers.history.approvedBy', { user: transfer.approved_by, defaultValue: `Approved by: ${transfer.approved_by}` })}
+                      {t('stockTransfers.history.approvedBy', {
+                        user: transfer.approved_by || transfer.approved_by_user_id,
+                        defaultValue: `Approved by: ${transfer.approved_by || transfer.approved_by_user_id}`,
+                      })}
                     </p>
                   )}
                 </div>
@@ -374,9 +380,12 @@ export function TransferMovementHistory({
                   <p className='font-semibold text-foreground'>
                     {new Date(transfer.shipped_at).toLocaleString()}
                   </p>
-                  {transfer.shipped_by && (
+                  {(transfer.shipped_by || transfer.shipped_by_user_id) && (
                     <p className='text-[11px] text-muted-foreground'>
-                      {t('stockTransfers.history.dispatchedBy', { user: transfer.shipped_by, defaultValue: `Dispatched by: ${transfer.shipped_by}` })}
+                      {t('stockTransfers.history.dispatchedBy', {
+                        user: transfer.shipped_by || transfer.shipped_by_user_id,
+                        defaultValue: `Dispatched by: ${transfer.shipped_by || transfer.shipped_by_user_id}`,
+                      })}
                     </p>
                   )}
                 </div>
@@ -390,14 +399,54 @@ export function TransferMovementHistory({
                   <p className='font-semibold text-foreground'>
                     {new Date(transfer.received_at).toLocaleString()}
                   </p>
-                  {transfer.received_by && (
+                  {(transfer.received_by || transfer.received_by_user_id) && (
                     <p className='text-[11px] text-muted-foreground'>
-                      {t('stockTransfers.history.receivedBy', { user: transfer.received_by, defaultValue: `Received by: ${transfer.received_by}` })}
+                      {t('stockTransfers.history.receivedBy', {
+                        user: transfer.received_by || transfer.received_by_user_id,
+                        defaultValue: `Received by: ${transfer.received_by || transfer.received_by_user_id}`,
+                      })}
                     </p>
                   )}
                 </div>
               )}
+
+              {transfer.cancelled_at && (
+                <div className='space-y-1 text-destructive sm:col-span-2 rounded-md bg-destructive/10 p-2.5 border border-destructive/20'>
+                  <span className='font-bold block'>
+                    Cancelled on: {new Date(transfer.cancelled_at).toLocaleString()}
+                  </span>
+                  {transfer.cancelled_by_user_id && (
+                    <p className='text-[11px]'>Cancelled by user: {transfer.cancelled_by_user_id}</p>
+                  )}
+                  {transfer.cancellation_reason && (
+                    <p className='text-[11px] font-medium'>Reason: {transfer.cancellation_reason}</p>
+                  )}
+                </div>
+              )}
             </div>
+
+            {(transfer.expected_ship_date || transfer.expected_receive_date || transfer.reason_code) && (
+              <div className='mt-2 border-t pt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-muted-foreground'>
+                {transfer.expected_ship_date && (
+                  <div>
+                    <span className='font-medium text-foreground block'>Expected Ship Date:</span>
+                    {new Date(transfer.expected_ship_date).toLocaleDateString()}
+                  </div>
+                )}
+                {transfer.expected_receive_date && (
+                  <div>
+                    <span className='font-medium text-foreground block'>Expected Receive Date:</span>
+                    {new Date(transfer.expected_receive_date).toLocaleDateString()}
+                  </div>
+                )}
+                {transfer.reason_code && (
+                  <div>
+                    <span className='font-medium text-foreground block'>Reason Code:</span>
+                    <Badge variant='outline' className='text-[10px]'>{transfer.reason_code}</Badge>
+                  </div>
+                )}
+              </div>
+            )}
 
             {transfer.notes && (
               <div className='mt-2 border-t pt-3'>

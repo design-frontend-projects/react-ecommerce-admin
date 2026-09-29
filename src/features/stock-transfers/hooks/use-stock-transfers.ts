@@ -6,13 +6,16 @@ import { useAuthQuery } from '@/hooks/use-auth-query'
 import {
   approveTransfer,
   cancelTransfer,
+  closeTransfer,
   completeTransfer,
   createTransfer,
   fetchTransfer,
   fetchTransfers,
   pickTransfer,
   receiveTransfer,
+  rejectTransfer,
   shipTransfer,
+  submitTransfer,
   updateTransfer,
 } from '../data/actions'
 import type { CreateTransferInput, UpdateTransferInput } from '../data/schema'
@@ -147,6 +150,59 @@ export function useCompleteTransfer() {
   })
 }
 
+export function useSubmitTransfer() {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useAuthMutation({
+    mutationFn: (getToken, id: string) => submitTransfer(getToken, id),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success(t('stockTransfers.toast.submitted', 'Transfer submitted for approval.'))
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error(t('stockTransfers.toast.submitError', 'Unable to submit transfer'), {
+        description: error.message,
+      }),
+  })
+}
+
+export function useRejectTransfer() {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useAuthMutation({
+    mutationFn: (getToken, { id, reason }: { id: string; reason?: string }) =>
+      rejectTransfer(getToken, id, reason),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success(t('stockTransfers.toast.rejected', 'Transfer rejected.'))
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error(t('stockTransfers.toast.rejectError', 'Unable to reject transfer'), {
+        description: error.message,
+      }),
+  })
+}
+
+export function useCloseTransfer() {
+  const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  return useAuthMutation({
+    mutationFn: (getToken, { id, notes }: { id: string; notes?: string }) =>
+      closeTransfer(getToken, id, notes),
+    rbac: { permission: 'inventory.stock.manage' },
+    onSuccess: () => {
+      toast.success(t('stockTransfers.toast.closed', 'Transfer closed and archived.'))
+      void queryClient.invalidateQueries({ queryKey: transfersKey })
+    },
+    onError: (error: Error) =>
+      toast.error(t('stockTransfers.toast.closeError', 'Unable to close transfer'), {
+        description: error.message,
+      }),
+  })
+}
+
 export function useCancelTransfer() {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
@@ -165,3 +221,4 @@ export function useCancelTransfer() {
 export function useApplyTransfer() {
   return useReceiveTransfer()
 }
+

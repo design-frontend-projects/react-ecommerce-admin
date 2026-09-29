@@ -8,8 +8,9 @@ export function TransfersDialogs() {
   return (
     <>
       <TransferCreateDialog
-        open={open === 'create'}
-        onOpenChange={(value) => setOpen(value ? 'create' : null)}
+        open={open === 'create' || open === 'edit'}
+        onOpenChange={(value) => setOpen(value ? open : null)}
+        transferToEdit={open === 'edit' ? currentRow : null}
       />
       {currentRow ? (
         <TransferViewDialog

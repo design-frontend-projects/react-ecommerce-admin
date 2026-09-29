@@ -97,11 +97,23 @@ const statusConfig: Record<
     className: 'bg-teal-50 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300 border-teal-200 dark:border-teal-800',
     icon: CheckCircle2,
   },
+  pending_approval: {
+    label: 'Pending Approval',
+    variant: 'outline',
+    className: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+    icon: Clock,
+  },
   approved: {
     label: 'Approved',
     variant: 'default',
     className: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
     icon: CheckCircle2,
+  },
+  ready_to_ship: {
+    label: 'Ready to Ship',
+    variant: 'outline',
+    className: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
+    icon: Package,
   },
   picked: {
     label: 'Picked',
@@ -109,11 +121,29 @@ const statusConfig: Record<
     className: 'bg-cyan-50 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800',
     icon: Package,
   },
+  partially_shipped: {
+    label: 'Partially Shipped',
+    variant: 'outline',
+    className: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+    icon: Truck,
+  },
+  shipped: {
+    label: 'Shipped',
+    variant: 'outline',
+    className: 'bg-orange-50 text-orange-700 dark:bg-orange-950/50 dark:text-orange-300 border-orange-200 dark:border-orange-800',
+    icon: Truck,
+  },
   in_transit: {
     label: 'In Transit',
     variant: 'outline',
     className: 'bg-orange-50 text-orange-700 dark:bg-orange-950/50 dark:text-orange-300 border-orange-200 dark:border-orange-800',
     icon: Truck,
+  },
+  partially_received: {
+    label: 'Partially Received',
+    variant: 'outline',
+    className: 'bg-teal-50 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300 border-teal-200 dark:border-teal-800',
+    icon: ArrowRightCircle,
   },
   received: {
     label: 'Received',
@@ -131,6 +161,12 @@ const statusConfig: Record<
     label: 'Completed',
     variant: 'default',
     className: 'bg-emerald-600 text-white dark:bg-emerald-600 dark:text-white border-transparent',
+    icon: CheckCircle2,
+  },
+  closed: {
+    label: 'Closed',
+    variant: 'default',
+    className: 'bg-slate-700 text-white dark:bg-slate-600 dark:text-white border-transparent',
     icon: CheckCircle2,
   },
   cancelled: {

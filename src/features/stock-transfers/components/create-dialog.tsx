@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Controller,
   useFieldArray,
@@ -9,11 +9,14 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Building2,
+  Calendar,
+  Layers,
   Package,
   Plus,
   Scale,
   SlidersHorizontal,
   Store,
+  Tag,
   Trash2,
   TrendingUp,
   Warehouse,
@@ -29,6 +32,7 @@ import {
   useWarehouseOnHand,
   useWarehouseOptions,
 } from '@/hooks/use-inventory-lookups'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -55,9 +59,16 @@ import {
   createTransferInputSchema,
   type CreateTransferInput,
   type StockCondition,
+  type TransferDetail,
+  type TransferListItem,
+  type TransferPriority,
 } from '../data/schema'
 import { useStockTransferProductVariants } from '../hooks/use-stock-transfer-products'
-import { useCreateTransfer } from '../hooks/use-stock-transfers'
+import {
+  useCreateTransfer,
+  useTransfer,
+  useUpdateTransfer,
+} from '../hooks/use-stock-transfers'
 import { CrossWarehouseStockBadge } from './cross-warehouse-stock-badge'
 import { StockTransferProductVirtualCombobox } from './stock-transfer-product-virtual-combobox'
 
@@ -73,8 +84,54 @@ const CONDITIONS: {
   { value: 'blocked', label: 'Blocked', badgeVariant: 'outline' },
 ]
 
+const PRIORITIES: {
+  value: TransferPriority
+  label: string
+  badgeColor: string
+}[] = [
+  {
+    value: 'low',
+    label: 'Low',
+    badgeColor:
+      'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+  },
+  {
+    value: 'normal',
+    label: 'Normal',
+    badgeColor:
+      'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300',
+  },
+  {
+    value: 'high',
+    label: 'High',
+    badgeColor:
+      'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
+  },
+  {
+    value: 'urgent',
+    label: 'Urgent',
+    badgeColor:
+      'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300',
+  },
+]
+
+const REASON_CODES = [
+  { value: 'replenishment', label: 'Replenishment' },
+  { value: 'rebalance', label: 'Stock Rebalance' },
+  { value: 'customer_order', label: 'Customer Order Fulfillment' },
+  { value: 'seasonal', label: 'Seasonal Allocation' },
+  { value: 'damaged_return', label: 'Damaged / Defective Return' },
+  { value: 'quarantine', label: 'Quarantine Isolation' },
+  { value: 'store_opening', label: 'Store Opening / Expansion' },
+  { value: 'custom', label: 'Custom / Other Reason' },
+]
+
 const defaultValues: CreateTransferInput = {
-  transferType: 'warehouse',
+  transferType: 'inter_warehouse',
+  priority: 'normal',
+  reasonCode: '',
+  expectedShipDate: '',
+  expectedReceiveDate: '',
   sourceWarehouseId: null,
   destinationWarehouseId: null,
   fromStoreId: null,
@@ -93,20 +150,34 @@ const defaultValues: CreateTransferInput = {
       destinationLocationId: null,
       batchId: null,
       serialId: null,
+      notes: null,
     },
   ],
+}
+
+interface TransferCreateDialogProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  transferToEdit?: TransferListItem | TransferDetail | null
 }
 
 export function TransferCreateDialog({
   open,
   onOpenChange,
-}: {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}) {
+  transferToEdit,
+}: TransferCreateDialogProps) {
   const { t } = useTranslation()
   const createTransfer = useCreateTransfer()
+  const updateTransfer = useUpdateTransfer()
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [customReason, setCustomReason] = useState(false)
+
+  const isEdit = Boolean(transferToEdit)
+
+  // Fetch full details if editing a transfer
+  const { data: fullDetail } = useTransfer(
+    open && isEdit && transferToEdit ? transferToEdit.id : undefined
+  )
 
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
@@ -140,44 +211,123 @@ export function TransferCreateDialog({
   const destinationWarehouseId = watch('destinationWarehouseId')
   const fromStoreId = watch('fromStoreId')
   const fromBranchId = watch('fromBranchId')
+  const watchedPriority = watch('priority') || 'normal'
+  const watchedExpectedShip = watch('expectedShipDate') || ''
   const watchedItems = watch('items')
+
+  // When editing, populate form from fetched detail
+  useEffect(() => {
+    if (!open) return
+
+    if (isEdit && fullDetail) {
+      let mappedType: CreateTransferInput['transferType'] = 'inter_warehouse'
+      if (fullDetail.transfer_type === 'internal') mappedType = 'internal'
+      else if (fullDetail.transfer_type === 'inter_store')
+        mappedType = 'inter_store'
+      else if (fullDetail.transfer_type === 'inter_branch')
+        mappedType = 'inter_branch'
+      else if (fullDetail.transfer_type === 'inter_warehouse')
+        mappedType = 'inter_warehouse'
+      else if (fullDetail.from_store_id) mappedType = 'store'
+      else if (fullDetail.from_branch_id) mappedType = 'branch'
+
+      const isKnownReason = REASON_CODES.some(
+        (r) => r.value !== 'custom' && r.value === fullDetail.reason_code
+      )
+      setCustomReason(Boolean(fullDetail.reason_code && !isKnownReason))
+
+      reset({
+        transferType: mappedType,
+        priority: fullDetail.priority || 'normal',
+        reasonCode: fullDetail.reason_code || '',
+        expectedShipDate: fullDetail.expected_ship_date
+          ? new Date(fullDetail.expected_ship_date).toISOString().slice(0, 10)
+          : '',
+        expectedReceiveDate: fullDetail.expected_receive_date
+          ? new Date(fullDetail.expected_receive_date)
+              .toISOString()
+              .slice(0, 10)
+          : '',
+        sourceWarehouseId: fullDetail.source_warehouse_id || null,
+        destinationWarehouseId: fullDetail.destination_warehouse_id || null,
+        fromStoreId: fullDetail.from_store_id || null,
+        toStoreId: fullDetail.to_store_id || null,
+        fromBranchId: fullDetail.from_branch_id || null,
+        toBranchId: fullDetail.to_branch_id || null,
+        referenceNo: fullDetail.reference_no || '',
+        notes: fullDetail.notes || '',
+        items:
+          fullDetail.stock_transfer_items &&
+          fullDetail.stock_transfer_items.length > 0
+            ? fullDetail.stock_transfer_items.map((it) => ({
+                productVariantId: it.product_variant_id,
+                qty: Number(it.qty || 1),
+                unitCost: Number(it.unit_cost ?? 0),
+                condition: it.condition || 'good',
+                sourceLocationId: it.source_location_id || null,
+                destinationLocationId: it.destination_location_id || null,
+                batchId: it.batch_id || null,
+                serialId: it.serial_id || null,
+                notes: it.notes || null,
+              }))
+            : defaultValues.items,
+      })
+    } else if (!isEdit) {
+      reset(defaultValues)
+      setCustomReason(false)
+    }
+  }, [open, isEdit, fullDetail, reset])
 
   const selectedWarehouse = warehouses.find((w) => w.id === sourceWarehouseId)
 
+  const isWarehouseMode =
+    transferType === 'warehouse' ||
+    transferType === 'inter_warehouse' ||
+    transferType === 'internal'
+
   // Stock on hand lookups
   const { data: warehouseStockMap = {} } = useWarehouseOnHand(
-    transferType === 'warehouse' ? (sourceWarehouseId ?? undefined) : undefined
+    isWarehouseMode ? (sourceWarehouseId ?? undefined) : undefined
   )
   const { data: storeStockMap = {} } = useStoreOnHand(
-    transferType === 'store' ? (fromStoreId ?? undefined) : undefined
+    transferType === 'store' || transferType === 'inter_store'
+      ? (fromStoreId ?? undefined)
+      : undefined
   )
 
   // Location lookups for warehouses
   const { data: sourceLocations = [] } = useWarehouseLocationOptions(
-    transferType === 'warehouse' ? (sourceWarehouseId ?? undefined) : undefined
+    isWarehouseMode ? (sourceWarehouseId ?? undefined) : undefined
   )
   const { data: destLocations = [] } = useWarehouseLocationOptions(
-    transferType === 'warehouse'
-      ? (destinationWarehouseId ?? undefined)
-      : undefined
+    transferType === 'internal'
+      ? (sourceWarehouseId ?? undefined)
+      : isWarehouseMode
+        ? (destinationWarehouseId ?? undefined)
+        : undefined
   )
 
   const handleReset = () => {
     reset(defaultValues)
     setShowAdvanced(false)
+    setCustomReason(false)
   }
 
-  const handleTypeChange = (type: 'warehouse' | 'store' | 'branch') => {
+  const handleTypeChange = (type: CreateTransferInput['transferType']) => {
     setValue('transferType', type)
-    setValue('sourceWarehouseId', null)
-    setValue('destinationWarehouseId', null)
+    if (type === 'internal') {
+      setValue('destinationWarehouseId', sourceWarehouseId)
+    } else {
+      setValue('sourceWarehouseId', null)
+      setValue('destinationWarehouseId', null)
+    }
     setValue('fromStoreId', null)
     setValue('toStoreId', null)
     setValue('fromBranchId', null)
     setValue('toBranchId', null)
   }
 
-  // Calculate live summary
+  // Calculate live financial & cargo summary
   const totals = useMemo(() => {
     const variantMap = new Map(variants.map((v) => [v.id, v]))
     let totalQty = 0
@@ -218,7 +368,28 @@ export function TransferCreateDialog({
 
   const onSubmit = async (data: CreateTransferInput) => {
     try {
-      await createTransfer.mutateAsync(data)
+      if (isEdit && transferToEdit) {
+        await updateTransfer.mutateAsync({
+          id: transferToEdit.id,
+          referenceNo: data.referenceNo,
+          priority: data.priority,
+          reasonCode: data.reasonCode,
+          expectedShipDate: data.expectedShipDate || null,
+          expectedReceiveDate: data.expectedReceiveDate || null,
+          notes: data.notes,
+          items: data.items,
+        })
+      } else {
+        // If internal transfer, ensure destination warehouse is set to source warehouse
+        const payload: CreateTransferInput = {
+          ...data,
+          destinationWarehouseId:
+            data.transferType === 'internal'
+              ? data.sourceWarehouseId
+              : data.destinationWarehouseId,
+        }
+        await createTransfer.mutateAsync(payload)
+      }
       handleReset()
       onOpenChange(false)
     } catch {
@@ -244,74 +415,134 @@ export function TransferCreateDialog({
         onOpenChange(value)
       }}
     >
-      <DialogContent className='flex max-h-[90vh] flex-col gap-0 p-0 sm:max-w-3xl overflow-hidden'>
-        <DialogHeader className='shrink-0 border-b p-6 pb-4'>
-          <DialogTitle className='flex items-center gap-2 text-xl font-bold'>
-            <Package className='h-5 w-5 text-primary' />
-            {t('stockTransfers.createTransfer', {
-              defaultValue: 'New Stock Transfer',
-            })}
-          </DialogTitle>
-          <DialogDescription>
+      <DialogContent className='flex max-h-[92vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl'>
+        <DialogHeader className='shrink-0 border-b bg-muted/10 p-5 pb-4'>
+          <div className='flex items-center justify-between pr-6'>
+            <DialogTitle className='flex items-center gap-2.5 text-xl font-bold'>
+              <div className='rounded-lg bg-primary/10 p-2 text-primary'>
+                <Package className='h-5 w-5' />
+              </div>
+              <div>
+                <span>
+                  {isEdit
+                    ? t('stockTransfers.editTransfer', {
+                        defaultValue: 'Edit Stock Transfer',
+                      })
+                    : t('stockTransfers.createTransfer', {
+                        defaultValue: 'New Stock Transfer',
+                      })}
+                </span>
+                {isEdit && transferToEdit && (
+                  <span className='ml-2 font-mono text-xs font-normal text-muted-foreground'>
+                    {transferToEdit.reference_no ||
+                      transferToEdit.id.slice(0, 8)}
+                  </span>
+                )}
+              </div>
+            </DialogTitle>
+            <div className='flex items-center gap-2'>
+              <Badge
+                variant='outline'
+                className={cn('text-xs font-medium capitalize', {
+                  'border-rose-200 bg-rose-50 text-rose-700':
+                    watchedPriority === 'urgent',
+                  'border-amber-200 bg-amber-50 text-amber-700':
+                    watchedPriority === 'high',
+                  'border-blue-200 bg-blue-50 text-blue-700':
+                    watchedPriority === 'normal',
+                  'border-slate-200 bg-slate-50 text-slate-700':
+                    watchedPriority === 'low',
+                })}
+              >
+                {watchedPriority} Priority
+              </Badge>
+            </div>
+          </div>
+          <DialogDescription className='mt-1 text-xs'>
             {t('stockTransfers.description', {
               defaultValue:
-                'Transfer stock between warehouses, stores, or branches with tracked approval workflows.',
+                'Transfer stock between warehouses, internal locations, stores, or branches with tracked approval workflows.',
             })}
           </DialogDescription>
         </DialogHeader>
 
         <form
           onSubmit={handleSubmit(onSubmit, onInvalid)}
-          className='flex flex-1 flex-col min-h-0 overflow-hidden'
+          className='flex min-h-0 flex-1 flex-col overflow-hidden'
         >
-          <ScrollArea className='flex-1 min-h-0'>
-            <div className='p-6 space-y-6'>
+          <ScrollArea className='min-h-0 flex-1'>
+            <div className='space-y-6 p-5 sm:p-6'>
               {/* Transfer Type Selector */}
               <div className='space-y-2'>
-                <Label className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
-                  {t(
-                    'stockTransfers.createDialog.routingType',
-                    'Transfer Routing Type'
-                  )}
-                </Label>
+                <div className='flex items-center justify-between'>
+                  <Label className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+                    {t(
+                      'stockTransfers.createDialog.routingType',
+                      'Transfer Routing Type'
+                    )}
+                  </Label>
+                  <span className='text-[11px] text-muted-foreground'>
+                    Select route topology for inventory movement
+                  </span>
+                </div>
                 <Tabs
-                  value={transferType}
+                  value={
+                    transferType === 'warehouse'
+                      ? 'inter_warehouse'
+                      : transferType === 'store'
+                        ? 'inter_store'
+                        : transferType === 'branch'
+                          ? 'inter_branch'
+                          : transferType
+                  }
                   onValueChange={(val) =>
-                    handleTypeChange(val as 'warehouse' | 'store' | 'branch')
+                    handleTypeChange(val as CreateTransferInput['transferType'])
                   }
                   className='w-full'
                 >
-                  <TabsList className='grid h-auto w-full grid-cols-1 gap-1 p-1 sm:grid-cols-3'>
-                    <TabsTrigger value='warehouse' className='gap-2 py-2 text-xs sm:text-sm'>
-                      <Warehouse className='h-4 w-4 shrink-0' />
-                      <span className='truncate'>
-                        {t(
-                          'stockTransfers.types.warehouse',
-                          'Warehouse → Warehouse'
-                        )}
-                      </span>
+                  <TabsList className='grid h-auto w-full grid-cols-2 gap-1.5 bg-muted/40 p-1 sm:grid-cols-4'>
+                    <TabsTrigger
+                      value='inter_warehouse'
+                      className='gap-2 py-2 text-xs font-medium sm:text-xs'
+                    >
+                      <Warehouse className='h-4 w-4 shrink-0 text-blue-500' />
+                      <span className='truncate'>Inter-Warehouse</span>
                     </TabsTrigger>
-                    <TabsTrigger value='store' className='gap-2 py-2 text-xs sm:text-sm'>
-                      <Store className='h-4 w-4 shrink-0' />
-                      <span className='truncate'>{t('stockTransfers.types.store', 'Store → Store')}</span>
+                    <TabsTrigger
+                      value='internal'
+                      className='gap-2 py-2 text-xs font-medium sm:text-xs'
+                    >
+                      <Layers className='h-4 w-4 shrink-0 text-purple-500' />
+                      <span className='truncate'>Internal Bin Move</span>
                     </TabsTrigger>
-                    <TabsTrigger value='branch' className='gap-2 py-2 text-xs sm:text-sm'>
-                      <Building2 className='h-4 w-4 shrink-0' />
-                      <span className='truncate'>{t('stockTransfers.types.branch', 'Branch → Branch')}</span>
+                    <TabsTrigger
+                      value='inter_store'
+                      className='gap-2 py-2 text-xs font-medium sm:text-xs'
+                    >
+                      <Store className='h-4 w-4 shrink-0 text-emerald-500' />
+                      <span className='truncate'>Store → Store</span>
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value='inter_branch'
+                      className='gap-2 py-2 text-xs font-medium sm:text-xs'
+                    >
+                      <Building2 className='h-4 w-4 shrink-0 text-amber-500' />
+                      <span className='truncate'>Branch → Branch</span>
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
 
-              {/* Source & Destination Selectors */}
+              {/* Source & Destination Routing Box */}
               <div className='grid grid-cols-1 gap-4 rounded-xl border bg-muted/20 p-4 sm:grid-cols-2'>
-                {/* WAREHOUSE ROUTING */}
-                {transferType === 'warehouse' && (
+                {/* INTER-WAREHOUSE ROUTING */}
+                {(transferType === 'warehouse' ||
+                  transferType === 'inter_warehouse') && (
                   <>
-                    <div className='space-y-2'>
+                    <div className='space-y-1.5'>
                       <Label
                         htmlFor='sourceWarehouseId'
-                        className='text-sm font-medium'
+                        className='text-xs font-semibold'
                       >
                         {t(
                           'stockTransfers.createDialog.sourceWarehouse',
@@ -330,6 +561,7 @@ export function TransferCreateDialog({
                             <SelectTrigger
                               id='sourceWarehouseId'
                               className={cn(
+                                'h-9 text-xs',
                                 errors.sourceWarehouseId && 'border-destructive'
                               )}
                             >
@@ -342,8 +574,12 @@ export function TransferCreateDialog({
                             </SelectTrigger>
                             <SelectContent>
                               {warehouses.map((w) => (
-                                <SelectItem key={w.id} value={w.id}>
-                                  {w.name} ({w.code})
+                                <SelectItem
+                                  key={w.id}
+                                  value={w.id}
+                                  className='text-xs'
+                                >
+                                  {w.name} {w.code ? `(${w.code})` : ''}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -351,16 +587,16 @@ export function TransferCreateDialog({
                         )}
                       />
                       {errors.sourceWarehouseId && (
-                        <p className='text-xs text-destructive'>
+                        <p className='text-[11px] text-destructive'>
                           {errors.sourceWarehouseId.message}
                         </p>
                       )}
                     </div>
 
-                    <div className='space-y-2'>
+                    <div className='space-y-1.5'>
                       <Label
                         htmlFor='destinationWarehouseId'
-                        className='text-sm font-medium'
+                        className='text-xs font-semibold'
                       >
                         {t(
                           'stockTransfers.createDialog.destinationWarehouse',
@@ -379,6 +615,7 @@ export function TransferCreateDialog({
                             <SelectTrigger
                               id='destinationWarehouseId'
                               className={cn(
+                                'h-9 text-xs',
                                 errors.destinationWarehouseId &&
                                   'border-destructive'
                               )}
@@ -394,8 +631,12 @@ export function TransferCreateDialog({
                               {warehouses
                                 .filter((w) => w.id !== sourceWarehouseId)
                                 .map((w) => (
-                                  <SelectItem key={w.id} value={w.id}>
-                                    {w.name} ({w.code})
+                                  <SelectItem
+                                    key={w.id}
+                                    value={w.id}
+                                    className='text-xs'
+                                  >
+                                    {w.name} {w.code ? `(${w.code})` : ''}
                                   </SelectItem>
                                 ))}
                             </SelectContent>
@@ -403,7 +644,7 @@ export function TransferCreateDialog({
                         )}
                       />
                       {errors.destinationWarehouseId && (
-                        <p className='text-xs text-destructive'>
+                        <p className='text-[11px] text-destructive'>
                           {errors.destinationWarehouseId.message}
                         </p>
                       )}
@@ -411,13 +652,74 @@ export function TransferCreateDialog({
                   </>
                 )}
 
-                {/* STORE ROUTING */}
-                {transferType === 'store' && (
+                {/* INTERNAL WAREHOUSE ROUTING */}
+                {transferType === 'internal' && (
                   <>
-                    <div className='space-y-2'>
+                    <div className='col-span-1 space-y-1.5 sm:col-span-2'>
+                      <div className='flex items-center justify-between'>
+                        <Label
+                          htmlFor='internalWarehouseId'
+                          className='text-xs font-semibold'
+                        >
+                          Operating Warehouse{' '}
+                          <span className='text-destructive'>*</span>
+                        </Label>
+                        <span className='text-[11px] text-muted-foreground'>
+                          Items will move between bins/locations inside this
+                          single warehouse facility
+                        </span>
+                      </div>
+                      <Controller
+                        name='sourceWarehouseId'
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value ?? ''}
+                            onValueChange={(val) => {
+                              field.onChange(val || null)
+                              setValue('destinationWarehouseId', val || null)
+                            }}
+                          >
+                            <SelectTrigger
+                              id='internalWarehouseId'
+                              className={cn(
+                                'h-9 text-xs',
+                                errors.sourceWarehouseId && 'border-destructive'
+                              )}
+                            >
+                              <SelectValue placeholder='Select warehouse facility for relocation' />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {warehouses.map((w) => (
+                                <SelectItem
+                                  key={w.id}
+                                  value={w.id}
+                                  className='text-xs'
+                                >
+                                  {w.name} {w.code ? `(${w.code})` : ''}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors.sourceWarehouseId && (
+                        <p className='text-[11px] text-destructive'>
+                          {errors.sourceWarehouseId.message}
+                        </p>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {/* STORE ROUTING */}
+                {(transferType === 'store' ||
+                  transferType === 'inter_store') && (
+                  <>
+                    <div className='space-y-1.5'>
                       <Label
                         htmlFor='fromStoreId'
-                        className='text-sm font-medium'
+                        className='text-xs font-semibold'
                       >
                         {t(
                           'stockTransfers.createDialog.sourceStore',
@@ -436,6 +738,7 @@ export function TransferCreateDialog({
                             <SelectTrigger
                               id='fromStoreId'
                               className={cn(
+                                'h-9 text-xs',
                                 errors.fromStoreId && 'border-destructive'
                               )}
                             >
@@ -448,7 +751,11 @@ export function TransferCreateDialog({
                             </SelectTrigger>
                             <SelectContent>
                               {stores.map((s) => (
-                                <SelectItem key={s.store_id} value={s.store_id}>
+                                <SelectItem
+                                  key={s.store_id}
+                                  value={s.store_id}
+                                  className='text-xs'
+                                >
                                   {s.name || s.store_id}
                                 </SelectItem>
                               ))}
@@ -457,16 +764,16 @@ export function TransferCreateDialog({
                         )}
                       />
                       {errors.fromStoreId && (
-                        <p className='text-xs text-destructive'>
+                        <p className='text-[11px] text-destructive'>
                           {errors.fromStoreId.message}
                         </p>
                       )}
                     </div>
 
-                    <div className='space-y-2'>
+                    <div className='space-y-1.5'>
                       <Label
                         htmlFor='toStoreId'
-                        className='text-sm font-medium'
+                        className='text-xs font-semibold'
                       >
                         {t(
                           'stockTransfers.createDialog.destinationStore',
@@ -485,6 +792,7 @@ export function TransferCreateDialog({
                             <SelectTrigger
                               id='toStoreId'
                               className={cn(
+                                'h-9 text-xs',
                                 errors.toStoreId && 'border-destructive'
                               )}
                             >
@@ -502,6 +810,7 @@ export function TransferCreateDialog({
                                   <SelectItem
                                     key={s.store_id}
                                     value={s.store_id}
+                                    className='text-xs'
                                   >
                                     {s.name || s.store_id}
                                   </SelectItem>
@@ -511,7 +820,7 @@ export function TransferCreateDialog({
                         )}
                       />
                       {errors.toStoreId && (
-                        <p className='text-xs text-destructive'>
+                        <p className='text-[11px] text-destructive'>
                           {errors.toStoreId.message}
                         </p>
                       )}
@@ -520,12 +829,13 @@ export function TransferCreateDialog({
                 )}
 
                 {/* BRANCH ROUTING */}
-                {transferType === 'branch' && (
+                {(transferType === 'branch' ||
+                  transferType === 'inter_branch') && (
                   <>
-                    <div className='space-y-2'>
+                    <div className='space-y-1.5'>
                       <Label
                         htmlFor='fromBranchId'
-                        className='text-sm font-medium'
+                        className='text-xs font-semibold'
                       >
                         {t(
                           'stockTransfers.createDialog.sourceBranch',
@@ -544,6 +854,7 @@ export function TransferCreateDialog({
                             <SelectTrigger
                               id='fromBranchId'
                               className={cn(
+                                'h-9 text-xs',
                                 errors.fromBranchId && 'border-destructive'
                               )}
                             >
@@ -556,7 +867,11 @@ export function TransferCreateDialog({
                             </SelectTrigger>
                             <SelectContent>
                               {branches.map((b) => (
-                                <SelectItem key={b.id} value={b.id}>
+                                <SelectItem
+                                  key={b.id}
+                                  value={b.id}
+                                  className='text-xs'
+                                >
                                   {b.name}
                                 </SelectItem>
                               ))}
@@ -565,16 +880,16 @@ export function TransferCreateDialog({
                         )}
                       />
                       {errors.fromBranchId && (
-                        <p className='text-xs text-destructive'>
+                        <p className='text-[11px] text-destructive'>
                           {errors.fromBranchId.message}
                         </p>
                       )}
                     </div>
 
-                    <div className='space-y-2'>
+                    <div className='space-y-1.5'>
                       <Label
                         htmlFor='toBranchId'
-                        className='text-sm font-medium'
+                        className='text-xs font-semibold'
                       >
                         {t(
                           'stockTransfers.createDialog.destinationBranch',
@@ -593,6 +908,7 @@ export function TransferCreateDialog({
                             <SelectTrigger
                               id='toBranchId'
                               className={cn(
+                                'h-9 text-xs',
                                 errors.toBranchId && 'border-destructive'
                               )}
                             >
@@ -607,7 +923,11 @@ export function TransferCreateDialog({
                               {branches
                                 .filter((b) => b.id !== fromBranchId)
                                 .map((b) => (
-                                  <SelectItem key={b.id} value={b.id}>
+                                  <SelectItem
+                                    key={b.id}
+                                    value={b.id}
+                                    className='text-xs'
+                                  >
                                     {b.name}
                                   </SelectItem>
                                 ))}
@@ -616,7 +936,7 @@ export function TransferCreateDialog({
                         )}
                       />
                       {errors.toBranchId && (
-                        <p className='text-xs text-destructive'>
+                        <p className='text-[11px] text-destructive'>
                           {errors.toBranchId.message}
                         </p>
                       )}
@@ -625,26 +945,201 @@ export function TransferCreateDialog({
                 )}
               </div>
 
-              {/* Reference & Notes */}
+              {/* Workflow Attributes: Priority, Reason Code, Expected Dates */}
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+                {/* Priority */}
+                <div className='space-y-1.5'>
+                  <Label htmlFor='priority' className='text-xs font-semibold'>
+                    Transfer Priority
+                  </Label>
+                  <Controller
+                    name='priority'
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        value={field.value ?? 'normal'}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger id='priority' className='h-9 text-xs'>
+                          <SelectValue placeholder='Select priority' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {PRIORITIES.map((p) => (
+                            <SelectItem
+                              key={p.value}
+                              value={p.value}
+                              className='text-xs'
+                            >
+                              <div className='flex items-center gap-2'>
+                                <span
+                                  className={cn('h-2 w-2 rounded-full', {
+                                    'bg-slate-400': p.value === 'low',
+                                    'bg-blue-500': p.value === 'normal',
+                                    'bg-amber-500': p.value === 'high',
+                                    'bg-rose-500': p.value === 'urgent',
+                                  })}
+                                />
+                                <span>{p.label}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </div>
+
+                {/* Reason Code */}
+                <div className='space-y-1.5'>
+                  <Label
+                    htmlFor='reasonCode'
+                    className='flex items-center justify-between text-xs font-semibold'
+                  >
+                    <span>Reason Code</span>
+                    <button
+                      type='button'
+                      onClick={() => setCustomReason(!customReason)}
+                      className='text-[10px] font-normal text-primary hover:underline'
+                    >
+                      {customReason ? 'Choose preset' : 'Custom'}
+                    </button>
+                  </Label>
+                  {customReason ? (
+                    <Input
+                      id='reasonCode'
+                      placeholder='e.g. seasonal_clearance'
+                      className='h-9 font-mono text-xs'
+                      {...register('reasonCode')}
+                    />
+                  ) : (
+                    <Controller
+                      name='reasonCode'
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          value={field.value ?? 'replenishment'}
+                          onValueChange={(val) => {
+                            if (val === 'custom') {
+                              setCustomReason(true)
+                              field.onChange('')
+                            } else {
+                              field.onChange(val)
+                            }
+                          }}
+                        >
+                          <SelectTrigger
+                            id='reasonCode'
+                            className='h-9 text-xs'
+                          >
+                            <SelectValue placeholder='Select reason' />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {REASON_CODES.map((r) => (
+                              <SelectItem
+                                key={r.value}
+                                value={r.value}
+                                className='text-xs'
+                              >
+                                {r.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  )}
+                  {errors.reasonCode && (
+                    <p className='text-[11px] text-destructive'>
+                      {errors.reasonCode.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Expected Ship Date */}
+                <div className='space-y-1.5'>
+                  <Label
+                    htmlFor='expectedShipDate'
+                    className='flex items-center gap-1.5 text-xs font-semibold'
+                  >
+                    <Calendar className='h-3.5 w-3.5 text-muted-foreground' />
+                    Expected Ship Date
+                  </Label>
+                  <Input
+                    id='expectedShipDate'
+                    type='date'
+                    className={cn(
+                      'h-9 text-xs',
+                      errors.expectedShipDate && 'border-destructive'
+                    )}
+                    {...register('expectedShipDate')}
+                  />
+                  {errors.expectedShipDate && (
+                    <p className='text-[11px] text-destructive'>
+                      {errors.expectedShipDate.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Expected Receive Date */}
+                <div className='space-y-1.5'>
+                  <Label
+                    htmlFor='expectedReceiveDate'
+                    className='flex items-center gap-1.5 text-xs font-semibold'
+                  >
+                    <Calendar className='h-3.5 w-3.5 text-muted-foreground' />
+                    Expected Receive Date
+                  </Label>
+                  <Input
+                    id='expectedReceiveDate'
+                    type='date'
+                    min={watchedExpectedShip || undefined}
+                    className={cn(
+                      'h-9 text-xs',
+                      errors.expectedReceiveDate && 'border-destructive'
+                    )}
+                    {...register('expectedReceiveDate')}
+                  />
+                  {errors.expectedReceiveDate && (
+                    <p className='text-[11px] text-destructive'>
+                      {errors.expectedReceiveDate.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Reference & Notes Row */}
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                <div className='space-y-2'>
-                  <Label htmlFor='referenceNo' className='text-sm'>
+                <div className='space-y-1.5'>
+                  <Label
+                    htmlFor='referenceNo'
+                    className='flex items-center gap-1.5 text-xs font-semibold'
+                  >
+                    <Tag className='h-3.5 w-3.5 text-muted-foreground' />
                     {t(
                       'stockTransfers.createDialog.referenceNo',
-                      'Reference / PO # (Optional)'
+                      'Reference / Tracking Code (Optional)'
                     )}
                   </Label>
                   <Input
                     id='referenceNo'
                     placeholder={t(
                       'stockTransfers.createDialog.referencePlaceholder',
-                      'e.g. TR-2026-001'
+                      'Auto-generated (e.g. TRF-2026-XXXX) if empty'
+                    )}
+                    className={cn(
+                      'h-9 font-mono text-xs',
+                      errors.referenceNo && 'border-destructive'
                     )}
                     {...register('referenceNo')}
                   />
+                  {errors.referenceNo && (
+                    <p className='text-[11px] text-destructive'>
+                      {errors.referenceNo.message}
+                    </p>
+                  )}
                 </div>
-                <div className='space-y-2'>
-                  <Label htmlFor='notes' className='text-sm'>
+                <div className='space-y-1.5'>
+                  <Label htmlFor='notes' className='text-xs font-semibold'>
                     {t(
                       'stockTransfers.createDialog.notes',
                       'Transfer Notes & Instructions'
@@ -654,23 +1149,24 @@ export function TransferCreateDialog({
                     id='notes'
                     placeholder={t(
                       'stockTransfers.createDialog.notesPlaceholder',
-                      'Reason, driver, or handling instructions...'
+                      'Carrier, driver name, vehicle plate, delivery instructions...'
                     )}
                     rows={2}
-                    className='resize-none'
+                    className='min-h-[36px] resize-none text-xs'
                     {...register('notes')}
                   />
                 </div>
               </div>
 
               {/* Line Items Section */}
-              <div className='space-y-4'>
-                <div className='flex flex-wrap items-center justify-between gap-2 border-b pb-2'>
+              <div className='space-y-3.5'>
+                <div className='flex flex-wrap items-center justify-between gap-2 border-b pb-2.5'>
                   <div className='flex items-center gap-3'>
-                    <h3 className='text-sm font-bold tracking-wider text-foreground uppercase'>
+                    <h3 className='flex items-center gap-1.5 text-xs font-bold tracking-wider text-foreground uppercase'>
+                      <Package className='h-4 w-4 text-primary' />
                       {t(
                         'stockTransfers.createDialog.itemsTitle',
-                        'Transfer Items'
+                        'Transfer Line Items'
                       )}{' '}
                       ({fields.length})
                     </h3>
@@ -686,11 +1182,11 @@ export function TransferCreateDialog({
                     <SlidersHorizontal className='h-3.5 w-3.5 text-muted-foreground' />
                     <Label
                       htmlFor='advanced-toggle'
-                      className='cursor-pointer text-xs font-medium'
+                      className='cursor-pointer text-xs font-medium text-muted-foreground hover:text-foreground'
                     >
                       {t(
                         'stockTransfers.createDialog.advancedToggle',
-                        'Advanced Fields (Condition, Locations, Batch, Serial)'
+                        'Advanced (Condition, Bins, Batch, Serial, Notes)'
                       )}
                     </Label>
                     <Switch
@@ -706,6 +1202,8 @@ export function TransferCreateDialog({
                   {fields.map((field, index) => {
                     const selectedVariantId =
                       watchedItems?.[index]?.productVariantId
+                    const currentCondition =
+                      watchedItems?.[index]?.condition || 'good'
 
                     return (
                       <div
@@ -756,7 +1254,8 @@ export function TransferCreateDialog({
                                   sourceWarehouseId={sourceWarehouseId}
                                   sourceWarehouseName={selectedWarehouse?.name}
                                   originStockMap={
-                                    transferType === 'store'
+                                    transferType === 'store' ||
+                                    transferType === 'inter_store'
                                       ? storeStockMap
                                       : warehouseStockMap
                                   }
@@ -779,26 +1278,28 @@ export function TransferCreateDialog({
                             )}
 
                             {/* Cross-Warehouse Stock Availability Sourcing */}
-                            {transferType === 'warehouse' &&
-                              selectedVariantId && (
-                                <CrossWarehouseStockBadge
-                                  productVariantId={selectedVariantId}
-                                  sourceWarehouseId={sourceWarehouseId}
-                                  sourceWarehouseName={selectedWarehouse?.name}
-                                  requestedQty={Number(
-                                    watchedItems?.[index]?.qty || 1
-                                  )}
-                                  onSwitchSourceWarehouse={(newWhId) => {
-                                    setValue('sourceWarehouseId', newWhId)
-                                  }}
-                                />
-                              )}
+                            {isWarehouseMode && selectedVariantId && (
+                              <CrossWarehouseStockBadge
+                                productVariantId={selectedVariantId}
+                                sourceWarehouseId={sourceWarehouseId}
+                                sourceWarehouseName={selectedWarehouse?.name}
+                                requestedQty={Number(
+                                  watchedItems?.[index]?.qty || 1
+                                )}
+                                onSwitchSourceWarehouse={(newWhId) => {
+                                  setValue('sourceWarehouseId', newWhId)
+                                }}
+                              />
+                            )}
                           </div>
 
                           {/* Quantity */}
                           <div className='col-span-6 space-y-1 sm:col-span-3'>
                             <Label className='text-xs text-muted-foreground'>
-                              {t('stockTransfers.createDialog.qty', 'Qty')}{' '}
+                              {t(
+                                'stockTransfers.createDialog.qty',
+                                'Transfer Qty'
+                              )}{' '}
                               <span className='text-destructive'>*</span>
                             </Label>
                             <Input
@@ -807,6 +1308,7 @@ export function TransferCreateDialog({
                               min='0.0001'
                               placeholder='1'
                               className={cn(
+                                'h-9 text-xs font-semibold',
                                 errors.items?.[index]?.qty &&
                                   'border-destructive'
                               )}
@@ -835,6 +1337,7 @@ export function TransferCreateDialog({
                               min='0'
                               placeholder='0.00'
                               className={cn(
+                                'h-9 font-mono text-xs',
                                 errors.items?.[index]?.unitCost &&
                                   'border-destructive'
                               )}
@@ -866,200 +1369,229 @@ export function TransferCreateDialog({
 
                         {/* Collapsible Advanced Item Options */}
                         {showAdvanced && (
-                          <div className='grid grid-cols-1 gap-3 rounded-lg border-t bg-muted/10 p-2.5 pt-2 sm:grid-cols-4'>
-                            {/* Condition */}
-                            <div className='space-y-1'>
-                              <Label className='text-[11px] text-muted-foreground'>
-                                {t(
-                                  'stockTransfers.createDialog.condition',
-                                  'Condition'
-                                )}
-                              </Label>
-                              <Controller
-                                name={`items.${index}.condition`}
-                                control={control}
-                                render={({ field: condField }) => (
-                                  <Select
-                                    value={condField.value ?? 'good'}
-                                    onValueChange={condField.onChange}
-                                  >
-                                    <SelectTrigger className='h-8 text-xs'>
-                                      <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      {CONDITIONS.map((c) => (
-                                        <SelectItem
-                                          key={c.value}
-                                          value={c.value}
+                          <div className='space-y-3 rounded-lg border-t bg-muted/15 p-3 pt-2.5'>
+                            <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4'>
+                              {/* Condition */}
+                              <div className='space-y-1'>
+                                <Label className='text-[11px] text-muted-foreground'>
+                                  {t(
+                                    'stockTransfers.createDialog.condition',
+                                    'Condition'
+                                  )}
+                                </Label>
+                                <Controller
+                                  name={`items.${index}.condition`}
+                                  control={control}
+                                  render={({ field: condField }) => (
+                                    <Select
+                                      value={condField.value ?? 'good'}
+                                      onValueChange={condField.onChange}
+                                    >
+                                      <SelectTrigger className='h-8 text-xs'>
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {CONDITIONS.map((c) => (
+                                          <SelectItem
+                                            key={c.value}
+                                            value={c.value}
+                                            className='text-xs'
+                                          >
+                                            {t(
+                                              `stockTransfers.conditions.${c.value}`,
+                                              c.label
+                                            )}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  )}
+                                />
+                              </div>
+
+                              {/* Source Location */}
+                              {isWarehouseMode && (
+                                <div className='space-y-1'>
+                                  <Label className='text-[11px] text-muted-foreground'>
+                                    {t(
+                                      'stockTransfers.createDialog.sourceLocation',
+                                      'Source Location (Bin)'
+                                    )}
+                                  </Label>
+                                  <Controller
+                                    name={`items.${index}.sourceLocationId`}
+                                    control={control}
+                                    render={({ field: locField }) => (
+                                      <Select
+                                        value={locField.value ?? 'none'}
+                                        onValueChange={(val) =>
+                                          locField.onChange(
+                                            val === 'none' ? null : val
+                                          )
+                                        }
+                                      >
+                                        <SelectTrigger className='h-8 text-xs'>
+                                          <SelectValue
+                                            placeholder={t(
+                                              'stockTransfers.createDialog.default',
+                                              'Default Bin'
+                                            )}
+                                          />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          <SelectItem
+                                            value='none'
+                                            className='text-xs'
+                                          >
+                                            {t(
+                                              'stockTransfers.createDialog.defaultLocation',
+                                              'Default Location'
+                                            )}
+                                          </SelectItem>
+                                          {sourceLocations.map((loc) => (
+                                            <SelectItem
+                                              key={loc.id}
+                                              value={loc.id}
+                                              className='text-xs'
+                                            >
+                                              {loc.code}{' '}
+                                              {loc.name ? `(${loc.name})` : ''}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    )}
+                                  />
+                                </div>
+                              )}
+
+                              {/* Destination Location */}
+                              {isWarehouseMode && (
+                                <div className='space-y-1'>
+                                  <Label className='text-[11px] text-muted-foreground'>
+                                    {t(
+                                      'stockTransfers.createDialog.targetLocation',
+                                      'Target Location (Bin)'
+                                    )}
+                                  </Label>
+                                  <Controller
+                                    name={`items.${index}.destinationLocationId`}
+                                    control={control}
+                                    render={({ field: locField }) => (
+                                      <Select
+                                        value={locField.value ?? 'none'}
+                                        onValueChange={(val) =>
+                                          locField.onChange(
+                                            val === 'none' ? null : val
+                                          )
+                                        }
+                                      >
+                                        <SelectTrigger
+                                          className={cn(
+                                            'h-8 text-xs',
+                                            errors.items?.[index]
+                                              ?.destinationLocationId &&
+                                              'border-destructive'
+                                          )}
                                         >
-                                          {t(
-                                            `stockTransfers.conditions.${c.value}`,
-                                            c.label
-                                          )}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                )}
-                              />
-                            </div>
+                                          <SelectValue
+                                            placeholder={t(
+                                              'stockTransfers.createDialog.default',
+                                              'Default Bin'
+                                            )}
+                                          />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          <SelectItem
+                                            value='none'
+                                            className='text-xs'
+                                          >
+                                            {t(
+                                              'stockTransfers.createDialog.defaultLocation',
+                                              'Default Location'
+                                            )}
+                                          </SelectItem>
+                                          {destLocations.map((loc) => (
+                                            <SelectItem
+                                              key={loc.id}
+                                              value={loc.id}
+                                              className='text-xs'
+                                            >
+                                              {loc.code}{' '}
+                                              {loc.name ? `(${loc.name})` : ''}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    )}
+                                  />
+                                  {errors.items?.[index]
+                                    ?.destinationLocationId && (
+                                    <p className='text-[10px] text-destructive'>
+                                      {
+                                        errors.items[index]
+                                          ?.destinationLocationId?.message
+                                      }
+                                    </p>
+                                  )}
+                                </div>
+                              )}
 
-                            {/* Source Location */}
-                            {transferType === 'warehouse' && (
+                              {/* Batch ID */}
                               <div className='space-y-1'>
                                 <Label className='text-[11px] text-muted-foreground'>
                                   {t(
-                                    'stockTransfers.createDialog.sourceLocation',
-                                    'Source Location'
+                                    'stockTransfers.createDialog.batchNo',
+                                    'Batch # (Optional)'
                                   )}
                                 </Label>
-                                <Controller
-                                  name={`items.${index}.sourceLocationId`}
-                                  control={control}
-                                  render={({ field: locField }) => (
-                                    <Select
-                                      value={locField.value ?? 'none'}
-                                      onValueChange={(val) =>
-                                        locField.onChange(
-                                          val === 'none' ? null : val
-                                        )
-                                      }
-                                    >
-                                      <SelectTrigger className='h-8 text-xs'>
-                                        <SelectValue
-                                          placeholder={t(
-                                            'stockTransfers.createDialog.default',
-                                            'Default'
-                                          )}
-                                        />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value='none'>
-                                          {t(
-                                            'stockTransfers.createDialog.defaultLocation',
-                                            'Default Location'
-                                          )}
-                                        </SelectItem>
-                                        {sourceLocations.map((loc) => (
-                                          <SelectItem
-                                            key={loc.id}
-                                            value={loc.id}
-                                          >
-                                            {loc.code}{' '}
-                                            {loc.name ? `(${loc.name})` : ''}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
+                                <Input
+                                  placeholder={t(
+                                    'stockTransfers.createDialog.batchPlaceholder',
+                                    'Batch ID'
                                   )}
+                                  className={cn(
+                                    'h-8 font-mono text-xs',
+                                    errors.items?.[index]?.batchId &&
+                                      'border-destructive'
+                                  )}
+                                  {...register(`items.${index}.batchId`)}
                                 />
                               </div>
-                            )}
 
-                            {/* Destination Location */}
-                            {transferType === 'warehouse' && (
+                              {/* Serial ID */}
                               <div className='space-y-1'>
                                 <Label className='text-[11px] text-muted-foreground'>
                                   {t(
-                                    'stockTransfers.createDialog.targetLocation',
-                                    'Target Location'
+                                    'stockTransfers.createDialog.serialNo',
+                                    'Serial # (Optional)'
                                   )}
                                 </Label>
-                                <Controller
-                                  name={`items.${index}.destinationLocationId`}
-                                  control={control}
-                                  render={({ field: locField }) => (
-                                    <Select
-                                      value={locField.value ?? 'none'}
-                                      onValueChange={(val) =>
-                                        locField.onChange(
-                                          val === 'none' ? null : val
-                                        )
-                                      }
-                                    >
-                                      <SelectTrigger className='h-8 text-xs'>
-                                        <SelectValue
-                                          placeholder={t(
-                                            'stockTransfers.createDialog.default',
-                                            'Default'
-                                          )}
-                                        />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value='none'>
-                                          {t(
-                                            'stockTransfers.createDialog.defaultLocation',
-                                            'Default Location'
-                                          )}
-                                        </SelectItem>
-                                        {destLocations.map((loc) => (
-                                          <SelectItem
-                                            key={loc.id}
-                                            value={loc.id}
-                                          >
-                                            {loc.code}{' '}
-                                            {loc.name ? `(${loc.name})` : ''}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
+                                <Input
+                                  placeholder={t(
+                                    'stockTransfers.createDialog.serialPlaceholder',
+                                    'Serial ID'
                                   )}
+                                  className={cn(
+                                    'h-8 font-mono text-xs',
+                                    errors.items?.[index]?.serialId &&
+                                      'border-destructive'
+                                  )}
+                                  {...register(`items.${index}.serialId`)}
                                 />
                               </div>
-                            )}
 
-                            {/* Batch ID */}
-                            <div className='space-y-1'>
-                              <Label className='text-[11px] text-muted-foreground'>
-                                {t(
-                                  'stockTransfers.createDialog.batchNo',
-                                  'Batch # (Optional)'
-                                )}
-                              </Label>
-                              <Input
-                                placeholder={t(
-                                  'stockTransfers.createDialog.batchPlaceholder',
-                                  'Batch ID'
-                                )}
-                                className={cn(
-                                  'h-8 text-xs',
-                                  errors.items?.[index]?.batchId &&
-                                    'border-destructive'
-                                )}
-                                {...register(`items.${index}.batchId`)}
-                              />
-                              {errors.items?.[index]?.batchId && (
-                                <p className='pt-0.5 text-xs text-destructive'>
-                                  {errors.items[index]?.batchId?.message}
-                                </p>
-                              )}
-                            </div>
-
-                            {/* Serial ID */}
-                            <div className='space-y-1'>
-                              <Label className='text-[11px] text-muted-foreground'>
-                                {t(
-                                  'stockTransfers.createDialog.serialNo',
-                                  'Serial # (Optional)'
-                                )}
-                              </Label>
-                              <Input
-                                placeholder={t(
-                                  'stockTransfers.createDialog.serialPlaceholder',
-                                  'Serial ID'
-                                )}
-                                className={cn(
-                                  'h-8 text-xs',
-                                  errors.items?.[index]?.serialId &&
-                                    'border-destructive'
-                                )}
-                                {...register(`items.${index}.serialId`)}
-                              />
-                              {errors.items?.[index]?.serialId && (
-                                <p className='pt-0.5 text-xs text-destructive'>
-                                  {errors.items[index]?.serialId?.message}
-                                </p>
-                              )}
+                              {/* Line Item Notes */}
+                              <div className='col-span-1 space-y-1 sm:col-span-2 md:col-span-3'>
+                                <Label className='text-[11px] text-muted-foreground'>
+                                  Line Item Instructions & Notes
+                                </Label>
+                                <Input
+                                  placeholder='e.g. Fragile box, repackaged, or defect observation...'
+                                  className='h-8 text-xs'
+                                  {...register(`items.${index}.notes`)}
+                                />
+                              </div>
                             </div>
                           </div>
                         )}
@@ -1082,6 +1614,7 @@ export function TransferCreateDialog({
                       destinationLocationId: null,
                       batchId: null,
                       serialId: null,
+                      notes: null,
                     })
                   }
                   className='gap-1.5'
@@ -1098,75 +1631,58 @@ export function TransferCreateDialog({
                     <span className='text-muted-foreground'>
                       {t('stockTransfers.createDialog.lines', 'Lines:')}{' '}
                     </span>
-                    <span className='font-bold text-foreground'>
+                    <strong className='text-foreground'>
                       {totals.lineCount}
-                    </span>
+                    </strong>
                   </div>
                   <div>
                     <span className='text-muted-foreground'>
                       {t(
-                        'stockTransfers.createDialog.totalUnits',
+                        'stockTransfers.createDialog.totalQty',
                         'Total Units:'
                       )}{' '}
                     </span>
-                    <span className='font-bold text-foreground'>
+                    <strong className='text-foreground'>
                       {totals.totalQty}
-                    </span>
+                    </strong>
                   </div>
                   {totals.totalWeight > 0 && (
-                    <div className='flex items-center gap-1'>
-                      <Scale className='h-3.5 w-3.5 text-muted-foreground' />
-                      <span className='text-muted-foreground'>
-                        {t(
-                          'stockTransfers.createDialog.weight',
-                          'Weight:'
-                        )}{' '}
-                      </span>
-                      <span className='font-bold text-foreground'>
-                        {totals.totalWeight.toFixed(2)} kg
-                      </span>
+                    <div className='flex items-center gap-1 text-muted-foreground'>
+                      <Scale className='h-3 w-3' />
+                      <span>{totals.totalWeight.toFixed(2)} kg</span>
                     </div>
                   )}
                 </div>
 
-                <div className='flex flex-wrap items-center gap-4'>
+                <div className='flex flex-wrap items-center gap-4 font-mono'>
                   <div>
                     <span className='text-muted-foreground'>
                       {t(
                         'stockTransfers.createDialog.costValuation',
-                        'Cost Valuation:'
+                        'Cost:'
                       )}{' '}
                     </span>
-                    <span className='font-bold text-foreground'>
+                    <strong className='text-foreground'>
                       ${totals.totalCost.toFixed(2)}
-                    </span>
+                    </strong>
                   </div>
                   {totals.totalPriceValuation > 0 && (
                     <div>
                       <span className='text-muted-foreground'>
                         {t(
                           'stockTransfers.createDialog.retailValuation',
-                          'Retail Valuation:'
+                          'Retail:'
                         )}{' '}
                       </span>
-                      <span className='font-bold text-emerald-600 dark:text-emerald-400'>
+                      <strong className='text-foreground'>
                         ${totals.totalPriceValuation.toFixed(2)}
-                      </span>
+                      </strong>
                     </div>
                   )}
-                  {totals.potentialMarkup !== 0 && totals.totalCost > 0 && (
-                    <div className='flex items-center gap-1'>
-                      <TrendingUp className='h-3.5 w-3.5 text-primary' />
-                      <span className='text-muted-foreground'>
-                        {t(
-                          'stockTransfers.createDialog.markup',
-                          'Markup:'
-                        )}{' '}
-                      </span>
-                      <span className='font-medium text-foreground'>
-                        {totals.markupPercent > 0 ? '+' : ''}
-                        {totals.markupPercent.toFixed(1)}%
-                      </span>
+                  {totals.potentialMarkup > 0 && (
+                    <div className='flex items-center gap-1 text-emerald-600'>
+                      <TrendingUp className='h-3 w-3' />
+                      <span>+{totals.markupPercent.toFixed(1)}%</span>
                     </div>
                   )}
                 </div>
@@ -1174,27 +1690,37 @@ export function TransferCreateDialog({
             </div>
           </ScrollArea>
 
-          <DialogFooter className='shrink-0 flex-row justify-end gap-2 border-t bg-muted/10 p-4'>
+          <DialogFooter className='flex shrink-0 flex-row items-center justify-between border-t bg-muted/10 p-4 sm:justify-between'>
             <Button
               type='button'
-              variant='outline'
-              onClick={() => {
-                handleReset()
-                onOpenChange(false)
-              }}
-              disabled={isSubmitting || createTransfer.isPending}
+              variant='ghost'
+              size='sm'
+              onClick={handleReset}
+              disabled={isSubmitting}
             >
-              {t('common.cancel', 'Cancel')}
+              {t('common.reset', 'Reset')}
             </Button>
-            <Button
-              type='submit'
-              disabled={isSubmitting || createTransfer.isPending}
-              className='min-w-30 bg-primary text-primary-foreground'
-            >
-              {isSubmitting || createTransfer.isPending
-                ? t('stockTransfers.form.saving', 'Creating...')
-                : t('stockTransfers.form.save', 'Create Transfer')}
-            </Button>
+            <div className='flex items-center gap-2'>
+              <Button
+                type='button'
+                variant='outline'
+                size='sm'
+                onClick={() => onOpenChange(false)}
+                disabled={isSubmitting}
+              >
+                {t('common.cancel', 'Cancel')}
+              </Button>
+              <Button type='submit' size='sm' disabled={isSubmitting}>
+                {isSubmitting
+                  ? t('common.saving', 'Saving...')
+                  : isEdit
+                    ? t('common.saveChanges', 'Save Changes')
+                    : t(
+                        'stockTransfers.createDialog.submit',
+                        'Create Transfer'
+                      )}
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>
