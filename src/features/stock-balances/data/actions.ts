@@ -428,9 +428,17 @@ export async function fetchStockBalanceMovements(
     const res = (await authorizedRequest(
       getToken,
       `/api/inventory/movements?${params.toString()}`
-    )) as { success: boolean; data: StockMovementRow[] }
+    )) as {
+      success?: boolean
+      data?: StockMovementRow[] | { movements?: StockMovementRow[] }
+    }
     if (res?.data) {
-      return res.data
+      if (Array.isArray(res.data)) {
+        return res.data
+      }
+      if (Array.isArray((res.data as any).movements)) {
+        return (res.data as any).movements
+      }
     }
   } catch (err) {
     // eslint-disable-next-line no-console

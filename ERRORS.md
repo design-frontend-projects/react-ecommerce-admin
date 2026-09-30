@@ -1,5 +1,35 @@
 # Error Log
 
+## [2026-09-29 22:55] - StockMovementDrawer TypeError (movements.map is not a function), PostgREST 500 on product_variants, and Dev WebSocket Rejection
+
+- **Type**: Runtime / Integration / Client
+- **Severity**: High
+- **File**: `src/features/stock-balances/data/actions.ts:427`, `src/features/stock-balances/components/stock-movement-drawer.tsx:100`, `src/hooks/use-inventory-lookups.ts:480`, `src/features/notifications/hooks/use-websocket-notifications.ts:72`
+- **Agent**: @frontend-specialist
+- **Root Cause**:
+  1. In `src/features/stock-balances/data/actions.ts`, `fetchStockBalanceMovements` queried `/api/inventory/movements` which returns `{ success: true, data: { movements: [...], totalCount: ... } }`. `fetchStockBalanceMovements` returned `res.data` directly without extracting the nested `movements` array. When passed to `<StockMovementDrawer>`, `movements` was an object instead of an array. Consequently, `movements.length === 0` evaluated to false and `movements.map(...)` threw `TypeError: movements.map is not a function`, crashing the component tree into `CatchBoundaryImpl`.
+  2. In `src/hooks/use-inventory-lookups.ts`, `useVariantOptions` made a direct unauthenticated PostgREST query on `product_variants` requesting lateral join `price_list_items(price, cost_price)` with `.order('sku').limit(50)` across 20,000+ variants. This triggered statement timeout / Postgres error `57014` on the remote Supabase instance, responding with HTTP 500.
+  3. In `src/features/notifications/hooks/use-websocket-notifications.ts`, when `VITE_WS_URL` was unset in local development, the hook defaulted to `window.location.origin` (the Vite dev server port), which does not run Socket.IO. Furthermore, using `transports: ['websocket', 'polling']` forced native WebSocket connection attempts that Vite dev server closed immediately before handshake establishment.
+- **Error Message**:
+  ```
+  qihgtllyfkoynorwazfn.supabase.co/rest/v1/product_variants?select=id%2Csku%2Cbarcode%2Cproducts%28id%2Cname%29%2Cprice_list_items%28price%2Ccost_price%29&order=sku.asc&limit=50:1 Failed to load resource: the server responded with a status of 500 ()
+  WebSocket connection to 'ws:<URL>/socket.io/?EIO=4&transport=websocket' failed: WebSocket is closed before the connection is established.
+  TypeError: movements.map is not a function
+      at StockMovementDrawer (stock-movement-drawer.tsx:205:26)
+  The above error occurred in the <StockMovementDrawer> component.
+  React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundaryImpl.
+  ```
+- **Fix Applied**:
+  1. Updated `fetchStockBalanceMovements` in `src/features/stock-balances/data/actions.ts` to inspect `res.data` and safely unwrap `(res.data as any).movements` when wrapped in the pagination envelope.
+  2. In `src/features/stock-balances/components/stock-movement-drawer.tsx`, wrapped `movements` in a defensive `movementList` memo guaranteeing an array fallback, and replaced all JSX usages with `movementList`.
+  3. Refactored `useVariantOptions` in `src/hooks/use-inventory-lookups.ts` to use `useAuthQuery` calling the authoritative server endpoint `/api/inventory/product-variants`, and updated the Supabase fallback query to exclude the problematic `price_list_items` lateral join while safely handling errors.
+  4. In `src/features/notifications/hooks/use-websocket-notifications.ts`, guarded against attempting Socket.IO connections to the Vite dev server when `VITE_WS_URL` is omitted in development, and switched to standard `['polling', 'websocket']` transport negotiation.
+  5. Added regression unit test suite in `src/__tests__/stock-movement-drawer-fix.test.tsx` validating envelope unwrapping and component rendering.
+- **Prevention**: Always extract data arrays from paginated API envelopes, use defensive unwrapping in UI drawer/table components, route complex relational lookups through server-authoritative API routes, and guard optional dev-time WebSockets against connect attempts to non-socket servers.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-29 08:35] - Stock Transfer Dispatch Timeout (5000ms Exceeded) and Missing Store Stock Balance Reservation
 
 - **Type**: Integration / Database / Performance

@@ -61,16 +61,68 @@ interface RawVariantQueryRow {
   }> | null
 }
 
+interface ApiVariantItem {
+  id: string
+  product_id?: string
+  sku: string
+  barcode?: string | null
+  name?: string | null
+  product_name?: string
+  brand_name?: string | null
+  category_name?: string | null
+  uom_id?: string | null
+  weight?: number | null
+  price?: number
+  cost_price?: number | null
+  products?: { id?: string; name: string } | null
+}
+
+export interface StockTransferProductVariantsOptions {
+  enabled?: boolean
+}
+
 /**
  * Fetch product variants enriched with brands, categories, UOM, weight,
  * and pricing from active or default Price Lists.
+ * Prioritizes Prisma 7 authoritative server API route with rich search.
  */
-export function useStockTransferProductVariants(search?: string) {
+export function useStockTransferProductVariants(
+  search?: string,
+  options?: StockTransferProductVariantsOptions
+) {
   return useAuthQuery<StockTransferProductVariant[]>({
     queryKey: ['stock-transfers', 'product-variants-enriched', search ?? ''],
     rbac: { permission: 'inventory.stock.view' },
+    enabled: options?.enabled,
+    staleTime: 60_000,
     queryFn: async (getToken) => {
-      // 1. First attempt: Query via Supabase client with rich joins
+      // 1. Authoritative API route backed by Prisma 7 server & tenant isolation
+      try {
+        const params = new URLSearchParams({ limit: '100' })
+        if (search?.trim()) {
+          params.set('search', search.trim())
+        }
+        const payload = (await authorizedRequest(
+          getToken,
+          `/api/inventory/product-variants?${params.toString()}`
+        )) as {
+          success?: boolean
+          items?: ApiVariantItem[]
+          data?: RawVariantQueryRow[]
+        }
+
+        if (payload?.items && Array.isArray(payload.items) && payload.items.length > 0) {
+          return payload.items.map(mapApiVariantItem)
+        }
+        if (payload?.data && Array.isArray(payload.data) && payload.data.length > 0) {
+          return payload.data.map(mapVariantRow)
+        }
+      } catch (apiErr) {
+        // eslint-disable-next-line no-console
+        console.warn('[useStockTransferProductVariants] API route fallback:', apiErr)
+      }
+
+      // 2. Supabase client with rich joins fallback
       try {
         let query = supabase
           .from('product_variants')
@@ -105,7 +157,7 @@ export function useStockTransferProductVariants(search?: string) {
           `
           )
           .order('sku')
-          .limit(300)
+          .limit(100)
 
         if (search && search.trim()) {
           const q = search.trim()
@@ -121,48 +173,87 @@ export function useStockTransferProductVariants(search?: string) {
         console.warn('[useStockTransferProductVariants] Supabase join fallback:', err)
       }
 
-      // 2. Second attempt: Query through standard API if available
+      // 3. Direct simple Supabase fallback query
       try {
-        const payload = (await authorizedRequest(
-          getToken,
-          `/api/inventory/product-variants?limit=300${search ? `&search=${encodeURIComponent(search)}` : ''}`
-        )) as { data?: RawVariantQueryRow[] }
+        let fallbackQuery = supabase
+          .from('product_variants')
+          .select('id, sku, barcode, name, products(id, name)')
+          .limit(100)
 
-        if (payload?.data && Array.isArray(payload.data)) {
-          return payload.data.map(mapVariantRow)
+        if (search && search.trim()) {
+          const q = search.trim()
+          fallbackQuery = fallbackQuery.or(
+            `sku.ilike.%${q}%,barcode.ilike.%${q}%,name.ilike.%${q}%`
+          )
         }
-      } catch (apiErr) {
+
+        const { data: fallbackData } = await fallbackQuery
+
+        return (fallbackData ?? []).map((row) => ({
+          id: row.id,
+          sku: row.sku,
+          barcode: row.barcode,
+          name: row.name || (row.products as { name?: string })?.name || row.sku,
+          productId: (row.products as { id?: string })?.id || '',
+          productName: (row.products as { name?: string })?.name || 'Item',
+          brand: null,
+          category: null,
+          uom: 'PCS',
+          weight: 0,
+          costPrice: 0,
+          listPrice: 0,
+          priceListName: null,
+          priceSource: 'Standard',
+          isBatchTracked: false,
+          isSerialTracked: false,
+          searchString: `${row.sku} ${row.name || ''} ${(row.products as { name?: string })?.name || ''}`.toLowerCase(),
+        }))
+      } catch (fallbackErr) {
         // eslint-disable-next-line no-console
-        console.warn('[useStockTransferProductVariants] API route fallback:', apiErr)
+        console.warn('[useStockTransferProductVariants] Fallback query error:', fallbackErr)
+        return []
       }
-
-      // 3. Fallback: query product variants directly
-      const { data: fallbackData } = await supabase
-        .from('product_variants')
-        .select('id, sku, barcode, name, products(id, name)')
-        .limit(100)
-
-      return (fallbackData ?? []).map((row) => ({
-        id: row.id,
-        sku: row.sku,
-        barcode: row.barcode,
-        name: row.name || (row.products as { name?: string })?.name || row.sku,
-        productId: (row.products as { id?: string })?.id || '',
-        productName: (row.products as { name?: string })?.name || 'Item',
-        brand: null,
-        category: null,
-        uom: 'PCS',
-        weight: 0,
-        costPrice: 0,
-        listPrice: 0,
-        priceListName: null,
-        priceSource: 'Standard',
-        isBatchTracked: false,
-        isSerialTracked: false,
-        searchString: `${row.sku} ${row.name || ''} ${(row.products as { name?: string })?.name || ''}`.toLowerCase(),
-      }))
     },
   })
+}
+
+function mapApiVariantItem(item: ApiVariantItem): StockTransferProductVariant {
+  const pName = item.product_name || item.name || item.sku
+  const searchTokens = [
+    item.sku,
+    item.name,
+    item.product_name,
+    item.barcode,
+    item.brand_name,
+    item.category_name,
+    item.uom_id,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+
+  const listPrice = item.price != null ? Number(item.price) : 0
+  const costPrice = item.cost_price != null ? Number(item.cost_price) : 0
+
+  return {
+    id: item.id,
+    sku: item.sku,
+    barcode: item.barcode ?? null,
+    name: item.name || pName,
+    productId: item.product_id || item.products?.id || '',
+    productName: pName,
+    brand: item.brand_name ?? null,
+    category: item.category_name ?? null,
+    uom: item.uom_id || 'PCS',
+    weight: item.weight != null ? Number(item.weight) : 0,
+    costPrice,
+    listPrice,
+    priceListName: listPrice > 0 ? 'Standard Price List' : null,
+    priceSource: 'API',
+    isBatchTracked: false,
+    isSerialTracked: false,
+    searchString: searchTokens,
+  }
 }
 
 function mapVariantRow(row: RawVariantQueryRow): StockTransferProductVariant {

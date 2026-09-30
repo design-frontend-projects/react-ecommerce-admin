@@ -477,40 +477,89 @@ export function useWarehouseOnHand(warehouseId?: string) {
 
 /** Product variants searchable by SKU or product name (for line-item pickers). */
 export function useVariantOptions(search?: string) {
-  const { authEnabled } = useAuthEnabled({ permission: 'inventory.stock.view' })
-  return useQuery<VariantOption[]>({
+  return useAuthQuery<VariantOption[]>({
     queryKey: ['product-variants', 'options', search ?? ''],
-    queryFn: async () => {
-      let query = supabase
-        .from('product_variants')
-        .select('id, sku, barcode, products(id, name), price_list_items(price, cost_price)')
-        .order('sku')
-        .limit(50)
-      if (search) {
-        query = query.ilike('sku', `%${search}%`)
+    rbac: { permission: 'inventory.stock.view' },
+    queryFn: async (getToken) => {
+      // 1. Authoritative API route backed by server-side Prisma & tenant isolation
+      try {
+        const params = new URLSearchParams({ limit: '50' })
+        if (search?.trim()) {
+          params.set('search', search.trim())
+        }
+        const payload = (await authorizedRequest(
+          getToken,
+          `/api/inventory/product-variants?${params.toString()}`
+        )) as {
+          success?: boolean
+          items?: Array<{
+            id: string
+            sku: string
+            barcode?: string | null
+            name?: string | null
+            product_name?: string
+            product_id?: string
+            price?: number
+            cost_price?: number | null
+            products?: { id?: string; name: string } | null
+          }>
+        }
+        if (payload?.items && Array.isArray(payload.items)) {
+          return payload.items.map((item) => ({
+            id: item.id,
+            sku: item.sku,
+            barcode: item.barcode ?? null,
+            price: Number(item.price ?? 0),
+            cost_price: item.cost_price != null ? Number(item.cost_price) : null,
+            products:
+              item.products ??
+              (item.product_id
+                ? { id: item.product_id, name: item.product_name ?? '' }
+                : null),
+          }))
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('API /api/inventory/product-variants fallback to Supabase:', err)
       }
-      const { data, error } = await query
-      if (error) throw error
-      type VariantLookupRow = {
-        id: string
-        sku: string
-        barcode: string | null
-        products: { id?: string; name: string } | null
-        price_list_items?: Array<{ price?: number | string | null; cost_price?: number | string | null }> | null
-      }
-      return ((data ?? []) as unknown as VariantLookupRow[]).map((row) => {
-        const pli = row.price_list_items?.[0]
-        return {
+
+      // 2. Safe Supabase fallback (avoids lateral join timeout on price_list_items)
+      try {
+        let query = supabase
+          .from('product_variants')
+          .select('id, sku, barcode, name, products(id, name)')
+          .order('sku')
+          .limit(50)
+        if (search?.trim()) {
+          query = query.ilike('sku', `%${search.trim()}%`)
+        }
+        const { data, error } = await query
+        if (error) {
+          // eslint-disable-next-line no-console
+          console.warn('Supabase product_variants fallback query failed:', error)
+          return []
+        }
+        type VariantLookupRow = {
+          id: string
+          sku: string
+          barcode: string | null
+          name: string | null
+          products: { id?: string; name: string } | null
+        }
+        return ((data ?? []) as unknown as VariantLookupRow[]).map((row) => ({
           id: row.id,
           sku: row.sku,
           barcode: row.barcode,
-          price: Number(pli?.price ?? 0),
-          cost_price: pli?.cost_price != null ? Number(pli.cost_price) : null,
+          price: 0,
+          cost_price: null,
           products: row.products,
-        }
-      })
+        }))
+      } catch (fallbackErr) {
+        // eslint-disable-next-line no-console
+        console.error('All variant options queries failed:', fallbackErr)
+        return []
+      }
     },
-    enabled: authEnabled,
   })
 }
 

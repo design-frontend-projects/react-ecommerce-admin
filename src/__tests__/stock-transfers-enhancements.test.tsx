@@ -135,6 +135,19 @@ vi.mock(
       >()
     return {
       ...actual,
+      useStockTransferProductVariants: vi.fn((search?: string) => {
+        if (!search) {
+          return { data: mockVariants, isLoading: false, isFetching: false }
+        }
+        const q = search.toLowerCase()
+        const filtered = mockVariants.filter(
+          (v) =>
+            v.sku.toLowerCase().includes(q) ||
+            v.name.toLowerCase().includes(q) ||
+            v.productName.toLowerCase().includes(q)
+        )
+        return { data: filtered, isLoading: false, isFetching: false }
+      }),
       useCrossWarehouseStock: vi.fn((variantId) => {
         if (!variantId) {
           return {
@@ -231,6 +244,38 @@ describe('Stock Transfer Enhancements Test Suite', () => {
           costPrice: 6.0,
         })
       )
+    })
+
+    it('supports debounced server-side search between 300-400ms and retains selection', async () => {
+      const user = userEvent.setup()
+      const onSelect = vi.fn()
+      const onSearchChange = vi.fn()
+
+      render(
+        <StockTransferProductVirtualCombobox
+          variants={mockVariants}
+          value='var-1'
+          onChange={onSelect}
+          debounceMs={350}
+          enableServerSearch={true}
+          onSearchChange={onSearchChange}
+        />
+      )
+
+      // Trigger button retains initial selection 'COF-ETH-01'
+      expect(screen.getByText('COF-ETH-01')).toBeDefined()
+
+      // Open popover
+      const trigger = screen.getByRole('combobox')
+      await user.click(trigger)
+
+      const searchInput = screen.getByPlaceholderText(
+        /search sku, name, barcode/i
+      )
+      await user.type(searchInput, 'Syrup')
+
+      expect(onSearchChange).toHaveBeenCalledWith('Syrup')
+      expect(screen.getByText(/Vanilla Syrup 1L/i)).toBeDefined()
     })
   })
 

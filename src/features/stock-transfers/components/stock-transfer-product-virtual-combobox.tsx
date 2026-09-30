@@ -26,7 +26,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import type { StockTransferProductVariant } from '../hooks/use-stock-transfer-products'
+import { useDebounce } from '@/hooks/use-debounce'
+import {
+  useStockTransferProductVariants,
+  type StockTransferProductVariant,
+} from '../hooks/use-stock-transfer-products'
 
 export interface StockTransferProductVirtualComboboxProps {
   value?: string | null
@@ -40,6 +44,12 @@ export interface StockTransferProductVirtualComboboxProps {
   sourceWarehouseName?: string | null
   originStockMap?: Record<string, number>
   'aria-label'?: string
+  /** Debounce delay in ms for server-side search (default: 350ms) */
+  debounceMs?: number
+  /** Whether to enable server-side search querying (default: true) */
+  enableServerSearch?: boolean
+  /** Optional callback when user types in the search box */
+  onSearchChange?: (query: string) => void
 }
 
 const CHUNK_SIZE = 50
@@ -57,6 +67,9 @@ export function StockTransferProductVirtualCombobox({
   sourceWarehouseName,
   originStockMap = {},
   'aria-label': ariaLabel,
+  debounceMs = 350,
+  enableServerSearch = true,
+  onSearchChange,
 }: StockTransferProductVirtualComboboxProps) {
   const { t } = useTranslation()
   const [open, setOpen] = React.useState(false)
@@ -70,17 +83,78 @@ export function StockTransferProductVirtualCombobox({
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const searchInputRef = React.useRef<HTMLInputElement>(null)
 
-  // Selected variant
+  // Debounce the search input (default 350ms, in the 300-400ms range)
+  const debouncedSearchQuery = useDebounce(searchQuery.trim(), debounceMs)
+  const isDebouncing = searchQuery.trim() !== debouncedSearchQuery
+
+  // Query server when combobox is open and a search term is active
+  const shouldQueryServer =
+    open && enableServerSearch && debouncedSearchQuery.length > 0
+
+  const {
+    data: serverVariants = [],
+    isLoading: isServerLoading,
+    isFetching: isServerFetching,
+  } = useStockTransferProductVariants(debouncedSearchQuery, {
+    enabled: shouldQueryServer,
+  })
+
+  // Notify external listener if provided
+  React.useEffect(() => {
+    onSearchChange?.(searchQuery)
+  }, [searchQuery, onSearchChange])
+
+  // Persistent cache of selected variant so it never disappears on filter
+  const [selectedVariantCache, setSelectedVariantCache] =
+    React.useState<StockTransferProductVariant | null>(null)
+
+  // Combine variants: variants prop, server-searched variants, and cached selection
+  const combinedVariants = React.useMemo(() => {
+    const map = new Map<string, StockTransferProductVariant>()
+
+    // Prioritize server search results if active
+    if (debouncedSearchQuery.length > 0 && serverVariants.length > 0) {
+      for (const v of serverVariants) {
+        map.set(v.id, v)
+      }
+    }
+
+    // Include passed variants (base / parent known variants)
+    for (const v of variants) {
+      if (!map.has(v.id)) {
+        map.set(v.id, v)
+      }
+    }
+
+    // Always preserve active selected variant if available
+    if (selectedVariantCache && !map.has(selectedVariantCache.id)) {
+      map.set(selectedVariantCache.id, selectedVariantCache)
+    }
+
+    return Array.from(map.values())
+  }, [variants, serverVariants, selectedVariantCache, debouncedSearchQuery])
+
+  // Selected variant resolution: check combinedVariants or cache
   const selectedVariant = React.useMemo(() => {
     if (!value || value === 'none') return null
-    return variants.find((v) => v.id === value) || null
-  }, [variants, value])
+    return (
+      combinedVariants.find((v) => v.id === value) ||
+      (selectedVariantCache?.id === value ? selectedVariantCache : null)
+    )
+  }, [combinedVariants, selectedVariantCache, value])
+
+  // Keep cache synced with selection
+  React.useEffect(() => {
+    if (selectedVariant) {
+      setSelectedVariantCache(selectedVariant)
+    }
+  }, [selectedVariant])
 
   // Filtered variants by search query and stock status
   const filteredVariants = React.useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
 
-    return variants.filter((v) => {
+    return combinedVariants.filter((v) => {
       // Stock filter
       if (sourceWarehouseId) {
         const onHand = originStockMap[v.id] ?? 0
@@ -95,7 +169,7 @@ export function StockTransferProductVirtualCombobox({
       ).toLowerCase()
       return searchTarget.includes(q)
     })
-  }, [variants, searchQuery, filterTab, sourceWarehouseId, originStockMap])
+  }, [combinedVariants, searchQuery, filterTab, sourceWarehouseId, originStockMap])
 
   // Reset lazy load chunk limit when search or filter changes
   React.useEffect(() => {
@@ -188,6 +262,7 @@ export function StockTransferProductVirtualCombobox({
   }, [activeIndex, rowVirtualizer])
 
   const handleSelect = (variant: StockTransferProductVariant) => {
+    setSelectedVariantCache(variant)
     onChange(variant)
     setOpen(false)
     setSearchQuery('')
@@ -195,10 +270,13 @@ export function StockTransferProductVirtualCombobox({
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation()
+    setSelectedVariantCache(null)
     onChange(null)
     setSearchQuery('')
   }
 
+  const isSearching = isDebouncing || isServerFetching
+  const isListLoading = isLoading || (shouldQueryServer && isServerLoading)
   const virtualItems = rowVirtualizer.getVirtualItems()
 
   return (
@@ -277,7 +355,11 @@ export function StockTransferProductVirtualCombobox({
           {/* Search Header */}
           <div className='space-y-2 border-b bg-muted/20 p-2.5'>
             <div className='relative flex items-center'>
-              <Search className='absolute left-3 h-4 w-4 text-muted-foreground' />
+              {isSearching ? (
+                <Loader2 className='absolute left-3 h-4 w-4 animate-spin text-primary' />
+              ) : (
+                <Search className='absolute left-3 h-4 w-4 text-muted-foreground' />
+              )}
               <Input
                 ref={searchInputRef}
                 value={searchQuery}
@@ -315,7 +397,7 @@ export function StockTransferProductVirtualCombobox({
                 >
                   <TabsList className='grid h-7 w-full grid-cols-3 text-[11px]'>
                     <TabsTrigger value='all' className='h-6 text-[11px]'>
-                      {t('stockTransfers.combobox.filterAll', { count: variants.length, defaultValue: `All (${variants.length})` })}
+                      {t('stockTransfers.combobox.filterAll', { count: combinedVariants.length, defaultValue: `All (${combinedVariants.length})` })}
                     </TabsTrigger>
                     <TabsTrigger
                       value='in_stock'
@@ -341,7 +423,7 @@ export function StockTransferProductVirtualCombobox({
             onScroll={handleScroll}
             className='max-h-[380px] overflow-x-hidden overflow-y-auto p-1.5'
           >
-            {isLoading ? (
+            {isListLoading ? (
               <div className='flex h-40 flex-col items-center justify-center gap-2 text-muted-foreground'>
                 <Loader2 className='h-6 w-6 animate-spin text-primary' />
                 <span className='text-xs'>

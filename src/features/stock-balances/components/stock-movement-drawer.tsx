@@ -1,7 +1,16 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import { History, ArrowUpRight, ArrowDownRight, RefreshCw, Calendar, FileText } from 'lucide-react'
+import {
+  History,
+  ArrowUpRight,
+  ArrowDownRight,
+  RefreshCw,
+  Calendar,
+  FileText,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Badge } from '@/components/ui/badge'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Sheet,
   SheetContent,
@@ -9,10 +18,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import type { StockBalanceRow } from '../data/schema'
+import type { StockBalanceRow, StockMovementRow } from '../data/schema'
 import { useStockBalanceMovements } from '../hooks/use-stock-balances'
 
 interface Props {
@@ -25,7 +32,11 @@ const getMovementBadgeVariants = (
   t: TFunction
 ): Record<
   string,
-  { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline'; colorClass: string }
+  {
+    label: string
+    variant: 'default' | 'secondary' | 'destructive' | 'outline'
+    colorClass: string
+  }
 > => ({
   purchase: {
     label: t('stockBalances.movementTypes.purchase', 'Purchase In'),
@@ -100,6 +111,13 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
     facility
   )
 
+  const movementList: StockMovementRow[] = useMemo(() => {
+    if (Array.isArray(movements)) return movements
+    if (Array.isArray((movements as any)?.movements))
+      return (movements as any).movements
+    return []
+  }, [movements])
+
   const productName =
     currentRow?.product_variants?.products?.name ||
     t('stockBalances.columns.unknownProduct', 'Product')
@@ -140,7 +158,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
         {currentRow && (
           <div className='mt-3 grid grid-cols-3 gap-2 rounded-lg border bg-muted/40 p-3 text-center'>
             <div>
-              <span className='text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
+              <span className='text-[10px] font-bold tracking-wider text-muted-foreground uppercase'>
                 {t('stockBalances.movementsDrawer.onHand', 'On Hand')}
               </span>
               <p className='font-mono text-lg font-bold'>
@@ -148,7 +166,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
               </p>
             </div>
             <div>
-              <span className='text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
+              <span className='text-[10px] font-bold tracking-wider text-muted-foreground uppercase'>
                 {t('stockBalances.movementsDrawer.reserved', 'Reserved')}
               </span>
               <p className='font-mono text-lg font-bold text-muted-foreground'>
@@ -156,7 +174,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
               </p>
             </div>
             <div>
-              <span className='text-[10px] font-bold uppercase tracking-wider text-muted-foreground'>
+              <span className='text-[10px] font-bold tracking-wider text-muted-foreground uppercase'>
                 {t('stockBalances.movementsDrawer.available', 'Available')}
               </span>
               <p className='font-mono text-lg font-bold text-primary'>
@@ -166,12 +184,14 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
           </div>
         )}
 
-        <div className='mt-4 flex items-center justify-between border-b pb-2 text-xs font-semibold uppercase text-muted-foreground'>
-          <span>{t('stockBalances.movementsDrawer.auditHistory', 'Audit History')}</span>
+        <div className='mt-4 flex items-center justify-between border-b pb-2 text-xs font-semibold text-muted-foreground uppercase'>
+          <span>
+            {t('stockBalances.movementsDrawer.auditHistory', 'Audit History')}
+          </span>
           <span>
             {t('stockBalances.movementsDrawer.recordsCount', {
-              count: movements.length,
-              defaultValue: `${movements.length} Record(s)`,
+              count: movementList.length,
+              defaultValue: `${movementList.length} Record(s)`,
             })}
           </span>
         </div>
@@ -187,11 +207,14 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
                 </div>
               ))}
             </div>
-          ) : movements.length === 0 ? (
+          ) : movementList.length === 0 ? (
             <div className='flex flex-col items-center justify-center py-12 text-center text-muted-foreground'>
               <History className='h-10 w-10 stroke-[1.5] text-muted-foreground/40' />
               <p className='mt-2 font-medium'>
-                {t('stockBalances.movementsDrawer.noMovementsTitle', 'No inventory movements recorded yet')}
+                {t(
+                  'stockBalances.movementsDrawer.noMovementsTitle',
+                  'No inventory movements recorded yet'
+                )}
               </p>
               <p className='text-xs'>
                 {t(
@@ -202,7 +225,7 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
             </div>
           ) : (
             <div className='space-y-3 py-3'>
-              {movements.map((mov) => {
+              {movementList.map((mov) => {
                 const delta = Number(mov.quantity_delta || 0)
                 const isPositive = delta > 0
                 const badgeInfo = movementBadgeVariants[mov.movement_type] || {
@@ -225,20 +248,32 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
                           {badgeInfo.label}
                         </Badge>
                         {mov.condition && mov.condition !== 'good' && (
-                          <Badge variant='outline' className='text-[10px] uppercase text-amber-600'>
-                            {t(`stockBalances.conditions.${mov.condition}`, mov.condition)}
+                          <Badge
+                            variant='outline'
+                            className='text-[10px] text-amber-600 uppercase'
+                          >
+                            {t(
+                              `stockBalances.conditions.${mov.condition}`,
+                              mov.condition
+                            )}
                           </Badge>
                         )}
                       </div>
 
-                      <div className='flex items-center gap-1 font-mono font-bold text-sm'>
+                      <div className='flex items-center gap-1 font-mono text-sm font-bold'>
                         {isPositive ? (
                           <ArrowUpRight className='h-4 w-4 text-emerald-600' />
                         ) : (
                           <ArrowDownRight className='h-4 w-4 text-destructive' />
                         )}
-                        <span className={isPositive ? 'text-emerald-600' : 'text-destructive'}>
-                          {isPositive ? `+${delta.toLocaleString()}` : delta.toLocaleString()}
+                        <span
+                          className={
+                            isPositive ? 'text-emerald-600' : 'text-destructive'
+                          }
+                        >
+                          {isPositive
+                            ? `+${delta.toLocaleString()}`
+                            : delta.toLocaleString()}
                         </span>
                       </div>
                     </div>
@@ -286,7 +321,8 @@ export function StockMovementDrawer({ currentRow, open, onOpenChange }: Props) {
                       </div>
                       {mov.reference_type && (
                         <span className='font-mono text-[10px] text-muted-foreground/80'>
-                          {t('stockBalances.movementsDrawer.ref', 'Ref:')} {mov.reference_type}
+                          {t('stockBalances.movementsDrawer.ref', 'Ref:')}{' '}
+                          {mov.reference_type}
                         </span>
                       )}
                     </div>

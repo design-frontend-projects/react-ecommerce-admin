@@ -69,16 +69,23 @@ export function useWebSocketNotifications() {
         return
       }
 
-      const wsUrl = import.meta.env.VITE_WS_URL || window.location.origin
+      const wsUrl = import.meta.env.VITE_WS_URL
+      if (!wsUrl && import.meta.env.DEV) {
+        // In local development without a dedicated WebSocket server configured via VITE_WS_URL,
+        // do not attempt connecting to Vite dev server to prevent repeated WebSocket connection refused errors.
+        return
+      }
 
-      const socket = io(wsUrl, {
+      const targetUrl = wsUrl || window.location.origin
+
+      const socket = io(targetUrl, {
         path: '/socket.io',
         auth: { token },
-        transports: ['websocket', 'polling'],
+        transports: ['polling', 'websocket'],
         reconnection: true,
-        reconnectionAttempts: 10,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax: 5000,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 2000,
+        reconnectionDelayMax: 10000,
         autoConnect: true,
       })
 

@@ -63,7 +63,10 @@ import {
   type TransferListItem,
   type TransferPriority,
 } from '../data/schema'
-import { useStockTransferProductVariants } from '../hooks/use-stock-transfer-products'
+import {
+  useStockTransferProductVariants,
+  type StockTransferProductVariant,
+} from '../hooks/use-stock-transfer-products'
 import {
   useCreateTransfer,
   useTransfer,
@@ -185,6 +188,32 @@ export function TransferCreateDialog({
   const { data: variants = [], isLoading: isLoadingVariants } =
     useStockTransferProductVariants()
 
+  // Track dynamically discovered variants (e.g. from server search selection or edit mode)
+  const [selectedVariantsMap, setSelectedVariantsMap] = useState<
+    Map<string, StockTransferProductVariant>
+  >(new Map())
+
+  const registerVariant = (variant: StockTransferProductVariant) => {
+    setSelectedVariantsMap((prev) => {
+      if (prev.has(variant.id)) return prev
+      const next = new Map(prev)
+      next.set(variant.id, variant)
+      return next
+    })
+  }
+
+  // Combined pool of variants ensuring any dynamically searched item retains metadata for totals & badges
+  const allKnownVariants = useMemo(() => {
+    const map = new Map<string, StockTransferProductVariant>()
+    for (const v of variants) {
+      map.set(v.id, v)
+    }
+    selectedVariantsMap.forEach((v, k) => {
+      map.set(k, v)
+    })
+    return Array.from(map.values())
+  }, [variants, selectedVariantsMap])
+
   const {
     register,
     control,
@@ -220,6 +249,40 @@ export function TransferCreateDialog({
     if (!open) return
 
     if (isEdit && fullDetail) {
+      if (
+        fullDetail.stock_transfer_items &&
+        fullDetail.stock_transfer_items.length > 0
+      ) {
+        setSelectedVariantsMap((prev) => {
+          const next = new Map(prev)
+          for (const it of fullDetail.stock_transfer_items) {
+            const pv = it.product_variants
+            if (pv && !next.has(pv.id)) {
+              next.set(pv.id, {
+                id: pv.id,
+                sku: pv.sku,
+                barcode: pv.barcode ?? null,
+                name: pv.name || pv.products?.name || pv.sku,
+                productId: pv.products?.id || '',
+                productName: pv.products?.name || pv.name || pv.sku,
+                brand: pv.brand || pv.products?.brand_name || null,
+                category: pv.category || pv.products?.category_name || null,
+                uom: pv.uom || pv.products?.uom_name || 'PCS',
+                weight: Number(pv.weight || 0),
+                costPrice: Number(pv.cost_price ?? it.unit_cost ?? 0),
+                listPrice: Number(pv.price ?? 0),
+                priceListName: pv.price_list_name || null,
+                priceSource: 'Detail',
+                isBatchTracked: false,
+                isSerialTracked: false,
+                searchString: `${pv.sku} ${pv.name || ''} ${pv.products?.name || ''}`.toLowerCase(),
+              })
+            }
+          }
+          return next
+        })
+      }
+
       let mappedType: CreateTransferInput['transferType'] = 'inter_warehouse'
       if (fullDetail.transfer_type === 'internal') mappedType = 'internal'
       else if (fullDetail.transfer_type === 'inter_store')
@@ -275,6 +338,7 @@ export function TransferCreateDialog({
     } else if (!isEdit) {
       reset(defaultValues)
       setCustomReason(false)
+      setSelectedVariantsMap(new Map())
     }
   }, [open, isEdit, fullDetail, reset])
 
@@ -329,7 +393,7 @@ export function TransferCreateDialog({
 
   // Calculate live financial & cargo summary
   const totals = useMemo(() => {
-    const variantMap = new Map(variants.map((v) => [v.id, v]))
+    const variantMap = new Map(allKnownVariants.map((v) => [v.id, v]))
     let totalQty = 0
     let totalCost = 0
     let totalPriceValuation = 0
@@ -364,7 +428,7 @@ export function TransferCreateDialog({
       potentialMarkup,
       markupPercent,
     }
-  }, [watchedItems, variants])
+  }, [watchedItems, allKnownVariants])
 
   const onSubmit = async (data: CreateTransferInput) => {
     try {
@@ -1202,7 +1266,7 @@ export function TransferCreateDialog({
                   {fields.map((field, index) => {
                     const selectedVariantId =
                       watchedItems?.[index]?.productVariantId
-                    const currentCondition =
+                    const _currentCondition =
                       watchedItems?.[index]?.condition || 'good'
 
                     return (
@@ -1223,12 +1287,12 @@ export function TransferCreateDialog({
                               </Label>
                               {selectedVariantId && (
                                 <span className='text-[10px] text-muted-foreground'>
-                                  {variants.find(
+                                  {allKnownVariants.find(
                                     (v) => v.id === selectedVariantId
                                   )?.brand && (
                                     <span className='mr-1.5 font-medium text-foreground'>
                                       {
-                                        variants.find(
+                                        allKnownVariants.find(
                                           (v) => v.id === selectedVariantId
                                         )?.brand
                                       }
@@ -1236,7 +1300,7 @@ export function TransferCreateDialog({
                                   )}
                                   {t('stockTransfers.createDialog.uom', 'UOM:')}{' '}
                                   <strong className='text-foreground'>
-                                    {variants.find(
+                                    {allKnownVariants.find(
                                       (v) => v.id === selectedVariantId
                                     )?.uom || 'PCS'}
                                   </strong>
@@ -1249,8 +1313,10 @@ export function TransferCreateDialog({
                               render={({ field: variantField }) => (
                                 <StockTransferProductVirtualCombobox
                                   value={variantField.value}
-                                  variants={variants}
+                                  variants={allKnownVariants}
                                   isLoading={isLoadingVariants}
+                                  debounceMs={350}
+                                  enableServerSearch={true}
                                   sourceWarehouseId={sourceWarehouseId}
                                   sourceWarehouseName={selectedWarehouse?.name}
                                   originStockMap={
@@ -1262,6 +1328,7 @@ export function TransferCreateDialog({
                                   onChange={(v) => {
                                     variantField.onChange(v?.id || '')
                                     if (v) {
+                                      registerVariant(v)
                                       setValue(
                                         `items.${index}.unitCost`,
                                         v.costPrice || 0
