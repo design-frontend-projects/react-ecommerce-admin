@@ -534,6 +534,7 @@ export type sales_invoicesWhereInput = {
   customers?: Prisma.XOR<Prisma.CustomersNullableScalarRelationFilter, Prisma.customersWhereInput> | null
   sales_invoice_items?: Prisma.Sales_invoice_itemsListRelationFilter
   sales_invoice_payments?: Prisma.Sales_invoice_paymentsListRelationFilter
+  refunds?: Prisma.RefundsListRelationFilter
   inv_sales_invoice_discounts?: Prisma.Inv_sales_invoice_discountsListRelationFilter
   inv_sales_invoice_item_discounts?: Prisma.Inv_sales_invoice_item_discountsListRelationFilter
   inv_coupon_redemptions?: Prisma.Inv_coupon_redemptionsListRelationFilter
@@ -588,6 +589,7 @@ export type sales_invoicesOrderByWithRelationInput = {
   customers?: Prisma.customersOrderByWithRelationInput
   sales_invoice_items?: Prisma.sales_invoice_itemsOrderByRelationAggregateInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsOrderByRelationAggregateInput
+  refunds?: Prisma.refundsOrderByRelationAggregateInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsOrderByRelationAggregateInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsOrderByRelationAggregateInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsOrderByRelationAggregateInput
@@ -645,6 +647,7 @@ export type sales_invoicesWhereUniqueInput = Prisma.AtLeast<{
   customers?: Prisma.XOR<Prisma.CustomersNullableScalarRelationFilter, Prisma.customersWhereInput> | null
   sales_invoice_items?: Prisma.Sales_invoice_itemsListRelationFilter
   sales_invoice_payments?: Prisma.Sales_invoice_paymentsListRelationFilter
+  refunds?: Prisma.RefundsListRelationFilter
   inv_sales_invoice_discounts?: Prisma.Inv_sales_invoice_discountsListRelationFilter
   inv_sales_invoice_item_discounts?: Prisma.Inv_sales_invoice_item_discountsListRelationFilter
   inv_coupon_redemptions?: Prisma.Inv_coupon_redemptionsListRelationFilter
@@ -789,6 +792,7 @@ export type sales_invoicesCreateInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -839,6 +843,7 @@ export type sales_invoicesUncheckedCreateInput = {
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -889,6 +894,7 @@ export type sales_invoicesUpdateInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -939,6 +945,7 @@ export type sales_invoicesUncheckedUpdateInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -1328,6 +1335,20 @@ export type sales_invoicesUncheckedUpdateManyWithoutCustomersNestedInput = {
   deleteMany?: Prisma.sales_invoicesScalarWhereInput | Prisma.sales_invoicesScalarWhereInput[]
 }
 
+export type sales_invoicesCreateNestedOneWithoutRefundsInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutRefundsInput, Prisma.sales_invoicesUncheckedCreateWithoutRefundsInput>
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutRefundsInput
+  connect?: Prisma.sales_invoicesWhereUniqueInput
+}
+
+export type sales_invoicesUpdateOneRequiredWithoutRefundsNestedInput = {
+  create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutRefundsInput, Prisma.sales_invoicesUncheckedCreateWithoutRefundsInput>
+  connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutRefundsInput
+  upsert?: Prisma.sales_invoicesUpsertWithoutRefundsInput
+  connect?: Prisma.sales_invoicesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.sales_invoicesUpdateToOneWithWhereWithoutRefundsInput, Prisma.sales_invoicesUpdateWithoutRefundsInput>, Prisma.sales_invoicesUncheckedUpdateWithoutRefundsInput>
+}
+
 export type sales_invoicesCreateNestedOneWithoutSales_invoice_itemsInput = {
   create?: Prisma.XOR<Prisma.sales_invoicesCreateWithoutSales_invoice_itemsInput, Prisma.sales_invoicesUncheckedCreateWithoutSales_invoice_itemsInput>
   connectOrCreate?: Prisma.sales_invoicesCreateOrConnectWithoutSales_invoice_itemsInput
@@ -1566,6 +1587,7 @@ export type sales_invoicesCreateWithoutCurrenciesInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -1615,6 +1637,7 @@ export type sales_invoicesUncheckedCreateWithoutCurrenciesInput = {
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -1736,6 +1759,7 @@ export type sales_invoicesCreateWithoutCustomersInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -1785,6 +1809,7 @@ export type sales_invoicesUncheckedCreateWithoutCustomersInput = {
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -1816,6 +1841,222 @@ export type sales_invoicesUpdateWithWhereUniqueWithoutCustomersInput = {
 export type sales_invoicesUpdateManyWithWhereWithoutCustomersInput = {
   where: Prisma.sales_invoicesScalarWhereInput
   data: Prisma.XOR<Prisma.sales_invoicesUpdateManyMutationInput, Prisma.sales_invoicesUncheckedUpdateManyWithoutCustomersInput>
+}
+
+export type sales_invoicesCreateWithoutRefundsInput = {
+  id?: string
+  tenant_id: string
+  branch_id: string
+  store_id?: string | null
+  pos_terminal_id?: string | null
+  invoice_no: string
+  invoice_type?: $Enums.invoice_type_enum
+  external_reference?: string | null
+  source_type?: string | null
+  source_id?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  payment_status?: $Enums.invoice_payment_status_enum
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  terms?: string | null
+  channel?: string | null
+  price_list_id?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  channels?: Prisma.channelsCreateNestedOneWithoutSales_invoicesInput
+  warehouses?: Prisma.warehousesCreateNestedOneWithoutSales_invoicesInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutSales_invoicesInput
+  customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
+  sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
+  inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
+  inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutSales_invoicesInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsCreateNestedManyWithoutSales_invoicesInput
+}
+
+export type sales_invoicesUncheckedCreateWithoutRefundsInput = {
+  id?: string
+  tenant_id: string
+  branch_id: string
+  store_id?: string | null
+  warehouse_id?: string | null
+  pos_terminal_id?: string | null
+  invoice_no: string
+  invoice_type?: $Enums.invoice_type_enum
+  external_reference?: string | null
+  source_type?: string | null
+  source_id?: string | null
+  invoice_date?: Date | string
+  due_date?: Date | string | null
+  status?: $Enums.invoice_status_enum
+  payment_status?: $Enums.invoice_payment_status_enum
+  currency_id?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: $Enums.discount_type_enum | null
+  discount_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  shipping_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: string | null
+  terms?: string | null
+  channel?: string | null
+  channel_id?: string | null
+  customer_id?: string | null
+  price_list_id?: string | null
+  created_by?: string | null
+  updated_by?: string | null
+  posted_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedCreateNestedManyWithoutSales_invoicesInput
+}
+
+export type sales_invoicesCreateOrConnectWithoutRefundsInput = {
+  where: Prisma.sales_invoicesWhereUniqueInput
+  create: Prisma.XOR<Prisma.sales_invoicesCreateWithoutRefundsInput, Prisma.sales_invoicesUncheckedCreateWithoutRefundsInput>
+}
+
+export type sales_invoicesUpsertWithoutRefundsInput = {
+  update: Prisma.XOR<Prisma.sales_invoicesUpdateWithoutRefundsInput, Prisma.sales_invoicesUncheckedUpdateWithoutRefundsInput>
+  create: Prisma.XOR<Prisma.sales_invoicesCreateWithoutRefundsInput, Prisma.sales_invoicesUncheckedCreateWithoutRefundsInput>
+  where?: Prisma.sales_invoicesWhereInput
+}
+
+export type sales_invoicesUpdateToOneWithWhereWithoutRefundsInput = {
+  where?: Prisma.sales_invoicesWhereInput
+  data: Prisma.XOR<Prisma.sales_invoicesUpdateWithoutRefundsInput, Prisma.sales_invoicesUncheckedUpdateWithoutRefundsInput>
+}
+
+export type sales_invoicesUpdateWithoutRefundsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  invoice_type?: Prisma.Enuminvoice_type_enumFieldUpdateOperationsInput | $Enums.invoice_type_enum
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  payment_status?: Prisma.Enuminvoice_payment_status_enumFieldUpdateOperationsInput | $Enums.invoice_payment_status_enum
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  shipping_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  terms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channels?: Prisma.channelsUpdateOneWithoutSales_invoicesNestedInput
+  warehouses?: Prisma.warehousesUpdateOneWithoutSales_invoicesNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutSales_invoicesNestedInput
+  customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
+  sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
+  sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
+  inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
+  inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutSales_invoicesNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUpdateManyWithoutSales_invoicesNestedInput
+}
+
+export type sales_invoicesUncheckedUpdateWithoutRefundsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  branch_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_no?: Prisma.StringFieldUpdateOperationsInput | string
+  invoice_type?: Prisma.Enuminvoice_type_enumFieldUpdateOperationsInput | $Enums.invoice_type_enum
+  external_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  invoice_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.Enuminvoice_status_enumFieldUpdateOperationsInput | $Enums.invoice_status_enum
+  payment_status?: Prisma.Enuminvoice_payment_status_enumFieldUpdateOperationsInput | $Enums.invoice_payment_status_enum
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_type?: Prisma.NullableEnumdiscount_type_enumFieldUpdateOperationsInput | $Enums.discount_type_enum | null
+  discount_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  discount_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tax_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  shipping_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  rounding_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  total_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  paid_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  due_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  terms?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  channel_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price_list_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  inv_discount_approval_requests?: Prisma.inv_discount_approval_requestsUncheckedUpdateManyWithoutSales_invoicesNestedInput
 }
 
 export type sales_invoicesCreateWithoutSales_invoice_itemsInput = {
@@ -1860,6 +2101,7 @@ export type sales_invoicesCreateWithoutSales_invoice_itemsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutSales_invoicesInput
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -1909,6 +2151,7 @@ export type sales_invoicesUncheckedCreateWithoutSales_invoice_itemsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -1974,6 +2217,7 @@ export type sales_invoicesUpdateWithoutSales_invoice_itemsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutSales_invoicesNestedInput
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -2023,6 +2267,7 @@ export type sales_invoicesUncheckedUpdateWithoutSales_invoice_itemsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -2072,6 +2317,7 @@ export type sales_invoicesCreateWithoutChannelsInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -2121,6 +2367,7 @@ export type sales_invoicesUncheckedCreateWithoutChannelsInput = {
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -2196,6 +2443,7 @@ export type sales_invoicesCreateWithoutWarehousesInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -2245,6 +2493,7 @@ export type sales_invoicesUncheckedCreateWithoutWarehousesInput = {
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -2321,6 +2570,7 @@ export type sales_invoicesCreateWithoutInv_coupon_redemptionsInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutSales_invoicesInput
@@ -2370,6 +2620,7 @@ export type sales_invoicesUncheckedCreateWithoutInv_coupon_redemptionsInput = {
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -2435,6 +2686,7 @@ export type sales_invoicesUpdateWithoutInv_coupon_redemptionsInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutSales_invoicesNestedInput
@@ -2484,6 +2736,7 @@ export type sales_invoicesUncheckedUpdateWithoutInv_coupon_redemptionsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -2533,6 +2786,7 @@ export type sales_invoicesCreateWithoutInv_sales_invoice_discountsInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutSales_invoicesInput
@@ -2582,6 +2836,7 @@ export type sales_invoicesUncheckedCreateWithoutInv_sales_invoice_discountsInput
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -2647,6 +2902,7 @@ export type sales_invoicesUpdateWithoutInv_sales_invoice_discountsInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutSales_invoicesNestedInput
@@ -2696,6 +2952,7 @@ export type sales_invoicesUncheckedUpdateWithoutInv_sales_invoice_discountsInput
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -2745,6 +3002,7 @@ export type sales_invoicesCreateWithoutInv_sales_invoice_item_discountsInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsCreateNestedManyWithoutSales_invoicesInput
@@ -2794,6 +3052,7 @@ export type sales_invoicesUncheckedCreateWithoutInv_sales_invoice_item_discounts
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -2859,6 +3118,7 @@ export type sales_invoicesUpdateWithoutInv_sales_invoice_item_discountsInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUpdateManyWithoutSales_invoicesNestedInput
@@ -2908,6 +3168,7 @@ export type sales_invoicesUncheckedUpdateWithoutInv_sales_invoice_item_discounts
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_promotion_usage_logs?: Prisma.inv_promotion_usage_logsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -2957,6 +3218,7 @@ export type sales_invoicesCreateWithoutInv_discount_approval_requestsInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -3006,6 +3268,7 @@ export type sales_invoicesUncheckedCreateWithoutInv_discount_approval_requestsIn
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -3071,6 +3334,7 @@ export type sales_invoicesUpdateWithoutInv_discount_approval_requestsInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -3120,6 +3384,7 @@ export type sales_invoicesUncheckedUpdateWithoutInv_discount_approval_requestsIn
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -3169,6 +3434,7 @@ export type sales_invoicesCreateWithoutInv_promotion_usage_logsInput = {
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -3218,6 +3484,7 @@ export type sales_invoicesUncheckedCreateWithoutInv_promotion_usage_logsInput = 
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -3283,6 +3550,7 @@ export type sales_invoicesUpdateWithoutInv_promotion_usage_logsInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -3332,6 +3600,7 @@ export type sales_invoicesUncheckedUpdateWithoutInv_promotion_usage_logsInput = 
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -3380,6 +3649,7 @@ export type sales_invoicesCreateWithoutSales_invoice_paymentsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutSales_invoicesInput
   customers?: Prisma.customersCreateNestedOneWithoutSales_invoicesInput
   sales_invoice_items?: Prisma.sales_invoice_itemsCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsCreateNestedManyWithoutSales_invoicesInput
@@ -3429,6 +3699,7 @@ export type sales_invoicesUncheckedCreateWithoutSales_invoice_paymentsInput = {
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedCreateNestedManyWithoutSales_invoicesInput
+  refunds?: Prisma.refundsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedCreateNestedManyWithoutSales_invoicesInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedCreateNestedManyWithoutSales_invoicesInput
@@ -3494,6 +3765,7 @@ export type sales_invoicesUpdateWithoutSales_invoice_paymentsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutSales_invoicesNestedInput
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -3543,6 +3815,7 @@ export type sales_invoicesUncheckedUpdateWithoutSales_invoice_paymentsInput = {
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -3634,6 +3907,7 @@ export type sales_invoicesUpdateWithoutCurrenciesInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -3683,6 +3957,7 @@ export type sales_invoicesUncheckedUpdateWithoutCurrenciesInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -3816,6 +4091,7 @@ export type sales_invoicesUpdateWithoutCustomersInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -3865,6 +4141,7 @@ export type sales_invoicesUncheckedUpdateWithoutCustomersInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -3998,6 +4275,7 @@ export type sales_invoicesUpdateWithoutChannelsInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -4047,6 +4325,7 @@ export type sales_invoicesUncheckedUpdateWithoutChannelsInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -4180,6 +4459,7 @@ export type sales_invoicesUpdateWithoutWarehousesInput = {
   customers?: Prisma.customersUpdateOneWithoutSales_invoicesNestedInput
   sales_invoice_items?: Prisma.sales_invoice_itemsUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUpdateManyWithoutSales_invoicesNestedInput
@@ -4229,6 +4509,7 @@ export type sales_invoicesUncheckedUpdateWithoutWarehousesInput = {
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sales_invoice_items?: Prisma.sales_invoice_itemsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   sales_invoice_payments?: Prisma.sales_invoice_paymentsUncheckedUpdateManyWithoutSales_invoicesNestedInput
+  refunds?: Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_discounts?: Prisma.inv_sales_invoice_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_sales_invoice_item_discounts?: Prisma.inv_sales_invoice_item_discountsUncheckedUpdateManyWithoutSales_invoicesNestedInput
   inv_coupon_redemptions?: Prisma.inv_coupon_redemptionsUncheckedUpdateManyWithoutSales_invoicesNestedInput
@@ -4286,6 +4567,7 @@ export type sales_invoicesUncheckedUpdateManyWithoutWarehousesInput = {
 export type Sales_invoicesCountOutputType = {
   sales_invoice_items: number
   sales_invoice_payments: number
+  refunds: number
   inv_sales_invoice_discounts: number
   inv_sales_invoice_item_discounts: number
   inv_coupon_redemptions: number
@@ -4296,6 +4578,7 @@ export type Sales_invoicesCountOutputType = {
 export type Sales_invoicesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sales_invoice_items?: boolean | Sales_invoicesCountOutputTypeCountSales_invoice_itemsArgs
   sales_invoice_payments?: boolean | Sales_invoicesCountOutputTypeCountSales_invoice_paymentsArgs
+  refunds?: boolean | Sales_invoicesCountOutputTypeCountRefundsArgs
   inv_sales_invoice_discounts?: boolean | Sales_invoicesCountOutputTypeCountInv_sales_invoice_discountsArgs
   inv_sales_invoice_item_discounts?: boolean | Sales_invoicesCountOutputTypeCountInv_sales_invoice_item_discountsArgs
   inv_coupon_redemptions?: boolean | Sales_invoicesCountOutputTypeCountInv_coupon_redemptionsArgs
@@ -4325,6 +4608,13 @@ export type Sales_invoicesCountOutputTypeCountSales_invoice_itemsArgs<ExtArgs ex
  */
 export type Sales_invoicesCountOutputTypeCountSales_invoice_paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.sales_invoice_paymentsWhereInput
+}
+
+/**
+ * Sales_invoicesCountOutputType without action
+ */
+export type Sales_invoicesCountOutputTypeCountRefundsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.refundsWhereInput
 }
 
 /**
@@ -4410,6 +4700,7 @@ export type sales_invoicesSelect<ExtArgs extends runtime.Types.Extensions.Intern
   customers?: boolean | Prisma.sales_invoices$customersArgs<ExtArgs>
   sales_invoice_items?: boolean | Prisma.sales_invoices$sales_invoice_itemsArgs<ExtArgs>
   sales_invoice_payments?: boolean | Prisma.sales_invoices$sales_invoice_paymentsArgs<ExtArgs>
+  refunds?: boolean | Prisma.sales_invoices$refundsArgs<ExtArgs>
   inv_sales_invoice_discounts?: boolean | Prisma.sales_invoices$inv_sales_invoice_discountsArgs<ExtArgs>
   inv_sales_invoice_item_discounts?: boolean | Prisma.sales_invoices$inv_sales_invoice_item_discountsArgs<ExtArgs>
   inv_coupon_redemptions?: boolean | Prisma.sales_invoices$inv_coupon_redemptionsArgs<ExtArgs>
@@ -4563,6 +4854,7 @@ export type sales_invoicesInclude<ExtArgs extends runtime.Types.Extensions.Inter
   customers?: boolean | Prisma.sales_invoices$customersArgs<ExtArgs>
   sales_invoice_items?: boolean | Prisma.sales_invoices$sales_invoice_itemsArgs<ExtArgs>
   sales_invoice_payments?: boolean | Prisma.sales_invoices$sales_invoice_paymentsArgs<ExtArgs>
+  refunds?: boolean | Prisma.sales_invoices$refundsArgs<ExtArgs>
   inv_sales_invoice_discounts?: boolean | Prisma.sales_invoices$inv_sales_invoice_discountsArgs<ExtArgs>
   inv_sales_invoice_item_discounts?: boolean | Prisma.sales_invoices$inv_sales_invoice_item_discountsArgs<ExtArgs>
   inv_coupon_redemptions?: boolean | Prisma.sales_invoices$inv_coupon_redemptionsArgs<ExtArgs>
@@ -4592,6 +4884,7 @@ export type $sales_invoicesPayload<ExtArgs extends runtime.Types.Extensions.Inte
     customers: Prisma.$customersPayload<ExtArgs> | null
     sales_invoice_items: Prisma.$sales_invoice_itemsPayload<ExtArgs>[]
     sales_invoice_payments: Prisma.$sales_invoice_paymentsPayload<ExtArgs>[]
+    refunds: Prisma.$refundsPayload<ExtArgs>[]
     inv_sales_invoice_discounts: Prisma.$inv_sales_invoice_discountsPayload<ExtArgs>[]
     inv_sales_invoice_item_discounts: Prisma.$inv_sales_invoice_item_discountsPayload<ExtArgs>[]
     inv_coupon_redemptions: Prisma.$inv_coupon_redemptionsPayload<ExtArgs>[]
@@ -5039,6 +5332,7 @@ export interface Prisma__sales_invoicesClient<T, Null = never, ExtArgs extends r
   customers<T extends Prisma.sales_invoices$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$customersArgs<ExtArgs>>): Prisma.Prisma__customersClient<runtime.Types.Result.GetResult<Prisma.$customersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sales_invoice_items<T extends Prisma.sales_invoices$sales_invoice_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$sales_invoice_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoice_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_invoice_payments<T extends Prisma.sales_invoices$sales_invoice_paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$sales_invoice_paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_invoice_paymentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  refunds<T extends Prisma.sales_invoices$refundsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$refundsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inv_sales_invoice_discounts<T extends Prisma.sales_invoices$inv_sales_invoice_discountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$inv_sales_invoice_discountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_sales_invoice_discountsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inv_sales_invoice_item_discounts<T extends Prisma.sales_invoices$inv_sales_invoice_item_discountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$inv_sales_invoice_item_discountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_sales_invoice_item_discountsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inv_coupon_redemptions<T extends Prisma.sales_invoices$inv_coupon_redemptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoices$inv_coupon_redemptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inv_coupon_redemptionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5635,6 +5929,30 @@ export type sales_invoices$sales_invoice_paymentsArgs<ExtArgs extends runtime.Ty
   take?: number
   skip?: number
   distinct?: Prisma.Sales_invoice_paymentsScalarFieldEnum | Prisma.Sales_invoice_paymentsScalarFieldEnum[]
+}
+
+/**
+ * sales_invoices.refunds
+ */
+export type sales_invoices$refundsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the refunds
+   */
+  select?: Prisma.refundsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the refunds
+   */
+  omit?: Prisma.refundsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
+  where?: Prisma.refundsWhereInput
+  orderBy?: Prisma.refundsOrderByWithRelationInput | Prisma.refundsOrderByWithRelationInput[]
+  cursor?: Prisma.refundsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RefundsScalarFieldEnum | Prisma.RefundsScalarFieldEnum[]
 }
 
 /**

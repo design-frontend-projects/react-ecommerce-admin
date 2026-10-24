@@ -421,6 +421,8 @@ export const ModelName = {
   purchase_return_items: 'purchase_return_items',
   purchase_returns: 'purchase_returns',
   refunds: 'refunds',
+  refund_items: 'refund_items',
+  pos_user_pins: 'pos_user_pins',
   res_events: 'res_events',
   res_floors: 'res_floors',
   res_item_properties: 'res_item_properties',
@@ -562,7 +564,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "refund_items" | "pos_user_pins" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3301,6 +3303,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.refundsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RefundsCountAggregateOutputType> | number
+        }
+      }
+    }
+    refund_items: {
+      payload: Prisma.$refund_itemsPayload<ExtArgs>
+      fields: Prisma.refund_itemsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.refund_itemsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.refund_itemsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>
+        }
+        findFirst: {
+          args: Prisma.refund_itemsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.refund_itemsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>
+        }
+        findMany: {
+          args: Prisma.refund_itemsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>[]
+        }
+        create: {
+          args: Prisma.refund_itemsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>
+        }
+        createMany: {
+          args: Prisma.refund_itemsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.refund_itemsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>[]
+        }
+        delete: {
+          args: Prisma.refund_itemsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>
+        }
+        update: {
+          args: Prisma.refund_itemsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>
+        }
+        deleteMany: {
+          args: Prisma.refund_itemsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.refund_itemsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.refund_itemsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>[]
+        }
+        upsert: {
+          args: Prisma.refund_itemsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$refund_itemsPayload>
+        }
+        aggregate: {
+          args: Prisma.Refund_itemsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRefund_items>
+        }
+        groupBy: {
+          args: Prisma.refund_itemsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Refund_itemsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.refund_itemsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Refund_itemsCountAggregateOutputType> | number
+        }
+      }
+    }
+    pos_user_pins: {
+      payload: Prisma.$pos_user_pinsPayload<ExtArgs>
+      fields: Prisma.pos_user_pinsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pos_user_pinsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pos_user_pinsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>
+        }
+        findFirst: {
+          args: Prisma.pos_user_pinsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pos_user_pinsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>
+        }
+        findMany: {
+          args: Prisma.pos_user_pinsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>[]
+        }
+        create: {
+          args: Prisma.pos_user_pinsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>
+        }
+        createMany: {
+          args: Prisma.pos_user_pinsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pos_user_pinsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>[]
+        }
+        delete: {
+          args: Prisma.pos_user_pinsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>
+        }
+        update: {
+          args: Prisma.pos_user_pinsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>
+        }
+        deleteMany: {
+          args: Prisma.pos_user_pinsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pos_user_pinsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pos_user_pinsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>[]
+        }
+        upsert: {
+          args: Prisma.pos_user_pinsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_user_pinsPayload>
+        }
+        aggregate: {
+          args: Prisma.Pos_user_pinsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePos_user_pins>
+        }
+        groupBy: {
+          args: Prisma.pos_user_pinsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_user_pinsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pos_user_pinsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_user_pinsCountAggregateOutputType> | number
         }
       }
     }
@@ -13424,26 +13574,97 @@ export type Purchase_returnsScalarFieldEnum = (typeof Purchase_returnsScalarFiel
 
 
 export const RefundsScalarFieldEnum = {
-  sale_id: 'sale_id',
-  order_id: 'order_id',
-  refund_date: 'refund_date',
-  refund_amount: 'refund_amount',
-  reason: 'reason',
-  processed_by: 'processed_by',
-  notes: 'notes',
-  refund_status: 'refund_status',
-  store_id: 'store_id',
-  sales_invoice_id: 'sales_invoice_id',
-  branch_id: 'branch_id',
-  created_by: 'created_by',
   id: 'id',
-  res_order_id: 'res_order_id',
   tenant_id: 'tenant_id',
+  refund_number: 'refund_number',
+  sales_invoice_id: 'sales_invoice_id',
+  store_id: 'store_id',
+  branch_id: 'branch_id',
+  pos_terminal_id: 'pos_terminal_id',
+  customer_id: 'customer_id',
+  status: 'status',
+  currency: 'currency',
+  requested_amount: 'requested_amount',
+  approved_amount: 'approved_amount',
+  refunded_amount: 'refunded_amount',
+  refund_method: 'refund_method',
+  original_payment_method: 'original_payment_method',
+  refund_reference: 'refund_reference',
+  reason: 'reason',
+  notes: 'notes',
+  approval_required: 'approval_required',
+  approval_level: 'approval_level',
+  approval_reason: 'approval_reason',
+  requested_at: 'requested_at',
+  requested_by_user_id: 'requested_by_user_id',
+  submitted_at: 'submitted_at',
+  submitted_by_user_id: 'submitted_by_user_id',
+  approved_at: 'approved_at',
+  approved_by_user_id: 'approved_by_user_id',
+  rejected_at: 'rejected_at',
+  rejected_by_user_id: 'rejected_by_user_id',
+  rejection_reason: 'rejection_reason',
+  processed_at: 'processed_at',
+  processed_by_user_id: 'processed_by_user_id',
+  completed_at: 'completed_at',
+  completed_by_user_id: 'completed_by_user_id',
+  cancelled_at: 'cancelled_at',
+  cancelled_by_user_id: 'cancelled_by_user_id',
+  cancellation_reason: 'cancellation_reason',
+  inventory_return_required: 'inventory_return_required',
+  inventory_return_status: 'inventory_return_status',
+  inventory_transaction_id: 'inventory_transaction_id',
+  version: 'version',
+  idempotency_key: 'idempotency_key',
+  metadata: 'metadata',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
 export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeof RefundsScalarFieldEnum]
+
+
+export const Refund_itemsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  refund_id: 'refund_id',
+  sales_invoice_item_id: 'sales_invoice_item_id',
+  product_variant_id: 'product_variant_id',
+  original_quantity: 'original_quantity',
+  previously_refunded_qty: 'previously_refunded_qty',
+  refund_quantity: 'refund_quantity',
+  unit_price: 'unit_price',
+  discount_amount: 'discount_amount',
+  tax_amount: 'tax_amount',
+  refund_amount: 'refund_amount',
+  reason: 'reason',
+  condition: 'condition',
+  disposition: 'disposition',
+  sku_snapshot: 'sku_snapshot',
+  product_name_snapshot: 'product_name_snapshot',
+  variant_name_snapshot: 'variant_name_snapshot',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Refund_itemsScalarFieldEnum = (typeof Refund_itemsScalarFieldEnum)[keyof typeof Refund_itemsScalarFieldEnum]
+
+
+export const Pos_user_pinsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  pin_hash: 'pin_hash',
+  is_active: 'is_active',
+  failed_attempts: 'failed_attempts',
+  locked_until: 'locked_until',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Pos_user_pinsScalarFieldEnum = (typeof Pos_user_pinsScalarFieldEnum)[keyof typeof Pos_user_pinsScalarFieldEnum]
 
 
 export const Res_eventsScalarFieldEnum = {
@@ -16383,16 +16604,86 @@ export type ListEnumreturn_status_enumFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
- * Reference to a field of type 'refund_status'
+ * Reference to a field of type 'refund_status_enum'
  */
-export type Enumrefund_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status'>
+export type Enumrefund_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status_enum'>
     
 
 
 /**
- * Reference to a field of type 'refund_status[]'
+ * Reference to a field of type 'refund_status_enum[]'
  */
-export type ListEnumrefund_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status[]'>
+export type ListEnumrefund_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'refund_method_enum'
+ */
+export type Enumrefund_method_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_method_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'refund_method_enum[]'
+ */
+export type ListEnumrefund_method_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_method_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'refund_approval_level_enum'
+ */
+export type Enumrefund_approval_level_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_approval_level_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'refund_approval_level_enum[]'
+ */
+export type ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_approval_level_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'refund_inventory_return_status_enum'
+ */
+export type Enumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_inventory_return_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'refund_inventory_return_status_enum[]'
+ */
+export type ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'refund_inventory_return_status_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'stock_condition_enum'
+ */
+export type Enumstock_condition_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'stock_condition_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'stock_condition_enum[]'
+ */
+export type ListEnumstock_condition_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'stock_condition_enum[]'>
+    
+
+
+/**
+ * Reference to a field of type 'return_disposition_enum'
+ */
+export type Enumreturn_disposition_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'return_disposition_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'return_disposition_enum[]'
+ */
+export type ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'return_disposition_enum[]'>
     
 
 
@@ -16659,20 +16950,6 @@ export type Enummovement_status_enumFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'movement_status_enum[]'
  */
 export type ListEnummovement_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'movement_status_enum[]'>
-    
-
-
-/**
- * Reference to a field of type 'stock_condition_enum'
- */
-export type Enumstock_condition_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'stock_condition_enum'>
-    
-
-
-/**
- * Reference to a field of type 'stock_condition_enum[]'
- */
-export type ListEnumstock_condition_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'stock_condition_enum[]'>
     
 
 
@@ -17451,6 +17728,8 @@ export type GlobalOmitConfig = {
   purchase_return_items?: Prisma.purchase_return_itemsOmit
   purchase_returns?: Prisma.purchase_returnsOmit
   refunds?: Prisma.refundsOmit
+  refund_items?: Prisma.refund_itemsOmit
+  pos_user_pins?: Prisma.pos_user_pinsOmit
   res_events?: Prisma.res_eventsOmit
   res_floors?: Prisma.res_floorsOmit
   res_item_properties?: Prisma.res_item_propertiesOmit

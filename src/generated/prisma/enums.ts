@@ -198,14 +198,66 @@ export const record_status = {
 export type record_status = (typeof record_status)[keyof typeof record_status]
 
 
-export const refund_status = {
+export const refund_status_enum = {
+  draft: 'draft',
+  requested: 'requested',
+  pending_approval: 'pending_approval',
   approved: 'approved',
   rejected: 'rejected',
-  waiting_manager: 'waiting_manager',
-  waiting_review: 'waiting_review'
+  processing: 'processing',
+  completed: 'completed',
+  failed: 'failed',
+  cancelled: 'cancelled'
 } as const
 
-export type refund_status = (typeof refund_status)[keyof typeof refund_status]
+export type refund_status_enum = (typeof refund_status_enum)[keyof typeof refund_status_enum]
+
+
+export const refund_method_enum = {
+  cash: 'cash',
+  card: 'card',
+  original_payment_method: 'original_payment_method',
+  store_credit: 'store_credit',
+  customer_wallet: 'customer_wallet',
+  bank_transfer: 'bank_transfer',
+  other: 'other'
+} as const
+
+export type refund_method_enum = (typeof refund_method_enum)[keyof typeof refund_method_enum]
+
+
+export const refund_inventory_return_status_enum = {
+  not_required: 'not_required',
+  pending: 'pending',
+  received: 'received',
+  partially_received: 'partially_received',
+  completed: 'completed',
+  failed: 'failed'
+} as const
+
+export type refund_inventory_return_status_enum = (typeof refund_inventory_return_status_enum)[keyof typeof refund_inventory_return_status_enum]
+
+
+export const refund_approval_level_enum = {
+  none: 'none',
+  supervisor: 'supervisor',
+  manager: 'manager',
+  top_management: 'top_management'
+} as const
+
+export type refund_approval_level_enum = (typeof refund_approval_level_enum)[keyof typeof refund_approval_level_enum]
+
+
+export const return_disposition_enum = {
+  resalable: 'resalable',
+  damaged: 'damaged',
+  quarantine: 'quarantine',
+  defective: 'defective',
+  expired: 'expired',
+  scrap: 'scrap'
+} as const
+
+export type return_disposition_enum = (typeof return_disposition_enum)[keyof typeof return_disposition_enum]
 
 
 export const reservation_status = {
@@ -721,6 +773,14 @@ export const business_event_type_enum = {
   sales_order_created: 'sales_order_created',
   sales_invoice_created: 'sales_invoice_created',
   sales_return_created: 'sales_return_created',
+  refund_requested: 'refund_requested',
+  refund_approval_required: 'refund_approval_required',
+  refund_approved: 'refund_approved',
+  refund_rejected: 'refund_rejected',
+  refund_processing: 'refund_processing',
+  refund_completed: 'refund_completed',
+  refund_failed: 'refund_failed',
+  refund_cancelled: 'refund_cancelled',
   payment_received: 'payment_received',
   user_registered: 'user_registered',
   user_role_changed: 'user_role_changed',

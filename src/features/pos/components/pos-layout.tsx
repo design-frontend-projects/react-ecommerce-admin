@@ -6,6 +6,7 @@ import {
   Truck,
   Monitor,
   FileSpreadsheet,
+  RotateCcw,
 } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
@@ -15,11 +16,14 @@ import { ShiftDashboard } from './shift-dashboard'
 import { NonRestaurantShipmentsBoard } from './non-restaurant-shipments-board'
 import { PosTerminalsPage } from '../pages/pos-terminals-page'
 import { PosReportsPage } from '../pages/pos-reports-page'
+import { POSRefundsManagementView } from '../refunds/components/POSRefundsManagementView'
+import { useCanRefundAction } from '../refunds/hooks/useRefunds'
 import { usePosStore } from '../store/use-pos-store'
 
 export function PosLayout() {
   const { t } = useTranslation()
   const { activeTab, setActiveTab } = usePosStore()
+  const canViewRefunds = useCanRefundAction('view')
 
   return (
     <div className='flex h-[100dvh] max-h-[100dvh] min-h-0 flex-1 flex-col overflow-hidden bg-muted/10 p-1.5 sm:p-2.5 md:p-3'>
@@ -57,6 +61,12 @@ export function PosLayout() {
                   <FileSpreadsheet className='h-3.5 w-3.5 shrink-0' />
                   <span>{t('pos.tabs.auditLogs', 'Audit Logs')}</span>
                 </TabsTrigger>
+                {canViewRefunds && (
+                  <TabsTrigger value='refunds' className='gap-1.5 text-xs whitespace-nowrap px-2.5 sm:px-3 font-semibold'>
+                    <RotateCcw className='h-3.5 w-3.5 shrink-0 text-rose-500' />
+                    <span>{t('pos.tabs.refunds', 'Refunds & Returns')}</span>
+                  </TabsTrigger>
+                )}
               </TabsList>
             </div>
           </div>
@@ -93,6 +103,15 @@ export function PosLayout() {
         >
           <PosReportsPage />
         </TabsContent>
+
+        {canViewRefunds && (
+          <TabsContent
+            value='refunds'
+            className='mt-0 flex-1 min-h-0 overflow-y-auto overscroll-contain rounded-lg border bg-card p-3 sm:p-4 shadow-xs outline-none'
+          >
+            <POSRefundsManagementView />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

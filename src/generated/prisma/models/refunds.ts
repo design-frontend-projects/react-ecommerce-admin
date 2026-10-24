@@ -27,69 +27,163 @@ export type AggregateRefunds = {
 }
 
 export type RefundsAvgAggregateOutputType = {
-  refund_amount: runtime.Decimal | null
+  requested_amount: runtime.Decimal | null
+  approved_amount: runtime.Decimal | null
+  refunded_amount: runtime.Decimal | null
+  version: number | null
 }
 
 export type RefundsSumAggregateOutputType = {
-  refund_amount: runtime.Decimal | null
+  requested_amount: runtime.Decimal | null
+  approved_amount: runtime.Decimal | null
+  refunded_amount: runtime.Decimal | null
+  version: number | null
 }
 
 export type RefundsMinAggregateOutputType = {
-  sale_id: string | null
-  order_id: string | null
-  refund_date: Date | null
-  refund_amount: runtime.Decimal | null
-  reason: string | null
-  processed_by: string | null
-  notes: string | null
-  refund_status: $Enums.refund_status | null
-  store_id: string | null
-  sales_invoice_id: string | null
-  branch_id: string | null
-  created_by: string | null
   id: string | null
-  res_order_id: string | null
   tenant_id: string | null
+  refund_number: string | null
+  sales_invoice_id: string | null
+  store_id: string | null
+  branch_id: string | null
+  pos_terminal_id: string | null
+  customer_id: string | null
+  status: $Enums.refund_status_enum | null
+  currency: string | null
+  requested_amount: runtime.Decimal | null
+  approved_amount: runtime.Decimal | null
+  refunded_amount: runtime.Decimal | null
+  refund_method: $Enums.refund_method_enum | null
+  original_payment_method: string | null
+  refund_reference: string | null
+  reason: string | null
+  notes: string | null
+  approval_required: boolean | null
+  approval_level: $Enums.refund_approval_level_enum | null
+  approval_reason: string | null
+  requested_at: Date | null
+  requested_by_user_id: string | null
+  submitted_at: Date | null
+  submitted_by_user_id: string | null
+  approved_at: Date | null
+  approved_by_user_id: string | null
+  rejected_at: Date | null
+  rejected_by_user_id: string | null
+  rejection_reason: string | null
+  processed_at: Date | null
+  processed_by_user_id: string | null
+  completed_at: Date | null
+  completed_by_user_id: string | null
+  cancelled_at: Date | null
+  cancelled_by_user_id: string | null
+  cancellation_reason: string | null
+  inventory_return_required: boolean | null
+  inventory_return_status: $Enums.refund_inventory_return_status_enum | null
+  inventory_transaction_id: string | null
+  version: number | null
+  idempotency_key: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
 
 export type RefundsMaxAggregateOutputType = {
-  sale_id: string | null
-  order_id: string | null
-  refund_date: Date | null
-  refund_amount: runtime.Decimal | null
-  reason: string | null
-  processed_by: string | null
-  notes: string | null
-  refund_status: $Enums.refund_status | null
-  store_id: string | null
-  sales_invoice_id: string | null
-  branch_id: string | null
-  created_by: string | null
   id: string | null
-  res_order_id: string | null
   tenant_id: string | null
+  refund_number: string | null
+  sales_invoice_id: string | null
+  store_id: string | null
+  branch_id: string | null
+  pos_terminal_id: string | null
+  customer_id: string | null
+  status: $Enums.refund_status_enum | null
+  currency: string | null
+  requested_amount: runtime.Decimal | null
+  approved_amount: runtime.Decimal | null
+  refunded_amount: runtime.Decimal | null
+  refund_method: $Enums.refund_method_enum | null
+  original_payment_method: string | null
+  refund_reference: string | null
+  reason: string | null
+  notes: string | null
+  approval_required: boolean | null
+  approval_level: $Enums.refund_approval_level_enum | null
+  approval_reason: string | null
+  requested_at: Date | null
+  requested_by_user_id: string | null
+  submitted_at: Date | null
+  submitted_by_user_id: string | null
+  approved_at: Date | null
+  approved_by_user_id: string | null
+  rejected_at: Date | null
+  rejected_by_user_id: string | null
+  rejection_reason: string | null
+  processed_at: Date | null
+  processed_by_user_id: string | null
+  completed_at: Date | null
+  completed_by_user_id: string | null
+  cancelled_at: Date | null
+  cancelled_by_user_id: string | null
+  cancellation_reason: string | null
+  inventory_return_required: boolean | null
+  inventory_return_status: $Enums.refund_inventory_return_status_enum | null
+  inventory_transaction_id: string | null
+  version: number | null
+  idempotency_key: string | null
+  created_at: Date | null
+  updated_at: Date | null
   created_by_user_id: string | null
   updated_by_user_id: string | null
 }
 
 export type RefundsCountAggregateOutputType = {
-  sale_id: number
-  order_id: number
-  refund_date: number
-  refund_amount: number
-  reason: number
-  processed_by: number
-  notes: number
-  refund_status: number
-  store_id: number
-  sales_invoice_id: number
-  branch_id: number
-  created_by: number
   id: number
-  res_order_id: number
   tenant_id: number
+  refund_number: number
+  sales_invoice_id: number
+  store_id: number
+  branch_id: number
+  pos_terminal_id: number
+  customer_id: number
+  status: number
+  currency: number
+  requested_amount: number
+  approved_amount: number
+  refunded_amount: number
+  refund_method: number
+  original_payment_method: number
+  refund_reference: number
+  reason: number
+  notes: number
+  approval_required: number
+  approval_level: number
+  approval_reason: number
+  requested_at: number
+  requested_by_user_id: number
+  submitted_at: number
+  submitted_by_user_id: number
+  approved_at: number
+  approved_by_user_id: number
+  rejected_at: number
+  rejected_by_user_id: number
+  rejection_reason: number
+  processed_at: number
+  processed_by_user_id: number
+  completed_at: number
+  completed_by_user_id: number
+  cancelled_at: number
+  cancelled_by_user_id: number
+  cancellation_reason: number
+  inventory_return_required: number
+  inventory_return_status: number
+  inventory_transaction_id: number
+  version: number
+  idempotency_key: number
+  metadata: number
+  created_at: number
+  updated_at: number
   created_by_user_id: number
   updated_by_user_id: number
   _all: number
@@ -97,69 +191,163 @@ export type RefundsCountAggregateOutputType = {
 
 
 export type RefundsAvgAggregateInputType = {
-  refund_amount?: true
+  requested_amount?: true
+  approved_amount?: true
+  refunded_amount?: true
+  version?: true
 }
 
 export type RefundsSumAggregateInputType = {
-  refund_amount?: true
+  requested_amount?: true
+  approved_amount?: true
+  refunded_amount?: true
+  version?: true
 }
 
 export type RefundsMinAggregateInputType = {
-  sale_id?: true
-  order_id?: true
-  refund_date?: true
-  refund_amount?: true
-  reason?: true
-  processed_by?: true
-  notes?: true
-  refund_status?: true
-  store_id?: true
-  sales_invoice_id?: true
-  branch_id?: true
-  created_by?: true
   id?: true
-  res_order_id?: true
   tenant_id?: true
+  refund_number?: true
+  sales_invoice_id?: true
+  store_id?: true
+  branch_id?: true
+  pos_terminal_id?: true
+  customer_id?: true
+  status?: true
+  currency?: true
+  requested_amount?: true
+  approved_amount?: true
+  refunded_amount?: true
+  refund_method?: true
+  original_payment_method?: true
+  refund_reference?: true
+  reason?: true
+  notes?: true
+  approval_required?: true
+  approval_level?: true
+  approval_reason?: true
+  requested_at?: true
+  requested_by_user_id?: true
+  submitted_at?: true
+  submitted_by_user_id?: true
+  approved_at?: true
+  approved_by_user_id?: true
+  rejected_at?: true
+  rejected_by_user_id?: true
+  rejection_reason?: true
+  processed_at?: true
+  processed_by_user_id?: true
+  completed_at?: true
+  completed_by_user_id?: true
+  cancelled_at?: true
+  cancelled_by_user_id?: true
+  cancellation_reason?: true
+  inventory_return_required?: true
+  inventory_return_status?: true
+  inventory_transaction_id?: true
+  version?: true
+  idempotency_key?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
 
 export type RefundsMaxAggregateInputType = {
-  sale_id?: true
-  order_id?: true
-  refund_date?: true
-  refund_amount?: true
-  reason?: true
-  processed_by?: true
-  notes?: true
-  refund_status?: true
-  store_id?: true
-  sales_invoice_id?: true
-  branch_id?: true
-  created_by?: true
   id?: true
-  res_order_id?: true
   tenant_id?: true
+  refund_number?: true
+  sales_invoice_id?: true
+  store_id?: true
+  branch_id?: true
+  pos_terminal_id?: true
+  customer_id?: true
+  status?: true
+  currency?: true
+  requested_amount?: true
+  approved_amount?: true
+  refunded_amount?: true
+  refund_method?: true
+  original_payment_method?: true
+  refund_reference?: true
+  reason?: true
+  notes?: true
+  approval_required?: true
+  approval_level?: true
+  approval_reason?: true
+  requested_at?: true
+  requested_by_user_id?: true
+  submitted_at?: true
+  submitted_by_user_id?: true
+  approved_at?: true
+  approved_by_user_id?: true
+  rejected_at?: true
+  rejected_by_user_id?: true
+  rejection_reason?: true
+  processed_at?: true
+  processed_by_user_id?: true
+  completed_at?: true
+  completed_by_user_id?: true
+  cancelled_at?: true
+  cancelled_by_user_id?: true
+  cancellation_reason?: true
+  inventory_return_required?: true
+  inventory_return_status?: true
+  inventory_transaction_id?: true
+  version?: true
+  idempotency_key?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
 }
 
 export type RefundsCountAggregateInputType = {
-  sale_id?: true
-  order_id?: true
-  refund_date?: true
-  refund_amount?: true
-  reason?: true
-  processed_by?: true
-  notes?: true
-  refund_status?: true
-  store_id?: true
-  sales_invoice_id?: true
-  branch_id?: true
-  created_by?: true
   id?: true
-  res_order_id?: true
   tenant_id?: true
+  refund_number?: true
+  sales_invoice_id?: true
+  store_id?: true
+  branch_id?: true
+  pos_terminal_id?: true
+  customer_id?: true
+  status?: true
+  currency?: true
+  requested_amount?: true
+  approved_amount?: true
+  refunded_amount?: true
+  refund_method?: true
+  original_payment_method?: true
+  refund_reference?: true
+  reason?: true
+  notes?: true
+  approval_required?: true
+  approval_level?: true
+  approval_reason?: true
+  requested_at?: true
+  requested_by_user_id?: true
+  submitted_at?: true
+  submitted_by_user_id?: true
+  approved_at?: true
+  approved_by_user_id?: true
+  rejected_at?: true
+  rejected_by_user_id?: true
+  rejection_reason?: true
+  processed_at?: true
+  processed_by_user_id?: true
+  completed_at?: true
+  completed_by_user_id?: true
+  cancelled_at?: true
+  cancelled_by_user_id?: true
+  cancellation_reason?: true
+  inventory_return_required?: true
+  inventory_return_status?: true
+  inventory_transaction_id?: true
+  version?: true
+  idempotency_key?: true
+  metadata?: true
+  created_at?: true
+  updated_at?: true
   created_by_user_id?: true
   updated_by_user_id?: true
   _all?: true
@@ -252,21 +440,51 @@ export type refundsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type RefundsGroupByOutputType = {
-  sale_id: string | null
-  order_id: string | null
-  refund_date: Date | null
-  refund_amount: runtime.Decimal
-  reason: string | null
-  processed_by: string | null
-  notes: string | null
-  refund_status: $Enums.refund_status | null
-  store_id: string | null
-  sales_invoice_id: string | null
-  branch_id: string | null
-  created_by: string | null
   id: string
-  res_order_id: string | null
   tenant_id: string
+  refund_number: string
+  sales_invoice_id: string
+  store_id: string | null
+  branch_id: string | null
+  pos_terminal_id: string | null
+  customer_id: string | null
+  status: $Enums.refund_status_enum
+  currency: string
+  requested_amount: runtime.Decimal
+  approved_amount: runtime.Decimal
+  refunded_amount: runtime.Decimal
+  refund_method: $Enums.refund_method_enum | null
+  original_payment_method: string | null
+  refund_reference: string | null
+  reason: string | null
+  notes: string | null
+  approval_required: boolean
+  approval_level: $Enums.refund_approval_level_enum
+  approval_reason: string | null
+  requested_at: Date | null
+  requested_by_user_id: string | null
+  submitted_at: Date | null
+  submitted_by_user_id: string | null
+  approved_at: Date | null
+  approved_by_user_id: string | null
+  rejected_at: Date | null
+  rejected_by_user_id: string | null
+  rejection_reason: string | null
+  processed_at: Date | null
+  processed_by_user_id: string | null
+  completed_at: Date | null
+  completed_by_user_id: string | null
+  cancelled_at: Date | null
+  cancelled_by_user_id: string | null
+  cancellation_reason: string | null
+  inventory_return_required: boolean
+  inventory_return_status: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id: string | null
+  version: number
+  idempotency_key: string | null
+  metadata: runtime.JsonValue | null
+  created_at: Date
+  updated_at: Date
   created_by_user_id: string | null
   updated_by_user_id: string | null
   _count: RefundsCountAggregateOutputType | null
@@ -295,84 +513,211 @@ export type refundsWhereInput = {
   AND?: Prisma.refundsWhereInput | Prisma.refundsWhereInput[]
   OR?: Prisma.refundsWhereInput[]
   NOT?: Prisma.refundsWhereInput | Prisma.refundsWhereInput[]
-  sale_id?: Prisma.StringNullableFilter<"refunds"> | string | null
-  order_id?: Prisma.StringNullableFilter<"refunds"> | string | null
-  refund_date?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
-  refund_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.StringNullableFilter<"refunds"> | string | null
-  processed_by?: Prisma.StringNullableFilter<"refunds"> | string | null
-  notes?: Prisma.StringNullableFilter<"refunds"> | string | null
-  refund_status?: Prisma.Enumrefund_statusNullableFilter<"refunds"> | $Enums.refund_status | null
-  store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  sales_invoice_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  branch_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  created_by?: Prisma.StringNullableFilter<"refunds"> | string | null
   id?: Prisma.UuidFilter<"refunds"> | string
-  res_order_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   tenant_id?: Prisma.UuidFilter<"refunds"> | string
+  refund_number?: Prisma.StringFilter<"refunds"> | string
+  sales_invoice_id?: Prisma.UuidFilter<"refunds"> | string
+  store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  branch_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  pos_terminal_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  customer_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  status?: Prisma.Enumrefund_status_enumFilter<"refunds"> | $Enums.refund_status_enum
+  currency?: Prisma.StringFilter<"refunds"> | string
+  requested_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.Enumrefund_method_enumNullableFilter<"refunds"> | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.StringNullableFilter<"refunds"> | string | null
+  refund_reference?: Prisma.StringNullableFilter<"refunds"> | string | null
+  reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  notes?: Prisma.StringNullableFilter<"refunds"> | string | null
+  approval_required?: Prisma.BoolFilter<"refunds"> | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFilter<"refunds"> | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  requested_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  requested_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  submitted_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  submitted_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  rejected_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  rejected_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  rejection_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  processed_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  processed_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  completed_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  completed_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  cancellation_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  inventory_return_required?: Prisma.BoolFilter<"refunds"> | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFilter<"refunds"> | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  version?: Prisma.IntFilter<"refunds"> | number
+  idempotency_key?: Prisma.StringNullableFilter<"refunds"> | string | null
+  metadata?: Prisma.JsonNullableFilter<"refunds">
+  created_at?: Prisma.DateTimeFilter<"refunds"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"refunds"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  sales_invoices?: Prisma.XOR<Prisma.Sales_invoicesScalarRelationFilter, Prisma.sales_invoicesWhereInput>
+  refund_items?: Prisma.Refund_itemsListRelationFilter
 }
 
 export type refundsOrderByWithRelationInput = {
-  sale_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  order_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  refund_date?: Prisma.SortOrderInput | Prisma.SortOrder
-  refund_amount?: Prisma.SortOrder
-  reason?: Prisma.SortOrderInput | Prisma.SortOrder
-  processed_by?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  refund_status?: Prisma.SortOrderInput | Prisma.SortOrder
-  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  res_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  refund_number?: Prisma.SortOrder
+  sales_invoice_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  pos_terminal_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  refund_method?: Prisma.SortOrderInput | Prisma.SortOrder
+  original_payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
+  refund_reference?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  approval_required?: Prisma.SortOrder
+  approval_level?: Prisma.SortOrder
+  approval_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  submitted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  submitted_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejected_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejected_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  processed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  processed_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  completed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  completed_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  inventory_return_required?: Prisma.SortOrder
+  inventory_return_status?: Prisma.SortOrder
+  inventory_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  version?: Prisma.SortOrder
+  idempotency_key?: Prisma.SortOrderInput | Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  sales_invoices?: Prisma.sales_invoicesOrderByWithRelationInput
+  refund_items?: Prisma.refund_itemsOrderByRelationAggregateInput
 }
 
 export type refundsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  idempotency_key?: string
+  tenant_id_refund_number?: Prisma.refundsTenant_idRefund_numberCompoundUniqueInput
   AND?: Prisma.refundsWhereInput | Prisma.refundsWhereInput[]
   OR?: Prisma.refundsWhereInput[]
   NOT?: Prisma.refundsWhereInput | Prisma.refundsWhereInput[]
-  sale_id?: Prisma.StringNullableFilter<"refunds"> | string | null
-  order_id?: Prisma.StringNullableFilter<"refunds"> | string | null
-  refund_date?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
-  refund_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.StringNullableFilter<"refunds"> | string | null
-  processed_by?: Prisma.StringNullableFilter<"refunds"> | string | null
-  notes?: Prisma.StringNullableFilter<"refunds"> | string | null
-  refund_status?: Prisma.Enumrefund_statusNullableFilter<"refunds"> | $Enums.refund_status | null
-  store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  sales_invoice_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  branch_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-  created_by?: Prisma.StringNullableFilter<"refunds"> | string | null
-  res_order_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   tenant_id?: Prisma.UuidFilter<"refunds"> | string
+  refund_number?: Prisma.StringFilter<"refunds"> | string
+  sales_invoice_id?: Prisma.UuidFilter<"refunds"> | string
+  store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  branch_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  pos_terminal_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  customer_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  status?: Prisma.Enumrefund_status_enumFilter<"refunds"> | $Enums.refund_status_enum
+  currency?: Prisma.StringFilter<"refunds"> | string
+  requested_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.Enumrefund_method_enumNullableFilter<"refunds"> | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.StringNullableFilter<"refunds"> | string | null
+  refund_reference?: Prisma.StringNullableFilter<"refunds"> | string | null
+  reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  notes?: Prisma.StringNullableFilter<"refunds"> | string | null
+  approval_required?: Prisma.BoolFilter<"refunds"> | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFilter<"refunds"> | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  requested_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  requested_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  submitted_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  submitted_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  rejected_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  rejected_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  rejection_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  processed_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  processed_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  completed_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  completed_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  cancellation_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  inventory_return_required?: Prisma.BoolFilter<"refunds"> | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFilter<"refunds"> | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  version?: Prisma.IntFilter<"refunds"> | number
+  metadata?: Prisma.JsonNullableFilter<"refunds">
+  created_at?: Prisma.DateTimeFilter<"refunds"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"refunds"> | Date | string
   created_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
-}, "id">
+  sales_invoices?: Prisma.XOR<Prisma.Sales_invoicesScalarRelationFilter, Prisma.sales_invoicesWhereInput>
+  refund_items?: Prisma.Refund_itemsListRelationFilter
+}, "id" | "tenant_id_refund_number" | "idempotency_key">
 
 export type refundsOrderByWithAggregationInput = {
-  sale_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  order_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  refund_date?: Prisma.SortOrderInput | Prisma.SortOrder
-  refund_amount?: Prisma.SortOrder
-  reason?: Prisma.SortOrderInput | Prisma.SortOrder
-  processed_by?: Prisma.SortOrderInput | Prisma.SortOrder
-  notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  refund_status?: Prisma.SortOrderInput | Prisma.SortOrder
-  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  sales_invoice_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
-  res_order_id?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  refund_number?: Prisma.SortOrder
+  sales_invoice_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  branch_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  pos_terminal_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  refund_method?: Prisma.SortOrderInput | Prisma.SortOrder
+  original_payment_method?: Prisma.SortOrderInput | Prisma.SortOrder
+  refund_reference?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  approval_required?: Prisma.SortOrder
+  approval_level?: Prisma.SortOrder
+  approval_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  submitted_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  submitted_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejected_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejected_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  processed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  processed_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  completed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  completed_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrderInput | Prisma.SortOrder
+  inventory_return_required?: Prisma.SortOrder
+  inventory_return_status?: Prisma.SortOrder
+  inventory_transaction_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  version?: Prisma.SortOrder
+  idempotency_key?: Prisma.SortOrderInput | Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.refundsCountOrderByAggregateInput
@@ -386,340 +731,1556 @@ export type refundsScalarWhereWithAggregatesInput = {
   AND?: Prisma.refundsScalarWhereWithAggregatesInput | Prisma.refundsScalarWhereWithAggregatesInput[]
   OR?: Prisma.refundsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.refundsScalarWhereWithAggregatesInput | Prisma.refundsScalarWhereWithAggregatesInput[]
-  sale_id?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
-  order_id?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
-  refund_date?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
-  refund_amount?: Prisma.DecimalWithAggregatesFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
-  processed_by?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
-  notes?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
-  refund_status?: Prisma.Enumrefund_statusNullableWithAggregatesFilter<"refunds"> | $Enums.refund_status | null
-  store_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
-  sales_invoice_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
-  branch_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
-  created_by?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
   id?: Prisma.UuidWithAggregatesFilter<"refunds"> | string
-  res_order_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
   tenant_id?: Prisma.UuidWithAggregatesFilter<"refunds"> | string
+  refund_number?: Prisma.StringWithAggregatesFilter<"refunds"> | string
+  sales_invoice_id?: Prisma.UuidWithAggregatesFilter<"refunds"> | string
+  store_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  branch_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  pos_terminal_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  customer_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  status?: Prisma.Enumrefund_status_enumWithAggregatesFilter<"refunds"> | $Enums.refund_status_enum
+  currency?: Prisma.StringWithAggregatesFilter<"refunds"> | string
+  requested_amount?: Prisma.DecimalWithAggregatesFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalWithAggregatesFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalWithAggregatesFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.Enumrefund_method_enumNullableWithAggregatesFilter<"refunds"> | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  refund_reference?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  reason?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  notes?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  approval_required?: Prisma.BoolWithAggregatesFilter<"refunds"> | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumWithAggregatesFilter<"refunds"> | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  requested_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  requested_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  submitted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  submitted_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  rejected_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  rejected_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  rejection_reason?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  processed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  processed_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  completed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  completed_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  cancelled_at?: Prisma.DateTimeNullableWithAggregatesFilter<"refunds"> | Date | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  cancellation_reason?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  inventory_return_required?: Prisma.BoolWithAggregatesFilter<"refunds"> | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumWithAggregatesFilter<"refunds"> | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
+  version?: Prisma.IntWithAggregatesFilter<"refunds"> | number
+  idempotency_key?: Prisma.StringNullableWithAggregatesFilter<"refunds"> | string | null
+  metadata?: Prisma.JsonNullableWithAggregatesFilter<"refunds">
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"refunds"> | Date | string
+  updated_at?: Prisma.DateTimeWithAggregatesFilter<"refunds"> | Date | string
   created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
   updated_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"refunds"> | string | null
 }
 
 export type refundsCreateInput = {
-  sale_id?: string | null
-  order_id?: string | null
-  refund_date?: Date | string | null
-  refund_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  processed_by?: string | null
-  notes?: string | null
-  refund_status?: $Enums.refund_status | null
-  store_id?: string | null
-  sales_invoice_id?: string | null
-  branch_id?: string | null
-  created_by?: string | null
   id?: string
-  res_order_id?: string | null
   tenant_id: string
+  refund_number: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  sales_invoices: Prisma.sales_invoicesCreateNestedOneWithoutRefundsInput
+  refund_items?: Prisma.refund_itemsCreateNestedManyWithoutRefundsInput
 }
 
 export type refundsUncheckedCreateInput = {
-  sale_id?: string | null
-  order_id?: string | null
-  refund_date?: Date | string | null
-  refund_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  processed_by?: string | null
-  notes?: string | null
-  refund_status?: $Enums.refund_status | null
-  store_id?: string | null
-  sales_invoice_id?: string | null
-  branch_id?: string | null
-  created_by?: string | null
   id?: string
-  res_order_id?: string | null
   tenant_id: string
+  refund_number: string
+  sales_invoice_id: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  refund_items?: Prisma.refund_itemsUncheckedCreateNestedManyWithoutRefundsInput
 }
 
 export type refundsUpdateInput = {
-  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refund_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoices?: Prisma.sales_invoicesUpdateOneRequiredWithoutRefundsNestedInput
+  refund_items?: Prisma.refund_itemsUpdateManyWithoutRefundsNestedInput
 }
 
 export type refundsUncheckedUpdateInput = {
-  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refund_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  sales_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_items?: Prisma.refund_itemsUncheckedUpdateManyWithoutRefundsNestedInput
 }
 
 export type refundsCreateManyInput = {
-  sale_id?: string | null
-  order_id?: string | null
-  refund_date?: Date | string | null
-  refund_amount: runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: string | null
-  processed_by?: string | null
-  notes?: string | null
-  refund_status?: $Enums.refund_status | null
-  store_id?: string | null
-  sales_invoice_id?: string | null
-  branch_id?: string | null
-  created_by?: string | null
   id?: string
-  res_order_id?: string | null
   tenant_id: string
+  refund_number: string
+  sales_invoice_id: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
 }
 
 export type refundsUpdateManyMutationInput = {
-  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refund_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type refundsUncheckedUpdateManyInput = {
-  sale_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refund_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processed_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  refund_status?: Prisma.NullableEnumrefund_statusFieldUpdateOperationsInput | $Enums.refund_status | null
-  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sales_invoice_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  res_order_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  sales_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type refundsTenant_idRefund_numberCompoundUniqueInput = {
+  tenant_id: string
+  refund_number: string
+}
+
 export type refundsCountOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
-  order_id?: Prisma.SortOrder
-  refund_date?: Prisma.SortOrder
-  refund_amount?: Prisma.SortOrder
-  reason?: Prisma.SortOrder
-  processed_by?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
-  refund_status?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
-  sales_invoice_id?: Prisma.SortOrder
-  branch_id?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
   id?: Prisma.SortOrder
-  res_order_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  refund_number?: Prisma.SortOrder
+  sales_invoice_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  branch_id?: Prisma.SortOrder
+  pos_terminal_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  refund_method?: Prisma.SortOrder
+  original_payment_method?: Prisma.SortOrder
+  refund_reference?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  approval_required?: Prisma.SortOrder
+  approval_level?: Prisma.SortOrder
+  approval_reason?: Prisma.SortOrder
+  requested_at?: Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrder
+  submitted_at?: Prisma.SortOrder
+  submitted_by_user_id?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  rejected_at?: Prisma.SortOrder
+  rejected_by_user_id?: Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrder
+  processed_at?: Prisma.SortOrder
+  processed_by_user_id?: Prisma.SortOrder
+  completed_at?: Prisma.SortOrder
+  completed_by_user_id?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrder
+  inventory_return_required?: Prisma.SortOrder
+  inventory_return_status?: Prisma.SortOrder
+  inventory_transaction_id?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  idempotency_key?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
 
 export type refundsAvgOrderByAggregateInput = {
-  refund_amount?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  version?: Prisma.SortOrder
 }
 
 export type refundsMaxOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
-  order_id?: Prisma.SortOrder
-  refund_date?: Prisma.SortOrder
-  refund_amount?: Prisma.SortOrder
-  reason?: Prisma.SortOrder
-  processed_by?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
-  refund_status?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
-  sales_invoice_id?: Prisma.SortOrder
-  branch_id?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
   id?: Prisma.SortOrder
-  res_order_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  refund_number?: Prisma.SortOrder
+  sales_invoice_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  branch_id?: Prisma.SortOrder
+  pos_terminal_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  refund_method?: Prisma.SortOrder
+  original_payment_method?: Prisma.SortOrder
+  refund_reference?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  approval_required?: Prisma.SortOrder
+  approval_level?: Prisma.SortOrder
+  approval_reason?: Prisma.SortOrder
+  requested_at?: Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrder
+  submitted_at?: Prisma.SortOrder
+  submitted_by_user_id?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  rejected_at?: Prisma.SortOrder
+  rejected_by_user_id?: Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrder
+  processed_at?: Prisma.SortOrder
+  processed_by_user_id?: Prisma.SortOrder
+  completed_at?: Prisma.SortOrder
+  completed_by_user_id?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrder
+  inventory_return_required?: Prisma.SortOrder
+  inventory_return_status?: Prisma.SortOrder
+  inventory_transaction_id?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  idempotency_key?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
 
 export type refundsMinOrderByAggregateInput = {
-  sale_id?: Prisma.SortOrder
-  order_id?: Prisma.SortOrder
-  refund_date?: Prisma.SortOrder
-  refund_amount?: Prisma.SortOrder
-  reason?: Prisma.SortOrder
-  processed_by?: Prisma.SortOrder
-  notes?: Prisma.SortOrder
-  refund_status?: Prisma.SortOrder
-  store_id?: Prisma.SortOrder
-  sales_invoice_id?: Prisma.SortOrder
-  branch_id?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
   id?: Prisma.SortOrder
-  res_order_id?: Prisma.SortOrder
   tenant_id?: Prisma.SortOrder
+  refund_number?: Prisma.SortOrder
+  sales_invoice_id?: Prisma.SortOrder
+  store_id?: Prisma.SortOrder
+  branch_id?: Prisma.SortOrder
+  pos_terminal_id?: Prisma.SortOrder
+  customer_id?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  refund_method?: Prisma.SortOrder
+  original_payment_method?: Prisma.SortOrder
+  refund_reference?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
+  notes?: Prisma.SortOrder
+  approval_required?: Prisma.SortOrder
+  approval_level?: Prisma.SortOrder
+  approval_reason?: Prisma.SortOrder
+  requested_at?: Prisma.SortOrder
+  requested_by_user_id?: Prisma.SortOrder
+  submitted_at?: Prisma.SortOrder
+  submitted_by_user_id?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
+  approved_by_user_id?: Prisma.SortOrder
+  rejected_at?: Prisma.SortOrder
+  rejected_by_user_id?: Prisma.SortOrder
+  rejection_reason?: Prisma.SortOrder
+  processed_at?: Prisma.SortOrder
+  processed_by_user_id?: Prisma.SortOrder
+  completed_at?: Prisma.SortOrder
+  completed_by_user_id?: Prisma.SortOrder
+  cancelled_at?: Prisma.SortOrder
+  cancelled_by_user_id?: Prisma.SortOrder
+  cancellation_reason?: Prisma.SortOrder
+  inventory_return_required?: Prisma.SortOrder
+  inventory_return_status?: Prisma.SortOrder
+  inventory_transaction_id?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  idempotency_key?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
+  updated_at?: Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrder
 }
 
 export type refundsSumOrderByAggregateInput = {
-  refund_amount?: Prisma.SortOrder
+  requested_amount?: Prisma.SortOrder
+  approved_amount?: Prisma.SortOrder
+  refunded_amount?: Prisma.SortOrder
+  version?: Prisma.SortOrder
 }
 
-export type NullableEnumrefund_statusFieldUpdateOperationsInput = {
-  set?: $Enums.refund_status | null
+export type RefundsScalarRelationFilter = {
+  is?: Prisma.refundsWhereInput
+  isNot?: Prisma.refundsWhereInput
 }
 
+export type RefundsListRelationFilter = {
+  every?: Prisma.refundsWhereInput
+  some?: Prisma.refundsWhereInput
+  none?: Prisma.refundsWhereInput
+}
+
+export type refundsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type Enumrefund_status_enumFieldUpdateOperationsInput = {
+  set?: $Enums.refund_status_enum
+}
+
+export type NullableEnumrefund_method_enumFieldUpdateOperationsInput = {
+  set?: $Enums.refund_method_enum | null
+}
+
+export type Enumrefund_approval_level_enumFieldUpdateOperationsInput = {
+  set?: $Enums.refund_approval_level_enum
+}
+
+export type Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput = {
+  set?: $Enums.refund_inventory_return_status_enum
+}
+
+export type refundsCreateNestedOneWithoutRefund_itemsInput = {
+  create?: Prisma.XOR<Prisma.refundsCreateWithoutRefund_itemsInput, Prisma.refundsUncheckedCreateWithoutRefund_itemsInput>
+  connectOrCreate?: Prisma.refundsCreateOrConnectWithoutRefund_itemsInput
+  connect?: Prisma.refundsWhereUniqueInput
+}
+
+export type refundsUpdateOneRequiredWithoutRefund_itemsNestedInput = {
+  create?: Prisma.XOR<Prisma.refundsCreateWithoutRefund_itemsInput, Prisma.refundsUncheckedCreateWithoutRefund_itemsInput>
+  connectOrCreate?: Prisma.refundsCreateOrConnectWithoutRefund_itemsInput
+  upsert?: Prisma.refundsUpsertWithoutRefund_itemsInput
+  connect?: Prisma.refundsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.refundsUpdateToOneWithWhereWithoutRefund_itemsInput, Prisma.refundsUpdateWithoutRefund_itemsInput>, Prisma.refundsUncheckedUpdateWithoutRefund_itemsInput>
+}
+
+export type refundsCreateNestedManyWithoutSales_invoicesInput = {
+  create?: Prisma.XOR<Prisma.refundsCreateWithoutSales_invoicesInput, Prisma.refundsUncheckedCreateWithoutSales_invoicesInput> | Prisma.refundsCreateWithoutSales_invoicesInput[] | Prisma.refundsUncheckedCreateWithoutSales_invoicesInput[]
+  connectOrCreate?: Prisma.refundsCreateOrConnectWithoutSales_invoicesInput | Prisma.refundsCreateOrConnectWithoutSales_invoicesInput[]
+  createMany?: Prisma.refundsCreateManySales_invoicesInputEnvelope
+  connect?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+}
+
+export type refundsUncheckedCreateNestedManyWithoutSales_invoicesInput = {
+  create?: Prisma.XOR<Prisma.refundsCreateWithoutSales_invoicesInput, Prisma.refundsUncheckedCreateWithoutSales_invoicesInput> | Prisma.refundsCreateWithoutSales_invoicesInput[] | Prisma.refundsUncheckedCreateWithoutSales_invoicesInput[]
+  connectOrCreate?: Prisma.refundsCreateOrConnectWithoutSales_invoicesInput | Prisma.refundsCreateOrConnectWithoutSales_invoicesInput[]
+  createMany?: Prisma.refundsCreateManySales_invoicesInputEnvelope
+  connect?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+}
+
+export type refundsUpdateManyWithoutSales_invoicesNestedInput = {
+  create?: Prisma.XOR<Prisma.refundsCreateWithoutSales_invoicesInput, Prisma.refundsUncheckedCreateWithoutSales_invoicesInput> | Prisma.refundsCreateWithoutSales_invoicesInput[] | Prisma.refundsUncheckedCreateWithoutSales_invoicesInput[]
+  connectOrCreate?: Prisma.refundsCreateOrConnectWithoutSales_invoicesInput | Prisma.refundsCreateOrConnectWithoutSales_invoicesInput[]
+  upsert?: Prisma.refundsUpsertWithWhereUniqueWithoutSales_invoicesInput | Prisma.refundsUpsertWithWhereUniqueWithoutSales_invoicesInput[]
+  createMany?: Prisma.refundsCreateManySales_invoicesInputEnvelope
+  set?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  disconnect?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  delete?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  connect?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  update?: Prisma.refundsUpdateWithWhereUniqueWithoutSales_invoicesInput | Prisma.refundsUpdateWithWhereUniqueWithoutSales_invoicesInput[]
+  updateMany?: Prisma.refundsUpdateManyWithWhereWithoutSales_invoicesInput | Prisma.refundsUpdateManyWithWhereWithoutSales_invoicesInput[]
+  deleteMany?: Prisma.refundsScalarWhereInput | Prisma.refundsScalarWhereInput[]
+}
+
+export type refundsUncheckedUpdateManyWithoutSales_invoicesNestedInput = {
+  create?: Prisma.XOR<Prisma.refundsCreateWithoutSales_invoicesInput, Prisma.refundsUncheckedCreateWithoutSales_invoicesInput> | Prisma.refundsCreateWithoutSales_invoicesInput[] | Prisma.refundsUncheckedCreateWithoutSales_invoicesInput[]
+  connectOrCreate?: Prisma.refundsCreateOrConnectWithoutSales_invoicesInput | Prisma.refundsCreateOrConnectWithoutSales_invoicesInput[]
+  upsert?: Prisma.refundsUpsertWithWhereUniqueWithoutSales_invoicesInput | Prisma.refundsUpsertWithWhereUniqueWithoutSales_invoicesInput[]
+  createMany?: Prisma.refundsCreateManySales_invoicesInputEnvelope
+  set?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  disconnect?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  delete?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  connect?: Prisma.refundsWhereUniqueInput | Prisma.refundsWhereUniqueInput[]
+  update?: Prisma.refundsUpdateWithWhereUniqueWithoutSales_invoicesInput | Prisma.refundsUpdateWithWhereUniqueWithoutSales_invoicesInput[]
+  updateMany?: Prisma.refundsUpdateManyWithWhereWithoutSales_invoicesInput | Prisma.refundsUpdateManyWithWhereWithoutSales_invoicesInput[]
+  deleteMany?: Prisma.refundsScalarWhereInput | Prisma.refundsScalarWhereInput[]
+}
+
+export type refundsCreateWithoutRefund_itemsInput = {
+  id?: string
+  tenant_id: string
+  refund_number: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  sales_invoices: Prisma.sales_invoicesCreateNestedOneWithoutRefundsInput
+}
+
+export type refundsUncheckedCreateWithoutRefund_itemsInput = {
+  id?: string
+  tenant_id: string
+  refund_number: string
+  sales_invoice_id: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type refundsCreateOrConnectWithoutRefund_itemsInput = {
+  where: Prisma.refundsWhereUniqueInput
+  create: Prisma.XOR<Prisma.refundsCreateWithoutRefund_itemsInput, Prisma.refundsUncheckedCreateWithoutRefund_itemsInput>
+}
+
+export type refundsUpsertWithoutRefund_itemsInput = {
+  update: Prisma.XOR<Prisma.refundsUpdateWithoutRefund_itemsInput, Prisma.refundsUncheckedUpdateWithoutRefund_itemsInput>
+  create: Prisma.XOR<Prisma.refundsCreateWithoutRefund_itemsInput, Prisma.refundsUncheckedCreateWithoutRefund_itemsInput>
+  where?: Prisma.refundsWhereInput
+}
+
+export type refundsUpdateToOneWithWhereWithoutRefund_itemsInput = {
+  where?: Prisma.refundsWhereInput
+  data: Prisma.XOR<Prisma.refundsUpdateWithoutRefund_itemsInput, Prisma.refundsUncheckedUpdateWithoutRefund_itemsInput>
+}
+
+export type refundsUpdateWithoutRefund_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sales_invoices?: Prisma.sales_invoicesUpdateOneRequiredWithoutRefundsNestedInput
+}
+
+export type refundsUncheckedUpdateWithoutRefund_itemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  sales_invoice_id?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type refundsCreateWithoutSales_invoicesInput = {
+  id?: string
+  tenant_id: string
+  refund_number: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  refund_items?: Prisma.refund_itemsCreateNestedManyWithoutRefundsInput
+}
+
+export type refundsUncheckedCreateWithoutSales_invoicesInput = {
+  id?: string
+  tenant_id: string
+  refund_number: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  refund_items?: Prisma.refund_itemsUncheckedCreateNestedManyWithoutRefundsInput
+}
+
+export type refundsCreateOrConnectWithoutSales_invoicesInput = {
+  where: Prisma.refundsWhereUniqueInput
+  create: Prisma.XOR<Prisma.refundsCreateWithoutSales_invoicesInput, Prisma.refundsUncheckedCreateWithoutSales_invoicesInput>
+}
+
+export type refundsCreateManySales_invoicesInputEnvelope = {
+  data: Prisma.refundsCreateManySales_invoicesInput | Prisma.refundsCreateManySales_invoicesInput[]
+  skipDuplicates?: boolean
+}
+
+export type refundsUpsertWithWhereUniqueWithoutSales_invoicesInput = {
+  where: Prisma.refundsWhereUniqueInput
+  update: Prisma.XOR<Prisma.refundsUpdateWithoutSales_invoicesInput, Prisma.refundsUncheckedUpdateWithoutSales_invoicesInput>
+  create: Prisma.XOR<Prisma.refundsCreateWithoutSales_invoicesInput, Prisma.refundsUncheckedCreateWithoutSales_invoicesInput>
+}
+
+export type refundsUpdateWithWhereUniqueWithoutSales_invoicesInput = {
+  where: Prisma.refundsWhereUniqueInput
+  data: Prisma.XOR<Prisma.refundsUpdateWithoutSales_invoicesInput, Prisma.refundsUncheckedUpdateWithoutSales_invoicesInput>
+}
+
+export type refundsUpdateManyWithWhereWithoutSales_invoicesInput = {
+  where: Prisma.refundsScalarWhereInput
+  data: Prisma.XOR<Prisma.refundsUpdateManyMutationInput, Prisma.refundsUncheckedUpdateManyWithoutSales_invoicesInput>
+}
+
+export type refundsScalarWhereInput = {
+  AND?: Prisma.refundsScalarWhereInput | Prisma.refundsScalarWhereInput[]
+  OR?: Prisma.refundsScalarWhereInput[]
+  NOT?: Prisma.refundsScalarWhereInput | Prisma.refundsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"refunds"> | string
+  tenant_id?: Prisma.UuidFilter<"refunds"> | string
+  refund_number?: Prisma.StringFilter<"refunds"> | string
+  sales_invoice_id?: Prisma.UuidFilter<"refunds"> | string
+  store_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  branch_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  pos_terminal_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  customer_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  status?: Prisma.Enumrefund_status_enumFilter<"refunds"> | $Enums.refund_status_enum
+  currency?: Prisma.StringFilter<"refunds"> | string
+  requested_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFilter<"refunds"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.Enumrefund_method_enumNullableFilter<"refunds"> | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.StringNullableFilter<"refunds"> | string | null
+  refund_reference?: Prisma.StringNullableFilter<"refunds"> | string | null
+  reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  notes?: Prisma.StringNullableFilter<"refunds"> | string | null
+  approval_required?: Prisma.BoolFilter<"refunds"> | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFilter<"refunds"> | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  requested_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  requested_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  submitted_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  submitted_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  approved_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  approved_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  rejected_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  rejected_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  rejection_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  processed_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  processed_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  completed_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  completed_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  cancelled_at?: Prisma.DateTimeNullableFilter<"refunds"> | Date | string | null
+  cancelled_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  cancellation_reason?: Prisma.StringNullableFilter<"refunds"> | string | null
+  inventory_return_required?: Prisma.BoolFilter<"refunds"> | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFilter<"refunds"> | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  version?: Prisma.IntFilter<"refunds"> | number
+  idempotency_key?: Prisma.StringNullableFilter<"refunds"> | string | null
+  metadata?: Prisma.JsonNullableFilter<"refunds">
+  created_at?: Prisma.DateTimeFilter<"refunds"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"refunds"> | Date | string
+  created_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"refunds"> | string | null
+}
+
+export type refundsCreateManySales_invoicesInput = {
+  id?: string
+  tenant_id: string
+  refund_number: string
+  store_id?: string | null
+  branch_id?: string | null
+  pos_terminal_id?: string | null
+  customer_id?: string | null
+  status?: $Enums.refund_status_enum
+  currency?: string
+  requested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: $Enums.refund_method_enum | null
+  original_payment_method?: string | null
+  refund_reference?: string | null
+  reason?: string | null
+  notes?: string | null
+  approval_required?: boolean
+  approval_level?: $Enums.refund_approval_level_enum
+  approval_reason?: string | null
+  requested_at?: Date | string | null
+  requested_by_user_id?: string | null
+  submitted_at?: Date | string | null
+  submitted_by_user_id?: string | null
+  approved_at?: Date | string | null
+  approved_by_user_id?: string | null
+  rejected_at?: Date | string | null
+  rejected_by_user_id?: string | null
+  rejection_reason?: string | null
+  processed_at?: Date | string | null
+  processed_by_user_id?: string | null
+  completed_at?: Date | string | null
+  completed_by_user_id?: string | null
+  cancelled_at?: Date | string | null
+  cancelled_by_user_id?: string | null
+  cancellation_reason?: string | null
+  inventory_return_required?: boolean
+  inventory_return_status?: $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: string | null
+  version?: number
+  idempotency_key?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type refundsUpdateWithoutSales_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_items?: Prisma.refund_itemsUpdateManyWithoutRefundsNestedInput
+}
+
+export type refundsUncheckedUpdateWithoutSales_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_items?: Prisma.refund_itemsUncheckedUpdateManyWithoutRefundsNestedInput
+}
+
+export type refundsUncheckedUpdateManyWithoutSales_invoicesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  refund_number?: Prisma.StringFieldUpdateOperationsInput | string
+  store_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_terminal_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.Enumrefund_status_enumFieldUpdateOperationsInput | $Enums.refund_status_enum
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  requested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  approved_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refunded_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  refund_method?: Prisma.NullableEnumrefund_method_enumFieldUpdateOperationsInput | $Enums.refund_method_enum | null
+  original_payment_method?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refund_reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approval_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approval_level?: Prisma.Enumrefund_approval_level_enumFieldUpdateOperationsInput | $Enums.refund_approval_level_enum
+  approval_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requested_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requested_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  submitted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  submitted_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejected_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  rejected_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rejection_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  processed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  completed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completed_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelled_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellation_reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inventory_return_required?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inventory_return_status?: Prisma.Enumrefund_inventory_return_status_enumFieldUpdateOperationsInput | $Enums.refund_inventory_return_status_enum
+  inventory_transaction_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  idempotency_key?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type RefundsCountOutputType
+ */
+
+export type RefundsCountOutputType = {
+  refund_items: number
+}
+
+export type RefundsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  refund_items?: boolean | RefundsCountOutputTypeCountRefund_itemsArgs
+}
+
+/**
+ * RefundsCountOutputType without action
+ */
+export type RefundsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RefundsCountOutputType
+   */
+  select?: Prisma.RefundsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RefundsCountOutputType without action
+ */
+export type RefundsCountOutputTypeCountRefund_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.refund_itemsWhereInput
+}
 
 
 export type refundsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  sale_id?: boolean
-  order_id?: boolean
-  refund_date?: boolean
-  refund_amount?: boolean
-  reason?: boolean
-  processed_by?: boolean
-  notes?: boolean
-  refund_status?: boolean
-  store_id?: boolean
-  sales_invoice_id?: boolean
-  branch_id?: boolean
-  created_by?: boolean
   id?: boolean
-  res_order_id?: boolean
   tenant_id?: boolean
+  refund_number?: boolean
+  sales_invoice_id?: boolean
+  store_id?: boolean
+  branch_id?: boolean
+  pos_terminal_id?: boolean
+  customer_id?: boolean
+  status?: boolean
+  currency?: boolean
+  requested_amount?: boolean
+  approved_amount?: boolean
+  refunded_amount?: boolean
+  refund_method?: boolean
+  original_payment_method?: boolean
+  refund_reference?: boolean
+  reason?: boolean
+  notes?: boolean
+  approval_required?: boolean
+  approval_level?: boolean
+  approval_reason?: boolean
+  requested_at?: boolean
+  requested_by_user_id?: boolean
+  submitted_at?: boolean
+  submitted_by_user_id?: boolean
+  approved_at?: boolean
+  approved_by_user_id?: boolean
+  rejected_at?: boolean
+  rejected_by_user_id?: boolean
+  rejection_reason?: boolean
+  processed_at?: boolean
+  processed_by_user_id?: boolean
+  completed_at?: boolean
+  completed_by_user_id?: boolean
+  cancelled_at?: boolean
+  cancelled_by_user_id?: boolean
+  cancellation_reason?: boolean
+  inventory_return_required?: boolean
+  inventory_return_status?: boolean
+  inventory_transaction_id?: boolean
+  version?: boolean
+  idempotency_key?: boolean
+  metadata?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  sales_invoices?: boolean | Prisma.sales_invoicesDefaultArgs<ExtArgs>
+  refund_items?: boolean | Prisma.refunds$refund_itemsArgs<ExtArgs>
+  _count?: boolean | Prisma.RefundsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["refunds"]>
 
 export type refundsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  sale_id?: boolean
-  order_id?: boolean
-  refund_date?: boolean
-  refund_amount?: boolean
-  reason?: boolean
-  processed_by?: boolean
-  notes?: boolean
-  refund_status?: boolean
-  store_id?: boolean
-  sales_invoice_id?: boolean
-  branch_id?: boolean
-  created_by?: boolean
   id?: boolean
-  res_order_id?: boolean
   tenant_id?: boolean
+  refund_number?: boolean
+  sales_invoice_id?: boolean
+  store_id?: boolean
+  branch_id?: boolean
+  pos_terminal_id?: boolean
+  customer_id?: boolean
+  status?: boolean
+  currency?: boolean
+  requested_amount?: boolean
+  approved_amount?: boolean
+  refunded_amount?: boolean
+  refund_method?: boolean
+  original_payment_method?: boolean
+  refund_reference?: boolean
+  reason?: boolean
+  notes?: boolean
+  approval_required?: boolean
+  approval_level?: boolean
+  approval_reason?: boolean
+  requested_at?: boolean
+  requested_by_user_id?: boolean
+  submitted_at?: boolean
+  submitted_by_user_id?: boolean
+  approved_at?: boolean
+  approved_by_user_id?: boolean
+  rejected_at?: boolean
+  rejected_by_user_id?: boolean
+  rejection_reason?: boolean
+  processed_at?: boolean
+  processed_by_user_id?: boolean
+  completed_at?: boolean
+  completed_by_user_id?: boolean
+  cancelled_at?: boolean
+  cancelled_by_user_id?: boolean
+  cancellation_reason?: boolean
+  inventory_return_required?: boolean
+  inventory_return_status?: boolean
+  inventory_transaction_id?: boolean
+  version?: boolean
+  idempotency_key?: boolean
+  metadata?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  sales_invoices?: boolean | Prisma.sales_invoicesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["refunds"]>
 
 export type refundsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  sale_id?: boolean
-  order_id?: boolean
-  refund_date?: boolean
-  refund_amount?: boolean
-  reason?: boolean
-  processed_by?: boolean
-  notes?: boolean
-  refund_status?: boolean
-  store_id?: boolean
-  sales_invoice_id?: boolean
-  branch_id?: boolean
-  created_by?: boolean
   id?: boolean
-  res_order_id?: boolean
   tenant_id?: boolean
+  refund_number?: boolean
+  sales_invoice_id?: boolean
+  store_id?: boolean
+  branch_id?: boolean
+  pos_terminal_id?: boolean
+  customer_id?: boolean
+  status?: boolean
+  currency?: boolean
+  requested_amount?: boolean
+  approved_amount?: boolean
+  refunded_amount?: boolean
+  refund_method?: boolean
+  original_payment_method?: boolean
+  refund_reference?: boolean
+  reason?: boolean
+  notes?: boolean
+  approval_required?: boolean
+  approval_level?: boolean
+  approval_reason?: boolean
+  requested_at?: boolean
+  requested_by_user_id?: boolean
+  submitted_at?: boolean
+  submitted_by_user_id?: boolean
+  approved_at?: boolean
+  approved_by_user_id?: boolean
+  rejected_at?: boolean
+  rejected_by_user_id?: boolean
+  rejection_reason?: boolean
+  processed_at?: boolean
+  processed_by_user_id?: boolean
+  completed_at?: boolean
+  completed_by_user_id?: boolean
+  cancelled_at?: boolean
+  cancelled_by_user_id?: boolean
+  cancellation_reason?: boolean
+  inventory_return_required?: boolean
+  inventory_return_status?: boolean
+  inventory_transaction_id?: boolean
+  version?: boolean
+  idempotency_key?: boolean
+  metadata?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  sales_invoices?: boolean | Prisma.sales_invoicesDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["refunds"]>
 
 export type refundsSelectScalar = {
-  sale_id?: boolean
-  order_id?: boolean
-  refund_date?: boolean
-  refund_amount?: boolean
-  reason?: boolean
-  processed_by?: boolean
-  notes?: boolean
-  refund_status?: boolean
-  store_id?: boolean
-  sales_invoice_id?: boolean
-  branch_id?: boolean
-  created_by?: boolean
   id?: boolean
-  res_order_id?: boolean
   tenant_id?: boolean
+  refund_number?: boolean
+  sales_invoice_id?: boolean
+  store_id?: boolean
+  branch_id?: boolean
+  pos_terminal_id?: boolean
+  customer_id?: boolean
+  status?: boolean
+  currency?: boolean
+  requested_amount?: boolean
+  approved_amount?: boolean
+  refunded_amount?: boolean
+  refund_method?: boolean
+  original_payment_method?: boolean
+  refund_reference?: boolean
+  reason?: boolean
+  notes?: boolean
+  approval_required?: boolean
+  approval_level?: boolean
+  approval_reason?: boolean
+  requested_at?: boolean
+  requested_by_user_id?: boolean
+  submitted_at?: boolean
+  submitted_by_user_id?: boolean
+  approved_at?: boolean
+  approved_by_user_id?: boolean
+  rejected_at?: boolean
+  rejected_by_user_id?: boolean
+  rejection_reason?: boolean
+  processed_at?: boolean
+  processed_by_user_id?: boolean
+  completed_at?: boolean
+  completed_by_user_id?: boolean
+  cancelled_at?: boolean
+  cancelled_by_user_id?: boolean
+  cancellation_reason?: boolean
+  inventory_return_required?: boolean
+  inventory_return_status?: boolean
+  inventory_transaction_id?: boolean
+  version?: boolean
+  idempotency_key?: boolean
+  metadata?: boolean
+  created_at?: boolean
+  updated_at?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
 }
 
-export type refundsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"sale_id" | "order_id" | "refund_date" | "refund_amount" | "reason" | "processed_by" | "notes" | "refund_status" | "store_id" | "sales_invoice_id" | "branch_id" | "created_by" | "id" | "res_order_id" | "tenant_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["refunds"]>
+export type refundsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenant_id" | "refund_number" | "sales_invoice_id" | "store_id" | "branch_id" | "pos_terminal_id" | "customer_id" | "status" | "currency" | "requested_amount" | "approved_amount" | "refunded_amount" | "refund_method" | "original_payment_method" | "refund_reference" | "reason" | "notes" | "approval_required" | "approval_level" | "approval_reason" | "requested_at" | "requested_by_user_id" | "submitted_at" | "submitted_by_user_id" | "approved_at" | "approved_by_user_id" | "rejected_at" | "rejected_by_user_id" | "rejection_reason" | "processed_at" | "processed_by_user_id" | "completed_at" | "completed_by_user_id" | "cancelled_at" | "cancelled_by_user_id" | "cancellation_reason" | "inventory_return_required" | "inventory_return_status" | "inventory_transaction_id" | "version" | "idempotency_key" | "metadata" | "created_at" | "updated_at" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["refunds"]>
+export type refundsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sales_invoices?: boolean | Prisma.sales_invoicesDefaultArgs<ExtArgs>
+  refund_items?: boolean | Prisma.refunds$refund_itemsArgs<ExtArgs>
+  _count?: boolean | Prisma.RefundsCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type refundsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sales_invoices?: boolean | Prisma.sales_invoicesDefaultArgs<ExtArgs>
+}
+export type refundsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sales_invoices?: boolean | Prisma.sales_invoicesDefaultArgs<ExtArgs>
+}
 
 export type $refundsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "refunds"
-  objects: {}
+  objects: {
+    sales_invoices: Prisma.$sales_invoicesPayload<ExtArgs>
+    refund_items: Prisma.$refund_itemsPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    sale_id: string | null
-    order_id: string | null
-    refund_date: Date | null
-    refund_amount: runtime.Decimal
-    reason: string | null
-    processed_by: string | null
-    notes: string | null
-    refund_status: $Enums.refund_status | null
-    store_id: string | null
-    sales_invoice_id: string | null
-    branch_id: string | null
-    created_by: string | null
     id: string
-    res_order_id: string | null
     tenant_id: string
+    refund_number: string
+    sales_invoice_id: string
+    store_id: string | null
+    branch_id: string | null
+    pos_terminal_id: string | null
+    customer_id: string | null
+    status: $Enums.refund_status_enum
+    currency: string
+    requested_amount: runtime.Decimal
+    approved_amount: runtime.Decimal
+    refunded_amount: runtime.Decimal
+    refund_method: $Enums.refund_method_enum | null
+    original_payment_method: string | null
+    refund_reference: string | null
+    reason: string | null
+    notes: string | null
+    approval_required: boolean
+    approval_level: $Enums.refund_approval_level_enum
+    approval_reason: string | null
+    requested_at: Date | null
+    requested_by_user_id: string | null
+    submitted_at: Date | null
+    submitted_by_user_id: string | null
+    approved_at: Date | null
+    approved_by_user_id: string | null
+    rejected_at: Date | null
+    rejected_by_user_id: string | null
+    rejection_reason: string | null
+    processed_at: Date | null
+    processed_by_user_id: string | null
+    completed_at: Date | null
+    completed_by_user_id: string | null
+    cancelled_at: Date | null
+    cancelled_by_user_id: string | null
+    cancellation_reason: string | null
+    inventory_return_required: boolean
+    inventory_return_status: $Enums.refund_inventory_return_status_enum
+    inventory_transaction_id: string | null
+    version: number
+    idempotency_key: string | null
+    metadata: runtime.JsonValue | null
+    created_at: Date
+    updated_at: Date
     created_by_user_id: string | null
     updated_by_user_id: string | null
   }, ExtArgs["result"]["refunds"]>
@@ -805,8 +2366,8 @@ export interface refundsDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * // Get first 10 Refunds
    * const refunds = await prisma.refunds.findMany({ take: 10 })
    * 
-   * // Only select the `sale_id`
-   * const refundsWithSale_idOnly = await prisma.refunds.findMany({ select: { sale_id: true } })
+   * // Only select the `id`
+   * const refundsWithIdOnly = await prisma.refunds.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends refundsFindManyArgs>(args?: Prisma.SelectSubset<T, refundsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$refundsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -850,9 +2411,9 @@ export interface refundsDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Create many Refunds and only return the `sale_id`
-   * const refundsWithSale_idOnly = await prisma.refunds.createManyAndReturn({
-   *   select: { sale_id: true },
+   * // Create many Refunds and only return the `id`
+   * const refundsWithIdOnly = await prisma.refunds.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -941,9 +2502,9 @@ export interface refundsDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    *   ]
    * })
    * 
-   * // Update zero or more Refunds and only return the `sale_id`
-   * const refundsWithSale_idOnly = await prisma.refunds.updateManyAndReturn({
-   *   select: { sale_id: true },
+   * // Update zero or more Refunds and only return the `id`
+   * const refundsWithIdOnly = await prisma.refunds.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1116,6 +2677,8 @@ readonly fields: refundsFieldRefs;
  */
 export interface Prisma__refundsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  sales_invoices<T extends Prisma.sales_invoicesDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.sales_invoicesDefaultArgs<ExtArgs>>): Prisma.Prisma__sales_invoicesClient<runtime.Types.Result.GetResult<Prisma.$sales_invoicesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  refund_items<T extends Prisma.refunds$refund_itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.refunds$refund_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$refund_itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1145,21 +2708,51 @@ export interface Prisma__refundsClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the refunds model
  */
 export interface refundsFieldRefs {
-  readonly sale_id: Prisma.FieldRef<"refunds", 'String'>
-  readonly order_id: Prisma.FieldRef<"refunds", 'String'>
-  readonly refund_date: Prisma.FieldRef<"refunds", 'DateTime'>
-  readonly refund_amount: Prisma.FieldRef<"refunds", 'Decimal'>
-  readonly reason: Prisma.FieldRef<"refunds", 'String'>
-  readonly processed_by: Prisma.FieldRef<"refunds", 'String'>
-  readonly notes: Prisma.FieldRef<"refunds", 'String'>
-  readonly refund_status: Prisma.FieldRef<"refunds", 'refund_status'>
-  readonly store_id: Prisma.FieldRef<"refunds", 'String'>
-  readonly sales_invoice_id: Prisma.FieldRef<"refunds", 'String'>
-  readonly branch_id: Prisma.FieldRef<"refunds", 'String'>
-  readonly created_by: Prisma.FieldRef<"refunds", 'String'>
   readonly id: Prisma.FieldRef<"refunds", 'String'>
-  readonly res_order_id: Prisma.FieldRef<"refunds", 'String'>
   readonly tenant_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly refund_number: Prisma.FieldRef<"refunds", 'String'>
+  readonly sales_invoice_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly store_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly branch_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly pos_terminal_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly customer_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly status: Prisma.FieldRef<"refunds", 'refund_status_enum'>
+  readonly currency: Prisma.FieldRef<"refunds", 'String'>
+  readonly requested_amount: Prisma.FieldRef<"refunds", 'Decimal'>
+  readonly approved_amount: Prisma.FieldRef<"refunds", 'Decimal'>
+  readonly refunded_amount: Prisma.FieldRef<"refunds", 'Decimal'>
+  readonly refund_method: Prisma.FieldRef<"refunds", 'refund_method_enum'>
+  readonly original_payment_method: Prisma.FieldRef<"refunds", 'String'>
+  readonly refund_reference: Prisma.FieldRef<"refunds", 'String'>
+  readonly reason: Prisma.FieldRef<"refunds", 'String'>
+  readonly notes: Prisma.FieldRef<"refunds", 'String'>
+  readonly approval_required: Prisma.FieldRef<"refunds", 'Boolean'>
+  readonly approval_level: Prisma.FieldRef<"refunds", 'refund_approval_level_enum'>
+  readonly approval_reason: Prisma.FieldRef<"refunds", 'String'>
+  readonly requested_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly requested_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly submitted_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly submitted_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly approved_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly approved_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly rejected_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly rejected_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly rejection_reason: Prisma.FieldRef<"refunds", 'String'>
+  readonly processed_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly processed_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly completed_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly completed_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly cancelled_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly cancelled_by_user_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly cancellation_reason: Prisma.FieldRef<"refunds", 'String'>
+  readonly inventory_return_required: Prisma.FieldRef<"refunds", 'Boolean'>
+  readonly inventory_return_status: Prisma.FieldRef<"refunds", 'refund_inventory_return_status_enum'>
+  readonly inventory_transaction_id: Prisma.FieldRef<"refunds", 'String'>
+  readonly version: Prisma.FieldRef<"refunds", 'Int'>
+  readonly idempotency_key: Prisma.FieldRef<"refunds", 'String'>
+  readonly metadata: Prisma.FieldRef<"refunds", 'Json'>
+  readonly created_at: Prisma.FieldRef<"refunds", 'DateTime'>
+  readonly updated_at: Prisma.FieldRef<"refunds", 'DateTime'>
   readonly created_by_user_id: Prisma.FieldRef<"refunds", 'String'>
   readonly updated_by_user_id: Prisma.FieldRef<"refunds", 'String'>
 }
@@ -1179,6 +2772,10 @@ export type refundsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
+  /**
    * Filter, which refunds to fetch.
    */
   where: Prisma.refundsWhereUniqueInput
@@ -1197,6 +2794,10 @@ export type refundsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
+  /**
    * Filter, which refunds to fetch.
    */
   where: Prisma.refundsWhereUniqueInput
@@ -1214,6 +2815,10 @@ export type refundsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the refunds
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
   /**
    * Filter, which refunds to fetch.
    */
@@ -1263,6 +2868,10 @@ export type refundsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
+  /**
    * Filter, which refunds to fetch.
    */
   where?: Prisma.refundsWhereInput
@@ -1310,6 +2919,10 @@ export type refundsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the refunds
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
   /**
    * Filter, which refunds to fetch.
    */
@@ -1359,6 +2972,10 @@ export type refundsCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
+  /**
    * The data needed to create a refunds.
    */
   data: Prisma.XOR<Prisma.refundsCreateInput, Prisma.refundsUncheckedCreateInput>
@@ -1392,6 +3009,10 @@ export type refundsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    */
   data: Prisma.refundsCreateManyInput | Prisma.refundsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1406,6 +3027,10 @@ export type refundsUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the refunds
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
   /**
    * The data needed to update a refunds.
    */
@@ -1458,6 +3083,10 @@ export type refundsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many refunds to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1472,6 +3101,10 @@ export type refundsUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the refunds
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
   /**
    * The filter to search for the refunds to update in case it exists.
    */
@@ -1499,6 +3132,10 @@ export type refundsDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
+  /**
    * Filter which refunds to delete.
    */
   where: Prisma.refundsWhereUniqueInput
@@ -1519,6 +3156,30 @@ export type refundsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * refunds.refund_items
+ */
+export type refunds$refund_itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the refund_items
+   */
+  select?: Prisma.refund_itemsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the refund_items
+   */
+  omit?: Prisma.refund_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refund_itemsInclude<ExtArgs> | null
+  where?: Prisma.refund_itemsWhereInput
+  orderBy?: Prisma.refund_itemsOrderByWithRelationInput | Prisma.refund_itemsOrderByWithRelationInput[]
+  cursor?: Prisma.refund_itemsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Refund_itemsScalarFieldEnum | Prisma.Refund_itemsScalarFieldEnum[]
+}
+
+/**
  * refunds without action
  */
 export type refundsDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1530,4 +3191,8 @@ export type refundsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the refunds
    */
   omit?: Prisma.refundsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.refundsInclude<ExtArgs> | null
 }

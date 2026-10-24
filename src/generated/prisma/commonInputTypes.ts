@@ -588,21 +588,106 @@ export type Enumreturn_status_enumWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumreturn_status_enumFilter<$PrismaModel>
 }
 
-export type Enumrefund_statusNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.refund_status | Prisma.Enumrefund_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumrefund_statusNullableFilter<$PrismaModel> | $Enums.refund_status | null
+export type Enumrefund_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_status_enum | Prisma.Enumrefund_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_status_enumFilter<$PrismaModel> | $Enums.refund_status_enum
 }
 
-export type Enumrefund_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.refund_status | Prisma.Enumrefund_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumrefund_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.refund_status | null
+export type Enumrefund_method_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_method_enum | Prisma.Enumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumrefund_method_enumNullableFilter<$PrismaModel> | $Enums.refund_method_enum | null
+}
+
+export type Enumrefund_approval_level_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_approval_level_enum | Prisma.Enumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_approval_level_enumFilter<$PrismaModel> | $Enums.refund_approval_level_enum
+}
+
+export type Enumrefund_inventory_return_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_inventory_return_status_enum | Prisma.Enumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel> | $Enums.refund_inventory_return_status_enum
+}
+
+export type Enumrefund_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_status_enum | Prisma.Enumrefund_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.refund_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_status_enumFilter<$PrismaModel>
+}
+
+export type Enumrefund_method_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_method_enum | Prisma.Enumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumrefund_method_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.refund_method_enum | null
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumrefund_statusNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumrefund_statusNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_method_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_method_enumNullableFilter<$PrismaModel>
+}
+
+export type Enumrefund_approval_level_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_approval_level_enum | Prisma.Enumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_approval_level_enumWithAggregatesFilter<$PrismaModel> | $Enums.refund_approval_level_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_approval_level_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_approval_level_enumFilter<$PrismaModel>
+}
+
+export type Enumrefund_inventory_return_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_inventory_return_status_enum | Prisma.Enumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_inventory_return_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.refund_inventory_return_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel>
+}
+
+export type Enumstock_condition_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumstock_condition_enumNullableFilter<$PrismaModel> | $Enums.stock_condition_enum | null
+}
+
+export type Enumreturn_disposition_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.return_disposition_enum | Prisma.Enumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel> | $Enums.return_disposition_enum | null
+}
+
+export type Enumstock_condition_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumstock_condition_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.stock_condition_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_condition_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_condition_enumNullableFilter<$PrismaModel>
+}
+
+export type Enumreturn_disposition_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.return_disposition_enum | Prisma.Enumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumreturn_disposition_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.return_disposition_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel>
 }
 
 export type Enumorder_item_statusNullableFilter<$PrismaModel = never> = {
@@ -2334,21 +2419,106 @@ export type NestedEnumreturn_status_enumWithAggregatesFilter<$PrismaModel = neve
   _max?: Prisma.NestedEnumreturn_status_enumFilter<$PrismaModel>
 }
 
-export type NestedEnumrefund_statusNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.refund_status | Prisma.Enumrefund_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumrefund_statusNullableFilter<$PrismaModel> | $Enums.refund_status | null
+export type NestedEnumrefund_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_status_enum | Prisma.Enumrefund_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_status_enumFilter<$PrismaModel> | $Enums.refund_status_enum
 }
 
-export type NestedEnumrefund_statusNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.refund_status | Prisma.Enumrefund_statusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.refund_status[] | Prisma.ListEnumrefund_statusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumrefund_statusNullableWithAggregatesFilter<$PrismaModel> | $Enums.refund_status | null
+export type NestedEnumrefund_method_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_method_enum | Prisma.Enumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumrefund_method_enumNullableFilter<$PrismaModel> | $Enums.refund_method_enum | null
+}
+
+export type NestedEnumrefund_approval_level_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_approval_level_enum | Prisma.Enumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_approval_level_enumFilter<$PrismaModel> | $Enums.refund_approval_level_enum
+}
+
+export type NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_inventory_return_status_enum | Prisma.Enumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel> | $Enums.refund_inventory_return_status_enum
+}
+
+export type NestedEnumrefund_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_status_enum | Prisma.Enumrefund_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_status_enum[] | Prisma.ListEnumrefund_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.refund_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumrefund_method_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_method_enum | Prisma.Enumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.refund_method_enum[] | Prisma.ListEnumrefund_method_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumrefund_method_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.refund_method_enum | null
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumrefund_statusNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumrefund_statusNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_method_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_method_enumNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumrefund_approval_level_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_approval_level_enum | Prisma.Enumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_approval_level_enum[] | Prisma.ListEnumrefund_approval_level_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_approval_level_enumWithAggregatesFilter<$PrismaModel> | $Enums.refund_approval_level_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_approval_level_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_approval_level_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumrefund_inventory_return_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.refund_inventory_return_status_enum | Prisma.Enumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.refund_inventory_return_status_enum[] | Prisma.ListEnumrefund_inventory_return_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumrefund_inventory_return_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.refund_inventory_return_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumrefund_inventory_return_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumstock_condition_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumstock_condition_enumNullableFilter<$PrismaModel> | $Enums.stock_condition_enum | null
+}
+
+export type NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.return_disposition_enum | Prisma.Enumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel> | $Enums.return_disposition_enum | null
+}
+
+export type NestedEnumstock_condition_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.stock_condition_enum | Prisma.Enumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.stock_condition_enum[] | Prisma.ListEnumstock_condition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumstock_condition_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.stock_condition_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumstock_condition_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumstock_condition_enumNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumreturn_disposition_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.return_disposition_enum | Prisma.Enumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.return_disposition_enum[] | Prisma.ListEnumreturn_disposition_enumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumreturn_disposition_enumNullableWithAggregatesFilter<$PrismaModel> | $Enums.return_disposition_enum | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumreturn_disposition_enumNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumorder_item_statusNullableFilter<$PrismaModel = never> = {

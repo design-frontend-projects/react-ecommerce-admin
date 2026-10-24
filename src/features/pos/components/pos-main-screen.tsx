@@ -67,6 +67,8 @@ import { PosCheckoutDialog } from './pos-checkout-dialog'
 import { PosHeldOrdersDialog } from './pos-held-orders-dialog'
 import { PosReceiptDialog, type ReceiptData } from './pos-receipt-dialog'
 import { PosReturnsDialog } from './pos-returns-dialog'
+import { POSRefundWorkflowModal } from '../refunds/components/POSRefundWorkflowModal'
+import { useCanRefundAction } from '../refunds/hooks/useRefunds'
 import { PosSessionDialog } from './pos-session-dialog'
 import { VariantSelectionDialog } from './variant-selection-dialog'
 
@@ -112,6 +114,9 @@ export function PosMainScreen() {
     getTotalAmount,
     getItemCount,
   } = usePosStore()
+
+  // Permissions
+  const canCreateRefund = useCanRefundAction('create')
 
   // Queries
   const { data: terminals = [], isLoading: isLoadingTerminals } =
@@ -531,18 +536,20 @@ export function PosMainScreen() {
             )}
           </Button>
 
-          {/* Returns & Refunds */}
-          <Button
-            variant='outline'
-            size='sm'
-            disabled={!session}
-            onClick={() => setIsReturnsOpen(true)}
-            className='h-8 gap-1.5 border-rose-500/30 text-xs text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 px-2 sm:px-2.5'
-            title={t('pos.main.returnsRefunds', 'Returns & Refunds')}
-          >
-            <RotateCcw className='h-3.5 w-3.5 shrink-0' />
-            <span className='hidden md:inline'>{t('pos.main.returns', 'Returns')}</span>
-          </Button>
+          {/* Returns & Refunds - Hidden completely if unauthorized */}
+          {canCreateRefund && (
+            <Button
+              variant='outline'
+              size='sm'
+              disabled={!session}
+              onClick={() => setIsReturnsOpen(true)}
+              className='h-8 gap-1.5 border-rose-500/30 text-xs text-rose-600 hover:bg-rose-500/10 dark:text-rose-400 px-2 sm:px-2.5'
+              title={t('pos.main.returnsRefunds', 'Returns & Refunds')}
+            >
+              <RotateCcw className='h-3.5 w-3.5 shrink-0' />
+              <span className='hidden md:inline'>{t('pos.main.returns', 'Returns')}</span>
+            </Button>
+          )}
 
           {/* Barcode & Manual SKU Tools */}
           <Button
@@ -939,7 +946,7 @@ export function PosMainScreen() {
         mode={heldOrdersMode}
       />
 
-      <PosReturnsDialog open={isReturnsOpen} onOpenChange={setIsReturnsOpen} />
+      <POSRefundWorkflowModal open={isReturnsOpen} onOpenChange={setIsReturnsOpen} />
 
       <ManualSkuDialog
         open={isManualSkuOpen}

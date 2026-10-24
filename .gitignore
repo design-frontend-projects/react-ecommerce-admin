@@ -24,7 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.agent/
+.agents/
 /generated/prisma
 nul
 .agent

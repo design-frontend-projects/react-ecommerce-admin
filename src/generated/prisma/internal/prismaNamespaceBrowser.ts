@@ -88,6 +88,8 @@ export const ModelName = {
   purchase_return_items: 'purchase_return_items',
   purchase_returns: 'purchase_returns',
   refunds: 'refunds',
+  refund_items: 'refund_items',
+  pos_user_pins: 'pos_user_pins',
   res_events: 'res_events',
   res_floors: 'res_floors',
   res_item_properties: 'res_item_properties',
@@ -989,26 +991,97 @@ export type Purchase_returnsScalarFieldEnum = (typeof Purchase_returnsScalarFiel
 
 
 export const RefundsScalarFieldEnum = {
-  sale_id: 'sale_id',
-  order_id: 'order_id',
-  refund_date: 'refund_date',
-  refund_amount: 'refund_amount',
-  reason: 'reason',
-  processed_by: 'processed_by',
-  notes: 'notes',
-  refund_status: 'refund_status',
-  store_id: 'store_id',
-  sales_invoice_id: 'sales_invoice_id',
-  branch_id: 'branch_id',
-  created_by: 'created_by',
   id: 'id',
-  res_order_id: 'res_order_id',
   tenant_id: 'tenant_id',
+  refund_number: 'refund_number',
+  sales_invoice_id: 'sales_invoice_id',
+  store_id: 'store_id',
+  branch_id: 'branch_id',
+  pos_terminal_id: 'pos_terminal_id',
+  customer_id: 'customer_id',
+  status: 'status',
+  currency: 'currency',
+  requested_amount: 'requested_amount',
+  approved_amount: 'approved_amount',
+  refunded_amount: 'refunded_amount',
+  refund_method: 'refund_method',
+  original_payment_method: 'original_payment_method',
+  refund_reference: 'refund_reference',
+  reason: 'reason',
+  notes: 'notes',
+  approval_required: 'approval_required',
+  approval_level: 'approval_level',
+  approval_reason: 'approval_reason',
+  requested_at: 'requested_at',
+  requested_by_user_id: 'requested_by_user_id',
+  submitted_at: 'submitted_at',
+  submitted_by_user_id: 'submitted_by_user_id',
+  approved_at: 'approved_at',
+  approved_by_user_id: 'approved_by_user_id',
+  rejected_at: 'rejected_at',
+  rejected_by_user_id: 'rejected_by_user_id',
+  rejection_reason: 'rejection_reason',
+  processed_at: 'processed_at',
+  processed_by_user_id: 'processed_by_user_id',
+  completed_at: 'completed_at',
+  completed_by_user_id: 'completed_by_user_id',
+  cancelled_at: 'cancelled_at',
+  cancelled_by_user_id: 'cancelled_by_user_id',
+  cancellation_reason: 'cancellation_reason',
+  inventory_return_required: 'inventory_return_required',
+  inventory_return_status: 'inventory_return_status',
+  inventory_transaction_id: 'inventory_transaction_id',
+  version: 'version',
+  idempotency_key: 'idempotency_key',
+  metadata: 'metadata',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   created_by_user_id: 'created_by_user_id',
   updated_by_user_id: 'updated_by_user_id'
 } as const
 
 export type RefundsScalarFieldEnum = (typeof RefundsScalarFieldEnum)[keyof typeof RefundsScalarFieldEnum]
+
+
+export const Refund_itemsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  refund_id: 'refund_id',
+  sales_invoice_item_id: 'sales_invoice_item_id',
+  product_variant_id: 'product_variant_id',
+  original_quantity: 'original_quantity',
+  previously_refunded_qty: 'previously_refunded_qty',
+  refund_quantity: 'refund_quantity',
+  unit_price: 'unit_price',
+  discount_amount: 'discount_amount',
+  tax_amount: 'tax_amount',
+  refund_amount: 'refund_amount',
+  reason: 'reason',
+  condition: 'condition',
+  disposition: 'disposition',
+  sku_snapshot: 'sku_snapshot',
+  product_name_snapshot: 'product_name_snapshot',
+  variant_name_snapshot: 'variant_name_snapshot',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Refund_itemsScalarFieldEnum = (typeof Refund_itemsScalarFieldEnum)[keyof typeof Refund_itemsScalarFieldEnum]
+
+
+export const Pos_user_pinsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  pin_hash: 'pin_hash',
+  is_active: 'is_active',
+  failed_attempts: 'failed_attempts',
+  locked_until: 'locked_until',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Pos_user_pinsScalarFieldEnum = (typeof Pos_user_pinsScalarFieldEnum)[keyof typeof Pos_user_pinsScalarFieldEnum]
 
 
 export const Res_eventsScalarFieldEnum = {

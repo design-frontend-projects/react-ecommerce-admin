@@ -203,6 +203,16 @@ export type purchase_returns = Prisma.purchase_returnsModel
  */
 export type refunds = Prisma.refundsModel
 /**
+ * Model refund_items
+ * 
+ */
+export type refund_items = Prisma.refund_itemsModel
+/**
+ * Model pos_user_pins
+ * 
+ */
+export type pos_user_pins = Prisma.pos_user_pinsModel
+/**
  * Model res_events
  * 
  */

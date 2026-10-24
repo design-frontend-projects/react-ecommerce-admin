@@ -883,23 +883,151 @@ model purchase_returns {
 }
 
 model refunds {
-  sale_id            String?
-  order_id           String?
-  refund_date        DateTime?      @default(now()) @db.Timestamptz(6)
-  refund_amount      Decimal        @db.Decimal(10, 2)
-  reason             String?        @db.VarChar(255)
-  processed_by       String?
-  notes              String?
-  refund_status      refund_status?
-  store_id           String?        @db.Uuid
-  sales_invoice_id   String?        @db.Uuid
-  branch_id          String?        @db.Uuid
-  created_by         String?
-  id                 String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  res_order_id       String?        @db.Uuid
-  tenant_id          String         @db.Uuid
-  created_by_user_id String?        @db.Uuid
-  updated_by_user_id String?        @db.Uuid
+  id                        String                              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                 String                              @db.Uuid
+
+  // ── Identifiers ──────────────────────────────────────────────
+  refund_number             String                              @db.VarChar(50)
+  sales_invoice_id          String                              @db.Uuid
+  store_id                  String?                             @db.Uuid
+  branch_id                 String?                             @db.Uuid
+  pos_terminal_id           String?                             @db.Uuid
+  customer_id               String?                             @db.Uuid
+
+  // ── Status & Lifecycle ───────────────────────────────────────
+  status                    refund_status_enum                  @default(draft)
+
+  // ── Financial ────────────────────────────────────────────────
+  currency                  String                              @default("USD") @db.VarChar(10)
+  requested_amount          Decimal                             @default(0) @db.Decimal(18, 4)
+  approved_amount           Decimal                             @default(0) @db.Decimal(18, 4)
+  refunded_amount           Decimal                             @default(0) @db.Decimal(18, 4)
+
+  // ── Refund Method ────────────────────────────────────────────
+  refund_method             refund_method_enum?
+  original_payment_method   String?                             @db.VarChar(50)
+  refund_reference          String?                             @db.VarChar(255)
+
+  // ── Reason & Notes ───────────────────────────────────────────
+  reason                    String?                             @db.VarChar(500)
+  notes                     String?
+
+  // ── Authorization ────────────────────────────────────────────
+  approval_required         Boolean                             @default(false)
+  approval_level            refund_approval_level_enum          @default(none)
+  approval_reason           String?
+
+  // ── Lifecycle Timestamps & Users ─────────────────────────────
+  requested_at              DateTime?                           @db.Timestamptz(6)
+  requested_by_user_id      String?                             @db.Uuid
+
+  submitted_at              DateTime?                           @db.Timestamptz(6)
+  submitted_by_user_id      String?                             @db.Uuid
+
+  approved_at               DateTime?                           @db.Timestamptz(6)
+  approved_by_user_id       String?                             @db.Uuid
+
+  rejected_at               DateTime?                           @db.Timestamptz(6)
+  rejected_by_user_id       String?                             @db.Uuid
+  rejection_reason          String?
+
+  processed_at              DateTime?                           @db.Timestamptz(6)
+  processed_by_user_id      String?                             @db.Uuid
+
+  completed_at              DateTime?                           @db.Timestamptz(6)
+  completed_by_user_id      String?                             @db.Uuid
+
+  cancelled_at              DateTime?                           @db.Timestamptz(6)
+  cancelled_by_user_id      String?                             @db.Uuid
+  cancellation_reason       String?
+
+  // ── Inventory Return ─────────────────────────────────────────
+  inventory_return_required Boolean                             @default(true)
+  inventory_return_status   refund_inventory_return_status_enum @default(not_required)
+  inventory_transaction_id  String?                             @db.Uuid
+
+  // ── Concurrency & Idempotency ────────────────────────────────
+  version                   Int                                 @default(0)
+  idempotency_key           String?                             @db.VarChar(128)
+
+  // ── Extensibility ────────────────────────────────────────────
+  metadata                  Json?                               @default("{}")
+
+  // ── Standard Audit ───────────────────────────────────────────
+  created_at                DateTime                            @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime                            @default(now()) @db.Timestamptz(6)
+  created_by_user_id        String?                             @db.Uuid
+  updated_by_user_id        String?                             @db.Uuid
+
+  // ── Relations ────────────────────────────────────────────────
+  sales_invoices            sales_invoices                      @relation(fields: [sales_invoice_id], references: [id], onUpdate: NoAction)
+  refund_items              refund_items[]
+
+  @@unique([tenant_id, refund_number], map: "uq_refund_number")
+  @@unique([idempotency_key], map: "uq_refund_idempotency")
+  @@index([tenant_id, status], map: "idx_refund_tenant_status")
+  @@index([tenant_id, sales_invoice_id], map: "idx_refund_tenant_invoice")
+  @@index([tenant_id, store_id], map: "idx_refund_tenant_store")
+  @@index([tenant_id, created_at(sort: Desc)], map: "idx_refund_tenant_created")
+  @@index([tenant_id, requested_by_user_id], map: "idx_refund_tenant_requester")
+}
+
+model refund_items {
+  id                      String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id               String                   @db.Uuid
+
+  refund_id               String                   @db.Uuid
+  sales_invoice_item_id   String                   @db.Uuid
+  product_variant_id      String                   @db.Uuid
+
+  // ── Quantities ───────────────────────────────────────────────
+  original_quantity       Decimal                  @db.Decimal(18, 4)
+  previously_refunded_qty Decimal                  @default(0) @db.Decimal(18, 4)
+  refund_quantity         Decimal                  @db.Decimal(18, 4)
+
+  // ── Financial (from original invoice — NEVER current prices) ─
+  unit_price              Decimal                  @db.Decimal(18, 4)
+  discount_amount         Decimal                  @default(0) @db.Decimal(18, 4)
+  tax_amount              Decimal                  @default(0) @db.Decimal(18, 4)
+  refund_amount           Decimal                  @db.Decimal(18, 4)
+
+  // ── Return Info ──────────────────────────────────────────────
+  reason                  String?
+  condition               stock_condition_enum?
+  disposition             return_disposition_enum?
+
+  // ── Snapshots ────────────────────────────────────────────────
+  sku_snapshot            String?                  @db.VarChar(100)
+  product_name_snapshot   String?                  @db.VarChar(255)
+  variant_name_snapshot   String?                  @db.VarChar(255)
+
+  // ── Audit ────────────────────────────────────────────────────
+  created_at              DateTime                 @default(now()) @db.Timestamptz(6)
+  created_by_user_id      String?                  @db.Uuid
+
+  // ── Relations ────────────────────────────────────────────────
+  refunds                 refunds                  @relation(fields: [refund_id], references: [id], onDelete: Cascade)
+
+  @@index([tenant_id, refund_id], map: "idx_refund_item_tenant_refund")
+  @@index([tenant_id, sales_invoice_item_id], map: "idx_refund_item_tenant_inv_item")
+  @@index([tenant_id, product_variant_id], map: "idx_refund_item_tenant_variant")
+}
+
+model pos_user_pins {
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id       String       @db.Uuid
+  tenant_user_id  String       @unique @db.Uuid
+  pin_hash        String       @db.VarChar(255)
+  is_active       Boolean      @default(true)
+  failed_attempts Int          @default(0)
+  locked_until    DateTime?    @db.Timestamptz(6)
+  created_at      DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime     @default(now()) @db.Timestamptz(6)
+
+  tenant_users    tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
+
+  @@unique([tenant_id, tenant_user_id])
+  @@index([tenant_id])
 }
 
 model res_events {
@@ -1300,6 +1428,7 @@ model sales_invoices {
   customers                        customers?                       @relation(fields: [customer_id], references: [id], onUpdate: NoAction)
   sales_invoice_items              sales_invoice_items[]
   sales_invoice_payments           sales_invoice_payments[]
+  refunds                          refunds[]
   inv_sales_invoice_discounts      inv_sales_invoice_discounts[]
   inv_sales_invoice_item_discounts inv_sales_invoice_item_discounts[]
   inv_coupon_redemptions           inv_coupon_redemptions[]
@@ -1756,6 +1885,7 @@ model tenant_users {
   notification_recipients      notification_recipients[]
   notification_preferences     notification_preferences[]
   goods_receipts_posted        goods_receipts[] @relation("goods_receipts_posted_by_user_idTotenant_users")
+  pos_user_pins                pos_user_pins?
 
   @@index([tenant_id, is_active], map: "idx_tenant_users_tenant_active")
   @@index([email], map: "idx_tenant_users_email")
@@ -3163,11 +3293,51 @@ enum record_status {
   archived
 }
 
-enum refund_status {
+enum refund_status_enum {
+  draft
+  requested
+  pending_approval
   approved
   rejected
-  waiting_manager
-  waiting_review
+  processing
+  completed
+  failed
+  cancelled
+}
+
+enum refund_method_enum {
+  cash
+  card
+  original_payment_method
+  store_credit
+  customer_wallet
+  bank_transfer
+  other
+}
+
+enum refund_inventory_return_status_enum {
+  not_required
+  pending
+  received
+  partially_received
+  completed
+  failed
+}
+
+enum refund_approval_level_enum {
+  none
+  supervisor
+  manager
+  top_management
+}
+
+enum return_disposition_enum {
+  resalable
+  damaged
+  quarantine
+  defective
+  expired
+  scrap
 }
 
 enum reservation_status {
@@ -3560,6 +3730,14 @@ enum business_event_type_enum {
   sales_order_created
   sales_invoice_created
   sales_return_created
+  refund_requested
+  refund_approval_required
+  refund_approved
+  refund_rejected
+  refund_processing
+  refund_completed
+  refund_failed
+  refund_cancelled
   payment_received
   user_registered
   user_role_changed
