@@ -1,5 +1,22 @@
 # Error Log
 
+## [2026-10-26 14:56] - Cannot Delete From View "inventory" During Batch Product Deletion
+
+- **Type**: Database / Integration
+- **Severity**: Medium
+- **File**: `scripts/delete-7000-products.ts:170`
+- **Agent**: @backend-specialist
+- **Root Cause**: The database object `inventory` is a PostgreSQL view (`information_schema.views`) defined as a join over `inventory_items`, `product_variants`, `stock_balances`, and `reorder_rules`. Calling `DELETE FROM inventory` caused PostgreSQL error `55000: cannot delete from view "inventory"`.
+- **Error Message**:
+  ```
+  PrismaClientKnownRequestError: Raw query failed. Code: 55000. Message: cannot delete from view "inventory"
+  ```
+- **Fix Applied**: Removed the direct `DELETE FROM inventory` statement. Deletions on the underlying physical tables (`stock_balances`, `inventory_items`, `reorder_rules`, `product_variants`) automatically purge records from the `inventory` view without requiring explicit DML on the view itself.
+- **Prevention**: Always verify `information_schema.tables.table_type` ('VIEW' vs 'BASE TABLE') before crafting DML statements for legacy or unknown schema entities.
+- **Status**: Fixed
+
+---
+
 ## [2026-09-29 22:55] - StockMovementDrawer TypeError (movements.map is not a function), PostgREST 500 on product_variants, and Dev WebSocket Rejection
 
 - **Type**: Runtime / Integration / Client
