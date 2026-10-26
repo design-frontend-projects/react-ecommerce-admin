@@ -22,9 +22,12 @@ export interface StockTransferProductVariant {
   isSerialTracked: boolean
   searchString: string
   sourceStock?: {
-    warehouseId: string
+    warehouseId?: string
     warehouseName?: string | null
     warehouseCode?: string | null
+    storeId?: string
+    storeName?: string | null
+    facilityType?: 'warehouse' | 'store'
     qtyOnHand: number
     qtyReserved: number
     qtyAvailable: number
@@ -88,9 +91,12 @@ interface ApiVariantItem {
   qty_available?: number
   qty_reserved?: number
   source_stock?: {
-    warehouse_id: string
+    warehouse_id?: string
     warehouse_name?: string | null
     warehouse_code?: string | null
+    store_id?: string
+    store_name?: string | null
+    facility_type?: 'warehouse' | 'store'
     qty_on_hand: number
     qty_reserved: number
     qty_available: number
@@ -108,6 +114,9 @@ interface ApiVariantItem {
 export interface StockTransferProductVariantsOptions {
   enabled?: boolean
   warehouseId?: string | null
+  storeId?: string | null
+  facilityType?: 'warehouse' | 'store'
+  limit?: number
 }
 
 /**
@@ -120,13 +129,19 @@ export function useStockTransferProductVariants(
   options?: StockTransferProductVariantsOptions
 ) {
   const warehouseId = options?.warehouseId?.trim() || null
+  const storeId = options?.storeId?.trim() || null
+  const facilityType = options?.facilityType || (storeId ? 'store' : 'warehouse')
+  const facilityId = facilityType === 'store' ? storeId : warehouseId
+  const limit = options?.limit || 100
 
   return useAuthQuery<StockTransferProductVariant[]>({
     queryKey: [
       'stock-transfers',
       'product-variants-enriched',
       search ?? '',
-      warehouseId ?? 'all',
+      facilityType,
+      facilityId ?? 'all',
+      limit,
     ],
     rbac: { permission: 'inventory.stock.view' },
     enabled: options?.enabled,
@@ -134,12 +149,18 @@ export function useStockTransferProductVariants(
     queryFn: async (getToken) => {
       // 1. Authoritative API route backed by Prisma 7 server & tenant isolation
       try {
-        const params = new URLSearchParams({ limit: '100' })
+        const params = new URLSearchParams({ limit: String(limit) })
         if (search?.trim()) {
           params.set('search', search.trim())
         }
         if (warehouseId) {
           params.set('warehouseId', warehouseId)
+        }
+        if (storeId) {
+          params.set('storeId', storeId)
+        }
+        if (facilityType) {
+          params.set('facilityType', facilityType)
         }
         const payload = (await authorizedRequest(
           getToken,
@@ -150,6 +171,9 @@ export function useStockTransferProductVariants(
           data?: RawVariantQueryRow[]
         }
 
+        if (payload?.success === true && Array.isArray(payload.items)) {
+          return payload.items.map(mapApiVariantItem)
+        }
         if (payload?.items && Array.isArray(payload.items) && payload.items.length > 0) {
           return payload.items.map(mapApiVariantItem)
         }
@@ -276,9 +300,16 @@ function mapApiVariantItem(item: ApiVariantItem): StockTransferProductVariant {
 
   const sourceStock = item.source_stock
     ? {
-        warehouseId: item.source_stock.warehouse_id,
-        warehouseName: item.source_stock.warehouse_name,
-        warehouseCode: item.source_stock.warehouse_code,
+        warehouseId: item.source_stock.warehouse_id || item.source_stock.store_id || '',
+        warehouseName: item.source_stock.warehouse_name || item.source_stock.store_name,
+        warehouseCode:
+          item.source_stock.warehouse_code ||
+          (item.source_stock.store_name ? 'STORE' : 'WH'),
+        storeId: item.source_stock.store_id,
+        storeName: item.source_stock.store_name,
+        facilityType:
+          item.source_stock.facility_type ||
+          (item.source_stock.store_id ? 'store' : 'warehouse'),
         qtyOnHand: Number(item.source_stock.qty_on_hand || 0),
         qtyReserved: Number(item.source_stock.qty_reserved || 0),
         qtyAvailable: Number(item.source_stock.qty_available || 0),

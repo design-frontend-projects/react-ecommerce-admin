@@ -42,9 +42,13 @@ export interface StockTransferProductVirtualComboboxProps {
   className?: string
   sourceWarehouseId?: string | null
   sourceWarehouseName?: string | null
+  sourceStoreId?: string | null
+  sourceStoreName?: string | null
+  facilityType?: 'warehouse' | 'store'
+  facilityId?: string | null
   originStockMap?: Record<string, number>
   'aria-label'?: string
-  /** Debounce delay in ms for server-side search (default: 350ms) */
+  /** Debounce delay in ms for server-side search (default: 300ms) */
   debounceMs?: number
   /** Whether to enable server-side search querying (default: true) */
   enableServerSearch?: boolean
@@ -65,9 +69,13 @@ export function StockTransferProductVirtualCombobox({
   className,
   sourceWarehouseId,
   sourceWarehouseName,
+  sourceStoreId,
+  sourceStoreName,
+  facilityType,
+  facilityId,
   originStockMap = {},
   'aria-label': ariaLabel,
-  debounceMs = 350,
+  debounceMs = 300,
   enableServerSearch = true,
   onSearchChange,
 }: StockTransferProductVirtualComboboxProps) {
@@ -83,7 +91,16 @@ export function StockTransferProductVirtualCombobox({
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const searchInputRef = React.useRef<HTMLInputElement>(null)
 
-  // Debounce the search input (default 350ms, in the 300-400ms range)
+  const effectiveWarehouseId =
+    sourceWarehouseId ||
+    (facilityType === 'warehouse' && facilityId ? facilityId : null)
+  const effectiveStoreId =
+    sourceStoreId ||
+    (facilityType === 'store' && facilityId ? facilityId : null)
+  const effectiveFacilityType: 'warehouse' | 'store' =
+    facilityType || (effectiveStoreId ? 'store' : 'warehouse')
+
+  // Debounce the search input (default 300ms)
   const debouncedSearchQuery = useDebounce(searchQuery.trim(), debounceMs)
   const isDebouncing = searchQuery.trim() !== debouncedSearchQuery
 
@@ -97,7 +114,10 @@ export function StockTransferProductVirtualCombobox({
     isFetching: isServerFetching,
   } = useStockTransferProductVariants(debouncedSearchQuery, {
     enabled: shouldQueryServer,
-    warehouseId: sourceWarehouseId,
+    warehouseId: effectiveWarehouseId,
+    storeId: effectiveStoreId,
+    facilityType: effectiveFacilityType,
+    limit: 100,
   })
 
   // Notify external listener if provided
@@ -436,25 +456,49 @@ export function StockTransferProductVirtualCombobox({
                 </span>
               </div>
             ) : filteredVariants.length === 0 ? (
-              <div className='flex h-36 flex-col items-center justify-center gap-1.5 p-4 text-center text-muted-foreground'>
-                <Package className='h-8 w-8 text-muted-foreground/50' />
-                <p className='text-xs font-medium text-foreground'>
-                  {searchQuery
-                    ? t('stockTransfers.combobox.noProductsMatching', { query: searchQuery, defaultValue: `No products matching "${searchQuery}"` })
-                    : t('stockTransfers.combobox.noVariantsFound', 'No product variants found')}
-                </p>
-                <p className='text-[11px] text-muted-foreground'>
-                  {t('stockTransfers.combobox.tryAdjusting', 'Try adjusting your search terms or filter selection.')}
-                </p>
-              </div>
+              isSearching ? (
+                <div className='flex h-36 flex-col items-center justify-center gap-2 p-4 text-center text-muted-foreground'>
+                  <Loader2 className='h-6 w-6 animate-spin text-primary' />
+                  <p className='text-xs font-medium text-foreground'>
+                    {t('stockTransfers.combobox.searchingDatabase', {
+                      defaultValue: 'Searching catalog database...',
+                    })}
+                  </p>
+                  <p className='text-[11px] text-muted-foreground'>
+                    {t('stockTransfers.combobox.searchingFor', {
+                      query: searchQuery,
+                      defaultValue: `Looking for "${searchQuery}" across database catalog...`,
+                    })}
+                  </p>
+                </div>
+              ) : (
+                <div className='flex h-36 flex-col items-center justify-center gap-1.5 p-4 text-center text-muted-foreground'>
+                  <Package className='h-8 w-8 text-muted-foreground/50' />
+                  <p className='text-xs font-medium text-foreground'>
+                    {searchQuery
+                      ? t('stockTransfers.combobox.noProductsMatching', { query: searchQuery, defaultValue: `No products matching "${searchQuery}"` })
+                      : t('stockTransfers.combobox.noVariantsFound', 'No product variants found')}
+                  </p>
+                  <p className='text-[11px] text-muted-foreground'>
+                    {t('stockTransfers.combobox.tryAdjusting', 'Try adjusting your search terms or filter selection.')}
+                  </p>
+                </div>
+              )
             ) : (
-              <div
-                style={{
-                  height: `${rowVirtualizer.getTotalSize()}px`,
-                  width: '100%',
-                  position: 'relative',
-                }}
-              >
+              <>
+                {isSearching && (
+                  <div className='flex items-center gap-1.5 border-b bg-muted/40 px-3 py-1 text-[11px] text-muted-foreground'>
+                    <Loader2 className='h-3 w-3 animate-spin text-primary' />
+                    <span>Searching database for more products...</span>
+                  </div>
+                )}
+                <div
+                  style={{
+                    height: `${rowVirtualizer.getTotalSize()}px`,
+                    width: '100%',
+                    position: 'relative',
+                  }}
+                >
                 {(virtualItems.length > 0
                   ? virtualItems
                   : displayedVariants.map((_, i) => ({
@@ -638,6 +682,7 @@ export function StockTransferProductVirtualCombobox({
                   )
                 })}
               </div>
+              </>
             )}
           </div>
 
@@ -646,10 +691,13 @@ export function StockTransferProductVirtualCombobox({
             <span>
               {t('stockTransfers.combobox.showingItems', { displayed: displayedVariants.length, total: filteredVariants.length, defaultValue: `Showing ${displayedVariants.length} of ${filteredVariants.length} items` })}
             </span>
-            {sourceWarehouseName && (
+            {(sourceWarehouseName || sourceStoreName) && (
               <span className='flex items-center gap-1 truncate font-medium text-foreground'>
                 <Building2 className='h-3 w-3 text-primary' />
-                {t('stockTransfers.combobox.originPrefix', { warehouse: sourceWarehouseName, defaultValue: `Origin: ${sourceWarehouseName}` })}
+                {t('stockTransfers.combobox.originPrefix', {
+                  warehouse: sourceWarehouseName || sourceStoreName,
+                  defaultValue: `Origin: ${sourceWarehouseName || sourceStoreName}`,
+                })}
               </span>
             )}
           </div>

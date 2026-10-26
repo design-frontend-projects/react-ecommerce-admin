@@ -216,9 +216,21 @@ export function TransferCreateDialog({
   const watchedExpectedShip = watch('expectedShipDate') || ''
   const watchedItems = watch('items')
 
+  const isStoreTransfer =
+    transferType === 'store' ||
+    transferType === 'inter_store' ||
+    transferType === 'store_to_warehouse'
+  const activeFacilityType: 'warehouse' | 'store' = isStoreTransfer
+    ? 'store'
+    : 'warehouse'
+  const activeFacilityId = isStoreTransfer ? fromStoreId : sourceWarehouseId
+
   const { data: variants = [], isLoading: isLoadingVariants } =
     useStockTransferProductVariants(undefined, {
-      warehouseId: sourceWarehouseId,
+      warehouseId: isStoreTransfer ? undefined : sourceWarehouseId,
+      storeId: isStoreTransfer ? fromStoreId : undefined,
+      facilityType: activeFacilityType,
+      limit: 100,
     })
 
   // Track dynamically discovered variants (e.g. from server search selection or edit mode)
@@ -346,6 +358,7 @@ export function TransferCreateDialog({
   }, [open, isEdit, fullDetail, reset])
 
   const selectedWarehouse = warehouses.find((w) => w.id === sourceWarehouseId)
+  const selectedStore = stores.find((s) => s.store_id === fromStoreId)
 
   const isWarehouseMode =
     transferType === 'warehouse' ||
@@ -1318,10 +1331,14 @@ export function TransferCreateDialog({
                                   value={variantField.value}
                                   variants={allKnownVariants}
                                   isLoading={isLoadingVariants}
-                                  debounceMs={350}
+                                  debounceMs={300}
                                   enableServerSearch={true}
+                                  facilityType={activeFacilityType}
+                                  facilityId={activeFacilityId}
                                   sourceWarehouseId={sourceWarehouseId}
                                   sourceWarehouseName={selectedWarehouse?.name}
+                                  sourceStoreId={fromStoreId}
+                                  sourceStoreName={selectedStore?.name}
                                   originStockMap={
                                     transferType === 'store' ||
                                     transferType === 'inter_store'

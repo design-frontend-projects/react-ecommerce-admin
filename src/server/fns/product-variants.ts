@@ -85,7 +85,7 @@ export async function searchProductVariantsPaginated(
 
   const page = Math.max(1, Number(options.page || 1))
   const rawPageSize = Number(options.pageSize || options.limit || 10)
-  const pageSize = Math.min(Math.max(1, rawPageSize), 100)
+  const pageSize = Math.min(Math.max(1, rawPageSize), 250)
   const search = options.search?.trim() || ''
   const sortBy = options.sortBy || 'sku'
   const sortOrder = options.sortOrder === 'desc' ? 'desc' : 'asc'
@@ -109,16 +109,32 @@ export async function searchProductVariantsPaginated(
     }
 
     if (search) {
-      where.OR = [
-        { sku: { contains: search, mode: 'insensitive' } },
-        { barcode: { contains: search, mode: 'insensitive' } },
-        { name: { contains: search, mode: 'insensitive' } },
-        { products: { name: { contains: search, mode: 'insensitive' } } },
-        { products: { sku: { contains: search, mode: 'insensitive' } } },
-        { products: { barcode: { contains: search, mode: 'insensitive' } } },
-        { products: { brands: { name: { contains: search, mode: 'insensitive' } } } },
-        { products: { categories: { name: { contains: search, mode: 'insensitive' } } } },
-      ]
+      const tokens = search.split(/\s+/).filter(Boolean)
+      if (tokens.length > 1) {
+        where.AND = tokens.map((token) => ({
+          OR: [
+            { sku: { contains: token, mode: 'insensitive' } },
+            { barcode: { contains: token, mode: 'insensitive' } },
+            { name: { contains: token, mode: 'insensitive' } },
+            { products: { name: { contains: token, mode: 'insensitive' } } },
+            { products: { sku: { contains: token, mode: 'insensitive' } } },
+            { products: { barcode: { contains: token, mode: 'insensitive' } } },
+            { products: { brands: { name: { contains: token, mode: 'insensitive' } } } },
+            { products: { categories: { name: { contains: token, mode: 'insensitive' } } } },
+          ],
+        }))
+      } else {
+        where.OR = [
+          { sku: { contains: search, mode: 'insensitive' } },
+          { barcode: { contains: search, mode: 'insensitive' } },
+          { name: { contains: search, mode: 'insensitive' } },
+          { products: { name: { contains: search, mode: 'insensitive' } } },
+          { products: { sku: { contains: search, mode: 'insensitive' } } },
+          { products: { barcode: { contains: search, mode: 'insensitive' } } },
+          { products: { brands: { name: { contains: search, mode: 'insensitive' } } } },
+          { products: { categories: { name: { contains: search, mode: 'insensitive' } } } },
+        ]
+      }
     }
 
     let orderBy: Prisma.product_variantsOrderByWithRelationInput = { sku: sortOrder }
@@ -174,7 +190,6 @@ export async function searchProductVariantsPaginated(
                   store_id: true,
                   qty_on_hand: true,
                   qty_reserved: true,
-                  qty_available: true,
                   warehouses: {
                     select: {
                       id: true,
@@ -210,7 +225,6 @@ export async function searchProductVariantsPaginated(
         store_id: string | null
         qty_on_hand: unknown
         qty_reserved: unknown
-        qty_available: unknown
         warehouses: { id: string; code: string; name: string } | null
         stores: { store_id: string; name: string | null } | null
       }>
@@ -233,10 +247,7 @@ export async function searchProductVariantsPaginated(
       for (const b of balances) {
         const onHand = Number(b.qty_on_hand || 0)
         const reserved = Number(b.qty_reserved || 0)
-        const avail =
-          b.qty_available != null
-            ? Number(b.qty_available)
-            : Math.max(0, onHand - reserved)
+        const avail = Math.max(0, onHand - reserved)
 
         if (targetStoreId && b.store_id === targetStoreId) {
           if (!sourceStock) {
