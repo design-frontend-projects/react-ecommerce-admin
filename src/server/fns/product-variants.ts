@@ -16,9 +16,12 @@ export interface AlternativeWarehouseStock {
 }
 
 export interface SourceWarehouseStock {
-  warehouse_id: string
+  warehouse_id?: string
   warehouse_name?: string | null
   warehouse_code?: string | null
+  store_id?: string
+  store_name?: string | null
+  facility_type?: 'warehouse' | 'store'
   qty_on_hand: number
   qty_reserved: number
   qty_available: number
@@ -34,6 +37,8 @@ export interface ProductVariantQueryOptions {
   productId?: string
   isAssigned?: 'all' | 'assigned' | 'unassigned' | string
   warehouseId?: string
+  storeId?: string
+  facilityType?: 'warehouse' | 'store'
   includeAlternatives?: boolean
 }
 
@@ -166,6 +171,7 @@ export async function searchProductVariantsPaginated(
               stock_balances: {
                 select: {
                   warehouse_id: true,
+                  store_id: true,
                   qty_on_hand: true,
                   qty_reserved: true,
                   qty_available: true,
@@ -173,6 +179,12 @@ export async function searchProductVariantsPaginated(
                     select: {
                       id: true,
                       code: true,
+                      name: true,
+                    },
+                  },
+                  stores: {
+                    select: {
+                      store_id: true,
                       name: true,
                     },
                   },
@@ -189,15 +201,18 @@ export async function searchProductVariantsPaginated(
 
     const totalPages = Math.ceil(totalCount / pageSize) || 1
     const targetWarehouseId = options.warehouseId?.trim() || null
+    const targetStoreId = options.storeId?.trim() || null
 
     const items: PaginatedVariantItem[] = variants.map((v) => {
       const pli = v.price_list_items?.[0]
       const balances = (v.inventory_items?.stock_balances || []) as Array<{
         warehouse_id: string | null
+        store_id: string | null
         qty_on_hand: unknown
         qty_reserved: unknown
         qty_available: unknown
         warehouses: { id: string; code: string; name: string } | null
+        stores: { store_id: string; name: string | null } | null
       }>
 
       // Global totals
@@ -211,12 +226,11 @@ export async function searchProductVariantsPaginated(
       )
       const totalAvailable = Math.max(0, totalOnHand - totalReserved)
 
-      // Warehouse specific & alternative resolution
+      // Warehouse/Store specific & alternative resolution
       let sourceStock: SourceWarehouseStock | null = null
       const altWarehouseMap = new Map<string, AlternativeWarehouseStock>()
 
       for (const b of balances) {
-        if (!b.warehouse_id) continue
         const onHand = Number(b.qty_on_hand || 0)
         const reserved = Number(b.qty_reserved || 0)
         const avail =
@@ -224,12 +238,12 @@ export async function searchProductVariantsPaginated(
             ? Number(b.qty_available)
             : Math.max(0, onHand - reserved)
 
-        if (targetWarehouseId && b.warehouse_id === targetWarehouseId) {
+        if (targetStoreId && b.store_id === targetStoreId) {
           if (!sourceStock) {
             sourceStock = {
-              warehouse_id: b.warehouse_id,
-              warehouse_name: b.warehouses?.name ?? null,
-              warehouse_code: b.warehouses?.code ?? null,
+              store_id: b.store_id,
+              store_name: b.stores?.name ?? null,
+              facility_type: 'store',
               qty_on_hand: onHand,
               qty_reserved: reserved,
               qty_available: avail,
@@ -239,7 +253,23 @@ export async function searchProductVariantsPaginated(
             sourceStock.qty_reserved += reserved
             sourceStock.qty_available += avail
           }
-        } else {
+        } else if (targetWarehouseId && b.warehouse_id === targetWarehouseId) {
+          if (!sourceStock) {
+            sourceStock = {
+              warehouse_id: b.warehouse_id,
+              warehouse_name: b.warehouses?.name ?? null,
+              warehouse_code: b.warehouses?.code ?? null,
+              facility_type: 'warehouse',
+              qty_on_hand: onHand,
+              qty_reserved: reserved,
+              qty_available: avail,
+            }
+          } else {
+            sourceStock.qty_on_hand += onHand
+            sourceStock.qty_reserved += reserved
+            sourceStock.qty_available += avail
+          }
+        } else if (b.warehouse_id) {
           const existing = altWarehouseMap.get(b.warehouse_id)
           if (existing) {
             existing.qty_on_hand += onHand
@@ -258,12 +288,22 @@ export async function searchProductVariantsPaginated(
         }
       }
 
-      // If target warehouse was requested but had no balance row, create a 0-stock record
+      // If target facility was requested but had no balance row, create a 0-stock record
       if (targetWarehouseId && !sourceStock) {
         sourceStock = {
           warehouse_id: targetWarehouseId,
           warehouse_name: null,
           warehouse_code: null,
+          facility_type: 'warehouse',
+          qty_on_hand: 0,
+          qty_reserved: 0,
+          qty_available: 0,
+        }
+      } else if (targetStoreId && !sourceStock) {
+        sourceStock = {
+          store_id: targetStoreId,
+          store_name: null,
+          facility_type: 'store',
           qty_on_hand: 0,
           qty_reserved: 0,
           qty_available: 0,
@@ -275,10 +315,11 @@ export async function searchProductVariantsPaginated(
         .filter((w) => w.qty_available > 0 || w.qty_on_hand > 0)
         .sort((a, b) => b.qty_available - a.qty_available)
 
-      // When warehouseId is passed, default onHand & available to the requested warehouse's stock
-      const effectiveOnHand = targetWarehouseId ? (sourceStock?.qty_on_hand ?? 0) : totalOnHand
-      const effectiveReserved = targetWarehouseId ? (sourceStock?.qty_reserved ?? 0) : totalReserved
-      const effectiveAvailable = targetWarehouseId ? (sourceStock?.qty_available ?? 0) : totalAvailable
+      // When warehouseId or storeId is passed, default onHand & available to the requested facility's stock
+      const hasTargetFacility = Boolean(targetWarehouseId || targetStoreId)
+      const effectiveOnHand = hasTargetFacility ? (sourceStock?.qty_on_hand ?? 0) : totalOnHand
+      const effectiveReserved = hasTargetFacility ? (sourceStock?.qty_reserved ?? 0) : totalReserved
+      const effectiveAvailable = hasTargetFacility ? (sourceStock?.qty_available ?? 0) : totalAvailable
 
       const inv = v.inventory_items
 

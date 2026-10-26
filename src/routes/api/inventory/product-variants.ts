@@ -28,10 +28,14 @@ const GET = withAuth(
       const productId = searchParams.get('productId') ?? undefined
       const isAssigned = searchParams.get('isAssigned') ?? undefined
       const warehouseId = searchParams.get('warehouseId') ?? undefined
+      const storeId = searchParams.get('storeId') ?? undefined
+      const facilityType = (searchParams.get('facilityType') as 'warehouse' | 'store') ?? undefined
 
       const data = await searchProductVariants(userId, {
         search,
         warehouseId,
+        storeId,
+        facilityType,
         page,
         pageSize,
         limit,
