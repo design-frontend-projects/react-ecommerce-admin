@@ -5,6 +5,7 @@ import type {
   adjustment_reason_enum,
   adjustment_status_enum,
   adjustment_type_enum,
+  movement_type_enum,
 } from '@/generated/prisma/client'
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError } from '@/server/utils/api-error'
@@ -92,26 +93,137 @@ async function snapshotBalances(
 
 export async function listAdjustments(authUserId: string) {
   const tenantId = await requireTenantId(authUserId)
-  return prisma.stock_adjustments.findMany({
+  const rows = await prisma.stock_adjustments.findMany({
     where: { tenant_id: tenantId },
+    include: {
+      warehouses: {
+        select: { id: true, name: true, code: true },
+      },
+      _count: {
+        select: { stock_adjustment_items: true },
+      },
+    },
     orderBy: { created_at: 'desc' },
   })
+
+  // Resolve stores for any adjustments associated with a store_id
+  const storeIds = Array.from(
+    new Set(rows.map((r) => r.store_id).filter(Boolean) as string[])
+  )
+  const stores =
+    storeIds.length > 0
+      ? await prisma.stores.findMany({
+          where: { store_id: { in: storeIds } },
+          select: { store_id: true, name: true, code: true },
+        })
+      : []
+  const storeMap = new Map(stores.map((s) => [s.store_id, s]))
+
+  return rows.map((r) => ({
+    ...r,
+    stores: r.store_id ? storeMap.get(r.store_id) ?? null : null,
+  }))
 }
 
 export async function getAdjustment(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const adjustment = await prisma.stock_adjustments.findFirst({
     where: { id, tenant_id: tenantId },
+    include: {
+      warehouses: {
+        select: { id: true, name: true, code: true },
+      },
+      _count: {
+        select: { stock_adjustment_items: true },
+      },
+    },
   })
   if (!adjustment) {
     throw new ApiError('Adjustment not found.', 404)
   }
+
+  // Resolve store if present
+  let store = null
+  if (adjustment.store_id) {
+    store = await prisma.stores.findUnique({
+      where: { store_id: adjustment.store_id },
+      select: { store_id: true, name: true, code: true },
+    })
+  }
+
   const items = await prisma.stock_adjustment_items.findMany({
     where: { stock_adjustment_id: id },
   })
+
+  // Batch load product_variants and product info
+  const variantIds = Array.from(
+    new Set(items.map((it) => it.product_variant_id).filter(Boolean))
+  )
+  const variants =
+    variantIds.length > 0
+      ? await prisma.product_variants.findMany({
+          where: { id: { in: variantIds } },
+          select: {
+            id: true,
+            sku: true,
+            barcode: true,
+            name: true,
+            weight: true,
+            cost_price: true,
+            price: true,
+            products: {
+              select: {
+                id: true,
+                name: true,
+                sku: true,
+                barcode: true,
+                base_uom: { select: { name: true, code: true } },
+                categories: { select: { name: true } },
+                brands: { select: { name: true } },
+              },
+            },
+          },
+        })
+      : []
+
+  const variantMap = new Map(variants.map((v) => [v.id, v]))
+
+  const enrichedItems = items.map((it) => {
+    const rawVariant = variantMap.get(it.product_variant_id)
+    return {
+      ...it,
+      product_variants: rawVariant
+        ? {
+            id: rawVariant.id,
+            sku: rawVariant.sku,
+            barcode: rawVariant.barcode,
+            name: rawVariant.name,
+            weight: rawVariant.weight ? Number(rawVariant.weight) : null,
+            cost_price: rawVariant.cost_price ? Number(rawVariant.cost_price) : null,
+            price: rawVariant.price ? Number(rawVariant.price) : null,
+            products: rawVariant.products
+              ? {
+                  id: rawVariant.products.id,
+                  name: rawVariant.products.name,
+                  sku: rawVariant.products.sku,
+                  barcode: rawVariant.products.barcode,
+                  uom:
+                    rawVariant.products.base_uom?.code ||
+                    rawVariant.products.base_uom?.name ||
+                    'PCS',
+                  brands: rawVariant.products.brands,
+                  categories: rawVariant.products.categories,
+                }
+              : null,
+          }
+        : null,
+    }
+  })
+
   return {
     ...adjustment,
-    stock_adjustment_items: items,
+    stores: store,
+    stock_adjustment_items: enrichedItems,
   }
 }
 
@@ -193,22 +305,188 @@ export async function approveAdjustment(authUserId: string, id: string) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
 
-  // Call Supabase RPC to record movements and balance adjustments
-  const { error } = await supabaseAdmin.rpc('apply_stock_adjustment', {
-    p_adjustment_id: id,
+  const existing = await prisma.stock_adjustments.findFirst({
+    where: { id, tenant_id: tenantId },
+    include: {
+      warehouses: true,
+    },
   })
-  if (error) {
-    console.warn('RPC apply_stock_adjustment warning:', error.message)
+  if (!existing) {
+    throw new ApiError('Adjustment not found.', 404)
+  }
+  if (existing.status === 'approved') {
+    throw new ApiError('Adjustment has already been approved.', 400)
+  }
+  if (existing.status === 'cancelled') {
+    throw new ApiError('Cannot approve a cancelled adjustment.', 400)
   }
 
-  return prisma.stock_adjustments.update({
-    where: { id, tenant_id: tenantId },
-    data: {
-      status: 'approved' as adjustment_status_enum,
-      approved_by: authUserId,
-      approved_at: new Date(),
-      updated_by_user_id: tenantUserId,
-    },
+  // 1. If store_id is present, attempt Supabase RPC apply_stock_adjustment first
+  let rpcSucceeded = false
+  if (existing.store_id) {
+    try {
+      const { error } = await supabaseAdmin.rpc('apply_stock_adjustment', {
+        p_adjustment_id: id,
+      })
+      if (!error) {
+        rpcSucceeded = true
+      } else {
+        console.warn('RPC apply_stock_adjustment warning:', error.message)
+      }
+    } catch (rpcErr) {
+      console.warn('RPC apply_stock_adjustment exception:', rpcErr)
+    }
+  }
+
+  // 2. If RPC succeeded, finalize status and return
+  if (rpcSucceeded) {
+    return prisma.stock_adjustments.update({
+      where: { id, tenant_id: tenantId },
+      data: {
+        status: 'approved' as adjustment_status_enum,
+        approved_by: authUserId,
+        approved_at: new Date(),
+        updated_by_user_id: tenantUserId,
+      },
+    })
+  }
+
+  // 3. Fallback / Universal Multi-Facility execution via Prisma Transaction (works for Warehouses & Stores)
+  return prisma.$transaction(async (tx) => {
+    const items = await tx.stock_adjustment_items.findMany({
+      where: { stock_adjustment_id: id },
+    })
+
+    const now = new Date()
+
+    for (const it of items) {
+      const delta = Number(it.qty_adjusted || 0)
+      const targetQty = Number(it.qty_after || 0)
+      const unitCost = Number(it.unit_cost || 0)
+
+      // Resolve inventory_items
+      let inventoryItemId: string
+      const invItem = await tx.inventory_items.findUnique({
+        where: {
+          tenant_id_product_variant_id: {
+            tenant_id: tenantId,
+            product_variant_id: it.product_variant_id,
+          },
+        },
+        select: { id: true },
+      })
+
+      if (invItem) {
+        inventoryItemId = invItem.id
+      } else {
+        const pv = await tx.product_variants.findUnique({
+          where: { id: it.product_variant_id },
+          select: { sku: true },
+        })
+        const createdInv = await tx.inventory_items.create({
+          data: {
+            tenant_id: tenantId,
+            product_variant_id: it.product_variant_id,
+            sku: pv?.sku ?? `SKU-${it.product_variant_id.slice(0, 8)}`,
+            created_by_user_id: tenantUserId,
+          },
+        })
+        inventoryItemId = createdInv.id
+      }
+
+      // Find current stock balance
+      const existingBal = await tx.stock_balances.findFirst({
+        where: {
+          tenant_id: tenantId,
+          inventory_item_id: inventoryItemId,
+          ...(existing.warehouse_id ? { warehouse_id: existing.warehouse_id } : {}),
+          ...(existing.store_id ? { store_id: existing.store_id } : {}),
+          ...(it.location_id ? { location_id: it.location_id } : {}),
+        },
+      })
+
+      const qtyBefore = existingBal
+        ? Number(existingBal.qty_on_hand)
+        : Number(it.qty_before || 0)
+      const finalQty = targetQty
+
+      if (existingBal) {
+        await tx.stock_balances.update({
+          where: { id: existingBal.id },
+          data: {
+            qty_on_hand: finalQty,
+            qty_available: finalQty - Number(existingBal.qty_reserved || 0),
+            avg_cost: unitCost > 0 ? unitCost : existingBal.avg_cost,
+            last_transaction_at: now,
+            updated_at: now,
+            updated_by_user_id: tenantUserId,
+            version: { increment: 1 },
+          },
+        })
+      } else {
+        await tx.stock_balances.create({
+          data: {
+            tenant_id: tenantId,
+            inventory_item_id: inventoryItemId,
+            product_variant_id: it.product_variant_id,
+            warehouse_id: existing.warehouse_id ?? null,
+            store_id: existing.store_id ?? null,
+            location_id: it.location_id ?? null,
+            qty_on_hand: finalQty,
+            qty_reserved: 0,
+            qty_available: finalQty,
+            avg_cost: unitCost,
+            last_transaction_at: now,
+            created_by_user_id: tenantUserId,
+            updated_by_user_id: tenantUserId,
+          },
+        })
+      }
+
+      // Record movement in inventory_movements
+      const mtype =
+        delta >= 0
+          ? ('adjustment_in' as movement_type_enum)
+          : existing.type === 'damage'
+            ? ('damage' as movement_type_enum)
+            : ('adjustment_out' as movement_type_enum)
+
+      await tx.inventory_movements.create({
+        data: {
+          tenant_id: tenantId,
+          warehouse_id: existing.warehouse_id ?? null,
+          store_id: existing.store_id ?? null,
+          location_id: it.location_id ?? null,
+          product_variant_id: it.product_variant_id,
+          movement_type: mtype,
+          quantity_delta: delta,
+          qty_before: qtyBefore,
+          qty_after: finalQty,
+          unit_cost: unitCost,
+          total_cost: Math.abs(delta) * unitCost,
+          reference_type: 'stock_adjustment',
+          reference_id: id,
+          source_document_type: 'stock_adjustment',
+          source_document_id: id,
+          reason_code: it.reason ?? existing.type,
+          remarks: it.reason ?? existing.notes ?? 'Stock Adjustment',
+          created_by: authUserId,
+          created_by_user_id: tenantUserId,
+          updated_by_user_id: tenantUserId,
+          movement_date: now,
+        },
+      })
+    }
+
+    return tx.stock_adjustments.update({
+      where: { id, tenant_id: tenantId },
+      data: {
+        status: 'approved' as adjustment_status_enum,
+        approved_by: authUserId,
+        approved_at: now,
+        updated_by_user_id: tenantUserId,
+      },
+    })
   })
 }
 

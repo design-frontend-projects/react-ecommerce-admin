@@ -300,6 +300,7 @@ export type stock_adjustment_itemsWhereInput = {
   batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  stock_adjustments?: Prisma.XOR<Prisma.Stock_adjustmentsScalarRelationFilter, Prisma.stock_adjustmentsWhereInput>
 }
 
 export type stock_adjustment_itemsOrderByWithRelationInput = {
@@ -317,6 +318,7 @@ export type stock_adjustment_itemsOrderByWithRelationInput = {
   batch_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  stock_adjustments?: Prisma.stock_adjustmentsOrderByWithRelationInput
 }
 
 export type stock_adjustment_itemsWhereUniqueInput = Prisma.AtLeast<{
@@ -337,6 +339,7 @@ export type stock_adjustment_itemsWhereUniqueInput = Prisma.AtLeast<{
   batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
   updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  stock_adjustments?: Prisma.XOR<Prisma.Stock_adjustmentsScalarRelationFilter, Prisma.stock_adjustmentsWhereInput>
 }, "id">
 
 export type stock_adjustment_itemsOrderByWithAggregationInput = {
@@ -383,7 +386,6 @@ export type stock_adjustment_itemsScalarWhereWithAggregatesInput = {
 
 export type stock_adjustment_itemsCreateInput = {
   id?: string
-  stock_adjustment_id: string
   product_variant_id: string
   location_id?: string | null
   qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -396,6 +398,7 @@ export type stock_adjustment_itemsCreateInput = {
   batch_id?: string | null
   created_by_user_id?: string | null
   updated_by_user_id?: string | null
+  stock_adjustments: Prisma.stock_adjustmentsCreateNestedOneWithoutStock_adjustment_itemsInput
 }
 
 export type stock_adjustment_itemsUncheckedCreateInput = {
@@ -417,7 +420,6 @@ export type stock_adjustment_itemsUncheckedCreateInput = {
 
 export type stock_adjustment_itemsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  stock_adjustment_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -430,6 +432,7 @@ export type stock_adjustment_itemsUpdateInput = {
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stock_adjustments?: Prisma.stock_adjustmentsUpdateOneRequiredWithoutStock_adjustment_itemsNestedInput
 }
 
 export type stock_adjustment_itemsUncheckedUpdateInput = {
@@ -468,7 +471,6 @@ export type stock_adjustment_itemsCreateManyInput = {
 
 export type stock_adjustment_itemsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  stock_adjustment_id?: Prisma.StringFieldUpdateOperationsInput | string
   product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
   location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -498,6 +500,16 @@ export type stock_adjustment_itemsUncheckedUpdateManyInput = {
   batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Stock_adjustment_itemsListRelationFilter = {
+  every?: Prisma.stock_adjustment_itemsWhereInput
+  some?: Prisma.stock_adjustment_itemsWhereInput
+  none?: Prisma.stock_adjustment_itemsWhereInput
+}
+
+export type stock_adjustment_itemsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type stock_adjustment_itemsCountOrderByAggregateInput = {
@@ -565,6 +577,190 @@ export type stock_adjustment_itemsSumOrderByAggregateInput = {
   unit_cost?: Prisma.SortOrder
 }
 
+export type stock_adjustment_itemsCreateNestedManyWithoutStock_adjustmentsInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput> | Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput[] | Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput[]
+  connectOrCreate?: Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput[]
+  createMany?: Prisma.stock_adjustment_itemsCreateManyStock_adjustmentsInputEnvelope
+  connect?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+}
+
+export type stock_adjustment_itemsUncheckedCreateNestedManyWithoutStock_adjustmentsInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput> | Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput[] | Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput[]
+  connectOrCreate?: Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput[]
+  createMany?: Prisma.stock_adjustment_itemsCreateManyStock_adjustmentsInputEnvelope
+  connect?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+}
+
+export type stock_adjustment_itemsUpdateManyWithoutStock_adjustmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput> | Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput[] | Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput[]
+  connectOrCreate?: Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput[]
+  upsert?: Prisma.stock_adjustment_itemsUpsertWithWhereUniqueWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsUpsertWithWhereUniqueWithoutStock_adjustmentsInput[]
+  createMany?: Prisma.stock_adjustment_itemsCreateManyStock_adjustmentsInputEnvelope
+  set?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  disconnect?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  delete?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  connect?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  update?: Prisma.stock_adjustment_itemsUpdateWithWhereUniqueWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsUpdateWithWhereUniqueWithoutStock_adjustmentsInput[]
+  updateMany?: Prisma.stock_adjustment_itemsUpdateManyWithWhereWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsUpdateManyWithWhereWithoutStock_adjustmentsInput[]
+  deleteMany?: Prisma.stock_adjustment_itemsScalarWhereInput | Prisma.stock_adjustment_itemsScalarWhereInput[]
+}
+
+export type stock_adjustment_itemsUncheckedUpdateManyWithoutStock_adjustmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput> | Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput[] | Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput[]
+  connectOrCreate?: Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput[]
+  upsert?: Prisma.stock_adjustment_itemsUpsertWithWhereUniqueWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsUpsertWithWhereUniqueWithoutStock_adjustmentsInput[]
+  createMany?: Prisma.stock_adjustment_itemsCreateManyStock_adjustmentsInputEnvelope
+  set?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  disconnect?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  delete?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  connect?: Prisma.stock_adjustment_itemsWhereUniqueInput | Prisma.stock_adjustment_itemsWhereUniqueInput[]
+  update?: Prisma.stock_adjustment_itemsUpdateWithWhereUniqueWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsUpdateWithWhereUniqueWithoutStock_adjustmentsInput[]
+  updateMany?: Prisma.stock_adjustment_itemsUpdateManyWithWhereWithoutStock_adjustmentsInput | Prisma.stock_adjustment_itemsUpdateManyWithWhereWithoutStock_adjustmentsInput[]
+  deleteMany?: Prisma.stock_adjustment_itemsScalarWhereInput | Prisma.stock_adjustment_itemsScalarWhereInput[]
+}
+
+export type stock_adjustment_itemsCreateWithoutStock_adjustmentsInput = {
+  id?: string
+  product_variant_id: string
+  location_id?: string | null
+  qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
+  created_at?: Date | string
+  batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput = {
+  id?: string
+  product_variant_id: string
+  location_id?: string | null
+  qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
+  created_at?: Date | string
+  batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_adjustment_itemsCreateOrConnectWithoutStock_adjustmentsInput = {
+  where: Prisma.stock_adjustment_itemsWhereUniqueInput
+  create: Prisma.XOR<Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput>
+}
+
+export type stock_adjustment_itemsCreateManyStock_adjustmentsInputEnvelope = {
+  data: Prisma.stock_adjustment_itemsCreateManyStock_adjustmentsInput | Prisma.stock_adjustment_itemsCreateManyStock_adjustmentsInput[]
+  skipDuplicates?: boolean
+}
+
+export type stock_adjustment_itemsUpsertWithWhereUniqueWithoutStock_adjustmentsInput = {
+  where: Prisma.stock_adjustment_itemsWhereUniqueInput
+  update: Prisma.XOR<Prisma.stock_adjustment_itemsUpdateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedUpdateWithoutStock_adjustmentsInput>
+  create: Prisma.XOR<Prisma.stock_adjustment_itemsCreateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedCreateWithoutStock_adjustmentsInput>
+}
+
+export type stock_adjustment_itemsUpdateWithWhereUniqueWithoutStock_adjustmentsInput = {
+  where: Prisma.stock_adjustment_itemsWhereUniqueInput
+  data: Prisma.XOR<Prisma.stock_adjustment_itemsUpdateWithoutStock_adjustmentsInput, Prisma.stock_adjustment_itemsUncheckedUpdateWithoutStock_adjustmentsInput>
+}
+
+export type stock_adjustment_itemsUpdateManyWithWhereWithoutStock_adjustmentsInput = {
+  where: Prisma.stock_adjustment_itemsScalarWhereInput
+  data: Prisma.XOR<Prisma.stock_adjustment_itemsUpdateManyMutationInput, Prisma.stock_adjustment_itemsUncheckedUpdateManyWithoutStock_adjustmentsInput>
+}
+
+export type stock_adjustment_itemsScalarWhereInput = {
+  AND?: Prisma.stock_adjustment_itemsScalarWhereInput | Prisma.stock_adjustment_itemsScalarWhereInput[]
+  OR?: Prisma.stock_adjustment_itemsScalarWhereInput[]
+  NOT?: Prisma.stock_adjustment_itemsScalarWhereInput | Prisma.stock_adjustment_itemsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
+  stock_adjustment_id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
+  product_variant_id?: Prisma.UuidFilter<"stock_adjustment_items"> | string
+  location_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  qty_before?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFilter<"stock_adjustment_items"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.Enumadjustment_reason_enumNullableFilter<"stock_adjustment_items"> | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  created_at?: Prisma.DateTimeFilter<"stock_adjustment_items"> | Date | string
+  batch_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+  updated_by_user_id?: Prisma.UuidNullableFilter<"stock_adjustment_items"> | string | null
+}
+
+export type stock_adjustment_itemsCreateManyStock_adjustmentsInput = {
+  id?: string
+  product_variant_id: string
+  location_id?: string | null
+  qty_before: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after: runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: $Enums.adjustment_reason_enum | null
+  reason_id?: string | null
+  created_at?: Date | string
+  batch_id?: string | null
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+}
+
+export type stock_adjustment_itemsUpdateWithoutStock_adjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_adjustment_itemsUncheckedUpdateWithoutStock_adjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type stock_adjustment_itemsUncheckedUpdateManyWithoutStock_adjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  product_variant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  location_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qty_before?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_after?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  qty_adjusted?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unit_cost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  reason?: Prisma.NullableEnumadjustment_reason_enumFieldUpdateOperationsInput | $Enums.adjustment_reason_enum | null
+  reason_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
 
 
 export type stock_adjustment_itemsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -582,6 +778,7 @@ export type stock_adjustment_itemsSelect<ExtArgs extends runtime.Types.Extension
   batch_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_adjustments?: boolean | Prisma.stock_adjustmentsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_adjustment_items"]>
 
 export type stock_adjustment_itemsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -599,6 +796,7 @@ export type stock_adjustment_itemsSelectCreateManyAndReturn<ExtArgs extends runt
   batch_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_adjustments?: boolean | Prisma.stock_adjustmentsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_adjustment_items"]>
 
 export type stock_adjustment_itemsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -616,6 +814,7 @@ export type stock_adjustment_itemsSelectUpdateManyAndReturn<ExtArgs extends runt
   batch_id?: boolean
   created_by_user_id?: boolean
   updated_by_user_id?: boolean
+  stock_adjustments?: boolean | Prisma.stock_adjustmentsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["stock_adjustment_items"]>
 
 export type stock_adjustment_itemsSelectScalar = {
@@ -636,10 +835,21 @@ export type stock_adjustment_itemsSelectScalar = {
 }
 
 export type stock_adjustment_itemsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stock_adjustment_id" | "product_variant_id" | "location_id" | "qty_before" | "qty_after" | "qty_adjusted" | "unit_cost" | "reason" | "reason_id" | "created_at" | "batch_id" | "created_by_user_id" | "updated_by_user_id", ExtArgs["result"]["stock_adjustment_items"]>
+export type stock_adjustment_itemsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_adjustments?: boolean | Prisma.stock_adjustmentsDefaultArgs<ExtArgs>
+}
+export type stock_adjustment_itemsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_adjustments?: boolean | Prisma.stock_adjustmentsDefaultArgs<ExtArgs>
+}
+export type stock_adjustment_itemsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stock_adjustments?: boolean | Prisma.stock_adjustmentsDefaultArgs<ExtArgs>
+}
 
 export type $stock_adjustment_itemsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "stock_adjustment_items"
-  objects: {}
+  objects: {
+    stock_adjustments: Prisma.$stock_adjustmentsPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     stock_adjustment_id: string
@@ -1049,6 +1259,7 @@ readonly fields: stock_adjustment_itemsFieldRefs;
  */
 export interface Prisma__stock_adjustment_itemsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  stock_adjustments<T extends Prisma.stock_adjustmentsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.stock_adjustmentsDefaultArgs<ExtArgs>>): Prisma.Prisma__stock_adjustmentsClient<runtime.Types.Result.GetResult<Prisma.$stock_adjustmentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1109,6 +1320,10 @@ export type stock_adjustment_itemsFindUniqueArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_adjustment_items to fetch.
    */
   where: Prisma.stock_adjustment_itemsWhereUniqueInput
@@ -1127,6 +1342,10 @@ export type stock_adjustment_itemsFindUniqueOrThrowArgs<ExtArgs extends runtime.
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_adjustment_items to fetch.
    */
   where: Prisma.stock_adjustment_itemsWhereUniqueInput
@@ -1144,6 +1363,10 @@ export type stock_adjustment_itemsFindFirstArgs<ExtArgs extends runtime.Types.Ex
    * Omit specific fields from the stock_adjustment_items
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
   /**
    * Filter, which stock_adjustment_items to fetch.
    */
@@ -1193,6 +1416,10 @@ export type stock_adjustment_itemsFindFirstOrThrowArgs<ExtArgs extends runtime.T
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
+  /**
    * Filter, which stock_adjustment_items to fetch.
    */
   where?: Prisma.stock_adjustment_itemsWhereInput
@@ -1240,6 +1467,10 @@ export type stock_adjustment_itemsFindManyArgs<ExtArgs extends runtime.Types.Ext
    * Omit specific fields from the stock_adjustment_items
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
   /**
    * Filter, which stock_adjustment_items to fetch.
    */
@@ -1289,6 +1520,10 @@ export type stock_adjustment_itemsCreateArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
+  /**
    * The data needed to create a stock_adjustment_items.
    */
   data: Prisma.XOR<Prisma.stock_adjustment_itemsCreateInput, Prisma.stock_adjustment_itemsUncheckedCreateInput>
@@ -1322,6 +1557,10 @@ export type stock_adjustment_itemsCreateManyAndReturnArgs<ExtArgs extends runtim
    */
   data: Prisma.stock_adjustment_itemsCreateManyInput | Prisma.stock_adjustment_itemsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1336,6 +1575,10 @@ export type stock_adjustment_itemsUpdateArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the stock_adjustment_items
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
   /**
    * The data needed to update a stock_adjustment_items.
    */
@@ -1388,6 +1631,10 @@ export type stock_adjustment_itemsUpdateManyAndReturnArgs<ExtArgs extends runtim
    * Limit how many stock_adjustment_items to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1402,6 +1649,10 @@ export type stock_adjustment_itemsUpsertArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the stock_adjustment_items
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
   /**
    * The filter to search for the stock_adjustment_items to update in case it exists.
    */
@@ -1428,6 +1679,10 @@ export type stock_adjustment_itemsDeleteArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the stock_adjustment_items
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
   /**
    * Filter which stock_adjustment_items to delete.
    */
@@ -1460,4 +1715,8 @@ export type stock_adjustment_itemsDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the stock_adjustment_items
    */
   omit?: Prisma.stock_adjustment_itemsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.stock_adjustment_itemsInclude<ExtArgs> | null
 }

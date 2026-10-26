@@ -79,7 +79,29 @@ export const adjustmentItemRowSchema = z.object({
   reason: adjustmentReasonSchema.nullable(),
   batch_id: z.string().nullable().optional(),
   product_variants: z
-    .object({ id: z.string(), sku: z.string(), barcode: z.string().nullable().optional() })
+    .object({
+      id: z.string(),
+      sku: z.string(),
+      name: z.string().nullable().optional(),
+      barcode: z.string().nullable().optional(),
+      weight: z.coerce.number().nullable().optional(),
+      cost_price: z.coerce.number().nullable().optional(),
+      price: z.coerce.number().nullable().optional(),
+      products: z
+        .object({
+          id: z.string().optional(),
+          name: z.string(),
+          sku: z.string().nullable().optional(),
+          barcode: z.string().nullable().optional(),
+          image_url: z.string().nullable().optional(),
+          images: z.any().nullable().optional(),
+          uom: z.string().nullable().optional(),
+          brands: z.object({ name: z.string().nullable().optional() }).nullable().optional(),
+          categories: z.object({ name: z.string().nullable().optional() }).nullable().optional(),
+        })
+        .nullable()
+        .optional(),
+    })
     .nullable()
     .optional(),
 })

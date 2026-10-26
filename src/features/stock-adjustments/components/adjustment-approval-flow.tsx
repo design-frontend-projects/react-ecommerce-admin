@@ -6,6 +6,8 @@ import {
   useCancelAdjustment,
 } from '../hooks/use-stock-adjustments'
 
+import { PERMISSIONS } from '@/features/users/data/permission-constants'
+
 interface AdjustmentApprovalFlowProps {
   adjustmentId: string
   status: string
@@ -61,7 +63,8 @@ export function AdjustmentApprovalFlow({
   const cancelAdjustment = useCancelAdjustment()
   const tierInfo = getAdjustmentApprovalTier(totalImpactValue)
 
-  const isPendingApproval = status === 'draft' || status === 'submitted'
+  const isPendingApproval =
+    status === 'draft' || status === 'pending' || status === 'submitted'
 
   const handleApprove = async () => {
     await applyAdjustment.mutateAsync(adjustmentId)
@@ -110,9 +113,9 @@ export function AdjustmentApprovalFlow({
           </div>
 
           <ApprovalButtonGroup
-            permission={[]}
+            permission={PERMISSIONS.INVENTORY_MANAGE}
             entityTitle='Stock Adjustment'
-            entityReference={`Adj #${adjustmentId.slice(0, 8)} (${storeName || 'Store'})`}
+            entityReference={`Adj #${adjustmentId.slice(0, 8)} (${storeName || 'Facility'})`}
             amount={Math.abs(totalImpactValue)}
             onApprove={handleApprove}
             onReject={handleReject}

@@ -54,9 +54,12 @@ export function useCancelAdjustment() {
   return useAuthMutation({
     mutationFn: (getToken, id: string) => cancelAdjustment(getToken, id),
     rbac: { permission: 'inventory.manage' },
-    onSuccess: () => {
+    onSuccess: (_, id) => {
       toast.success('Adjustment cancelled.')
       void queryClient.invalidateQueries({ queryKey: adjustmentsKey })
+      if (id) {
+        void queryClient.invalidateQueries({ queryKey: adjustmentKey(id) })
+      }
     },
     onError: (error: Error) =>
       toast.error('Unable to cancel adjustment', {
@@ -70,9 +73,15 @@ export function useApplyAdjustment() {
   return useAuthMutation({
     mutationFn: (getToken, id: string) => applyAdjustment(getToken, id),
     rbac: { permission: 'inventory.manage' },
-    onSuccess: () => {
+    onSuccess: (_, id) => {
       toast.success('Adjustment applied. Stock balances updated.')
       void queryClient.invalidateQueries({ queryKey: adjustmentsKey })
+      if (id) {
+        void queryClient.invalidateQueries({ queryKey: adjustmentKey(id) })
+      }
+      void queryClient.invalidateQueries({ queryKey: ['inventory', 'stock-balances'] })
+      void queryClient.invalidateQueries({ queryKey: ['inventory', 'product-variants'] })
+      void queryClient.invalidateQueries({ queryKey: ['stock-adjustments', 'product-variants'] })
     },
     onError: (error: Error) =>
       toast.error('Unable to apply adjustment', {
