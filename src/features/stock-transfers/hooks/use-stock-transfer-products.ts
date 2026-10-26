@@ -21,6 +21,15 @@ export interface StockTransferProductVariant {
   isBatchTracked: boolean
   isSerialTracked: boolean
   searchString: string
+  sourceStock?: {
+    warehouseId: string
+    warehouseName?: string | null
+    warehouseCode?: string | null
+    qtyOnHand: number
+    qtyReserved: number
+    qtyAvailable: number
+  } | null
+  alternativeWarehouses?: Array<WarehouseStockEntry>
 }
 
 export interface WarehouseStockEntry {
@@ -75,32 +84,62 @@ interface ApiVariantItem {
   price?: number
   cost_price?: number | null
   products?: { id?: string; name: string } | null
+  qty_on_hand?: number
+  qty_available?: number
+  qty_reserved?: number
+  source_stock?: {
+    warehouse_id: string
+    warehouse_name?: string | null
+    warehouse_code?: string | null
+    qty_on_hand: number
+    qty_reserved: number
+    qty_available: number
+  } | null
+  alternative_warehouses?: Array<{
+    warehouse_id: string
+    warehouse_name: string
+    warehouse_code: string
+    qty_on_hand: number
+    qty_reserved: number
+    qty_available: number
+  }>
 }
 
 export interface StockTransferProductVariantsOptions {
   enabled?: boolean
+  warehouseId?: string | null
 }
 
 /**
  * Fetch product variants enriched with brands, categories, UOM, weight,
  * and pricing from active or default Price Lists.
- * Prioritizes Prisma 7 authoritative server API route with rich search.
+ * Prioritizes Prisma 7 authoritative server API route with rich search & warehouse inventory balances.
  */
 export function useStockTransferProductVariants(
   search?: string,
   options?: StockTransferProductVariantsOptions
 ) {
+  const warehouseId = options?.warehouseId?.trim() || null
+
   return useAuthQuery<StockTransferProductVariant[]>({
-    queryKey: ['stock-transfers', 'product-variants-enriched', search ?? ''],
+    queryKey: [
+      'stock-transfers',
+      'product-variants-enriched',
+      search ?? '',
+      warehouseId ?? 'all',
+    ],
     rbac: { permission: 'inventory.stock.view' },
     enabled: options?.enabled,
-    staleTime: 60_000,
+    staleTime: 30_000,
     queryFn: async (getToken) => {
       // 1. Authoritative API route backed by Prisma 7 server & tenant isolation
       try {
         const params = new URLSearchParams({ limit: '100' })
         if (search?.trim()) {
           params.set('search', search.trim())
+        }
+        if (warehouseId) {
+          params.set('warehouseId', warehouseId)
         }
         const payload = (await authorizedRequest(
           getToken,
@@ -235,6 +274,30 @@ function mapApiVariantItem(item: ApiVariantItem): StockTransferProductVariant {
   const listPrice = item.price != null ? Number(item.price) : 0
   const costPrice = item.cost_price != null ? Number(item.cost_price) : 0
 
+  const sourceStock = item.source_stock
+    ? {
+        warehouseId: item.source_stock.warehouse_id,
+        warehouseName: item.source_stock.warehouse_name,
+        warehouseCode: item.source_stock.warehouse_code,
+        qtyOnHand: Number(item.source_stock.qty_on_hand || 0),
+        qtyReserved: Number(item.source_stock.qty_reserved || 0),
+        qtyAvailable: Number(item.source_stock.qty_available || 0),
+      }
+    : null
+
+  const alternativeWarehouses: WarehouseStockEntry[] = Array.isArray(
+    item.alternative_warehouses
+  )
+    ? item.alternative_warehouses.map((alt) => ({
+        warehouseId: alt.warehouse_id,
+        warehouseName: alt.warehouse_name,
+        warehouseCode: alt.warehouse_code,
+        qtyOnHand: Number(alt.qty_on_hand || 0),
+        qtyReserved: Number(alt.qty_reserved || 0),
+        qtyAvailable: Number(alt.qty_available || 0),
+      }))
+    : []
+
   return {
     id: item.id,
     sku: item.sku,
@@ -253,6 +316,8 @@ function mapApiVariantItem(item: ApiVariantItem): StockTransferProductVariant {
     isBatchTracked: false,
     isSerialTracked: false,
     searchString: searchTokens,
+    sourceStock,
+    alternativeWarehouses,
   }
 }
 

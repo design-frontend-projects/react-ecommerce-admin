@@ -6,6 +6,7 @@ import {
   Warehouse,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,6 +21,7 @@ export interface CrossWarehouseStockBadgeProps {
   requestedQty?: number
   onSwitchSourceWarehouse?: (warehouseId: string) => void
   compact?: boolean
+  variant?: StockTransferProductVariant | null
 }
 
 export function CrossWarehouseStockBadge({
@@ -29,6 +31,7 @@ export function CrossWarehouseStockBadge({
   requestedQty = 1,
   onSwitchSourceWarehouse,
   compact = false,
+  variant,
 }: CrossWarehouseStockBadgeProps) {
   const { t } = useTranslation()
   const { isLoading, getOtherWarehousesWithStock, getStockForWarehouse } =
@@ -36,8 +39,17 @@ export function CrossWarehouseStockBadge({
 
   if (!productVariantId) return null
 
+  // Check source stock from variant if preloaded, else fallback to hook
+  const preloadedSource = variant?.sourceStock
   const originStock = getStockForWarehouse(sourceWarehouseId)
-  const availableAtOrigin = originStock ? originStock.qtyAvailable : 0
+
+  const availableAtOrigin =
+    preloadedSource && preloadedSource.warehouseId === sourceWarehouseId
+      ? preloadedSource.qtyAvailable
+      : originStock
+        ? originStock.qtyAvailable
+        : 0
+
   const isOutOfStockAtOrigin = availableAtOrigin <= 0
   const isInsufficientAtOrigin = availableAtOrigin < requestedQty
 
@@ -46,7 +58,13 @@ export function CrossWarehouseStockBadge({
     return null
   }
 
-  const otherWarehouses = getOtherWarehousesWithStock(sourceWarehouseId)
+  // Preloaded alternative warehouses or fetched
+  const preloadedAlts = variant?.alternativeWarehouses?.filter(
+    (w) => w.warehouseId !== sourceWarehouseId && w.qtyAvailable > 0
+  )
+  const hookAlts = getOtherWarehousesWithStock(sourceWarehouseId)
+  const otherWarehouses =
+    preloadedAlts && preloadedAlts.length > 0 ? preloadedAlts : hookAlts
 
   if (isLoading) {
     return (
@@ -147,57 +165,85 @@ export function CrossWarehouseStockBadge({
           </p>
 
           <div className='grid grid-cols-1 gap-2 pt-0.5 sm:grid-cols-2'>
-            {otherWarehouses.map((wh: WarehouseStockEntry) => (
-              <div
-                key={wh.warehouseId}
-                className='flex items-center justify-between gap-2 rounded-md border bg-background/80 p-2 text-xs shadow-2xs'
-              >
-                <div className='min-w-0 flex-1'>
-                  <div className='flex items-center gap-1 truncate'>
-                    <Building2 className='h-3.5 w-3.5 shrink-0 text-primary' />
-                    <span className='truncate font-semibold text-foreground'>
-                      {wh.warehouseName}
-                    </span>
-                    <span className='font-mono text-[10px] text-muted-foreground'>
-                      ({wh.warehouseCode})
-                    </span>
-                  </div>
-                  <div className='mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground'>
-                    <span className='font-bold text-emerald-600 dark:text-emerald-400'>
-                      {t('stockTransfers.crossWarehouse.availableCount', {
-                        count: wh.qtyAvailable,
-                        defaultValue: `${wh.qtyAvailable} available`,
-                      })}
-                    </span>
-                    <span>•</span>
-                    <span>
-                      {t('stockTransfers.crossWarehouse.onHandCount', {
-                        count: wh.qtyOnHand,
-                        defaultValue: `${wh.qtyOnHand} on hand`,
-                      })}
-                    </span>
-                  </div>
-                </div>
-
-                {onSwitchSourceWarehouse && (
-                  <Button
-                    type='button'
-                    size='sm'
-                    variant='outline'
-                    onClick={() => onSwitchSourceWarehouse(wh.warehouseId)}
-                    className='h-7 shrink-0 gap-1 border-primary/40 px-2 text-[11px] hover:bg-primary/10 hover:text-primary'
-                  >
-                    <ArrowRightLeft className='h-3 w-3' />
-                    <span>
-                      {t(
-                        'stockTransfers.crossWarehouse.switchOrigin',
-                        'Switch Origin'
+            {otherWarehouses.map((wh: WarehouseStockEntry) => {
+              const canFulfill = wh.qtyAvailable >= requestedQty
+              return (
+                <div
+                  key={wh.warehouseId}
+                  className={cn(
+                    'flex items-center justify-between gap-2 rounded-md border p-2.5 text-xs shadow-2xs transition-all',
+                    canFulfill
+                      ? 'border-emerald-500/40 bg-emerald-500/5 dark:bg-emerald-950/20'
+                      : 'border-border bg-background/80'
+                  )}
+                >
+                  <div className='min-w-0 flex-1'>
+                    <div className='flex items-center gap-1.5 truncate'>
+                      <Building2
+                        className={cn(
+                          'h-3.5 w-3.5 shrink-0',
+                          canFulfill
+                            ? 'text-emerald-600 dark:text-emerald-400'
+                            : 'text-primary'
+                        )}
+                      />
+                      <span className='truncate font-semibold text-foreground'>
+                        {wh.warehouseName}
+                      </span>
+                      <span className='font-mono text-[10px] text-muted-foreground'>
+                        ({wh.warehouseCode})
+                      </span>
+                      {canFulfill && (
+                        <Badge
+                          variant='outline'
+                          className='h-4 border-emerald-500/50 bg-emerald-500/10 px-1 py-0 text-[9px] font-semibold text-emerald-700 dark:text-emerald-300'
+                        >
+                          {t('stockTransfers.crossWarehouse.canFulfill', 'Can Fulfill')}
+                        </Badge>
                       )}
-                    </span>
-                  </Button>
-                )}
-              </div>
-            ))}
+                    </div>
+                    <div className='mt-1 flex items-center gap-2 text-[11px] text-muted-foreground'>
+                      <span className='font-bold text-emerald-600 dark:text-emerald-400'>
+                        {t('stockTransfers.crossWarehouse.availableCount', {
+                          count: wh.qtyAvailable,
+                          defaultValue: `${wh.qtyAvailable} available`,
+                        })}
+                      </span>
+                      <span>•</span>
+                      <span>
+                        {t('stockTransfers.crossWarehouse.onHandCount', {
+                          count: wh.qtyOnHand,
+                          defaultValue: `${wh.qtyOnHand} on hand`,
+                        })}
+                      </span>
+                    </div>
+                  </div>
+
+                  {onSwitchSourceWarehouse && (
+                    <Button
+                      type='button'
+                      size='sm'
+                      variant={canFulfill ? 'default' : 'outline'}
+                      onClick={() => onSwitchSourceWarehouse(wh.warehouseId)}
+                      className={cn(
+                        'h-7 shrink-0 gap-1 px-2.5 text-[11px]',
+                        canFulfill
+                          ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                          : 'border-primary/40 hover:bg-primary/10 hover:text-primary'
+                      )}
+                    >
+                      <ArrowRightLeft className='h-3 w-3' />
+                      <span>
+                        {t(
+                          'stockTransfers.crossWarehouse.switchOrigin',
+                          'Switch Origin'
+                        )}
+                      </span>
+                    </Button>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       ) : (

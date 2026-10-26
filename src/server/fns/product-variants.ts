@@ -6,6 +6,24 @@ import { runWithTenantContext } from '@/server/context/tenant-context'
 import prisma from '@/lib/prisma'
 import type { VariantSearchResult, VariantSearchResponse } from '@/features/stock-balances/data/schema'
 
+export interface AlternativeWarehouseStock {
+  warehouse_id: string
+  warehouse_name: string
+  warehouse_code: string
+  qty_on_hand: number
+  qty_reserved: number
+  qty_available: number
+}
+
+export interface SourceWarehouseStock {
+  warehouse_id: string
+  warehouse_name?: string | null
+  warehouse_code?: string | null
+  qty_on_hand: number
+  qty_reserved: number
+  qty_available: number
+}
+
 export interface ProductVariantQueryOptions {
   search?: string
   page?: number
@@ -15,6 +33,8 @@ export interface ProductVariantQueryOptions {
   sortOrder?: 'asc' | 'desc'
   productId?: string
   isAssigned?: 'all' | 'assigned' | 'unassigned' | string
+  warehouseId?: string
+  includeAlternatives?: boolean
 }
 
 export interface PaginatedVariantItem extends VariantSearchResult {
@@ -32,6 +52,8 @@ export interface PaginatedVariantItem extends VariantSearchResult {
   qty_on_hand?: number
   qty_available?: number
   qty_reserved?: number
+  source_stock?: SourceWarehouseStock | null
+  alternative_warehouses?: AlternativeWarehouseStock[]
 }
 
 export interface PaginatedVariantsResponse {
@@ -143,8 +165,17 @@ export async function searchProductVariantsPaginated(
               is_active: true,
               stock_balances: {
                 select: {
+                  warehouse_id: true,
                   qty_on_hand: true,
                   qty_reserved: true,
+                  qty_available: true,
+                  warehouses: {
+                    select: {
+                      id: true,
+                      code: true,
+                      name: true,
+                    },
+                  },
                 },
               },
             },
@@ -157,19 +188,98 @@ export async function searchProductVariantsPaginated(
     ])
 
     const totalPages = Math.ceil(totalCount / pageSize) || 1
+    const targetWarehouseId = options.warehouseId?.trim() || null
 
     const items: PaginatedVariantItem[] = variants.map((v) => {
       const pli = v.price_list_items?.[0]
-      const balances = v.inventory_items?.stock_balances || []
-      const onHand = balances.reduce(
+      const balances = (v.inventory_items?.stock_balances || []) as Array<{
+        warehouse_id: string | null
+        qty_on_hand: unknown
+        qty_reserved: unknown
+        qty_available: unknown
+        warehouses: { id: string; code: string; name: string } | null
+      }>
+
+      // Global totals
+      const totalOnHand = balances.reduce(
         (sum, s) => sum + Number(s.qty_on_hand || 0),
         0
       )
-      const reserved = balances.reduce(
+      const totalReserved = balances.reduce(
         (sum, s) => sum + Number(s.qty_reserved || 0),
         0
       )
-      const available = Math.max(0, onHand - reserved)
+      const totalAvailable = Math.max(0, totalOnHand - totalReserved)
+
+      // Warehouse specific & alternative resolution
+      let sourceStock: SourceWarehouseStock | null = null
+      const altWarehouseMap = new Map<string, AlternativeWarehouseStock>()
+
+      for (const b of balances) {
+        if (!b.warehouse_id) continue
+        const onHand = Number(b.qty_on_hand || 0)
+        const reserved = Number(b.qty_reserved || 0)
+        const avail =
+          b.qty_available != null
+            ? Number(b.qty_available)
+            : Math.max(0, onHand - reserved)
+
+        if (targetWarehouseId && b.warehouse_id === targetWarehouseId) {
+          if (!sourceStock) {
+            sourceStock = {
+              warehouse_id: b.warehouse_id,
+              warehouse_name: b.warehouses?.name ?? null,
+              warehouse_code: b.warehouses?.code ?? null,
+              qty_on_hand: onHand,
+              qty_reserved: reserved,
+              qty_available: avail,
+            }
+          } else {
+            sourceStock.qty_on_hand += onHand
+            sourceStock.qty_reserved += reserved
+            sourceStock.qty_available += avail
+          }
+        } else {
+          const existing = altWarehouseMap.get(b.warehouse_id)
+          if (existing) {
+            existing.qty_on_hand += onHand
+            existing.qty_reserved += reserved
+            existing.qty_available += avail
+          } else {
+            altWarehouseMap.set(b.warehouse_id, {
+              warehouse_id: b.warehouse_id,
+              warehouse_name: b.warehouses?.name || 'Warehouse',
+              warehouse_code: b.warehouses?.code || 'WH',
+              qty_on_hand: onHand,
+              qty_reserved: reserved,
+              qty_available: avail,
+            })
+          }
+        }
+      }
+
+      // If target warehouse was requested but had no balance row, create a 0-stock record
+      if (targetWarehouseId && !sourceStock) {
+        sourceStock = {
+          warehouse_id: targetWarehouseId,
+          warehouse_name: null,
+          warehouse_code: null,
+          qty_on_hand: 0,
+          qty_reserved: 0,
+          qty_available: 0,
+        }
+      }
+
+      // Alternative warehouses with positive stock, sorted by highest available stock first
+      const alternativeWarehouses = Array.from(altWarehouseMap.values())
+        .filter((w) => w.qty_available > 0 || w.qty_on_hand > 0)
+        .sort((a, b) => b.qty_available - a.qty_available)
+
+      // When warehouseId is passed, default onHand & available to the requested warehouse's stock
+      const effectiveOnHand = targetWarehouseId ? (sourceStock?.qty_on_hand ?? 0) : totalOnHand
+      const effectiveReserved = targetWarehouseId ? (sourceStock?.qty_reserved ?? 0) : totalReserved
+      const effectiveAvailable = targetWarehouseId ? (sourceStock?.qty_available ?? 0) : totalAvailable
+
       const inv = v.inventory_items
 
       return {
@@ -191,9 +301,11 @@ export async function searchProductVariantsPaginated(
         inventory_item_id: inv?.id ?? null,
         inventory_item_sku: inv?.sku ?? null,
         inventory_item_status: inv?.status ?? null,
-        qty_on_hand: onHand,
-        qty_available: available,
-        qty_reserved: reserved,
+        qty_on_hand: effectiveOnHand,
+        qty_available: effectiveAvailable,
+        qty_reserved: effectiveReserved,
+        source_stock: sourceStock,
+        alternative_warehouses: alternativeWarehouses,
       }
     })
 

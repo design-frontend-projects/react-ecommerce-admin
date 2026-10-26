@@ -53,7 +53,7 @@ export interface StockTransferProductVirtualComboboxProps {
 }
 
 const CHUNK_SIZE = 50
-const ITEM_HEIGHT = 82
+const ITEM_HEIGHT = 88
 
 export function StockTransferProductVirtualCombobox({
   value,
@@ -97,6 +97,7 @@ export function StockTransferProductVirtualCombobox({
     isFetching: isServerFetching,
   } = useStockTransferProductVariants(debouncedSearchQuery, {
     enabled: shouldQueryServer,
+    warehouseId: sourceWarehouseId,
   })
 
   // Notify external listener if provided
@@ -157,9 +158,13 @@ export function StockTransferProductVirtualCombobox({
     return combinedVariants.filter((v) => {
       // Stock filter
       if (sourceWarehouseId) {
-        const onHand = originStockMap[v.id] ?? 0
-        if (filterTab === 'in_stock' && onHand <= 0) return false
-        if (filterTab === 'out_of_stock' && onHand > 0) return false
+        const avail =
+          v.sourceStock?.qtyAvailable ??
+          (v.sourceStock?.qtyOnHand != null
+            ? v.sourceStock.qtyOnHand
+            : originStockMap[v.id] ?? 0)
+        if (filterTab === 'in_stock' && avail <= 0) return false
+        if (filterTab === 'out_of_stock' && avail > 0) return false
       }
 
       if (!q) return true
@@ -463,10 +468,15 @@ export function StockTransferProductVirtualCombobox({
 
                   const isSelected = selectedVariant?.id === variant.id
                   const isHighlighted = activeIndex === virtualRow.index
-                  const onHand = sourceWarehouseId
-                    ? (originStockMap[variant.id] ?? 0)
-                    : null
+                  const sourceAvail = variant.sourceStock?.qtyAvailable
+                  const onHand =
+                    sourceAvail != null
+                      ? sourceAvail
+                      : sourceWarehouseId
+                        ? (originStockMap[variant.id] ?? 0)
+                        : null
                   const isOutOfStock = onHand !== null && onHand <= 0
+                  const altWarehouses = variant.alternativeWarehouses || []
 
                   return (
                     <div
@@ -556,7 +566,7 @@ export function StockTransferProductVirtualCombobox({
                           </div>
                         </div>
 
-                        {/* Right: Stock Badge & Selection Check */}
+                        {/* Right: Stock Badge, Alternatives & Selection Check */}
                         <div className='flex shrink-0 flex-col items-end gap-1.5'>
                           {isSelected && (
                             <div className='rounded-full bg-primary p-0.5 text-primary-foreground'>
@@ -597,12 +607,31 @@ export function StockTransferProductVirtualCombobox({
                             </span>
                           )}
 
-                          {isOutOfStock && (
-                            <span className='flex items-center gap-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-400'>
-                              <Building2 className='h-2.5 w-2.5' />
-                              {t('stockTransfers.combobox.otherWarehousesAvailable', 'Other WHs available')}
+                          {/* Alternative warehouses badge chips */}
+                          {altWarehouses.length > 0 ? (
+                            <div className='flex flex-wrap items-center justify-end gap-1 max-w-[200px]'>
+                              {altWarehouses.slice(0, 2).map((alt) => (
+                                <span
+                                  key={alt.warehouseId}
+                                  className='inline-flex items-center gap-0.5 rounded border border-border/60 bg-muted/70 px-1 py-0.5 text-[9px] font-medium text-foreground transition-colors'
+                                  title={`${alt.warehouseName} (${alt.warehouseCode}): ${alt.qtyAvailable} available, ${alt.qtyOnHand} on hand`}
+                                >
+                                  <Building2 className='h-2.5 w-2.5 text-primary shrink-0' />
+                                  <span className='truncate max-w-[60px]'>{alt.warehouseCode || alt.warehouseName}:</span>
+                                  <strong className='text-emerald-600 dark:text-emerald-400'>{alt.qtyAvailable}</strong>
+                                </span>
+                              ))}
+                              {altWarehouses.length > 2 && (
+                                <span className='text-[9px] text-muted-foreground'>
+                                  +{altWarehouses.length - 2}
+                                </span>
+                              )}
+                            </div>
+                          ) : isOutOfStock ? (
+                            <span className='text-[10px] text-destructive/80'>
+                              {t('stockTransfers.combobox.noOtherStock', 'No stock elsewhere')}
                             </span>
-                          )}
+                          ) : null}
                         </div>
                       </div>
                     </div>

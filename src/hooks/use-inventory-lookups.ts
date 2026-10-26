@@ -445,7 +445,7 @@ export function useWarehouseOnHand(warehouseId?: string) {
       try {
         const payload = (await authorizedRequest(
           getToken,
-          `/api/inventory/stock-balances?warehouseId=${encodeURIComponent(warehouseId)}`
+          `/api/inventory/stock-balances?warehouseId=${encodeURIComponent(warehouseId)}&limit=1000&pageSize=100`
         )) as { items?: Array<{ product_variant_id: string; qty_on_hand: number | string }> }
         if (payload?.items && Array.isArray(payload.items)) {
           const map: Record<string, number> = {}

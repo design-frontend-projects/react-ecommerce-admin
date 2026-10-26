@@ -27,9 +27,11 @@ const GET = withAuth(
       const sortOrder = (searchParams.get('sortOrder') ?? undefined) as 'asc' | 'desc' | undefined
       const productId = searchParams.get('productId') ?? undefined
       const isAssigned = searchParams.get('isAssigned') ?? undefined
+      const warehouseId = searchParams.get('warehouseId') ?? undefined
 
       const data = await searchProductVariants(userId, {
         search,
+        warehouseId,
         page,
         pageSize,
         limit,

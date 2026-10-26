@@ -185,34 +185,6 @@ export function TransferCreateDialog({
   const { data: warehouses = [] } = useWarehouseOptions()
   const { data: stores = [] } = useStoreOptions()
   const { data: branches = [] } = useBranchOptions()
-  const { data: variants = [], isLoading: isLoadingVariants } =
-    useStockTransferProductVariants()
-
-  // Track dynamically discovered variants (e.g. from server search selection or edit mode)
-  const [selectedVariantsMap, setSelectedVariantsMap] = useState<
-    Map<string, StockTransferProductVariant>
-  >(new Map())
-
-  const registerVariant = (variant: StockTransferProductVariant) => {
-    setSelectedVariantsMap((prev) => {
-      if (prev.has(variant.id)) return prev
-      const next = new Map(prev)
-      next.set(variant.id, variant)
-      return next
-    })
-  }
-
-  // Combined pool of variants ensuring any dynamically searched item retains metadata for totals & badges
-  const allKnownVariants = useMemo(() => {
-    const map = new Map<string, StockTransferProductVariant>()
-    for (const v of variants) {
-      map.set(v.id, v)
-    }
-    selectedVariantsMap.forEach((v, k) => {
-      map.set(k, v)
-    })
-    return Array.from(map.values())
-  }, [variants, selectedVariantsMap])
 
   const {
     register,
@@ -243,6 +215,37 @@ export function TransferCreateDialog({
   const watchedPriority = watch('priority') || 'normal'
   const watchedExpectedShip = watch('expectedShipDate') || ''
   const watchedItems = watch('items')
+
+  const { data: variants = [], isLoading: isLoadingVariants } =
+    useStockTransferProductVariants(undefined, {
+      warehouseId: sourceWarehouseId,
+    })
+
+  // Track dynamically discovered variants (e.g. from server search selection or edit mode)
+  const [selectedVariantsMap, setSelectedVariantsMap] = useState<
+    Map<string, StockTransferProductVariant>
+  >(new Map())
+
+  const registerVariant = (variant: StockTransferProductVariant) => {
+    setSelectedVariantsMap((prev) => {
+      if (prev.has(variant.id)) return prev
+      const next = new Map(prev)
+      next.set(variant.id, variant)
+      return next
+    })
+  }
+
+  // Combined pool of variants ensuring any dynamically searched item retains metadata for totals & badges
+  const allKnownVariants = useMemo(() => {
+    const map = new Map<string, StockTransferProductVariant>()
+    for (const v of variants) {
+      map.set(v.id, v)
+    }
+    selectedVariantsMap.forEach((v, k) => {
+      map.set(k, v)
+    })
+    return Array.from(map.values())
+  }, [variants, selectedVariantsMap])
 
   // When editing, populate form from fetched detail
   useEffect(() => {
@@ -1348,13 +1351,32 @@ export function TransferCreateDialog({
                             {isWarehouseMode && selectedVariantId && (
                               <CrossWarehouseStockBadge
                                 productVariantId={selectedVariantId}
+                                variant={
+                                  allKnownVariants.find(
+                                    (v) => v.id === selectedVariantId
+                                  ) || null
+                                }
                                 sourceWarehouseId={sourceWarehouseId}
                                 sourceWarehouseName={selectedWarehouse?.name}
                                 requestedQty={Number(
                                   watchedItems?.[index]?.qty || 1
                                 )}
                                 onSwitchSourceWarehouse={(newWhId) => {
-                                  setValue('sourceWarehouseId', newWhId)
+                                  setValue('sourceWarehouseId', newWhId, {
+                                    shouldDirty: true,
+                                    shouldValidate: true,
+                                  })
+                                  const targetWh = warehouses.find(
+                                    (w) => w.id === newWhId
+                                  )
+                                  toast.info(
+                                    t('stockTransfers.toast.switchedOrigin', {
+                                      defaultValue:
+                                        'Transfer origin switched to {{name}}. Inventory availability updated.',
+                                      name:
+                                        targetWh?.name || 'Selected Warehouse',
+                                    })
+                                  )
                                 }}
                               />
                             )}
