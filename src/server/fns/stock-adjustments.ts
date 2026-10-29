@@ -62,9 +62,7 @@ async function snapshotBalances(
   variantIds: string[]
 ): Promise<Map<string, number>> {
   const whereClause: Prisma.stock_balancesWhereInput = {
-    inventory_items: {
-      product_variant_id: { in: variantIds },
-    },
+    product_variant_id: { in: variantIds },
   }
   if (locationFilter.warehouseId) {
     whereClause.warehouse_id = locationFilter.warehouseId
@@ -75,17 +73,15 @@ async function snapshotBalances(
   const balances = await prisma.stock_balances.findMany({
     where: whereClause,
     select: {
-      inventory_items: {
-        select: { product_variant_id: true },
-      },
+      product_variant_id: true,
       qty_on_hand: true,
     },
   })
   const map = new Map<string, number>()
   for (const balance of balances) {
-    const vId = balance.inventory_items?.product_variant_id
+    const vId = balance.product_variant_id
     if (vId) {
-      map.set(vId, Number(balance.qty_on_hand))
+      map.set(vId, (map.get(vId) ?? 0) + Number(balance.qty_on_hand))
     }
   }
   return map
@@ -114,10 +110,15 @@ export async function listAdjustments(authUserId: string) {
     storeIds.length > 0
       ? await prisma.stores.findMany({
           where: { store_id: { in: storeIds } },
-          select: { store_id: true, name: true, code: true },
+          select: { store_id: true, name: true },
         })
       : []
-  const storeMap = new Map(stores.map((s) => [s.store_id, s]))
+  const storeMap = new Map(
+    stores.map((s) => [
+      s.store_id,
+      { id: s.store_id, store_id: s.store_id, name: s.name, code: null },
+    ])
+  )
 
   return rows.map((r) => ({
     ...r,
@@ -143,12 +144,20 @@ export async function getAdjustment(authUserId: string, id: string) {
   }
 
   // Resolve store if present
-  let store = null
+  let store: { id: string; store_id: string; name: string | null; code: string | null } | null = null
   if (adjustment.store_id) {
-    store = await prisma.stores.findUnique({
+    const rawStore = await prisma.stores.findUnique({
       where: { store_id: adjustment.store_id },
-      select: { store_id: true, name: true, code: true },
+      select: { store_id: true, name: true },
     })
+    if (rawStore) {
+      store = {
+        id: rawStore.store_id,
+        store_id: rawStore.store_id,
+        name: rawStore.name,
+        code: null,
+      }
+    }
   }
 
   const items = await prisma.stock_adjustment_items.findMany({
@@ -169,8 +178,13 @@ export async function getAdjustment(authUserId: string, id: string) {
             barcode: true,
             name: true,
             weight: true,
-            cost_price: true,
-            price: true,
+            price_list_items: {
+              select: {
+                price: true,
+                cost_price: true,
+              },
+              take: 1,
+            },
             products: {
               select: {
                 id: true,
@@ -190,8 +204,13 @@ export async function getAdjustment(authUserId: string, id: string) {
 
   const enrichedItems = items.map((it) => {
     const rawVariant = variantMap.get(it.product_variant_id)
+    const pli = rawVariant?.price_list_items?.[0]
     return {
       ...it,
+      qty_before: Number(it.qty_before ?? 0),
+      qty_after: Number(it.qty_after ?? 0),
+      qty_adjusted: Number(it.qty_adjusted ?? 0),
+      unit_cost: Number(it.unit_cost ?? 0),
       product_variants: rawVariant
         ? {
             id: rawVariant.id,
@@ -199,8 +218,8 @@ export async function getAdjustment(authUserId: string, id: string) {
             barcode: rawVariant.barcode,
             name: rawVariant.name,
             weight: rawVariant.weight ? Number(rawVariant.weight) : null,
-            cost_price: rawVariant.cost_price ? Number(rawVariant.cost_price) : null,
-            price: rawVariant.price ? Number(rawVariant.price) : null,
+            cost_price: pli?.cost_price != null ? Number(pli.cost_price) : null,
+            price: pli?.price != null ? Number(pli.price) : null,
             products: rawVariant.products
               ? {
                   id: rawVariant.products.id,
@@ -296,7 +315,13 @@ export async function createAdjustment(
 
     return {
       ...created,
-      stock_adjustment_items: items,
+      stock_adjustment_items: items.map((it: any) => ({
+        ...it,
+        qty_before: Number(it.qty_before ?? 0),
+        qty_after: Number(it.qty_after ?? 0),
+        qty_adjusted: Number(it.qty_adjusted ?? 0),
+        unit_cost: Number(it.unit_cost ?? 0),
+      })),
     }
   })
 }
@@ -341,7 +366,7 @@ export async function approveAdjustment(authUserId: string, id: string) {
   // 2. If RPC succeeded, finalize status and return
   if (rpcSucceeded) {
     return prisma.stock_adjustments.update({
-      where: { id, tenant_id: tenantId },
+      where: { id },
       data: {
         status: 'approved' as adjustment_status_enum,
         approved_by: authUserId,
@@ -415,7 +440,6 @@ export async function approveAdjustment(authUserId: string, id: string) {
           where: { id: existingBal.id },
           data: {
             qty_on_hand: finalQty,
-            qty_available: finalQty - Number(existingBal.qty_reserved || 0),
             avg_cost: unitCost > 0 ? unitCost : existingBal.avg_cost,
             last_transaction_at: now,
             updated_at: now,
@@ -434,7 +458,6 @@ export async function approveAdjustment(authUserId: string, id: string) {
             location_id: it.location_id ?? null,
             qty_on_hand: finalQty,
             qty_reserved: 0,
-            qty_available: finalQty,
             avg_cost: unitCost,
             last_transaction_at: now,
             created_by_user_id: tenantUserId,
@@ -479,7 +502,7 @@ export async function approveAdjustment(authUserId: string, id: string) {
     }
 
     return tx.stock_adjustments.update({
-      where: { id, tenant_id: tenantId },
+      where: { id },
       data: {
         status: 'approved' as adjustment_status_enum,
         approved_by: authUserId,
