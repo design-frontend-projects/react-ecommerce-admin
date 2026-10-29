@@ -111,9 +111,9 @@ export function SubscriptionFlow({ onSuccess }: SubscriptionFlowProps) {
             end_date: endDate,
           })
 
-          if (result?.isExtension) {
+          if (result?.supersededCount && result.supersededCount > 0) {
             toast.success(
-              `Active subscription extended! Total duration is now ${result.totalMonths} months.`
+              'Previous subscription superseded and new plan activated!'
             )
           } else {
             toast.success('Subscription activated successfully!')

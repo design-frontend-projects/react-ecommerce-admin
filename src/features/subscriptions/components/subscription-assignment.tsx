@@ -74,7 +74,7 @@ export function SubscriptionAssignment() {
     try {
       await assignMutation.mutateAsync({
         ...values,
-        subscription_id: parseInt(values.subscription_id),
+        subscription_id: values.subscription_id,
         start_date: startDate,
         end_date: endDate,
       })

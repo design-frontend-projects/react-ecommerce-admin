@@ -1,5 +1,21 @@
 import { Temporal } from '@js-temporal/polyfill'
 
+export const ACTIVE_SUBSCRIPTION_STATUSES = [
+  'paid',
+  'active',
+  'trial',
+  'grace_period',
+] as const
+
+export function isActiveSubscriptionStatus(
+  status: string | null | undefined
+): boolean {
+  if (!status) return false
+  return (ACTIVE_SUBSCRIPTION_STATUSES as readonly string[]).includes(
+    status.toLowerCase()
+  )
+}
+
 /**
  * Calculates the end date for a subscription plan based on the duration in months using JS Temporal.
  * @param startDate The date the subscription starts.
@@ -17,18 +33,18 @@ export function calculateEndDate(
 
 /**
  * Validates if a subscription record is active based on its status and end date using Temporal.
- * @param status The status of the subscription ('new', 'paid', 'canceled').
+ * @param status The status of the subscription ('new', 'paid', 'active', 'trial', 'grace_period', 'canceled', etc.).
  * @param endDate The date the subscription expires.
  * @returns True if the subscription is active.
  */
 export function isSubscriptionActive(
   status: string,
-  endDate: Date | null
+  endDate: Date | string | null
 ): boolean {
-  if (status !== 'paid') return false
+  if (!isActiveSubscriptionStatus(status)) return false
   if (!endDate) return false
   const today = Temporal.Now.plainDateISO()
-  const endPlain = Temporal.PlainDate.from(endDate.toISOString().split('T')[0])
+  const endPlain = toPlainDate(endDate)
   return Temporal.PlainDate.compare(today, endPlain) <= 0
 }
 
@@ -63,7 +79,7 @@ export function calculateEndDateFromTodayTemporal(
 /**
  * Checks if the subscription status is active and not expired, using JavaScript Temporal.
  * Checks that current date is between start_date and end_date (inclusive).
- * @param status The status of the subscription (e.g., 'paid').
+ * @param status The status of the subscription (e.g., 'paid', 'active', 'trial').
  * @param startDate The start date of the subscription.
  * @param endDate The end date of the subscription.
  * @returns True if the subscription is active and not expired.
@@ -73,7 +89,7 @@ export function isSubscriptionActiveTemporal(
   startDate: string | Date | null | undefined,
   endDate: string | Date | null | undefined
 ): boolean {
-  if (status !== 'paid') return false
+  if (!isActiveSubscriptionStatus(status)) return false
   if (!startDate || !endDate) return false
 
   const today = Temporal.Now.plainDateISO()
@@ -84,6 +100,69 @@ export function isSubscriptionActiveTemporal(
     Temporal.PlainDate.compare(today, start) >= 0 &&
     Temporal.PlainDate.compare(today, end) <= 0
   )
+}
+
+export interface SubscriptionExpirationInfo {
+  daysRemaining: number
+  totalCycleDays: number
+  elapsedDays: number
+  progressPercentage: number
+  isExpired: boolean
+  isExpiringSoon: boolean
+  isActive: boolean
+}
+
+/**
+ * Computes detailed expiration metrics for a subscription using Temporal.
+ */
+export function getSubscriptionExpirationInfo(
+  startDate: string | Date | null | undefined,
+  endDate: string | Date | null | undefined,
+  status: string | null | undefined
+): SubscriptionExpirationInfo {
+  if (!endDate) {
+    return {
+      daysRemaining: 0,
+      totalCycleDays: 0,
+      elapsedDays: 0,
+      progressPercentage: 0,
+      isExpired: false,
+      isExpiringSoon: false,
+      isActive: false,
+    }
+  }
+
+  const today = Temporal.Now.plainDateISO()
+  const end = toPlainDate(endDate)
+  const start = startDate ? toPlainDate(startDate) : today
+
+  const daysRemaining = today.until(end, { largestUnit: 'days' }).days
+  const totalCycleDays = Math.max(
+    1,
+    start.until(end, { largestUnit: 'days' }).days
+  )
+  const elapsedDays = Math.max(
+    0,
+    Math.min(totalCycleDays, start.until(today, { largestUnit: 'days' }).days)
+  )
+  const progressPercentage = Math.min(
+    100,
+    Math.max(0, Math.round((elapsedDays / totalCycleDays) * 100))
+  )
+  const isExpired = daysRemaining < 0 || status === 'expired'
+  const isActive =
+    isActiveSubscriptionStatus(status) && !isExpired && daysRemaining >= 0
+  const isExpiringSoon = isActive && daysRemaining <= 7
+
+  return {
+    daysRemaining: Math.max(0, daysRemaining),
+    totalCycleDays,
+    elapsedDays,
+    progressPercentage,
+    isExpired,
+    isExpiringSoon,
+    isActive,
+  }
 }
 
 /**
