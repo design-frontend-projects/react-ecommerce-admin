@@ -3,6 +3,7 @@
 import prisma from '@/lib/prisma'
 import { requireTenantId } from '@/server/utils/tenant'
 import { runWithTenantContext } from '@/server/context/tenant-context'
+import { AntiSelfApprovalError } from '@/server/workflow/approval-engine'
 import type { ApprovalStatus, DiscountType } from '@/features/promotions/types'
 import type { Prisma, inv_approval_status_enum, discount_type_enum } from '@/generated/prisma/client'
 
@@ -146,6 +147,9 @@ export async function reviewDiscountApprovalRequest(
     })
 
     if (!existing) throw new Error('Discount approval request not found.')
+    if (existing.requested_by_user_id === authUserId) {
+      throw new AntiSelfApprovalError('Requester cannot approve their own request')
+    }
     if (existing.status !== 'pending') {
       throw new Error(`Request is already ${existing.status}.`)
     }

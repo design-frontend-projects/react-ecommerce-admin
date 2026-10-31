@@ -3,9 +3,12 @@ import { searchProductVariants } from '@/server/fns/product-variants'
 import { handleRouteError } from '@/server/utils/api-error'
 import { withAuth } from '@/server/utils/with-auth'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
+import { stripSensitiveCostFields, hasCostViewPermission } from '@/server/utils/cost-sanitizer'
 
 const GET = withAuth(
   [
+    PERMISSIONS.PRODUCTS_VIEW,
+    PERMISSIONS.PRODUCTS_MANAGE_VARIANTS,
     PERMISSIONS.INVENTORY_VIEW,
     PERMISSIONS.SALES_VIEW,
     PERMISSIONS.ORDERS_VIEW,
@@ -44,7 +47,9 @@ const GET = withAuth(
         productId,
         isAssigned,
       })
-      return Response.json(data)
+      const hasViewCost = hasCostViewPermission(auth.permissionNames)
+      const sanitized = hasViewCost ? data : stripSensitiveCostFields(data, false)
+      return Response.json(sanitized)
     } catch (error) {
       return handleRouteError(error, 'Unable to search product variants')
     }

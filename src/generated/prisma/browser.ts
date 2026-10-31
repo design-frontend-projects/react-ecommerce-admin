@@ -844,3 +844,28 @@ export type notification_preferences = Prisma.notification_preferencesModel
  * Transactional outbox pattern — ensures notifications are published to Redis
  */
 export type notification_publish_queue = Prisma.notification_publish_queueModel
+/**
+ * Model tenant_user_branches
+ * Multi-branch assignment junction model for ABAC data scoping.
+ */
+export type tenant_user_branches = Prisma.tenant_user_branchesModel
+/**
+ * Model tenant_user_warehouses
+ * Multi-warehouse assignment junction model for ABAC data scoping.
+ */
+export type tenant_user_warehouses = Prisma.tenant_user_warehousesModel
+/**
+ * Model approval_rules
+ * Configurable multi-tenant approval workflow rules with amount limits and segregation of duties.
+ */
+export type approval_rules = Prisma.approval_rulesModel
+/**
+ * Model approval_requests
+ * Generic approval workflow request tracking approval lifecycle and decisions.
+ */
+export type approval_requests = Prisma.approval_requestsModel
+/**
+ * Model security_audit_logs
+ * Tamper-resistant append-only security audit log using SHA-256 hash chaining.
+ */
+export type security_audit_logs = Prisma.security_audit_logsModel

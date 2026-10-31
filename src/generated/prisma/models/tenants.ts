@@ -356,6 +356,11 @@ export type tenantsWhereInput = {
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
   default_branch?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  roles?: Prisma.RolesListRelationFilter
+  tenant_user_branches?: Prisma.Tenant_user_branchesListRelationFilter
+  tenant_user_warehouses?: Prisma.Tenant_user_warehousesListRelationFilter
+  approval_rules?: Prisma.Approval_rulesListRelationFilter
+  approval_requests?: Prisma.Approval_requestsListRelationFilter
 }
 
 export type tenantsOrderByWithRelationInput = {
@@ -395,6 +400,11 @@ export type tenantsOrderByWithRelationInput = {
   currencies?: Prisma.currenciesOrderByWithRelationInput
   cities?: Prisma.citiesOrderByWithRelationInput
   default_branch?: Prisma.branchesOrderByWithRelationInput
+  roles?: Prisma.rolesOrderByRelationAggregateInput
+  tenant_user_branches?: Prisma.tenant_user_branchesOrderByRelationAggregateInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesOrderByRelationAggregateInput
+  approval_rules?: Prisma.approval_rulesOrderByRelationAggregateInput
+  approval_requests?: Prisma.approval_requestsOrderByRelationAggregateInput
 }
 
 export type tenantsWhereUniqueInput = Prisma.AtLeast<{
@@ -437,6 +447,11 @@ export type tenantsWhereUniqueInput = Prisma.AtLeast<{
   currencies?: Prisma.XOR<Prisma.CurrenciesNullableScalarRelationFilter, Prisma.currenciesWhereInput> | null
   cities?: Prisma.XOR<Prisma.CitiesNullableScalarRelationFilter, Prisma.citiesWhereInput> | null
   default_branch?: Prisma.XOR<Prisma.BranchesNullableScalarRelationFilter, Prisma.branchesWhereInput> | null
+  roles?: Prisma.RolesListRelationFilter
+  tenant_user_branches?: Prisma.Tenant_user_branchesListRelationFilter
+  tenant_user_warehouses?: Prisma.Tenant_user_warehousesListRelationFilter
+  approval_rules?: Prisma.Approval_rulesListRelationFilter
+  approval_requests?: Prisma.Approval_requestsListRelationFilter
 }, "id" | "tenant_code" | "slug">
 
 export type tenantsOrderByWithAggregationInput = {
@@ -536,6 +551,11 @@ export type tenantsCreateInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateInput = {
@@ -571,6 +591,11 @@ export type tenantsUncheckedCreateInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUpdateInput = {
@@ -606,6 +631,11 @@ export type tenantsUpdateInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateInput = {
@@ -641,6 +671,11 @@ export type tenantsUncheckedUpdateInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateManyInput = {
@@ -999,6 +1034,22 @@ export type tenantsUncheckedUpdateManyWithoutCurrenciesNestedInput = {
   deleteMany?: Prisma.tenantsScalarWhereInput | Prisma.tenantsScalarWhereInput[]
 }
 
+export type tenantsCreateNestedOneWithoutRolesInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutRolesInput, Prisma.tenantsUncheckedCreateWithoutRolesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutRolesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+}
+
+export type tenantsUpdateOneWithoutRolesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutRolesInput, Prisma.tenantsUncheckedCreateWithoutRolesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutRolesInput
+  upsert?: Prisma.tenantsUpsertWithoutRolesInput
+  disconnect?: Prisma.tenantsWhereInput | boolean
+  delete?: Prisma.tenantsWhereInput | boolean
+  connect?: Prisma.tenantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenantsUpdateToOneWithWhereWithoutRolesInput, Prisma.tenantsUpdateWithoutRolesInput>, Prisma.tenantsUncheckedUpdateWithoutRolesInput>
+}
+
 export type tenantsCreateNestedOneWithoutTenant_subscriptionsInput = {
   create?: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_subscriptionsInput, Prisma.tenantsUncheckedCreateWithoutTenant_subscriptionsInput>
   connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutTenant_subscriptionsInput
@@ -1095,6 +1146,62 @@ export type tenantsUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.tenantsUpdateToOneWithWhereWithoutNotificationsInput, Prisma.tenantsUpdateWithoutNotificationsInput>, Prisma.tenantsUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type tenantsCreateNestedOneWithoutTenant_user_branchesInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_branchesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_branchesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutTenant_user_branchesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+}
+
+export type tenantsUpdateOneRequiredWithoutTenant_user_branchesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_branchesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_branchesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutTenant_user_branchesInput
+  upsert?: Prisma.tenantsUpsertWithoutTenant_user_branchesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenantsUpdateToOneWithWhereWithoutTenant_user_branchesInput, Prisma.tenantsUpdateWithoutTenant_user_branchesInput>, Prisma.tenantsUncheckedUpdateWithoutTenant_user_branchesInput>
+}
+
+export type tenantsCreateNestedOneWithoutTenant_user_warehousesInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_warehousesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_warehousesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutTenant_user_warehousesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+}
+
+export type tenantsUpdateOneRequiredWithoutTenant_user_warehousesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_warehousesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_warehousesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutTenant_user_warehousesInput
+  upsert?: Prisma.tenantsUpsertWithoutTenant_user_warehousesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenantsUpdateToOneWithWhereWithoutTenant_user_warehousesInput, Prisma.tenantsUpdateWithoutTenant_user_warehousesInput>, Prisma.tenantsUncheckedUpdateWithoutTenant_user_warehousesInput>
+}
+
+export type tenantsCreateNestedOneWithoutApproval_rulesInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_rulesInput, Prisma.tenantsUncheckedCreateWithoutApproval_rulesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutApproval_rulesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+}
+
+export type tenantsUpdateOneRequiredWithoutApproval_rulesNestedInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_rulesInput, Prisma.tenantsUncheckedCreateWithoutApproval_rulesInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutApproval_rulesInput
+  upsert?: Prisma.tenantsUpsertWithoutApproval_rulesInput
+  connect?: Prisma.tenantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenantsUpdateToOneWithWhereWithoutApproval_rulesInput, Prisma.tenantsUpdateWithoutApproval_rulesInput>, Prisma.tenantsUncheckedUpdateWithoutApproval_rulesInput>
+}
+
+export type tenantsCreateNestedOneWithoutApproval_requestsInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_requestsInput, Prisma.tenantsUncheckedCreateWithoutApproval_requestsInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutApproval_requestsInput
+  connect?: Prisma.tenantsWhereUniqueInput
+}
+
+export type tenantsUpdateOneRequiredWithoutApproval_requestsNestedInput = {
+  create?: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_requestsInput, Prisma.tenantsUncheckedCreateWithoutApproval_requestsInput>
+  connectOrCreate?: Prisma.tenantsCreateOrConnectWithoutApproval_requestsInput
+  upsert?: Prisma.tenantsUpsertWithoutApproval_requestsInput
+  connect?: Prisma.tenantsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.tenantsUpdateToOneWithWhereWithoutApproval_requestsInput, Prisma.tenantsUpdateWithoutApproval_requestsInput>, Prisma.tenantsUncheckedUpdateWithoutApproval_requestsInput>
+}
+
 export type tenantsCreateWithoutDefault_branchInput = {
   id?: string
   tenant_code: string
@@ -1127,6 +1234,11 @@ export type tenantsCreateWithoutDefault_branchInput = {
   countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutDefault_branchInput = {
@@ -1161,6 +1273,11 @@ export type tenantsUncheckedCreateWithoutDefault_branchInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutDefault_branchInput = {
@@ -1253,6 +1370,11 @@ export type tenantsCreateWithoutCitiesInput = {
   countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutCitiesInput = {
@@ -1287,6 +1409,11 @@ export type tenantsUncheckedCreateWithoutCitiesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutCitiesInput = {
@@ -1347,6 +1474,11 @@ export type tenantsCreateWithoutCountriesInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutCountriesInput = {
@@ -1381,6 +1513,11 @@ export type tenantsUncheckedCreateWithoutCountriesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutCountriesInput = {
@@ -1441,6 +1578,11 @@ export type tenantsCreateWithoutCurrenciesInput = {
   countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutCurrenciesInput = {
@@ -1475,6 +1617,11 @@ export type tenantsUncheckedCreateWithoutCurrenciesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutCurrenciesInput = {
@@ -1501,6 +1648,178 @@ export type tenantsUpdateWithWhereUniqueWithoutCurrenciesInput = {
 export type tenantsUpdateManyWithWhereWithoutCurrenciesInput = {
   where: Prisma.tenantsScalarWhereInput
   data: Prisma.XOR<Prisma.tenantsUpdateManyMutationInput, Prisma.tenantsUncheckedUpdateManyWithoutCurrenciesInput>
+}
+
+export type tenantsCreateWithoutRolesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutTenantsInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
+  default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsUncheckedCreateWithoutRolesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  default_branch_id?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: string | null
+  currency_id?: string | null
+  city_id?: string | null
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsCreateOrConnectWithoutRolesInput = {
+  where: Prisma.tenantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutRolesInput, Prisma.tenantsUncheckedCreateWithoutRolesInput>
+}
+
+export type tenantsUpsertWithoutRolesInput = {
+  update: Prisma.XOR<Prisma.tenantsUpdateWithoutRolesInput, Prisma.tenantsUncheckedUpdateWithoutRolesInput>
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutRolesInput, Prisma.tenantsUncheckedCreateWithoutRolesInput>
+  where?: Prisma.tenantsWhereInput
+}
+
+export type tenantsUpdateToOneWithWhereWithoutRolesInput = {
+  where?: Prisma.tenantsWhereInput
+  data: Prisma.XOR<Prisma.tenantsUpdateWithoutRolesInput, Prisma.tenantsUncheckedUpdateWithoutRolesInput>
+}
+
+export type tenantsUpdateWithoutRolesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutTenantsNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
+  default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsUncheckedUpdateWithoutRolesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateWithoutTenant_subscriptionsInput = {
@@ -1535,6 +1854,11 @@ export type tenantsCreateWithoutTenant_subscriptionsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutTenant_subscriptionsInput = {
@@ -1569,6 +1893,11 @@ export type tenantsUncheckedCreateWithoutTenant_subscriptionsInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutTenant_subscriptionsInput = {
@@ -1619,6 +1948,11 @@ export type tenantsUpdateWithoutTenant_subscriptionsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutTenant_subscriptionsInput = {
@@ -1653,6 +1987,11 @@ export type tenantsUncheckedUpdateWithoutTenant_subscriptionsInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateWithoutSubscription_usageInput = {
@@ -1687,6 +2026,11 @@ export type tenantsCreateWithoutSubscription_usageInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutSubscription_usageInput = {
@@ -1721,6 +2065,11 @@ export type tenantsUncheckedCreateWithoutSubscription_usageInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutSubscription_usageInput = {
@@ -1771,6 +2120,11 @@ export type tenantsUpdateWithoutSubscription_usageInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutSubscription_usageInput = {
@@ -1805,6 +2159,11 @@ export type tenantsUncheckedUpdateWithoutSubscription_usageInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateWithoutSubscription_invoicesInput = {
@@ -1839,6 +2198,11 @@ export type tenantsCreateWithoutSubscription_invoicesInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutSubscription_invoicesInput = {
@@ -1873,6 +2237,11 @@ export type tenantsUncheckedCreateWithoutSubscription_invoicesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutSubscription_invoicesInput = {
@@ -1923,6 +2292,11 @@ export type tenantsUpdateWithoutSubscription_invoicesInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutSubscription_invoicesInput = {
@@ -1957,6 +2331,11 @@ export type tenantsUncheckedUpdateWithoutSubscription_invoicesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateWithoutTenant_usersInput = {
@@ -1991,6 +2370,11 @@ export type tenantsCreateWithoutTenant_usersInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutTenant_usersInput = {
@@ -2025,6 +2409,11 @@ export type tenantsUncheckedCreateWithoutTenant_usersInput = {
   subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutTenant_usersInput = {
@@ -2075,6 +2464,11 @@ export type tenantsUpdateWithoutTenant_usersInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutTenant_usersInput = {
@@ -2109,6 +2503,11 @@ export type tenantsUncheckedUpdateWithoutTenant_usersInput = {
   subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateWithoutNotification_channelsInput = {
@@ -2143,6 +2542,11 @@ export type tenantsCreateWithoutNotification_channelsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutNotification_channelsInput = {
@@ -2177,6 +2581,11 @@ export type tenantsUncheckedCreateWithoutNotification_channelsInput = {
   subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutNotification_channelsInput = {
@@ -2227,6 +2636,11 @@ export type tenantsUpdateWithoutNotification_channelsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutNotification_channelsInput = {
@@ -2261,6 +2675,11 @@ export type tenantsUncheckedUpdateWithoutNotification_channelsInput = {
   subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateWithoutNotificationsInput = {
@@ -2295,6 +2714,11 @@ export type tenantsCreateWithoutNotificationsInput = {
   currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
   cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
   default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsUncheckedCreateWithoutNotificationsInput = {
@@ -2329,6 +2753,11 @@ export type tenantsUncheckedCreateWithoutNotificationsInput = {
   subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
 }
 
 export type tenantsCreateOrConnectWithoutNotificationsInput = {
@@ -2379,6 +2808,11 @@ export type tenantsUpdateWithoutNotificationsInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutNotificationsInput = {
@@ -2413,6 +2847,699 @@ export type tenantsUncheckedUpdateWithoutNotificationsInput = {
   subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsCreateWithoutTenant_user_branchesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutTenantsInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
+  default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsUncheckedCreateWithoutTenant_user_branchesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  default_branch_id?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: string | null
+  currency_id?: string | null
+  city_id?: string | null
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsCreateOrConnectWithoutTenant_user_branchesInput = {
+  where: Prisma.tenantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_branchesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_branchesInput>
+}
+
+export type tenantsUpsertWithoutTenant_user_branchesInput = {
+  update: Prisma.XOR<Prisma.tenantsUpdateWithoutTenant_user_branchesInput, Prisma.tenantsUncheckedUpdateWithoutTenant_user_branchesInput>
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_branchesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_branchesInput>
+  where?: Prisma.tenantsWhereInput
+}
+
+export type tenantsUpdateToOneWithWhereWithoutTenant_user_branchesInput = {
+  where?: Prisma.tenantsWhereInput
+  data: Prisma.XOR<Prisma.tenantsUpdateWithoutTenant_user_branchesInput, Prisma.tenantsUncheckedUpdateWithoutTenant_user_branchesInput>
+}
+
+export type tenantsUpdateWithoutTenant_user_branchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutTenantsNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
+  default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsUncheckedUpdateWithoutTenant_user_branchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsCreateWithoutTenant_user_warehousesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutTenantsInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
+  default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsUncheckedCreateWithoutTenant_user_warehousesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  default_branch_id?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: string | null
+  currency_id?: string | null
+  city_id?: string | null
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsCreateOrConnectWithoutTenant_user_warehousesInput = {
+  where: Prisma.tenantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_warehousesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_warehousesInput>
+}
+
+export type tenantsUpsertWithoutTenant_user_warehousesInput = {
+  update: Prisma.XOR<Prisma.tenantsUpdateWithoutTenant_user_warehousesInput, Prisma.tenantsUncheckedUpdateWithoutTenant_user_warehousesInput>
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutTenant_user_warehousesInput, Prisma.tenantsUncheckedCreateWithoutTenant_user_warehousesInput>
+  where?: Prisma.tenantsWhereInput
+}
+
+export type tenantsUpdateToOneWithWhereWithoutTenant_user_warehousesInput = {
+  where?: Prisma.tenantsWhereInput
+  data: Prisma.XOR<Prisma.tenantsUpdateWithoutTenant_user_warehousesInput, Prisma.tenantsUncheckedUpdateWithoutTenant_user_warehousesInput>
+}
+
+export type tenantsUpdateWithoutTenant_user_warehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutTenantsNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
+  default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsUncheckedUpdateWithoutTenant_user_warehousesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsCreateWithoutApproval_rulesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutTenantsInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
+  default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsUncheckedCreateWithoutApproval_rulesInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  default_branch_id?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: string | null
+  currency_id?: string | null
+  city_id?: string | null
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_requests?: Prisma.approval_requestsUncheckedCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsCreateOrConnectWithoutApproval_rulesInput = {
+  where: Prisma.tenantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_rulesInput, Prisma.tenantsUncheckedCreateWithoutApproval_rulesInput>
+}
+
+export type tenantsUpsertWithoutApproval_rulesInput = {
+  update: Prisma.XOR<Prisma.tenantsUpdateWithoutApproval_rulesInput, Prisma.tenantsUncheckedUpdateWithoutApproval_rulesInput>
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_rulesInput, Prisma.tenantsUncheckedCreateWithoutApproval_rulesInput>
+  where?: Prisma.tenantsWhereInput
+}
+
+export type tenantsUpdateToOneWithWhereWithoutApproval_rulesInput = {
+  where?: Prisma.tenantsWhereInput
+  data: Prisma.XOR<Prisma.tenantsUpdateWithoutApproval_rulesInput, Prisma.tenantsUncheckedUpdateWithoutApproval_rulesInput>
+}
+
+export type tenantsUpdateWithoutApproval_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutTenantsNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
+  default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsUncheckedUpdateWithoutApproval_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsCreateWithoutApproval_requestsInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutTenantsInput
+  countries?: Prisma.countriesCreateNestedOneWithoutTenantsInput
+  currencies?: Prisma.currenciesCreateNestedOneWithoutTenantsInput
+  cities?: Prisma.citiesCreateNestedOneWithoutTenantsInput
+  default_branch?: Prisma.branchesCreateNestedOneWithoutDefault_for_tenantsInput
+  roles?: Prisma.rolesCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsUncheckedCreateWithoutApproval_requestsInput = {
+  id?: string
+  tenant_code: string
+  name: string
+  slug: string
+  display_name?: string | null
+  legal_name?: string | null
+  type?: $Enums.tenant_type
+  status?: $Enums.tenant_status
+  logo_url?: string | null
+  domain?: string | null
+  timezone?: string
+  locale?: string
+  currency_code?: string
+  country_code?: string | null
+  default_branch_id?: string | null
+  current_subscription_id?: string | null
+  created_by?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: string | null
+  currency_id?: string | null
+  city_id?: string | null
+  auth_user_id?: string | null
+  onboarding_complete?: boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedCreateNestedManyWithoutTenantsInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedCreateNestedOneWithoutTenantsInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutTenantsInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTenantsInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutTenantsInput
+  roles?: Prisma.rolesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedCreateNestedManyWithoutTenantsInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedCreateNestedManyWithoutTenantsInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutTenantsInput
+}
+
+export type tenantsCreateOrConnectWithoutApproval_requestsInput = {
+  where: Prisma.tenantsWhereUniqueInput
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_requestsInput, Prisma.tenantsUncheckedCreateWithoutApproval_requestsInput>
+}
+
+export type tenantsUpsertWithoutApproval_requestsInput = {
+  update: Prisma.XOR<Prisma.tenantsUpdateWithoutApproval_requestsInput, Prisma.tenantsUncheckedUpdateWithoutApproval_requestsInput>
+  create: Prisma.XOR<Prisma.tenantsCreateWithoutApproval_requestsInput, Prisma.tenantsUncheckedCreateWithoutApproval_requestsInput>
+  where?: Prisma.tenantsWhereInput
+}
+
+export type tenantsUpdateToOneWithWhereWithoutApproval_requestsInput = {
+  where?: Prisma.tenantsWhereInput
+  data: Prisma.XOR<Prisma.tenantsUpdateWithoutApproval_requestsInput, Prisma.tenantsUncheckedUpdateWithoutApproval_requestsInput>
+}
+
+export type tenantsUpdateWithoutApproval_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutTenantsNestedInput
+  countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
+  currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
+  cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
+  default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+}
+
+export type tenantsUncheckedUpdateWithoutApproval_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  display_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  legal_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.Enumtenant_typeFieldUpdateOperationsInput | $Enums.tenant_type
+  status?: Prisma.Enumtenant_statusFieldUpdateOperationsInput | $Enums.tenant_status
+  logo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  currency_code?: Prisma.StringFieldUpdateOperationsInput | string
+  country_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  default_branch_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  current_subscription_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  country_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auth_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboarding_complete?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  tenant_subscriptions?: Prisma.tenant_subscriptionsUncheckedUpdateManyWithoutTenantsNestedInput
+  subscription_usage?: Prisma.tenant_subscription_usageUncheckedUpdateOneWithoutTenantsNestedInput
+  subscription_invoices?: Prisma.subscription_invoicesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsCreateManyDefault_branchInput = {
@@ -2475,6 +3602,11 @@ export type tenantsUpdateWithoutDefault_branchInput = {
   countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutDefault_branchInput = {
@@ -2509,6 +3641,11 @@ export type tenantsUncheckedUpdateWithoutDefault_branchInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateManyWithoutDefault_branchInput = {
@@ -2599,6 +3736,11 @@ export type tenantsUpdateWithoutCitiesInput = {
   countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutCitiesInput = {
@@ -2633,6 +3775,11 @@ export type tenantsUncheckedUpdateWithoutCitiesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateManyWithoutCitiesInput = {
@@ -2723,6 +3870,11 @@ export type tenantsUpdateWithoutCountriesInput = {
   currencies?: Prisma.currenciesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutCountriesInput = {
@@ -2757,6 +3909,11 @@ export type tenantsUncheckedUpdateWithoutCountriesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateManyWithoutCountriesInput = {
@@ -2847,6 +4004,11 @@ export type tenantsUpdateWithoutCurrenciesInput = {
   countries?: Prisma.countriesUpdateOneWithoutTenantsNestedInput
   cities?: Prisma.citiesUpdateOneWithoutTenantsNestedInput
   default_branch?: Prisma.branchesUpdateOneWithoutDefault_for_tenantsNestedInput
+  roles?: Prisma.rolesUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateWithoutCurrenciesInput = {
@@ -2881,6 +4043,11 @@ export type tenantsUncheckedUpdateWithoutCurrenciesInput = {
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutTenantsNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTenantsNestedInput
   notifications?: Prisma.notificationsUncheckedUpdateManyWithoutTenantsNestedInput
+  roles?: Prisma.rolesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_branches?: Prisma.tenant_user_branchesUncheckedUpdateManyWithoutTenantsNestedInput
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutTenantsNestedInput
+  approval_requests?: Prisma.approval_requestsUncheckedUpdateManyWithoutTenantsNestedInput
 }
 
 export type tenantsUncheckedUpdateManyWithoutCurrenciesInput = {
@@ -2922,6 +4089,11 @@ export type TenantsCountOutputType = {
   tenant_users: number
   notification_channels: number
   notifications: number
+  roles: number
+  tenant_user_branches: number
+  tenant_user_warehouses: number
+  approval_rules: number
+  approval_requests: number
 }
 
 export type TenantsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2930,6 +4102,11 @@ export type TenantsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   tenant_users?: boolean | TenantsCountOutputTypeCountTenant_usersArgs
   notification_channels?: boolean | TenantsCountOutputTypeCountNotification_channelsArgs
   notifications?: boolean | TenantsCountOutputTypeCountNotificationsArgs
+  roles?: boolean | TenantsCountOutputTypeCountRolesArgs
+  tenant_user_branches?: boolean | TenantsCountOutputTypeCountTenant_user_branchesArgs
+  tenant_user_warehouses?: boolean | TenantsCountOutputTypeCountTenant_user_warehousesArgs
+  approval_rules?: boolean | TenantsCountOutputTypeCountApproval_rulesArgs
+  approval_requests?: boolean | TenantsCountOutputTypeCountApproval_requestsArgs
 }
 
 /**
@@ -2977,6 +4154,41 @@ export type TenantsCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime
   where?: Prisma.notificationsWhereInput
 }
 
+/**
+ * TenantsCountOutputType without action
+ */
+export type TenantsCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.rolesWhereInput
+}
+
+/**
+ * TenantsCountOutputType without action
+ */
+export type TenantsCountOutputTypeCountTenant_user_branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.tenant_user_branchesWhereInput
+}
+
+/**
+ * TenantsCountOutputType without action
+ */
+export type TenantsCountOutputTypeCountTenant_user_warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.tenant_user_warehousesWhereInput
+}
+
+/**
+ * TenantsCountOutputType without action
+ */
+export type TenantsCountOutputTypeCountApproval_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.approval_rulesWhereInput
+}
+
+/**
+ * TenantsCountOutputType without action
+ */
+export type TenantsCountOutputTypeCountApproval_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.approval_requestsWhereInput
+}
+
 
 export type tenantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3015,6 +4227,11 @@ export type tenantsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   currencies?: boolean | Prisma.tenants$currenciesArgs<ExtArgs>
   cities?: boolean | Prisma.tenants$citiesArgs<ExtArgs>
   default_branch?: boolean | Prisma.tenants$default_branchArgs<ExtArgs>
+  roles?: boolean | Prisma.tenants$rolesArgs<ExtArgs>
+  tenant_user_branches?: boolean | Prisma.tenants$tenant_user_branchesArgs<ExtArgs>
+  tenant_user_warehouses?: boolean | Prisma.tenants$tenant_user_warehousesArgs<ExtArgs>
+  approval_rules?: boolean | Prisma.tenants$approval_rulesArgs<ExtArgs>
+  approval_requests?: boolean | Prisma.tenants$approval_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenants"]>
 
@@ -3125,6 +4342,11 @@ export type tenantsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   currencies?: boolean | Prisma.tenants$currenciesArgs<ExtArgs>
   cities?: boolean | Prisma.tenants$citiesArgs<ExtArgs>
   default_branch?: boolean | Prisma.tenants$default_branchArgs<ExtArgs>
+  roles?: boolean | Prisma.tenants$rolesArgs<ExtArgs>
+  tenant_user_branches?: boolean | Prisma.tenants$tenant_user_branchesArgs<ExtArgs>
+  tenant_user_warehouses?: boolean | Prisma.tenants$tenant_user_warehousesArgs<ExtArgs>
+  approval_rules?: boolean | Prisma.tenants$approval_rulesArgs<ExtArgs>
+  approval_requests?: boolean | Prisma.tenants$approval_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type tenantsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3153,6 +4375,11 @@ export type $tenantsPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     currencies: Prisma.$currenciesPayload<ExtArgs> | null
     cities: Prisma.$citiesPayload<ExtArgs> | null
     default_branch: Prisma.$branchesPayload<ExtArgs> | null
+    roles: Prisma.$rolesPayload<ExtArgs>[]
+    tenant_user_branches: Prisma.$tenant_user_branchesPayload<ExtArgs>[]
+    tenant_user_warehouses: Prisma.$tenant_user_warehousesPayload<ExtArgs>[]
+    approval_rules: Prisma.$approval_rulesPayload<ExtArgs>[]
+    approval_requests: Prisma.$approval_requestsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3585,6 +4812,11 @@ export interface Prisma__tenantsClient<T, Null = never, ExtArgs extends runtime.
   currencies<T extends Prisma.tenants$currenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$currenciesArgs<ExtArgs>>): Prisma.Prisma__currenciesClient<runtime.Types.Result.GetResult<Prisma.$currenciesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   cities<T extends Prisma.tenants$citiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$citiesArgs<ExtArgs>>): Prisma.Prisma__citiesClient<runtime.Types.Result.GetResult<Prisma.$citiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   default_branch<T extends Prisma.tenants$default_branchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$default_branchArgs<ExtArgs>>): Prisma.Prisma__branchesClient<runtime.Types.Result.GetResult<Prisma.$branchesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  roles<T extends Prisma.tenants$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant_user_branches<T extends Prisma.tenants$tenant_user_branchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$tenant_user_branchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_user_branchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant_user_warehouses<T extends Prisma.tenants$tenant_user_warehousesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$tenant_user_warehousesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_user_warehousesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  approval_rules<T extends Prisma.tenants$approval_rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$approval_rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$approval_rulesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  approval_requests<T extends Prisma.tenants$approval_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tenants$approval_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$approval_requestsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4253,6 +5485,126 @@ export type tenants$default_branchArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.branchesInclude<ExtArgs> | null
   where?: Prisma.branchesWhereInput
+}
+
+/**
+ * tenants.roles
+ */
+export type tenants$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the roles
+   */
+  select?: Prisma.rolesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the roles
+   */
+  omit?: Prisma.rolesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.rolesInclude<ExtArgs> | null
+  where?: Prisma.rolesWhereInput
+  orderBy?: Prisma.rolesOrderByWithRelationInput | Prisma.rolesOrderByWithRelationInput[]
+  cursor?: Prisma.rolesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RolesScalarFieldEnum | Prisma.RolesScalarFieldEnum[]
+}
+
+/**
+ * tenants.tenant_user_branches
+ */
+export type tenants$tenant_user_branchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenant_user_branches
+   */
+  select?: Prisma.tenant_user_branchesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenant_user_branches
+   */
+  omit?: Prisma.tenant_user_branchesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_user_branchesInclude<ExtArgs> | null
+  where?: Prisma.tenant_user_branchesWhereInput
+  orderBy?: Prisma.tenant_user_branchesOrderByWithRelationInput | Prisma.tenant_user_branchesOrderByWithRelationInput[]
+  cursor?: Prisma.tenant_user_branchesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Tenant_user_branchesScalarFieldEnum | Prisma.Tenant_user_branchesScalarFieldEnum[]
+}
+
+/**
+ * tenants.tenant_user_warehouses
+ */
+export type tenants$tenant_user_warehousesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenant_user_warehouses
+   */
+  select?: Prisma.tenant_user_warehousesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenant_user_warehouses
+   */
+  omit?: Prisma.tenant_user_warehousesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenant_user_warehousesInclude<ExtArgs> | null
+  where?: Prisma.tenant_user_warehousesWhereInput
+  orderBy?: Prisma.tenant_user_warehousesOrderByWithRelationInput | Prisma.tenant_user_warehousesOrderByWithRelationInput[]
+  cursor?: Prisma.tenant_user_warehousesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Tenant_user_warehousesScalarFieldEnum | Prisma.Tenant_user_warehousesScalarFieldEnum[]
+}
+
+/**
+ * tenants.approval_rules
+ */
+export type tenants$approval_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the approval_rules
+   */
+  select?: Prisma.approval_rulesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the approval_rules
+   */
+  omit?: Prisma.approval_rulesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.approval_rulesInclude<ExtArgs> | null
+  where?: Prisma.approval_rulesWhereInput
+  orderBy?: Prisma.approval_rulesOrderByWithRelationInput | Prisma.approval_rulesOrderByWithRelationInput[]
+  cursor?: Prisma.approval_rulesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Approval_rulesScalarFieldEnum | Prisma.Approval_rulesScalarFieldEnum[]
+}
+
+/**
+ * tenants.approval_requests
+ */
+export type tenants$approval_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the approval_requests
+   */
+  select?: Prisma.approval_requestsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the approval_requests
+   */
+  omit?: Prisma.approval_requestsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.approval_requestsInclude<ExtArgs> | null
+  where?: Prisma.approval_requestsWhereInput
+  orderBy?: Prisma.approval_requestsOrderByWithRelationInput | Prisma.approval_requestsOrderByWithRelationInput[]
+  cursor?: Prisma.approval_requestsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Approval_requestsScalarFieldEnum | Prisma.Approval_requestsScalarFieldEnum[]
 }
 
 /**

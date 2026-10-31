@@ -1,61 +1,70 @@
-import { useLocation } from '@tanstack/react-router'
-import { useNavigation } from '@/features/access-control/hooks/use-navigation'
+/**
+ * src/components/rbac/require-screen.tsx
+ *
+ * Route-level fail-closed screen guard driven by the centralized permissions engine.
+ */
+
+import React, { useEffect } from 'react'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { ForbiddenError } from '@/features/errors/forbidden'
+import { usePermissions } from '@/hooks/use-permissions'
+import { useUser } from '@/hooks/use-auth'
+import { Loader2 } from 'lucide-react'
 
-const SCREEN_GUARD_ENABLED = import.meta.env.VITE_DB_NAV === 'true'
+// Default to enabled (fail-closed) unless explicitly set to 'false'
+const SCREEN_GUARD_ENABLED = import.meta.env.VITE_DB_NAV !== 'false'
 
-/**
- * Resolve a pathname against the screens catalog: exact route match first,
- * then the longest prefix match at a path boundary (`/products` covers
- * `/products/123`). Returns `undefined` when the route is not cataloged.
- * The root route `/` only ever matches exactly — it would otherwise prefix
- * every path.
- */
-export function resolveScreenAccess(
-  screens: Record<string, boolean>,
-  pathname: string
-): boolean | undefined {
-  if (pathname in screens) return screens[pathname]
+const WHITELISTED_SYSTEM_PATHS = new Set([
+  '/',
+  '/profile',
+  '/complete-account',
+  '/force-password-change',
+  '/subscription-required',
+  '/403',
+  '/errors/403',
+])
 
-  let bestRoute: string | undefined
-  for (const route of Object.keys(screens)) {
-    if (route === '/') continue
-    if (!pathname.startsWith(`${route}/`)) continue
-    if (!bestRoute || route.length > bestRoute.length) {
-      bestRoute = route
-    }
-  }
-
-  return bestRoute ? screens[bestRoute] : undefined
-}
-
-interface RequireScreenProps {
+export interface RequireScreenProps {
   children: React.ReactNode
+  screen?: string
+  fallback?: React.ReactNode
+  redirectTo?: string
 }
 
-/**
- * Route-level screen guard driven by the access-control catalog. Behavior
- * during the migration (flag `VITE_DB_NAV`):
- * - flag off, catalog loading, or query error -> children render (fail-open)
- * - route cataloged and DENIED -> 403 page
- * - route not in the catalog -> children render (fail-open; flips to
- *   fail-closed in the cleanup phase once the catalog is authoritative)
- */
-export function RequireScreen({ children }: RequireScreenProps) {
+export function RequireScreen({
+  children,
+  screen,
+  fallback = null,
+  redirectTo,
+}: RequireScreenProps) {
   const location = useLocation()
-  const navigationQuery = useNavigation(SCREEN_GUARD_ENABLED)
+  const navigate = useNavigate()
+  const { user, isLoaded } = useUser()
+  const { canAccessScreen, isLoading, data } = usePermissions()
 
-  if (!SCREEN_GUARD_ENABLED || !navigationQuery.data) {
-    return <>{children}</>
+  const targetPath = screen ?? location.pathname
+  const isWhitelisted = WHITELISTED_SYSTEM_PATHS.has(targetPath)
+  const isReady = isLoaded && (!isLoading || Boolean(data) || isWhitelisted)
+  const allowed =
+    !SCREEN_GUARD_ENABLED || isWhitelisted || (Boolean(user) && canAccessScreen(targetPath))
+
+  useEffect(() => {
+    if (isReady && !allowed && redirectTo) {
+      navigate({ to: redirectTo as never }).catch(() => {})
+    }
+  }, [isReady, allowed, redirectTo, navigate])
+
+  // Fail-closed while auth or permissions are loading (prevent flashing protected content)
+  if (!isReady) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    )
   }
 
-  const allowed = resolveScreenAccess(
-    navigationQuery.data.screens,
-    location.pathname
-  )
-
-  if (allowed === false) {
-    return <ForbiddenError />
+  if (!allowed) {
+    return <>{fallback ?? <ForbiddenError />}</>
   }
 
   return <>{children}</>

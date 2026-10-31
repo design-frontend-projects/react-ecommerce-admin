@@ -215,7 +215,12 @@ export const ModelName = {
   notification_recipients: 'notification_recipients',
   notification_templates: 'notification_templates',
   notification_preferences: 'notification_preferences',
-  notification_publish_queue: 'notification_publish_queue'
+  notification_publish_queue: 'notification_publish_queue',
+  tenant_user_branches: 'tenant_user_branches',
+  tenant_user_warehouses: 'tenant_user_warehouses',
+  approval_rules: 'approval_rules',
+  approval_requests: 'approval_requests',
+  security_audit_logs: 'security_audit_logs'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1411,7 +1416,10 @@ export const RolesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_active: 'is_active',
-  is_system: 'is_system'
+  is_system: 'is_system',
+  tenant_id: 'tenant_id',
+  data_scope: 'data_scope',
+  priority: 'priority'
 } as const
 
 export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
@@ -3719,6 +3727,103 @@ export const Notification_publish_queueScalarFieldEnum = {
 } as const
 
 export type Notification_publish_queueScalarFieldEnum = (typeof Notification_publish_queueScalarFieldEnum)[keyof typeof Notification_publish_queueScalarFieldEnum]
+
+
+export const Tenant_user_branchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  branch_id: 'branch_id',
+  is_primary: 'is_primary',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Tenant_user_branchesScalarFieldEnum = (typeof Tenant_user_branchesScalarFieldEnum)[keyof typeof Tenant_user_branchesScalarFieldEnum]
+
+
+export const Tenant_user_warehousesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  warehouse_id: 'warehouse_id',
+  is_primary: 'is_primary',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Tenant_user_warehousesScalarFieldEnum = (typeof Tenant_user_warehousesScalarFieldEnum)[keyof typeof Tenant_user_warehousesScalarFieldEnum]
+
+
+export const Approval_rulesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  module: 'module',
+  entity_type: 'entity_type',
+  action: 'action',
+  name: 'name',
+  description: 'description',
+  min_amount: 'min_amount',
+  max_amount: 'max_amount',
+  required_role_id: 'required_role_id',
+  required_permission: 'required_permission',
+  approval_level: 'approval_level',
+  enforce_separation_of_duties: 'enforce_separation_of_duties',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Approval_rulesScalarFieldEnum = (typeof Approval_rulesScalarFieldEnum)[keyof typeof Approval_rulesScalarFieldEnum]
+
+
+export const Approval_requestsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  rule_id: 'rule_id',
+  module: 'module',
+  entity_type: 'entity_type',
+  entity_id: 'entity_id',
+  requested_by_user_id: 'requested_by_user_id',
+  approved_by_user_id: 'approved_by_user_id',
+  status: 'status',
+  requested_amount: 'requested_amount',
+  currency: 'currency',
+  reason: 'reason',
+  decision_reason: 'decision_reason',
+  reviewed_at: 'reviewed_at',
+  metadata: 'metadata',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Approval_requestsScalarFieldEnum = (typeof Approval_requestsScalarFieldEnum)[keyof typeof Approval_requestsScalarFieldEnum]
+
+
+export const Security_audit_logsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  actor_auth_user_id: 'actor_auth_user_id',
+  actor_tenant_user_id: 'actor_tenant_user_id',
+  actor_email: 'actor_email',
+  action: 'action',
+  resource_type: 'resource_type',
+  resource_id: 'resource_id',
+  status: 'status',
+  severity: 'severity',
+  data_scope: 'data_scope',
+  diff: 'diff',
+  metadata: 'metadata',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  route: 'route',
+  prev_record_hash: 'prev_record_hash',
+  record_hash: 'record_hash',
+  created_at: 'created_at'
+} as const
+
+export type Security_audit_logsScalarFieldEnum = (typeof Security_audit_logsScalarFieldEnum)[keyof typeof Security_audit_logsScalarFieldEnum]
 
 
 export const SortOrder = {

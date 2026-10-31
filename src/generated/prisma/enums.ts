@@ -1014,3 +1014,23 @@ export const held_order_status_enum = {
 } as const
 
 export type held_order_status_enum = (typeof held_order_status_enum)[keyof typeof held_order_status_enum]
+
+
+export const data_scope_enum = {
+  TENANT: 'TENANT',
+  ASSIGNED_BRANCHES: 'ASSIGNED_BRANCHES',
+  ASSIGNED_WAREHOUSES: 'ASSIGNED_WAREHOUSES',
+  OWN_RECORDS: 'OWN_RECORDS'
+} as const
+
+export type data_scope_enum = (typeof data_scope_enum)[keyof typeof data_scope_enum]
+
+
+export const approval_status_enum = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected',
+  cancelled: 'cancelled'
+} as const
+
+export type approval_status_enum = (typeof approval_status_enum)[keyof typeof approval_status_enum]

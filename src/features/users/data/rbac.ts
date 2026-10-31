@@ -43,6 +43,51 @@ export const BASE_PERMISSION_DEFINITIONS = [
     name: 'general.products.manage',
     description: 'Create, edit, and archive products.',
   },
+  // ── Products Module (Granular Permissions) ──────────────────────────────
+  {
+    name: 'products.view',
+    description: 'View product records and catalog data.',
+  },
+  {
+    name: 'products.create',
+    description: 'Create new product records.',
+  },
+  {
+    name: 'products.update',
+    description: 'Update existing product records.',
+  },
+  {
+    name: 'products.delete',
+    description: 'Delete or archive product records.',
+  },
+  {
+    name: 'products.print',
+    description: 'Print barcode labels and product catalogs.',
+  },
+  {
+    name: 'products.export',
+    description: 'Export products to CSV or Excel.',
+  },
+  {
+    name: 'products.import',
+    description: 'Import products from CSV files.',
+  },
+  {
+    name: 'products.view_cost',
+    description: 'View cost prices, purchase prices, and profit margins.',
+  },
+  {
+    name: 'products.manage_prices',
+    description: 'Manage selling prices and price list assignments.',
+  },
+  {
+    name: 'products.manage_variants',
+    description: 'Create and update product variants.',
+  },
+  {
+    name: 'products.manage_barcodes',
+    description: 'Manage product and variant barcodes.',
+  },
   {
     name: 'inventory.stock.view',
     description: 'View stock balances and inventory states.',
@@ -290,6 +335,17 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'general.settings.manage',
     'general.products.view',
     'general.products.manage',
+    'products.view',
+    'products.create',
+    'products.update',
+    'products.delete',
+    'products.print',
+    'products.export',
+    'products.import',
+    'products.view_cost',
+    'products.manage_prices',
+    'products.manage_variants',
+    'products.manage_barcodes',
     'inventory.stock.view',
     'inventory.stock.manage',
     'restaurant.orders.view',
@@ -332,6 +388,15 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
     'access_control.users.view',
     'general.products.view',
     'general.products.manage',
+    'products.view',
+    'products.create',
+    'products.update',
+    'products.print',
+    'products.export',
+    'products.import',
+    'products.manage_prices',
+    'products.manage_variants',
+    'products.manage_barcodes',
     'inventory.stock.view',
     'inventory.stock.manage',
     'restaurant.orders.view',
@@ -366,6 +431,7 @@ export const DEFAULT_ROLE_PERMISSION_NAMES: Record<string, PermissionName[]> = {
   [UserRole.Staff]: [
     'general.dashboard.view',
     'general.products.view',
+    'products.view',
     'inventory.stock.view',
     'restaurant.orders.view',
     'restaurant.orders.create',
@@ -411,6 +477,35 @@ export function normalizeRoleName(roleName: string | null | undefined) {
   return (roleName ?? '').trim().toLowerCase()
 }
 
+const IMPLIED_PERMISSION_MAP: Record<string, string[]> = {
+  'products.manage': [
+    'products.view',
+    'general.products.view',
+    'products.create',
+    'products.update',
+    'products.delete',
+    'products.print',
+    'products.export',
+    'products.import',
+    'products.manage_prices',
+    'products.manage_variants',
+    'products.manage_barcodes',
+  ],
+  'general.products.manage': [
+    'products.view',
+    'general.products.view',
+    'products.create',
+    'products.update',
+    'products.delete',
+    'products.print',
+    'products.export',
+    'products.import',
+    'products.manage_prices',
+    'products.manage_variants',
+    'products.manage_barcodes',
+  ],
+}
+
 export function expandPermissionNames(permissionNames: string[]) {
   const expanded = new Set<string>()
 
@@ -422,6 +517,17 @@ export function expandPermissionNames(permissionNames: string[]) {
     if (canonical) expanded.add(canonical)
     const legacy = PERMISSION_LEGACY_NAMES[name]
     if (legacy) expanded.add(legacy)
+
+    const implied = IMPLIED_PERMISSION_MAP[name]
+    if (implied) {
+      for (const imp of implied) {
+        expanded.add(imp)
+        const canImp = LEGACY_PERMISSION_ALIASES[imp]
+        if (canImp) expanded.add(canImp)
+        const legImp = PERMISSION_LEGACY_NAMES[imp]
+        if (legImp) expanded.add(legImp)
+      }
+    }
   }
 
   for (const permissionName of permissionNames) {
@@ -528,6 +634,15 @@ export function hasPermission(
   if (
     segments.length >= 3 &&
     expandedPermissions.has(`${segments[0]}.${segments[1]}.*`)
+  ) {
+    return true
+  }
+
+  const rawSegments = requiredPermission.split('.')
+  if (expandedPermissions.has(`${rawSegments[0]}.*`)) return true
+  if (
+    rawSegments.length >= 3 &&
+    expandedPermissions.has(`${rawSegments[0]}.${rawSegments[1]}.*`)
   ) {
     return true
   }

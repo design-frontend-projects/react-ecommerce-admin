@@ -1160,3 +1160,27 @@
 - **Status**: Fixed
 
 ---
+
+## [2026-10-31 20:45] - ReferenceError: user is not defined in ScreenGate Component
+
+- **Type**: Runtime / Agent
+- **Severity**: High
+- **File**: `src/components/rbac/permission-gate.tsx:51`
+- **Agent**: teamwork_challenger_m4_2
+- **Root Cause**: In `src/components/rbac/permission-gate.tsx`, the `ScreenGate` component called `const { isLoaded } = useUser()` without destructuring `user`. On line 51, `if (!user)` evaluated an undeclared identifier, triggering a runtime `ReferenceError: user is not defined` whenever the component rendered in an authenticated state.
+- **Error Message**:
+  ```
+  ReferenceError: user is not defined
+   ❯ ScreenGate src/components/rbac/permission-gate.tsx:51:3
+       49|   }
+       50| 
+       51|   if (!user) {
+         |   ^
+       52|     return <>{fallback}</>
+       53|   }
+  ```
+- **Fix Applied**: Reported to orchestrator and worker for remediation. Required fix is changing line 44 of `src/components/rbac/permission-gate.tsx` to `const { user, isLoaded } = useUser()`.
+- **Prevention**: Always destructure all required properties from `useUser()` when adding auth checks, and verify UI gate components under Vitest with active session mocks.
+- **Status**: Investigating
+
+---

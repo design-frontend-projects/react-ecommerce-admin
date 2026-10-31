@@ -2,6 +2,7 @@
 
 import { Prisma, type transfer_status_enum, type stock_condition_enum, type transfer_type_enum, type transfer_priority_enum } from '@/generated/prisma/client'
 import { ApiError } from '@/server/utils/api-error'
+import { AntiSelfApprovalError } from '@/server/workflow/approval-engine'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import {
@@ -598,6 +599,14 @@ export async function approveTransfer(authUserId: string, id: string) {
 
       if (!existing) {
         throw new ApiError(`Stock transfer '${id}' not found.`, 404)
+      }
+
+      if (
+        existing.requested_by_user_id === tenantUserId ||
+        existing.created_by_user_id === tenantUserId ||
+        existing.created_by === authUserId
+      ) {
+        throw new AntiSelfApprovalError('Requester cannot approve their own request')
       }
 
       assertValidTransition(existing.status, 'approved', id)

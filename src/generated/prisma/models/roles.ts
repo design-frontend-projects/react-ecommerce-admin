@@ -20,8 +20,18 @@ export type rolesModel = runtime.Types.Result.DefaultSelection<Prisma.$rolesPayl
 
 export type AggregateRoles = {
   _count: RolesCountAggregateOutputType | null
+  _avg: RolesAvgAggregateOutputType | null
+  _sum: RolesSumAggregateOutputType | null
   _min: RolesMinAggregateOutputType | null
   _max: RolesMaxAggregateOutputType | null
+}
+
+export type RolesAvgAggregateOutputType = {
+  priority: number | null
+}
+
+export type RolesSumAggregateOutputType = {
+  priority: number | null
 }
 
 export type RolesMinAggregateOutputType = {
@@ -32,6 +42,9 @@ export type RolesMinAggregateOutputType = {
   updated_at: Date | null
   is_active: boolean | null
   is_system: boolean | null
+  tenant_id: string | null
+  data_scope: $Enums.data_scope_enum | null
+  priority: number | null
 }
 
 export type RolesMaxAggregateOutputType = {
@@ -42,6 +55,9 @@ export type RolesMaxAggregateOutputType = {
   updated_at: Date | null
   is_active: boolean | null
   is_system: boolean | null
+  tenant_id: string | null
+  data_scope: $Enums.data_scope_enum | null
+  priority: number | null
 }
 
 export type RolesCountAggregateOutputType = {
@@ -52,9 +68,20 @@ export type RolesCountAggregateOutputType = {
   updated_at: number
   is_active: number
   is_system: number
+  tenant_id: number
+  data_scope: number
+  priority: number
   _all: number
 }
 
+
+export type RolesAvgAggregateInputType = {
+  priority?: true
+}
+
+export type RolesSumAggregateInputType = {
+  priority?: true
+}
 
 export type RolesMinAggregateInputType = {
   id?: true
@@ -64,6 +91,9 @@ export type RolesMinAggregateInputType = {
   updated_at?: true
   is_active?: true
   is_system?: true
+  tenant_id?: true
+  data_scope?: true
+  priority?: true
 }
 
 export type RolesMaxAggregateInputType = {
@@ -74,6 +104,9 @@ export type RolesMaxAggregateInputType = {
   updated_at?: true
   is_active?: true
   is_system?: true
+  tenant_id?: true
+  data_scope?: true
+  priority?: true
 }
 
 export type RolesCountAggregateInputType = {
@@ -84,6 +117,9 @@ export type RolesCountAggregateInputType = {
   updated_at?: true
   is_active?: true
   is_system?: true
+  tenant_id?: true
+  data_scope?: true
+  priority?: true
   _all?: true
 }
 
@@ -125,6 +161,18 @@ export type RolesAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: RolesAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: RolesSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: RolesMinAggregateInputType
@@ -155,6 +203,8 @@ export type rolesGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: RolesCountAggregateInputType | true
+  _avg?: RolesAvgAggregateInputType
+  _sum?: RolesSumAggregateInputType
   _min?: RolesMinAggregateInputType
   _max?: RolesMaxAggregateInputType
 }
@@ -167,7 +217,12 @@ export type RolesGroupByOutputType = {
   updated_at: Date | null
   is_active: boolean
   is_system: boolean
+  tenant_id: string | null
+  data_scope: $Enums.data_scope_enum
+  priority: number
   _count: RolesCountAggregateOutputType | null
+  _avg: RolesAvgAggregateOutputType | null
+  _sum: RolesSumAggregateOutputType | null
   _min: RolesMinAggregateOutputType | null
   _max: RolesMaxAggregateOutputType | null
 }
@@ -198,9 +253,14 @@ export type rolesWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"roles"> | Date | string | null
   is_active?: Prisma.BoolFilter<"roles"> | boolean
   is_system?: Prisma.BoolFilter<"roles"> | boolean
+  tenant_id?: Prisma.UuidNullableFilter<"roles"> | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFilter<"roles"> | $Enums.data_scope_enum
+  priority?: Prisma.IntFilter<"roles"> | number
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
   role_permissions?: Prisma.Role_permissionsListRelationFilter
   screen_roles?: Prisma.Screen_rolesListRelationFilter
   user_roles?: Prisma.User_rolesListRelationFilter
+  approval_rules?: Prisma.Approval_rulesListRelationFilter
   notification_channels?: Prisma.Notification_channelsListRelationFilter
 }
 
@@ -212,9 +272,14 @@ export type rolesOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  data_scope?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  tenants?: Prisma.tenantsOrderByWithRelationInput
   role_permissions?: Prisma.role_permissionsOrderByRelationAggregateInput
   screen_roles?: Prisma.screen_rolesOrderByRelationAggregateInput
   user_roles?: Prisma.user_rolesOrderByRelationAggregateInput
+  approval_rules?: Prisma.approval_rulesOrderByRelationAggregateInput
   notification_channels?: Prisma.notification_channelsOrderByRelationAggregateInput
 }
 
@@ -229,9 +294,14 @@ export type rolesWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"roles"> | Date | string | null
   is_active?: Prisma.BoolFilter<"roles"> | boolean
   is_system?: Prisma.BoolFilter<"roles"> | boolean
+  tenant_id?: Prisma.UuidNullableFilter<"roles"> | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFilter<"roles"> | $Enums.data_scope_enum
+  priority?: Prisma.IntFilter<"roles"> | number
+  tenants?: Prisma.XOR<Prisma.TenantsNullableScalarRelationFilter, Prisma.tenantsWhereInput> | null
   role_permissions?: Prisma.Role_permissionsListRelationFilter
   screen_roles?: Prisma.Screen_rolesListRelationFilter
   user_roles?: Prisma.User_rolesListRelationFilter
+  approval_rules?: Prisma.Approval_rulesListRelationFilter
   notification_channels?: Prisma.Notification_channelsListRelationFilter
 }, "id" | "name">
 
@@ -243,9 +313,14 @@ export type rolesOrderByWithAggregationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  data_scope?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   _count?: Prisma.rolesCountOrderByAggregateInput
+  _avg?: Prisma.rolesAvgOrderByAggregateInput
   _max?: Prisma.rolesMaxOrderByAggregateInput
   _min?: Prisma.rolesMinOrderByAggregateInput
+  _sum?: Prisma.rolesSumOrderByAggregateInput
 }
 
 export type rolesScalarWhereWithAggregatesInput = {
@@ -259,6 +334,9 @@ export type rolesScalarWhereWithAggregatesInput = {
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"roles"> | Date | string | null
   is_active?: Prisma.BoolWithAggregatesFilter<"roles"> | boolean
   is_system?: Prisma.BoolWithAggregatesFilter<"roles"> | boolean
+  tenant_id?: Prisma.UuidNullableWithAggregatesFilter<"roles"> | string | null
+  data_scope?: Prisma.Enumdata_scope_enumWithAggregatesFilter<"roles"> | $Enums.data_scope_enum
+  priority?: Prisma.IntWithAggregatesFilter<"roles"> | number
 }
 
 export type rolesCreateInput = {
@@ -269,9 +347,13 @@ export type rolesCreateInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -283,9 +365,13 @@ export type rolesUncheckedCreateInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -297,9 +383,13 @@ export type rolesUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  tenants?: Prisma.tenantsUpdateOneWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -311,9 +401,13 @@ export type rolesUncheckedUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -325,6 +419,9 @@ export type rolesCreateManyInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
 }
 
 export type rolesUpdateManyMutationInput = {
@@ -335,6 +432,8 @@ export type rolesUpdateManyMutationInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type rolesUncheckedUpdateManyInput = {
@@ -345,6 +444,9 @@ export type rolesUncheckedUpdateManyInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type RolesScalarRelationFilter = {
@@ -360,6 +462,13 @@ export type rolesCountOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  data_scope?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+}
+
+export type rolesAvgOrderByAggregateInput = {
+  priority?: Prisma.SortOrder
 }
 
 export type rolesMaxOrderByAggregateInput = {
@@ -370,6 +479,9 @@ export type rolesMaxOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  data_scope?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
 }
 
 export type rolesMinOrderByAggregateInput = {
@@ -380,6 +492,23 @@ export type rolesMinOrderByAggregateInput = {
   updated_at?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   is_system?: Prisma.SortOrder
+  tenant_id?: Prisma.SortOrder
+  data_scope?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+}
+
+export type rolesSumOrderByAggregateInput = {
+  priority?: Prisma.SortOrder
+}
+
+export type RolesListRelationFilter = {
+  every?: Prisma.rolesWhereInput
+  some?: Prisma.rolesWhereInput
+  none?: Prisma.rolesWhereInput
+}
+
+export type rolesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type RolesNullableScalarRelationFilter = {
@@ -399,6 +528,52 @@ export type rolesUpdateOneRequiredWithoutRole_permissionsNestedInput = {
   upsert?: Prisma.rolesUpsertWithoutRole_permissionsInput
   connect?: Prisma.rolesWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.rolesUpdateToOneWithWhereWithoutRole_permissionsInput, Prisma.rolesUpdateWithoutRole_permissionsInput>, Prisma.rolesUncheckedUpdateWithoutRole_permissionsInput>
+}
+
+export type Enumdata_scope_enumFieldUpdateOperationsInput = {
+  set?: $Enums.data_scope_enum
+}
+
+export type rolesCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.rolesCreateWithoutTenantsInput, Prisma.rolesUncheckedCreateWithoutTenantsInput> | Prisma.rolesCreateWithoutTenantsInput[] | Prisma.rolesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutTenantsInput | Prisma.rolesCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.rolesCreateManyTenantsInputEnvelope
+  connect?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+}
+
+export type rolesUncheckedCreateNestedManyWithoutTenantsInput = {
+  create?: Prisma.XOR<Prisma.rolesCreateWithoutTenantsInput, Prisma.rolesUncheckedCreateWithoutTenantsInput> | Prisma.rolesCreateWithoutTenantsInput[] | Prisma.rolesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutTenantsInput | Prisma.rolesCreateOrConnectWithoutTenantsInput[]
+  createMany?: Prisma.rolesCreateManyTenantsInputEnvelope
+  connect?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+}
+
+export type rolesUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.rolesCreateWithoutTenantsInput, Prisma.rolesUncheckedCreateWithoutTenantsInput> | Prisma.rolesCreateWithoutTenantsInput[] | Prisma.rolesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutTenantsInput | Prisma.rolesCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.rolesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.rolesUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.rolesCreateManyTenantsInputEnvelope
+  set?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  disconnect?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  delete?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  connect?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  update?: Prisma.rolesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.rolesUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.rolesUpdateManyWithWhereWithoutTenantsInput | Prisma.rolesUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.rolesScalarWhereInput | Prisma.rolesScalarWhereInput[]
+}
+
+export type rolesUncheckedUpdateManyWithoutTenantsNestedInput = {
+  create?: Prisma.XOR<Prisma.rolesCreateWithoutTenantsInput, Prisma.rolesUncheckedCreateWithoutTenantsInput> | Prisma.rolesCreateWithoutTenantsInput[] | Prisma.rolesUncheckedCreateWithoutTenantsInput[]
+  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutTenantsInput | Prisma.rolesCreateOrConnectWithoutTenantsInput[]
+  upsert?: Prisma.rolesUpsertWithWhereUniqueWithoutTenantsInput | Prisma.rolesUpsertWithWhereUniqueWithoutTenantsInput[]
+  createMany?: Prisma.rolesCreateManyTenantsInputEnvelope
+  set?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  disconnect?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  delete?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  connect?: Prisma.rolesWhereUniqueInput | Prisma.rolesWhereUniqueInput[]
+  update?: Prisma.rolesUpdateWithWhereUniqueWithoutTenantsInput | Prisma.rolesUpdateWithWhereUniqueWithoutTenantsInput[]
+  updateMany?: Prisma.rolesUpdateManyWithWhereWithoutTenantsInput | Prisma.rolesUpdateManyWithWhereWithoutTenantsInput[]
+  deleteMany?: Prisma.rolesScalarWhereInput | Prisma.rolesScalarWhereInput[]
 }
 
 export type rolesCreateNestedOneWithoutUser_rolesInput = {
@@ -445,6 +620,22 @@ export type rolesUpdateOneWithoutNotification_channelsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.rolesUpdateToOneWithWhereWithoutNotification_channelsInput, Prisma.rolesUpdateWithoutNotification_channelsInput>, Prisma.rolesUncheckedUpdateWithoutNotification_channelsInput>
 }
 
+export type rolesCreateNestedOneWithoutApproval_rulesInput = {
+  create?: Prisma.XOR<Prisma.rolesCreateWithoutApproval_rulesInput, Prisma.rolesUncheckedCreateWithoutApproval_rulesInput>
+  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutApproval_rulesInput
+  connect?: Prisma.rolesWhereUniqueInput
+}
+
+export type rolesUpdateOneWithoutApproval_rulesNestedInput = {
+  create?: Prisma.XOR<Prisma.rolesCreateWithoutApproval_rulesInput, Prisma.rolesUncheckedCreateWithoutApproval_rulesInput>
+  connectOrCreate?: Prisma.rolesCreateOrConnectWithoutApproval_rulesInput
+  upsert?: Prisma.rolesUpsertWithoutApproval_rulesInput
+  disconnect?: Prisma.rolesWhereInput | boolean
+  delete?: Prisma.rolesWhereInput | boolean
+  connect?: Prisma.rolesWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.rolesUpdateToOneWithWhereWithoutApproval_rulesInput, Prisma.rolesUpdateWithoutApproval_rulesInput>, Prisma.rolesUncheckedUpdateWithoutApproval_rulesInput>
+}
+
 export type rolesCreateWithoutRole_permissionsInput = {
   id?: string
   name: string
@@ -453,8 +644,12 @@ export type rolesCreateWithoutRole_permissionsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -466,8 +661,12 @@ export type rolesUncheckedCreateWithoutRole_permissionsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -495,8 +694,12 @@ export type rolesUpdateWithoutRole_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  tenants?: Prisma.tenantsUpdateOneWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -508,9 +711,89 @@ export type rolesUncheckedUpdateWithoutRole_permissionsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_roleNestedInput
+}
+
+export type rolesCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  is_active?: boolean
+  is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
+  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutRolesInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_roleInput
+}
+
+export type rolesUncheckedCreateWithoutTenantsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  is_active?: boolean
+  is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
+  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutRolesInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_roleInput
+}
+
+export type rolesCreateOrConnectWithoutTenantsInput = {
+  where: Prisma.rolesWhereUniqueInput
+  create: Prisma.XOR<Prisma.rolesCreateWithoutTenantsInput, Prisma.rolesUncheckedCreateWithoutTenantsInput>
+}
+
+export type rolesCreateManyTenantsInputEnvelope = {
+  data: Prisma.rolesCreateManyTenantsInput | Prisma.rolesCreateManyTenantsInput[]
+  skipDuplicates?: boolean
+}
+
+export type rolesUpsertWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.rolesWhereUniqueInput
+  update: Prisma.XOR<Prisma.rolesUpdateWithoutTenantsInput, Prisma.rolesUncheckedUpdateWithoutTenantsInput>
+  create: Prisma.XOR<Prisma.rolesCreateWithoutTenantsInput, Prisma.rolesUncheckedCreateWithoutTenantsInput>
+}
+
+export type rolesUpdateWithWhereUniqueWithoutTenantsInput = {
+  where: Prisma.rolesWhereUniqueInput
+  data: Prisma.XOR<Prisma.rolesUpdateWithoutTenantsInput, Prisma.rolesUncheckedUpdateWithoutTenantsInput>
+}
+
+export type rolesUpdateManyWithWhereWithoutTenantsInput = {
+  where: Prisma.rolesScalarWhereInput
+  data: Prisma.XOR<Prisma.rolesUpdateManyMutationInput, Prisma.rolesUncheckedUpdateManyWithoutTenantsInput>
+}
+
+export type rolesScalarWhereInput = {
+  AND?: Prisma.rolesScalarWhereInput | Prisma.rolesScalarWhereInput[]
+  OR?: Prisma.rolesScalarWhereInput[]
+  NOT?: Prisma.rolesScalarWhereInput | Prisma.rolesScalarWhereInput[]
+  id?: Prisma.UuidFilter<"roles"> | string
+  name?: Prisma.StringFilter<"roles"> | string
+  description?: Prisma.StringNullableFilter<"roles"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"roles"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"roles"> | Date | string | null
+  is_active?: Prisma.BoolFilter<"roles"> | boolean
+  is_system?: Prisma.BoolFilter<"roles"> | boolean
+  tenant_id?: Prisma.UuidNullableFilter<"roles"> | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFilter<"roles"> | $Enums.data_scope_enum
+  priority?: Prisma.IntFilter<"roles"> | number
 }
 
 export type rolesCreateWithoutUser_rolesInput = {
@@ -521,8 +804,12 @@ export type rolesCreateWithoutUser_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -534,8 +821,12 @@ export type rolesUncheckedCreateWithoutUser_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -563,8 +854,12 @@ export type rolesUpdateWithoutUser_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  tenants?: Prisma.tenantsUpdateOneWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -576,8 +871,12 @@ export type rolesUncheckedUpdateWithoutUser_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -589,8 +888,12 @@ export type rolesCreateWithoutScreen_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -602,8 +905,12 @@ export type rolesUncheckedCreateWithoutScreen_rolesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutRolesInput
   notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_roleInput
 }
 
@@ -631,8 +938,12 @@ export type rolesUpdateWithoutScreen_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  tenants?: Prisma.tenantsUpdateOneWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -644,8 +955,12 @@ export type rolesUncheckedUpdateWithoutScreen_rolesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutRolesNestedInput
   notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_roleNestedInput
 }
 
@@ -657,9 +972,13 @@ export type rolesCreateWithoutNotification_channelsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRolesInput
   role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesCreateNestedManyWithoutRolesInput
 }
 
 export type rolesUncheckedCreateWithoutNotification_channelsInput = {
@@ -670,9 +989,13 @@ export type rolesUncheckedCreateWithoutNotification_channelsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
   role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
   screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
   user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
+  approval_rules?: Prisma.approval_rulesUncheckedCreateNestedManyWithoutRolesInput
 }
 
 export type rolesCreateOrConnectWithoutNotification_channelsInput = {
@@ -699,9 +1022,13 @@ export type rolesUpdateWithoutNotification_channelsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  tenants?: Prisma.tenantsUpdateOneWithoutRolesNestedInput
   role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutRolesNestedInput
 }
 
 export type rolesUncheckedUpdateWithoutNotification_channelsInput = {
@@ -712,9 +1039,155 @@ export type rolesUncheckedUpdateWithoutNotification_channelsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
   screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
   user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutRolesNestedInput
+}
+
+export type rolesCreateWithoutApproval_rulesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  is_active?: boolean
+  is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  tenants?: Prisma.tenantsCreateNestedOneWithoutRolesInput
+  role_permissions?: Prisma.role_permissionsCreateNestedManyWithoutRolesInput
+  screen_roles?: Prisma.screen_rolesCreateNestedManyWithoutRolesInput
+  user_roles?: Prisma.user_rolesCreateNestedManyWithoutRolesInput
+  notification_channels?: Prisma.notification_channelsCreateNestedManyWithoutTarget_roleInput
+}
+
+export type rolesUncheckedCreateWithoutApproval_rulesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  is_active?: boolean
+  is_system?: boolean
+  tenant_id?: string | null
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+  role_permissions?: Prisma.role_permissionsUncheckedCreateNestedManyWithoutRolesInput
+  screen_roles?: Prisma.screen_rolesUncheckedCreateNestedManyWithoutRolesInput
+  user_roles?: Prisma.user_rolesUncheckedCreateNestedManyWithoutRolesInput
+  notification_channels?: Prisma.notification_channelsUncheckedCreateNestedManyWithoutTarget_roleInput
+}
+
+export type rolesCreateOrConnectWithoutApproval_rulesInput = {
+  where: Prisma.rolesWhereUniqueInput
+  create: Prisma.XOR<Prisma.rolesCreateWithoutApproval_rulesInput, Prisma.rolesUncheckedCreateWithoutApproval_rulesInput>
+}
+
+export type rolesUpsertWithoutApproval_rulesInput = {
+  update: Prisma.XOR<Prisma.rolesUpdateWithoutApproval_rulesInput, Prisma.rolesUncheckedUpdateWithoutApproval_rulesInput>
+  create: Prisma.XOR<Prisma.rolesCreateWithoutApproval_rulesInput, Prisma.rolesUncheckedCreateWithoutApproval_rulesInput>
+  where?: Prisma.rolesWhereInput
+}
+
+export type rolesUpdateToOneWithWhereWithoutApproval_rulesInput = {
+  where?: Prisma.rolesWhereInput
+  data: Prisma.XOR<Prisma.rolesUpdateWithoutApproval_rulesInput, Prisma.rolesUncheckedUpdateWithoutApproval_rulesInput>
+}
+
+export type rolesUpdateWithoutApproval_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  tenants?: Prisma.tenantsUpdateOneWithoutRolesNestedInput
+  role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
+  screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_roleNestedInput
+}
+
+export type rolesUncheckedUpdateWithoutApproval_rulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenant_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
+  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_roleNestedInput
+}
+
+export type rolesCreateManyTenantsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  is_active?: boolean
+  is_system?: boolean
+  data_scope?: $Enums.data_scope_enum
+  priority?: number
+}
+
+export type rolesUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  role_permissions?: Prisma.role_permissionsUpdateManyWithoutRolesNestedInput
+  screen_roles?: Prisma.screen_rolesUpdateManyWithoutRolesNestedInput
+  user_roles?: Prisma.user_rolesUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUpdateManyWithoutRolesNestedInput
+  notification_channels?: Prisma.notification_channelsUpdateManyWithoutTarget_roleNestedInput
+}
+
+export type rolesUncheckedUpdateWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  role_permissions?: Prisma.role_permissionsUncheckedUpdateManyWithoutRolesNestedInput
+  screen_roles?: Prisma.screen_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  user_roles?: Prisma.user_rolesUncheckedUpdateManyWithoutRolesNestedInput
+  approval_rules?: Prisma.approval_rulesUncheckedUpdateManyWithoutRolesNestedInput
+  notification_channels?: Prisma.notification_channelsUncheckedUpdateManyWithoutTarget_roleNestedInput
+}
+
+export type rolesUncheckedUpdateManyWithoutTenantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_system?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  data_scope?: Prisma.Enumdata_scope_enumFieldUpdateOperationsInput | $Enums.data_scope_enum
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -726,6 +1199,7 @@ export type RolesCountOutputType = {
   role_permissions: number
   screen_roles: number
   user_roles: number
+  approval_rules: number
   notification_channels: number
 }
 
@@ -733,6 +1207,7 @@ export type RolesCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   role_permissions?: boolean | RolesCountOutputTypeCountRole_permissionsArgs
   screen_roles?: boolean | RolesCountOutputTypeCountScreen_rolesArgs
   user_roles?: boolean | RolesCountOutputTypeCountUser_rolesArgs
+  approval_rules?: boolean | RolesCountOutputTypeCountApproval_rulesArgs
   notification_channels?: boolean | RolesCountOutputTypeCountNotification_channelsArgs
 }
 
@@ -770,6 +1245,13 @@ export type RolesCountOutputTypeCountUser_rolesArgs<ExtArgs extends runtime.Type
 /**
  * RolesCountOutputType without action
  */
+export type RolesCountOutputTypeCountApproval_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.approval_rulesWhereInput
+}
+
+/**
+ * RolesCountOutputType without action
+ */
 export type RolesCountOutputTypeCountNotification_channelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.notification_channelsWhereInput
 }
@@ -783,9 +1265,14 @@ export type rolesSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updated_at?: boolean
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: boolean
+  data_scope?: boolean
+  priority?: boolean
+  tenants?: boolean | Prisma.roles$tenantsArgs<ExtArgs>
   role_permissions?: boolean | Prisma.roles$role_permissionsArgs<ExtArgs>
   screen_roles?: boolean | Prisma.roles$screen_rolesArgs<ExtArgs>
   user_roles?: boolean | Prisma.roles$user_rolesArgs<ExtArgs>
+  approval_rules?: boolean | Prisma.roles$approval_rulesArgs<ExtArgs>
   notification_channels?: boolean | Prisma.roles$notification_channelsArgs<ExtArgs>
   _count?: boolean | Prisma.RolesCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["roles"]>
@@ -798,6 +1285,10 @@ export type rolesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   updated_at?: boolean
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: boolean
+  data_scope?: boolean
+  priority?: boolean
+  tenants?: boolean | Prisma.roles$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["roles"]>
 
 export type rolesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -808,6 +1299,10 @@ export type rolesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   updated_at?: boolean
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: boolean
+  data_scope?: boolean
+  priority?: boolean
+  tenants?: boolean | Prisma.roles$tenantsArgs<ExtArgs>
 }, ExtArgs["result"]["roles"]>
 
 export type rolesSelectScalar = {
@@ -818,25 +1313,36 @@ export type rolesSelectScalar = {
   updated_at?: boolean
   is_active?: boolean
   is_system?: boolean
+  tenant_id?: boolean
+  data_scope?: boolean
+  priority?: boolean
 }
 
-export type rolesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at" | "is_active" | "is_system", ExtArgs["result"]["roles"]>
+export type rolesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at" | "is_active" | "is_system" | "tenant_id" | "data_scope" | "priority", ExtArgs["result"]["roles"]>
 export type rolesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.roles$tenantsArgs<ExtArgs>
   role_permissions?: boolean | Prisma.roles$role_permissionsArgs<ExtArgs>
   screen_roles?: boolean | Prisma.roles$screen_rolesArgs<ExtArgs>
   user_roles?: boolean | Prisma.roles$user_rolesArgs<ExtArgs>
+  approval_rules?: boolean | Prisma.roles$approval_rulesArgs<ExtArgs>
   notification_channels?: boolean | Prisma.roles$notification_channelsArgs<ExtArgs>
   _count?: boolean | Prisma.RolesCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type rolesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type rolesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type rolesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.roles$tenantsArgs<ExtArgs>
+}
+export type rolesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tenants?: boolean | Prisma.roles$tenantsArgs<ExtArgs>
+}
 
 export type $rolesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "roles"
   objects: {
+    tenants: Prisma.$tenantsPayload<ExtArgs> | null
     role_permissions: Prisma.$role_permissionsPayload<ExtArgs>[]
     screen_roles: Prisma.$screen_rolesPayload<ExtArgs>[]
     user_roles: Prisma.$user_rolesPayload<ExtArgs>[]
+    approval_rules: Prisma.$approval_rulesPayload<ExtArgs>[]
     notification_channels: Prisma.$notification_channelsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -847,6 +1353,9 @@ export type $rolesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     updated_at: Date | null
     is_active: boolean
     is_system: boolean
+    tenant_id: string | null
+    data_scope: $Enums.data_scope_enum
+    priority: number
   }, ExtArgs["result"]["roles"]>
   composites: {}
 }
@@ -1241,9 +1750,11 @@ readonly fields: rolesFieldRefs;
  */
 export interface Prisma__rolesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tenants<T extends Prisma.roles$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$tenantsArgs<ExtArgs>>): Prisma.Prisma__tenantsClient<runtime.Types.Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   role_permissions<T extends Prisma.roles$role_permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$role_permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$role_permissionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   screen_roles<T extends Prisma.roles$screen_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$screen_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$screen_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_roles<T extends Prisma.roles$user_rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$user_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  approval_rules<T extends Prisma.roles$approval_rulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$approval_rulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$approval_rulesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notification_channels<T extends Prisma.roles$notification_channelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roles$notification_channelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notification_channelsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1281,6 +1792,9 @@ export interface rolesFieldRefs {
   readonly updated_at: Prisma.FieldRef<"roles", 'DateTime'>
   readonly is_active: Prisma.FieldRef<"roles", 'Boolean'>
   readonly is_system: Prisma.FieldRef<"roles", 'Boolean'>
+  readonly tenant_id: Prisma.FieldRef<"roles", 'String'>
+  readonly data_scope: Prisma.FieldRef<"roles", 'data_scope_enum'>
+  readonly priority: Prisma.FieldRef<"roles", 'Int'>
 }
     
 
@@ -1535,6 +2049,10 @@ export type rolesCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.rolesCreateManyInput | Prisma.rolesCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.rolesIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1605,6 +2123,10 @@ export type rolesUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many roles to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.rolesIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1671,6 +2193,25 @@ export type rolesDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many roles to delete.
    */
   limit?: number
+}
+
+/**
+ * roles.tenants
+ */
+export type roles$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the tenants
+   */
+  select?: Prisma.tenantsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the tenants
+   */
+  omit?: Prisma.tenantsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.tenantsInclude<ExtArgs> | null
+  where?: Prisma.tenantsWhereInput
 }
 
 /**
@@ -1743,6 +2284,30 @@ export type roles$user_rolesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.User_rolesScalarFieldEnum | Prisma.User_rolesScalarFieldEnum[]
+}
+
+/**
+ * roles.approval_rules
+ */
+export type roles$approval_rulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the approval_rules
+   */
+  select?: Prisma.approval_rulesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the approval_rules
+   */
+  omit?: Prisma.approval_rulesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.approval_rulesInclude<ExtArgs> | null
+  where?: Prisma.approval_rulesWhereInput
+  orderBy?: Prisma.approval_rulesOrderByWithRelationInput | Prisma.approval_rulesOrderByWithRelationInput[]
+  cursor?: Prisma.approval_rulesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Approval_rulesScalarFieldEnum | Prisma.Approval_rulesScalarFieldEnum[]
 }
 
 /**

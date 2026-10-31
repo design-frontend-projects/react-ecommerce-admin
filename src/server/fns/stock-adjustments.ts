@@ -9,6 +9,7 @@ import type {
 } from '@/generated/prisma/client'
 import { supabaseAdmin } from '@/server/supabase'
 import { ApiError } from '@/server/utils/api-error'
+import { AntiSelfApprovalError } from '@/server/workflow/approval-engine'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import prisma from '@/lib/prisma'
 import {
@@ -338,6 +339,13 @@ export async function approveAdjustment(authUserId: string, id: string) {
   })
   if (!existing) {
     throw new ApiError('Adjustment not found.', 404)
+  }
+  if (
+    existing.created_by_user_id === tenantUserId ||
+    existing.created_by_user_id === authUserId ||
+    existing.created_by === authUserId
+  ) {
+    throw new AntiSelfApprovalError('Requester cannot approve their own request')
   }
   if (existing.status === 'approved') {
     throw new ApiError('Adjustment has already been approved.', 400)

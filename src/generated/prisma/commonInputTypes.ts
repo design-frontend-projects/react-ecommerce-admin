@@ -792,6 +792,23 @@ export type Enumvoid_request_statusNullableWithAggregatesFilter<$PrismaModel = n
   _max?: Prisma.NestedEnumvoid_request_statusNullableFilter<$PrismaModel>
 }
 
+export type Enumdata_scope_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.data_scope_enum | Prisma.Enumdata_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdata_scope_enumFilter<$PrismaModel> | $Enums.data_scope_enum
+}
+
+export type Enumdata_scope_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.data_scope_enum | Prisma.Enumdata_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdata_scope_enumWithAggregatesFilter<$PrismaModel> | $Enums.data_scope_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumdata_scope_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumdata_scope_enumFilter<$PrismaModel>
+}
+
 export type Enuminvoice_type_enumFilter<$PrismaModel = never> = {
   equals?: $Enums.invoice_type_enum | Prisma.Enuminvoice_type_enumFieldRefInput<$PrismaModel>
   in?: $Enums.invoice_type_enum[] | Prisma.ListEnuminvoice_type_enumFieldRefInput<$PrismaModel>
@@ -1863,6 +1880,23 @@ export type Enumnotification_delivery_status_enumWithAggregatesFilter<$PrismaMod
   _max?: Prisma.NestedEnumnotification_delivery_status_enumFilter<$PrismaModel>
 }
 
+export type Enumapproval_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.approval_status_enum | Prisma.Enumapproval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumapproval_status_enumFilter<$PrismaModel> | $Enums.approval_status_enum
+}
+
+export type Enumapproval_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.approval_status_enum | Prisma.Enumapproval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumapproval_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.approval_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumapproval_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumapproval_status_enumFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -2621,6 +2655,23 @@ export type NestedEnumvoid_request_statusNullableWithAggregatesFilter<$PrismaMod
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumvoid_request_statusNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumvoid_request_statusNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumdata_scope_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.data_scope_enum | Prisma.Enumdata_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdata_scope_enumFilter<$PrismaModel> | $Enums.data_scope_enum
+}
+
+export type NestedEnumdata_scope_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.data_scope_enum | Prisma.Enumdata_scope_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.data_scope_enum[] | Prisma.ListEnumdata_scope_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumdata_scope_enumWithAggregatesFilter<$PrismaModel> | $Enums.data_scope_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumdata_scope_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumdata_scope_enumFilter<$PrismaModel>
 }
 
 export type NestedEnuminvoice_type_enumFilter<$PrismaModel = never> = {
@@ -3665,6 +3716,23 @@ export type NestedEnumnotification_delivery_status_enumWithAggregatesFilter<$Pri
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumnotification_delivery_status_enumFilter<$PrismaModel>
   _max?: Prisma.NestedEnumnotification_delivery_status_enumFilter<$PrismaModel>
+}
+
+export type NestedEnumapproval_status_enumFilter<$PrismaModel = never> = {
+  equals?: $Enums.approval_status_enum | Prisma.Enumapproval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumapproval_status_enumFilter<$PrismaModel> | $Enums.approval_status_enum
+}
+
+export type NestedEnumapproval_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.approval_status_enum | Prisma.Enumapproval_status_enumFieldRefInput<$PrismaModel>
+  in?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  notIn?: $Enums.approval_status_enum[] | Prisma.ListEnumapproval_status_enumFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumapproval_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.approval_status_enum
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumapproval_status_enumFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumapproval_status_enumFilter<$PrismaModel>
 }
 
 

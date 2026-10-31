@@ -79,6 +79,7 @@ model branches {
   inv_promotion_usage_logs inv_promotion_usage_logs[]
   inv_discount_approval_requests inv_discount_approval_requests[]
   notification_channels notification_channels[]
+  tenant_user_branches  tenant_user_branches[]
 }
 
 model categories {
@@ -1321,12 +1322,19 @@ model roles {
   description      String?            @db.VarChar(255)
   created_at       DateTime?          @default(now()) @db.Timestamptz(6)
   updated_at       DateTime?          @default(now()) @db.Timestamptz(6)
-  is_active        Boolean            @default(true)
-  is_system        Boolean            @default(false)
-  role_permissions role_permissions[]
-  screen_roles     screen_roles[]
-  user_roles       user_roles[]
+  is_active             Boolean                  @default(true)
+  is_system             Boolean                  @default(false)
+  tenant_id             String?                  @db.Uuid
+  data_scope            data_scope_enum          @default(TENANT)
+  priority              Int                      @default(100)
+  tenants               tenants?                 @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  role_permissions      role_permissions[]
+  screen_roles          screen_roles[]
+  user_roles            user_roles[]
+  approval_rules        approval_rules[]
   notification_channels notification_channels[]
+
+  @@index([tenant_id, is_active])
 }
 
 model sales_invoice_items {
@@ -1826,6 +1834,11 @@ model tenants {
   currencies              currencies?                 @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   cities                  cities?                     @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   default_branch          branches?                   @relation("tenant_default_branch", fields: [default_branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  roles                   roles[]
+  tenant_user_branches    tenant_user_branches[]
+  tenant_user_warehouses  tenant_user_warehouses[]
+  approval_rules          approval_rules[]
+  approval_requests       approval_requests[]
 
   @@index([auth_user_id], map: "idx_tenants_auth_user_id")
   @@index([country_id], map: "idx_tenants_country_id")
@@ -1886,6 +1899,8 @@ model tenant_users {
   notification_preferences     notification_preferences[]
   goods_receipts_posted        goods_receipts[] @relation("goods_receipts_posted_by_user_idTotenant_users")
   pos_user_pins                pos_user_pins?
+  tenant_user_branches         tenant_user_branches[]
+  tenant_user_warehouses       tenant_user_warehouses[]
 
   @@index([tenant_id, is_active], map: "idx_tenant_users_tenant_active")
   @@index([email], map: "idx_tenant_users_email")
@@ -2827,6 +2842,7 @@ model warehouses {
   sales_invoices       sales_invoices[]
   tenant_users         tenant_users[]
   notification_channels notification_channels[]
+  tenant_user_warehouses tenant_user_warehouses[]
 
   @@index([tenant_id])
   @@index([branch_id])
@@ -4960,3 +4976,151 @@ model notification_publish_queue {
   @@index([status, next_retry_at])
   @@index([tenant_id, status])
 }
+
+// =============================================================================
+// ENTERPRISE ACCESS CONTROL & AUTHORIZATION EXTENSIONS (MILESTONE 1)
+// =============================================================================
+
+/// ABAC Data Scope hierarchy defining the boundary of accessible records.
+enum data_scope_enum {
+  TENANT
+  ASSIGNED_BRANCHES
+  ASSIGNED_WAREHOUSES
+  OWN_RECORDS
+}
+
+/// Generic approval workflow status.
+enum approval_status_enum {
+  pending
+  approved
+  rejected
+  cancelled
+}
+
+/// Multi-branch assignment junction model for ABAC data scoping.
+model tenant_user_branches {
+  id                 String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String       @db.Uuid
+  tenant_user_id     String       @db.Uuid
+  branch_id          String       @db.Uuid
+  is_primary         Boolean      @default(false)
+  created_at         DateTime     @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?      @db.Uuid
+
+  // Relations
+  tenants            tenants      @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  tenant_users       tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
+  branches           branches     @relation(fields: [branch_id], references: [id], onDelete: Cascade)
+
+  @@unique([tenant_user_id, branch_id])
+  @@index([tenant_id, tenant_user_id])
+  @@index([branch_id])
+}
+
+/// Multi-warehouse assignment junction model for ABAC data scoping.
+model tenant_user_warehouses {
+  id                 String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id          String       @db.Uuid
+  tenant_user_id     String       @db.Uuid
+  warehouse_id       String       @db.Uuid
+  is_primary         Boolean      @default(false)
+  created_at         DateTime     @default(now()) @db.Timestamptz(6)
+  created_by_user_id String?      @db.Uuid
+
+  // Relations
+  tenants            tenants      @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  tenant_users       tenant_users @relation(fields: [tenant_user_id], references: [id], onDelete: Cascade)
+  warehouses         warehouses   @relation(fields: [warehouse_id], references: [id], onDelete: Cascade)
+
+  @@unique([tenant_user_id, warehouse_id])
+  @@index([tenant_id, tenant_user_id])
+  @@index([warehouse_id])
+}
+
+/// Configurable multi-tenant approval workflow rules with amount limits and segregation of duties.
+model approval_rules {
+  id                           String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id                    String             @db.Uuid
+  module                       String             @db.VarChar(50)
+  entity_type                  String             @db.VarChar(50)
+  action                       String             @db.VarChar(50)
+  name                         String             @db.VarChar(150)
+  description                  String?            @db.VarChar(255)
+  min_amount                   Decimal?           @default(0) @db.Decimal(18, 4)
+  max_amount                   Decimal?           @db.Decimal(18, 4)
+  required_role_id             String?            @db.Uuid
+  required_permission          String?            @db.VarChar(100)
+  approval_level               String?            @db.VarChar(50)
+  enforce_separation_of_duties Boolean            @default(true)
+  is_active                    Boolean            @default(true)
+  created_at                   DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at                   DateTime           @default(now()) @db.Timestamptz(6)
+  created_by_user_id           String?            @db.Uuid
+
+  // Relations
+  tenants                      tenants            @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  roles                        roles?             @relation(fields: [required_role_id], references: [id], onDelete: SetNull)
+  approval_requests            approval_requests[]
+
+  @@index([tenant_id, module, entity_type, is_active])
+}
+
+/// Generic approval workflow request tracking approval lifecycle and decisions.
+model approval_requests {
+  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id            String                @db.Uuid
+  rule_id              String?               @db.Uuid
+  module               String                @db.VarChar(50)
+  entity_type          String                @db.VarChar(50)
+  entity_id            String                @db.VarChar(100)
+  requested_by_user_id String                @db.Uuid
+  approved_by_user_id  String?               @db.Uuid
+  status               approval_status_enum  @default(pending)
+  requested_amount     Decimal?              @db.Decimal(18, 4)
+  currency             String?               @default("USD") @db.VarChar(10)
+  reason               String?               @db.VarChar(500)
+  decision_reason      String?               @db.VarChar(500)
+  reviewed_at          DateTime?             @db.Timestamptz(6)
+  metadata             Json?                 @default("{}")
+  created_at           DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime              @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  tenants              tenants               @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+  approval_rules       approval_rules?       @relation(fields: [rule_id], references: [id], onDelete: SetNull)
+
+  @@index([tenant_id, status])
+  @@index([tenant_id, entity_type, entity_id])
+  @@index([requested_by_user_id])
+  @@index([approved_by_user_id])
+}
+
+/// Tamper-resistant append-only security audit log using SHA-256 hash chaining.
+model security_audit_logs {
+  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id            String?   @db.Uuid
+  actor_auth_user_id   String?   @db.Uuid
+  actor_tenant_user_id String?   @db.Uuid
+  actor_email          String?   @db.VarChar(255)
+  action               String    @db.VarChar(100)
+  resource_type        String    @db.VarChar(100)
+  resource_id          String?   @db.VarChar(255)
+  status               String    @default("SUCCESS") @db.VarChar(30)
+  severity             String    @default("INFO") @db.VarChar(30)
+  data_scope           String?   @db.VarChar(50)
+  diff                 Json?
+  metadata             Json?     @default("{}")
+  ip_address           String?   @db.VarChar(45)
+  user_agent           String?
+  route                String?   @db.VarChar(255)
+  prev_record_hash     String?   @db.VarChar(64)
+  record_hash          String?   @db.VarChar(64)
+  created_at           DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([tenant_id, created_at(sort: Desc)])
+  @@index([tenant_id, status])
+  @@index([action, status])
+  @@index([actor_auth_user_id])
+  @@index([created_at(sort: Desc)])
+}
+

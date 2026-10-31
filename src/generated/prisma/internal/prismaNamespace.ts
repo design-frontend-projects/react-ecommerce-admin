@@ -548,7 +548,12 @@ export const ModelName = {
   notification_recipients: 'notification_recipients',
   notification_templates: 'notification_templates',
   notification_preferences: 'notification_preferences',
-  notification_publish_queue: 'notification_publish_queue'
+  notification_publish_queue: 'notification_publish_queue',
+  tenant_user_branches: 'tenant_user_branches',
+  tenant_user_warehouses: 'tenant_user_warehouses',
+  approval_rules: 'approval_rules',
+  approval_requests: 'approval_requests',
+  security_audit_logs: 'security_audit_logs'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -564,7 +569,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "refund_items" | "pos_user_pins" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "refund_items" | "pos_user_pins" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue" | "tenant_user_branches" | "tenant_user_warehouses" | "approval_rules" | "approval_requests" | "security_audit_logs"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -12778,6 +12783,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    tenant_user_branches: {
+      payload: Prisma.$tenant_user_branchesPayload<ExtArgs>
+      fields: Prisma.tenant_user_branchesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.tenant_user_branchesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.tenant_user_branchesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>
+        }
+        findFirst: {
+          args: Prisma.tenant_user_branchesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.tenant_user_branchesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>
+        }
+        findMany: {
+          args: Prisma.tenant_user_branchesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>[]
+        }
+        create: {
+          args: Prisma.tenant_user_branchesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>
+        }
+        createMany: {
+          args: Prisma.tenant_user_branchesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.tenant_user_branchesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>[]
+        }
+        delete: {
+          args: Prisma.tenant_user_branchesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>
+        }
+        update: {
+          args: Prisma.tenant_user_branchesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>
+        }
+        deleteMany: {
+          args: Prisma.tenant_user_branchesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.tenant_user_branchesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.tenant_user_branchesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>[]
+        }
+        upsert: {
+          args: Prisma.tenant_user_branchesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_branchesPayload>
+        }
+        aggregate: {
+          args: Prisma.Tenant_user_branchesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenant_user_branches>
+        }
+        groupBy: {
+          args: Prisma.tenant_user_branchesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tenant_user_branchesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.tenant_user_branchesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tenant_user_branchesCountAggregateOutputType> | number
+        }
+      }
+    }
+    tenant_user_warehouses: {
+      payload: Prisma.$tenant_user_warehousesPayload<ExtArgs>
+      fields: Prisma.tenant_user_warehousesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.tenant_user_warehousesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.tenant_user_warehousesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>
+        }
+        findFirst: {
+          args: Prisma.tenant_user_warehousesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.tenant_user_warehousesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>
+        }
+        findMany: {
+          args: Prisma.tenant_user_warehousesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>[]
+        }
+        create: {
+          args: Prisma.tenant_user_warehousesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>
+        }
+        createMany: {
+          args: Prisma.tenant_user_warehousesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.tenant_user_warehousesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>[]
+        }
+        delete: {
+          args: Prisma.tenant_user_warehousesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>
+        }
+        update: {
+          args: Prisma.tenant_user_warehousesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>
+        }
+        deleteMany: {
+          args: Prisma.tenant_user_warehousesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.tenant_user_warehousesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.tenant_user_warehousesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>[]
+        }
+        upsert: {
+          args: Prisma.tenant_user_warehousesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$tenant_user_warehousesPayload>
+        }
+        aggregate: {
+          args: Prisma.Tenant_user_warehousesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenant_user_warehouses>
+        }
+        groupBy: {
+          args: Prisma.tenant_user_warehousesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tenant_user_warehousesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.tenant_user_warehousesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Tenant_user_warehousesCountAggregateOutputType> | number
+        }
+      }
+    }
+    approval_rules: {
+      payload: Prisma.$approval_rulesPayload<ExtArgs>
+      fields: Prisma.approval_rulesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.approval_rulesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.approval_rulesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>
+        }
+        findFirst: {
+          args: Prisma.approval_rulesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.approval_rulesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>
+        }
+        findMany: {
+          args: Prisma.approval_rulesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>[]
+        }
+        create: {
+          args: Prisma.approval_rulesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>
+        }
+        createMany: {
+          args: Prisma.approval_rulesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.approval_rulesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>[]
+        }
+        delete: {
+          args: Prisma.approval_rulesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>
+        }
+        update: {
+          args: Prisma.approval_rulesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>
+        }
+        deleteMany: {
+          args: Prisma.approval_rulesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.approval_rulesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.approval_rulesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>[]
+        }
+        upsert: {
+          args: Prisma.approval_rulesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_rulesPayload>
+        }
+        aggregate: {
+          args: Prisma.Approval_rulesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateApproval_rules>
+        }
+        groupBy: {
+          args: Prisma.approval_rulesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Approval_rulesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.approval_rulesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Approval_rulesCountAggregateOutputType> | number
+        }
+      }
+    }
+    approval_requests: {
+      payload: Prisma.$approval_requestsPayload<ExtArgs>
+      fields: Prisma.approval_requestsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.approval_requestsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.approval_requestsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>
+        }
+        findFirst: {
+          args: Prisma.approval_requestsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.approval_requestsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>
+        }
+        findMany: {
+          args: Prisma.approval_requestsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>[]
+        }
+        create: {
+          args: Prisma.approval_requestsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>
+        }
+        createMany: {
+          args: Prisma.approval_requestsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.approval_requestsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>[]
+        }
+        delete: {
+          args: Prisma.approval_requestsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>
+        }
+        update: {
+          args: Prisma.approval_requestsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>
+        }
+        deleteMany: {
+          args: Prisma.approval_requestsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.approval_requestsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.approval_requestsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>[]
+        }
+        upsert: {
+          args: Prisma.approval_requestsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$approval_requestsPayload>
+        }
+        aggregate: {
+          args: Prisma.Approval_requestsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateApproval_requests>
+        }
+        groupBy: {
+          args: Prisma.approval_requestsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Approval_requestsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.approval_requestsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Approval_requestsCountAggregateOutputType> | number
+        }
+      }
+    }
+    security_audit_logs: {
+      payload: Prisma.$security_audit_logsPayload<ExtArgs>
+      fields: Prisma.security_audit_logsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.security_audit_logsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.security_audit_logsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>
+        }
+        findFirst: {
+          args: Prisma.security_audit_logsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.security_audit_logsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>
+        }
+        findMany: {
+          args: Prisma.security_audit_logsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>[]
+        }
+        create: {
+          args: Prisma.security_audit_logsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>
+        }
+        createMany: {
+          args: Prisma.security_audit_logsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.security_audit_logsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>[]
+        }
+        delete: {
+          args: Prisma.security_audit_logsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>
+        }
+        update: {
+          args: Prisma.security_audit_logsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>
+        }
+        deleteMany: {
+          args: Prisma.security_audit_logsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.security_audit_logsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.security_audit_logsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>[]
+        }
+        upsert: {
+          args: Prisma.security_audit_logsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$security_audit_logsPayload>
+        }
+        aggregate: {
+          args: Prisma.Security_audit_logsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSecurity_audit_logs>
+        }
+        groupBy: {
+          args: Prisma.security_audit_logsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Security_audit_logsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.security_audit_logsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Security_audit_logsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -13994,7 +14369,10 @@ export const RolesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_active: 'is_active',
-  is_system: 'is_system'
+  is_system: 'is_system',
+  tenant_id: 'tenant_id',
+  data_scope: 'data_scope',
+  priority: 'priority'
 } as const
 
 export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
@@ -16304,6 +16682,103 @@ export const Notification_publish_queueScalarFieldEnum = {
 export type Notification_publish_queueScalarFieldEnum = (typeof Notification_publish_queueScalarFieldEnum)[keyof typeof Notification_publish_queueScalarFieldEnum]
 
 
+export const Tenant_user_branchesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  branch_id: 'branch_id',
+  is_primary: 'is_primary',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Tenant_user_branchesScalarFieldEnum = (typeof Tenant_user_branchesScalarFieldEnum)[keyof typeof Tenant_user_branchesScalarFieldEnum]
+
+
+export const Tenant_user_warehousesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  tenant_user_id: 'tenant_user_id',
+  warehouse_id: 'warehouse_id',
+  is_primary: 'is_primary',
+  created_at: 'created_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Tenant_user_warehousesScalarFieldEnum = (typeof Tenant_user_warehousesScalarFieldEnum)[keyof typeof Tenant_user_warehousesScalarFieldEnum]
+
+
+export const Approval_rulesScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  module: 'module',
+  entity_type: 'entity_type',
+  action: 'action',
+  name: 'name',
+  description: 'description',
+  min_amount: 'min_amount',
+  max_amount: 'max_amount',
+  required_role_id: 'required_role_id',
+  required_permission: 'required_permission',
+  approval_level: 'approval_level',
+  enforce_separation_of_duties: 'enforce_separation_of_duties',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  created_by_user_id: 'created_by_user_id'
+} as const
+
+export type Approval_rulesScalarFieldEnum = (typeof Approval_rulesScalarFieldEnum)[keyof typeof Approval_rulesScalarFieldEnum]
+
+
+export const Approval_requestsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  rule_id: 'rule_id',
+  module: 'module',
+  entity_type: 'entity_type',
+  entity_id: 'entity_id',
+  requested_by_user_id: 'requested_by_user_id',
+  approved_by_user_id: 'approved_by_user_id',
+  status: 'status',
+  requested_amount: 'requested_amount',
+  currency: 'currency',
+  reason: 'reason',
+  decision_reason: 'decision_reason',
+  reviewed_at: 'reviewed_at',
+  metadata: 'metadata',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type Approval_requestsScalarFieldEnum = (typeof Approval_requestsScalarFieldEnum)[keyof typeof Approval_requestsScalarFieldEnum]
+
+
+export const Security_audit_logsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  actor_auth_user_id: 'actor_auth_user_id',
+  actor_tenant_user_id: 'actor_tenant_user_id',
+  actor_email: 'actor_email',
+  action: 'action',
+  resource_type: 'resource_type',
+  resource_id: 'resource_id',
+  status: 'status',
+  severity: 'severity',
+  data_scope: 'data_scope',
+  diff: 'diff',
+  metadata: 'metadata',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  route: 'route',
+  prev_record_hash: 'prev_record_hash',
+  record_hash: 'record_hash',
+  created_at: 'created_at'
+} as const
+
+export type Security_audit_logsScalarFieldEnum = (typeof Security_audit_logsScalarFieldEnum)[keyof typeof Security_audit_logsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -16768,6 +17243,20 @@ export type Enumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInputTy
  * Reference to a field of type 'void_request_status[]'
  */
 export type ListEnumvoid_request_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'void_request_status[]'>
+    
+
+
+/**
+ * Reference to a field of type 'data_scope_enum'
+ */
+export type Enumdata_scope_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'data_scope_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'data_scope_enum[]'
+ */
+export type ListEnumdata_scope_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'data_scope_enum[]'>
     
 
 
@@ -17584,6 +18073,20 @@ export type ListEnumnotification_delivery_status_enumFieldRefInput<$PrismaModel>
 
 
 /**
+ * Reference to a field of type 'approval_status_enum'
+ */
+export type Enumapproval_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'approval_status_enum'>
+    
+
+
+/**
+ * Reference to a field of type 'approval_status_enum[]'
+ */
+export type ListEnumapproval_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'approval_status_enum[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -17856,6 +18359,11 @@ export type GlobalOmitConfig = {
   notification_templates?: Prisma.notification_templatesOmit
   notification_preferences?: Prisma.notification_preferencesOmit
   notification_publish_queue?: Prisma.notification_publish_queueOmit
+  tenant_user_branches?: Prisma.tenant_user_branchesOmit
+  tenant_user_warehouses?: Prisma.tenant_user_warehousesOmit
+  approval_rules?: Prisma.approval_rulesOmit
+  approval_requests?: Prisma.approval_requestsOmit
+  security_audit_logs?: Prisma.security_audit_logsOmit
 }
 
 /* Types for Logging */

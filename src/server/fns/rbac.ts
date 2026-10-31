@@ -7,6 +7,7 @@ import {
   invalidatePermissionCache,
 } from '@/server/utils/auth'
 import { resolveTenantId } from '@/server/utils/tenant'
+import { logSecurityEvent } from '@/server/logging/security-audit'
 import {
   BASE_PERMISSION_DEFINITIONS,
   DEFAULT_ROLE_PERMISSION_NAMES,
@@ -324,7 +325,18 @@ async function recordRbacAudit(entry: {
         target_id: entry.targetId,
         diff: entry.diff === undefined ? undefined : (entry.diff as object),
       },
-    })
+    }).catch(() => {})
+
+    await logSecurityEvent({
+      tenantId,
+      actorAuthUserId: entry.actor ?? null,
+      action: entry.action,
+      resourceType: entry.targetType,
+      resourceId: entry.targetId,
+      diff: entry.diff,
+      status: 'SUCCESS',
+      severity: 'INFO',
+    }).catch(() => {})
   } catch {
     // swallow — audit is advisory, the mutation already succeeded
   }

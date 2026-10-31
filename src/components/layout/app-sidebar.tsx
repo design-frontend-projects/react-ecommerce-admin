@@ -39,12 +39,6 @@ function canAccessItem(
   // System owner restriction
   if (item.isSystemOwner && !isSystemOwner) return false
 
-  // If user is admin/owner/super_admin, allow all standard admin routes
-  const isTenantAdmin = normalizedRoleNames.some((r) =>
-    ['admin', 'super_admin', 'owner'].includes(r)
-  )
-  if (isTenantAdmin && !item.isSystemOwner) return true
-
   const hasRoles = item.roles && item.roles.length > 0
   const hasPermissions = item.permissions && item.permissions.length > 0
 
@@ -139,7 +133,10 @@ export function AppSidebar() {
     }))
     .filter((group) => group.items.length > 0)
 
-  const renderedNavGroups = staticNavGroups
+  const renderedNavGroups =
+    DB_NAV_ENABLED && dbNavGroups && dbNavGroups.length > 0
+      ? dbNavGroups.filter((group) => group.items.length > 0)
+      : staticNavGroups
 
   const isLoading = isSignedIn && navigationQuery.isLoading && !dbNavGroups
 

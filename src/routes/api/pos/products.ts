@@ -6,6 +6,7 @@ import { requireTenantId } from '@/server/utils/tenant'
 import { withAuth } from '@/server/utils/with-auth'
 import prisma from '@/lib/prisma'
 import { PERMISSIONS } from '@/features/users/data/permission-constants'
+import { stripSensitiveCostFields, hasCostViewPermission } from '@/server/utils/cost-sanitizer'
 
 export const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -368,10 +369,13 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
           })
         })
 
+        const hasViewCost = hasCostViewPermission(auth.permissionNames)
+        const sanitizedItems = hasViewCost ? items : stripSensitiveCostFields(items, false)
+
         return Response.json({
           success: true,
           data: {
-            items,
+            items: sanitizedItems,
             categories: categoriesList.map((c) => ({ id: c.id, name: c.name })),
             pagination: {
               page,

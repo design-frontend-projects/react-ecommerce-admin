@@ -14,6 +14,49 @@ import type {
   attribute_data_type_enum,
 } from '@/generated/prisma/client'
 import { BusinessEventNotifications } from '@/server/services/business-event-notifications'
+import { hasPermission } from '@/features/users/data/rbac'
+import { getDatabasePermissionNames } from '@/server/utils/auth'
+import { stripSensitiveCostFields, hasCostViewPermission } from '@/server/utils/cost-sanitizer'
+import { withServerFnAuth } from '@/server/utils/with-server-fn-auth'
+export { importProductsCsv } from './product-import'
+
+export function assertProductMutationPermissions(
+  callerPermissions: string[],
+  payload: {
+    isCreate?: boolean
+    isUpdate?: boolean
+    isDelete?: boolean
+    hasPriceChanges?: boolean
+    hasVariantChanges?: boolean
+    hasBarcodeChanges?: boolean
+  }
+): void {
+  const isManager =
+    hasPermission(callerPermissions, 'products.manage') ||
+    hasPermission(callerPermissions, 'general.products.manage') ||
+    hasPermission(callerPermissions, '*')
+
+  if (isManager) return
+
+  if (payload.isCreate && !hasPermission(callerPermissions, 'products.create')) {
+    throw new ApiError("Forbidden: Missing required permission 'products.create'", 403)
+  }
+  if (payload.isUpdate && !hasPermission(callerPermissions, 'products.update')) {
+    throw new ApiError("Forbidden: Missing required permission 'products.update'", 403)
+  }
+  if (payload.isDelete && !hasPermission(callerPermissions, 'products.delete')) {
+    throw new ApiError("Forbidden: Missing required permission 'products.delete'", 403)
+  }
+  if (payload.hasPriceChanges && !hasPermission(callerPermissions, 'products.manage_prices')) {
+    throw new ApiError("Forbidden: Missing required permission 'products.manage_prices'", 403)
+  }
+  if (payload.hasVariantChanges && !hasPermission(callerPermissions, 'products.manage_variants')) {
+    throw new ApiError("Forbidden: Missing required permission 'products.manage_variants'", 403)
+  }
+  if (payload.hasBarcodeChanges && !hasPermission(callerPermissions, 'products.manage_barcodes')) {
+    throw new ApiError("Forbidden: Missing required permission 'products.manage_barcodes'", 403)
+  }
+}
 
 // ── Types & Interfaces ───────────────────────────────────────────────────────
 
@@ -156,9 +199,24 @@ async function generateNextProductCode(tenantId: string): Promise<string> {
 
 export async function listProducts(
   authUserId: string,
-  params: ProductQueryParams = {}
+  params: ProductQueryParams = {},
+  options?: { hasViewCost?: boolean; permissions?: string[] }
 ) {
   const tenantId = await requireTenantId(authUserId)
+
+  let hasViewCost = options?.hasViewCost
+  if (hasViewCost === undefined) {
+    if (options?.permissions) {
+      hasViewCost = hasCostViewPermission(options.permissions)
+    } else {
+      try {
+        const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+        hasViewCost = hasCostViewPermission(dbAccess.permissionNames)
+      } catch {
+        hasViewCost = false
+      }
+    }
+  }
 
   const page = Math.max(1, Number(params.page || 1))
   const pageSize = Math.min(Math.max(1, Number(params.pageSize || 20)), 100)
@@ -336,7 +394,7 @@ export async function listProducts(
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
 
   return {
-    products: formattedProducts,
+    products: stripSensitiveCostFields(formattedProducts, hasViewCost),
     totalCount,
     page,
     pageSize,
@@ -344,10 +402,28 @@ export async function listProducts(
   }
 }
 
-export async function getProduct(authUserId: string, id: string) {
+export async function getProduct(
+  authUserId: string,
+  id: string,
+  options?: { hasViewCost?: boolean; permissions?: string[] }
+) {
   const tenantId = await requireTenantId(authUserId)
   if (!isValidUuid(id)) {
     throw new ApiError('Valid product ID is required.', 400)
+  }
+
+  let hasViewCost = options?.hasViewCost
+  if (hasViewCost === undefined) {
+    if (options?.permissions) {
+      hasViewCost = hasCostViewPermission(options.permissions)
+    } else {
+      try {
+        const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+        hasViewCost = hasCostViewPermission(dbAccess.permissionNames)
+      } catch {
+        hasViewCost = false
+      }
+    }
   }
 
   const product = await prisma.products.findFirst({
@@ -409,7 +485,7 @@ export async function getProduct(authUserId: string, id: string) {
         })
       : []
 
-  return {
+  const formattedProduct = {
     ...product,
     product_variants: product.product_variants.map((v) => {
       const balances = v.inventory_items?.stock_balances ?? []
@@ -423,6 +499,8 @@ export async function getProduct(authUserId: string, id: string) {
       }
     }),
   }
+
+  return stripSensitiveCostFields(formattedProduct, hasViewCost)
 }
 
 export async function getProductStats(authUserId: string) {
@@ -489,10 +567,36 @@ export async function getProductStats(authUserId: string) {
 
 export async function createProductMaster(
   authUserId: string,
-  input: CreateProductMasterInput
+  input: CreateProductMasterInput,
+  options?: { permissions?: string[] }
 ) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
+
+  let permissions = options?.permissions
+  if (!permissions) {
+    try {
+      const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+      permissions = dbAccess.permissionNames
+    } catch {
+      permissions = []
+    }
+  }
+
+  const hasPriceChanges = Boolean(
+    input.variants?.some((v) => v.price !== undefined || v.costPrice !== undefined)
+  )
+  const hasVariantChanges = Boolean(input.variants && input.variants.length > 1)
+  const hasBarcodeChanges = Boolean(
+    input.barcode || input.variants?.some((v) => v.barcode)
+  )
+
+  assertProductMutationPermissions(permissions, {
+    isCreate: true,
+    hasPriceChanges,
+    hasVariantChanges,
+    hasBarcodeChanges,
+  })
 
   const name = sanitizeString(input.name)
   if (!name) {
@@ -752,10 +856,39 @@ export async function createProductMaster(
 export async function updateProductMaster(
   authUserId: string,
   id: string,
-  input: UpdateProductMasterInput
+  input: UpdateProductMasterInput,
+  options?: { permissions?: string[] }
 ) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
+
+  let permissions = options?.permissions
+  if (!permissions) {
+    try {
+      const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+      permissions = dbAccess.permissionNames
+    } catch {
+      permissions = []
+    }
+  }
+
+  const hasPriceChanges = Boolean(
+    input.variants?.some((v) => v.price !== undefined || v.costPrice !== undefined) ||
+      (input as any).price !== undefined ||
+      (input as any).costPrice !== undefined
+  )
+  const hasVariantChanges = Boolean(input.variants !== undefined)
+  const hasBarcodeChanges = Boolean(
+    input.barcode !== undefined ||
+      input.variants?.some((v) => v.barcode !== undefined)
+  )
+
+  assertProductMutationPermissions(permissions, {
+    isUpdate: true,
+    hasPriceChanges,
+    hasVariantChanges,
+    hasBarcodeChanges,
+  })
 
   if (!isValidUuid(id)) {
     throw new ApiError('Valid product ID is required.', 400)
@@ -1033,9 +1166,27 @@ export async function updateProductMaster(
   return getProduct(authUserId, id)
 }
 
-export async function deleteProductMaster(authUserId: string, id: string) {
+export async function deleteProductMaster(
+  authUserId: string,
+  id: string,
+  options?: { permissions?: string[] }
+) {
   const tenantId = await requireTenantId(authUserId)
   const tenantUserId = await resolveTenantUserId(authUserId)
+
+  let permissions = options?.permissions
+  if (!permissions) {
+    try {
+      const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+      permissions = dbAccess.permissionNames
+    } catch {
+      permissions = []
+    }
+  }
+
+  assertProductMutationPermissions(permissions, {
+    isDelete: true,
+  })
 
   if (!isValidUuid(id)) {
     throw new ApiError('Valid product ID is required.', 400)
@@ -1175,3 +1326,195 @@ export async function addAttributeValue(
     },
   })
 }
+
+// ── Granular Domain Mutation Helpers ──────────────────────────────────────────
+
+export async function updateProductPrices(
+  authUserId: string,
+  productId: string,
+  priceData: { variantId?: string; price: number; costPrice?: number; priceListId?: string },
+  options?: { permissions?: string[] }
+) {
+  const tenantId = await requireTenantId(authUserId)
+  let permissions = options?.permissions
+  if (!permissions) {
+    const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+    permissions = dbAccess.permissionNames
+  }
+  assertProductMutationPermissions(permissions, { hasPriceChanges: true })
+
+  const defaultPriceList = priceData.priceListId
+    ? { id: priceData.priceListId }
+    : await prisma.price_list.findFirst({
+        where: { tenant_id: tenantId, is_default: true },
+        select: { id: true },
+      })
+
+  if (!defaultPriceList) {
+    throw new ApiError('Price list not found.', 404)
+  }
+
+  const existingItem = await prisma.price_list_items.findFirst({
+    where: {
+      tenant_id: tenantId,
+      product_id: productId,
+      price_list_id: defaultPriceList.id,
+      ...(priceData.variantId ? { product_variant_id: priceData.variantId } : {}),
+    },
+  })
+
+  if (existingItem) {
+    return prisma.price_list_items.update({
+      where: { id: existingItem.id },
+      data: {
+        price: priceData.price,
+        cost_price: priceData.costPrice !== undefined ? priceData.costPrice : existingItem.cost_price,
+      },
+    })
+  }
+
+  const variant = priceData.variantId
+    ? { id: priceData.variantId }
+    : await prisma.product_variants.findFirst({
+        where: { product_id: productId, tenant_id: tenantId },
+        select: { id: true },
+      })
+
+  if (!variant) {
+    throw new ApiError('Product variant not found.', 404)
+  }
+
+  return prisma.price_list_items.create({
+    data: {
+      tenant_id: tenantId,
+      price_list_id: defaultPriceList.id,
+      product_id: productId,
+      product_variant_id: variant.id,
+      price: priceData.price,
+      cost_price: priceData.costPrice ?? 0,
+    },
+  })
+}
+
+export async function updateProductVariants(
+  authUserId: string,
+  productId: string,
+  variantsData: VariantInput[],
+  options?: { permissions?: string[] }
+) {
+  const tenantId = await requireTenantId(authUserId)
+  let permissions = options?.permissions
+  if (!permissions) {
+    const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+    permissions = dbAccess.permissionNames
+  }
+  assertProductMutationPermissions(permissions, { hasVariantChanges: true })
+  return updateProductMaster(authUserId, productId, { variants: variantsData }, { permissions })
+}
+
+export async function manageProductBarcodes(
+  authUserId: string,
+  input: { productVariantId: string; barcode: string; isPrimary?: boolean; barcodeType?: string },
+  options?: { permissions?: string[] }
+) {
+  const tenantId = await requireTenantId(authUserId)
+  let permissions = options?.permissions
+  if (!permissions) {
+    const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+    permissions = dbAccess.permissionNames
+  }
+  assertProductMutationPermissions(permissions, { hasBarcodeChanges: true })
+
+  return prisma.product_barcodes.create({
+    data: {
+      tenant_id: tenantId,
+      product_variant_id: input.productVariantId,
+      barcode: input.barcode,
+      barcode_type: input.barcodeType || 'code128',
+      is_primary: input.isPrimary ?? false,
+    },
+  })
+}
+
+export async function exportProducts(
+  authUserId: string,
+  params: ProductQueryParams = {},
+  options?: { hasViewCost?: boolean; permissions?: string[] }
+) {
+  const tenantId = await requireTenantId(authUserId)
+  let permissions = options?.permissions
+  if (!permissions) {
+    const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+    permissions = dbAccess.permissionNames
+  }
+  if (
+    !hasPermission(permissions, 'products.export') &&
+    !hasPermission(permissions, '*')
+  ) {
+    throw new ApiError("Forbidden: Missing required permission 'products.export'", 403)
+  }
+
+  const hasViewCost = options?.hasViewCost ?? hasCostViewPermission(permissions)
+  return listProducts(authUserId, { ...params, pageSize: 1000 }, { hasViewCost, permissions })
+}
+
+export async function printProductLabels(
+  authUserId: string,
+  params: { productId?: string; variantId?: string },
+  options?: { permissions?: string[] }
+) {
+  const tenantId = await requireTenantId(authUserId)
+  let permissions = options?.permissions
+  if (!permissions) {
+    const dbAccess = await getDatabasePermissionNames(authUserId, tenantId)
+    permissions = dbAccess.permissionNames
+  }
+  if (
+    !hasPermission(permissions, 'products.print') &&
+    !hasPermission(permissions, '*')
+  ) {
+    throw new ApiError("Forbidden: Missing required permission 'products.print'", 403)
+  }
+
+  if (params.productId) {
+    return getProduct(authUserId, params.productId, { permissions })
+  }
+  return { success: true }
+}
+
+// ── Protected Server Functions (withServerFnAuth) ────────────────────────────
+
+export const getProductServerFn = withServerFnAuth<{ id: string }, any>(
+  { permissions: 'products.view', actionName: 'products.get', resourceType: 'products' },
+  async (input, ctx) => getProduct(ctx.user.userId, input.id, { permissions: ctx.user.permissionNames })
+)
+
+export const listProductsServerFn = withServerFnAuth<ProductQueryParams, any>(
+  { permissions: 'products.view', actionName: 'products.list', resourceType: 'products' },
+  async (input, ctx) => listProducts(ctx.user.userId, input, { permissions: ctx.user.permissionNames })
+)
+
+export const createProductServerFn = withServerFnAuth<CreateProductMasterInput, any>(
+  { permissions: 'products.create', actionName: 'products.create', resourceType: 'products' },
+  async (input, ctx) => createProductMaster(ctx.user.userId, input, { permissions: ctx.user.permissionNames })
+)
+
+export const updateProductServerFn = withServerFnAuth<{ id: string; data: UpdateProductMasterInput }, any>(
+  { permissions: 'products.update', actionName: 'products.update', resourceType: 'products' },
+  async (input, ctx) => updateProductMaster(ctx.user.userId, input.id, input.data, { permissions: ctx.user.permissionNames })
+)
+
+export const deleteProductServerFn = withServerFnAuth<{ id: string }, any>(
+  { permissions: 'products.delete', actionName: 'products.delete', resourceType: 'products' },
+  async (input, ctx) => deleteProductMaster(ctx.user.userId, input.id, { permissions: ctx.user.permissionNames })
+)
+
+export const exportProductsServerFn = withServerFnAuth<ProductQueryParams, any>(
+  { permissions: 'products.export', actionName: 'products.export', resourceType: 'products' },
+  async (input, ctx) => exportProducts(ctx.user.userId, input, { permissions: ctx.user.permissionNames })
+)
+
+export const printProductsServerFn = withServerFnAuth<{ productId?: string; variantId?: string }, any>(
+  { permissions: 'products.print', actionName: 'products.print', resourceType: 'products' },
+  async (input, ctx) => printProductLabels(ctx.user.userId, input, { permissions: ctx.user.permissionNames })
+)
