@@ -101,9 +101,7 @@
     "@tanstack/eslint-plugin-query": "^5.91.2",
     "@tanstack/react-query-devtools": "^5.101.2",
     "@tanstack/react-router-devtools": "^1.167.0",
-    "@tanstack/react-start-plugin": "^1.131.50",
-    "@tanstack/router-plugin": "^1.168.19",
-    "@tanstack/start-config": "^1.120.20",
+    "@tanstack/router-plugin": "^1.168.48",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -138,5 +136,8 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "overrides": {
+    "@tanstack/start-server-core": "^1.169.39"
   }
 }
